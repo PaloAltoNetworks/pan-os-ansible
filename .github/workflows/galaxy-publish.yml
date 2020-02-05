@@ -27,4 +27,4 @@ jobs:
       env:
         GALAXY_API_KEY: ${{ secrets.GALAXY_API_KEY }}
       run: |
-        ansible-galaxy collection publish --api-key ${GALAXY_API_KEY} .
+        ansible-galaxy collection publish --api-key ${GALAXY_API_KEY} Palo*
