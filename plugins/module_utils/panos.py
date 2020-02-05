@@ -472,7 +472,7 @@ class ConnectionHelper(object):
         Args:
             include_template (bool): (Panorama only) Force include the template.
             admins (list): This is the list of admins whose changes will be committed to
-                the firewall/Panorama. The admins argument works with PanOS 8.0+. 
+                the firewall/Panorama. The admins argument works with PanOS 8.0+.
         """
         committed = False
 
