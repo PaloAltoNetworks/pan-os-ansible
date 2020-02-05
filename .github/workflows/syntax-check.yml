@@ -1,0 +1,31 @@
+name: Syntax Check
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install collection dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pycodestyle
+    - name: Install Ansible and the Collection
+      run: |
+        pip install ansible
+        ansible-galaxy collection build
+        ansible-galaxy collection install PaloAltoNetworks*
+    - name: Perform Syntax Check
+      run: |
+        find ./plugins -name \*.py -exec pycodestyle --max-line-length=120 --ignore=E402,E121,E123,E126,E133,E226,E241,E242,E704,W503,W504,W505 {} +
+    - name: Run unittests
+      run: |
+        pip install pytest
