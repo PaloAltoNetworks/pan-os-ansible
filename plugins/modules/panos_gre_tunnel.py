@@ -39,9 +39,9 @@ notes:
     - Panorama is supported.
     - Check mode is supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.full_template_support
-    - panos.state
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.full_template_support
+    - paloaltonetworks.panos.fragments.state
 options:
     name:
         description:
