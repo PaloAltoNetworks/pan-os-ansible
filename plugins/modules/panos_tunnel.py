@@ -30,10 +30,10 @@ notes:
     - Checkmode is supported.
     - Panorama is supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.state
-    - panos.vsys_import
-    - panos.template_only
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.vsys_import
+    - paloaltonetworks.panos.fragments.template_only
 options:
     if_name:
         description:
