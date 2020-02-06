@@ -30,7 +30,7 @@ jobs:
       run: |
         for i in $(ls -1 plugins/modules | grep -v init)
         do
-          echo "Processing $i"
+          echo "Checking $i..."
           ansible-doc -M plugins/modules $i > /dev/null
         done
     - name: Run unittests
