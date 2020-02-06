@@ -32,10 +32,10 @@ notes:
     - Checkmode is supported.
     - Panorama is supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.vsys_import
-    - panos.template_only
-    - panos.state
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.vsys_import
+    - paloaltonetworks.panos.fragments.template_only
+    - paloaltonetworks.panos.fragments.state
 options:
     if_name:
         description:
@@ -121,7 +121,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'supported_by': 'community'}
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.PaloAltoNetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 
 try:

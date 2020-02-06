@@ -39,7 +39,7 @@ notes:
     - Panorama is supported.
     - Checkmode is NOT supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
+    - paloaltonetworks.panos.fragments.transitional_provider
 '''
 
 EXAMPLES = '''
@@ -65,7 +65,7 @@ api_key:
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.PaloAltoNetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 
 def main():

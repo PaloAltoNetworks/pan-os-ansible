@@ -27,6 +27,8 @@ DOCUMENTATION = '''
 ---
 module: panos_ipsec_ipv4_proxyid
 short_description: Configures IPv4 Proxy Id on an IPSec Tunnel
+description:
+    - Configures IPv4 Proxy Id on an IPSec tunnel
 author: "Heiko Burghardt (@odysseus107)"
 version_added: "2.8"
 requirements:
@@ -36,9 +38,9 @@ notes:
     - Panorama is supported.
     - Check mode is supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.state
-    - panos.full_template_support
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.full_template_support
 options:
     name:
         description:
@@ -63,23 +65,23 @@ options:
         type: bool
     number_proto:
         description:
-            - Numbered Protocol: protocol number (1-254)
+            - Numbered Protocol; protocol number (1-254)
         type: int
     tcp_local_port:
         description:
-            - Protocol TCP: local port
+            - (Protocol TCP) local port
         type: int
     tcp_remote_port:
         description:
-            - Protocol TCP: remote port
+            - (Protocol TCP) remote port
         type: int
     udp_local_port:
         description:
-            Protocol UDP: local port
+            - (Protocol UDP) local port
         type: int
     udp_remote_port:
         description:
-            - Protocol UDP: remote port
+            - (Protocol UDP) remote port
         type: int
     commit:
         description:
@@ -104,7 +106,7 @@ RETURN = '''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.PaloAltoNetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 try:
     from pandevice.network import IpsecTunnel

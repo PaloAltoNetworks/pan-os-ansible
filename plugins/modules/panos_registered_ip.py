@@ -37,9 +37,9 @@ notes:
     - Check mode is supported.
     - Panorama is not supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.state
-    - panos.vsys
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.vsys
 options:
     ips:
         description:
@@ -98,7 +98,7 @@ results:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.PaloAltoNetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 try:
     from pandevice.errors import PanDeviceError

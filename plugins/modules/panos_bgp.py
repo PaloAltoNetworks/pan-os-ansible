@@ -40,22 +40,14 @@ notes:
     - Checkmode is supported.
     - Panorama is supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.full_template_support
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.full_template_support
+    - paloaltonetworks.panos.fragments.enabled_state
 options:
     commit:
         description:
             - Commit configuration if changed.
         default: true
-    state:
-        description:
-            - The state.
-        choices:
-            - present
-            - absent
-            - enabled
-            - disabled
-        default: 'present'
     enable:
         description:
             - Enable BGP.
@@ -146,7 +138,7 @@ RETURN = '''
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.PaloAltoNetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 
 try:

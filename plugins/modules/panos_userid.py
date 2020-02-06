@@ -31,8 +31,8 @@ notes:
     - Panorama is not supported.
     - This operation is runtime and does not require explicit commit of the firewall configuration.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.state
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.state
 options:
     operation:
         description:
@@ -66,7 +66,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.PaloAltoNetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 
 try:

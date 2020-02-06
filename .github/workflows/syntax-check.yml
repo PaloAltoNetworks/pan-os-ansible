@@ -22,10 +22,17 @@ jobs:
       run: |
         pip install ansible
         ansible-galaxy collection build
-        ansible-galaxy collection install PaloAltoNetworks*
+        ansible-galaxy collection install paloaltonetworks*
     - name: Perform Syntax Check
       run: |
         find ./plugins -name \*.py -exec pycodestyle --max-line-length=120 --ignore=E402,E121,E123,E126,E133,E226,E241,E242,E704,W503,W504,W505 {} +
+    - name: Verify documentation can be built
+      run: |
+        for i in $(ls -1 plugins/modules | grep -v init)
+        do
+          echo "Checking $i..."
+          ansible-doc -M plugins/modules $i > /dev/null
+        done
     - name: Run unittests
       run: |
         pip install pytest

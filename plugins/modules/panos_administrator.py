@@ -42,9 +42,9 @@ notes:
       I(state=present) with I(admin_password) specified will always report
       I(changed=True) in the return value.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.state
-    - panos.full_template_support
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.full_template_support
 options:
     admin_username:
         description:
@@ -135,7 +135,7 @@ status:
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.PaloAltoNetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 
 try:

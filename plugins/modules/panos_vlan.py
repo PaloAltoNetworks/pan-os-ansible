@@ -35,10 +35,10 @@ requirements:
     - pan-python
     - pandevice
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.state
-    - panos.vsys_import
-    - panos.full_template_support
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.vsys_import
+    - paloaltonetworks.panos.fragments.full_template_support
 notes:
     - Checkmode is supported.
     - Panorama is supported.
@@ -70,7 +70,7 @@ RETURN = '''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.PaloAltoNetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 
 try:
