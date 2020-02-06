@@ -37,9 +37,9 @@ notes:
     - Check mode is supported.
     - Panorama is not supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.state
-    - panos.vsys
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.vsys
 options:
     ips:
         description:
