@@ -35,8 +35,8 @@ notes:
     - Checkmode is not supported.
     - Panorama NOT is supported.  However, specifying Panorama I(provider) info with a target serial number is.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.vsys
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.vsys
 options:
     rule_type:
         description:
