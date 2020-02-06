@@ -73,11 +73,11 @@ options:
             - Netflow profile for aggregate interface.
     lldp_enabled:
         description:
-            - Layer2: Enable LLDP
+            - (Layer2) Enable LLDP
         type: bool
     lldp_profile:
         description:
-            - Layer2: Reference to an lldp profile
+            - (Layer2) Reference to an lldp profile
     comment:
         description:
             - Interface comment.
