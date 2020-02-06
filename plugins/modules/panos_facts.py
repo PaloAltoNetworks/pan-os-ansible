@@ -30,7 +30,7 @@ requirements:
     - pan-python
 version_added: 2.8
 extends_documentation_fragment:
-    - panos.transitional_provider
+    - paloaltonetworks.panos.fragments.transitional_provider
 options:
     host:
         description:
