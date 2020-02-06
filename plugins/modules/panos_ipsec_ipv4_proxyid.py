@@ -27,6 +27,8 @@ DOCUMENTATION = '''
 ---
 module: panos_ipsec_ipv4_proxyid
 short_description: Configures IPv4 Proxy Id on an IPSec Tunnel
+description:
+    - Configures IPv4 Proxy Id on an IPSec tunnel
 author: "Heiko Burghardt (@odysseus107)"
 version_added: "2.8"
 requirements:
@@ -63,23 +65,23 @@ options:
         type: bool
     number_proto:
         description:
-            - Numbered Protocol: protocol number (1-254)
+            - Numbered Protocol; protocol number (1-254)
         type: int
     tcp_local_port:
         description:
-            - Protocol TCP: local port
+            - (Protocol TCP) local port
         type: int
     tcp_remote_port:
         description:
-            - Protocol TCP: remote port
+            - (Protocol TCP) remote port
         type: int
     udp_local_port:
         description:
-            Protocol UDP: local port
+            - (Protocol UDP) local port
         type: int
     udp_remote_port:
         description:
-            - Protocol UDP: remote port
+            - (Protocol UDP) remote port
         type: int
     commit:
         description:
