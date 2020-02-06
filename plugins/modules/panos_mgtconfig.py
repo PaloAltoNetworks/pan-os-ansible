@@ -30,7 +30,7 @@ notes:
     - Checkmode is supported.
     - Panorama is supported
 extends_documentation_fragment:
-    - panos.transitional_provider
+    - paloaltonetworks.panos.fragments.transitional_provider
 options:
     dns_server_primary:
         description:
