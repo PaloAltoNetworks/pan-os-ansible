@@ -31,8 +31,8 @@ notes:
     - Panorama is not supported.
     - This operation is runtime and does not require explicit commit of the firewall configuration.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.state
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.state
 options:
     operation:
         description:
