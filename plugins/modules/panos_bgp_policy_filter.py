@@ -40,8 +40,8 @@ notes:
     - Checkmode is supported.
     - Panorama is supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.full_template_support
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.full_template_support
 options:
     state:
         description:
