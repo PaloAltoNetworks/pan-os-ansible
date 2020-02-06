@@ -34,10 +34,10 @@ notes:
     - If the PAN-OS device is a firewall and I(vsys) is not specified, then
       the vsys will default to I(vsys=vsys1).
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.state
-    - panos.vsys_import
-    - panos.template_only
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.vsys_import
+    - paloaltonetworks.panos.fragments.template_only
 options:
     name:
         description:
