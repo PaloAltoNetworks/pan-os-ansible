@@ -39,7 +39,7 @@ notes:
     - Panorama is supported.
     - Checkmode is NOT supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
+    - paloaltonetworks.panos.fragments.transitional_provider
 '''
 
 EXAMPLES = '''
