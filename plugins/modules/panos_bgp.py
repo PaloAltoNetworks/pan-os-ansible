@@ -40,22 +40,15 @@ notes:
     - Checkmode is supported.
     - Panorama is supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.full_template_support
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.full_template_support
+    - paloaltonetworks.panos.fragments.enabled_state
+    - paloaltonetworks.panos.fragments.snuggles
 options:
     commit:
         description:
             - Commit configuration if changed.
         default: true
-    state:
-        description:
-            - The state.
-        choices:
-            - present
-            - absent
-            - enabled
-            - disabled
-        default: 'present'
     enable:
         description:
             - Enable BGP.
