@@ -158,7 +158,7 @@ listing:
 import re
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.PaloAltoNetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 
 try:
