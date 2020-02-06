@@ -40,6 +40,8 @@ notes:
     - Check mode is not supported.
 extends_documentation_fragment:
     - panos.transitional_provider
+    - panos.vsys
+    - panos.device_group
 options:
     name:
         description:
