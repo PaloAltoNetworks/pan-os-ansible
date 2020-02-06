@@ -38,9 +38,9 @@ notes:
     - Panorama is supported.
     - Check mode is supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.vsys_shared
-    - panos.device_group
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.vsys_shared
+    - paloaltonetworks.panos.fragments.device_group
 options:
     name:
         description:
