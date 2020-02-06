@@ -164,6 +164,20 @@ options:
             - absent
 '''
 
+    ENABLED_STATE = r'''
+options:
+    state:
+        description:
+            - The state.
+        type: str
+        default: present
+        choices:
+            - present
+            - absent
+            - enabled
+            - disabled
+'''
+
     RULEBASE = r'''
 options:
     rulebase:
