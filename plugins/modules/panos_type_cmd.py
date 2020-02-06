@@ -40,7 +40,7 @@ notes:
     - Panorama is supported.
     - Check mode is not supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
+    - paloaltonetworks.panos.fragments.transitional_provider
 options:
     cmd:
         description:
