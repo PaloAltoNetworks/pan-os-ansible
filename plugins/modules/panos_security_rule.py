@@ -40,11 +40,11 @@ notes:
     - Checkmode is supported.
     - Panorama is supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
-    - panos.state
-    - panos.device_group
-    - panos.vsys
-    - panos.rulebase
+    - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.device_group
+    - paloaltonetworks.panos.fragments.vsys
+    - paloaltonetworks.panos.fragments.rulebase
 options:
     rule_name:
         description:
