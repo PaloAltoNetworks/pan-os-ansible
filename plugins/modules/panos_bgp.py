@@ -43,7 +43,6 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.enabled_state
-    - paloaltonetworks.panos.fragments.snuggles
 options:
     commit:
         description:
