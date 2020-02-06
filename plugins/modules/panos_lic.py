@@ -36,7 +36,7 @@ notes:
     - Panorama is supported
     - Checkmode is not supported.
 extends_documentation_fragment:
-    - panos.transitional_provider
+    - paloaltonetworks.panos.fragments.transitional_provider
 options:
     auth_code:
         description:
