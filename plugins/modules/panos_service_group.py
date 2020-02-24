@@ -137,14 +137,14 @@ def main():
     parent.add(obj)
 
     # Apply the state.
-    changed = helper.apply_state(obj, listing, module)
+    changed, diff = helper.apply_state(obj, listing, module)
 
     # Commit.
     if commit and changed:
         helper.commit(module)
 
     # Done.
-    module.exit_json(changed=changed)
+    module.exit_json(changed=changed, diff=diff)
 
 
 if __name__ == '__main__':

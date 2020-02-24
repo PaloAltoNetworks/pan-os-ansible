@@ -327,8 +327,8 @@ def main():
     obj = HttpServerProfile(**spec)
     parent.add(obj)
 
-    changed = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, msg='Done')
+    changed, diff = helper.apply_state(obj, listing, module)
+    module.exit_json(changed=changed, diff=diff, msg='Done')
 
 
 if __name__ == '__main__':

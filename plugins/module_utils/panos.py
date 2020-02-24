@@ -50,6 +50,14 @@ except ImportError:
 def _vstr(val):
     return '{0}.{1}.{2}'.format(*val)
 
+def eltostr(obj):
+    try:
+        # Try pretty print first if pandevice supports it
+        return obj.element_str(pretty_print=True)
+    except TypeError:
+        # Fall back to normal
+        return obj.element_str()
+
 
 class ConnectionHelper(object):
     def __init__(self, min_pandevice_version, min_panos_version,
@@ -313,10 +321,12 @@ class ConnectionHelper(object):
 
         # Apply the state.
         changed = False
+        diff = None
         if module.params['state'] == 'present':
             for item in listing:
                 if item.uid != obj.uid:
                     continue
+                diff = dict( before=eltostr(item) )
                 obj_child_types = [x.__class__ for x in obj.children]
                 other_children = []
                 for x in item.children:
@@ -327,6 +337,7 @@ class ConnectionHelper(object):
                 if not item.equal(obj, compare_children=True):
                     changed = True
                     obj.extend(other_children)
+                    diff['after'] = eltostr(obj)
                     if not module.check_mode:
                         try:
                             obj.apply()
@@ -335,6 +346,10 @@ class ConnectionHelper(object):
                 break
             else:
                 changed = True
+                diff = dict(
+                    before="",
+                    after=eltostr(obj)
+                )
                 if not module.check_mode:
                     try:
                         obj.create()
@@ -343,6 +358,10 @@ class ConnectionHelper(object):
         elif module.params['state'] == 'absent':
             if obj.uid in [x.uid for x in listing]:
                 changed = True
+                diff = dict(
+                    before=eltostr(obj),
+                    after=""
+                )
                 if not module.check_mode:
                     try:
                         obj.delete()
@@ -363,7 +382,9 @@ class ConnectionHelper(object):
                     changed = True
 
                 if changed:
+                    diff = dict(before = eltostr(item))
                     setattr(item, enabled_disabled_param, not val)
+                    diff['after'] = eltostr(item)
                     if not module.check_mode:
                         try:
                             item.update(enabled_disabled_param)
@@ -373,7 +394,7 @@ class ConnectionHelper(object):
             else:
                 module.fail_json(msg='Cannot enable/disable non-existing obj')
 
-        return changed
+        return changed, diff
 
     def apply_position(self, obj, location, existing_rule, module):
         """Moves an object into the given location.
