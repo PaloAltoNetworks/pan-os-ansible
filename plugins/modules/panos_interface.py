@@ -350,7 +350,9 @@ def main():
         for item in interfaces:
             if item.name != eth.name:
                 continue
-            diff = dict( before=eltostr(item) )
+            diff = dict(
+                before=eltostr(item)
+            )
             # Interfaces have children, so don't compare them.
             if not item.equal(eth, compare_children=False):
                 changed = True
@@ -365,8 +367,8 @@ def main():
         else:
             changed = True
             diff = dict(
-                before = "",
-                after = eltostr(eth)
+                before="",
+                after=eltostr(eth)
             )
             if not module.check_mode:
                 try:
@@ -396,8 +398,8 @@ def main():
         if eth.name in [x.name for x in interfaces]:
             changed = True
             diff = dict(
-                before = eltostr(eth),
-                after = ""
+                before=eltostr(eth),
+                after=""
             )
             if not module.check_mode:
                 try:

@@ -410,7 +410,9 @@ def main():
         elif state == 'disable' and not rule.disabled:
             changed = True
         if changed:
-            diff = dict(before = eltostr(rule))
+            diff = dict(
+                before=eltostr(rule)
+            )
             rule.disabled = not rule.disabled
             diff['after'] = eltostr(rule)
             if not module.check_mode:

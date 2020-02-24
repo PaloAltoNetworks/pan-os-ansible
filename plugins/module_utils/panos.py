@@ -50,6 +50,7 @@ except ImportError:
 def _vstr(val):
     return '{0}.{1}.{2}'.format(*val)
 
+
 def eltostr(obj):
     try:
         # Try pretty print first if pandevice supports it
@@ -326,7 +327,9 @@ class ConnectionHelper(object):
             for item in listing:
                 if item.uid != obj.uid:
                     continue
-                diff = dict( before=eltostr(item) )
+                diff = dict(
+                    before=eltostr(item)
+                )
                 obj_child_types = [x.__class__ for x in obj.children]
                 other_children = []
                 for x in item.children:
@@ -382,7 +385,9 @@ class ConnectionHelper(object):
                     changed = True
 
                 if changed:
-                    diff = dict(before = eltostr(item))
+                    diff = dict(
+                        before=eltostr(item)
+                    )
                     setattr(item, enabled_disabled_param, not val)
                     diff['after'] = eltostr(item)
                     if not module.check_mode:

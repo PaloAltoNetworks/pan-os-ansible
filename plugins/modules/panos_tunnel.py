@@ -210,7 +210,9 @@ def main():
         for item in interfaces:
             if item.name != obj.name:
                 continue
-            diff = dict( before = eltostr(item) )
+            diff = dict(
+                before=eltostr(item)
+            )
             # Interfaces have children, so don't compare them.
             if not item.equal(obj, compare_children=False):
                 changed = True
@@ -225,8 +227,8 @@ def main():
         else:
             changed = True
             diff = dict(
-                before = "",
-                after = eltostr(obj)
+                before="",
+                after=eltostr(obj)
             )
             if not module.check_mode:
                 try:
@@ -253,9 +255,9 @@ def main():
         # Remove the interface.
         if obj.name in [x.name for x in interfaces]:
             changed = True
-            diff = dict (
-                before = eltostr(obj),
-                after = ""
+            diff = dict(
+                before=eltostr(obj),
+                after=""
             )
             if not module.check_mode:
                 try:
