@@ -335,7 +335,6 @@ def main():
         )
         module.exit_json(msg=msg)
 
-
     '''
     Example response (newlines after newlines to appease pycodestyle line length limitations):
 
