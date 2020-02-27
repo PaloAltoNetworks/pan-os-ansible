@@ -255,7 +255,7 @@ def main():
         # Set references.
         try:
             changed |= obj.set_vsys(vsys, **reference_params)
-            changed |= obj.set_zone(zone_name, mode=eth.mode, **reference_params)
+            changed |= obj.set_zone(zone_name, mode=obj.mode, **reference_params)
             changed |= obj.set_virtual_router(vr_name, **reference_params)
         except PanDeviceError as e:
             module.fail_json(msg='Failed setref: {0}'.format(e))
@@ -263,7 +263,7 @@ def main():
         # Remove references.
         try:
             changed |= obj.set_virtual_router(None, **reference_params)
-            changed |= obj.set_zone(None, mode=eth.mode, **reference_params)
+            changed |= obj.set_zone(None, mode=obj.mode, **reference_params)
             changed |= obj.set_vsys(None, **reference_params)
         except PanDeviceError as e:
             module.fail_json(msg='Failed setref: {0}'.format(e))
