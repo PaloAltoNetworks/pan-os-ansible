@@ -300,13 +300,40 @@ def main():
         module.fail_json(msg='Failed "{0}": {1}'.format(test_string, e))
 
     elm = response.find('./result/rules/entry')
+    elm2 = response.find('./result/msg/line')
     if elm is not None:
         try:
             rule_name = elm.attrib['name']
         except KeyError:
             rule_name = elm.text
+    elif elm2 is not None:
+        '''
+        From 8.1 (matching Panorama rule):
+        NOTE: Ending newlines have been truncated to appease codestyle rules.
+
+<response cmd="status" status="success"><result><msg><line><![CDATA["Rule Name; index: 1" {
+        from L3-trust;
+        source [ 10.0.0.1 1.1.1.1 ];
+        source-region none;
+        to L3-untrust;
+        destination [ 8.8.8.8 ];
+        destination-region none;
+        user any;
+        category any;
+        application/service [0:any/tcp/any/21 1:any/tcp/any/22 ];
+        action allow;
+        icmp-unreachable: no
+        terminal yes;
+}
+
+]]></line></msg></result></response>
+        '''
+        rule_name = elm2.text.split(';')[0].split('"')[1].strip()
     else:
-        module.exit_json(msg='No matching {0} rule.'.format(rtype))
+        msg = 'No matching {0} rule; resp = {1}'.format(
+            rtype, ET.tostring(response, enoding='utf-8'),
+        )
+        module.exit_json(msg=msg)
 
     '''
     Example response (newlines after newlines to appease pycodestyle line length limitations):
