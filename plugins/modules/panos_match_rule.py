@@ -309,6 +309,8 @@ def main():
     elif elm2 is not None:
         '''
         From 8.1 (matching Panorama rule):
+        NOTE: Ending newlines have been truncated to appease codestyle rules.
+
 <response cmd="status" status="success"><result><msg><line><![CDATA["Rule Name; index: 1" {
         from L3-trust;
         source [ 10.0.0.1 1.1.1.1 ];
@@ -323,8 +325,6 @@ def main():
         icmp-unreachable: no
         terminal yes;
 }
-
-
 
 ]]></line></msg></result></response>
         '''
