@@ -1,6 +1,20 @@
 Release History
 ===============
 
+v1.0.3
+------
+
+- *Released*: 2020-02-27
+
+New Modules:
+
+* `panos_vm_auth_key`
+
+Bug Fixes:
+
+* `panos_aggregate_interface`
+* `panos_match_rule`
+
 v1.0.2
 ------
 
