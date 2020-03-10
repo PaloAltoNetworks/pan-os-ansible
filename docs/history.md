@@ -1,6 +1,24 @@
 Release History
 ===============
 
+v1.1.0
+------
+
+- *Released*: 2020-03-10
+
+New Modules:
+
+* `panos_ipv6_address`
+
+Enhancements:
+
+* Added `diff` support for checkmode
+
+Bug Fixes:
+
+* `panos_l2_subinterface` works with aggregate interface parents now
+* `panos_facts` can now pull IPv6 address information
+
 v1.0.3
 ------
 
