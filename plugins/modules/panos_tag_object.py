@@ -136,12 +136,12 @@ def main():
     obj = Tag(**spec)
     parent.add(obj)
 
-    changed = helper.apply_state(obj, listing, module)
+    changed, diff = helper.apply_state(obj, listing, module)
 
     if commit and changed:
         helper.commit(module)
 
-    module.exit_json(changed=changed)
+    module.exit_json(changed=changed, diff=diff)
 
 
 if __name__ == '__main__':

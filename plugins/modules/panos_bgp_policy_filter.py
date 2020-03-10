@@ -323,11 +323,11 @@ def main():
         panos_obj = b64encode(pickle.dumps(obj, protocol=pickle.HIGHEST_PROTOCOL))
         module.exit_json(msg='returning serialized object', panos_obj=panos_obj)
 
-    changed = helper.apply_state(obj, listing, module)
+    changed, diff = helper.apply_state(obj, listing, module)
     if changed and module.params['commit']:
         helper.commit(module)
 
-    module.exit_json(changed=changed, msg='done')
+    module.exit_json(changed=changed, diff=diff, msg='done')
 
 
 if __name__ == '__main__':

@@ -210,7 +210,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 
 from ansible.module_utils.basic import get_exception, AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection, eltostr
 
 
 try:
@@ -398,6 +398,7 @@ def main():
 
     # Perform the desired operation.
     changed = False
+    diff = None
     if state in ('enable', 'disable'):
         for rule in rules:
             if rule.name == new_rule.name:
@@ -409,7 +410,11 @@ def main():
         elif state == 'disable' and not rule.disabled:
             changed = True
         if changed:
+            diff = dict(
+                before=eltostr(rule)
+            )
             rule.disabled = not rule.disabled
+            diff['after'] = eltostr(rule)
             if not module.check_mode:
                 try:
                     rule.update('disabled')
@@ -417,14 +422,14 @@ def main():
                     module.fail_json(msg='Failed enable: {0}'.format(e))
     else:
         parent.add(new_rule)
-        changed = helper.apply_state(new_rule, rules, module)
+        changed, diff = helper.apply_state(new_rule, rules, module)
         if state == 'present':
             changed |= helper.apply_position(new_rule, location, existing_rule, module)
 
     if changed and module.params['commit']:
         helper.commit(module)
 
-    module.exit_json(changed=changed, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg='Done')
 
 
 if __name__ == '__main__':

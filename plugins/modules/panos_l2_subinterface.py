@@ -93,6 +93,7 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 
 try:
+    from pandevice.network import AggregateInterface
     from pandevice.network import EthernetInterface
     from pandevice.network import Layer2Subinterface
     from pandevice.errors import PanDeviceError
@@ -147,8 +148,14 @@ def main():
     if '.' not in spec['name']:
         module.fail_json(msg='Interface name does not have "." in it')
 
+    # Check on EthernetInterface or AggregateInterface.
+    parent_iname = spec['name'].split('.')[0]
+
     # Retrieve the current config.
-    parent_eth = EthernetInterface(spec['name'].split('.')[0])
+    if parent_iname.startswith('ae'):
+        parent_eth = AggregateInterface(parent_iname)
+    else:
+        parent_eth = EthernetInterface(parent_iname)
     parent.add(parent_eth)
     try:
         parent_eth.refresh()

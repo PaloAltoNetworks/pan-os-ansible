@@ -205,9 +205,9 @@ def main():
     vr.add(obj)
 
     # Apply the state.
-    changed = helper.apply_state(obj, listing, module)
+    changed, diff = helper.apply_state(obj, listing, module)
 
-    module.exit_json(changed=changed)
+    module.exit_json(changed=changed, diff=diff)
 
 
 if __name__ == '__main__':

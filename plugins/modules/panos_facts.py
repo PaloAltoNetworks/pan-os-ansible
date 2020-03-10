@@ -343,7 +343,7 @@ class Interfaces(Factbase):
                 }
                 for child in elm.children:
                     if isinstance(child, IPv6Address):
-                        iface_info['ipv6'].append(child.name)
+                        iface_info['ipv6'].append(child.uid)
                     elif isinstance(child, Layer3Subinterface) or isinstance(child, Layer2Subinterface):
                         child_info = {
                             'name': child.name,
