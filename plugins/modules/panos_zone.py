@@ -186,10 +186,10 @@ def main():
     parent.add(new_zone)
 
     # Perform the requeseted action.
-    changed = helper.apply_state(new_zone, zones, module)
+    changed, diff = helper.apply_state(new_zone, zones, module)
 
     # Done!
-    module.exit_json(changed=changed, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg='Done!')
 
 
 if __name__ == '__main__':

@@ -444,12 +444,12 @@ def main():
     listing[0].session_setup = obj.session_setup
 
     # Apply the state.
-    changed = helper.apply_state(obj, listing, module)
+    changed, diff = helper.apply_state(obj, listing, module)
 
     if commit and changed:
         helper.commit(module)
 
-    module.exit_json(msg='Done', changed=changed)
+    module.exit_json(msg='Done', changed=changed, diff=diff)
 
 
 if __name__ == '__main__':

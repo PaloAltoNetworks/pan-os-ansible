@@ -106,7 +106,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.0',
                     'supported_by': 'community'}
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection, eltostr
 
 
 try:
@@ -200,6 +200,7 @@ def main():
 
     # Which action should we take on the interface?
     changed = False
+    diff = None
     reference_params = {
         'refresh': True,
         'update': not module.check_mode,
@@ -209,10 +210,14 @@ def main():
         for item in interfaces:
             if item.name != obj.name:
                 continue
+            diff = dict(
+                before=eltostr(item)
+            )
             # Interfaces have children, so don't compare them.
             if not item.equal(obj, compare_children=False):
                 changed = True
                 obj.extend(item.children)
+                diff['after'] = eltostr(obj)
                 if not module.check_mode:
                     try:
                         obj.apply()
@@ -221,6 +226,10 @@ def main():
             break
         else:
             changed = True
+            diff = dict(
+                before="",
+                after=eltostr(obj)
+            )
             if not module.check_mode:
                 try:
                     obj.create()
@@ -246,6 +255,10 @@ def main():
         # Remove the interface.
         if obj.name in [x.name for x in interfaces]:
             changed = True
+            diff = dict(
+                before=eltostr(obj),
+                after=""
+            )
             if not module.check_mode:
                 try:
                     obj.delete()
@@ -257,7 +270,7 @@ def main():
         helper.commit(module)
 
     # Done!
-    module.exit_json(changed=changed, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg='Done')
 
 
 if __name__ == '__main__':

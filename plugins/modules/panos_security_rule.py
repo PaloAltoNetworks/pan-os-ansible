@@ -462,7 +462,7 @@ def main():
     parent.add(new_rule)
 
     # Which action shall we take on the rule object?
-    changed = helper.apply_state(new_rule, rules, module)
+    changed, diff = helper.apply_state(new_rule, rules, module)
 
     # Move the rule to the correct spot, if applicable.
     if module.params['state'] == 'present':
@@ -473,7 +473,7 @@ def main():
         helper.commit(module)
 
     # Done.
-    module.exit_json(changed=changed, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg='Done')
 
 
 if __name__ == '__main__':

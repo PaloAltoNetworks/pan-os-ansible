@@ -202,12 +202,12 @@ def main():
         module.fail_json(msg='Failed refresh: {0}'.format(e))
 
     # Perform requested action.
-    changed = helper.apply_state(obj, profiles, module)
+    changed, diff = helper.apply_state(obj, profiles, module)
     if changed and module.params['commit']:
         helper.commit(module)
 
     # Done.
-    module.exit_json(changed=changed, msg="Done")
+    module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
 if __name__ == '__main__':

@@ -300,14 +300,14 @@ def main():
     parent.add(new_rule)
 
     # Which action shall we take on the rule object?
-    changed = helper.apply_state(new_rule, rules, module)
+    changed, diff = helper.apply_state(new_rule, rules, module)
 
     # Move the rule to the correct spot, if applicable.
     if module.params['state'] == 'present':
         changed |= helper.apply_position(new_rule, location, existing_rule, module)
 
     # Done.
-    module.exit_json(changed=changed)
+    module.exit_json(changed=changed, diff=diff)
 
 
 if __name__ == '__main__':
