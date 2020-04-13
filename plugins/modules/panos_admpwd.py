@@ -75,6 +75,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 
 from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils._text import to_text
 import time
 import sys
 
@@ -92,7 +93,7 @@ def wait_with_timeout(module, shell, prompt, timeout=60):
     result = ""
     while True:
         if shell.recv_ready():
-            result += shell.recv(_PROMPTBUFF)
+            result += to_text(shell.recv(_PROMPTBUFF))
             endresult = result.strip()
             if len(endresult) != 0 and endresult[-1] == prompt:
                 break
