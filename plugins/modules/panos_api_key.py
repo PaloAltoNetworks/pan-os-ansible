@@ -44,15 +44,12 @@ extends_documentation_fragment:
 
 EXAMPLES = '''
 - name: retrieve api_key
-  panos_op:
+  panos_api_key:
     provider: '{{ provider }}'
   register: auth
 
-- name: show system info
-  panos_op:
-    ip_address: '{{ ip_address }}'
-    api_key: '{{ auth.api_key }}'
-    cmd: show system info
+- debug:
+    msg: '{{ auth.api_key }}'
 '''
 
 RETURN = '''
