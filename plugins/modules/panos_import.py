@@ -78,7 +78,6 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'supported_by': 'community'}
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import get_exception
 
 import os.path
 import xml.etree
@@ -178,9 +177,8 @@ def main():
 
     try:
         changed, filename = import_file(xapi, module, ip_address, file_, category)
-    except Exception:
-        exc = get_exception()
-        module.fail_json(msg=exc.message)
+    except Exception as e:
+        module.fail_json(msg='Failed: {0}'.format(e))
 
     # cleanup and delete file if local
     if url is not None:
