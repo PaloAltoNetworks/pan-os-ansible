@@ -63,6 +63,11 @@ options:
               panos_check to determine when firewall is ready again.
         default: false
         type: bool
+    timeout:
+        description:
+            - Timeout value in seconds to wait for the device operation to complete
+        default: 1200
+        type: int
 '''
 
 EXAMPLES = '''
@@ -90,8 +95,7 @@ EXAMPLES = '''
 
 RETURN = '''
 version:
-    description: After performing the software install, returns the version installed on the
-        device.
+    description: After performing the software install, returns the version installed on the device.
 '''
 
 from ansible.module_utils.basic import AnsibleModule
