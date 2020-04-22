@@ -279,6 +279,14 @@ def main():
         'ikev2_crypto_profile': module.params['ikev2_crypto_profile'],
     }
 
+    # Remove the IKEv1 crypto profile if we're doing IKEv2.
+    if spec['version'] == 'ikev2':
+        spec['ikev1_crypto_profile'] = None
+
+    # Remove the IKEv2 crypto profile if we're doing IKEv1.
+    if spec['version'] == 'ikev1':
+        spec['ikev2_crypto_profile'] = None
+
     # Other info.
     commit = module.params['commit']
 
