@@ -62,9 +62,9 @@ options:
         description:
             - Export locally resolved nexthop.
         choices:
-            - resolve
+            - original
             - use-self
-        default: 'resolve'
+        default: 'original'
     import_nexthop:
         description:
             - I(type=ebgp) only; override nexthop with peer address.
@@ -145,8 +145,8 @@ def setup_args():
             type='str', default='ebgp', choices=['ebgp', 'ibgp', 'ebgp-confed', 'ibgp-confed'],
             help='Peer group type I("ebgp")/I("ibgp")/I("ebgp-confed")/I("ibgp-confed")'),
         export_nexthop=dict(
-            type='str', default='resolve', choices=['resolve', 'use-self'],
-            help='Export locally resolved nexthop I("resolve")/I("use-self")'),
+            type='str', default='original', choices=['original', 'use-self'],
+            help='Export locally resolved nexthop I("original")/I("use-self")'),
         import_nexthop=dict(
             type='str', default='original', choices=['original', 'use-peer'],
             help='Override nexthop with peer address I("original")/I("use-peer"), only with "ebgp"'),
