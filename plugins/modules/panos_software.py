@@ -63,6 +63,11 @@ options:
               panos_check to determine when firewall is ready again.
         default: false
         type: bool
+    timeout:
+        description:
+            - Timeout value in seconds to wait for the device operation to complete
+        default: 1200
+        type: int
 '''
 
 EXAMPLES = '''
@@ -90,8 +95,7 @@ EXAMPLES = '''
 
 RETURN = '''
 version:
-    description: After performing the software install, returns the version installed on the
-        device.
+    description: After performing the software install, returns the version installed on the device.
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -112,7 +116,8 @@ def main():
             sync_to_peer=dict(type='bool', default=False),
             download=dict(type='bool', default=True),
             install=dict(type='bool', default=True),
-            restart=dict(type='bool', default=False)
+            restart=dict(type='bool', default=False),
+            timeout=dict(type='int', default=1200)
         )
     )
 
@@ -131,10 +136,12 @@ def main():
     download = module.params['download']
     install = module.params['install']
     restart = module.params['restart']
+    timeout = module.params['timeout']
 
     changed = False
 
     try:
+        device.timeout = timeout
         device.software.check()
 
         if PanOSVersion(version) != PanOSVersion(device.version):
