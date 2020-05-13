@@ -20,7 +20,8 @@ DOCUMENTATION = '''
 module: panos_check
 short_description: check if PAN-OS device is ready for configuration
 description:
-    - Check if PAN-OS device is ready for being configured (no pending jobs).
+    - Check if PAN-OS device is ready.
+    - Supports config ready (no pending jobs), ha ready, and autocommit done
     - The check could be done once or multiple times until the device is ready.
 author:
     - Luigi Mori (@jtschichold)
@@ -51,6 +52,12 @@ options:
             - Length of time (in seconds) to wait between checks.
         default: 0
         type: int
+    wait_for:
+        description:
+            - Type of check to perform
+        type: str
+        choices: [ jobs, autocommit, ha ]
+        default: jobs
 '''
 
 EXAMPLES = '''
@@ -67,6 +74,14 @@ EXAMPLES = '''
     initial_delay: 120
     interval: 5
     timeout: 600
+
+# Wait for autocommit (job ID 1) to complete
+- name: check if ready
+  panos_check:
+    provider: '{{ provider }}'
+    wait_for: autocommit
+    interval: 30
+    timeout: 300
 '''
 
 RETURN = '''
@@ -77,11 +92,9 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
 
-
 import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
-
 
 try:
     from pandevice.errors import PanDeviceError
@@ -89,11 +102,29 @@ except ImportError:
     pass
 
 
-def check_jobs(jobs):
+def check_jobs(ans):
+    jobs = ans.findall('.//job')
     for j in jobs:
         status = j.find('.//status')
         if status is None or status.text != 'FIN':
             return False
+
+    return True
+
+
+def check_ha(ha_status):
+    local_status = ha_status.find('.//local-info/state')
+
+    if local_status is not None and ('active' in local_status.text or 'passive' in local_status.text):
+        return True
+
+    return False
+
+
+def check_autocommit(job):
+    status = job.find('.//status')
+    if status is None or status.text != 'FIN':
+        return False
 
     return True
 
@@ -104,6 +135,8 @@ def main():
         argument_spec=dict(
             initial_delay=dict(default=0, type='int'),
             timeout=dict(default=60, type='int'),
+            wait_for=dict(type='str', default='jobs',
+                          choices=['jobs', 'autocommit', 'ha']),
             interval=dict(default=0, type='int')
         ),
     )
@@ -113,6 +146,24 @@ def main():
         supports_check_mode=False,
         required_one_of=helper.required_one_of,
     )
+
+    func_mapping = {
+        'jobs': {
+            'cmd': '<show><jobs><all></all></jobs></show>',
+            'func': check_jobs
+        },
+        'autocommit': {
+            'cmd': '<show><jobs><id>1</id></jobs></show>',
+            'func': check_autocommit
+        },
+        'ha': {
+            'cmd': '<show><high-availability><state></state></high-availability></show>',
+            'func': check_ha
+        }
+    }
+
+    cmd = func_mapping[module.params['wait_for']]['cmd']
+    func = func_mapping[module.params['wait_for']]['func']
 
     # Optional delay before performing readiness checks.
     if module.params['initial_delay']:
@@ -124,15 +175,13 @@ def main():
 
     parent = helper.get_pandevice_parent(module, timeout)
 
-    # TODO(gfreeman) - consider param for "show chassis-ready".
     while True:
         try:
-            ans = parent.op(cmd="show jobs all")
+            ans = parent.op(cmd=cmd, cmd_xml=False)
         except PanDeviceError:
             pass
         else:
-            jobs = ans.findall('.//job')
-            if check_jobs(jobs):
+            if func(ans):
                 break
 
         if time.time() > end_time:
