@@ -91,6 +91,11 @@ options:
         type: int
         default: 5
         aliases: 'liveness_check'
+    peer_ip_type:
+        description:
+            - IP or dynamic.
+        default: 'ip'
+        choices: ['ip', 'dynamic']
     peer_ip_value:
         description:
             - IPv4 address of the peer gateway.
@@ -220,6 +225,7 @@ def main():
             enable_fragmentation=dict(type='bool', default=False, aliases=['fragmentation']),
             enable_liveness_check=dict(type='bool', default=True),
             liveness_check_interval=dict(type='int', default=5, aliases=['liveness_check']),
+            peer_ip_type=dict(default='ip', choices=['ip', 'dynamic']),
             peer_ip_value=dict(default='127.0.0.1'),
             enable_dead_peer_detection=dict(type='bool', default=False, aliases=['dead_peer_detection']),
             dead_peer_detection_interval=dict(type='int', default=99),
@@ -263,6 +269,7 @@ def main():
         'enable_fragmentation': module.params['enable_fragmentation'],
         'enable_liveness_check': module.params['enable_liveness_check'],
         'liveness_check_interval': module.params['liveness_check_interval'],
+        'peer_ip_type': module.params['peer_ip_type'],
         'peer_ip_value': module.params['peer_ip_value'],
         'enable_dead_peer_detection': module.params['enable_dead_peer_detection'],
         'dead_peer_detection_interval': module.params['dead_peer_detection_interval'],
