@@ -103,23 +103,22 @@ options:
         description:
             - Perform a commit if a change is made.
         type: bool
-        default: true
+        default: false
 '''
 
 EXAMPLES = '''
-- name: ensure mngt profile foo exists and allows ping and ssh and commit
+- name: ensure mngt profile foo exists and allows ping and ssh
   panos_management_profile:
     provider: '{{ provider }}'
     name: 'foo'
     ping: true
     ssh: true
 
-- name: make sure mngt profile bar does not exist without doing a commit
+- name: make sure mngt profile bar does not exist
   panos_management_profile:
     provider: '{{ provider }}'
     name: 'bar'
     state: 'absent'
-    commit: false
 '''
 
 RETURN = '''
@@ -160,7 +159,7 @@ def main():
             userid_syslog_listener_ssl=dict(type='bool'),
             userid_syslog_listener_udp=dict(type='bool'),
             permitted_ip=dict(type='list'),
-            commit=dict(type='bool', default=True),
+            commit=dict(type='bool', default=False),
 
             # TODO(gfreeman) - Removed in the next role release.
             panorama_template=dict(),

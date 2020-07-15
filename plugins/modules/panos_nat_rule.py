@@ -174,7 +174,7 @@ options:
         description:
             - Commit configuration if changed.
         type: bool
-        default: true
+        default: false
 '''
 
 EXAMPLES = '''
@@ -304,7 +304,7 @@ def main():
             state=dict(default='present', choices=['present', 'absent', 'enable', 'disable']),
             location=dict(choices=['top', 'bottom', 'before', 'after']),
             existing_rule=dict(),
-            commit=dict(type='bool', default=True),
+            commit=dict(type='bool', default=False),
 
             # TODO(gfreeman) - remove later.
             tag_name=dict(),

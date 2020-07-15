@@ -109,20 +109,18 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: true
+        default: false
         type: bool
 '''
 
 EXAMPLES = '''
 # Configure user "foo"
-# Doesn't commit the candidate config
   - name: configure foo administrator
     panos_administrator:
       provider: '{{ provider }}'
       admin_username: 'foo'
       admin_password: 'secret'
       superuser: true
-      commit: false
 '''
 
 RETURN = '''
@@ -168,7 +166,7 @@ def main():
             admin_password=dict(no_log=True),
             admin_phash=dict(no_log=True),
             password_profile=dict(no_log=False),
-            commit=dict(type='bool', default=True)
+            commit=dict(type='bool', default=False)
         ),
     )
     module = AnsibleModule(

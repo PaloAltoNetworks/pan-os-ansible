@@ -80,7 +80,7 @@ options:
         description:
             - commit if changed
         required: false
-        default: true
+        default: false
     operation:
         description:
             - The operation to perform Supported values are I(add)/I(list)/I(delete).
@@ -242,7 +242,7 @@ def main():
         api_key=dict(no_log=True),
         sag_match_filter=dict(type='list', required=False),
         sag_name=dict(required=True),
-        commit=dict(type='bool', default=True),
+        commit=dict(type='bool', default=False),
         devicegroup=dict(default=None),
         description=dict(default=None),
         tags=dict(type='list', default=[]),

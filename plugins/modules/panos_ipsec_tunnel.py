@@ -181,7 +181,7 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: True
+        default: False
 '''
 
 EXAMPLES = '''
@@ -192,8 +192,6 @@ EXAMPLES = '''
     tunnel_interface: 'tunnel.2'
     ak_ike_gateway: 'IKEGW-Ansible'
     ak_ipsec_crypto_profile: 'IPSec-Ansible'
-    state: 'present'
-    commit: False
 '''
 
 RETURN = '''
@@ -259,7 +257,7 @@ def main():
             tunnel_monitor_proxy_id=dict(type='str', default=None),
             tunnel_monitor_profile=dict(type='str', default=None),
             disabled=dict(type='bool', default=False),
-            commit=dict(type='bool', default=True)
+            commit=dict(type='bool', default=False)
         )
     )
 

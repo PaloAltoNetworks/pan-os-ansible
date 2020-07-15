@@ -63,7 +63,7 @@ options:
     commit:
         description:
             - commit if changed
-        default: True
+        default: false
         type: bool
 '''
 
@@ -112,7 +112,7 @@ def main():
             virus=dict(),
             vulnerability=dict(),
             wildfire=dict(),
-            commit=dict(type='bool', default=True)
+            commit=dict(type='bool', default=False)
         ),
     )
 

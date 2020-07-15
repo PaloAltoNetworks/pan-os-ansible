@@ -160,7 +160,7 @@ options:
     commit:
         description:
             - Commit if changed
-        default: true
+        default: false
         type: bool
     operation:
         description:
@@ -246,7 +246,7 @@ def main():
             zone_name=dict(),
             vr_name=dict(default='default'),
             vlan_name=dict(),
-            commit=dict(type='bool', default=True),
+            commit=dict(type='bool', default=False),
 
             # TODO(gfreeman) - remove this in 2.12.
             vsys_dg=dict(),

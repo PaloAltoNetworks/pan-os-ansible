@@ -55,7 +55,7 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: True
+        default: False
         type: bool
     filter_type:
         description:
@@ -187,7 +187,7 @@ def setup_args():
             default='present', choices=['present', 'absent', 'return-object'],
             help='Add or remove BGP Policy Filter'),
         commit=dict(
-            type='bool', default=True,
+            type='bool', default=False,
             help='Commit configuration if changed'),
 
         vr_name=dict(

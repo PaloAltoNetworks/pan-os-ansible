@@ -47,7 +47,7 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: True
+        default: False
         type: bool
     aggregated_confed_as_path:
         description:
@@ -107,7 +107,6 @@ EXAMPLES = '''
     enable: true
     aggregated_confed_as_path: true
     soft_reset_with_stored_info: false
-    commit: true
 '''
 
 RETURN = '''
@@ -157,7 +156,7 @@ def setup_args():
             default='default',
             help='Name of the virtual router; it must already exist; see panos_virtual_router'),
         commit=dict(
-            type='bool', default=True,
+            type='bool', default=False,
             help='Commit configuration if changed'),
     )
 

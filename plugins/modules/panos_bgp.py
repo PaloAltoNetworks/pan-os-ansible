@@ -47,7 +47,7 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: true
+        default: false
     enable:
         description:
             - Enable BGP.
@@ -129,7 +129,6 @@ EXAMPLES = '''
     provider: '{{ provider }}'
     router_id: '1.1.1.1'
     local_as: '64512'
-    commit: true
 '''
 
 RETURN = '''
@@ -213,7 +212,7 @@ def setup_args():
             default='default',
             help='Name of the virtual router; it must already exist'),
         commit=dict(
-            type='bool', default=True,
+            type='bool', default=False,
             help='Commit configuration if changed'),
     )
 

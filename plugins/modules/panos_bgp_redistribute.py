@@ -47,7 +47,7 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: True
+        default: False
         type: bool
     address_family_identifier:
         description:
@@ -118,7 +118,6 @@ EXAMPLES = '''
     provider: '{{ provider }}'
     name: '10.2.3.0/24'
     enable: true
-    commit: true
     address_family_identifier: ipv4
     set_origin: incomplete
     vr_name: default
@@ -144,7 +143,7 @@ except ImportError:
 def setup_args():
     return dict(
         commit=dict(
-            type='bool', default=True,
+            type='bool', default=False,
             help='Commit configuration if changed'),
 
         vr_name=dict(

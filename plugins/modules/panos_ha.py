@@ -54,7 +54,7 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: true
+        default: false
         type: bool
 
     # ha.HighAvailability
@@ -189,7 +189,6 @@ EXAMPLES = '''
       if_name: "{{ item }}"
       mode: "ha"
       enable_dhcp: false
-      commit: false
     with_items:
       - ethernet1/1
       - ethernet1/2
@@ -206,7 +205,6 @@ EXAMPLES = '''
       ha1_netmask: "255.255.255.252"
       ha1_port: "ethernet1/1"
       ha2_port: "ethernet1/3"
-      commit: "true"
 
   - name: Configure Active/Active HA
     panos_ha:
@@ -247,7 +245,7 @@ except ImportError:
 def setup_args():
     return dict(
         commit=dict(
-            type='bool', default=True,
+            type='bool', default=False,
             help='Commit configuration if changed'),
         ha_enabled=dict(
             type=bool, default=True,

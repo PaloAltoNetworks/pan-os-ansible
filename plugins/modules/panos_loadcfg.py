@@ -48,7 +48,7 @@ options:
         description:
             - commit if changed
         required: false
-        default: true
+        default: false
 '''
 
 EXAMPLES = '''
@@ -101,7 +101,7 @@ def main():
         password=dict(required=True, no_log=True),
         username=dict(default='admin'),
         file=dict(),
-        commit=dict(type='bool', default=True)
+        commit=dict(type='bool', default=False)
     )
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False)
     if not HAS_LIB:

@@ -122,7 +122,7 @@ options:
     commit:
         description:
             - Commit the config change.
-        default: False
+        default: false
 '''
 
 EXAMPLES = '''

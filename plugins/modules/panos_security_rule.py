@@ -376,7 +376,7 @@ def main():
             negate_target=dict(type='bool'),
             location=dict(choices=['top', 'bottom', 'before', 'after']),
             existing_rule=dict(),
-            commit=dict(type='bool', default=True),
+            commit=dict(type='bool', default=False),
 
             # TODO(gfreeman) - remove this in the next role release.
             operation=dict(),

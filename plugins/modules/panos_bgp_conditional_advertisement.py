@@ -56,7 +56,7 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: True
+        default: False
         type: bool
     vr_name:
         description:
@@ -120,7 +120,7 @@ except ImportError:
 def setup_args():
     return dict(
         commit=dict(
-            type='bool', default=True,
+            type='bool', default=False,
             help='Commit configuration if changed'),
 
         vr_name=dict(

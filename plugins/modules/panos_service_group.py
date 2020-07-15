@@ -62,7 +62,7 @@ options:
               also set, perform a commit to Panorama and a commit-all to the device group.
         required: false
         type: bool
-        default: true
+        default: false
 '''
 
 EXAMPLES = '''
@@ -103,7 +103,7 @@ def main():
             name=dict(type='str', required=True),
             value=dict(type='list'),
             tag=dict(type='list'),
-            commit=dict(type='bool', default=True)
+            commit=dict(type='bool', default=False)
         )
     )
 

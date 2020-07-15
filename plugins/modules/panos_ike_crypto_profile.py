@@ -80,7 +80,7 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: true
+        default: false
 '''
 
 EXAMPLES = '''
@@ -143,7 +143,7 @@ def main():
             lifetime_minutes=dict(type='int'),
             lifetime_hours=dict(type='int'),
             lifetime_days=dict(type='int'),
-            commit=dict(type='bool', default=True)
+            commit=dict(type='bool', default=False)
         )
     )
 

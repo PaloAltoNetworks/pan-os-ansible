@@ -47,7 +47,7 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: True
+        default: False
     address_family_identifier:
         description:
             - Peer address family type.
@@ -293,7 +293,7 @@ def setup_args():
             default='default',
             help='Name of the virtual router; it must already exist; see panos_virtual_router'),
         commit=dict(
-            type='bool', default=True,
+            type='bool', default=False,
             help='Commit configuration if changed'),
     )
 

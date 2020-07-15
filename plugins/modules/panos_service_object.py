@@ -69,7 +69,7 @@ options:
               also set, perform a commit to Panorama and a commit-all to the device group.
         required: false
         type: bool
-        default: true
+        default: false
 '''
 
 EXAMPLES = '''

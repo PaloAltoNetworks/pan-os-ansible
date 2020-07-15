@@ -96,7 +96,7 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: true
+        default: false
 '''
 
 EXAMPLES = '''
@@ -172,7 +172,7 @@ def main():
             lifesize_mb=dict(type='int'),
             lifesize_gb=dict(type='int'),
             lifesize_tb=dict(type='int'),
-            commit=dict(type='bool', default=True)
+            commit=dict(type='bool', default=False)
         )
     )
 

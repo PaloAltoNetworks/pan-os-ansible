@@ -74,19 +74,17 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: true
+        default: false
 '''
 
 EXAMPLES = '''
 # Set the password of user admin to "badpassword"
-# Doesn't commit the candidate config
   - name: set admin password
     panos_admin:
       ip_address: "192.168.1.1"
       password: "admin"
       admin_username: admin
       admin_password: "badpassword"
-      commit: False
 '''
 
 RETURN = '''
@@ -175,7 +173,7 @@ def main():
         admin_username=dict(default='admin'),
         admin_password=dict(no_log=True, required=True),
         role=dict(),
-        commit=dict(type='bool', default=True)
+        commit=dict(type='bool', default=False)
     )
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False,
                            required_one_of=[['api_key', 'password']])

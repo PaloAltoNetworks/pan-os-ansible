@@ -67,7 +67,7 @@ options:
         description:
             - Commit changes after creating object.  If I(ip_address) is a Panorama device, and I(device_group) is
               also set, perform a commit to Panorama and a commit-all to the device group.
-        default: true
+        default: false
         type: bool
 '''
 
@@ -123,7 +123,7 @@ def main():
             dynamic_value=dict(),
             description=dict(),
             tag=dict(type='list'),
-            commit=dict(type='bool', default=True),
+            commit=dict(type='bool', default=False),
         ),
     )
     mutually_exclusive = [

@@ -110,7 +110,7 @@ options:
     commit:
         description:
             - Commit if changed
-        default: true
+        default: false
         type: bool
 '''
 
@@ -172,7 +172,7 @@ def main():
             dhcp_default_route_metric=dict(type='int'),
             zone_name=dict(),
             vr_name=dict(default='default'),
-            commit=dict(type='bool', default=True),
+            commit=dict(type='bool', default=False),
         ),
     )
 

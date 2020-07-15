@@ -170,7 +170,7 @@ options:
         description:
             - Commit configuration if changed.
         type: bool
-        default: true
+        default: false
 '''
 
 EXAMPLES = '''
@@ -187,7 +187,6 @@ EXAMPLES = '''
     peer_ip_value: '1.2.3.4'
     pre_shared_key: 'CHANGEME'
     ikev2_crypto_profile: 'IKE-Ansible'
-    commit: False
 '''
 
 RETURN = '''
@@ -234,7 +233,7 @@ def main():
             ikev1_crypto_profile=dict(default='default', aliases=['crypto_profile_name']),
             ikev1_exchange_mode=dict(default=None, choices=['auto', 'main', 'aggressive']),
             ikev2_crypto_profile=dict(default='default', aliases=['crypto_profile_name']),
-            commit=dict(type='bool', default=True),
+            commit=dict(type='bool', default=False),
         ),
     )
 

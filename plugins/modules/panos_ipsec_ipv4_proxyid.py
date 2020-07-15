@@ -86,7 +86,7 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: True
+        default: False
         type: bool
 '''
 
@@ -98,7 +98,6 @@ EXAMPLES = '''
     tunnel_name: 'Default_Tunnel'
     local: '192.168.2.0/24'
     remote: '192.168.1.0/24'
-    commit: False
 '''
 
 RETURN = '''
@@ -154,7 +153,7 @@ def main():
                 type='int',
                 help='Protocol UDP: remote port'),
             commit=dict(
-                type='bool', default=True,
+                type='bool', default=False,
                 help='Commit configuration if changed'),
         )
     )

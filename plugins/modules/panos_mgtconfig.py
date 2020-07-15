@@ -76,7 +76,7 @@ options:
         description:
             - Commit configuration if changed.
         type: bool
-        default: true
+        default: false
 '''
 
 EXAMPLES = '''
@@ -128,7 +128,7 @@ def main():
             verify_update_server=dict(type='bool'),
             ntp_server_primary=dict(),
             ntp_server_secondary=dict(),
-            commit=dict(type='bool', default=True),
+            commit=dict(type='bool', default=False),
 
             # TODO(gfreeman) - remove in the next role release.
             devicegroup=dict(),
