@@ -28,6 +28,7 @@ author:
     - Robert Hagen (@rnh556)
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
+    - Ken Celenza (@itdependsnetworks)
 version_added: "2.4"
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
@@ -101,7 +102,7 @@ options:
     destination_zone:
         description:
             - destination zone
-        type: list
+        type: str
         required: true
     destination_ip:
         description:
@@ -287,7 +288,7 @@ def main():
             nat_type=dict(default='ipv4', choices=['ipv4', 'nat64', 'nptv6']),
             source_zone=dict(type='list'),
             source_ip=dict(type='list', default=['any']),
-            destination_zone=dict(),
+            destination_zone=dict(type='str'),
             destination_ip=dict(type='list', default=['any']),
             to_interface=dict(default='any'),
             service=dict(default='any'),
