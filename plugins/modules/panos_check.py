@@ -26,6 +26,7 @@ author:
     - Luigi Mori (@jtschichold)
     - Ivan Bojer (@ivanbojer)
     - Garfield Lee Freeman (@shinmog)
+    - Michael Richardson (@mrichardson03)
 version_added: "2.3"
 requirements:
     - pan-python
@@ -84,16 +85,20 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 
 try:
-    from pandevice.errors import PanDeviceError
+    from pandevice.firewall import Firewall
+
+    from pan.xapi import PanXapiError
 except ImportError:
     pass
 
 
 def check_jobs(jobs):
     for j in jobs:
-        status = j.find('.//status')
-        if status is None or status.text != 'FIN':
-            return False
+        job_type = j.find('.//type')
+        if job_type is not None and job_type.text == 'AutoCom':
+            job_status = j.find('.//status')
+            if job_status is not None and job_status.text != 'FIN':
+                return False
 
     return True
 
@@ -124,23 +129,29 @@ def main():
 
     parent = helper.get_pandevice_parent(module, timeout)
 
-    # TODO(gfreeman) - consider param for "show chassis-ready".
     while True:
         try:
-            ans = parent.op(cmd="show jobs all")
-        except PanDeviceError:
+
+            if isinstance(parent, Firewall):
+                parent.op(cmd='show chassis-ready')
+                if 'yes' in parent.xapi.xml_result():
+                    break
+
+            else:
+                ans = parent.op(cmd='show jobs all')
+                jobs = ans.findall('.//job')
+                if check_jobs(jobs):
+                    break
+
+        except PanXapiError:
             pass
-        else:
-            jobs = ans.findall('.//job')
-            if check_jobs(jobs):
-                break
 
         if time.time() > end_time:
             module.fail_json(msg='Timeout')
 
         time.sleep(interval)
 
-    module.exit_json(changed=True, msg="done")
+    module.exit_json(changed=False, msg="done")
 
 
 if __name__ == '__main__':
