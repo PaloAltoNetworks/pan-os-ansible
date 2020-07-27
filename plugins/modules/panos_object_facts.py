@@ -167,17 +167,19 @@ def matches(obj, field, exact=None, regex=None):
         if is_str:
             return getattr(obj, field) == exact
         else:
-            for x in getattr(obj, field, []):
-                if x == exact:
-                    return True
+            if getattr(obj, field, []) is not None:
+                for x in getattr(obj, field, []):
+                    if x == exact:
+                        return True
             return False
     elif regex is not None:
         if is_str:
             return regex.search(getattr(obj, field)) is not None
         else:
-            for x in getattr(obj, field, []):
-                if regex.search(x):
-                    return True
+            if getattr(obj, field, []) is not None:
+                for x in getattr(obj, field, []):
+                    if regex.search(x):
+                        return True
             return False
 
     return False
