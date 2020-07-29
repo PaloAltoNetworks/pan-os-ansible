@@ -143,6 +143,7 @@ try:
     from pandevice.errors import PanDeviceError
     import xmltodict
     import json
+    import xml
 except ImportError:
     pass
 
@@ -208,7 +209,10 @@ def main():
     json_output = None
 
     if xml_output is not None:
-        obj_dict = xmltodict.parse(xml_output)
+        try:
+            obj_dict = xmltodict.parse(xml_output)
+        except xml.parsers.expat.ExpatError:
+            obj_dict = xmltodict.parse('<entries>' + xml_output + '</entries>')['entries']
         json_output = json.dumps(obj_dict)
 
     if cmd in safecmd:
