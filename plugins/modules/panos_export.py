@@ -124,7 +124,7 @@ options:
             - When `category` is `threat-pcap`, this value is is used to narrow the search for the **pcap_id** and is
               used to set a time window in the range -5 minutes to +2 hours of the time specified. The search time is
               typically set to the **receive_time** field in the THREAT log. The PAN-OS log time string format is used,
-              for example: 2015/01/20 10:51:09.  If the value is not specified, it will be set to the threat epoch time
+              for example '2015/01/20 10:51:09'.  If the value is not specified, it will be set to the threat epoch time
               which is part of the **pcap_id**.
         type: string
     threat_pcap_serial:
