@@ -290,6 +290,7 @@ FILE_EXPORTS = [
     'device-state', 'tech-support', 'stats-dump'
 ]
 
+
 def main():
     helper = get_connection(
         with_classic_provider_spec=True,
@@ -458,7 +459,6 @@ def main():
 
         xapi.export(category='threat-pcap', pcapid=pcap_id, search_time=search_time, serialno=serial)
         export_binary(module, xapi, filename)
-
 
     module.exit_json(changed=False)
 
