@@ -332,7 +332,7 @@ def main():
     )
 
     if not HAS_LIB:
-        module.fail_json(msg='pan-python and xmltodict are required for this module')
+        module.fail_json(msg='pan-python, pandevice, and xmltodict are required for this module')
 
     category = module.params['category']
     filename = module.params['filename']
