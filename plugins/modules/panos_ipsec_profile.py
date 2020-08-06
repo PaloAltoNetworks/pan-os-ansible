@@ -130,9 +130,6 @@ def main():
         template_stack=True,
         with_classic_provider_spec=True,
         with_state=True,
-        required_one_of=[
-            ['lifetime_seconds', 'lifetime_minutes', 'lifetime_hours', 'lifetime_days']
-        ],
         argument_spec=dict(
             name=dict(required=True),
             esp_encryption=dict(
