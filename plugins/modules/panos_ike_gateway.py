@@ -134,7 +134,7 @@ options:
     local_id_type:
         description:
             - Specify the type of local ID.
-        choices: ['ipaddr', 'fwdn', 'ufqdn', 'keyid', 'dn']
+        choices: ['ipaddr', 'fqdn', 'ufqdn', 'keyid', 'dn']
         default: None
     local_id_value:
         description:
@@ -143,7 +143,7 @@ options:
     peer_id_type:
         description:
             - Specify the type of peer ID.
-        choices: ['ipaddr', 'fwdn', 'ufqdn', 'keyid', 'dn']
+        choices: ['ipaddr', 'fqdn', 'ufqdn', 'keyid', 'dn']
         default: None
     peer_id_value:
         description:
@@ -192,6 +192,19 @@ EXAMPLES = '''
     peer_ip_value: '1.2.3.4'
     pre_shared_key: 'CHANGEME'
     ikev2_crypto_profile: 'IKE-Ansible'
+<<<<<<< HEAD
+=======
+    commit: False
+
+- name: Create IKE gateway (dynamic)
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'test-dynamic'
+    interface: 'ethernet1/1'
+    peer_ip_type: dynamic
+    pre_shared_key: 'CHANGEME'
+    commit: False
+>>>>>>> f002ae5... PR changes.
 '''
 
 RETURN = '''
