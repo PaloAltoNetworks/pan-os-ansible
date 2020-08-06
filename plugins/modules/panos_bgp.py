@@ -79,6 +79,9 @@ options:
     local_as:
         description:
             - Local Autonomous System (AS) number.
+    global_bfd_profile:
+        description:
+            - Bidirectional Forwarding Detection (BFD) profile.
     as_format:
         description:
             - AS format I('2-byte')/I('4-byte').
@@ -175,6 +178,9 @@ def setup_args():
         local_as=dict(
             type='str',
             help='Local Autonomous System (AS) number'),
+        global_bfd_profile=dict(
+            type='str',
+            help='Bidirectional Forwarding Detection (BFD) profile'),
         as_format=dict(
             type='str', default='2-byte', choices=['2-byte', '4-byte'],
             help='AS format I("2-byte")/I("4-byte")'),
@@ -251,7 +257,7 @@ def main():
     # Generate the kwargs for network.Bgp.
     bgp_params = [
         'enable', 'router_id', 'reject_default_route', 'allow_redist_default_route',
-        'install_route', 'ecmp_multi_as', 'enforce_first_as', 'local_as'
+        'install_route', 'ecmp_multi_as', 'enforce_first_as', 'local_as', 'global_bfd_profile'
     ]
     bgp_spec = dict((k, module.params[k]) for k in bgp_params)
 
