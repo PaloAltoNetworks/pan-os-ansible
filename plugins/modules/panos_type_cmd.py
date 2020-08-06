@@ -143,7 +143,7 @@ try:
     from pandevice.errors import PanDeviceError
     import xmltodict
     import json
-    import xml
+    from xml.parsers.expat import ExpatError
 except ImportError:
     pass
 
@@ -211,7 +211,7 @@ def main():
     if xml_output is not None:
         try:
             obj_dict = xmltodict.parse(xml_output)
-        except xml.parsers.expat.ExpatError:
+        except ExpatError:
             obj_dict = xmltodict.parse('<entries>' + xml_output + '</entries>')['entries']
         json_output = json.dumps(obj_dict)
 
