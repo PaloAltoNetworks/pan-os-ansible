@@ -62,7 +62,8 @@ def eltostr(obj):
 
 class ConnectionHelper(object):
     def __init__(self, min_pandevice_version, min_panos_version,
-                 error_on_shared, panorama_error, firewall_error):
+                 error_on_shared, panorama_error, firewall_error,
+                 template_is_optional):
         """Performs connection initialization and determines params."""
         # Params for AnsibleModule.
         self.argument_spec = {}
@@ -82,6 +83,7 @@ class ConnectionHelper(object):
         self.error_on_shared = error_on_shared
         self.panorama_error = panorama_error
         self.firewall_error = firewall_error
+        self.template_is_optional = template_is_optional
 
         # The PAN-OS device.
         self.device = None
@@ -197,7 +199,7 @@ class ConnectionHelper(object):
                         ))
                 elif self.template is not None:
                     tmpl_required = True
-                else:
+                else if not self.template_is_optional:
                     module.fail_json(msg=pano_mia_param.format(self.template_stack))
 
             # Spec: template.
@@ -216,6 +218,8 @@ class ConnectionHelper(object):
                         module.fail_json(msg=not_found.format(
                             'Template', name,
                         ))
+                elif self.template_is_optional:
+                    pass
                 elif tmpl_required:
                     module.fail_json(msg=ts_error.format(''))
                 elif not added_template:
@@ -583,7 +587,8 @@ def get_connection(vsys=None, vsys_shared=None, device_group=None,
                    argument_spec=None, required_one_of=None,
                    min_pandevice_version=None, min_panos_version=None,
                    error_on_shared=False,
-                   panorama_error=None, firewall_error=None):
+                   panorama_error=None, firewall_error=None,
+                   template_is_optional=False):
     """Returns a helper object that handles pandevice object tree init.
 
     The `vsys`, `vsys_shared`, `device_group`, `vsys_dg`, `vsys_importable`, `rulebase`,
@@ -628,13 +633,17 @@ def get_connection(vsys=None, vsys_shared=None, device_group=None,
         error_on_shared(bool): Don't allow "shared" vsys or device group.
         panorama_error(str): The error message if the device is Panorama.
         firewall_error(str): The error message if the device is a firewall.
+        template_is_optional(bool): Set this to True if the config object could
+            be local on Panorama and not just in a template or template stack.
 
     Returns:
         ConnectionHelper
     """
     helper = ConnectionHelper(
         min_pandevice_version, min_panos_version,
-        error_on_shared, panorama_error, firewall_error)
+        error_on_shared, panorama_error, firewall_error,
+        template_is_optional,
+    )
     req = []
     spec = {
         'provider': {
