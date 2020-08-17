@@ -12,6 +12,8 @@ factors, using the PAN-OS API.
     <http://live.paloaltonetworks.com/ansible>
 -   Repo:
     <https://github.com/PaloAltoNetworks/pan-os-ansible>
+-   Example Playbooks:
+    <https://github.com/PaloAltoNetworks/ansible-playbooks>
 
 Installation
 ------------
