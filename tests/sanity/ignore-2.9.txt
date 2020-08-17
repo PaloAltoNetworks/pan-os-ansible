@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 plugins/modules/panos_address_group.py validate-modules:missing-gplv3-license
 plugins/modules/panos_address_object.py validate-modules:missing-gplv3-license
 plugins/modules/panos_admin.py validate-modules:missing-gplv3-license
@@ -101,4 +102,6 @@ plugins/modules/panos_vlan.py validate-modules:missing-gplv3-license
 plugins/modules/panos_vlan_interface.py validate-modules:missing-gplv3-license
 plugins/modules/panos_vm_auth_key.py validate-modules:missing-gplv3-license
 plugins/modules/panos_zone.py validate-modules:missing-gplv3-license
+=======
+>>>>>>> 7480f15... Initial sanity test support.
 plugins/modules/panos_zone_facts.py validate-modules:missing-gplv3-license
