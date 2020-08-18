@@ -199,7 +199,7 @@ class ConnectionHelper(object):
                         ))
                 elif self.template is not None:
                     tmpl_required = True
-                else if not self.template_is_optional:
+                elif not self.template_is_optional:
                     module.fail_json(msg=pano_mia_param.format(self.template_stack))
 
             # Spec: template.
