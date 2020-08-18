@@ -147,6 +147,7 @@ def main():
     helper = get_connection(
         template=True,
         template_stack=True,
+        template_is_optional=True,
         with_state=True,
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 8, 0),
