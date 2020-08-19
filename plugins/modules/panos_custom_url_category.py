@@ -48,7 +48,7 @@ options:
         required: true
     url_value:
         description:
-            - List with urls 
+            - List with urls
     type:
         description:
             - type of the category - URL List or Category Match
@@ -86,7 +86,8 @@ except ImportError:
     pass
 
 
-# TODO: Remove this class when migrate to pan-os-python. CustomUrlCategory class definition in pandevice is not complete. 
+# TODO: Remove this class when migrate to pan-os-python.
+# CustomUrlCategory class definition in pandevice is not complete.
 # This bug has been fixed in pan-os-python.
 class CustomUrlCategory(VersionedPanObject):
     """Custom url category group
@@ -116,7 +117,6 @@ class CustomUrlCategory(VersionedPanObject):
         params.append(VersionedParamPath('type'))
 
         self._params = tuple(params)
-
 
 
 def main():
