@@ -132,7 +132,7 @@ def main():
     )
 
     required_if = [
-        [ "state", "present", ["url_value"] ]
+        ["state", "present", ["url_value"]]
     ]
 
     module = AnsibleModule(
