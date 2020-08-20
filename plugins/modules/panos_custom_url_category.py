@@ -52,13 +52,6 @@ options:
     type:
         description:
             - type of the category - URL List or Category Match
-    commit:
-        description:
-            - Commit changes after creating object.  If I(ip_address) is a Panorama device, and I(device_group) is
-              also set, perform a commit to Panorama and a commit-all to the device group.
-        required: false
-        type: bool
-        default: false
 '''
 
 EXAMPLES = '''
@@ -70,6 +63,12 @@ EXAMPLES = '''
         - microsoft.com
         - redhat.com
     type: "URL List"
+
+- name: Remove Custom Url Category 'Internet Access List'
+  panos_tag_object:
+    provider: '{{ provider }}'
+    name: 'Internet Access List'
+    state: 'absent'
 '''
 
 RETURN = '''
@@ -127,15 +126,19 @@ def main():
         with_state=True,
         argument_spec=dict(
             name=dict(type='str', required=True),
-            url_value=dict(type='list', required=True),
-            type=dict(type='str', default="URL List"),
-            commit=dict(type='bool', default=False)
+            url_value=dict(type='list'),
+            type=dict(type='str', default="URL List")
         )
     )
+
+    required_if = [
+        [ "state", "present", ["url_value"] ]
+    ]
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         required_one_of=helper.required_one_of,
+        required_if=required_if,
         supports_check_mode=True
     )
 
@@ -147,8 +150,6 @@ def main():
         'type': module.params['type']
     }
 
-    commit = module.params['commit']
-
     try:
         listing = CustomUrlCategory.refreshall(parent, add=False)
     except PanDeviceError as e:
@@ -158,10 +159,6 @@ def main():
     parent.add(obj)
 
     changed, diff = helper.apply_state(obj, listing, module)
-
-    if commit and changed:
-        helper.commit(module)
-
     module.exit_json(changed=changed, diff=diff)
 
 
