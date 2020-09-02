@@ -111,13 +111,17 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.objects import LogForwardingProfile
-    from pandevice.objects import LogForwardingProfileMatchList
-    from pandevice.errors import PanDeviceError
+    from panos.objects import LogForwardingProfile
+    from panos.objects import LogForwardingProfileMatchList
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.objects import LogForwardingProfile
+        from pandevice.objects import LogForwardingProfileMatchList
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

@@ -25,7 +25,7 @@ description:
 author:
     - Luigi Mori (@jtschichold)
     - Ivan Bojer (@ivanbojer)
-    - Robert Hagen (@rnh556)
+    - Robert Hagen (@stealthllama)
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
     - Ken Celenza (@itdependsnetworks)
@@ -213,12 +213,15 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 from ansible.module_utils.basic import get_exception, AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection, eltostr
 
-
 try:
-    from pandevice.errors import PanDeviceError
-    from pandevice.policies import NatRule
+    from panos.errors import PanDeviceError
+    from panos.policies import NatRule
 except ImportError:
-    pass
+    try:
+        from pandevice.errors import PanDeviceError
+        from pandevice.policies import NatRule
+    except ImportError:
+        pass
 
 
 def create_nat_rule(**kwargs):

@@ -85,13 +85,17 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.device import EmailServerProfile
-    from pandevice.device import EmailServer
-    from pandevice.errors import PanDeviceError
+    from panos.device import EmailServerProfile
+    from panos.device import EmailServer
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.device import EmailServerProfile
+        from pandevice.device import EmailServer
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

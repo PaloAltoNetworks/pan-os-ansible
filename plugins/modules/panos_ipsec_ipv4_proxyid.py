@@ -108,11 +108,16 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 try:
-    from pandevice.network import IpsecTunnel
-    from pandevice.network import IpsecTunnelIpv4ProxyId
-    from pandevice.errors import PanDeviceError
+    from panos.network import IpsecTunnel
+    from panos.network import IpsecTunnelIpv4ProxyId
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import IpsecTunnel
+        from pandevice.network import IpsecTunnelIpv4ProxyId
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

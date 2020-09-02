@@ -114,14 +114,20 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule, get_exception
 
 try:
-    from pandevice import base
-    from pandevice import panorama
-
     from pan.xapi import PanXapiError
-
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
+
+try:
+    from panos import base
+    from panos import panorama
+except ImportError:
+    try:
+        from pandevice import base
+        from pandevice import panorama
+    except ImportError:
+        pass
 
 
 def get_devicegroup(device, devicegroup):

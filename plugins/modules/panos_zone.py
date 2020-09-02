@@ -130,10 +130,14 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 
 try:
-    from pandevice.network import Zone
-    from pandevice.errors import PanDeviceError
+    from panos.network import Zone
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import Zone
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

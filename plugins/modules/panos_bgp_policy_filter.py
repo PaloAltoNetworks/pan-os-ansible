@@ -147,24 +147,33 @@ panos_obj:
     sample: "LUFRPT14MW5xOEo1R09KVlBZNnpnemh0VHRBOWl6TGM9bXcwM3JHUGVhRlNiY0dCR0srNERUQT09"
 '''
 
-
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 from ansible.module_utils._text import to_text
 
-
 try:
-    from pandevice.errors import PanDeviceError
-    from pandevice.network import VirtualRouter
-    from pandevice.network import Bgp
-    from pandevice.network import BgpPolicyAggregationAddress
-    from pandevice.network import BgpPolicyConditionalAdvertisement
-    from pandevice.network import BgpPolicyNonExistFilter
-    from pandevice.network import BgpPolicyAdvertiseFilter
-    from pandevice.network import BgpPolicySuppressFilter
-    from pandevice.network import BgpPolicyAddressPrefix
+    from panos.errors import PanDeviceError
+    from panos.network import VirtualRouter
+    from panos.network import Bgp
+    from panos.network import BgpPolicyAggregationAddress
+    from panos.network import BgpPolicyConditionalAdvertisement
+    from panos.network import BgpPolicyNonExistFilter
+    from panos.network import BgpPolicyAdvertiseFilter
+    from panos.network import BgpPolicySuppressFilter
+    from panos.network import BgpPolicyAddressPrefix
 except ImportError:
-    pass
+    try:
+        from pandevice.errors import PanDeviceError
+        from pandevice.network import VirtualRouter
+        from pandevice.network import Bgp
+        from pandevice.network import BgpPolicyAggregationAddress
+        from pandevice.network import BgpPolicyConditionalAdvertisement
+        from pandevice.network import BgpPolicyNonExistFilter
+        from pandevice.network import BgpPolicyAdvertiseFilter
+        from pandevice.network import BgpPolicySuppressFilter
+        from pandevice.network import BgpPolicyAddressPrefix
+    except ImportError:
+        pass
 
 
 def purge_stale_prefixes(cur_filter, new_prefixes):

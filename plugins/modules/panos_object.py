@@ -26,7 +26,7 @@ short_description: create/read/update/delete object in PAN-OS or Panorama
 description:
     - Policy objects form the match criteria for policy rules and many other functions in PAN-OS. These may include
     - address object, address groups, service objects, service groups, and tag.
-author: "Bob Hagen (@rnh556)"
+author: "Bob Hagen (@stealthllama)"
 version_added: "2.4"
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
@@ -181,14 +181,23 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.basic import get_exception
 
 try:
+    import panos
+    from panos.base import PanDevice
+    from panos import panorama
+    from panos import objects
+except ImportError:
+    try:
+        import pandevice
+        from pandevice.base import PanDevice
+        from pandevice import panorama
+        from pandevice import objects
+    except ImportError:
+        pass
+
+try:
     from pan.xapi import PanXapiError
-    import pandevice
-    from pandevice.base import PanDevice
-    from pandevice import panorama
-    from pandevice import objects
     import xmltodict
     import json
-
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False

@@ -25,7 +25,7 @@ module: panos_match_rule
 short_description: Test for match against a security rule on PAN-OS devices or Panorama management console.
 description:
     - Security policies allow you to enforce rules and take action, and can be as general or specific as needed.
-author: "Robert Hagen (@rnh556)"
+author: "Robert Hagen (@stealthllama)"
 version_added: "2.5"
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
@@ -178,13 +178,17 @@ import json
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.errors import PanDeviceError
-    from pandevice.policies import NatRule
-    from pandevice.policies import SecurityRule
+    from panos.errors import PanDeviceError
+    from panos.policies import NatRule
+    from panos.policies import SecurityRule
 except ImportError:
-    pass
+    try:
+        from pandevice.errors import PanDeviceError
+        from pandevice.policies import NatRule
+        from pandevice.policies import SecurityRule
+    except ImportError:
+        pass
 
 
 # TODO(gfreeman) - Remove this dependency in the next role release.

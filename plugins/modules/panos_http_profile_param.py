@@ -91,26 +91,43 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.device import HttpServerProfile
-    from pandevice.device import HttpConfigParam
-    from pandevice.device import HttpSystemParam
-    from pandevice.device import HttpThreatParam
-    from pandevice.device import HttpTrafficParam
-    from pandevice.device import HttpHipMatchParam
-    from pandevice.device import HttpUrlParam
-    from pandevice.device import HttpDataParam
-    from pandevice.device import HttpWildfireParam
-    from pandevice.device import HttpTunnelParam
-    from pandevice.device import HttpUserIdParam
-    from pandevice.device import HttpGtpParam
-    from pandevice.device import HttpAuthParam
-    from pandevice.device import HttpSctpParam
-    from pandevice.device import HttpIpTagParam
-    from pandevice.errors import PanDeviceError
+    from panos.device import HttpServerProfile
+    from panos.device import HttpConfigParam
+    from panos.device import HttpSystemParam
+    from panos.device import HttpThreatParam
+    from panos.device import HttpTrafficParam
+    from panos.device import HttpHipMatchParam
+    from panos.device import HttpUrlParam
+    from panos.device import HttpDataParam
+    from panos.device import HttpWildfireParam
+    from panos.device import HttpTunnelParam
+    from panos.device import HttpUserIdParam
+    from panos.device import HttpGtpParam
+    from panos.device import HttpAuthParam
+    from panos.device import HttpSctpParam
+    from panos.device import HttpIpTagParam
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.device import HttpServerProfile
+        from pandevice.device import HttpConfigParam
+        from pandevice.device import HttpSystemParam
+        from pandevice.device import HttpThreatParam
+        from pandevice.device import HttpTrafficParam
+        from pandevice.device import HttpHipMatchParam
+        from pandevice.device import HttpUrlParam
+        from pandevice.device import HttpDataParam
+        from pandevice.device import HttpWildfireParam
+        from pandevice.device import HttpTunnelParam
+        from pandevice.device import HttpUserIdParam
+        from pandevice.device import HttpGtpParam
+        from pandevice.device import HttpAuthParam
+        from pandevice.device import HttpSctpParam
+        from pandevice.device import HttpIpTagParam
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

@@ -236,24 +236,39 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 from ansible.module_utils.six import iteritems
 
-
 try:
-    from pandevice.device import Vsys
-    from pandevice.errors import PanDeviceError
-    from pandevice.firewall import Firewall
-    from pandevice.network import AggregateInterface
-    from pandevice.network import EthernetInterface
-    from pandevice.network import Layer3Subinterface
-    from pandevice.network import Layer2Subinterface
-    from pandevice.network import IPv6Address
-    from pandevice.network import VlanInterface
-    from pandevice.network import LoopbackInterface
-    from pandevice.network import TunnelInterface
-    from pandevice.network import VirtualRouter
-    from pandevice.network import Bgp
-    from pandevice.network import Zone
+    from panos.device import Vsys
+    from panos.errors import PanDeviceError
+    from panos.firewall import Firewall
+    from panos.network import AggregateInterface
+    from panos.network import EthernetInterface
+    from panos.network import Layer3Subinterface
+    from panos.network import Layer2Subinterface
+    from panos.network import IPv6Address
+    from panos.network import VlanInterface
+    from panos.network import LoopbackInterface
+    from panos.network import TunnelInterface
+    from panos.network import VirtualRouter
+    from panos.network import Bgp
+    from panos.network import Zone
 except ImportError:
-    pass
+    try:
+        from pandevice.device import Vsys
+        from pandevice.errors import PanDeviceError
+        from pandevice.firewall import Firewall
+        from pandevice.network import AggregateInterface
+        from pandevice.network import EthernetInterface
+        from pandevice.network import Layer3Subinterface
+        from pandevice.network import Layer2Subinterface
+        from pandevice.network import IPv6Address
+        from pandevice.network import VlanInterface
+        from pandevice.network import LoopbackInterface
+        from pandevice.network import TunnelInterface
+        from pandevice.network import VirtualRouter
+        from pandevice.network import Bgp
+        from pandevice.network import Zone
+    except ImportError:
+        pass
 
 
 class Factbase(object):
