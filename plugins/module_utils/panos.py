@@ -35,16 +35,26 @@ import time
 _MIN_VERSION_ERROR = '{0} version ({1}) < minimum version ({2})'
 HAS_PANDEVICE = True
 try:
-    import pandevice
-    from pandevice.base import PanDevice
-    from pandevice.firewall import Firewall
-    from pandevice.panorama import DeviceGroup, Template, TemplateStack
-    from pandevice.policies import PreRulebase, PostRulebase, Rulebase
-    from pandevice.device import Vsys
-    from pandevice.errors import PanDeviceError
-    from pandevice.errors import PanCommitNotNeeded
+    import panos
+    from panos.base import PanDevice
+    from panos.firewall import Firewall
+    from panos.panorama import DeviceGroup, Template, TemplateStack
+    from panos.policies import PreRulebase, PostRulebase, Rulebase
+    from panos.device import Vsys
+    from panos.errors import PanDeviceError
+    from panos.errors import PanCommitNotNeeded
 except ImportError:
-    HAS_PANDEVICE = False
+    try:
+        import pandevice as panos
+        from pandevice.base import PanDevice
+        from pandevice.firewall import Firewall
+        from pandevice.panorama import DeviceGroup, Template, TemplateStack
+        from pandevice.policies import PreRulebase, PostRulebase, Rulebase
+        from pandevice.device import Vsys
+        from pandevice.errors import PanDeviceError
+        from pandevice.errors import PanCommitNotNeeded
+    except ImportError:
+        HAS_PANDEVICE = False
 
 
 def _vstr(val):
@@ -106,12 +116,21 @@ class ConnectionHelper(object):
         if not HAS_PANDEVICE:
             module.fail_json(msg='Missing required library "pandevice".')
 
+        pdv = tuple(int(x) for x in panos.__version__.split('.'))
+
+        # Inform people that they should upgrade to pan-os-python instead of pandevice.
+        if pdv < (1, 0, 0):
+            lum = [
+                'Python library "pandevice" is now "pan-os-python" and is now 1.0!',
+                'Please "pip install pan-os-python" at your earliest convenience.',
+            ]
+            module.deprecate(' '.join(lum), '2.12')
+
         # Verify pandevice minimum version.
         if self.min_pandevice_version is not None:
-            pdv = tuple(int(x) for x in pandevice.__version__.split('.'))
             if pdv < self.min_pandevice_version:
                 module.fail_json(msg=_MIN_VERSION_ERROR.format(
-                    'pandevice', pandevice.__version__,
+                    'panos', panos.__version__,
                     _vstr(self.min_pandevice_version)))
 
         pan_device_auth, serial_number = None, None
