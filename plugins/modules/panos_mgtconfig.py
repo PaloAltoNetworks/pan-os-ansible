@@ -102,14 +102,19 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.errors import PanDeviceError
-    from pandevice.device import SystemSettings
-    from pandevice.device import NTPServerPrimary
-    from pandevice.device import NTPServerSecondary
+    from panos.errors import PanDeviceError
+    from panos.device import SystemSettings
+    from panos.device import NTPServerPrimary
+    from panos.device import NTPServerSecondary
 except ImportError:
-    pass
+    try:
+        from pandevice.errors import PanDeviceError
+        from pandevice.device import SystemSettings
+        from pandevice.device import NTPServerPrimary
+        from pandevice.device import NTPServerSecondary
+    except ImportError:
+        pass
 
 
 def main():

@@ -201,12 +201,15 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.device import HttpServerProfile
-    from pandevice.errors import PanDeviceError
+    from panos.device import HttpServerProfile
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.device import HttpServerProfile
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

@@ -27,7 +27,7 @@ description:
     - Security policies allow you to enforce rules and take action, and can be as general or specific as needed.
     - The policy rules are compared against the incoming traffic in sequence, and because the first rule that matches
     - the traffic is applied, the more specific rules must precede the more general ones.
-author: "Bob Hagen (@rnh556)"
+author: "Bob Hagen (@stealthllama)"
 version_added: "2.5"
 deprecated:
     alternative: Use M(panos_match_rule)
@@ -143,12 +143,24 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    import pandevice
-    from pandevice import base
-    from pandevice import firewall
-    from pandevice import panorama
-    from pandevice import objects
-    from pandevice import policies
+    import panos
+    from panos import base
+    from panos import firewall
+    from panos import panorama
+    from panos import objects
+    from panos import policies
+except ImportError:
+    try:
+        import pandevice
+        from pandevice import base
+        from pandevice import firewall
+        from pandevice import panorama
+        from pandevice import objects
+        from pandevice import policies
+    except ImportError:
+        pass
+
+try:
     import ipaddress
     import xmltodict
     import json

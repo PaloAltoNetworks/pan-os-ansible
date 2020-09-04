@@ -192,8 +192,6 @@ EXAMPLES = '''
     peer_ip_value: '1.2.3.4'
     pre_shared_key: 'CHANGEME'
     ikev2_crypto_profile: 'IKE-Ansible'
-<<<<<<< HEAD
-=======
     commit: False
 
 - name: Create IKE gateway (dynamic)
@@ -204,7 +202,6 @@ EXAMPLES = '''
     peer_ip_type: dynamic
     pre_shared_key: 'CHANGEME'
     commit: False
->>>>>>> f002ae5... PR changes.
 '''
 
 RETURN = '''
@@ -215,10 +212,14 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 try:
-    from pandevice.network import IkeGateway
-    from pandevice.errors import PanDeviceError
+    from panos.network import IkeGateway
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import IkeGateway
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

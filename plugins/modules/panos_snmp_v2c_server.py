@@ -75,13 +75,17 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.device import SnmpServerProfile
-    from pandevice.device import SnmpV2cServer
-    from pandevice.errors import PanDeviceError
+    from panos.device import SnmpServerProfile
+    from panos.device import SnmpV2cServer
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.device import SnmpServerProfile
+        from pandevice.device import SnmpV2cServer
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

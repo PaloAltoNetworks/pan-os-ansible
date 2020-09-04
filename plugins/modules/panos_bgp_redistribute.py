@@ -130,14 +130,19 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.errors import PanDeviceError
-    from pandevice.network import VirtualRouter
-    from pandevice.network import Bgp
-    from pandevice.network import BgpRedistributionRule
+    from panos.errors import PanDeviceError
+    from panos.network import VirtualRouter
+    from panos.network import Bgp
+    from panos.network import BgpRedistributionRule
 except ImportError:
-    pass
+    try:
+        from pandevice.errors import PanDeviceError
+        from pandevice.network import VirtualRouter
+        from pandevice.network import Bgp
+        from pandevice.network import BgpRedistributionRule
+    except ImportError:
+        pass
 
 
 def setup_args():

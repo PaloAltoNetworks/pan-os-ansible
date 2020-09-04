@@ -315,12 +315,15 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.policies import SecurityRule
-    from pandevice.errors import PanDeviceError
+    from panos.policies import SecurityRule
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.policies import SecurityRule
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 ACCEPTABLE_MOVE_ERRORS = (

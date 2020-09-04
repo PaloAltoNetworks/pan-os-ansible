@@ -128,13 +128,17 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.network import StaticRoute
-    from pandevice.network import VirtualRouter
-    from pandevice.errors import PanDeviceError
+    from panos.network import StaticRoute
+    from panos.network import VirtualRouter
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import StaticRoute
+        from pandevice.network import VirtualRouter
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

@@ -185,9 +185,16 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 try:
-    from pandevice.panorama import Panorama
-    from pandevice.errors import PanDeviceError
+    from panos.panorama import Panorama
+    from panos.errors import PanDeviceError
+except ImportError:
+    try:
+        from pandevice.panorama import Panorama
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
+try:
     import pan.xapi
     import xmltodict
     HAS_LIB = True

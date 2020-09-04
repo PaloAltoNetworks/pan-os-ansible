@@ -138,14 +138,19 @@ stdout_xml:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.errors import PanDeviceError
+    from panos.errors import PanDeviceError
     import xmltodict
     import json
     from xml.parsers.expat import ExpatError
 except ImportError:
-    pass
+    try:
+        from pandevice.errors import PanDeviceError
+        import xmltodict
+        import json
+        from xml.parsers.expat import ExpatError
+    except ImportError:
+        pass
 
 
 def main():

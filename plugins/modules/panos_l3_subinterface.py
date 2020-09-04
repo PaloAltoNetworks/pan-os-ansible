@@ -134,14 +134,19 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.network import AggregateInterface
-    from pandevice.network import EthernetInterface
-    from pandevice.network import Layer3Subinterface
-    from pandevice.errors import PanDeviceError
+    from panos.network import AggregateInterface
+    from panos.network import EthernetInterface
+    from panos.network import Layer3Subinterface
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import AggregateInterface
+        from pandevice.network import EthernetInterface
+        from pandevice.network import Layer3Subinterface
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

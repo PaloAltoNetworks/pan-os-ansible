@@ -90,7 +90,14 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 
 try:
-    from pandevice.errors import PanDeviceError
+    from panos.errors import PanDeviceError
+except ImportError:
+    try:
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
+
+try:
     import xmltodict
     import json
     HAS_LIB = True

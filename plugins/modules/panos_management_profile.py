@@ -130,12 +130,15 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.basic import get_exception
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.network import ManagementProfile
-    from pandevice.errors import PanDeviceError
+    from panos.network import ManagementProfile
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import ManagementProfile
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

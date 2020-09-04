@@ -91,26 +91,43 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.device import HttpServerProfile
-    from pandevice.device import HttpConfigHeader
-    from pandevice.device import HttpSystemHeader
-    from pandevice.device import HttpThreatHeader
-    from pandevice.device import HttpTrafficHeader
-    from pandevice.device import HttpHipMatchHeader
-    from pandevice.device import HttpUrlHeader
-    from pandevice.device import HttpDataHeader
-    from pandevice.device import HttpWildfireHeader
-    from pandevice.device import HttpTunnelHeader
-    from pandevice.device import HttpUserIdHeader
-    from pandevice.device import HttpGtpHeader
-    from pandevice.device import HttpAuthHeader
-    from pandevice.device import HttpSctpHeader
-    from pandevice.device import HttpIpTagHeader
-    from pandevice.errors import PanDeviceError
+    from panos.device import HttpServerProfile
+    from panos.device import HttpConfigHeader
+    from panos.device import HttpSystemHeader
+    from panos.device import HttpThreatHeader
+    from panos.device import HttpTrafficHeader
+    from panos.device import HttpHipMatchHeader
+    from panos.device import HttpUrlHeader
+    from panos.device import HttpDataHeader
+    from panos.device import HttpWildfireHeader
+    from panos.device import HttpTunnelHeader
+    from panos.device import HttpUserIdHeader
+    from panos.device import HttpGtpHeader
+    from panos.device import HttpAuthHeader
+    from panos.device import HttpSctpHeader
+    from panos.device import HttpIpTagHeader
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.device import HttpServerProfile
+        from pandevice.device import HttpConfigHeader
+        from pandevice.device import HttpSystemHeader
+        from pandevice.device import HttpThreatHeader
+        from pandevice.device import HttpTrafficHeader
+        from pandevice.device import HttpHipMatchHeader
+        from pandevice.device import HttpUrlHeader
+        from pandevice.device import HttpDataHeader
+        from pandevice.device import HttpWildfireHeader
+        from pandevice.device import HttpTunnelHeader
+        from pandevice.device import HttpUserIdHeader
+        from pandevice.device import HttpGtpHeader
+        from pandevice.device import HttpAuthHeader
+        from pandevice.device import HttpSctpHeader
+        from pandevice.device import HttpIpTagHeader
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

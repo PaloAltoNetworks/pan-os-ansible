@@ -104,18 +104,24 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['deprecated'],
                     'supported_by': 'community'}
 
-
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.basic import get_exception
 
 try:
     from pan.xapi import PanXapiError
-    from pandevice import base
-    from pandevice import objects
-
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
+
+try:
+    from panos import base
+    from panos import objects
+except ImportError:
+    try:
+        from pandevice import base
+        from pandevice import objects
+    except ImportError:
+        pass
 
 
 def create_address_group_object(**kwargs):
