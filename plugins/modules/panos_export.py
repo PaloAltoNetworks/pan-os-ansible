@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2020 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -37,6 +40,7 @@ options:
     category:
         description:
             - Element type to export.
+        type: str
         choices:
             - application-block-page
             - application-pcap
@@ -47,6 +51,7 @@ options:
             - credential-coach-text
             - data-filter-block-page
             - device-state
+            - dlp-pcap
             - file-block-continue-page
             - file-block-page
             - filter-pcap
@@ -69,11 +74,11 @@ options:
     certificate_name:
         description:
             - Name of the certificate to export.
-        type: string
+        type: str
     certificate_format:
         description:
             - Format for the certificate.
-        type: string
+        type: str
         choices:
             - pem
             - pkcs10
@@ -81,57 +86,57 @@ options:
     certificate_include_keys:
         description:
             - Whether to include the private key in the export.
-        default: False
         type: bool
+        default: False
     certificate_passphrase:
         description:
             - Passphrase used to encrypt the certificate and/or private key.
-        type: string
+        type: str
     filename:
         description:
             - Local path to output file (if any).
-        type: string
+        type: str
     application_pcap_name:
         description:
-            - When `category` is `application-pcap`, this can be a blank string, a packet capture directory name,
+            - When I(category=application-pcap), this can be a blank string, a packet capture directory name,
               or a packet capture name.  If the value is either blank or a directory name, a list of directories or
               packet capture files will be returned.  If the value is a packet capture file name, the file will be
-              written to `filename`.
-        type: string
+              written to I(filename).
+        type: str
     dlp_pcap_name:
         description:
-            - When `category` is `dlp-pcap`, this value can be a blank string, or a packet capture name.  If the value
+            - When I(category=dlp-pcap), this value can be a blank string, or a packet capture name.  If the value
               is blank, a list of packet capture files will be returned.  If the value is a packet capture file name,
-              the file will be written to `filename`.
-        type: string
+              the file will be written to I(filename).
+        type: str
     dlp_password:
         description:
             - Password used to decrypt DLP packet capture.
-        type: string
+        type: str
     filter_pcap_name:
         description:
-            - When `category` is `filter-pcap`, this value can be a blank string, or a packet capture name.  If the
+            - When I(category=filter-pcap), this value can be a blank string, or a packet capture name.  If the
               value is blank, a list of packet capture files will be returned.  If the value is a packet capture file
-              name, the file will be written to `filename`.
-        type: string
+              name, the file will be written to I(filename).
+        type: str
     threat_pcap_id:
         description:
-            - When `category` is `threat-pcap`, this value is a unique identifier for the packet capture, and can be
-              obtained from the **pcap_id** field in the THREAT log.
-        type: string
+            - When I(category=threat-pcap), this value is a unique identifier for the packet capture, and can be
+              obtained from the 'pcap_id' field in the THREAT log.
+        type: str
     threat_pcap_search_time:
         description:
-            - When `category` is `threat-pcap`, this value is is used to narrow the search for the **pcap_id** and is
+            - When I(category=threat-pcap), this value is is used to narrow the search for the 'pcap_id' and is
               used to set a time window in the range -5 minutes to +2 hours of the time specified. The search time is
               typically set to the **receive_time** field in the THREAT log. The PAN-OS log time string format is used,
               for example '2015/01/20 10:51:09'.  If the value is not specified, it will be set to the threat epoch time
-              which is part of the **pcap_id**.
-        type: string
+              which is part of the 'pcap_id'.
+        type: str
     threat_pcap_serial:
         description:
-            - When `category` is `threat-pcap`, this value is required when exporting from Panorama and is used to
+            - When I(category=threat-pcap), this value is required when exporting from Panorama and is used to
               specify the device to fetch the packet capture from.
-        type: string
+        type: str
     timeout:
         description:
             - When category is set to 'tech-support', 'stats-dump', or 'device-state', the operating can take a while
@@ -172,12 +177,12 @@ RETURN = '''
 stdout:
     description: If the output gives a directory listing, give the listing as JSON formatted string
     returned: success
-    type: string
-    sample: "{\"dir-listing\": {\"file\": [\"/capture-rx\", \"/capture-tx\", \"/capture-fw\"]}}"
+    type: str
+    sample: '{"dir-listing": {"file": ["/capture-rx", "/capture-tx", "/capture-fw"]}}'
 stdout_xml:
     description: If the output gives a directory listing, give the listing as XML formatted string
     returned: success
-    type: string
+    type: str
     sample: "<dir-listing><file>/capture-rx</file><file>/capture-tx</file><file>/capture-fw</file></dir-listing>"
 '''
 
@@ -302,8 +307,8 @@ def main():
     helper = get_connection(
         with_classic_provider_spec=True,
         argument_spec=dict(
-            category=dict(default='configuration', choices=(
-                ['configuration'] + HTML_EXPORTS + FILE_EXPORTS +
+            category=dict(default='configuration', choices=sorted(
+                ['configuration', 'certificate'] + HTML_EXPORTS + FILE_EXPORTS +
                 ['application-pcap', 'filter-pcap', 'dlp-pcap', 'threat-pcap']),
             ),
             filename=dict(type='str'),
