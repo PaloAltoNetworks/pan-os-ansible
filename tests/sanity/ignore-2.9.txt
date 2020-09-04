@@ -23,7 +23,13 @@ plugins/modules/panos_check.py validate-modules:missing-gplv3-license
 plugins/modules/panos_commit.py validate-modules:missing-gplv3-license
 plugins/modules/panos_custom_url_category.py import-3.8  # waiting for custom class to be removed
 plugins/modules/panos_custom_url_category.py validate-modules:missing-gplv3-license
+plugins/modules/panos_dag.py no-get-exception
+plugins/modules/panos_dag.py validate-modules:deprecation-mismatch
+plugins/modules/panos_dag.py validate-modules:invalid-documentation
 plugins/modules/panos_dag.py validate-modules:missing-gplv3-license
+plugins/modules/panos_dag_tags.py no-get-exception
+plugins/modules/panos_dag_tags.py validate-modules:deprecation-mismatch
+plugins/modules/panos_dag_tags.py validate-modules:invalid-documentation
 plugins/modules/panos_dag_tags.py validate-modules:missing-gplv3-license
 plugins/modules/panos_email_profile.py validate-modules:missing-gplv3-license
 plugins/modules/panos_email_server.py validate-modules:missing-gplv3-license

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -34,66 +37,77 @@ options:
     ip_address:
         description:
             - IP address (or hostname) of PAN-OS device
+        type: str
         required: true
         default: null
     password:
         description:
             - password for authentication
+        type: str
         required: true
         default: null
     username:
         description:
             - username for authentication
+        type: str
         required: false
         default: "admin"
     api_key:
         description:
             - API key that can be used instead of I(username)/I(password) credentials.
+        type: str
     dag_name:
         description:
             - name of the dynamic address group
+        type: str
         required: true
         default: null
     dag_match_filter:
         description:
             - dynamic filter user by the dynamic address group
+        type: str
         required: true
         default: null
     tag_name:
         description:
             - Add administrative tags to the DAG
+        type: list
         required: false
         default: null
     devicegroup:
         description:
             - The name of the Panorama device group. The group must exist on Panorama. If
               device group is not defined it is assumed that we are contacting a firewall.
+        type: str
         required: false
-        default: None
     operation:
         description:
             - The operation to perform Supported values are I(add)/I(list)/I(delete).
+        type: str
         required: true
+        choices: ['add', 'list', 'delete']
         default: null
     commit:
         description:
             - commit if changed
+        type: bool
         required: false
         default: false
     description:
         description:
             - The description of the object.
+        type: str
 '''
 
 EXAMPLES = '''
-- name: dag
-    panos_dag:
-        ip_address: "192.168.1.1"
-        password: "admin"
-        dag_name: "dag-1"
-        dag_match_filter: "'aws-tag.aws:cloudformation:logical-id.ServerInstance' and 'instanceState.running'"
-        description: 'Add / create dynamic address group to allow access to SaaS Applications'
-        operation: 'add'
+- name: Create dag
+  panos_dag:
+    ip_address: "192.168.1.1"
+    password: "admin"
+    dag_name: "dag-1"
+    dag_match_filter: "'aws-tag.aws:cloudformation:logical-id.ServerInstance' and 'instanceState.running'"
+    description: 'Add / create dynamic address group to allow access to SaaS Applications'
+    operation: 'add'
 '''
 
 RETURN = '''
