@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2020 Palo Alto Networks, Inc
@@ -46,13 +46,16 @@ options:
     name:
         description:
             - Name of object to create.
+        type: str
         required: true
     interface:
         description:
             - Interface to terminate the tunnel.
+        type: str
     local_address_type:
         description:
             Type of local address.
+        type: str
         choices:
             - ip
             - floating-ip
@@ -60,12 +63,15 @@ options:
     local_address_value:
         description:
             - IP address value.
+        type: str
     peer_address:
         description:
             - Peer IP address.
+        type: str
     tunnel_interface:
         description:
             - To apply GRE tunnels to tunnel interface.
+        type: str
     ttl:
         description:
             - TTL.
