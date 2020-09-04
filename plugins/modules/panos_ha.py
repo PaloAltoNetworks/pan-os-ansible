@@ -264,7 +264,7 @@ try:
     from panos.errors import PanDeviceError
 except ImportError:
     try:
-        from pandevice.ha import *
+        from pandevice.ha import HighAvailability, HA1, HA1Backup, HA2, HA2Backup, HA3
         from pandevice.errors import PanDeviceError
     except ImportError:
         pass
