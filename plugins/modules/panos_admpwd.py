@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -31,19 +34,23 @@ options:
         description:
             - IP address (or hostname) of PAN-OS device
         required: true
+        type: str
     username:
         description:
             - username for initial authentication
         required: false
-        default: "admin"
+        type: str
+        default: admin
     key_filename:
         description:
             - filename of the SSH Key to use for authentication
         required: true
+        type: str
     newpassword:
         description:
             - password to configure for admin on the PAN-OS device
         required: true
+        type: str
 '''
 
 EXAMPLES = '''
@@ -65,7 +72,7 @@ RETURN = '''
 status:
     description: success status
     returned: success
-    type: string
+    type: str
     sample: "Last login: Fri Sep 16 11:09:20 2016 from 10.35.34.56.....Configuration committed successfully"
 '''
 

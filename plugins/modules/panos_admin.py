@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'status': ['deprecated'],
                     'supported_by': 'community',
@@ -41,39 +44,48 @@ options:
         description:
             - IP address (or hostname) of PAN-OS device being configured.
         required: true
+        type: str
     port:
         description:
             - Port used to connect to the PAN-OS device being configured.
         required: false
+        type: str
         default: 443
     username:
         description:
             - Username credentials to use for auth unless I(api_key) is set.
-        default: "admin"
+        type: str
+        default: admin
     password:
         description:
             - Password credentials to use for auth unless I(api_key) is set.
+        type: str
         required: true
     api_key:
         description:
             - API key that can be used instead of I(username)/I(password) credentials.
+        type: str
     admin_username:
         description:
             - Username that needs password change.
         required: false
-        default: "admin"
+        type: str
+        default: admin
     admin_password:
         description:
             - New password for I(admin_username) user
         required: true
+        type: str
     role:
         description:
             - role for admin user
         required: false
+        type: str
         default: null
     commit:
         description:
             - Commit configuration if changed.
+        type: bool
         default: false
 '''
 
@@ -91,7 +103,7 @@ RETURN = '''
 status:
     description: success status
     returned: success
-    type: string
+    type: str
     sample: "okey dokey"
 '''
 from ansible.module_utils.basic import AnsibleModule

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2019 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -40,9 +43,11 @@ options:
         description:
             - Name of the interface to configure.
         required: true
+        type: str
     mode:
         description:
             - The interface mode.
+        type: str
         default: "layer3"
         choices:
             - layer3
@@ -60,6 +65,7 @@ options:
     management_profile:
         description:
             - Interface management profile name.
+        type: str
     mtu:
         description:
             - MTU for aggregate interface.
@@ -71,6 +77,7 @@ options:
     netflow_profile:
         description:
             - Netflow profile for aggregate interface.
+        type: str
     lldp_enabled:
         description:
             - (Layer2) Enable LLDP
@@ -78,9 +85,11 @@ options:
     lldp_profile:
         description:
             - (Layer2) Reference to an lldp profile
+        type: str
     comment:
         description:
             - Interface comment.
+        type: str
     ipv4_mss_adjust:
         description:
             - (7.1+) TCP MSS adjustment for IPv4.
@@ -104,9 +113,12 @@ options:
     zone_name:
         description:
             - The zone to put this interface into.
+        type: str
     vr_name:
         description:
             - The virtual router to associate with this interface.
+        type: str
+        default: default
     commit:
         description:
             - Commit if changed

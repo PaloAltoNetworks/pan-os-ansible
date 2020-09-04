@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -48,6 +48,7 @@ options:
         description:
             - Name of address group to create.
         required: true
+        type: str
     static_value:
         description:
             - List of address objects to be included in the group.
@@ -55,10 +56,11 @@ options:
     dynamic_value:
         description:
             - Registered IP tags for a dynamic address group.
-        type: string
+        type: str
     description:
         description:
             - Descriptive name for this address group.
+        type: str
     tag:
         description:
             - List of tags to add to this address group.

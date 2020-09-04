@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -48,18 +48,22 @@ options:
         description:
             - Name of object to create.
         required: true
+        type: str
     value:
         description:
             - IP address, IP range, or FQDN for the object.  Must specify if state is I(present).
         required: true
+        type: str
     address_type:
         description:
             - Type of address object.
         choices: ['ip-netmask', 'ip-range', 'fqdn']
+        type: str
         default: 'ip-netmask'
     description:
         description:
             - Descriptive name for this address object.
+        type: str
     tag:
         description:
             - List of tags to add to this address object.

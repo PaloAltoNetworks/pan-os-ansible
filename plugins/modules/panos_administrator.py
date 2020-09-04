@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2016 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'status': ['preview'],
                     'supported_by': 'community',
@@ -49,10 +49,12 @@ options:
     admin_username:
         description:
             - Admin name.
+        type: str
         default: "admin"
     authentication_profile:
         description:
             - The authentication profile.
+        type: str
     web_client_cert_only:
         description:
             - Use only client certificate authenciation (Web)
@@ -91,21 +93,26 @@ options:
     ssh_public_key:
         description:
             - Use public key authentication (ssh)
+        type: str
     role_profile:
         description:
             - The role based profile.
+        type: str
     admin_password:
         description:
             - New plain text password for the I(admin_username) user.
             - If this is not specified, then the password is left as-is.
             - Takes priority over I(admin_phash)
+        type: str
     admin_phash:
         description:
             - New password hash for the I(admin_username) user
             - If this is not specified, then the phash is left as-is.
+        type: str
     password_profile:
         description:
             - The password profile for this user.
+        type: str
     commit:
         description:
             - Commit configuration if changed.
@@ -127,7 +134,7 @@ RETURN = '''
 status:
     description: success status
     returned: success
-    type: string
+    type: str
     sample: "done"
 '''
 
