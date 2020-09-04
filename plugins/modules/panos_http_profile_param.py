@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2019 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -41,14 +41,17 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
+    - paloaltonetworks.panos.fragments.state
 options:
     http_profile:
         description:
             - Name of the http server profile.
+        type: str
         required: True
     log_type:
         description:
             - The log type for this parameter.
+        type: str
         choices:
             - config
             - system
@@ -68,10 +71,12 @@ options:
     param:
         description:
             - The param name.
+        type: str
         required: True
     value:
         description:
             - The value to assign the param.
+        type: str
 '''
 
 EXAMPLES = '''
@@ -131,23 +136,6 @@ except ImportError:
 
 
 def main():
-    cls_map = {
-        'config': HttpConfigParam,
-        'system': HttpSystemParam,
-        'threat': HttpThreatParam,
-        'traffic': HttpTrafficParam,
-        'hip match': HttpHipMatchParam,
-        'url': HttpUrlParam,
-        'data': HttpDataParam,
-        'wildfire': HttpWildfireParam,
-        'tunnel': HttpTunnelParam,
-        'user id': HttpUserIdParam,
-        'gtp': HttpGtpParam,
-        'auth': HttpAuthParam,
-        'sctp': HttpSctpParam,
-        'iptag': HttpIpTagParam,
-    }
-
     helper = get_connection(
         vsys_shared=True,
         device_group=True,
@@ -157,7 +145,11 @@ def main():
         min_panos_version=(8, 0, 0),
         argument_spec=dict(
             http_profile=dict(required=True),
-            log_type=dict(required=True, choices=sorted(cls_map.keys())),
+            log_type=dict(required=True, choices=[
+                'config', 'system', 'threat', 'traffic', 'hip match', 'url',
+                'data', 'wildfire', 'tunnel', 'user id', 'gtp', 'auth',
+                'sctp', 'iptag']
+            ),
             param=dict(required=True),
             value=dict(),
         ),
@@ -177,6 +169,23 @@ def main():
         sp.refresh()
     except PanDeviceError as e:
         module.fail_json(msg='Failed refresh: {0}'.format(e))
+
+    cls_map = {
+        'config': HttpConfigParam,
+        'system': HttpSystemParam,
+        'threat': HttpThreatParam,
+        'traffic': HttpTrafficParam,
+        'hip match': HttpHipMatchParam,
+        'url': HttpUrlParam,
+        'data': HttpDataParam,
+        'wildfire': HttpWildfireParam,
+        'tunnel': HttpTunnelParam,
+        'user id': HttpUserIdParam,
+        'gtp': HttpGtpParam,
+        'auth': HttpAuthParam,
+        'sctp': HttpSctpParam,
+        'iptag': HttpIpTagParam,
+    }
 
     cls = cls_map[module.params['log_type']]
 

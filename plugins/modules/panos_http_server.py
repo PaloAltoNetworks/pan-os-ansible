@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2019 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -41,22 +41,27 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
+    - paloaltonetworks.panos.fragments.state
 options:
     http_profile:
         description:
             - Name of the http server profile.
+        type: str
         required: True
     name:
         description:
             - Server name.
+        type: str
         required: True
     address:
         description:
             - IP address or FQDN of the HTTP server
+        type: str
         required: True
     protocol:
         description:
             - The protocol.
+        type: str
         choices:
             - HTTP
             - HTTPS
@@ -70,6 +75,7 @@ options:
         description:
             - PAN-OS 9.0+
             - TLS handshake protocol version
+        type: str
         choices:
             - 1.0
             - 1.1
@@ -78,16 +84,20 @@ options:
         description:
             - PAN-OS 9.0+
             - Certificate profile for validating server cert.
+        type: str
     http_method:
         description:
             - HTTP method to use.
+        type: str
         default: 'POST'
     http_username:
         description:
             - Username for basic HTTP auth.
+        type: str
     http_password:
         description:
             - Password for basic HTTP auth.
+        type: str
 '''
 
 EXAMPLES = '''

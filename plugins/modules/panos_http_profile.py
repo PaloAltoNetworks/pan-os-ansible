@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2019 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -41,10 +41,12 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
+    - paloaltonetworks.panos.fragments.state
 options:
     name:
         description:
             - Name of the profile.
+        type: str
         required: true
     tag_registration:
         description:
@@ -54,135 +56,177 @@ options:
     config_name:
         description:
             - Name for custom config format.
+        type: str
     config_uri_format:
         description:
             - URI format for custom config format.
+        type: str
     config_payload:
         description:
             - Payload for custom config format.
+        type: str
     system_name:
         description:
             - Name for custom config format.
+        type: str
     system_uri_format:
         description:
             - URI format for custom config format.
+        type: str
     system_payload:
         description:
             - Payload for custom config format.
+        type: str
     threat_name:
         description:
             - Name for custom config format.
+        type: str
     threat_uri_format:
         description:
             - URI format for custom config format.
+        type: str
     threat_payload:
         description:
             - Payload for custom config format.
+        type: str
     traffic_name:
         description:
             - Name for custom config format.
+        type: str
     traffic_uri_format:
         description:
             - URI format for custom config format.
+        type: str
     traffic_payload:
         description:
             - Payload for custom config format.
+        type: str
     hip_match_name:
         description:
             - Name for custom config format.
+        type: str
     hip_match_uri_format:
         description:
             - URI format for custom config format.
+        type: str
     hip_match_payload:
         description:
             - Payload for custom config format.
+        type: str
     url_name:
         description:
             - Name for custom config format.
+        type: str
     url_uri_format:
         description:
             - URI format for custom config format.
+        type: str
     url_payload:
         description:
             - Payload for custom config format.
+        type: str
     data_name:
         description:
             - Name for custom config format.
+        type: str
     data_uri_format:
         description:
             - URI format for custom config format.
+        type: str
     data_payload:
         description:
             - Payload for custom config format.
+        type: str
     wildfire_name:
         description:
             - Name for custom config format.
+        type: str
     wildfire_uri_format:
         description:
             - URI format for custom config format.
+        type: str
     wildfire_payload:
         description:
             - Payload for custom config format.
+        type: str
     tunnel_name:
         description:
             - Name for custom config format.
+        type: str
     tunnel_uri_format:
         description:
             - URI format for custom config format.
+        type: str
     tunnel_payload:
         description:
             - Payload for custom config format.
+        type: str
     user_id_name:
         description:
             - Name for custom config format.
+        type: str
     user_id_uri_format:
         description:
             - URI format for custom config format.
+        type: str
     user_id_payload:
         description:
             - Payload for custom config format.
+        type: str
     gtp_name:
         description:
             - Name for custom config format.
+        type: str
     gtp_uri_format:
         description:
             - URI format for custom config format.
+        type: str
     gtp_payload:
         description:
             - Payload for custom config format.
+        type: str
     auth_name:
         description:
             - Name for custom config format.
+        type: str
     auth_uri_format:
         description:
             - URI format for custom config format.
+        type: str
     auth_payload:
         description:
             - Payload for custom config format.
+        type: str
     sctp_name:
         description:
             - PAN-OS 8.1+.
             - Name for custom config format.
+        type: str
     sctp_uri_format:
         description:
             - PAN-OS 8.1+.
             - URI format for custom config format.
+        type: str
     sctp_payload:
         description:
             - PAN-OS 8.1+.
             - Payload for custom config format.
+        type: str
     iptag_name:
         description:
             - PAN-OS 9.0+.
             - Name for custom config format.
+        type: str
     iptag_uri_format:
         description:
             - PAN-OS 9.0+.
             - URI format for custom config format.
+        type: str
     iptag_payload:
         description:
             - PAN-OS 9.0+.
             - Payload for custom config format.
+        type: str
 '''
 
 EXAMPLES = '''
