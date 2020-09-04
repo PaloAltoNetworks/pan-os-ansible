@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -33,41 +36,49 @@ options:
         description:
             - IP address (or hostname) of PAN-OS device being configured.
         required: true
+        type: str
         default: null
     key_filename:
         description:
             - Location of the filename that is used for the auth. Either I(key_filename) or I(password) is required.
         required: true
+        type: str
         default: null
     username:
         description:
             - User name to use for auth. Default is admin.
         required: false
+        type: str
         default: "admin"
     password:
         description:
             - Password credentials to use for auth. Either I(key_filename) or I(password) is required.
         required: true
+        type: str
         default: null
     cert_friendly_name:
         description:
             - Human friendly certificate name (not CN but just a friendly name).
         required: true
+        type: str
         default: null
     cert_cn:
         description:
             - Certificate CN (common name) embedded in the certificate signature.
         required: true
+        type: str
         default: null
     signed_by:
         description:
             - Undersigning authority (CA) that MUST already be presents on the device.
         required: true
+        type: str
         default: null
     rsa_nbits:
         description:
             - Number of bits used by the RSA algorithm for the certificate generation.
         required: false
+        type: str
         default: "2048"
 '''
 
@@ -93,7 +104,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import get_exception
+
 import time
 
 try:
@@ -199,9 +210,8 @@ def main():
         generate_cert(module, ip_address, username, key_filename,
                       password, cert_cn, cert_friendly_name,
                       signed_by, rsa_nbits)
-    except Exception:
-        exc = get_exception()
-        module.fail_json(msg=exc.message)
+    except Exception as e:
+        module.fail_json(msg=e.message)
 
     module.exit_json(changed=True, msg="okey dokey")
 

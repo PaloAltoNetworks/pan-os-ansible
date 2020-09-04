@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -45,13 +45,18 @@ options:
     name:
         description:
             - Name of the tag.
+        type: str
         required: true
     url_value:
         description:
             - List with urls
+        type: list
     type:
         description:
-            - type of the category - URL List or Category Match
+            - Custom category type
+        type: str
+        choices: ['URL List', 'Category Match']
+        default: 'URL List'
 '''
 
 EXAMPLES = '''
@@ -131,7 +136,7 @@ def main():
         argument_spec=dict(
             name=dict(type='str', required=True),
             url_value=dict(type='list'),
-            type=dict(type='str', default="URL List")
+            type=dict(type='str', choices=['URL List', 'Category Match'], default="URL List")
         )
     )
 

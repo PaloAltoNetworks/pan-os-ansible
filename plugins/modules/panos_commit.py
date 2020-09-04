@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -50,6 +50,7 @@ options:
             - Use I(device_group) instead.
             - HORIZONTALLINE
             - (Panorama only) The device group.
+        type: str
     admins:
         description:
             - (PanOS 8.0+ only) Commit only the changes made by specified list of administrators.
