@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -53,6 +53,7 @@ options:
         description:
             - Name of the virtual router; it must already exist.
             - See M(panos_virtual_router).
+        type: str
         default: 'default'
     cutoff:
         description:
@@ -78,6 +79,7 @@ options:
     name:
         description:
             - Name of Dampening Profile.
+        type: str
         required: True
     reuse:
         description:

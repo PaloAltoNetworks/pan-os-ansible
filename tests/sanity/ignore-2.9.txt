@@ -8,4 +8,14 @@ plugins/modules/panos_admpwd.py validate-modules:missing-gplv3-license
 plugins/modules/panos_aggregate_interface.py validate-modules:missing-gplv3-license
 plugins/modules/panos_api_key.py validate-modules:missing-gplv3-license
 plugins/modules/panos_application_object.py validate-modules:missing-gplv3-license
+plugins/modules/panos_bgp.py validate-modules:missing-gplv3-license
+plugins/modules/panos_bgp_aggregate.py validate-modules:missing-gplv3-license
+plugins/modules/panos_bgp_auth.py validate-modules:missing-gplv3-license
+plugins/modules/panos_bgp_conditional_advertisement.py validate-modules:missing-gplv3-license
+plugins/modules/panos_bgp_dampening.py validate-modules:missing-gplv3-license
+plugins/modules/panos_bgp_peer.py validate-modules:missing-gplv3-license
+plugins/modules/panos_bgp_peer_group.py validate-modules:missing-gplv3-license
+plugins/modules/panos_bgp_policy_filter.py validate-modules:missing-gplv3-license
+plugins/modules/panos_bgp_policy_rule.py validate-modules:missing-gplv3-license
+plugins/modules/panos_bgp_redistribute.py validate-modules:missing-gplv3-license
 plugins/modules/panos_zone_facts.py validate-modules:missing-gplv3-license

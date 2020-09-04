@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -47,20 +47,25 @@ options:
     commit:
         description:
             - Commit configuration if changed.
+        type: bool
         default: False
     as_set:
         description:
             - Generate AS-set attribute.
+        type: bool
         default: False
     attr_as_path_limit:
         description:
             - Add AS path limit attribute if it does not exist.
+        type: int
     attr_as_path_prepend_times:
         description:
             - Prepend local AS for specified number of times.
+        type: int
     attr_as_path_type:
         description:
             - AS path update options.
+        type: str
         choices:
             - none
             - remove
@@ -70,9 +75,11 @@ options:
     attr_community_argument:
         description:
             - Argument to the action community value if needed.
+        type: str
     attr_community_type:
         description:
             - Community update options.
+        type: str
         choices:
             - none
             - remove-all
@@ -83,9 +90,11 @@ options:
     attr_extended_community_argument:
         description:
             - Argument to the action extended community value if needed.
+        type: str
     attr_extended_community_type:
         description:
             - Extended community update options.
+        type: str
         choices:
             - none
             - remove-all
@@ -96,15 +105,19 @@ options:
     attr_local_preference:
         description:
             - New Local Preference value.
+        type: int
     attr_med:
         description:
             - New Multi-Exit Discriminator value.
+        type: int
     attr_nexthop:
         description:
             - Next-hop address.
+        type: list
     attr_origin:
         description:
             - New route origin.
+        type: str
         choices:
             - igp
             - egp
@@ -113,6 +126,7 @@ options:
     attr_weight:
         description:
             - New weight value.
+        type: int
     enable:
         description:
             - Enable policy.
@@ -121,16 +135,20 @@ options:
     name:
         description:
             - Name of policy.
+        type: str
         required: True
     prefix:
         description:
             - Aggregating address prefix.
+        type: str
     summary:
         description:
             - Summarize route.
+        type: bool
     vr_name:
         description:
-            - Name of the virtual router; it must already exist; see panos_virtual_router.
+            - Name of the virtual router, it must already exist.  See M(panos_virtual_router).
+        type: str
         default: default
 '''
 

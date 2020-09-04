@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -47,6 +47,7 @@ options:
         description:
             - Add or remove BGP Policy Filter.
             - I(state=return-object) is deprecated and will be removed in 2.12.
+        type: str
         choices:
             - present
             - absent
@@ -55,11 +56,12 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: False
         type: bool
+        default: False
     filter_type:
         description:
             - The type of filter.
+        type: str
         choices:
             - non-exist
             - advertise
@@ -68,9 +70,11 @@ options:
     policy_name:
         description:
             - The name of the policy object.
+        type: str
     policy_type:
         description:
             - The type of policy object.
+        type: str
         choices:
             - conditional-advertisement
             - aggregate
@@ -78,12 +82,13 @@ options:
     name:
         description:
             - Name of filter.
+        type: str
         required: True
     enable:
         description:
             - Enable filter.
-        default: True
         type: bool
+        default: True
     address_prefix:
         description:
             - List of address prefix strings or dicts with "name"/"exact" keys.
@@ -93,37 +98,47 @@ options:
     match_afi:
         description:
             - Address Family Identifier.
+        type: str
         choices:
             - ip
             - ipv6
     match_as_path_regex:
         description:
             - AS-path regular expression.
+        type: str
     match_community_regex:
         description:
             - Community AS-path regular expression.
+        type: str
     match_extended_community_regex:
         description:
             - Extended Community AS-path regular expression.
+        type: str
     match_from_peer:
         description:
             - Filter by peer that sent this route.
+        type: list
     match_med:
         description:
             - Multi-Exit Discriminator.
+        type: int
     match_nexthop:
         description:
             - Next-hop attributes.
+        type: list
     match_route_table:
         description:
             - Route table to match rule.
+        type: str
         choices:
             - unicast
             - multicast
             - both
+        default: unicast
     match_safi:
         description:
             - Subsequent Address Family Identifier.
+        type: str
         choices:
             - ip
             - ipv6
@@ -131,6 +146,7 @@ options:
         description:
             - Name of the virtual router; it must already exist and have BGP configured.
             - See M(panos_virtual_router).
+        type: str
         default: default
 '''
 
@@ -143,8 +159,7 @@ RETURN = '''
 panos_obj:
     description: a serialized policy filter is returned when state == 'return-object'
     returned: success
-    type: string
-    sample: "LUFRPT14MW5xOEo1R09KVlBZNnpnemh0VHRBOWl6TGM9bXcwM3JHUGVhRlNiY0dCR0srNERUQT09"
+    type: str
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -175,18 +190,21 @@ except ImportError:
     except ImportError:
         pass
 
+import pickle
+from base64 import b64encode
+
 
 def purge_stale_prefixes(cur_filter, new_prefixes):
     if cur_filter is None:
         return
 
     new_names = set(p.get('name') for p in new_prefixes if 'name' in p)
-    cur_names = set(p.name for p in cur_filter.findall(network.BgpPolicyAddressPrefix))
+    cur_names = set(p.name for p in cur_filter.findall(BgpPolicyAddressPrefix))
 
     stale_prefixes = cur_names - new_names
 
     for name in stale_prefixes:
-        cur_filter.find(name, network.BgpPolicyAddressPrefix).delete()
+        cur_filter.find(name, BgpPolicyAddressPrefix).delete()
 
 
 def setup_args():
@@ -326,8 +344,6 @@ def main():
 
     if module.params['state'] == 'return-object':
         module.deprecate('state=return-object is deprecated', '2.12')
-        import pickle
-        from base64 import b64encode
         obj.parent = None
         panos_obj = b64encode(pickle.dumps(obj, protocol=pickle.HIGHEST_PROTOCOL))
         module.exit_json(msg='returning serialized object', panos_obj=panos_obj)

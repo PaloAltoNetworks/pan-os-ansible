@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -47,8 +47,8 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: False
         type: bool
+        default: False
     aggregated_confed_as_path:
         description:
             - The peers understand Aggregated Confederation AS Path.
@@ -56,11 +56,12 @@ options:
     enable:
         description:
             - Enable BGP peer group.
-        default: True
         type: bool
+        default: True
     export_nexthop:
         description:
             - Export locally resolved nexthop.
+        type: str
         choices:
             - resolve
             - use-self
@@ -68,6 +69,7 @@ options:
     import_nexthop:
         description:
             - I(type=ebgp) only; override nexthop with peer address.
+        type: str
         choices:
             - original
             - use-peer
@@ -75,6 +77,7 @@ options:
     name:
         description:
             - Name of the BGP peer group.
+        type: str
         required: True
     remove_private_as:
         description:
@@ -87,6 +90,7 @@ options:
     type:
         description:
             - Peer group type.
+        type: str
         choices:
             - ebgp
             - ibgp
@@ -95,7 +99,8 @@ options:
         default: 'ebgp'
     vr_name:
         description:
-            - Name of the virtual router; it must already exist; see panos_virtual_router.
+            - Name of the virtual router, it must already exist.  See M(panos_virtual_router).
+        type: str
         default: 'default'
 '''
 

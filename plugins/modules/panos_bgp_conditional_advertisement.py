@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -62,6 +62,7 @@ options:
         description:
             - Name of the virtual router; it must already exist and have BGP configured.
             - See M(panos_virtual_router).
+        type: str
         default: default
     advertise_filter:
         description:
@@ -69,12 +70,14 @@ options:
             - Use M(panos_bgp_policy_filter) to define filters after creation.
             - HORIZONTALLINE
             - Advertisement filter object returned by M(panos_bgp_policy_filter).
+        type: str
     non_exist_filter:
         description:
             - B(Deprecated)
             - Use M(panos_bgp_policy_filter) to define filters after creation.
             - HORIZONTALLINE
             - Non-Exist filter object returned by M(panos_bgp_policy_filter).
+        type: str
     enable:
         description:
             - Enable this policy.
@@ -82,6 +85,7 @@ options:
     name:
         description:
             - Name of Conditional Advertisement policy.
+        type: str
         required: True
     used_by:
         description:
@@ -119,6 +123,9 @@ except ImportError:
         from pandevice.network import BgpPolicyConditionalAdvertisement
     except ImportError:
         pass
+
+import pickle
+from base64 import b64decode
 
 
 def setup_args():
@@ -191,8 +198,6 @@ def main():
     for ansible_param in ('non_exist_filter', 'advertise_filter'):
         val = module.params[ansible_param]
         if val is not None:
-            import pickle
-            from base64 import b64decode
             module.deprecate('Param {0} is deprecated'.format(ansible_param), '2.12')
             filter_obj = pickle.loads(b64decode(val))
             obj.add(filter_obj)

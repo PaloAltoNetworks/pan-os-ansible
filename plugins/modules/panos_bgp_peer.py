@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -47,19 +47,23 @@ options:
     commit:
         description:
             - Commit configuration if changed.
+        type: bool
         default: False
     address_family_identifier:
         description:
             - Peer address family type.
+        type: str
         choices:
             - ipv4
             - ipv6
     bfd_profile:
         description:
             - BFD profile configuration.
+        type: str
     connection_authentication:
         description:
             - BGP auth profile name.
+        type: str
     connection_hold_time:
         description:
             - Hold time (in seconds).
@@ -116,9 +120,11 @@ options:
     local_interface:
         description:
             - Interface to accept BGP session.
+        type: str
     local_interface_ip:
         description:
             - Specify exact IP address if interface has multiple addresses.
+        type: str
     max_prefixes:
         description:
             - Maximum of prefixes to receive from peer.
@@ -126,26 +132,32 @@ options:
     name:
         description:
             - Name of BGP Peer.
+        type: str
         required: True
     peer_address_ip:
         description:
             - IP address of peer.
+        type: str
     peer_as:
         description:
             - Peer AS number.
+        type: str
     peer_group:
         description:
-            - Name of the peer group; it must already exist; see panos_bgp_peer_group.
+            - Name of the peer group; it must already exist; see M(panos_bgp_peer_group).
+        type: str
         required: True
     peering_type:
         description:
             - Peering type.
+        type: str
         choices:
             - unspecified
             - bilateral
     reflector_client:
         description:
             - Reflector client type.
+        type: str
         choices:
             - non-client
             - client
@@ -161,6 +173,7 @@ options:
     vr_name:
         description:
             - Name of the virtual router; it must already exist; see panos_virtual_router.
+        type: str
         default: default
 '''
 

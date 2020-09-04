@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -47,11 +47,12 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: False
         type: bool
+        default: False
     address_family_identifier:
         description:
             - Address Family Identifier.
+        type: str
         choices:
             - ipv4
             - ipv6
@@ -59,8 +60,8 @@ options:
     enable:
         description:
             - Enable rule.
-        default: True
         type: bool
+        default: True
     metric:
         description:
             - Metric value.
@@ -68,10 +69,12 @@ options:
     name:
         description:
             - An IPv4 subnet or a defined Redistribution Profile in the virtual router.
+        type: str
         required: True
     route_table:
         description:
             - Summarize route.
+        type: str
         choices:
             - unicast
             - multicast
@@ -100,6 +103,7 @@ options:
     set_origin:
         description:
             - New route origin.
+        type: str
         choices:
             - igp
             - egp
@@ -109,6 +113,7 @@ options:
         description:
             - Name of the virtual router; it must already exist.
             - See M(panos_virtual_router)
+        type: str
         default: 'default'
 '''
 

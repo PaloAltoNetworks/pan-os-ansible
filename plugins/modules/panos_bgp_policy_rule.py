@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -47,6 +47,7 @@ options:
     type:
         description:
             - The type of rule.
+        type: str
         choices:
             - import
             - export
@@ -54,27 +55,31 @@ options:
     name:
         description:
             - Name of filter.
+        type: str
         required: True
     enable:
         description:
             - Enable rule.
-        default: True
         type: bool
+        default: True
     match_afi:
         description:
             - Address Family Identifier.
+        type: str
         choices:
             - ip
             - ipv6
     match_safi:
         description:
             - Subsequent Address Family Identifier.
+        type: str
         choices:
             - ip
             - ipv6
     match_route_table:
         description:
             - Route table to match rule.
+        type: str
         choices:
             - unicast
             - multicast
@@ -94,12 +99,15 @@ options:
     match_as_path_regex:
         description:
             - AS-path regular expression.
+        type: str
     match_community_regex:
         description:
             - Community AS-path regular expression.
+        type: str
     match_extended_community_regex:
         description:
             - Extended Community AS-path regular expression.
+        type: str
     used_by:
         description:
             - Peer-groups that use this rule.
@@ -107,6 +115,7 @@ options:
     action:
         description:
             - Rule action.
+        type: str
         choices:
             - allow
             - deny
@@ -121,9 +130,11 @@ options:
     action_nexthop:
         description:
             - Nexthop address.
+        type: str
     action_origin:
         description:
             - New route origin.
+        type: str
         choices:
             - igp
             - egp
@@ -135,6 +146,7 @@ options:
     action_as_path_type:
         description:
             - AS path update options.
+        type: str
         choices:
             - none
             - remove
@@ -147,6 +159,7 @@ options:
     action_community_type:
         description:
             - Community update options.
+        type: str
         choices:
             - none
             - remove-all
@@ -156,15 +169,19 @@ options:
     action_community_argument:
         description:
             - Argument to the action community value if needed.
+        type: str
     action_extended_community_type:
         description:
             - Extended community update options.
+        type: str
     action_extended_community_argument:
         description:
             - Argument to the action extended community value if needed.
+        type: str
     action_dampening:
         description:
             - Route flap dampening profile; only with "import" type.
+        type: str
     action_weight:
         description:
             - New weight value; only with "import" type.
@@ -173,15 +190,17 @@ options:
         description:
             - List of address prefix strings or dicts with "name"/"exact" keys.
             - If a list entry is a string, then I(exact=False) for that name.
+        type: list
     vr_name:
         description:
-            - Name of the virtual router; it must already exist; see panos_virtual_router.
+            - Name of the virtual router; it must already exist; see M(panos_virtual_router).
+        type: str
         default: default
     commit:
         description:
             - Commit configuration if changed.
-        default: False
         type: bool
+        default: False
 '''
 
 EXAMPLES = '''
