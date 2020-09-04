@@ -35,6 +35,7 @@ options:
         description:
             - B(Removed)
             - Use I(provider) instead.
+        type: str
     gather_subset:
         description:
             - Scopes what information is gathered from the device.
@@ -45,6 +46,7 @@ options:
               collected.  Panorama only supports the system, ha, and config
               subsets.
         required: false
+        type: list
         default: ['!config']
 '''
 
