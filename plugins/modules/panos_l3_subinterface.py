@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2019 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -40,12 +43,13 @@ options:
     name:
         description:
             - Name of the interface to configure.
+        type: str
         required: true
     tag:
         description:
             - Tag (vlan id) for the interface
-        required: true
         type: int
+        required: true
     ip:
         description:
             - List of static IP addresses.
@@ -57,6 +61,7 @@ options:
     management_profile:
         description:
             - Interface management profile name.
+        type: str
     mtu:
         description:
             - MTU for layer3 interface.
@@ -68,9 +73,11 @@ options:
     netflow_profile:
         description:
             - Netflow profile for layer3 interface.
+        type: str
     comment:
         description:
             - Interface comment.
+        type: str
     ipv4_mss_adjust:
         description:
             - (7.1+) TCP MSS adjustment for IPv4.
@@ -83,7 +90,7 @@ options:
         description:
             - Enable DHCP on this interface.
         type: bool
-        default: true
+        default: True
     create_default_route:
         description:
             - Whether or not to add default route with router learned via DHCP.
@@ -96,9 +103,12 @@ options:
         description:
             - Name of the zone for the interface.
             - If the zone does not exist it is created.
+        type: str
     vr_name:
         description:
             - Virtual router to add this interface to.
+        type: str
+        default: 'default'
 '''
 
 EXAMPLES = '''
@@ -110,7 +120,6 @@ EXAMPLES = '''
     tag: 1
     create_default_route: True
     zone_name: "public"
-    create_default_route: "yes"
 
 # Update ethernet1/2.7 with a static IP address in zone dmz.
 - name: ethernet1/2.7 as static in zone dmz

@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2019 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -40,21 +40,26 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
+    - paloaltonetworks.panos.fragments.state
 options:
     log_forwarding_profile:
         description:
             - Name of the log forwarding profile to add this match list to.
+        type: str
         required: True
     name:
         description:
             - Name of the profile.
+        type: str
         required: true
     description:
         description:
             - Profile description
+        type: str
     log_type:
         description:
             - Log type.
+        type: str
         choices:
             - traffic
             - threat
@@ -69,6 +74,7 @@ options:
     filter:
         description:
             - The filter.  Leaving this empty means "All logs".
+        type: str
     send_to_panorama:
         description:
             - Send to panorama or not

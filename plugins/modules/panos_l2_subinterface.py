@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2019 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -40,12 +43,13 @@ options:
     name:
         description:
             - Name of the interface to configure.
+        type: str
         required: true
     tag:
         description:
             - Tag (vlan id) for the interface
-        required: true
         type: int
+        required: true
     lldp_enabled:
         description:
             - Enable LLDP
@@ -53,20 +57,25 @@ options:
     lldp_profile:
         description:
             - Reference to an LLDP profile
+        type: str
     netflow_profile:
         description:
             - Reference to a netflow profile.
+        type: str
     comment:
         description:
             - Interface comment.
+        type: str
     zone_name:
         description:
             - Name of the zone for the interface.
             - If the zone does not exist it is created.
+        type: str
     vlan_name:
         description:
             - The VLAN to put this interface in.
             - If the VLAN does not exist it is created.
+        type: str
 '''
 
 EXAMPLES = '''

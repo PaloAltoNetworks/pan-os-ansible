@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2019 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -40,22 +40,27 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
+    - paloaltonetworks.panos.fragments.state
 options:
     log_forwarding_profile:
         description:
             - Name of the log forwarding profile to add this action to.
+        type: str
         required: True
     log_forwarding_profile_match_list:
         description:
             - Name of the log forwarding profile match list to add this action to.
+        type: str
         required: True
     name:
         description:
             - Name of the profile.
+        type: str
         required: true
     action_type:
         description:
             - Action type.
+        type: str
         choices:
             - tagging
             - integration
@@ -63,6 +68,7 @@ options:
     action:
         description:
             - The action.
+        type: str
         choices:
             - add-tag
             - remove-tag
@@ -70,12 +76,14 @@ options:
     target:
         description:
             - The target.
+        type: str
         choices:
             - source-address
             - destination-address
     registration:
         description:
             - Registration.
+        type: str
         choices:
             - localhost
             - panorama
@@ -83,6 +91,7 @@ options:
     http_profile:
         description:
             - The HTTP profile when I(registration=remote).
+        type: str
     tags:
         description:
             - List of tags.

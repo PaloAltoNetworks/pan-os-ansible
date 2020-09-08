@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'status': ['preview'],
                     'supported_by': 'community',
@@ -42,11 +45,12 @@ options:
         description:
             - authcode to be applied.
             - If this is not given, then "request license fetch" is performed instead.
+        type: str
     force:
         description:
             - Whether to apply authcode even if device is already licensed / has a serial number.
-        default: False
         type: bool
+        default: False
 '''
 
 EXAMPLES = '''
@@ -64,7 +68,7 @@ RETURN = '''
 serialnumber:
     description: PAN-OS serial number when this module began execution.
     returned: success
-    type: string
+    type: str
     sample: 007200004214
 licenses:
     description: List of PAN-OS licenses (as dicts) as a result of this module's execution.
