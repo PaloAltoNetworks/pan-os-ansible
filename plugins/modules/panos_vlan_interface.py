@@ -1,9 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
-
 #  Copyright 2019 Palo Alto Networks, Inc
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -43,6 +43,7 @@ options:
         description:
             - Name of the interface to configure.
             - This should be in the format "vlan.<some_number>".
+        type: str
         required: true
     ip:
         description:
@@ -55,6 +56,7 @@ options:
     management_profile:
         description:
             - Interface management profile name.
+        type: str
     mtu:
         description:
             - MTU for layer3 interface.
@@ -66,9 +68,11 @@ options:
     netflow_profile:
         description:
             - Netflow profile for layer3 interface.
+        type: str
     comment:
         description:
             - Interface comment.
+        type: str
     ipv4_mss_adjust:
         description:
             - (7.1+) TCP MSS adjustment for IPv4.
@@ -94,13 +98,16 @@ options:
             - Name of the zone for the interface.
             - If the zone does not exist it is created.
             - If the zone already exists it should be I(mode=layer3).
+        type: str
     vlan_name:
         description:
             - The VLAN to put this interface in.
             - If the VLAN does not exist it is created.
+        type: str
     vr_name:
         description:
             - Name of the virtual router
+        type: str
 '''
 
 EXAMPLES = '''

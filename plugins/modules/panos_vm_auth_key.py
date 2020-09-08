@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2020 Palo Alto Networks, Inc
@@ -62,11 +62,11 @@ RETURN = '''
 authkey:
     description: The VM auth key.
     returned: success
-    type: string
+    type: str
 expires:
     description: Auth key expiration date
     returned: success
-    type: string
+    type: str
     sample: "2020/02/14 01:02:03"
 '''
 
