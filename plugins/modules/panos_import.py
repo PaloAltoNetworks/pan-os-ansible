@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -31,31 +34,35 @@ options:
     ip_address:
         description:
             - IP address (or hostname) of PAN-OS device.
+        type: str
         required: true
     password:
         description:
             - Password for device authentication.
+        type: str
         required: true
     username:
         description:
             - Username for device authentication.
+        type: str
         required: false
         default: "admin"
     category:
         description:
             - Category of file uploaded. The default is software.
+        type: str
         required: false
         default: software
     file:
         description:
             - Location of the file to import into device.
+        type: str
         required: false
-        default: None
     url:
         description:
             - URL of the file that will be imported to device.
+        type: str
         required: false
-        default: None
 '''
 
 EXAMPLES = '''

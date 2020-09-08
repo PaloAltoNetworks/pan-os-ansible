@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2017 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -46,68 +46,84 @@ options:
     name:
         description:
             - Name for the profile.
+        type: str
         required: true
     esp_encryption:
         description: Encryption algorithms for ESP mode.
+        type: list
         choices: ['des', '3des', 'null', 'aes-128-cbc', 'aes-192-cbc',
                   'aes-256-cbc', 'aes-128-gcm', 'aes-256-gcm']
-        default: ['aes-256-cbc', '3des']
-        aliases: encryption
+        aliases:
+            - encryption
     esp_authentication:
         description: Authentication algorithms for ESP mode.
+        type: list
         choices: ['none', 'md5', 'sha1', 'sha256', 'sha384', 'sha512']
-        default: sha1
-        aliases: authentication
+        aliases:
+            - authentication
     ah_authentication:
         description: Authentication algorithms for AH mode.
+        type: list
         choices: ['md5', 'sha1', 'sha256', 'sha384', 'sha512']
     dh_group:
         description:
             - Diffie-Hellman (DH) groups.
+        type: str
         choices: ['no-pfs', 'group1', 'group2', 'group5', 'group14', 'group19', 'group20']
         default: group2
-        aliases: dhgroup
+        aliases:
+            - dhgroup
     lifetime_seconds:
         description:
             -  IPSec SA lifetime in seconds.
+        type: int
     lifetime_minutes:
         description:
             - IPSec SA lifetime in minutes.
+        type: int
     lifetime_hours:
         description:
             - IPSec SA lifetime in hours.  If no other key lifetimes are
               specified, default to 1 hour.
-        aliases: lifetime_hrs
+        type: int
+        aliases:
+            - lifetime_hrs
     lifetime_days:
         description:
             - IPSec SA lifetime in days.
+        type: int
     lifesize_kb:
         description:
             -  IPSec SA lifetime in kilobytes.
+        type: int
     lifesize_mb:
         description:
             - IPSec SA lifetime in megabytes.
+        type: int
     lifesize_gb:
         description:
             - IPSec SA lifetime in gigabytes.
+        type: int
     lifesize_tb:
         description:
             - IPSec SA lifetime in terabytes.
+        type: int
     commit:
         description:
             - Commit configuration if changed.
-        default: false
+        type: bool
+        default: False
 '''
 
 EXAMPLES = '''
 - name: Add IPSec crypto config to the firewall
-    panos_ipsec_profile:
-      provider: '{{ provider }}'
-      state: 'present'
-      name: 'ipsec-vpn-0cc61dd8c06f95cfd-0'
-      esp_authentication: ['sha1']
-      esp_encryption: ['aes-128-cbc']
-      lifetime_seconds: '3600'
+  panos_ipsec_profile:
+    provider: '{{ provider }}'
+    state: 'present'
+    name: 'ipsec-vpn-0cc61dd8c06f95cfd-0'
+    esp_authentication: ['sha1']
+    esp_encryption: ['aes-128-cbc']
+    lifetime_seconds: '3600'
 '''
 
 RETURN = '''

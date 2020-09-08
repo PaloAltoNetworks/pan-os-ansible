@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2017 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -47,39 +47,46 @@ options:
     name:
         description:
             - Name for the profile.
+        type: str
         required: true
     version:
         description:
             - Specify the priority for Diffie-Hellman (DH) groups.
-        default: 'ike2'
+        type: str
+        default: 'ikev2'
         choices:
             - ikev1
             - ikev2
             - ikev2-preferred
-        aliases: 'protocol_version'
+        aliases:
+            - protocol_version
     interface:
         description:
             - Specify the outgoing firewall interface to the VPN tunnel.
+        type: str
         default: 'ethernet1/1'
     enable_passive_mode:
         description:
             - True to have the firewall only respond to IKE connections and never initiate them.
         type: bool
         default: True
-        aliases: 'passive_mode'
+        aliases:
+            - passive_mode
     enable_nat_traversal:
         description:
             - True to NAT Traversal mode
         type: bool
         default: False
-        aliases: 'nat_traversal'
+        aliases:
+            - nat_traversal
     enable_fragmentation:
         description:
             - True to enable IKE fragmentation
             - Incompatible with pre-shared keys, or 'aggressive' exchange mode
         type: bool
         default: False
-        aliases: 'fragmentation'
+        aliases:
+            - fragmentation
     enable_liveness_check:
         description:
             - Enable sending empty information liveness check message.
@@ -90,22 +97,26 @@ options:
             - Delay interval before sending probing packets (in seconds).
         type: int
         default: 5
-        aliases: 'liveness_check'
+        aliases:
+            - liveness_check
     peer_ip_type:
         description:
             - IP or dynamic.
-        default: 'ip'
+        type: str
+        default: ip
         choices: ['ip', 'dynamic']
     peer_ip_value:
         description:
             - IPv4 address of the peer gateway.
+        type: str
         default: '127.0.0.1'
     enable_dead_peer_detection:
         description:
             - True to enable Dead Peer Detection on the gateway.
         type: bool
         default: false
-        aliases: 'dead_peer_detection'
+        aliases:
+            - dead_peer_detection
     dead_peer_detection_interval:
         description:
             - Time in seconds to check for a dead peer.
@@ -120,57 +131,64 @@ options:
         description:
             - Bind IKE gateway to the specified interface IP address
             - It should include the mask, such as '192.168.1.1/24'
-        default: None
+        type: str
     local_ip_address_type:
         description:
             - The address type of the bound interface IP address
+        type: str
         choices: ['ip', 'floating-ip']
-        default: None
     pre_shared_key:
         description:
             - Specify pre-shared key.
+        type: str
         default: 'CHANGEME'
-        aliases: 'psk'
+        aliases:
+            - psk
     local_id_type:
         description:
             - Specify the type of local ID.
+        type: str
         choices: ['ipaddr', 'fqdn', 'ufqdn', 'keyid', 'dn']
-        default: None
     local_id_value:
         description:
             - The value for the local_id.  (See also local_id_type, above.)
-        default: None
+        type: str
     peer_id_type:
         description:
             - Specify the type of peer ID.
+        type: str
         choices: ['ipaddr', 'fqdn', 'ufqdn', 'keyid', 'dn']
-        default: None
     peer_id_value:
         description:
             - The value for the peer_id.  (See also peer_id_type, above.)
-        default: None
+        type: str
     peer_id_check:
         description:
             - Type of checking to do on peer_id.
+        type: str
         choices: ['exact', 'wildcard']
     ikev1_crypto_profile:
         description:
             - Crypto profile for IKEv1.
+        type: str
         default: 'default'
-        aliases: 'crypto_profile_name'
+        aliases:
+            - crypto_profile_name
     ikev1_exchange_mode:
         description:
             - The IKE exchange mode to use
+        type: str
         choices:
             - auto
             - main
             - aggressive
-        default: None
     ikev2_crypto_profile:
         description:
             - Crypto profile for IKEv2.
+        type: str
         default: 'default'
-        aliases: 'crypto_profile_name'
+        aliases:
+            - crypto_profile_name
     commit:
         description:
             - Commit configuration if changed.

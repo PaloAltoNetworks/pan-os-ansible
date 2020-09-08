@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2019 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -45,24 +45,31 @@ options:
     name:
         description:
             - The Proxy ID
+        type: str
         required: true
     tunnel_name:
         description:
             - IPSec Tunnel Name
+        type: str
+        default: 'default'
         required: true
     local:
         description:
             - IP subnet or IP address represents the local network
+        type: str
+        default: '192.168.2.0/24'
         required: true
     remote:
         description:
             - IP subnet or IP address represents the remote network
+        type: str
+        default: '192.168.1.0/24'
         required: true
     any_protocol:
         description:
             - Any protocol boolean
-        default: True
         type: bool
+        default: True
     number_proto:
         description:
             - Numbered Protocol; protocol number (1-254)
@@ -86,8 +93,8 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: False
         type: bool
+        default: False
 '''
 
 EXAMPLES = '''

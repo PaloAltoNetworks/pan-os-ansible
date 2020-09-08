@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -43,10 +46,12 @@ options:
     if_name:
         description:
             - Name of the interface to configure.
+        type: str
         required: true
     mode:
         description:
             - The interface mode.
+        type: str
         default: "layer3"
         choices:
             - layer3
@@ -67,6 +72,7 @@ options:
     management_profile:
         description:
             - Interface management profile name.
+        type: str
     mtu:
         description:
             - MTU for layer3 interface.
@@ -78,18 +84,23 @@ options:
     netflow_profile:
         description:
             - Netflow profile for layer3 interface.
+        type: str
     lldp_enabled:
         description:
             - Enable LLDP for layer2 interface.
+        type: str
     lldp_profile:
         description:
             - LLDP profile name for layer2 interface.
+        type: str
     netflow_profile_l2:
         description:
             - Netflow profile name for layer2 interface.
+        type: str
     link_speed:
         description:
             - Link speed.
+        type: str
         choices:
             - auto
             - 10
@@ -98,6 +109,7 @@ options:
     link_duplex:
         description:
             - Link duplex.
+        type: str
         choices:
             - auto
             - full
@@ -105,6 +117,7 @@ options:
     link_state:
         description:
             - Link state.
+        type: str
         choices:
             - auto
             - up
@@ -112,9 +125,11 @@ options:
     aggregate_group:
         description:
             - Aggregate interface name.
+        type: str
     comment:
         description:
             - Interface comment.
+        type: str
     ipv4_mss_adjust:
         description:
             - (7.1+) TCP MSS adjustment for IPv4.
@@ -126,13 +141,13 @@ options:
     enable_dhcp:
         description:
             - Enable DHCP on this interface.
-        default: "true"
         type: bool
+        default: True
     create_default_route:
         description:
             - Whether or not to add default route with router learned via DHCP.
-        default: "false"
         type: bool
+        default: False
     dhcp_default_route_metric:
         description:
             - Metric for the DHCP default route.
@@ -142,14 +157,17 @@ options:
             - Name of the zone for the interface.
             - If the zone does not exist it is created.
             - If the zone already exists its mode should match I(mode).
+        type: str
     vlan_name:
         description:
             - The VLAN to put this interface in.
             - If the VLAN does not exist it is created.
             - Only specify this if I(mode=layer2).
+        type: str
     vr_name:
         description:
             - Name of the virtual router; it must already exist.
+        type: str
         default: "default"
     vsys_dg:
         description:
@@ -157,15 +175,17 @@ options:
             - Use I(vsys) to specify the vsys instead.
             - HORIZONTALLINE
             - Name of the vsys (if firewall) or device group (if panorama) to put this object.
+        type: str
     commit:
         description:
             - Commit if changed
-        default: false
         type: bool
+        default: false
     operation:
         description:
             - B(Removed)
             - Use I(state) instead.
+        type: str
 '''
 
 EXAMPLES = '''
@@ -197,7 +217,6 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'supported_by': 'community'}
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import get_exception
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection, eltostr
 
 try:
@@ -333,8 +352,7 @@ def main():
     try:
         interfaces = EthernetInterface.refreshall(
             parent, add=False, matching_vsys=False)
-    except PanDeviceError:
-        e = get_exception()
+    except PanDeviceError as e:
         module.fail_json(msg=e.message)
 
     # Build the object based on the user spec.
