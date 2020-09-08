@@ -26,7 +26,7 @@ description:
     - Configure aggregate network interfaces on PanOS
 author:
     - Heiko Burghardt (@odysseus107)
-version_added: "2.9"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPi U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPi U(https://pypi.python.org/pypi/pandevice)
@@ -58,6 +58,7 @@ options:
         description:
             - List of static IP addresses.
         type: list
+        elements: str
     ipv6_enabled:
         description:
             - Enable IPv6.
@@ -171,7 +172,7 @@ def main():
                 default='layer3',
                 choices=['layer3', 'layer2', 'virtual-wire', 'ha'],
             ),
-            ip=dict(type='list'),
+            ip=dict(type='list', elements='str'),
             ipv6_enabled=dict(type='bool'),
             management_profile=dict(),
             mtu=dict(type='int'),

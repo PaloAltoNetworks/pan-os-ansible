@@ -29,7 +29,7 @@ short_description: Create application objects on PAN-OS devices.
 description:
     - Create application objects on PAN-OS devices.
 author: "Michael Richardson (@mrichardson03)"
-version_added: 2.9
+version_added: '2.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -116,6 +116,7 @@ options:
         description:
             - List of tunneled applications
         type: list
+        elements: str
     prone_to_misuse:
         description:
             - Application is prone to misuse
@@ -144,6 +145,7 @@ options:
         description:
             - Administrative tags
         type: list
+        elements: str
 '''
 
 EXAMPLES = '''
@@ -205,14 +207,14 @@ def main():
             able_to_transfer_file=dict(type='bool'),
             has_known_vulnerability=dict(type='bool'),
             tunnel_other_application=dict(type='bool'),
-            tunnel_applications=dict(type='list'),
+            tunnel_applications=dict(type='list', elements='str'),
             prone_to_misuse=dict(type='bool'),
             pervasive_use=dict(type='bool'),
             file_type_ident=dict(type='bool'),
             virus_ident=dict(type='bool'),
             data_ident=dict(type='bool'),
             description=dict(type='str'),
-            tag=dict(type='list'),
+            tag=dict(type='list', elements='str'),
         )
     )
 

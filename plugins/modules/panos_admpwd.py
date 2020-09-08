@@ -26,7 +26,7 @@ description:
     - Change the admin password of PAN-OS via SSH using a SSH key for authentication.
     - Useful for AWS instances where the first login should be done via SSH.
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
-version_added: "2.3"
+version_added: '1.0.0'
 requirements:
     - paramiko
 options:

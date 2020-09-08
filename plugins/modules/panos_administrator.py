@@ -29,7 +29,7 @@ short_description: Manage PAN-OS administrator user accounts.
 description:
     - Manages PAN-OS administrator user accounts.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -85,11 +85,13 @@ options:
             - This is for multi-vsys physical firewalls only.
             - The list of vsys this admin should manage.
         type: list
+        elements: str
     vsys_read_only:
         description:
             - This is for multi-vsys physical firewalls only.
             - The list of vsys this read only admin should manage.
         type: list
+        elements: str
     ssh_public_key:
         description:
             - Use public key authentication (ssh)
@@ -169,8 +171,8 @@ def main():
             panorama_admin=dict(type='bool'),
             device_admin=dict(type='bool'),
             device_admin_read_only=dict(type='bool'),
-            vsys=dict(type='list'),
-            vsys_read_only=dict(type='list'),
+            vsys=dict(type='list', elements='str'),
+            vsys_read_only=dict(type='list', elements='str'),
             ssh_public_key=dict(),
             role_profile=dict(),
             admin_password=dict(no_log=True),
