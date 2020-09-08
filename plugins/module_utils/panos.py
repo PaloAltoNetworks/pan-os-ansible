@@ -488,7 +488,7 @@ class ConnectionHelper(object):
                     'Cannot do relative rule placement',
                     '"{0}" does not exist.'.format(existing_rule),
                 ]
-                module.fail_json(msg='; '.format(msg))
+                module.fail_json(msg='{0}'.format(msg))
             if location == 'before':
                 if obj_index + 1 != ref_index:
                     changed = True
