@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['deprecated'],
@@ -44,69 +47,74 @@ options:
     ip_address:
         description:
             - IP address (or hostname) of PAN-OS firewall or Panorama management console being queried.
+        type: str
         required: true
     username:
         description:
             - Username credentials to use for authentication.
+        type: str
         required: false
         default: "admin"
     password:
         description:
             - Password credentials to use for authentication.
+        type: str
         required: true
     api_key:
         description:
             - API key that can be used instead of I(username)/I(password) credentials.
+        type: str
     application:
         description:
             - Name of the application or application group to be queried.
+        type: str
         required: false
-        default: None
     source_zone:
         description:
             - Name of the source security zone to be queried.
+        type: str
         required: false
-        default: None
     source_ip:
         description:
             - The source IP address to be queried.
+        type: str
         required: false
-        default: None
     source_port:
         description:
             - The source port to be queried.
+        type: str
         required: false
-        default: None
     destination_zone:
         description:
             - Name of the destination security zone to be queried.
+        type: str
         required: false
-        default: None
     destination_ip:
         description:
             - The destination IP address to be queried.
+        type: str
         required: false
-        default: None
     destination_port:
         description:
             - The destination port to be queried.
+        type: str
         required: false
-        default: None
     protocol:
         description:
-            - The protocol used to be queried.  Must be either I(tcp) or I(udp).
+            - The protocol used to be queried.
+        type: str
+        choices: ['tcp', 'udp']
         required: false
-        default: None
     tag_name:
         description:
             - Name of the rule tag to be queried.
+        type: str
         required: false
-        default: None
     devicegroup:
         description:
             - The Panorama device group in which to conduct the query.
+        type: str
         required: false
-        default: None
 '''
 
 EXAMPLES = '''
@@ -267,7 +275,7 @@ def get_services(device, dev_group, svc_list, obj_list):
 
 def port_in_svc(orientation, port, protocol, obj):
     # Process address objects
-    if orientation is 'source':
+    if orientation == 'source':
         for x in obj.source_port.split(','):
             if '-' in x:
                 port_range = x.split('-')
@@ -278,7 +286,7 @@ def port_in_svc(orientation, port, protocol, obj):
             else:
                 if port == x and obj.protocol == protocol:
                     return True
-    elif orientation is 'destination':
+    elif orientation == 'destination':
         for x in obj.destination_port.split(','):
             if '-' in x:
                 port_range = x.split('-')
