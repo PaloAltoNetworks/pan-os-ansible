@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -42,9 +42,11 @@ options:
     tags:
         description:
             - List of tags to retrieve facts for.  If not specified, retrieve all tags.
+        type: list
     ips:
         description:
             - List of IP addresses to retrieve facts for.  If not specified, retrieve all addresses.
+        type: list
 '''
 
 EXAMPLES = '''

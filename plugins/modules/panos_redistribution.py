@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -47,6 +47,7 @@ options:
     name:
         description:
             - Name of rule.
+        type: str
         required: True
     priority:
         description:
@@ -55,6 +56,7 @@ options:
     action:
         description:
             - Rule action.
+        type: str
         choices:
             - no-redist
             - redist
@@ -62,40 +64,51 @@ options:
     filter_type:
         description:
             - Any of 'static', 'connect', 'rip', 'ospf', or 'bgp'.
+        type: list
     filter_interface:
         description:
             - Filter interface.
+        type: list
     filter_destination:
         description:
             - Filter destination.
+        type: list
     filter_nexthop:
         description:
             - Filter nexthop.
+        type: list
     ospf_filter_pathtype:
         description:
             - Any of 'intra-area', 'inter-area', 'ext-1', or 'ext-2'.
+        type: list
     ospf_filter_area:
         description:
             - OSPF filter on area.
+        type: list
     ospf_filter_tag:
         description:
             - OSPF filter on tag.
+        type: list
     bgp_filter_community:
         description:
             - BGP filter on community.
+        type: list
     bgp_filter_extended_community:
         description:
             - BGP filter on extended community.
+        type: list
     type:
         description:
             - Name of rule.
+        type: str
         choices:
             - ipv4
             - ipv6
         default: 'ipv4'
     vr_name:
         description:
-            - Name of the virtual router; it must already exist; see panos_virtual_router.
+            - Name of the virtual router; it must already exist; see M(panos_virtual_router).
+        type: str
         default: 'default'
     commit:
         description:

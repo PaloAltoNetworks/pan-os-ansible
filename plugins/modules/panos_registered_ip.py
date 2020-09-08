@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -44,10 +44,12 @@ options:
     ips:
         description:
             - List of IP addresses to register/unregister.
+        type: list
         required: true
     tags:
         description:
             - List of tags that the IP address will be registered to.
+        type: list
         required: true
 '''
 
