@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -47,9 +47,11 @@ options:
             - Use I(template) instead.
             - HORIZONTALLINE
             - (Panorama only) The template name.
+        type: str
     name:
         description:
             - The management profile name.
+        type: str
         required: true
     ping:
         description:
@@ -127,7 +129,6 @@ RETURN = '''
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import get_exception
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 try:

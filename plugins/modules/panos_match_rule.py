@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -41,6 +44,7 @@ options:
     rule_type:
         description:
             - Type of rule.
+        type: str
         choices:
             - security
             - nat
@@ -48,9 +52,11 @@ options:
     source_zone:
         description:
             - The source zone.
+        type: str
     source_ip:
         description:
             - The source IP address.
+        type: str
         required: true
     source_port:
         description:
@@ -59,40 +65,48 @@ options:
     source_user:
         description:
             - The source user or group.
+        type: str
     to_interface:
         description:
             - The inbound interface in a NAT rule.
+        type: str
     destination_zone:
         description:
             - The destination zone.
+        type: str
     destination_ip:
         description:
             - The destination IP address.
+        type: str
         required: true
     destination_port:
         description:
             - The destination port.
-        required: true
         type: int
+        required: true
     application:
         description:
             - The application.
+        type: str
     protocol:
         description:
             - The IP protocol number from 1 to 255.
-        required: true
         type: int
+        required: true
     category:
         description:
             - URL category
+        type: str
     vsys_id:
         description:
             - B(Removed)
             - Use I(vsys) instead.
+        type: str
     rulebase:
         description:
             - B(DEPRECATED)
             - This is no longer used and may safely be removed from your playbook.
+        type: str
 '''
 
 EXAMPLES = '''
@@ -167,6 +181,7 @@ rule:
     description: The rule definition, either security rule or NAT rule
     returned: always
     type: complex
+    contains: dict
 rulebase:
     description: Rule location; panorama-pre-rulebase, firewall-rulebase, or panorama-post-rulebase
     returned: always

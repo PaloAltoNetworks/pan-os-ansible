@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -35,36 +38,47 @@ options:
     dns_server_primary:
         description:
             - IP address of primary DNS server.
+        type: str
     dns_server_secondary:
         description:
             - IP address of secondary DNS server.
+        type: str
     panorama_primary:
         description:
             - IP address (or hostname) of primary Panorama server.
+        type: str
     panorama_secondary:
         description:
             - IP address (or hostname) of secondary Panorama server.
+        type: str
     ntp_server_primary:
         description:
             - IP address (or hostname) of primary NTP server.
+        type: str
     ntp_server_secondary:
         description:
             - IP address (or hostname) of secondary NTP server.
+        type: str
     timezone:
         description:
             - Device timezone.
+        type: str
     login_banner:
         description:
             - Login banner text.
+        type: str
     update_server:
         description:
             - IP or hostname of the update server.
+        type: str
     hostname:
         description:
             - The hostname of the device.
+        type: str
     domain:
         description:
             - The domain of the device
+        type: str
     verify_update_server:
         description:
             - Verify the identify of the update server.
@@ -72,6 +86,7 @@ options:
     devicegroup:
         description:
             - B(Removed)
+        type: str
     commit:
         description:
             - Commit configuration if changed.
