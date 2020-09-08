@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -44,10 +44,12 @@ options:
     zone:
         description:
             - Name of the security zone to configure.
+        type: str
         required: true
     mode:
         description:
             - The mode of the security zone. Must match the mode of the interface.
+        type: str
         choices:
             - tap
             - virtual-wire
@@ -62,9 +64,11 @@ options:
     zone_profile:
         description:
             - Zone protection profile.
+        type: str
     log_setting:
         description:
             - Log forwarding setting.
+        type: str
     enable_userid:
         description:
             - Enable user identification.
@@ -125,7 +129,6 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'supported_by': 'community'}
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import get_exception
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 
