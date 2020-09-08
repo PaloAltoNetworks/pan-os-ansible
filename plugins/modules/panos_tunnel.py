@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -38,6 +41,7 @@ options:
     if_name:
         description:
             - Name of the interface to configure.
+        type: str
         required: true
     ip:
         description:
@@ -50,6 +54,7 @@ options:
     management_profile:
         description:
             - Interface management profile name; it must already exist.
+        type: str
     mtu:
         description:
             - MTU for tunnel interface.
@@ -57,27 +62,32 @@ options:
     netflow_profile:
         description:
             - Netflow profile for tunnel interface.
+        type: str
     comment:
         description:
             - Interface comment.
+        type: str
     zone_name:
         description:
             - Name of the zone for the interface. If the zone does not exist it is created but
-            - if the zone exists and it is not of the correct mode the operation will fail.
+              if the zone exists and it is not of the correct mode the operation will fail.
+        type: str
     vr_name:
         description:
             - Name of the virtual router; it must already exist.
+        type: str
     vsys_dg:
         description:
             - B(Deprecated)
             - Use I(vsys) to specify the vsys instead.
             - HORIZONTALLINE
             - Name of the vsys (if firewall) or device group (if panorama) to put this object.
+        type: str
     commit:
         description:
             - Commit if changed
-        default: false
         type: bool
+        default: false
 '''
 
 EXAMPLES = '''

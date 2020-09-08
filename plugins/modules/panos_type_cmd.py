@@ -1,9 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
-
 #  Copyright 2019 Palo Alto Networks, Inc
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -45,6 +45,7 @@ options:
     cmd:
         description:
             - The command to run.
+        type: str
         choices:
             - show
             - get
@@ -60,31 +61,37 @@ options:
         description:
             - The XPATH.
             - All newlines are removed from the XPATH to allow for shorter lines.
+        type: str
         required: True
     element:
         description:
             - Used in I(cmd=set), I(cmd=edit), and I(cmd=override).
             - The element payload.
+        type: str
     where:
         description:
             - Used in I(cmd=move).
             - The movement keyword.
+        type: str
     dst:
         description:
             - Used in I(cmd=move).
             - The reference object.
+        type: str
     new_name:
         description:
             - Used in I(cmd=rename) and I(cmd=clone).
             - The new name.
+        type: str
     xpath_from:
         description:
             - Used in I(cmd=clone).
             - The from xpath.
+        type: str
     extra_qs:
         description:
             - A dict of extra params to pass in.
-        type: complex
+        type: dict
 '''
 
 EXAMPLES = '''
@@ -125,12 +132,12 @@ RETURN = '''
 stdout:
     description: output (if any) of the given API command as JSON formatted string
     returned: success
-    type: string
+    type: str
     sample: "{entry: {@name: dmz-block, ip-netmask: 192.168.55.0/24, description: Address CIDR for sales org}}"
 stdout_xml:
     description: output of the given API command as an XML formatted string
     returned: success
-    type: string
+    type: str
     sample: "<entry name=dmz-block><ip-netmask>192.168.55.0/24</ip-netmask>...</entry>"
 '''
 
@@ -160,13 +167,13 @@ def main():
             cmd=dict(default='set', choices=[
                 'show', 'get', 'delete', 'set', 'edit',
                 'move', 'rename', 'clone', 'override']),
-            xpath=dict(required=True),
-            element=dict(),
-            where=dict(),
-            dst=dict(),
-            new_name=dict(),
-            xpath_from=dict(),
-            extra_qs=dict(),
+            xpath=dict(type='str', required=True),
+            element=dict(type='str'),
+            where=dict(type='str'),
+            dst=dict(type='str'),
+            new_name=dict(type='str'),
+            xpath_from=dict(type='str'),
+            extra_qs=dict(type='dict'),
         ),
     )
 
