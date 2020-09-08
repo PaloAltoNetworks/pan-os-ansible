@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -46,6 +49,7 @@ options:
     state:
         description:
             - The state of the NAT rule.
+        type: str
         choices:
             - present
             - absent
@@ -56,6 +60,7 @@ options:
         description:
             - B(Removed)
             - Use I(state) instead.
+        type: str
     devicegroup:
         description:
             - B(Deprecated)
@@ -63,6 +68,7 @@ options:
             - HORIZONTALLINE
             - The device group to place the NAT rule into.
             - Panorama only; ignored for firewalls.
+        type: str
     tag:
         description:
             - Administrative tags.
@@ -73,16 +79,20 @@ options:
             - Use I(tag) instead.
             - HORIZONTALLINE
             - Administrative tag.
+        type: str
     rule_name:
         description:
             - name of the SNAT rule
+        type: str
         required: true
     description:
         description:
             - NAT rule description.
+        type: str
     nat_type:
         description:
             - Type of NAT.
+        type: str
         choices:
             - ipv4
             - nat64
@@ -113,29 +123,33 @@ options:
     to_interface:
         description:
             - Original packet's destination interface.
+        type: str
         default: 'any'
     service:
         description:
             - service
+        type: str
         default: "any"
     snat_type:
         description:
             - type of source translation
+        type: str
         choices:
             - static-ip
             - dynamic-ip
             - dynamic-ip-and-port
-        default: None
     snat_address_type:
         description:
             - type of source translation.
+        type: str
         choices:
             - interface-address
             - translated-address
-        default: 'translated-address'
+        default: 'interface-address'
     snat_static_address:
         description:
             - Source NAT translated address. Used with Static-IP translation.
+        type: str
     snat_dynamic_address:
         description:
             - Source NAT translated address.
@@ -144,9 +158,11 @@ options:
     snat_interface:
         description:
             - snat interface
+        type: str
     snat_interface_address:
         description:
             - snat interface address
+        type: str
     snat_bidirectional:
         description:
             - bidirectional flag
@@ -154,12 +170,15 @@ options:
     dnat_address:
         description:
             - dnat translated address
+        type: str
     dnat_port:
         description:
             - dnat translated port
+        type: str
     location:
         description:
             - Position to place the created rule in the rule base.
+        type: str
         choices:
             - top
             - bottom
@@ -171,6 +190,7 @@ options:
               rule name.  The new rule will be created in the specified position relative to this
               rule.
             - If I(location=before) or I(location=after), I(existing_rule) is required.
+        type: str
     commit:
         description:
             - Commit configuration if changed.
@@ -210,7 +230,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'supported_by': 'community'}
 
 
-from ansible.module_utils.basic import get_exception, AnsibleModule
+from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection, eltostr
 
 try:
@@ -281,6 +301,7 @@ def create_nat_rule(**kwargs):
 
 def main():
     helper = get_connection(
+        with_classic_provider_spec=True,
         vsys=True,
         device_group=True,
         rulebase=True,
