@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -38,13 +41,16 @@ options:
         description:
             - B(Removed)
             - Use I(state) instead.
+        type: str
     userid:
         description:
             - User UPN
+        type: str
         required: true
     register_ip:
         description:
             - IP of the user's machine that needs to be registered with userid.
+        type: str
         required: true
 '''
 
