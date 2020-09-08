@@ -29,7 +29,7 @@ short_description: Test for match against a security rule on PAN-OS devices or P
 description:
     - Security policies allow you to enforce rules and take action, and can be as general or specific as needed.
 author: "Robert Hagen (@stealthllama)"
-version_added: "2.5"
+version_added: 1.0.0
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -180,8 +180,7 @@ stdout_lines:
 rule:
     description: The rule definition, either security rule or NAT rule
     returned: always
-    type: complex
-    contains: dict
+    type: dict
 rulebase:
     description: Rule location; panorama-pre-rulebase, firewall-rulebase, or panorama-post-rulebase
     returned: always
@@ -254,7 +253,8 @@ def main():
     if module.params['rulebase'] is not None:
         module.deprecate(
             'Param "rulebase" is deprecated and may safely be removed from your playbook',
-            '2.12',
+            version='3.0.0',
+            collection_name='paloaltonetworks.panos'
         )
 
     parent = helper.get_pandevice_parent(module)
@@ -377,7 +377,8 @@ def main():
             x = rules[0]
             module.deprecate(
                 'The "stdout_lines" output is deprecated; use "rule" instead',
-                '2.12',
+                version='3.0.0',
+                collection_name='paloaltonetworks.panos',
             )
             module.exit_json(
                 stdout_lines=json.dumps(xmltodict.parse(x.element_str()), indent=2),

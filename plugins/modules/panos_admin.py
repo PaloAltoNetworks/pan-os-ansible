@@ -33,7 +33,7 @@ author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
 version_added: "2.3"
 deprecated:
     alternative: Use M(panos_administrator) instead.
-    removed_in: '2.12'
+    removed_in: '3.0.0'
     why: This module is a subset of M(panos_administrator)'s functionality.
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
@@ -60,7 +60,6 @@ options:
         description:
             - Password credentials to use for auth unless I(api_key) is set.
         type: str
-        required: true
     api_key:
         description:
             - API key that can be used instead of I(username)/I(password) credentials.
@@ -190,7 +189,10 @@ def main():
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False,
                            required_one_of=[['api_key', 'password']])
 
-    module.deprecate('This module is deprecated; use panos_administrator', '2.12')
+    module.deprecate(
+        'This module is deprecated; use panos_administrator',
+        version='3.0.0', collection_name='paloaltonetworks.panos'
+    )
 
     if not HAS_LIB:
         module.fail_json(msg='Missing required libraries.')

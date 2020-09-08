@@ -104,7 +104,10 @@ def main():
 
     # TODO(gfreeman) - remove in 2.12
     if module.params['devicegroup'] is not None:
-        module.deprecate('Param "devicegroup" is deprecated; use "device_group"', '2.12')
+        module.deprecate(
+            'Param "devicegroup" is deprecated; use "device_group"',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
         if module.params['device_group'] is not None:
             msg = [
                 'Both "devicegroup" and "device_group" specified',

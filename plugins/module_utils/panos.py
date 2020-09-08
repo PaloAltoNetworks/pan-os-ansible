@@ -124,7 +124,7 @@ class ConnectionHelper(object):
                 'Python library "pandevice" is now "pan-os-python" and is now 1.0!',
                 'Please "pip install pan-os-python" at your earliest convenience.',
             ]
-            module.deprecate(' '.join(lum), '2.12')
+            module.deprecate(' '.join(lum), version='3.0.0', collection_name='paloaltonetworks.panos')
 
         # Verify pandevice minimum version.
         if self.min_pandevice_version is not None:
@@ -152,7 +152,7 @@ class ConnectionHelper(object):
                 module.params['port'],
             )
             msg = 'Classic provider params are deprecated; use "provider" instead'
-            module.deprecate(msg, '2.12')
+            module.deprecate(msg, version='3.0.0', collection_name='paloaltonetworks.panos')
         else:
             module.fail_json(msg='Provider params are required.')
 

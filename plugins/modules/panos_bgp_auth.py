@@ -152,7 +152,10 @@ def main():
 
     # TODO(gfreeman) - removed in 2.12
     if module.params['replace'] is not None:
-        module.deprecate('Param "replace" is deprecated; please remove it from your playbooks', '2.12')
+        module.deprecate(
+            'Param "replace" is deprecated; please remove it from your playbooks',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
 
     vr = VirtualRouter(module.params['vr_name'])
     parent.add(vr)

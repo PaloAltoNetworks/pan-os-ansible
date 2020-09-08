@@ -348,11 +348,17 @@ def main():
     if module.params['operation'] is not None:
         module.fail_json(msg='Param "operation" is removed; use "state"')
     if module.params['devicegroup'] is not None:
-        module.deprecate('Param "devicegroup" is deprecated; use "device_group"', '2.12')
+        module.deprecate(
+            'Param "devicegroup" is deprecated; use "device_group"',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
         module.params['device_group'] = module.params['devicegroup']
     if module.params['tag_name'] is not None:
         tag_val = module.params['tag_name']
-        module.deprecate('Param "tag_name" is deprecated; use "tag"', '2.12')
+        module.deprecate(
+            'Param "tag_name" is deprecated; use "tag"',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
         if module.params['tag']:
             module.fail_json(msg='Both "tag" and "tag_name" specified, use only one')
     else:

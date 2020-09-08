@@ -198,7 +198,10 @@ def main():
     for ansible_param in ('non_exist_filter', 'advertise_filter'):
         val = module.params[ansible_param]
         if val is not None:
-            module.deprecate('Param {0} is deprecated'.format(ansible_param), '2.12')
+            module.deprecate(
+                'Param {0} is deprecated'.format(ansible_param),
+                version='3.0.0', collection_name='paloaltonetworks.panos'
+            )
             filter_obj = pickle.loads(b64decode(val))
             obj.add(filter_obj)
 

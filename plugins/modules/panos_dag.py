@@ -235,7 +235,10 @@ def main():
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False,
                            required_one_of=[['api_key', 'password']])
 
-    module.deprecate('This module has been deprecated; use panos_address_group', '2.12')
+    module.deprecate(
+        'This module has been deprecated; use panos_address_group',
+        version='3.0.0', collection_name='paloaltonetworks.panos'
+    )
 
     if not HAS_LIB:
         module.fail_json(msg='Missing required libraries.')

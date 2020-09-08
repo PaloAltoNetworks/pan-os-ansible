@@ -335,7 +335,10 @@ def main():
                            required_one_of=[['api_key', 'password']]
                            )
 
-    module.deprecate('This module has been deprecated; use panos_match_rule', '2.12')
+    module.deprecate(
+        'This module has been deprecated; use panos_match_rule',
+        version='3.0.0', collection_name='paloaltonetworks.panos'
+    )
 
     if not HAS_LIB:
         module.fail_json(msg='Missing required libraries.')

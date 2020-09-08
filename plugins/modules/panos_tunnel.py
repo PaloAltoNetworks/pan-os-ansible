@@ -182,7 +182,11 @@ def main():
     # TODO(gfreeman) - Remove vsys_dg in 2.12, as well as this code chunk.
     # In the mean time, we'll need to do this special handling.
     if vsys_dg is not None:
-        module.deprecate('Param "vsys_dg" is deprecated, use "vsys"', '2.12')
+        module.deprecate(
+            'Param "vsys_dg" is deprecated, use "vsys"',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
+
         if vsys is None:
             vsys = vsys_dg
         else:

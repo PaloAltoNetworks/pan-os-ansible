@@ -177,7 +177,10 @@ def main():
 
     # TODO(gfreeman) - Removed when "panorama_template" is removed.
     if module.params['panorama_template'] is not None:
-        module.deprecate('Param "panorama_template" is deprecated; use "template"', '2.12')
+        module.deprecate(
+            'Param "panorama_template" is deprecated; use "template"',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
         if module.params['template'] is not None:
             msg = [
                 'Both "template" and "panorama_template" have been given',

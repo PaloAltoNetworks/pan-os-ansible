@@ -343,7 +343,7 @@ def main():
             obj.add(BgpPolicyAddressPrefix(to_text(x, encoding='utf-8', errors='surrogate_or_strict')))
 
     if module.params['state'] == 'return-object':
-        module.deprecate('state=return-object is deprecated', '2.12')
+        module.deprecate('state=return-object is deprecated', version='3.0.0', collection_name='paloaltonetworks.panos')
         obj.parent = None
         panos_obj = b64encode(pickle.dumps(obj, protocol=pickle.HIGHEST_PROTOCOL))
         module.exit_json(msg='returning serialized object', panos_obj=panos_obj)
