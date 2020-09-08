@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -45,6 +45,7 @@ options:
     name:
         description:
             - Name of service group.
+        type: str
         required: true
     value:
         description:

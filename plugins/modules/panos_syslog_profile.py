@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2019 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -40,68 +40,86 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
+    - paloaltonetworks.panos.fragments.state
 options:
     name:
         description:
             - Name of the profile.
+        type: str
         required: true
     config:
         description:
             - Custom config log format.
+        type: str
     system:
         description:
             - Custom system log format.
+        type: str
     threat:
         description:
             - Custom threat log format.
+        type: str
     traffic:
         description:
             - Custom traffic log format.
+        type: str
     hip_match:
         description:
             - Custom HIP match log format.
+        type: str
     url:
         description:
             - PAN-OS 8.0+
             - Custom url log format.
+        type: str
     data:
         description:
             - PAN-OS 8.0+
             - Custom data log format.
+        type: str
     wildfire:
         description:
             - PAN-OS 8.0+
             - Custom wildfire log format.
+        type: str
     tunnel:
         description:
             - PAN-OS 8.0+
             - Custom tunnel log format.
+        type: str
     user_id:
         description:
             - PAN-OS 8.0+
             - Custom user-ID log format.
+        type: str
     gtp:
         description:
             - PAN-OS 8.0+
             - Custom GTP log format.
+        type: str
     auth:
         description:
             - PAN-OS 8.0+
             - Custom auth log format.
+        type: str
     sctp:
         description:
             - PAN-OS 8.1+
             - Custom SCTP log format.
+        type: str
     iptag:
         description:
             - PAN-OS 9.0+
             - Custom Iptag log format.
+        type: str
     escaped_characters:
         description:
             - Characters to be escaped.
+        type: str
     escape_character:
         description:
             - Escape character
+        type: str
 '''
 
 EXAMPLES = '''

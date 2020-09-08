@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -15,13 +15,16 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_sag
 short_description: Create a static address group.
 description:
     - Create a static address group object in the firewall used for policy rules.
-author: "Vinay Venkataraghavan @vinayvenkat"
+author: "Vinay Venkataraghavan (@vinayvenkat)"
 version_added: "2.4"
 deprecated:
     alternative: Use M(panos_address_group) instead.
@@ -35,57 +38,63 @@ options:
     ip_address:
         description:
             - IP address (or hostname) of PAN-OS device
+        type: str
         required: true
-        default: null
     password:
         description:
             - password for authentication
+        type: str
         required: true
-        default: null
     username:
         description:
             - username for authentication
+        type: str
         required: false
         default: "admin"
     api_key:
         description:
             - API key that can be used instead of I(username)/I(password) credentials.
+        type: str
     sag_name:
         description:
             - name of the dynamic address group
+        type: str
         required: true
-        default: null
-    static_match_filter:
+    sag_match_filter:
         description:
             - Static filter used by the address group
+        type: list
         required: true
-        default: null
     devicegroup:
         description: >
             - The name of the Panorama device group. The group must exist on Panorama. If device group is not defined
             it is assumed that we are contacting a firewall.
+        type: str
         required: false
-        default: None
     description:
         description:
             - The purpose / objective of the static Address Group
+        type: str
         required: false
-        default: null
     tags:
         description:
             - Tags to be associated with the address group
+        type: list
         required: false
-        default: null
     commit:
         description:
             - commit if changed
-        required: false
-        default: false
+        type: bool
+        default: False
     operation:
         description:
             - The operation to perform Supported values are I(add)/I(list)/I(delete).
+        type: str
+        choices:
+            - add
+            - list
+            - delete
         required: true
-        default: null
 '''
 
 EXAMPLES = '''

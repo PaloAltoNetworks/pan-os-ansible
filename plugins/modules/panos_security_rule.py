@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -49,6 +52,7 @@ options:
     rule_name:
         description:
             - Name of the security rule.
+        type: str
         required: true
     source_zone:
         description:
@@ -100,6 +104,7 @@ options:
     action:
         description:
             - Action to apply once rules matches.
+        type: str
         choices:
             - allow
             - deny
@@ -111,6 +116,7 @@ options:
     log_setting:
         description:
             - Log forwarding profile.
+        type: str
     log_start:
         description:
             - Whether to log at session start.
@@ -124,9 +130,11 @@ options:
     description:
         description:
             - Description of the security rule.
+        type: str
     rule_type:
         description:
             - Type of security rule (version 6.1 of PanOS and above).
+        type: str
         choices:
             - universal
             - intrazone
@@ -154,6 +162,7 @@ options:
     schedule:
         description:
             - Schedule in which this rule is active.
+        type: str
     icmp_unreachable:
         description:
             - Send 'ICMP Unreachable'. Used with 'deny', 'drop', and 'reset' actions.
@@ -167,31 +176,40 @@ options:
         description: >
             - Security profile group that is already defined in the system. This property supersedes antivirus,
             vulnerability, spyware, url_filtering, file_blocking, data_filtering, and wildfire_analysis properties.
+        type: str
     antivirus:
         description:
             - Name of the already defined antivirus profile.
+        type: str
     vulnerability:
         description:
             - Name of the already defined vulnerability profile.
+        type: str
     spyware:
         description:
             - Name of the already defined spyware profile.
+        type: str
     url_filtering:
         description:
             - Name of the already defined url_filtering profile.
+        type: str
     file_blocking:
         description:
             - Name of the already defined file_blocking profile.
+        type: str
     data_filtering:
         description:
             - Name of the already defined data_filtering profile.
+        type: str
     wildfire_analysis:
         description:
             - Name of the already defined wildfire_analysis profile.
+        type: str
     location:
         description:
             - Position to place the created rule in the rule base.  Supported values are
               I(top)/I(bottom)/I(before)/I(after).
+        type: str
         choices:
             - top
             - bottom
@@ -202,12 +220,14 @@ options:
             - If 'location' is set to 'before' or 'after', this option specifies an existing
               rule name.  The new rule will be created in the specified position relative to this
               rule.  If 'location' is set to 'before' or 'after', this option is required.
+        type: str
     devicegroup:
         description:
             - B(Deprecated)
             - Use I(device_group) instead.
             - HORIZONTALLINE
             - Device groups are logical groups of firewalls in Panorama.
+        type: str
     target:
         description:
             - Apply this rule exclusively to the listed firewalls in Panorama.
@@ -220,11 +240,12 @@ options:
         description:
             - B(Removed)
             - Use I(state) instead.
+        type: str
     commit:
         description:
             - Commit configuration if changed.
-        default: false
         type: bool
+        default: false
 '''
 
 EXAMPLES = '''

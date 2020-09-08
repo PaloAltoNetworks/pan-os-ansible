@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -45,24 +45,30 @@ options:
     name:
         description:
             - Name of service object.
+        type: str
         required: true
     protocol:
         description:
             - Protocol of the service.
+        type: str
         choices: ['tcp', 'udp']
         default: 'tcp'
     source_port:
         description:
             - Source port of the service object.
+        type: str
     destination_port:
         description:
             - Destination port of the service object.  Required if state is I(present).
+        type: str
     description:
         description:
             - Descriptive name for this service object.
+        type: str
     tag:
         description:
             - List of tags for this service object.
+        type: list
     commit:
         description:
             - Commit changes after creating object.  If I(ip_address) is a Panorama device, and I(device_group) is
