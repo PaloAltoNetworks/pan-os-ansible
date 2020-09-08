@@ -1,0 +1,56 @@
+name: CI/CD
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  sanity:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+
+    defaults:
+      run:
+        working-directory: ./ansible_collections/paloaltonetworks/panos
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: ./ansible_collections/paloaltonetworks/panos
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install sanity dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible pycodestyle pylint voluptuous yamllint
+
+      - name: ansible-test sanity
+        run: |
+          ansible-test sanity
+
+  build:
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Install Ansible
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
+
+      - name: Build collection
+        run: |
+          ansible-galaxy collection build
