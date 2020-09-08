@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -45,12 +45,13 @@ options:
     cmd:
         description:
             - The OP command to be performed.
+        type: str
         required: true
     cmd_is_xml:
         description:
             - The cmd is already given in XML format, so don't convert it.
-        default: false
         type: bool
+        default: false
 '''
 
 EXAMPLES = '''
@@ -75,12 +76,12 @@ RETURN = '''
 stdout:
     description: output of the given OP command as JSON formatted string
     returned: success
-    type: string
+    type: str
     sample: "{system: {app-release-date: 2017/05/01  15:09:12}}"
 stdout_xml:
     description: output of the given OP command as an XML formatted string
     returned: success
-    type: string
+    type: str
     sample: "<response status=success><result><system><hostname>fw2</hostname>"
 '''
 

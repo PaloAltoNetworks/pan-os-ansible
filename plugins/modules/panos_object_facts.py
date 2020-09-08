@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -47,17 +47,21 @@ options:
         description:
             - Name of object to retrieve.
             - Mutually exclusive with I(name_regex) and I(field).
+        type: str
     name_regex:
         description:
             - A python regex for an object's name to retrieve.
             - Mutually exclusive with I(name) and I(field).
+        type: str
     field:
         description:
             - The field to search instead of name.
             - Mutually exclusive with I(name) and I(name_regex)
+        type: str
     field_search_type:
         description:
             - The type of search to perform when doing a I(field) search.
+        type: str
         choices:
             - exact
             - regex
@@ -65,9 +69,11 @@ options:
     field_search_value:
         description:
             - The value for the I(field_search) and I(field) specified.
+        type: str
     object_type:
         description:
             - Type of object to retrieve.
+        type: str
         choices: ['address', 'address-group', 'service', 'service-group', 'tag']
         default: 'address'
 '''
@@ -190,13 +196,7 @@ def matches(obj, field, exact=None, regex=None):
 
 def main():
     name_params = ['name', 'name_regex', 'field']
-    obj_types = {
-        'address': objects.AddressObject,
-        'address-group': objects.AddressGroup,
-        'service': objects.ServiceObject,
-        'service-group': objects.ServiceGroup,
-        'tag': objects.Tag,
-    }
+
     helper = get_connection(
         vsys=True,
         device_group=True,
@@ -208,8 +208,10 @@ def main():
             field=dict(),
             field_search_type=dict(choices=['exact', 'regex'], default='exact'),
             field_search_value=dict(),
-            object_type=dict(default='address', choices=obj_types.keys()),
-        ),
+            object_type=dict(default='address', choices=[
+                'address', 'address-group', 'service', 'service-group', 'tag'
+            ])
+        )
     )
 
     module = AnsibleModule(
@@ -220,6 +222,14 @@ def main():
     )
 
     parent = helper.get_pandevice_parent(module)
+
+    obj_types = {
+        'address': objects.AddressObject,
+        'address-group': objects.AddressGroup,
+        'service': objects.ServiceObject,
+        'service-group': objects.ServiceGroup,
+        'tag': objects.Tag,
+    }
 
     object_type = module.params['object_type']
     obj_type = obj_types[object_type]

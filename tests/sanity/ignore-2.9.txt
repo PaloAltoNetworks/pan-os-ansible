@@ -61,6 +61,8 @@ plugins/modules/panos_match_rule.py validate-modules:missing-gplv3-license
 plugins/modules/panos_mgtconfig.py validate-modules:missing-gplv3-license
 plugins/modules/panos_nat_rule.py validate-modules:missing-gplv3-license
 plugins/modules/panos_nat_rule_facts.py validate-modules:missing-gplv3-license
+plugins/modules/panos_object.py validate-modules:deprecation-mismatch
+plugins/modules/panos_object.py validate-modules:invalid-documentation
 plugins/modules/panos_object.py validate-modules:missing-gplv3-license
 plugins/modules/panos_object_facts.py validate-modules:missing-gplv3-license
 plugins/modules/panos_op.py validate-modules:missing-gplv3-license
