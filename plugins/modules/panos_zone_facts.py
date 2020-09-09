@@ -66,15 +66,19 @@ spec:
     contains:
         zone:
             description: The name.
+            type: str
         mode:
             description: The mode of the zone.
+            type: str
         interface:
             description: List of interfaces.
             type: list
         zone_profile:
             description: Zone protection profile.
+            type: str
         log_setting:
             description: Log forwarding setting.
+            type: str
         enable_userid:
             description: Enable user identification.
             type: bool

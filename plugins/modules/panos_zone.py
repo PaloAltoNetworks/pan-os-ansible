@@ -61,6 +61,7 @@ options:
         description:
             - List of member interfaces.
         type: list
+        elements: str
     zone_profile:
         description:
             - Zone protection profile.
@@ -77,10 +78,12 @@ options:
         description:
             - User identification ACL include list.
         type: list
+        elements: str
     exclude_acl:
         description:
             - User identification ACL exclude list.
         type: list
+        elements: str
 '''
 
 EXAMPLES = '''
@@ -153,12 +156,12 @@ def main():
         argument_spec=dict(
             zone=dict(required=True),
             mode=dict(choices=['tap', 'virtual-wire', 'layer2', 'layer3', 'external'], default='layer3'),
-            interface=dict(type='list'),
+            interface=dict(type='list', elements='str'),
             zone_profile=dict(),
             log_setting=dict(),
             enable_userid=dict(type='bool', default=False),
-            include_acl=dict(type='list'),
-            exclude_acl=dict(type='list'),
+            include_acl=dict(type='list', elements='str'),
+            exclude_acl=dict(type='list', elements='str'),
         ),
     )
     module = AnsibleModule(
