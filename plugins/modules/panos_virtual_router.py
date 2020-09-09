@@ -59,6 +59,7 @@ options:
         description:
             -  List of interface names
         type: list
+        elements: str
     ad_static:
         description:
             -  Administrative distance for this protocol
@@ -125,43 +126,19 @@ except ImportError:
 
 def setup_args():
     return dict(
-        commit=dict(
-            type='bool', default=False,
-            help='Commit configuration if changed'),
+        commit=dict(type='bool', default=False),
 
-        name=dict(
-            type='str', default='default',
-            help='Name of virtual router'),
-        interface=dict(
-            type='list',
-            help='List of interface names'),
-        ad_static=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_static_ipv6=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_ospf_int=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_ospf_ext=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_ospfv3_int=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_ospfv3_ext=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_ibgp=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_ebgp=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_rip=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
+        name=dict(type='str', default='default'),
+        interface=dict(type='list', elements='str'),
+        ad_static=dict(type='int'),
+        ad_static_ipv6=dict(type='int'),
+        ad_ospf_int=dict(type='int'),
+        ad_ospf_ext=dict(type='int'),
+        ad_ospfv3_int=dict(type='int'),
+        ad_ospfv3_ext=dict(type='int'),
+        ad_ibgp=dict(type='int'),
+        ad_ebgp=dict(type='int'),
+        ad_rip=dict(type='int'),
     )
 
 

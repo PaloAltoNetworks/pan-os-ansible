@@ -52,6 +52,7 @@ options:
         description:
             -  List of interface names
         type: list
+        elements: str
     virtual_interface:
         description:
             - The VLAN interface
@@ -94,7 +95,7 @@ def main():
         with_classic_provider_spec=True,
         argument_spec=dict(
             name=dict(required=True, ),
-            interface=dict(type='list', ),
+            interface=dict(type='list', elements='str'),
             virtual_interface=dict(),
         ),
     )

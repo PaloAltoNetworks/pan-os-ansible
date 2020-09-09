@@ -65,6 +65,7 @@ spec:
     contains:
         name:
             description: Virtual router name.
+            type: str
         interface:
             description: List of interfaces
             type: list
