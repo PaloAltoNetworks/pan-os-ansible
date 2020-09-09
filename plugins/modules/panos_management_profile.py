@@ -101,6 +101,7 @@ options:
         description:
             - The list of permitted IP addresses
         type: list
+        elements: str
     commit:
         description:
             - Perform a commit if a change is made.
@@ -162,7 +163,7 @@ def main():
             userid_service=dict(type='bool'),
             userid_syslog_listener_ssl=dict(type='bool'),
             userid_syslog_listener_udp=dict(type='bool'),
-            permitted_ip=dict(type='list'),
+            permitted_ip=dict(type='list', elements='str'),
             commit=dict(type='bool', default=False),
 
             # TODO(gfreeman) - Removed in the next role release.
