@@ -35,7 +35,7 @@ requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
 deprecated:
-  removed_in: "2.12"
+  removed_in: '3.0.0'
   why: Updated to idempotent modules
   alternative: >
                  Use M(panos_address_object), M(panos_address_group),
@@ -62,7 +62,6 @@ options:
         description:
             - Password credentials to use for authentication.
         type: str
-        required: true
     api_key:
         description:
             - API key that can be used instead of I(username)/I(password) credentials.
@@ -99,6 +98,7 @@ options:
         description:
             - A group of address objects to be used in an addressgroup definition.
         type: list
+        elements: str
     dynamic_value:
         description:
             - The filter match criteria to be used in a dynamic addressgroup definition.
@@ -130,6 +130,7 @@ options:
         description:
             - The group of service objects used in a servicegroup definition.
         type: list
+        elements: str
     description:
         description:
             - The description of the object.
@@ -370,12 +371,12 @@ def main():
         servicegroup=dict(default=None),
         address=dict(default=None),
         address_type=dict(default='ip-netmask', choices=['ip-netmask', 'ip-range', 'fqdn']),
-        static_value=dict(type='list', default=None),
+        static_value=dict(type='list', elements='str', default=None),
         dynamic_value=dict(default=None),
         protocol=dict(default=None, choices=['tcp', 'udp']),
         source_port=dict(default=None),
         destination_port=dict(default=None),
-        services=dict(type='list', default=None),
+        services=dict(type='list', elements='str', default=None),
         description=dict(default=None),
         tag_name=dict(default=None),
         color=dict(default=None, choices=['red', 'green', 'blue', 'yellow', 'copper', 'orange', 'purple',
