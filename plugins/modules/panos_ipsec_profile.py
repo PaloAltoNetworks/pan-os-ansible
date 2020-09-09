@@ -51,6 +51,7 @@ options:
     esp_encryption:
         description: Encryption algorithms for ESP mode.
         type: list
+        elements: str
         choices: ['des', '3des', 'null', 'aes-128-cbc', 'aes-192-cbc',
                   'aes-256-cbc', 'aes-128-gcm', 'aes-256-gcm']
         aliases:
@@ -58,12 +59,14 @@ options:
     esp_authentication:
         description: Authentication algorithms for ESP mode.
         type: list
+        elements: str
         choices: ['none', 'md5', 'sha1', 'sha256', 'sha384', 'sha512']
         aliases:
             - authentication
     ah_authentication:
         description: Authentication algorithms for AH mode.
         type: list
+        elements: str
         choices: ['md5', 'sha1', 'sha256', 'sha384', 'sha512']
     dh_group:
         description:
@@ -154,6 +157,7 @@ def main():
             name=dict(required=True),
             esp_encryption=dict(
                 type='list',
+                elements='str',
                 choices=[
                     'des', '3des', 'null', 'aes-128-cbc', 'aes-192-cbc',
                     'aes-256-cbc', 'aes-128-gcm', 'aes-256-gcm'
@@ -162,6 +166,7 @@ def main():
             ),
             esp_authentication=dict(
                 type='list',
+                elements='str',
                 choices=[
                     'none', 'md5', 'sha1', 'sha256', 'sha384', 'sha512'
                 ],
@@ -169,6 +174,7 @@ def main():
             ),
             ah_authentication=dict(
                 type='list',
+                elements='str',
                 choices=[
                     'md5', 'sha1', 'sha256', 'sha384', 'sha512'
                 ]

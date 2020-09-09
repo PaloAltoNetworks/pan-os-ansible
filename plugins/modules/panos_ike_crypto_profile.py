@@ -52,6 +52,7 @@ options:
         description:
             - Specify the priority for Diffie-Hellman (DH) groups.
         type: list
+        elements: str
         choices: ['group1', 'group2', 'group5', 'group14', 'group19', 'group20']
         default: ['group2']
         aliases:
@@ -60,12 +61,14 @@ options:
         description:
             - Authentication hashes used for IKE phase 1 proposal.
         type: list
+        elements: str
         choices: ['md5', 'sha1', 'sha256', 'sha384', 'sha512']
         default: sha1
     encryption:
         description:
             - Encryption algorithms used for IKE phase 1 proposal.
         type: list
+        elements: str
         choices: ['des', '3des', 'aes-128-cbc', 'aes-192-cbc', 'aes-256-cbc']
         default: ['aes-256-cbc', '3des']
     lifetime_seconds:
@@ -134,6 +137,7 @@ def main():
             name=dict(required=True),
             dh_group=dict(
                 type='list',
+                elements='str',
                 default=['group2'],
                 choices=[
                     'group1', 'group2', 'group5', 'group14', 'group19', 'group20'
@@ -142,6 +146,7 @@ def main():
             ),
             authentication=dict(
                 type='list',
+                elements='str',
                 choices=[
                     'md5', 'sha1', 'sha256', 'sha384', 'sha512'
                 ],
@@ -149,6 +154,7 @@ def main():
             ),
             encryption=dict(
                 type='list',
+                elements='str',
                 choices=[
                     'des', '3des', 'aes-128-cbc', 'aes-192-cbc', 'aes-256-cbc'
                 ],

@@ -168,6 +168,7 @@ options:
         description:
             - Specify list of routes to publish to GlobalProtect gateway (global-protect-satellite).
         type: list
+        elements: str
     gps_local_certificate:
         description:
             - GlobalProtect satellite certificate file name (global-protect-satellite).
@@ -282,7 +283,7 @@ def main():
             gps_interface_ipv4_floating_ip=dict(type='str', default=None),
             gps_interface_ipv6_floating_ip=dict(type='str', default=None),
             gps_publish_connected_routes=dict(type='bool', default=False),
-            gps_publish_routes=dict(type='list', default=None),
+            gps_publish_routes=dict(type='list', elements='str', default=None),
             gps_local_certificate=dict(type='str', default=None),
             gps_certificate_profile=dict(type='str', default=None),
             copy_tos=dict(type='bool', default=False),

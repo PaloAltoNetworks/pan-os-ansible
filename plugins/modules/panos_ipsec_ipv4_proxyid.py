@@ -52,19 +52,16 @@ options:
             - IPSec Tunnel Name
         type: str
         default: 'default'
-        required: true
     local:
         description:
             - IP subnet or IP address represents the local network
         type: str
         default: '192.168.2.0/24'
-        required: true
     remote:
         description:
             - IP subnet or IP address represents the remote network
         type: str
         default: '192.168.1.0/24'
-        required: true
     any_protocol:
         description:
             - Any protocol boolean
@@ -134,39 +131,17 @@ def main():
         with_classic_provider_spec=True,
         with_state=True,
         argument_spec=dict(
-            name=dict(
-                type='str', required=True,
-                help='The Proxy ID'),
-            tunnel_name=dict(
-                default='default',
-                help='The IPSec Tunnel Name'),
-            local=dict(
-                default='192.168.2.0/24',
-                help='IP subnet or IP address represents the local network'),
-            remote=dict(
-                default='192.168.1.0/24',
-                help='IP subnet or IP address represents the remote network'),
-            any_protocol=dict(
-                type='bool', default=True,
-                help='Any protocol boolean'),
-            number_proto=dict(
-                type='int',
-                help='Numbered Protocol: protocol number (1-254)'),
-            tcp_local_port=dict(
-                type='int',
-                help='Protocol TCP: local port'),
-            tcp_remote_port=dict(
-                type='int',
-                help='Protocol TCP: remote port'),
-            udp_local_port=dict(
-                type='int',
-                help='Protocol UDP: local port'),
-            udp_remote_port=dict(
-                type='int',
-                help='Protocol UDP: remote port'),
-            commit=dict(
-                type='bool', default=False,
-                help='Commit configuration if changed'),
+            name=dict(type='str', required=True),
+            tunnel_name=dict(default='default'),
+            local=dict(default='192.168.2.0/24'),
+            remote=dict(default='192.168.1.0/24'),
+            any_protocol=dict(type='bool', default=True),
+            number_proto=dict(type='int'),
+            tcp_local_port=dict(type='int'),
+            tcp_remote_port=dict(type='int'),
+            udp_local_port=dict(type='int'),
+            udp_remote_port=dict(type='int'),
+            commit=dict(type='bool', default=False),
         )
     )
 
