@@ -272,113 +272,42 @@ except ImportError:
 
 def setup_args():
     return dict(
-        commit=dict(
-            type='bool', default=False,
-            help='Commit configuration if changed'),
-        ha_enabled=dict(
-            type='bool', default=True,
-            description='Enable HA'),
-        ha_group_id=dict(
-            type='int', default=1,
-            description='The group identifier'),
-        ha_config_sync=dict(
-            type='bool', default=True,
-            description='Enable configuration synchronization'),
-        ha_peer_ip=dict(
-            type='str',
-            description='HA Peer HA1 IP address'),
-        ha_peer_ip_backup=dict(
-            type='str',
-            description='HA Peer HA1 Backup IP address'),
-        ha_mode=dict(
-            type='str', choices=['active-passive', 'active-active'],
-            default='active-passive', description='Mode of HA'),
-        ha_passive_link_state=dict(
-            type='str', choices=['shutdown', 'auto'],
-            default='auto', description='Passive link state'),
-        ha_state_sync=dict(
-            type='bool', default=False,
-            description='Enable state synchronization'),
-        ha_ha2_keepalive=dict(
-            type='bool', default=True,
-            description='Enable HA2 keepalives'),
-        ha_ha2_keepalive_action=dict(
-            type='str',
-            description='HA2 keepalive action'),
-        ha_ha2_keepalive_threshold=dict(
-            type='int',
-            description='HA2 keepalive threshold'),
-        ha_device_id=dict(
-            type='int', choices=[0, 1],
-            description='HA3 device id (0 or 1)'),
-        ha_session_owner_selection=dict(
-            type='str', choices=['primary-device', 'first-packet'],
-            description='active-active session owner mode'),
-        ha_session_setup=dict(
-            type='str', choices=['primary-device', 'first-packet', 'ip-modulo', 'ip-hash'],
-            description='active-active session setup mode'),
-        ha_tentative_hold_time=dict(
-            type='int',
-            description='active-active tentative hold timer'),
-        ha_sync_qos=dict(
-            type='bool',
-            description='active-active network sync qos'),
-        ha_sync_virtual_router=dict(
-            type='bool',
-            description='active-active network sync virtual router'),
-        ha_ip_hash_key=dict(
-            type='str', choices=['source', 'source-and-destination'],
-            description='active-active hash key used by ip-hash algorithm'),
-        ha1_ip_address=dict(
-            type='str',
-            description='IP of the HA1 interface'),
-        ha1_netmask=dict(
-            type='str',
-            description='Netmask of the HA1 interface'),
-        ha1_port=dict(
-            type='str',
-            description='Interface to use for this HA1 interface (eg. ethernet1/5)'),
-        ha1_gateway=dict(
-            type='str',
-            description='Default gateway of the HA1 interface'),
-        ha1b_ip_address=dict(
-            type='str',
-            description='IP of the HA1 Backup interface'),
-        ha1b_netmask=dict(
-            type='str',
-            description='Netmask of the HA1 Backup interface'),
-        ha1b_port=dict(
-            type='str',
-            description='Interface to use for this HA1 Backup interface (eg. ethernet1/5)'),
-        ha1b_gateway=dict(
-            type='str', description='Default gateway of the HA1 Backup interface'),
-        ha2_ip_address=dict(
-            type='str',
-            description='IP of the HA2 interface'),
-        ha2_netmask=dict(
-            type='str',
-            description='Netmask of the HA2 interface'),
-        ha2_port=dict(
-            type='str', default='ha2-a',
-            description='Interface to use for this HA2 interface (eg. ethernet1/5)'),
-        ha2_gateway=dict(
-            type='str',
-            description='Default gateway of the HA2 interface'),
-        ha2b_ip_address=dict(
-            type='str',
-            description='IP of the HA2 Backup interface'),
-        ha2b_netmask=dict(
-            type='str',
-            description='Netmask of the HA2 Backup interface'),
-        ha2b_port=dict(
-            type='str',
-            description='Interface to use for this HA2 Backup interface (eg. ethernet1/5)'),
-        ha2b_gateway=dict(
-            type='str',
-            description='Default gateway of the HA2 Backup interface'),
-        ha3_port=dict(
-            type='str',
-            description='Interface to use for this HA3 interface (eg. ethernet1/5)'),
+        commit=dict(type='bool', default=False),
+        ha_enabled=dict(type='bool', default=True),
+        ha_group_id=dict(type='int', default=1),
+        ha_config_sync=dict(type='bool', default=True),
+        ha_peer_ip=dict(type='str'),
+        ha_peer_ip_backup=dict(type='str'),
+        ha_mode=dict(type='str', choices=['active-passive', 'active-active'], default='active-passive'),
+        ha_passive_link_state=dict(type='str', choices=['shutdown', 'auto'], default='auto'),
+        ha_state_sync=dict(type='bool', default=False),
+        ha_ha2_keepalive=dict(type='bool', default=True),
+        ha_ha2_keepalive_action=dict(type='str'),
+        ha_ha2_keepalive_threshold=dict(type='int'),
+        ha_device_id=dict(type='int', choices=[0, 1]),
+        ha_session_owner_selection=dict(type='str', choices=['primary-device', 'first-packet']),
+        ha_session_setup=dict(type='str', choices=['primary-device', 'first-packet', 'ip-modulo', 'ip-hash']),
+        ha_tentative_hold_time=dict(type='int'),
+        ha_sync_qos=dict(type='bool'),
+        ha_sync_virtual_router=dict(type='bool'),
+        ha_ip_hash_key=dict(type='str', choices=['source', 'source-and-destination']),
+        ha1_ip_address=dict(type='str'),
+        ha1_netmask=dict(type='str'),
+        ha1_port=dict(type='str'),
+        ha1_gateway=dict(type='str'),
+        ha1b_ip_address=dict(type='str'),
+        ha1b_netmask=dict(type='str'),
+        ha1b_port=dict(type='str'),
+        ha1b_gateway=dict(type='str'),
+        ha2_ip_address=dict(type='str'),
+        ha2_netmask=dict(type='str'),
+        ha2_port=dict(type='str', default='ha2-a'),
+        ha2_gateway=dict(type='str'),
+        ha2b_ip_address=dict(type='str'),
+        ha2b_netmask=dict(type='str'),
+        ha2b_port=dict(type='str'),
+        ha2b_gateway=dict(type='str'),
+        ha3_port=dict(type='str'),
     )
 
 
