@@ -51,6 +51,7 @@ options:
         description:
             - List with urls
         type: list
+        elements: str
     type:
         description:
             - Custom category type
@@ -135,7 +136,7 @@ def main():
         with_state=True,
         argument_spec=dict(
             name=dict(type='str', required=True),
-            url_value=dict(type='list'),
+            url_value=dict(type='list', elements='str'),
             type=dict(type='str', choices=['URL List', 'Category Match'], default="URL List")
         )
     )

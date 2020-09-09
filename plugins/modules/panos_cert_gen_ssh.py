@@ -41,7 +41,6 @@ options:
     key_filename:
         description:
             - Location of the filename that is used for the auth. Either I(key_filename) or I(password) is required.
-        required: true
         type: str
         default: null
     username:
@@ -53,7 +52,6 @@ options:
     password:
         description:
             - Password credentials to use for auth. Either I(key_filename) or I(password) is required.
-        required: true
         type: str
         default: null
     cert_friendly_name:

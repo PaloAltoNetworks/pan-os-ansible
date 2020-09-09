@@ -55,6 +55,7 @@ options:
         description:
             - (PanOS 8.0+ only) Commit only the changes made by specified list of administrators.
         type: list
+        elements: str
 '''
 
 EXAMPLES = '''
@@ -88,7 +89,7 @@ def main():
         min_pandevice_version=(0, 12, 0),
         argument_spec=dict(
             include_template=dict(type='bool'),
-            admins=dict(type='list'),
+            admins=dict(type='list', elements='str'),
             # TODO(gfreeman) - remove in 2.12.
             devicegroup=dict(),
         ),
