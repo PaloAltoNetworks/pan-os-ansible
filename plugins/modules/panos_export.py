@@ -70,7 +70,6 @@ options:
             - url-coach-text
             - virus-block-page
         default: 'configuration'
-        required: true
     certificate_name:
         description:
             - Name of the certificate to export.
