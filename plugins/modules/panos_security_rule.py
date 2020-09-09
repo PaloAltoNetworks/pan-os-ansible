@@ -59,16 +59,19 @@ options:
             - List of source zones.
         default: ["any"]
         type: list
+        elements: str
     source_ip:
         description:
             - List of source addresses.
         default: ["any"]
         type: list
+        elements: str
     source_user:
         description:
             - Use users to enforce policy for individual users or a group of users.
         default: ["any"]
         type: list
+        elements: str
     hip_profiles:
         description: >
             - If you are using GlobalProtect with host information profile (HIP) enabled, you can also base the policy
@@ -76,31 +79,37 @@ options:
             notifies the firewall about the user's local configuration.
         default: ["any"]
         type: list
+        elements: str
     destination_zone:
         description:
             - List of destination zones.
         default: ["any"]
         type: list
+        elements: str
     destination_ip:
         description:
             - List of destination addresses.
         default: ["any"]
         type: list
+        elements: str
     application:
         description:
             - List of applications, application groups, and/or application filters.
         default: ["any"]
         type: list
+        elements: str
     service:
         description:
             - List of services and/or service groups.
         default: ['application-default']
         type: list
+        elements: str
     category:
         description:
             - List of destination URL categories.
         default: ["any"]
         type: list
+        elements: str
     action:
         description:
             - Action to apply once rules matches.
@@ -144,6 +153,7 @@ options:
         description:
             - List of tags associated with the rule.
         type: list
+        elements: str
     negate_source:
         description:
             - Match on the reverse of the 'source_ip' attribute
@@ -232,6 +242,7 @@ options:
         description:
             - Apply this rule exclusively to the listed firewalls in Panorama.
         type: list
+        elements: str
     negate_target:
         description:
             - Exclude this rule from the listed firewalls in Panorama.
@@ -363,15 +374,15 @@ def main():
         error_on_shared=True,
         argument_spec=dict(
             rule_name=dict(required=True),
-            source_zone=dict(type='list', default=['any']),
-            source_ip=dict(type='list', default=["any"]),
-            source_user=dict(type='list', default=['any']),
-            hip_profiles=dict(type='list', default=['any']),
-            destination_zone=dict(type='list', default=['any']),
-            destination_ip=dict(type='list', default=["any"]),
-            application=dict(type='list', default=['any']),
-            service=dict(type='list', default=['application-default']),
-            category=dict(type='list', default=['any']),
+            source_zone=dict(type='list', elements='str', default=['any']),
+            source_ip=dict(type='list', elements='str', default=["any"]),
+            source_user=dict(type='list', elements='str', default=['any']),
+            hip_profiles=dict(type='list', elements='str', default=['any']),
+            destination_zone=dict(type='list', elements='str', default=['any']),
+            destination_ip=dict(type='list', elements='str', default=["any"]),
+            application=dict(type='list', elements='str', default=['any']),
+            service=dict(type='list', elements='str', default=['application-default']),
+            category=dict(type='list', elements='str', default=['any']),
             action=dict(
                 default='allow',
                 choices=['allow', 'deny', 'drop', 'reset-client', 'reset-server', 'reset-both'],
@@ -381,7 +392,7 @@ def main():
             log_end=dict(type='bool', default=True),
             description=dict(),
             rule_type=dict(default='universal', choices=['universal', 'intrazone', 'interzone']),
-            tag_name=dict(type='list'),
+            tag_name=dict(type='list', elements='str'),
             negate_source=dict(type='bool', default=False),
             negate_destination=dict(type='bool', default=False),
             disabled=dict(type='bool', default=False),
@@ -396,7 +407,7 @@ def main():
             file_blocking=dict(),
             wildfire_analysis=dict(),
             data_filtering=dict(),
-            target=dict(type='list'),
+            target=dict(type='list', elements='str'),
             negate_target=dict(type='bool'),
             location=dict(choices=['top', 'bottom', 'before', 'after']),
             existing_rule=dict(),

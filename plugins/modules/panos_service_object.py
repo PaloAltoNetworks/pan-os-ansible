@@ -69,6 +69,7 @@ options:
         description:
             - List of tags for this service object.
         type: list
+        elements: str
     commit:
         description:
             - Commit changes after creating object.  If I(ip_address) is a Panorama device, and I(device_group) is
@@ -131,7 +132,7 @@ def main():
             source_port=dict(type='str'),
             destination_port=dict(type='str'),
             description=dict(type='str'),
-            tag=dict(type='list'),
+            tag=dict(type='list', elements='str'),
             commit=dict(type='bool', default=False)
         )
     )

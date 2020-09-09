@@ -28,7 +28,7 @@ author: "Vinay Venkataraghavan (@vinayvenkat)"
 version_added: '1.0.0'
 deprecated:
     alternative: Use M(panos_address_group) instead.
-    removed_in: '2.12'
+    removed_in: '3.0.0'
     why: This module's functionality is a subset of M(panos_address_group).
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
@@ -44,7 +44,6 @@ options:
         description:
             - password for authentication
         type: str
-        required: true
     username:
         description:
             - username for authentication
@@ -64,7 +63,7 @@ options:
         description:
             - Static filter used by the address group
         type: list
-        required: true
+        elements: str
     devicegroup:
         description: >
             - The name of the Panorama device group. The group must exist on Panorama. If device group is not defined
@@ -80,6 +79,7 @@ options:
         description:
             - Tags to be associated with the address group
         type: list
+        elements: str
         required: false
     commit:
         description:
@@ -249,12 +249,12 @@ def main():
         password=dict(no_log=True),
         username=dict(default='admin'),
         api_key=dict(no_log=True),
-        sag_match_filter=dict(type='list', required=False),
+        sag_match_filter=dict(type='list', elements='str', required=False),
         sag_name=dict(required=True),
         commit=dict(type='bool', default=False),
         devicegroup=dict(default=None),
         description=dict(default=None),
-        tags=dict(type='list', default=[]),
+        tags=dict(type='list', elements='str', default=[]),
         operation=dict(type='str', required=True, choices=['add', 'list', 'delete'])
     )
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False,

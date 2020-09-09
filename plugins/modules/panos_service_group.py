@@ -52,11 +52,12 @@ options:
             - List of service objects to be included in the group.  Must specify if state is
               present.
         type: list
-        required: true
+        elements: str
     tag:
         description:
             - List of tags for this service group.
         type: list
+        elements: str
     commit:
         description:
             - Commit changes after creating object.  If I(ip_address) is a Panorama device, and I(device_group) is
@@ -106,8 +107,8 @@ def main():
         with_state=True,
         argument_spec=dict(
             name=dict(type='str', required=True),
-            value=dict(type='list'),
-            tag=dict(type='list'),
+            value=dict(type='list', elements='str'),
+            tag=dict(type='list', elements='str'),
             commit=dict(type='bool', default=False)
         )
     )
