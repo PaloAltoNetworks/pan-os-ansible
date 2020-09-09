@@ -47,6 +47,7 @@ options:
               subsets.
         required: false
         type: list
+        elements: str
         default: ['!config']
 '''
 
@@ -491,7 +492,7 @@ def main():
     helper = get_connection(
         with_classic_provider_spec=True,
         argument_spec=dict(
-            gather_subset=dict(default=['!config'], type='list'),
+            gather_subset=dict(default=['!config'], type='list', elements='str'),
 
             # TODO(gfreeman) - remove in a later version.
             host=dict(),
