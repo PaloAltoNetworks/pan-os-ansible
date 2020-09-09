@@ -58,6 +58,7 @@ options:
         description:
             - List of tags.
         type: list
+        elements: str
     from_type:
         description:
             - Source from type.
@@ -70,15 +71,18 @@ options:
         description:
             - The source values for the given type.
         type: list
+        elements: str
     source_addresses:
         description:
             - List of source IP addresses.
         type: list
+        elements: str
         default: ["any"]
     source_users:
         description:
             - List of source users.
         type: list
+        elements: str
         default: ["any"]
     negate_source:
         description:
@@ -88,6 +92,7 @@ options:
         description:
             - List of destination addresses.
         type: list
+        elements: str
         default: ["any"]
     negate_destination:
         description:
@@ -97,11 +102,13 @@ options:
         description:
             - List of applications.
         type: list
+        elements: str
         default: ["any"]
     services:
         description:
             - List of services.
         type: list
+        elements: str
         default: ["any"]
     schedule:
         description:
@@ -162,6 +169,7 @@ options:
         description:
             - List of symmetric return addresses.
         type: list
+        elements: str
     location:
         description:
             - Position to place the created rule in the rule base.
@@ -182,6 +190,7 @@ options:
             - For Panorama devices only.
             - Apply this rule exclusively to the listed firewalls in Panorama.
         type: list
+        elements: str
     negate_target:
         description:
             - For Panorama devices only.
@@ -229,16 +238,16 @@ def main():
         argument_spec=dict(
             name=dict(required=True),
             description=dict(),
-            tags=dict(type='list'),
+            tags=dict(type='list', elements='str'),
             from_type=dict(choices=['zone', 'interface'], default='zone'),
-            from_value=dict(type='list'),
-            source_addresses=dict(type='list', default=['any']),
-            source_users=dict(type='list', default=['any']),
+            from_value=dict(type='list', elements='str'),
+            source_addresses=dict(type='list', elements='str', default=['any']),
+            source_users=dict(type='list', elements='str', default=['any']),
             negate_source=dict(type='bool'),
-            destination_addresses=dict(type='list', default=['any']),
+            destination_addresses=dict(type='list', elements='str', default=['any']),
             negate_destination=dict(type='bool'),
-            applications=dict(type='list', default=['any']),
-            services=dict(type='list', default=['any']),
+            applications=dict(type='list', elements='str', default=['any']),
+            services=dict(type='list', elements='str', default=['any']),
             schedule=dict(),
             disabled=dict(type='bool'),
             action=dict(
@@ -253,8 +262,8 @@ def main():
             forward_monitor_ip_address=dict(),
             forward_monitor_disable_if_unreachable=dict(type='bool'),
             enable_enforce_symmetric_return=dict(type='bool'),
-            symmetric_return_addresses=dict(type='list'),
-            target=dict(type='list'),
+            symmetric_return_addresses=dict(type='list', elements='str'),
+            target=dict(type='list', elements='str'),
             negate_target=dict(type='bool'),
             location=dict(choices=['top', 'bottom', 'before', 'after']),
             existing_rule=dict(),
