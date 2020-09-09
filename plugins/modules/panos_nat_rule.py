@@ -73,6 +73,7 @@ options:
         description:
             - Administrative tags.
         type: list
+        elements: str
     tag_name:
         description:
             - B(Deprecated)
@@ -101,24 +102,25 @@ options:
     source_zone:
         description:
             - list of source zones
-        required: true
         type: list
+        elements: str
     source_ip:
         description:
             - list of source addresses
         required: false
         type: list
+        elements: str
         default: ["any"]
     destination_zone:
         description:
             - destination zone
         type: str
-        required: true
     destination_ip:
         description:
             - list of destination addresses
         required: false
         type: list
+        elements: str
         default: ["any"]
     to_interface:
         description:
@@ -155,6 +157,7 @@ options:
             - Source NAT translated address.
             - Used when I(snat_type=dynamic-ip) or I(snat_type=dynamic-ip-and-port).
         type: list
+        elements: str
     snat_interface:
         description:
             - snat interface
@@ -310,22 +313,22 @@ def main():
             rule_name=dict(required=True),
             description=dict(),
             nat_type=dict(default='ipv4', choices=['ipv4', 'nat64', 'nptv6']),
-            source_zone=dict(type='list'),
-            source_ip=dict(type='list', default=['any']),
+            source_zone=dict(type='list', elements='str'),
+            source_ip=dict(type='list', elements='str', default=['any']),
             destination_zone=dict(type='str'),
-            destination_ip=dict(type='list', default=['any']),
+            destination_ip=dict(type='list', elements='str', default=['any']),
             to_interface=dict(default='any'),
             service=dict(default='any'),
             snat_type=dict(choices=['static-ip', 'dynamic-ip-and-port', 'dynamic-ip']),
             snat_address_type=dict(choices=['interface-address', 'translated-address'], default='interface-address'),
             snat_static_address=dict(),
-            snat_dynamic_address=dict(type='list'),
+            snat_dynamic_address=dict(type='list', elements='str'),
             snat_interface=dict(),
             snat_interface_address=dict(),
             snat_bidirectional=dict(type='bool'),
             dnat_address=dict(),
             dnat_port=dict(),
-            tag=dict(type='list'),
+            tag=dict(type='list', elements='str'),
             state=dict(default='present', choices=['present', 'absent', 'enable', 'disable']),
             location=dict(choices=['top', 'bottom', 'before', 'after']),
             existing_rule=dict(),
