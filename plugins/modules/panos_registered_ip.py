@@ -45,11 +45,13 @@ options:
         description:
             - List of IP addresses to register/unregister.
         type: list
+        elements: str
         required: true
     tags:
         description:
             - List of tags that the IP address will be registered to.
         type: list
+        elements: str
         required: true
 '''
 
@@ -118,8 +120,8 @@ def main():
         with_state=True,
         panorama_error='Panorama is not supported for this module.',
         argument_spec=dict(
-            ips=dict(type='list', required=True),
-            tags=dict(type='list', required=True),
+            ips=dict(type='list', elements='str', required=True),
+            tags=dict(type='list', elements='str', required=True),
         )
     )
 

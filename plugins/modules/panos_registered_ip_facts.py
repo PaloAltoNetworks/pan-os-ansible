@@ -43,10 +43,12 @@ options:
         description:
             - List of tags to retrieve facts for.  If not specified, retrieve all tags.
         type: list
+        elements: str
     ips:
         description:
             - List of IP addresses to retrieve facts for.  If not specified, retrieve all addresses.
         type: list
+        elements: str
 '''
 
 EXAMPLES = '''
@@ -94,8 +96,8 @@ def main():
         with_classic_provider_spec=True,
         panorama_error='Panorama is not supported for this module.',
         argument_spec=dict(
-            tags=dict(type='list'),
-            ips=dict(type='list')
+            tags=dict(type='list', elements='str'),
+            ips=dict(type='list', elements='str')
         )
     )
 
