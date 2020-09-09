@@ -49,6 +49,7 @@ options:
         description:
             - List of static IP addresses.
         type: list
+        elements: str
     ipv6_enabled:
         description:
             - Enable IPv6.
@@ -153,7 +154,7 @@ def main():
         min_pandevice_version=(0, 8, 0),
         argument_spec=dict(
             if_name=dict(required=True),
-            ip=dict(type='list'),
+            ip=dict(type='list', elements='str'),
             ipv6_enabled=dict(type='bool'),
             management_profile=dict(),
             mtu=dict(type='int'),

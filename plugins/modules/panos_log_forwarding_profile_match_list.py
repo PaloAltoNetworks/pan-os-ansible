@@ -83,18 +83,22 @@ options:
         description:
             - List of SNMP server profiles.
         type: list
+        elements: str
     email_profiles:
         description:
             - List of email server profiles.
         type: list
+        elements: str
     syslog_profiles:
         description:
             - List of syslog server profiles.
         type: list
+        elements: str
     http_profiles:
         description:
             - List of HTTP server profiles.
         type: list
+        elements: str
 '''
 
 EXAMPLES = '''
@@ -147,10 +151,10 @@ def main():
                 'url', 'data', 'gtp', 'tunnel', 'auth', 'sctp']),
             filter=dict(),
             send_to_panorama=dict(type='bool'),
-            snmp_profiles=dict(type='list'),
-            email_profiles=dict(type='list'),
-            syslog_profiles=dict(type='list'),
-            http_profiles=dict(type='list'),
+            snmp_profiles=dict(type='list', elements='str'),
+            email_profiles=dict(type='list', elements='str'),
+            syslog_profiles=dict(type='list', elements='str'),
+            http_profiles=dict(type='list', elements='str'),
         ),
     )
     module = AnsibleModule(

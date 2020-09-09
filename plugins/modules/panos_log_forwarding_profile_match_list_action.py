@@ -96,6 +96,7 @@ options:
         description:
             - List of tags.
         type: list
+        elements: str
     timeout:
         description:
             - Valid for PAN-OS 9.0+
@@ -157,7 +158,7 @@ def main():
             target=dict(choices=['source-address', 'destination-address']),
             registration=dict(choices=['localhost', 'panorama', 'remote']),
             http_profile=dict(),
-            tags=dict(type='list'),
+            tags=dict(type='list', elements='str'),
             timeout=dict(type='int'),
         ),
     )
