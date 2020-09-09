@@ -36,7 +36,7 @@ author:
     - Robert Hagen (@stealthllama)
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.4"
+version_added: '1.0.0'
 requirements:
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
 notes:

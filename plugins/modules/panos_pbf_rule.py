@@ -31,7 +31,7 @@ description:
     - Manage Policy Based Forwarding rules on PAN-OS.
 author:
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.9"
+version_added: '1.0.0'
 requirements:
     - pandevice >= 0.13.0
     - pan-python

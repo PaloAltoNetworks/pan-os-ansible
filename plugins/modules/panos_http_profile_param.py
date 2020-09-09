@@ -29,7 +29,7 @@ short_description: Manage HTTP params for a HTTP profile.
 description:
     - Manages HTTP params for a HTTP profile.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice >= 0.11.1

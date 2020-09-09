@@ -25,7 +25,7 @@ short_description: Allow for registration and de-registration of userid
 description:
     - Userid allows for user to IP mapping that can be used in the policy rules.
 author: "Ivan Bojer (@ivanbojer)"
-version_added: "2.6"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)

@@ -31,7 +31,7 @@ description:
     - The policy rules are compared against the incoming traffic in sequence, and because the first rule that matches
     - the traffic is applied, the more specific rules must precede the more general ones.
 author: "Bob Hagen (@stealthllama)"
-version_added: "2.5"
+version_added: '1.0.0'
 deprecated:
     alternative: Use M(panos_match_rule)
     removed_in: '2.12'

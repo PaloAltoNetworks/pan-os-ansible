@@ -25,7 +25,7 @@ short_description: configure VLAN interfaces
 description:
     - Configure VLAN interfaces.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice

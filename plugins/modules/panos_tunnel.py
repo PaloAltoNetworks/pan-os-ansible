@@ -25,7 +25,7 @@ short_description: configure tunnel interfaces
 description:
     - Configure tunnel interfaces on PanOS
 author: "Joshua Colson (@freakinhippie)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPi U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPi U(https://pypi.python.org/pypi/pandevice)

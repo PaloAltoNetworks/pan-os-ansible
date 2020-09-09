@@ -30,7 +30,7 @@ short_description: Get information about a security rule.
 description:
     - Get information about a single security rule or the names of all security rules.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice

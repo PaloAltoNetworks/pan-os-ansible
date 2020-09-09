@@ -25,7 +25,7 @@ short_description: load configuration on PAN-OS device
 description:
     - Load configuration on PAN-OS device
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
-version_added: "2.3"
+version_added: '1.0.0'
 requirements:
     - pan-python
 options:

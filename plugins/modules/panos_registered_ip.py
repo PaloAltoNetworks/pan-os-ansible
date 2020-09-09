@@ -29,7 +29,7 @@ short_description: Register IP addresses for use with dynamic address groups on 
 description:
     - Registers tags for IP addresses that can be used to build dynamic address groups.
 author: "Michael Richardson (@mrichardson03)"
-version_added: "2.7"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)

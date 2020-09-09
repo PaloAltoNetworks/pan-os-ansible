@@ -29,7 +29,7 @@ short_description: Test for match against a security rule on PAN-OS devices or P
 description:
     - Security policies allow you to enforce rules and take action, and can be as general or specific as needed.
 author: "Robert Hagen (@stealthllama)"
-version_added: 1.0.0
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)

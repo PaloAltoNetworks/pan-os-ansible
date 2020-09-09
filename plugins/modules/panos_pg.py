@@ -25,7 +25,7 @@ short_description: create a security profiles group
 description:
     - Create a security profile group
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
-version_added: "2.3"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice

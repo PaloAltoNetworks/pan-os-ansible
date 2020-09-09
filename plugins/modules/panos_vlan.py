@@ -30,7 +30,7 @@ short_description: Configures VLANs.
 description:
     - Manage PAN-OS VLANs.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice

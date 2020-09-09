@@ -31,7 +31,7 @@ description:
     - Use the IKE Crypto Profiles page to specify protocols and algorithms for identification, authentication, and
     - encryption (IKEv1 or IKEv2, Phase 1).
 author: "Ivan Bojer (@ivanbojer)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)

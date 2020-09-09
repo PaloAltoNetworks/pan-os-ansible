@@ -25,7 +25,7 @@ short_description: configure layer3 subinterface
 description:
     - Configure a layer3 subinterface.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice >= 0.8.0

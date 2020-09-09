@@ -27,7 +27,7 @@ notes:
     - Checkmode is not supported.
 requirements:
     - pan-python
-version_added: 2.8
+version_added: '1.0.0'
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
 options:

@@ -30,7 +30,7 @@ short_description: Get information about a NAT rule.
 description:
     - Get information about one or more NAT rules.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.9"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice

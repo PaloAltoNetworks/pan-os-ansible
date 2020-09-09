@@ -25,7 +25,7 @@ short_description: Module used to configure some of the device management.
 description:
     - Configure management settings of device. Not all configuration options are configurable at this time.
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer), Patrik Malinen (@pmalinen), Francesco Vigo (@fvigo)"
-version_added: "2.4"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)

@@ -25,7 +25,7 @@ short_description: Manage IPv6 addresses on an interface.
 description:
     - Manage IPv6 addresses on an interface.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.9"
+version_added: '1.1.0'
 requirements:
     - pan-python
     - pandevice >= 0.14.0

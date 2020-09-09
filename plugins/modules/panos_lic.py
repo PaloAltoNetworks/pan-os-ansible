@@ -31,7 +31,7 @@ description:
     - The authcode should have been previously registered on the Palo Alto Networks support portal.
     - The device should have Internet access.
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
-version_added: "2.3"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice

@@ -29,7 +29,7 @@ short_description: Create custom url category objects on PAN-OS devices.
 description:
     - Create custom url category objects on PAN-OS devices.
 author: "Borislav Varadinov (@bvaradinov-c)"
-version_added: "1.2.0"
+version_added: '2.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)

@@ -25,7 +25,7 @@ short_description: Create a static address group.
 description:
     - Create a static address group object in the firewall used for policy rules.
 author: "Vinay Venkataraghavan (@vinayvenkat)"
-version_added: "2.4"
+version_added: '1.0.0'
 deprecated:
     alternative: Use M(panos_address_group) instead.
     removed_in: '2.12'

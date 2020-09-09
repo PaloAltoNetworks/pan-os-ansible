@@ -26,7 +26,7 @@ description:
     - This module generates a self-signed certificate that can be used by GlobalProtect client, SSL connector, or
     - otherwise. Root certificate must be preset on the system first. This module depends on paramiko for ssh.
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
-version_added: "2.3"
+version_added: '1.0.0'
 requirements:
     - paramiko
 notes:

@@ -32,7 +32,7 @@ description:
     - Refer to the PAN-OS and Panorama API guide for more info.
     - https://docs.paloaltonetworks.com/pan-os.html
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice

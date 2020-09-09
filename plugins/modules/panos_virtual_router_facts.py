@@ -25,7 +25,7 @@ short_description: Retrieves virtual router information
 description:
     - Retrieves information on virtual routers from a firewall or Panorama.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice

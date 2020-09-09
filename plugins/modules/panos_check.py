@@ -29,7 +29,7 @@ author:
     - Luigi Mori (@jtschichold)
     - Ivan Bojer (@ivanbojer)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.3"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice

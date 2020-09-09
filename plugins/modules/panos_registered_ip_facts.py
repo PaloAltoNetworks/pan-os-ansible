@@ -29,7 +29,7 @@ short_description: Retrieve facts about registered IPs on PAN-OS devices.
 description:
     - Retrieves tag information about registered IPs on PAN-OS devices.
 author: "Michael Richardson (@mrichardson03)"
-version_added: "2.7"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)

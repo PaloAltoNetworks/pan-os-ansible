@@ -25,7 +25,7 @@ short_description: create a dynamic address group
 description:
     - Create a dynamic address group object in the firewall used for policy rules
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer), Vinay Venkataraghavan (@vinayvenkat)"
-version_added: "2.3"
+version_added: '1.0.0'
 deprecated:
     alternative: Use M(panos_address_group) instead.
     removed_in: '2.12'
