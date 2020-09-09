@@ -32,7 +32,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.9"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -95,6 +95,7 @@ options:
             - Using the dict form for address prefixes should only be used with
               I(policy_type=aggregate).
         type: list
+        elements: str
     match_afi:
         description:
             - Address Family Identifier.
@@ -118,6 +119,7 @@ options:
         description:
             - Filter by peer that sent this route.
         type: list
+        elements: str
     match_med:
         description:
             - Multi-Exit Discriminator.
@@ -126,6 +128,7 @@ options:
         description:
             - Next-hop attributes.
         type: list
+        elements: str
     match_route_table:
         description:
             - Route table to match rule.
@@ -210,62 +213,26 @@ def purge_stale_prefixes(cur_filter, new_prefixes):
 def setup_args():
     return dict(
         # TODO(gfreeman) - remove this later on and use the default state.
-        state=dict(
-            default='present', choices=['present', 'absent', 'return-object'],
-            help='Add or remove BGP Policy Filter'),
-        commit=dict(
-            type='bool', default=False,
-            help='Commit configuration if changed'),
+        state=dict(default='present', choices=['present', 'absent', 'return-object']),
+        commit=dict(type='bool', default=False),
 
-        vr_name=dict(
-            default='default',
-            help='Name of the virtual router; it must already exist; see panos_virtual_router'),
-        policy_type=dict(
-            type='str', required=True, choices=['conditional-advertisement', 'aggregate'],
-            help='The type of policy object'),
-        policy_name=dict(
-            type='str',
-            help='The name of the policy object'),
-        filter_type=dict(
-            type='str', required=True, choices=['non-exist', 'advertise', 'suppress'],
-            help='The type of filter'),
+        vr_name=dict(default='default'),
+        policy_type=dict(type='str', required=True, choices=['conditional-advertisement', 'aggregate']),
+        policy_name=dict(type='str'),
+        filter_type=dict(type='str', required=True, choices=['non-exist', 'advertise', 'suppress']),
 
-        name=dict(
-            type='str', required=True,
-            help='Name of filter'),
-        enable=dict(
-            default=True, type='bool',
-            help='Enable filter'),
-        match_afi=dict(
-            type='str', choices=['ip', 'ipv6'],
-            help='Address Family Identifier'),
-        match_safi=dict(
-            type='str', choices=['ip', 'ipv6'],
-            help='Subsequent Address Family Identifier'),
-        match_route_table=dict(
-            type='str', default='unicast', choices=['unicast', 'multicast', 'both'],
-            help='Route table to match rule'),
-        match_nexthop=dict(
-            type='list',
-            help='Next-hop attributes'),
-        match_from_peer=dict(
-            type='list',
-            help='Filter by peer that sent this route'),
-        match_med=dict(
-            type='int',
-            help='Multi-Exit Discriminator'),
-        match_as_path_regex=dict(
-            type='str',
-            help='AS-path regular expression'),
-        match_community_regex=dict(
-            type='str',
-            help='Community AS-path regular expression'),
-        match_extended_community_regex=dict(
-            type='str',
-            help='Extended Community AS-path regular expression'),
-        address_prefix=dict(
-            type='list',
-            help='List of Address Prefix objects'),
+        name=dict(type='str', required=True),
+        enable=dict(default=True, type='bool'),
+        match_afi=dict(type='str', choices=['ip', 'ipv6']),
+        match_safi=dict(type='str', choices=['ip', 'ipv6']),
+        match_route_table=dict(type='str', default='unicast', choices=['unicast', 'multicast', 'both']),
+        match_nexthop=dict(type='list', elements='str'),
+        match_from_peer=dict(type='list', elements='str'),
+        match_med=dict(type='int'),
+        match_as_path_regex=dict(type='str'),
+        match_community_regex=dict(type='str'),
+        match_extended_community_regex=dict(type='str'),
+        address_prefix=dict(type='list', elements='str'),
     )
 
 

@@ -32,7 +32,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -109,27 +109,11 @@ except ImportError:
 
 def setup_args():
     return dict(
-        commit=dict(
-            type='bool', default=False,
-            help='Commit configuration if changed'),
-
-        vr_name=dict(
-            default='default',
-            help='Name of the virtual router; it must already exist; see panos_virtual_router'),
-        replace=dict(
-            type='bool',
-            help=' '.join(
-                [
-                    'The secret is encrypted so the state cannot be compared; this option',
-                    'forces removal of a matching item before applying the new config'
-                ])),
-
-        name=dict(
-            type='str', required=True,
-            help='Name of Authentication Profile'),
-        secret=dict(
-            type='str', no_log=True,
-            help='Secret'),
+        commit=dict(type='bool', default=False),
+        vr_name=dict(default='default'),
+        replace=dict(type='bool'),
+        name=dict(type='str', required=True),
+        secret=dict(type='str', no_log=True),
     )
 
 

@@ -32,7 +32,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -217,103 +217,44 @@ except ImportError:
 
 def setup_args():
     return dict(
-        name=dict(
-            type='str', required=True,
-            help='Name of BGP Peer'),
-        enable=dict(
-            default=True, type='bool',
-            help='Enable BGP Peer'),
-        peer_as=dict(
-            type='str',
-            help='Peer AS number'),
-        enable_mp_bgp=dict(
-            type='bool',
-            help='Enable MP-BGP extentions'),
-        address_family_identifier=dict(
-            type='str', choices=['ipv4', 'ipv6'],
-            help='Peer address family type'),
-        subsequent_address_unicast=dict(
-            type='bool',
-            help='Select SAFI for this peer'),
-        subsequent_address_multicast=dict(
-            type='bool',
-            help='Select SAFI for this peer'),
-        local_interface=dict(
-            type='str',
-            help='Interface to accept BGP session'),
-        local_interface_ip=dict(
-            type='str',
-            help='Specify exact IP address if interface has multiple addresses'),
-        peer_address_ip=dict(
-            type='str',
-            help='IP address of peer'),
-        connection_authentication=dict(
-            type='str',
-            help='BGP auth profile name'),
-        connection_keep_alive_interval=dict(
-            type='int',
-            help='Keep-alive interval (in seconds)'),
-        connection_min_route_adv_interval=dict(
-            type='int',
-            help='Minimum Route Advertisement Interval (in seconds)'),
-        connection_multihop=dict(
-            type='int',
-            help='IP TTL value used for sending BGP packet. set to 0 means eBGP use 2, iBGP use 255'),
-        connection_open_delay_time=dict(
-            type='int',
-            help='Open delay time (in seconds)'),
-        connection_hold_time=dict(
-            type='int',
-            help='Hold time (in seconds)'),
-        connection_idle_hold_time=dict(
-            type='int',
-            help='Idle hold time (in seconds)'),
-        connection_incoming_allow=dict(
-            type='bool',
-            help='Allow incoming connections'),
-        connection_outgoing_allow=dict(
-            type='bool',
-            help='Allow outgoing connections'),
-        connection_incoming_remote_port=dict(
-            type='int',
-            help='Restrict remote port for incoming BGP connections'),
-        connection_outgoing_local_port=dict(
-            type='int',
-            help='Use specific local port for outgoing BGP connections'),
-        enable_sender_side_loop_detection=dict(
-            type='bool',
-            help='Enable sender side loop detection'),
-        reflector_client=dict(
-            type='str', choices=['non-client', 'client', 'meshed-client'],
-            help='Reflector client type'),
-        peering_type=dict(
-            type='str', choices=['unspecified', 'bilateral'],
-            help='Peering type'),
+        name=dict(type='str', required=True),
+        enable=dict(default=True, type='bool'),
+        peer_as=dict(type='str'),
+        enable_mp_bgp=dict(type='bool'),
+        address_family_identifier=dict(type='str', choices=['ipv4', 'ipv6']),
+        subsequent_address_unicast=dict(type='bool'),
+        subsequent_address_multicast=dict(type='bool'),
+        local_interface=dict(type='str'),
+        local_interface_ip=dict(type='str'),
+        peer_address_ip=dict(type='str'),
+        connection_authentication=dict(type='str'),
+        connection_keep_alive_interval=dict(type='int'),
+        connection_min_route_adv_interval=dict(type='int'),
+        connection_multihop=dict(type='int'),
+        connection_open_delay_time=dict(type='int'),
+        connection_hold_time=dict(type='int'),
+        connection_idle_hold_time=dict(type='int'),
+        connection_incoming_allow=dict(type='bool'),
+        connection_outgoing_allow=dict(type='bool'),
+        connection_incoming_remote_port=dict(type='int'),
+        connection_outgoing_local_port=dict(type='int'),
+        enable_sender_side_loop_detection=dict(type='bool'),
+        reflector_client=dict(type='str', choices=['non-client', 'client', 'meshed-client']),
+        peering_type=dict(type='str', choices=['unspecified', 'bilateral']),
         # aggregated_confed_as_path=dict(
         #     type='bool',
         #     help='This peer understands aggregated confederation AS path'),
-        max_prefixes=dict(
-            type='int',
-            help='Maximum of prefixes to receive from peer'),
+        max_prefixes=dict(type='int'),
         # max_orf_entries=dict(
         #     type='int',
         #     help='Maximum of ORF entries accepted from peer'),
         # soft_reset_with_stored_info=dict(
         #     type='bool',
         #     help='Enable soft reset with stored info'),
-        bfd_profile=dict(
-            type='str',
-            help='BFD profile configuration'),
-
-        peer_group=dict(
-            required=True,
-            help='Name of the peer group; it must already exist; see panos_bgp_peer_group'),
-        vr_name=dict(
-            default='default',
-            help='Name of the virtual router; it must already exist; see panos_virtual_router'),
-        commit=dict(
-            type='bool', default=False,
-            help='Commit configuration if changed'),
+        bfd_profile=dict(type='str'),
+        peer_group=dict(required=True),
+        vr_name=dict(default='default'),
+        commit=dict(type='bool', default=False),
     )
 
 

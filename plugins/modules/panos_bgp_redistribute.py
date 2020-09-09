@@ -32,7 +32,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -88,10 +88,12 @@ options:
         description:
             - Add the COMMUNITY path attribute.
         type: list
+        elements: str
     set_extended_community:
         description:
             - Add the EXTENDED COMMUNITY path attribute.
         type: list
+        elements: str
     set_local_preference:
         description:
             - Add the LOCAL_PREF path attribute.
@@ -152,47 +154,21 @@ except ImportError:
 
 def setup_args():
     return dict(
-        commit=dict(
-            type='bool', default=False,
-            help='Commit configuration if changed'),
+        commit=dict(type='bool', default=False),
 
-        vr_name=dict(
-            default='default',
-            help='Name of the virtual router; it must already exist; see panos_virtual_router'),
+        vr_name=dict(default='default'),
 
-        name=dict(
-            type='str', required=True,
-            help='An IPv4 subnet or a defined Redistribution Profile in the virtual router'),
-        enable=dict(
-            default=True, type='bool',
-            help='Enable rule'),
-        address_family_identifier=dict(
-            type='str', default='ipv4', choices=['ipv4', 'ipv6'],
-            help='Address Family Identifier'),
-        route_table=dict(
-            type='str', default='unicast', choices=['unicast', 'multicast', 'both'],
-            help='Summarize route'),
-        set_origin=dict(
-            type='str', default='incomplete', choices=['igp', 'egp', 'incomplete'],
-            help='New route origin'),
-        set_med=dict(
-            type='int',
-            help='Add the MULTI_EXIT_DISC path attribute'),
-        set_local_preference=dict(
-            type='int',
-            help='Add the LOCAL_PREF path attribute'),
-        set_as_path_limit=dict(
-            type='int',
-            help='Add the AS_PATHLIMIT path attribute'),
-        set_community=dict(
-            type='list',
-            help='Add the COMMUNITY path attribute'),
-        set_extended_community=dict(
-            type='list',
-            help='Add the EXTENDED COMMUNITY path attribute'),
-        metric=dict(
-            type='int',
-            help='Metric value'),
+        name=dict(type='str', required=True),
+        enable=dict(default=True, type='bool'),
+        address_family_identifier=dict(type='str', default='ipv4', choices=['ipv4', 'ipv6']),
+        route_table=dict(type='str', default='unicast', choices=['unicast', 'multicast', 'both']),
+        set_origin=dict(type='str', default='incomplete', choices=['igp', 'egp', 'incomplete']),
+        set_med=dict(type='int'),
+        set_local_preference=dict(type='int'),
+        set_as_path_limit=dict(type='int'),
+        set_community=dict(type='list', elements='str'),
+        set_extended_community=dict(type='list', elements='str'),
+        metric=dict(type='int'),
     )
 
 

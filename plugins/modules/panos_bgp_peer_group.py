@@ -32,7 +32,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.9"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -138,36 +138,16 @@ except ImportError:
 
 def setup_args():
     return dict(
-        name=dict(
-            type='str', required=True,
-            help='Name of the BGP peer group'),
-        enable=dict(
-            default=True, type='bool',
-            help='Enable BGP peer group'),
-        aggregated_confed_as_path=dict(
-            type='bool',
-            help='The peers understand Aggregated Confederation AS Path'),
-        soft_reset_with_stored_info=dict(
-            type='bool',
-            help='Enable soft reset with stored info'),
-        type=dict(
-            type='str', default='ebgp', choices=['ebgp', 'ibgp', 'ebgp-confed', 'ibgp-confed'],
-            help='Peer group type I("ebgp")/I("ibgp")/I("ebgp-confed")/I("ibgp-confed")'),
-        export_nexthop=dict(
-            type='str', default='resolve', choices=['resolve', 'use-self'],
-            help='Export locally resolved nexthop I("resolve")/I("use-self")'),
-        import_nexthop=dict(
-            type='str', default='original', choices=['original', 'use-peer'],
-            help='Override nexthop with peer address I("original")/I("use-peer"), only with "ebgp"'),
-        remove_private_as=dict(
-            type='bool',
-            help='Remove private AS when exporting route, only with "ebgp"'),
-        vr_name=dict(
-            default='default',
-            help='Name of the virtual router; it must already exist; see panos_virtual_router'),
-        commit=dict(
-            type='bool', default=False,
-            help='Commit configuration if changed'),
+        name=dict(type='str', required=True),
+        enable=dict(default=True, type='bool'),
+        aggregated_confed_as_path=dict(type='bool'),
+        soft_reset_with_stored_info=dict(type='bool'),
+        type=dict(type='str', default='ebgp', choices=['ebgp', 'ibgp', 'ebgp-confed', 'ibgp-confed']),
+        export_nexthop=dict(type='str', default='resolve', choices=['resolve', 'use-self']),
+        import_nexthop=dict(type='str', default='original', choices=['original', 'use-peer']),
+        remove_private_as=dict(type='bool'),
+        vr_name=dict(default='default'),
+        commit=dict(type='bool', default=False),
     )
 
 

@@ -41,7 +41,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -91,6 +91,7 @@ options:
         description:
             - List of Peer Groups using this policy.
         type: list
+        elements: str
 '''
 
 EXAMPLES = '''
@@ -130,29 +131,13 @@ from base64 import b64decode
 
 def setup_args():
     return dict(
-        commit=dict(
-            type='bool', default=False,
-            help='Commit configuration if changed'),
-
-        vr_name=dict(
-            default='default',
-            help='Name of the virtual router; it must already exist; see panos_virtual_router'),
-        non_exist_filter=dict(
-            type='str',
-            help='Non-Exist filter object returned by panos_bgp_policy_filter; only needed on creation'),
-        advertise_filter=dict(
-            type='str',
-            help='Advertise filter object returned by panos_bgp_policy_filter; only needed on creation'),
-
-        name=dict(
-            type='str', required=True,
-            help='Name of Conditional Advertisement policy'),
-        enable=dict(
-            type='bool',
-            help='Enable this policy'),
-        used_by=dict(
-            type='list',
-            help='List of Peer Groups using this policy'),
+        commit=dict(type='bool', default=False),
+        vr_name=dict(default='default'),
+        non_exist_filter=dict(type='str'),
+        advertise_filter=dict(type='str'),
+        name=dict(type='str', required=True),
+        enable=dict(type='bool'),
+        used_by=dict(type='list', elements='str'),
     )
 
 
