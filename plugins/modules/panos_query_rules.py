@@ -34,7 +34,7 @@ author: "Bob Hagen (@stealthllama)"
 version_added: '1.0.0'
 deprecated:
     alternative: Use M(panos_match_rule)
-    removed_in: '2.12'
+    removed_in: '3.0.0'
     why: Querying rules is handled better by M(panos_match_rule).
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
@@ -59,7 +59,6 @@ options:
         description:
             - Password credentials to use for authentication.
         type: str
-        required: true
     api_key:
         description:
             - API key that can be used instead of I(username)/I(password) credentials.
