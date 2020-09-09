@@ -34,7 +34,7 @@ requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
 deprecated:
-  removed_in: "2.12"
+  removed_in: '3.0.0'
   why: Using new modern API calls in the panos_registered_ip
   alternative: Use M(panos_registered_ip) instead.
 notes:
@@ -80,10 +80,13 @@ options:
             - The action to be taken. Supported values are I(add)/I(update)/I(find)/I(delete).
         type: str
         choices: ['add', 'update', 'find', 'delete']
+        required: true
     tag_names:
         description:
             - The list of the tags that will be added or removed from the IP address.
         type: list
+        elements: str
+        required: true
     ip_to_register:
         description:
             - IP that will be registered with the given tag names.
@@ -202,7 +205,7 @@ def main():
         devicegroup=dict(default=None),
         description=dict(default=None),
         ip_to_register=dict(type='str', required=False),
-        tag_names=dict(type='list', required=True),
+        tag_names=dict(type='list', elements='str', required=True),
         commit=dict(type='bool', default=False),
         operation=dict(type='str', choices=['add', 'update', 'find', 'delete'], required=True)
     )

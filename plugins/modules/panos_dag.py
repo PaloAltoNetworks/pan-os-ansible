@@ -28,7 +28,7 @@ author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer), Vinay Venkataraghav
 version_added: '1.0.0'
 deprecated:
     alternative: Use M(panos_address_group) instead.
-    removed_in: '2.12'
+    removed_in: '3.0.0'
     why: This module's functionality is a subset of M(panos_address_group).
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
@@ -66,12 +66,12 @@ options:
         description:
             - dynamic filter user by the dynamic address group
         type: str
-        required: true
         default: null
     tag_name:
         description:
             - Add administrative tags to the DAG
         type: list
+        elements: str
         required: false
         default: null
     devicegroup:
@@ -226,7 +226,7 @@ def main():
         api_key=dict(no_log=True),
         dag_match_filter=dict(type='str', default=None),
         dag_name=dict(required=True),
-        tag_name=dict(type='list', required=False),
+        tag_name=dict(type='list', elements='str', required=False),
         commit=dict(type='bool', default=False),
         devicegroup=dict(default=None),
         description=dict(default=None),
