@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # The MIT License (MIT)
@@ -48,8 +48,8 @@ options:
     style:
         description:
             - The type of configuration element to push.
-        type: list
-        elements:
+        type: str
+        choices:
             - device group
             - template
             - template stack
@@ -60,9 +60,11 @@ options:
     name:
         description:
             - The name of the configuration element to push.
+        type: str
     description:
         description:
             - A description of the commit.
+        type: str
     include_template:
         description:
             - Include device group reference templates.
