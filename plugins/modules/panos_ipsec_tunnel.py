@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2017 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -31,7 +31,7 @@ description:
     - Use IPSec Tunnels to establish and manage IPSec VPN tunnels between firewalls. This is the Phase 2 portion of the
     - IKE/IPSec VPN setup.
 author: "Ivan Bojer (@ivanbojer)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -46,14 +46,17 @@ options:
     name:
         description:
             - Name for the IPSec tunnel.
+        type: str
         required: true
     tunnel_interface:
         description:
             - Specify existing tunnel interface that will be used.
+        type: str
         default: 'tunnel.1'
     anti_replay:
         description:
             - Enable anti-replay check on this tunnel.
+        type: bool
         default: True
     ipv6:
         description:
@@ -63,57 +66,74 @@ options:
     type:
         description:
             - Type of IPsec tunnel.
-        choices: ['auto-key', 'manual-key', or 'global-protect-satellite']
+        type: str
+        choices: ['auto-key', 'manual-key', 'global-protect-satellite']
         default: 'auto-key'
     ak_ike_gateway:
         description:
             - Name of the existing IKE gateway (auto-key).
+        type: str
         default: 'default'
-        aliases: 'ike_gtw_name'
+        aliases:
+            - ike_gtw_name
     ak_ipsec_crypto_profile:
         description:
             - Name of the existing IPsec profile or use default (auto-key).
+        type: str
         default: 'default'
-        aliases: 'ipsec_profile'
+        aliases:
+            - ipsec_profile
     mk_local_spi:
         description:
             - Outbound SPI in hex (manual-key).
+        type: str
     mk_interface:
         description:
             - Interface to terminate tunnel (manual-key).
+        type: str
     mk_remote_spi:
         description:
             - Inbound SPI in hex (manual-key).
+        type: str
     mk_remote_address:
         description:
             - Tunnel peer IP address (manual-key).
+        type: str
     mk_local_address_ip:
         description:
             - Exact IP address if interface has multiple IP addresses (manual-key).
+        type: str
     mk_local_address_floating_ip:
         description:
             - Floating IP address in HA Active-Active configuration (manual-key).
+        type: str
     mk_protocol:
         description:
             - Protocol for traffic through the tunnel (manual-key).
+        type: str
         choices: ['esp', 'ah']
     mk_auth_type:
         description:
             - Authentication type for tunnel access (manual-key).
+        type: str
         choices: ['md5', 'sha1', 'sha256', 'sha384', 'sha512']
     mk_auth_key:
         description:
             - Authentication key (manual-key).
+        type: str
     mk_esp_encryption:
         description:
             - Encryption algorithm for tunnel traffic (manual-key).
+        type: str
         choices: ['des', '3des', 'aes-128-cbc', 'aes-192-cbc', 'aes-256-cbc', 'null']
     mk_esp_encryption_key:
         description:
             - Encryption key (manual-key).
+        type: str
     gps_portal_address:
         description:
             - GlobalProtect portal address (global-protect-satellite).
+        type: str
     gps_prefer_ipv6:
         description:
             - Prefer to register portal in IPv6 (8.0+) (global-protect-satellite).
@@ -122,18 +142,23 @@ options:
     gps_interface:
         description:
             - Interface to communicate with portal (global-protect-satellite).
+        type: str
     gps_interface_ipv4_ip:
         description:
             - Exact IPv4 IP address if interface has multiple IP addresses (global-protect-satellite).
+        type: str
     gps_interface_ipv6_ip:
         description:
             - Exact IPv6 IP address if interface has multiple IP addresses (8.0+) (global-protect-satellite).
+        type: str
     gps_interface_ipv4_floating_ip:
         description:
             - Floating IPv4 IP address in HA Active-Active configuration (7.0+) (global-protect-satellite).
+        type: str
     gps_interface_ipv6_floating_ip:
         description:
             - Floating IPv6 IP address in HA Active-Active configuration (8.0+) (global-protect-satellite).
+        type: str
     gps_publish_connected_routes:
         description:
             - Enable publishing of connected and static routes (global-protect-satellite).
@@ -143,12 +168,15 @@ options:
         description:
             - Specify list of routes to publish to GlobalProtect gateway (global-protect-satellite).
         type: list
+        elements: str
     gps_local_certificate:
         description:
             - GlobalProtect satellite certificate file name (global-protect-satellite).
+        type: str
     gps_certificate_profile:
         description:
             - Profile for authenticating GlobalProtect gateway certificates (global-protect-satellite).
+        type: str
     copy_tos:
         description:
             - Copy IP TOS bits from inner packet to IPSec packet (not recommended).
@@ -162,25 +190,29 @@ options:
     enable_tunnel_monitor:
         description:
             - Enable tunnel monitoring on this tunnel.
+        type: bool
         default: False
     tunnel_monitor_dest_ip:
         description:
             - Destination IP to send ICMP probe.
+        type: str
     tunnel_monitor_proxy_id:
         description:
             - Which proxy-id (or proxy-id-v6) the monitoring traffic will use.
-        default: None
+        type: str
     tunnel_monitor_profile:
         description:
             - Monitoring action.
-        default: None
+        type: str
     disabled:
         description:
             - Disable the IPsec tunnel.
+        type: bool
         default: False
     commit:
         description:
             - Commit configuration if changed.
+        type: bool
         default: False
 '''
 
@@ -221,8 +253,8 @@ def main():
         argument_spec=dict(
             name=dict(required=True),
             tunnel_interface=dict(default='tunnel.1'),
-            anti_replay=dict(type=bool, default=True),
-            ipv6=dict(type=bool, default=False),
+            anti_replay=dict(type='bool', default=True),
+            ipv6=dict(type='bool', default=False),
             type=dict(type='str', choices=['auto-key', 'manual-key', 'global-protect-satellite'], default='auto-key'),
             ak_ike_gateway=dict(default='default', aliases=['ike_gtw_name']),
             ak_ipsec_crypto_profile=dict(default='default', aliases=['ipsec_profile']),
@@ -251,7 +283,7 @@ def main():
             gps_interface_ipv4_floating_ip=dict(type='str', default=None),
             gps_interface_ipv6_floating_ip=dict(type='str', default=None),
             gps_publish_connected_routes=dict(type='bool', default=False),
-            gps_publish_routes=dict(type='bool', default=False),
+            gps_publish_routes=dict(type='list', elements='str', default=None),
             gps_local_certificate=dict(type='str', default=None),
             gps_certificate_profile=dict(type='str', default=None),
             copy_tos=dict(type='bool', default=False),

@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2019 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -30,7 +30,7 @@ short_description: Configures IPv4 Proxy Id on an IPSec Tunnel
 description:
     - Configures IPv4 Proxy Id on an IPSec tunnel
 author: "Heiko Burghardt (@odysseus107)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -45,24 +45,28 @@ options:
     name:
         description:
             - The Proxy ID
+        type: str
         required: true
     tunnel_name:
         description:
             - IPSec Tunnel Name
-        required: true
+        type: str
+        default: 'default'
     local:
         description:
             - IP subnet or IP address represents the local network
-        required: true
+        type: str
+        default: '192.168.2.0/24'
     remote:
         description:
             - IP subnet or IP address represents the remote network
-        required: true
+        type: str
+        default: '192.168.1.0/24'
     any_protocol:
         description:
             - Any protocol boolean
-        default: True
         type: bool
+        default: True
     number_proto:
         description:
             - Numbered Protocol; protocol number (1-254)
@@ -86,8 +90,8 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: False
         type: bool
+        default: False
 '''
 
 EXAMPLES = '''
@@ -127,39 +131,17 @@ def main():
         with_classic_provider_spec=True,
         with_state=True,
         argument_spec=dict(
-            name=dict(
-                type='str', required=True,
-                help='The Proxy ID'),
-            tunnel_name=dict(
-                default='default',
-                help='The IPSec Tunnel Name'),
-            local=dict(
-                default='192.168.2.0/24',
-                help='IP subnet or IP address represents the local network'),
-            remote=dict(
-                default='192.168.1.0/24',
-                help='IP subnet or IP address represents the remote network'),
-            any_protocol=dict(
-                type='bool', default=True,
-                help='Any protocol boolean'),
-            number_proto=dict(
-                type='int',
-                help='Numbered Protocol: protocol number (1-254)'),
-            tcp_local_port=dict(
-                type='int',
-                help='Protocol TCP: local port'),
-            tcp_remote_port=dict(
-                type='int',
-                help='Protocol TCP: remote port'),
-            udp_local_port=dict(
-                type='int',
-                help='Protocol UDP: local port'),
-            udp_remote_port=dict(
-                type='int',
-                help='Protocol UDP: remote port'),
-            commit=dict(
-                type='bool', default=False,
-                help='Commit configuration if changed'),
+            name=dict(type='str', required=True),
+            tunnel_name=dict(default='default'),
+            local=dict(default='192.168.2.0/24'),
+            remote=dict(default='192.168.1.0/24'),
+            any_protocol=dict(type='bool', default=True),
+            number_proto=dict(type='int'),
+            tcp_local_port=dict(type='int'),
+            tcp_remote_port=dict(type='int'),
+            udp_local_port=dict(type='int'),
+            udp_remote_port=dict(type='int'),
+            commit=dict(type='bool', default=False),
         )
     )
 

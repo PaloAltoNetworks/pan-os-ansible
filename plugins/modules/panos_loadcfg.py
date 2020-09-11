@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_loadcfg
@@ -22,31 +25,35 @@ short_description: load configuration on PAN-OS device
 description:
     - Load configuration on PAN-OS device
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
-version_added: "2.3"
+version_added: '1.0.0'
 requirements:
     - pan-python
 options:
     ip_address:
         description:
             - IP address (or hostname) of PAN-OS device
+        type: str
         required: true
     password:
         description:
             - password for authentication
+        type: str
         required: true
     username:
         description:
             - username for authentication
+        type: str
         required: false
         default: "admin"
     file:
         description:
             - configuration file to load
+        type: str
         required: false
-        default: None
     commit:
         description:
             - commit if changed
+        type: bool
         required: false
         default: false
 '''

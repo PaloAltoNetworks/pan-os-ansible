@@ -1,9 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
-
 #  Copyright 2019 Palo Alto Networks, Inc
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -30,7 +30,7 @@ short_description: Configures VLANs.
 description:
     - Manage PAN-OS VLANs.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice
@@ -46,15 +46,18 @@ options:
     name:
         description:
             -  Name of the VLAN.
+        type: str
         required: True
     interface:
         description:
             -  List of interface names
         type: list
+        elements: str
     virtual_interface:
         description:
             - The VLAN interface
             - See M(panos_vlan_interface)
+        type: str
 '''
 
 EXAMPLES = '''
@@ -92,7 +95,7 @@ def main():
         with_classic_provider_spec=True,
         argument_spec=dict(
             name=dict(required=True, ),
-            interface=dict(type='list', ),
+            interface=dict(type='list', elements='str'),
             virtual_interface=dict(),
         ),
     )

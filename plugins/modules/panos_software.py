@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -26,7 +29,7 @@ short_description: Manage PAN-OS software versions.
 description:
     - Install specific release of PAN-OS.
 author: "Michael Richardson (@mrichardson03)"
-version_added: "2.6"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -39,35 +42,36 @@ options:
     version:
         description:
             - Desired PAN-OS release for target device.
+        type: str
         required: true
     sync_to_peer:
         description:
             - If device is a member of a HA pair, perform actions on the peer
               device as well.  Only used when downloading software -
               installation must be performed on both devices.
-        default: false
         type: bool
+        default: False
     download:
         description:
             - Download PAN-OS version to the device.
-        default: true
         type: bool
+        default: True
     install:
         description:
             - Perform installation of the PAN-OS version on the device.
-        default: true
         type: bool
+        default: True
     restart:
         description:
             - Restart device after installing desired version.  Use in conjunction with
               panos_check to determine when firewall is ready again.
-        default: false
         type: bool
+        default: False
     timeout:
         description:
             - Timeout value in seconds to wait for the device operation to complete
-        default: 1200
         type: int
+        default: 1200
 '''
 
 EXAMPLES = '''
@@ -96,6 +100,8 @@ EXAMPLES = '''
 RETURN = '''
 version:
     description: After performing the software install, returns the version installed on the device.
+    type: str
+    returned: on success
 '''
 
 from ansible.module_utils.basic import AnsibleModule

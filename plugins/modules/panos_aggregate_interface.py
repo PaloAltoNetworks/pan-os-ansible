@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2019 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_aggregate_interface
@@ -23,7 +26,7 @@ description:
     - Configure aggregate network interfaces on PanOS
 author:
     - Heiko Burghardt (@odysseus107)
-version_added: "2.9"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPi U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPi U(https://pypi.python.org/pypi/pandevice)
@@ -40,9 +43,11 @@ options:
         description:
             - Name of the interface to configure.
         required: true
+        type: str
     mode:
         description:
             - The interface mode.
+        type: str
         default: "layer3"
         choices:
             - layer3
@@ -53,6 +58,7 @@ options:
         description:
             - List of static IP addresses.
         type: list
+        elements: str
     ipv6_enabled:
         description:
             - Enable IPv6.
@@ -60,6 +66,7 @@ options:
     management_profile:
         description:
             - Interface management profile name.
+        type: str
     mtu:
         description:
             - MTU for aggregate interface.
@@ -71,6 +78,7 @@ options:
     netflow_profile:
         description:
             - Netflow profile for aggregate interface.
+        type: str
     lldp_enabled:
         description:
             - (Layer2) Enable LLDP
@@ -78,9 +86,11 @@ options:
     lldp_profile:
         description:
             - (Layer2) Reference to an lldp profile
+        type: str
     comment:
         description:
             - Interface comment.
+        type: str
     ipv4_mss_adjust:
         description:
             - (7.1+) TCP MSS adjustment for IPv4.
@@ -104,9 +114,12 @@ options:
     zone_name:
         description:
             - The zone to put this interface into.
+        type: str
     vr_name:
         description:
             - The virtual router to associate with this interface.
+        type: str
+        default: default
     commit:
         description:
             - Commit if changed
@@ -159,7 +172,7 @@ def main():
                 default='layer3',
                 choices=['layer3', 'layer2', 'virtual-wire', 'ha'],
             ),
-            ip=dict(type='list'),
+            ip=dict(type='list', elements='str'),
             ipv6_enabled=dict(type='bool'),
             management_profile=dict(),
             mtu=dict(type='int'),

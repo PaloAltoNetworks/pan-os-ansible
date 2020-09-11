@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_userid
@@ -22,7 +25,7 @@ short_description: Allow for registration and de-registration of userid
 description:
     - Userid allows for user to IP mapping that can be used in the policy rules.
 author: "Ivan Bojer (@ivanbojer)"
-version_added: "2.6"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -38,13 +41,16 @@ options:
         description:
             - B(Removed)
             - Use I(state) instead.
+        type: str
     userid:
         description:
             - User UPN
+        type: str
         required: true
     register_ip:
         description:
             - IP of the user's machine that needs to be registered with userid.
+        type: str
         required: true
 '''
 

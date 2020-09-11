@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import, division, print_function
@@ -32,7 +32,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.9"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -47,82 +47,105 @@ options:
     commit:
         description:
             - Commit configuration if changed.
+        type: bool
         default: false
     enable:
         description:
             - Enable BGP.
+        type: bool
         default: true
     router_id:
         description:
             - Router ID in IP format (eg. 1.1.1.1)
-        required: true
+        type: str
     reject_default_route:
         description:
             - Reject default route.
+        type: bool
         default: true
     allow_redist_default_route:
         description:
             - Allow redistribute default route to BGP.
+        type: bool
         default: false
     install_route:
         description:
             - Populate BGP learned route to global route table.
+        type: bool
         default: false
     ecmp_multi_as:
         description:
             - Support multiple AS in ECMP.
+        type: bool
         default: false
     enforce_first_as:
         description:
             - Enforce First AS for EBGP.
+        type: bool
         default: true
     local_as:
         description:
             - Local Autonomous System (AS) number.
+        type: str
     global_bfd_profile:
         description:
             - Bidirectional Forwarding Detection (BFD) profile.
+        type: str
     as_format:
         description:
             - AS format I('2-byte')/I('4-byte').
+        type: str
+        choices: ['2-byte', '4-byte']
         default: '2-byte'
     always_compare_med:
         description:
             - Always compare MEDs.
+        type: bool
         default: false
     deterministic_med_comparison:
         description:
             - Deterministic MEDs comparison.
+        type: bool
         default: true
     default_local_preference:
         description:
             - Default local preference.
+        type: int
         default: 100
     graceful_restart_enable:
         description:
             - Enable graceful restart.
+        type: bool
         default: true
     gr_stale_route_time:
         description:
             - Time to remove stale routes after peer restart (in seconds).
+        type: int
     gr_local_restart_time:
         description:
             - Local restart time to advertise to peer (in seconds).
+        type: int
     gr_max_peer_restart_time:
         description:
             - Maximum of peer restart time accepted (in seconds).
+        type: int
     reflector_cluster_id:
         description:
             - Route reflector cluster ID.
+        type: str
     confederation_member_as:
         description:
             - Confederation requires member-AS number.
+        type: str
     aggregate_med:
         description:
             - Aggregate route only if they have same MED attributes.
+        type: bool
+        default: True
     vr_name:
         description:
             - Name of the virtual router; it must already exist.
+        type: str
         default: "default"
 '''
 
@@ -158,72 +181,28 @@ except ImportError:
 
 def setup_args():
     return dict(
-        enable=dict(
-            default=True, type='bool',
-            help='Enable BGP'),
-        router_id=dict(
-            type='str',
-            help='Router ID in IP format (eg. 1.1.1.1)'),
-        reject_default_route=dict(
-            type='bool', default=True,
-            help='Reject default route'),
-        allow_redist_default_route=dict(
-            type='bool', default=False,
-            help='Allow redistribute default route to BGP'),
-        install_route=dict(
-            type='bool', default=False,
-            help='Populate BGP learned route to global route table'),
-        ecmp_multi_as=dict(
-            type='bool', default=False,
-            help='Support multiple AS in ECMP'),
-        enforce_first_as=dict(
-            type='bool', default=True,
-            help='Enforce First AS for EBGP'),
-        local_as=dict(
-            type='str',
-            help='Local Autonomous System (AS) number'),
-        global_bfd_profile=dict(
-            type='str',
-            help='Bidirectional Forwarding Detection (BFD) profile'),
-        as_format=dict(
-            type='str', default='2-byte', choices=['2-byte', '4-byte'],
-            help='AS format I("2-byte")/I("4-byte")'),
-        always_compare_med=dict(
-            type='bool', default=False,
-            help='Always compare MEDs'),
-        deterministic_med_comparison=dict(
-            type='bool', default=True,
-            help='Deterministic MEDs comparison'),
-        default_local_preference=dict(
-            type='int',
-            help='Default local preference'),
-        graceful_restart_enable=dict(
-            type='bool', default=True,
-            help='Enable graceful restart'),
-        gr_stale_route_time=dict(
-            type='int',
-            help='Time to remove stale routes after peer restart (in seconds)'),
-        gr_local_restart_time=dict(
-            type='int',
-            help='Local restart time to advertise to peer (in seconds)'),
-        gr_max_peer_restart_time=dict(
-            type='int',
-            help='Maximum of peer restart time accepted (in seconds)'),
-        reflector_cluster_id=dict(
-            type='str',
-            help='Route reflector cluster ID'),
-        confederation_member_as=dict(
-            type='str',
-            help='Confederation requires member-AS number'),
-        aggregate_med=dict(
-            type='bool', default=True,
-            help='Aggregate route only if they have same MED attributes'),
-        vr_name=dict(
-            default='default',
-            help='Name of the virtual router; it must already exist'),
-        commit=dict(
-            type='bool', default=False,
-            help='Commit configuration if changed'),
+        enable=dict(default=True, type='bool'),
+        router_id=dict(type='str'),
+        reject_default_route=dict(type='bool', default=True),
+        allow_redist_default_route=dict(type='bool', default=False),
+        install_route=dict(type='bool', default=False),
+        ecmp_multi_as=dict(type='bool', default=False),
+        enforce_first_as=dict(type='bool', default=True),
+        local_as=dict(type='str'),
+        global_bfd_profile=dict(type='str'),
+        as_format=dict(type='str', default='2-byte', choices=['2-byte', '4-byte']),
+        always_compare_med=dict(type='bool', default=False),
+        deterministic_med_comparison=dict(type='bool', default=True),
+        default_local_preference=dict(type='int', default=100),
+        graceful_restart_enable=dict(type='bool', default=True),
+        gr_stale_route_time=dict(type='int'),
+        gr_local_restart_time=dict(type='int'),
+        gr_max_peer_restart_time=dict(type='int'),
+        reflector_cluster_id=dict(type='str'),
+        confederation_member_as=dict(type='str'),
+        aggregate_med=dict(type='bool', default=True),
+        vr_name=dict(default='default'),
+        commit=dict(type='bool', default=False),
     )
 
 

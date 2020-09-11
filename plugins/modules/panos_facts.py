@@ -27,7 +27,7 @@ notes:
     - Checkmode is not supported.
 requirements:
     - pan-python
-version_added: 2.8
+version_added: '1.0.0'
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
 options:
@@ -35,6 +35,7 @@ options:
         description:
             - B(Removed)
             - Use I(provider) instead.
+        type: str
     gather_subset:
         description:
             - Scopes what information is gathered from the device.
@@ -45,6 +46,8 @@ options:
               collected.  Panorama only supports the system, ha, and config
               subsets.
         required: false
+        type: list
+        elements: str
         default: ['!config']
 '''
 
@@ -489,7 +492,7 @@ def main():
     helper = get_connection(
         with_classic_provider_spec=True,
         argument_spec=dict(
-            gather_subset=dict(default=['!config'], type='list'),
+            gather_subset=dict(default=['!config'], type='list', elements='str'),
 
             # TODO(gfreeman) - remove in a later version.
             host=dict(),

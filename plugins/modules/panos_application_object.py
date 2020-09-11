@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2020 Palo Alto Networks, Inc
@@ -29,7 +29,7 @@ short_description: Create application objects on PAN-OS devices.
 description:
     - Create application objects on PAN-OS devices.
 author: "Michael Richardson (@mrichardson03)"
-version_added: "2.0.0"
+version_added: '2.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -45,6 +45,7 @@ options:
     name:
         description:
             - Name of the tag.
+        type: str
         required: true
     category:
         description:
@@ -61,6 +62,7 @@ options:
     risk:
         description:
             - Risk (1-5) of the application
+        type: str
         choices: ['1', '2', '3', '4', '5']
     parent_app:
         description:
@@ -102,7 +104,7 @@ options:
         description:
             - Application can do file transfers
         type: bool
-    has_know_vulnerability:
+    has_known_vulnerability:
         description:
             - Application has known vulnerabilities
         type: bool
@@ -114,6 +116,7 @@ options:
         description:
             - List of tunneled applications
         type: list
+        elements: str
     prone_to_misuse:
         description:
             - Application is prone to misuse
@@ -142,11 +145,12 @@ options:
         description:
             - Administrative tags
         type: list
+        elements: str
 '''
 
 EXAMPLES = '''
 - name: Create custom application
-    panos_application_object:
+  panos_application_object:
     provider: '{{ provider }}'
     name: 'custom-app'
     category: 'business-systems'
@@ -155,7 +159,7 @@ EXAMPLES = '''
     risk: '1'
 
 - name: Remove custom application
-    panos_application_object:
+  panos_application_object:
     provider: '{{ provider }}'
     name: 'custom-app'
     state: 'absent'
@@ -203,14 +207,14 @@ def main():
             able_to_transfer_file=dict(type='bool'),
             has_known_vulnerability=dict(type='bool'),
             tunnel_other_application=dict(type='bool'),
-            tunnel_applications=dict(type='list'),
+            tunnel_applications=dict(type='list', elements='str'),
             prone_to_misuse=dict(type='bool'),
             pervasive_use=dict(type='bool'),
             file_type_ident=dict(type='bool'),
             virus_ident=dict(type='bool'),
             data_ident=dict(type='bool'),
             description=dict(type='str'),
-            tag=dict(type='list'),
+            tag=dict(type='list', elements='str'),
         )
     )
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -31,7 +31,7 @@ description:
 author:
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -48,22 +48,26 @@ options:
         description:
             - Name of object to create.
         required: true
+        type: str
     value:
         description:
             - IP address, IP range, or FQDN for the object.  Must specify if state is I(present).
-        required: true
+        type: str
     address_type:
         description:
             - Type of address object.
         choices: ['ip-netmask', 'ip-range', 'fqdn']
+        type: str
         default: 'ip-netmask'
     description:
         description:
             - Descriptive name for this address object.
+        type: str
     tag:
         description:
             - List of tags to add to this address object.
         type: list
+        elements: str
     commit:
         description:
             - Commit changes after creating object.  If I(ip_address) is a Panorama device, and I(device_group) is
@@ -135,7 +139,7 @@ def main():
             value=dict(),
             address_type=dict(default='ip-netmask', choices=['ip-netmask', 'ip-range', 'fqdn']),
             description=dict(),
-            tag=dict(type='list'),
+            tag=dict(type='list', elements='str'),
             commit=dict(type='bool', default=False),
         ),
     )

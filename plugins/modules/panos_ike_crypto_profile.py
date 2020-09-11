@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2017 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -31,7 +31,7 @@ description:
     - Use the IKE Crypto Profiles page to specify protocols and algorithms for identification, authentication, and
     - encryption (IKEv1 or IKEv2, Phase 1).
 author: "Ivan Bojer (@ivanbojer)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -46,53 +46,67 @@ options:
     name:
         description:
             - Name for the profile.
+        type: str
         required: true
     dh_group:
         description:
             - Specify the priority for Diffie-Hellman (DH) groups.
-        default: group2
+        type: list
+        elements: str
         choices: ['group1', 'group2', 'group5', 'group14', 'group19', 'group20']
-        aliases: dhgroup
+        default: ['group2']
+        aliases:
+            - dhgroup
     authentication:
         description:
             - Authentication hashes used for IKE phase 1 proposal.
+        type: list
+        elements: str
         choices: ['md5', 'sha1', 'sha256', 'sha384', 'sha512']
         default: sha1
     encryption:
         description:
             - Encryption algorithms used for IKE phase 1 proposal.
+        type: list
+        elements: str
         choices: ['des', '3des', 'aes-128-cbc', 'aes-192-cbc', 'aes-256-cbc']
         default: ['aes-256-cbc', '3des']
     lifetime_seconds:
         description:
             - IKE phase 1 key lifetime in seconds.
-        aliases: lifetime_sec
+        type: int
+        aliases:
+            - lifetime_sec
     lifetime_minutes:
         description:
             - IKE phase 1 key lifetime in minutes.
+        type: int
     lifetime_hours:
         description:
             - IKE phase 1 key lifetime in hours.  If no key lifetime is
               specified, default to 8 hours.
+        type: int
     lifetime_days:
         description:
             - IKE phase 1 key lifetime in days.
+        type: int
     commit:
         description:
             - Commit configuration if changed.
+        type: bool
         default: false
 '''
 
 EXAMPLES = '''
 - name: Add IKE crypto config to the firewall
-    panos_ike_crypto_profile:
-      provider: '{{ provider }}'
-      state: 'present'
-      name: 'vpn-0cc61dd8c06f95cfd-0'
-      dh_group: ['group2']
-      authentication: ['sha1']
-      encryption: ['aes-128-cbc']
-      lifetime_seconds: '28800'
+  panos_ike_crypto_profile:
+    provider: '{{ provider }}'
+    state: 'present'
+    name: 'vpn-0cc61dd8c06f95cfd-0'
+    dh_group: ['group2']
+    authentication: ['sha1']
+    encryption: ['aes-128-cbc']
+    lifetime_seconds: '28800'
 '''
 
 RETURN = '''
@@ -123,6 +137,7 @@ def main():
             name=dict(required=True),
             dh_group=dict(
                 type='list',
+                elements='str',
                 default=['group2'],
                 choices=[
                     'group1', 'group2', 'group5', 'group14', 'group19', 'group20'
@@ -131,6 +146,7 @@ def main():
             ),
             authentication=dict(
                 type='list',
+                elements='str',
                 choices=[
                     'md5', 'sha1', 'sha256', 'sha384', 'sha512'
                 ],
@@ -138,6 +154,7 @@ def main():
             ),
             encryption=dict(
                 type='list',
+                elements='str',
                 choices=[
                     'des', '3des', 'aes-128-cbc', 'aes-192-cbc', 'aes-256-cbc'
                 ],

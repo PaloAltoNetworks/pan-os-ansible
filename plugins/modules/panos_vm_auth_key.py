@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2020 Palo Alto Networks, Inc
@@ -30,7 +30,7 @@ description:
     - This module will ask Panorama to create a VM auth key for VM-Series bootstrapping.
 author:
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.9"
+version_added: '1.0.3'
 requirements:
     - pan-python
     - pandevice
@@ -62,11 +62,11 @@ RETURN = '''
 authkey:
     description: The VM auth key.
     returned: success
-    type: string
+    type: str
 expires:
     description: Auth key expiration date
     returned: success
-    type: string
+    type: str
     sample: "2020/02/14 01:02:03"
 '''
 

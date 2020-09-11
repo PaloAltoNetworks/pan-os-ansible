@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -32,7 +32,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.9"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -48,16 +48,18 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: false
         type: bool
+        default: false
     name:
         description:
             -  Name of virtual router
+        type: str
         default: 'default'
     interface:
         description:
             -  List of interface names
         type: list
+        elements: str
     ad_static:
         description:
             -  Administrative distance for this protocol
@@ -98,10 +100,10 @@ options:
 
 EXAMPLES = '''
 - name: Create Virtual Router
-    panos_virtual_router:
-      provider: '{{ provider }}'
-      name: vr-1
-      commit: true
+  panos_virtual_router:
+    provider: '{{ provider }}'
+    name: vr-1
+    commit: true
 '''
 
 RETURN = '''
@@ -124,43 +126,19 @@ except ImportError:
 
 def setup_args():
     return dict(
-        commit=dict(
-            type='bool', default=False,
-            help='Commit configuration if changed'),
+        commit=dict(type='bool', default=False),
 
-        name=dict(
-            type='str', default='default',
-            help='Name of virtual router'),
-        interface=dict(
-            type='list',
-            help='List of interface names'),
-        ad_static=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_static_ipv6=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_ospf_int=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_ospf_ext=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_ospfv3_int=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_ospfv3_ext=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_ibgp=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_ebgp=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
-        ad_rip=dict(
-            type='int',
-            help='Administrative distance for this protocol'),
+        name=dict(type='str', default='default'),
+        interface=dict(type='list', elements='str'),
+        ad_static=dict(type='int'),
+        ad_static_ipv6=dict(type='int'),
+        ad_ospf_int=dict(type='int'),
+        ad_ospf_ext=dict(type='int'),
+        ad_ospfv3_int=dict(type='int'),
+        ad_ospfv3_ext=dict(type='int'),
+        ad_ibgp=dict(type='int'),
+        ad_ebgp=dict(type='int'),
+        ad_rip=dict(type='int'),
     )
 
 

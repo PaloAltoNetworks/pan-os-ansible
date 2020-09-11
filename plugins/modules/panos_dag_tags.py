@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['deprecated'],
                     'supported_by': 'community'}
@@ -26,12 +29,12 @@ short_description: Create tags for DAG's on PAN-OS devices.
 description:
     - Create the ip address to tag associations. Tags will in turn be used to create DAG's
 author: "Vinay Venkataraghavan (@vinayvenkat)"
-version_added: "2.5"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
 deprecated:
-  removed_in: "2.9"
+  removed_in: '3.0.0'
   why: Using new modern API calls in the panos_registered_ip
   alternative: Use M(panos_registered_ip) instead.
 notes:
@@ -42,38 +45,52 @@ options:
     ip_address:
         description:
             - IP address (or hostname) of PAN-OS device
+        type: str
         required: true
     password:
         description:
             - password for authentication
+        type: str
         required: true
     api_key:
         description:
             - API key that can be used instead of I(username)/I(password) credentials.
+        type: str
     username:
         description:
             - username for authentication
+        type: str
         default: "admin"
     description:
         description:
             - The purpose / objective of the static Address Group
+        type: str
     commit:
         description:
             - commit if changed
+        type: bool
         default: false
     devicegroup:
         description: >
             - Device groups are used for the Panorama interaction with Firewall(s). The group must exists on Panorama.
             If device group is not define we assume that we are contacting Firewall.
+        type: str
     operation:
         description:
             - The action to be taken. Supported values are I(add)/I(update)/I(find)/I(delete).
+        type: str
+        choices: ['add', 'update', 'find', 'delete']
+        required: true
     tag_names:
         description:
             - The list of the tags that will be added or removed from the IP address.
+        type: list
+        elements: str
+        required: true
     ip_to_register:
         description:
             - IP that will be registered with the given tag names.
+        type: str
 '''
 
 EXAMPLES = '''
@@ -188,9 +205,9 @@ def main():
         devicegroup=dict(default=None),
         description=dict(default=None),
         ip_to_register=dict(type='str', required=False),
-        tag_names=dict(type='list', required=True),
+        tag_names=dict(type='list', elements='str', required=True),
         commit=dict(type='bool', default=False),
-        operation=dict(type='str', required=True)
+        operation=dict(type='str', choices=['add', 'update', 'find', 'delete'], required=True)
     )
 
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False)

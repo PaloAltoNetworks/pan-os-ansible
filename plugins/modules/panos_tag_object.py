@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -29,7 +29,7 @@ short_description: Create tag objects on PAN-OS devices.
 description:
     - Create tag objects on PAN-OS devices.
 author: "Michael Richardson (@mrichardson03)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -45,16 +45,33 @@ options:
     name:
         description:
             - Name of the tag.
+        type: str
         required: true
     color:
         description:
             - Color for the tag.
-        choices: ['red', 'green', 'blue', 'yellow', 'copper', 'orange', 'purple', 'gray',
-                  'light green', 'cyan', 'light gray', 'blue gray', 'lime', 'black', 'gold',
-                  'brown']
+        type: str
+        choices:
+            - red
+            - green
+            - blue
+            - yellow
+            - copper
+            - orange
+            - purple
+            - gray
+            - light green
+            - cyan
+            - light gray
+            - blue gray
+            - lime
+            - black
+            - gold
+            - brown
     comments:
         description:
             - Comments for the tag.
+        type: str
     commit:
         description:
             - Commit changes after creating object.  If I(ip_address) is a Panorama device, and I(device_group) is

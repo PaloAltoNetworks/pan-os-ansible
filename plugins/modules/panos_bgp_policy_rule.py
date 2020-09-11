@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -32,7 +32,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -47,6 +47,7 @@ options:
     type:
         description:
             - The type of rule.
+        type: str
         choices:
             - import
             - export
@@ -54,27 +55,31 @@ options:
     name:
         description:
             - Name of filter.
+        type: str
         required: True
     enable:
         description:
             - Enable rule.
-        default: True
         type: bool
+        default: True
     match_afi:
         description:
             - Address Family Identifier.
+        type: str
         choices:
             - ip
             - ipv6
     match_safi:
         description:
             - Subsequent Address Family Identifier.
+        type: str
         choices:
             - ip
             - ipv6
     match_route_table:
         description:
             - Route table to match rule.
+        type: str
         choices:
             - unicast
             - multicast
@@ -83,10 +88,12 @@ options:
         description:
             - Next-hop attributes.
         type: list
+        elements: str
     match_from_peer:
         description:
             - Filter by peer that sent this route.
         type: list
+        elements: str
     match_med:
         description:
             - Multi-Exit Discriminator.
@@ -94,19 +101,24 @@ options:
     match_as_path_regex:
         description:
             - AS-path regular expression.
+        type: str
     match_community_regex:
         description:
             - Community AS-path regular expression.
+        type: str
     match_extended_community_regex:
         description:
             - Extended Community AS-path regular expression.
+        type: str
     used_by:
         description:
             - Peer-groups that use this rule.
         type: list
+        elements: str
     action:
         description:
             - Rule action.
+        type: str
         choices:
             - allow
             - deny
@@ -121,9 +133,11 @@ options:
     action_nexthop:
         description:
             - Nexthop address.
+        type: str
     action_origin:
         description:
             - New route origin.
+        type: str
         choices:
             - igp
             - egp
@@ -135,6 +149,7 @@ options:
     action_as_path_type:
         description:
             - AS path update options.
+        type: str
         choices:
             - none
             - remove
@@ -147,6 +162,7 @@ options:
     action_community_type:
         description:
             - Community update options.
+        type: str
         choices:
             - none
             - remove-all
@@ -156,15 +172,19 @@ options:
     action_community_argument:
         description:
             - Argument to the action community value if needed.
+        type: str
     action_extended_community_type:
         description:
             - Extended community update options.
+        type: str
     action_extended_community_argument:
         description:
             - Argument to the action extended community value if needed.
+        type: str
     action_dampening:
         description:
             - Route flap dampening profile; only with "import" type.
+        type: str
     action_weight:
         description:
             - New weight value; only with "import" type.
@@ -173,15 +193,18 @@ options:
         description:
             - List of address prefix strings or dicts with "name"/"exact" keys.
             - If a list entry is a string, then I(exact=False) for that name.
+        type: list
+        elements: str
     vr_name:
         description:
-            - Name of the virtual router; it must already exist; see panos_virtual_router.
+            - Name of the virtual router; it must already exist; see M(panos_virtual_router).
+        type: str
         default: default
     commit:
         description:
             - Commit configuration if changed.
-        default: False
         type: bool
+        default: False
 '''
 
 EXAMPLES = '''
@@ -249,99 +272,39 @@ except ImportError:
 
 def setup_args():
     return dict(
-        commit=dict(
-            type='bool', default=False,
-            help='Commit configuration if changed'),
+        commit=dict(type='bool', default=False),
 
-        vr_name=dict(
-            default='default',
-            help='Name of the virtual router; it must already exist; see panos_virtual_router'),
+        vr_name=dict(default='default'),
 
-        type=dict(
-            type='str', required=True, choices=['import', 'export'],
-            help='The type of rule'),
+        type=dict(type='str', required=True, choices=['import', 'export']),
 
-        name=dict(
-            type='str', required=True,
-            help='Name of filter'),
-        enable=dict(
-            default=True, type='bool',
-            help='Enable rule'),
-        match_afi=dict(
-            type='str', choices=['ip', 'ipv6'],
-            help='Address Family Identifier'),
-        match_safi=dict(
-            type='str', choices=['ip', 'ipv6'],
-            help='Subsequent Address Family Identifier'),
-        match_route_table=dict(
-            type='str', choices=['unicast', 'multicast', 'both'],
-            help='Route table to match rule'),
-        match_nexthop=dict(
-            type='list',
-            help='Next-hop attributes'),
-        match_from_peer=dict(
-            type='list',
-            help='Filter by peer that sent this route'),
-        match_med=dict(
-            type='int',
-            help='Multi-Exit Discriminator'),
-        match_as_path_regex=dict(
-            type='str',
-            help='AS-path regular expression'),
-        match_community_regex=dict(
-            type='str',
-            help='Community AS-path regular expression'),
-        match_extended_community_regex=dict(
-            type='str',
-            help='Extended Community AS-path regular expression'),
-        used_by=dict(
-            type='list',
-            help='Peer-groups that use this rule'),
-        action=dict(
-            type='str', choices=['allow', 'deny'],
-            help='Rule action'),
-        action_local_preference=dict(
-            type='int',
-            help='New local preference value'),
-        action_med=dict(
-            type='int',
-            help='New MED value'),
-        action_nexthop=dict(
-            type='str',
-            help='Nexthop address'),
-        action_origin=dict(
-            type='str', choices=['igp', 'egp', 'incomplete'],
-            help='New route origin'),
-        action_as_path_limit=dict(
-            type='int',
-            help='Add AS path limit attribute if it does not exist'),
-        action_as_path_type=dict(
-            type='str', choices=['none', 'remove', 'prepend', 'remove-and-prepend'],
-            help='AS path update options'),
-        action_as_path_prepend_times=dict(
-            type='int',
-            help='Prepend local AS for specified number of times'),
-        action_community_type=dict(
-            type='str', choices=['none', 'remove-all', 'remove-regex', 'append', 'overwrite'],
-            help='Community update options'),
-        action_community_argument=dict(
-            type='str',
-            help='Argument to the action community value if needed'),
-        action_extended_community_type=dict(
-            type='str',
-            help='Extended community update options'),
-        action_extended_community_argument=dict(
-            type='str',
-            help='Argument to the action extended community value if needed'),
-        action_dampening=dict(
-            type='str',
-            help='Route flap dampening profile; only with "import" type'),
-        action_weight=dict(
-            type='int',
-            help='New weight value; only with "import" type'),
-        address_prefix=dict(
-            type='list',
-            help='List of address prefix strings or dicts with "name"/"exact" keys'),
+        name=dict(type='str', required=True),
+        enable=dict(default=True, type='bool'),
+        match_afi=dict(type='str', choices=['ip', 'ipv6']),
+        match_safi=dict(type='str', choices=['ip', 'ipv6']),
+        match_route_table=dict(type='str', choices=['unicast', 'multicast', 'both']),
+        match_nexthop=dict(type='list', elements='str'),
+        match_from_peer=dict(type='list', elements='str'),
+        match_med=dict(type='int'),
+        match_as_path_regex=dict(type='str'),
+        match_community_regex=dict(type='str'),
+        match_extended_community_regex=dict(type='str'),
+        used_by=dict(type='list', elements='str'),
+        action=dict(type='str', choices=['allow', 'deny']),
+        action_local_preference=dict(type='int'),
+        action_med=dict(type='int'),
+        action_nexthop=dict(type='str'),
+        action_origin=dict(type='str', choices=['igp', 'egp', 'incomplete']),
+        action_as_path_limit=dict(type='int'),
+        action_as_path_type=dict(type='str', choices=['none', 'remove', 'prepend', 'remove-and-prepend']),
+        action_as_path_prepend_times=dict(type='int'),
+        action_community_type=dict(type='str', choices=['none', 'remove-all', 'remove-regex', 'append', 'overwrite']),
+        action_community_argument=dict(type='str'),
+        action_extended_community_type=dict(type='str'),
+        action_extended_community_argument=dict(type='str'),
+        action_dampening=dict(type='str'),
+        action_weight=dict(type='int'),
+        address_prefix=dict(type='list', elements='str'),
     )
 
 

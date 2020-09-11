@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_check
@@ -26,7 +29,7 @@ author:
     - Luigi Mori (@jtschichold)
     - Ivan Bojer (@ivanbojer)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.3"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice

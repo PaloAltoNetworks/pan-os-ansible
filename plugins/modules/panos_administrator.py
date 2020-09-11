@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2016 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'status': ['preview'],
                     'supported_by': 'community',
                     'version': '1.0'}
@@ -29,7 +29,7 @@ short_description: Manage PAN-OS administrator user accounts.
 description:
     - Manages PAN-OS administrator user accounts.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -49,10 +49,12 @@ options:
     admin_username:
         description:
             - Admin name.
+        type: str
         default: "admin"
     authentication_profile:
         description:
             - The authentication profile.
+        type: str
     web_client_cert_only:
         description:
             - Use only client certificate authenciation (Web)
@@ -83,29 +85,36 @@ options:
             - This is for multi-vsys physical firewalls only.
             - The list of vsys this admin should manage.
         type: list
+        elements: str
     vsys_read_only:
         description:
             - This is for multi-vsys physical firewalls only.
             - The list of vsys this read only admin should manage.
         type: list
+        elements: str
     ssh_public_key:
         description:
             - Use public key authentication (ssh)
+        type: str
     role_profile:
         description:
             - The role based profile.
+        type: str
     admin_password:
         description:
             - New plain text password for the I(admin_username) user.
             - If this is not specified, then the password is left as-is.
             - Takes priority over I(admin_phash)
+        type: str
     admin_phash:
         description:
             - New password hash for the I(admin_username) user
             - If this is not specified, then the phash is left as-is.
+        type: str
     password_profile:
         description:
             - The password profile for this user.
+        type: str
     commit:
         description:
             - Commit configuration if changed.
@@ -127,7 +136,7 @@ RETURN = '''
 status:
     description: success status
     returned: success
-    type: string
+    type: str
     sample: "done"
 '''
 
@@ -162,8 +171,8 @@ def main():
             panorama_admin=dict(type='bool'),
             device_admin=dict(type='bool'),
             device_admin_read_only=dict(type='bool'),
-            vsys=dict(type='list'),
-            vsys_read_only=dict(type='list'),
+            vsys=dict(type='list', elements='str'),
+            vsys_read_only=dict(type='list', elements='str'),
             ssh_public_key=dict(),
             role_profile=dict(),
             admin_password=dict(no_log=True),

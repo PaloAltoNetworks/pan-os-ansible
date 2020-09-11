@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -29,7 +29,7 @@ short_description: Create custom url category objects on PAN-OS devices.
 description:
     - Create custom url category objects on PAN-OS devices.
 author: "Borislav Varadinov (@bvaradinov-c)"
-version_added: "1.2.0"
+version_added: '2.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -45,13 +45,19 @@ options:
     name:
         description:
             - Name of the tag.
+        type: str
         required: true
     url_value:
         description:
             - List with urls
+        type: list
+        elements: str
     type:
         description:
-            - type of the category - URL List or Category Match
+            - Custom category type
+        type: str
+        choices: ['URL List', 'Category Match']
+        default: 'URL List'
 '''
 
 EXAMPLES = '''
@@ -130,8 +136,8 @@ def main():
         with_state=True,
         argument_spec=dict(
             name=dict(type='str', required=True),
-            url_value=dict(type='list'),
-            type=dict(type='str', default="URL List")
+            url_value=dict(type='list', elements='str'),
+            type=dict(type='str', choices=['URL List', 'Category Match'], default="URL List")
         )
     )
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -31,7 +31,7 @@ description:
 author:
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -48,21 +48,25 @@ options:
         description:
             - Name of address group to create.
         required: true
+        type: str
     static_value:
         description:
             - List of address objects to be included in the group.
         type: list
+        elements: str
     dynamic_value:
         description:
             - Registered IP tags for a dynamic address group.
-        type: string
+        type: str
     description:
         description:
             - Descriptive name for this address group.
+        type: str
     tag:
         description:
             - List of tags to add to this address group.
         type: list
+        elements: str
     commit:
         description:
             - Commit changes after creating object.  If I(ip_address) is a Panorama device, and I(device_group) is
@@ -122,10 +126,10 @@ def main():
         ],
         argument_spec=dict(
             name=dict(type='str', required=True),
-            static_value=dict(type='list'),
+            static_value=dict(type='list', elements='str'),
             dynamic_value=dict(),
             description=dict(),
-            tag=dict(type='list'),
+            tag=dict(type='list', elements='str'),
             commit=dict(type='bool', default=False),
         ),
     )

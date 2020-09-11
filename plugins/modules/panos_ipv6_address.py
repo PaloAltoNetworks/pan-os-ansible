@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2020 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_ipv6_address
@@ -22,7 +25,7 @@ short_description: Manage IPv6 addresses on an interface.
 description:
     - Manage IPv6 addresses on an interface.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.9"
+version_added: '1.1.0'
 requirements:
     - pan-python
     - pandevice >= 0.14.0
@@ -37,10 +40,12 @@ options:
     iface_name:
         description:
             - The parent interface that this IPv6 address is attached to.
+        type: str
         required: true
     address:
         description:
             - IPv6 address.
+        type: str
         required: true
     enable_on_interface:
         description:
@@ -183,7 +188,7 @@ def main():
         elif iname.startswith('vlan'):
             eth = VlanInterface(iname)
         else:
-            module.fail_json(msg='Unknown interface style: {0}'.format(iface))
+            module.fail_json(msg='Unknown interface style: {0}'.format(iname))
 
     parent.add(eth)
     try:

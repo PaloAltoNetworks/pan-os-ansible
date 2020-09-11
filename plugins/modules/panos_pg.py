@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_pg
@@ -22,7 +25,7 @@ short_description: create a security profiles group
 description:
     - Create a security profile group
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
-version_added: "2.3"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice
@@ -38,33 +41,41 @@ options:
     pg_name:
         description:
             - name of the security profile group
+        type: str
         required: true
     data_filtering:
         description:
             - name of the data filtering profile
+        type: str
     file_blocking:
         description:
             - name of the file blocking profile
+        type: str
     spyware:
         description:
             - name of the spyware profile
+        type: str
     url_filtering:
         description:
             - name of the url filtering profile
+        type: str
     virus:
         description:
             - name of the anti-virus profile
+        type: str
     vulnerability:
         description:
             - name of the vulnerability profile
+        type: str
     wildfire:
         description:
             - name of the wildfire analysis profile
+        type: str
     commit:
         description:
             - commit if changed
-        default: false
         type: bool
+        default: false
 '''
 
 EXAMPLES = '''

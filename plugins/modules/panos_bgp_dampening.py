@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -32,7 +32,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -53,6 +53,7 @@ options:
         description:
             - Name of the virtual router; it must already exist.
             - See M(panos_virtual_router).
+        type: str
         default: 'default'
     cutoff:
         description:
@@ -78,6 +79,7 @@ options:
     name:
         description:
             - Name of Dampening Profile.
+        type: str
         required: True
     reuse:
         description:
@@ -117,35 +119,15 @@ except ImportError:
 
 def setup_args():
     return dict(
-        commit=dict(
-            type='bool', default=False,
-            help='Commit configuration if changed'),
-
-        vr_name=dict(
-            default='default',
-            help='Name of the virtual router; it must already exist; see panos_virtual_router'),
-
-        name=dict(
-            type='str', required=True,
-            help='Name of Dampening Profile'),
-        enable=dict(
-            default=True, type='bool',
-            help='Enable profile'),
-        cutoff=dict(
-            type='float',
-            help='Cutoff threshold value'),
-        reuse=dict(
-            type='float',
-            help='Reuse threshold value'),
-        max_hold_time=dict(
-            type='int',
-            help='Maximum of hold-down time (in seconds)'),
-        decay_half_life_reachable=dict(
-            type='int',
-            help='Decay half-life while reachable (in seconds)'),
-        decay_half_life_unreachable=dict(
-            type='int',
-            help='Decay half-life while unreachable (in seconds)'),
+        commit=dict(type='bool', default=False),
+        vr_name=dict(default='default'),
+        name=dict(type='str', required=True),
+        enable=dict(default=True, type='bool'),
+        cutoff=dict(type='float'),
+        reuse=dict(type='float'),
+        max_hold_time=dict(type='int'),
+        decay_half_life_reachable=dict(type='int'),
+        decay_half_life_unreachable=dict(type='int'),
     )
 
 

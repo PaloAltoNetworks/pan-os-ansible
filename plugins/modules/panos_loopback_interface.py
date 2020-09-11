@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2019 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_loopback_interface
@@ -24,7 +27,7 @@ description:
 author:
     - Geraint Jones (@nexus_moneky_nz)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPi U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPi U(https://pypi.python.org/pypi/pandevice)
@@ -40,11 +43,13 @@ options:
     if_name:
         description:
             - Name of the interface to configure.
+        type: str
         required: true
     ip:
         description:
             - List of static IP addresses.
         type: list
+        elements: str
     ipv6_enabled:
         description:
             - Enable IPv6.
@@ -52,6 +57,7 @@ options:
     management_profile:
         description:
             - Interface management profile name.
+        type: str
     mtu:
         description:
             - MTU for loopback interface.
@@ -63,9 +69,11 @@ options:
     netflow_profile:
         description:
             - Netflow profile for loopback interface.
+        type: str
     comment:
         description:
             - Interface comment.
+        type: str
     ipv4_mss_adjust:
         description:
             - (7.1+) TCP MSS adjustment for IPv4.
@@ -78,9 +86,11 @@ options:
         description:
             - Name of the zone for the interface. If the zone does not exist it is created but if the
             - zone exists and it is not of the correct mode the operation will fail.
+        type: str
     vr_name:
         description:
             - Name of the virtual router; it must already exist.
+        type: str
         default: "default"
     vsys_dg:
         description:
@@ -88,6 +98,7 @@ options:
             - Use I(vsys) to specify the vsys instead.
             - HORIZONTALLINE
             - Name of the vsys (if firewall) or device group (if panorama) to put this object.
+        type: str
     commit:
         description:
             - Commit if changed
@@ -143,7 +154,7 @@ def main():
         min_pandevice_version=(0, 8, 0),
         argument_spec=dict(
             if_name=dict(required=True),
-            ip=dict(type='list'),
+            ip=dict(type='list', elements='str'),
             ipv6_enabled=dict(type='bool'),
             management_profile=dict(),
             mtu=dict(type='int'),
@@ -192,7 +203,10 @@ def main():
     # TODO(gfreeman) - Remove vsys_dg in 2.12, as well as this code chunk.
     # In the mean time, we'll need to do this special handling.
     if vsys_dg is not None:
-        module.deprecate('Param "vsys_dg" is deprecated, use "vsys"', '2.12')
+        module.deprecate(
+            'Param "vsys_dg" is deprecated, use "vsys"',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
         if vsys is None:
             vsys = vsys_dg
         else:

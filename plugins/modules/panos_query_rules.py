@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['deprecated'],
                     'supported_by': 'community'}
@@ -28,10 +31,10 @@ description:
     - The policy rules are compared against the incoming traffic in sequence, and because the first rule that matches
     - the traffic is applied, the more specific rules must precede the more general ones.
 author: "Bob Hagen (@stealthllama)"
-version_added: "2.5"
+version_added: '1.0.0'
 deprecated:
     alternative: Use M(panos_match_rule)
-    removed_in: '2.12'
+    removed_in: '3.0.0'
     why: Querying rules is handled better by M(panos_match_rule).
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
@@ -44,69 +47,73 @@ options:
     ip_address:
         description:
             - IP address (or hostname) of PAN-OS firewall or Panorama management console being queried.
+        type: str
         required: true
     username:
         description:
             - Username credentials to use for authentication.
+        type: str
         required: false
         default: "admin"
     password:
         description:
             - Password credentials to use for authentication.
-        required: true
+        type: str
     api_key:
         description:
             - API key that can be used instead of I(username)/I(password) credentials.
+        type: str
     application:
         description:
             - Name of the application or application group to be queried.
+        type: str
         required: false
-        default: None
     source_zone:
         description:
             - Name of the source security zone to be queried.
+        type: str
         required: false
-        default: None
     source_ip:
         description:
             - The source IP address to be queried.
+        type: str
         required: false
-        default: None
     source_port:
         description:
             - The source port to be queried.
+        type: str
         required: false
-        default: None
     destination_zone:
         description:
             - Name of the destination security zone to be queried.
+        type: str
         required: false
-        default: None
     destination_ip:
         description:
             - The destination IP address to be queried.
+        type: str
         required: false
-        default: None
     destination_port:
         description:
             - The destination port to be queried.
+        type: str
         required: false
-        default: None
     protocol:
         description:
-            - The protocol used to be queried.  Must be either I(tcp) or I(udp).
+            - The protocol used to be queried.
+        type: str
+        choices: ['tcp', 'udp']
         required: false
-        default: None
     tag_name:
         description:
             - Name of the rule tag to be queried.
+        type: str
         required: false
-        default: None
     devicegroup:
         description:
             - The Panorama device group in which to conduct the query.
+        type: str
         required: false
-        default: None
 '''
 
 EXAMPLES = '''
@@ -267,7 +274,7 @@ def get_services(device, dev_group, svc_list, obj_list):
 
 def port_in_svc(orientation, port, protocol, obj):
     # Process address objects
-    if orientation is 'source':
+    if orientation == 'source':
         for x in obj.source_port.split(','):
             if '-' in x:
                 port_range = x.split('-')
@@ -278,7 +285,7 @@ def port_in_svc(orientation, port, protocol, obj):
             else:
                 if port == x and obj.protocol == protocol:
                     return True
-    elif orientation is 'destination':
+    elif orientation == 'destination':
         for x in obj.destination_port.split(','):
             if '-' in x:
                 port_range = x.split('-')
@@ -327,7 +334,10 @@ def main():
                            required_one_of=[['api_key', 'password']]
                            )
 
-    module.deprecate('This module has been deprecated; use panos_match_rule', '2.12')
+    module.deprecate(
+        'This module has been deprecated; use panos_match_rule',
+        version='3.0.0', collection_name='paloaltonetworks.panos'
+    )
 
     if not HAS_LIB:
         module.fail_json(msg='Missing required libraries.')

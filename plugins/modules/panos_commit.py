@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -32,7 +32,7 @@ description:
 author:
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.3"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -50,10 +50,12 @@ options:
             - Use I(device_group) instead.
             - HORIZONTALLINE
             - (Panorama only) The device group.
+        type: str
     admins:
         description:
             - (PanOS 8.0+ only) Commit only the changes made by specified list of administrators.
         type: list
+        elements: str
 '''
 
 EXAMPLES = '''
@@ -87,7 +89,7 @@ def main():
         min_pandevice_version=(0, 12, 0),
         argument_spec=dict(
             include_template=dict(type='bool'),
-            admins=dict(type='list'),
+            admins=dict(type='list', elements='str'),
             # TODO(gfreeman) - remove in 2.12.
             devicegroup=dict(),
         ),
@@ -103,7 +105,10 @@ def main():
 
     # TODO(gfreeman) - remove in 2.12
     if module.params['devicegroup'] is not None:
-        module.deprecate('Param "devicegroup" is deprecated; use "device_group"', '2.12')
+        module.deprecate(
+            'Param "devicegroup" is deprecated; use "device_group"',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
         if module.params['device_group'] is not None:
             msg = [
                 'Both "devicegroup" and "device_group" specified',

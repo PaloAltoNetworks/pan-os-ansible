@@ -1,9 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
-
 #  Copyright 2020 Palo Alto Networks, Inc
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -30,7 +30,7 @@ short_description: Get information about a NAT rule.
 description:
     - Get information about one or more NAT rules.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.9"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice
@@ -52,14 +52,17 @@ options:
         description:
             - Name of the rule.
             - Mutually exclusive with rule_regex, listing, and uuid.
+        type: str
     rule_regex:
         description:
             - A regex to match against the rule name.
             - Mutually exclusive with rule_name, listing, and uuid.
+        type: str
     uuid:
         description:
             - Match the given rule UUID (PAN-OS 9.0+).
             - Mutually exclusive with rule_name, listing, and rule_regex.
+        type: str
 '''
 
 EXAMPLES = '''

@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2019 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -29,7 +29,7 @@ short_description: Manage syslog server profile syslog servers.
 description:
     - Manages syslog servers in an syslog server profile.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice >= 0.11.1
@@ -40,22 +40,27 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
+    - paloaltonetworks.panos.fragments.state
 options:
     syslog_profile:
         description:
             - Name of the syslog server profile.
+        type: str
         required: True
     name:
         description:
             - Server name.
+        type: str
         required: True
     server:
         description:
             - IP address or FQDN of the syslog server
+        type: str
         required: True
     transport:
         description:
             - Syslog transport.
+        type: str
         choices:
             - UDP
             - TCP
@@ -68,6 +73,7 @@ options:
     format:
         description:
             Format of the syslog message.
+        type: str
         choices:
             - BSD
             - IETF
@@ -75,6 +81,7 @@ options:
     facility:
         description:
             - Syslog facility.
+        type: str
         choices:
             - LOG_USER
             - LOG_LOCAL0

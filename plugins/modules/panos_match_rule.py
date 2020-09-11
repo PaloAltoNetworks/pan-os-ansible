@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -26,7 +29,7 @@ short_description: Test for match against a security rule on PAN-OS devices or P
 description:
     - Security policies allow you to enforce rules and take action, and can be as general or specific as needed.
 author: "Robert Hagen (@stealthllama)"
-version_added: "2.5"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -41,6 +44,7 @@ options:
     rule_type:
         description:
             - Type of rule.
+        type: str
         choices:
             - security
             - nat
@@ -48,9 +52,11 @@ options:
     source_zone:
         description:
             - The source zone.
+        type: str
     source_ip:
         description:
             - The source IP address.
+        type: str
         required: true
     source_port:
         description:
@@ -59,40 +65,48 @@ options:
     source_user:
         description:
             - The source user or group.
+        type: str
     to_interface:
         description:
             - The inbound interface in a NAT rule.
+        type: str
     destination_zone:
         description:
             - The destination zone.
+        type: str
     destination_ip:
         description:
             - The destination IP address.
+        type: str
         required: true
     destination_port:
         description:
             - The destination port.
-        required: true
         type: int
+        required: true
     application:
         description:
             - The application.
+        type: str
     protocol:
         description:
             - The IP protocol number from 1 to 255.
-        required: true
         type: int
+        required: true
     category:
         description:
             - URL category
+        type: str
     vsys_id:
         description:
             - B(Removed)
             - Use I(vsys) instead.
+        type: str
     rulebase:
         description:
             - B(DEPRECATED)
             - This is no longer used and may safely be removed from your playbook.
+        type: str
 '''
 
 EXAMPLES = '''
@@ -166,7 +180,7 @@ stdout_lines:
 rule:
     description: The rule definition, either security rule or NAT rule
     returned: always
-    type: complex
+    type: dict
 rulebase:
     description: Rule location; panorama-pre-rulebase, firewall-rulebase, or panorama-post-rulebase
     returned: always
@@ -239,7 +253,8 @@ def main():
     if module.params['rulebase'] is not None:
         module.deprecate(
             'Param "rulebase" is deprecated and may safely be removed from your playbook',
-            '2.12',
+            version='3.0.0',
+            collection_name='paloaltonetworks.panos'
         )
 
     parent = helper.get_pandevice_parent(module)
@@ -362,7 +377,8 @@ def main():
             x = rules[0]
             module.deprecate(
                 'The "stdout_lines" output is deprecated; use "rule" instead',
-                '2.12',
+                version='3.0.0',
+                collection_name='paloaltonetworks.panos',
             )
             module.exit_json(
                 stdout_lines=json.dumps(xmltodict.parse(x.element_str()), indent=2),

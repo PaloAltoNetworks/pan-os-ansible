@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -32,7 +32,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.9"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -47,8 +47,8 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: False
         type: bool
+        default: False
     aggregated_confed_as_path:
         description:
             - The peers understand Aggregated Confederation AS Path.
@@ -56,11 +56,12 @@ options:
     enable:
         description:
             - Enable BGP peer group.
-        default: True
         type: bool
+        default: True
     export_nexthop:
         description:
             - Export locally resolved nexthop.
+        type: str
         choices:
             - resolve
             - use-self
@@ -68,6 +69,7 @@ options:
     import_nexthop:
         description:
             - I(type=ebgp) only; override nexthop with peer address.
+        type: str
         choices:
             - original
             - use-peer
@@ -75,6 +77,7 @@ options:
     name:
         description:
             - Name of the BGP peer group.
+        type: str
         required: True
     remove_private_as:
         description:
@@ -87,6 +90,7 @@ options:
     type:
         description:
             - Peer group type.
+        type: str
         choices:
             - ebgp
             - ibgp
@@ -95,7 +99,8 @@ options:
         default: 'ebgp'
     vr_name:
         description:
-            - Name of the virtual router; it must already exist; see panos_virtual_router.
+            - Name of the virtual router, it must already exist.  See M(panos_virtual_router).
+        type: str
         default: 'default'
 '''
 
@@ -133,36 +138,16 @@ except ImportError:
 
 def setup_args():
     return dict(
-        name=dict(
-            type='str', required=True,
-            help='Name of the BGP peer group'),
-        enable=dict(
-            default=True, type='bool',
-            help='Enable BGP peer group'),
-        aggregated_confed_as_path=dict(
-            type='bool',
-            help='The peers understand Aggregated Confederation AS Path'),
-        soft_reset_with_stored_info=dict(
-            type='bool',
-            help='Enable soft reset with stored info'),
-        type=dict(
-            type='str', default='ebgp', choices=['ebgp', 'ibgp', 'ebgp-confed', 'ibgp-confed'],
-            help='Peer group type I("ebgp")/I("ibgp")/I("ebgp-confed")/I("ibgp-confed")'),
-        export_nexthop=dict(
-            type='str', default='resolve', choices=['resolve', 'use-self'],
-            help='Export locally resolved nexthop I("resolve")/I("use-self")'),
-        import_nexthop=dict(
-            type='str', default='original', choices=['original', 'use-peer'],
-            help='Override nexthop with peer address I("original")/I("use-peer"), only with "ebgp"'),
-        remove_private_as=dict(
-            type='bool',
-            help='Remove private AS when exporting route, only with "ebgp"'),
-        vr_name=dict(
-            default='default',
-            help='Name of the virtual router; it must already exist; see panos_virtual_router'),
-        commit=dict(
-            type='bool', default=False,
-            help='Commit configuration if changed'),
+        name=dict(type='str', required=True),
+        enable=dict(default=True, type='bool'),
+        aggregated_confed_as_path=dict(type='bool'),
+        soft_reset_with_stored_info=dict(type='bool'),
+        type=dict(type='str', default='ebgp', choices=['ebgp', 'ibgp', 'ebgp-confed', 'ibgp-confed']),
+        export_nexthop=dict(type='str', default='resolve', choices=['resolve', 'use-self']),
+        import_nexthop=dict(type='str', default='original', choices=['original', 'use-peer']),
+        remove_private_as=dict(type='bool'),
+        vr_name=dict(default='default'),
+        commit=dict(type='bool', default=False),
     )
 
 
