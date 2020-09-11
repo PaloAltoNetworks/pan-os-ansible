@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # The MIT License (MIT)
@@ -49,6 +49,7 @@ options:
     description:
         description:
             - A description of the commit.
+        type: str
     admins:
         description:
             - Commit only the changes made by specified list of administrators.
@@ -216,7 +217,8 @@ def main():
     )
 
     # Execute the commit
-    commit_results = dict(changed=False, jobid=0)
+    # commit_results = dict(changed=False, jobid=0)
+    commit_results = {}
     sync = module.params['sync']
     result = parent.commit(cmd=cmd, sync=sync)
 
