@@ -165,7 +165,7 @@ def main():
                 'log collector group',
                 'wildfire appliance',
                 'wildfire cluster'
-                ]
+            ]
             ),
             name=dict(type='str'),
             description=dict(type='str'),
