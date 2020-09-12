@@ -137,12 +137,12 @@ starttime:
   description: The time the commit job started.
   type: str
   returned: on success
-  sample: 2020-09-06T17:56:20
+  sample: 2020, 9, 6, 17, 56, 20
 endtime:
   description: The time the commit job ended.
   type: str
   returned: on success
-  sample: 2020-09-06T17:56:35
+  sample: 2020, 9, 6, 17, 56, 35
 runtime:
   description: The elapsed time (in seconds) of the commit job.
   type: int

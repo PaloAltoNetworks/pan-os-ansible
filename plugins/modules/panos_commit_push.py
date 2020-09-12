@@ -158,7 +158,15 @@ def main():
         min_pandevice_version=(1, 0, 0),
         min_panos_version=(8, 0, 0),
         argument_spec=dict(
-            style=dict(type='str'),
+            style=dict(choices=[
+                'device group',
+                'template',
+                'template stack',
+                'log collector group',
+                'wildfire appliance',
+                'wildfire cluster'
+                ]
+            ),
             name=dict(type='str'),
             description=dict(type='str'),
             include_template=dict(type='bool'),
