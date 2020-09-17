@@ -135,11 +135,6 @@ jobid:
   type: int
   returned: always
   sample: 49152
-warning:
-  description: Commit job warnings.
-  type: list
-  returned: on success
-  sample: ["","","","","","","","","","",""]
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -147,8 +142,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 try:
     from panos.panorama import PanoramaCommitAll
-    from dateutil import parser
-    from xml.etree import ElementTree as ET
 except ImportError:
     pass
 
@@ -211,7 +204,6 @@ def main():
         # The commit succeeded
         commit_results['changed'] = True
         commit_results['jobid'] = result['jobid']
-        commit_results['warning'] = result['warnings']['line']
 
     module.exit_json(**commit_results)
 

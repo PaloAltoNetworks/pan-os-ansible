@@ -54,34 +54,42 @@ options:
         description:
             - Commit only the changes made by specified list of administrators.
         type: list
+        elements: str
     device_groups:
         description:
             - Commit changes made to these device groups.
         type: list
+        elements: str
     templates:
         description:
             - Commit changes made to these templates.
         type: list
+        elements: str
     template_stacks:
         description:
             - Commit changes made to these template stacks.
         type: list
+        elements: str
     wildfire_appliances:
         description:
             - Commit changes made to these WildFire appliances.
         type: list
+        elements: str
     wildfire_clusters:
         description:
             - Commit changes made to these WildFire clusters.
         type: list
+        elements: str
     log_collectors:
         description:
             - Commit changes made to these log collectors.
         type: list
+        elements: str
     log_collector_groups:
         description:
             - Commit changes made to these log collector groups.
         type: list
+        elements: str
     exclude_device_and_network:
         description:
             - Exclude network and device configuration changes.
@@ -133,31 +141,11 @@ jobid:
   type: int
   returned: always
   sample: 49152
-starttime:
-  description: The time the commit job started.
-  type: str
-  returned: on success
-  sample: 2020, 9, 6, 17, 56, 20
-endtime:
-  description: The time the commit job ended.
-  type: str
-  returned: on success
-  sample: 2020, 9, 6, 17, 56, 35
-runtime:
-  description: The elapsed time (in seconds) of the commit job.
-  type: int
-  returned: on success
-  sample: 15
 details:
   description: Commit job completion messages.
   type: str
   returned: on success
   sample: Configuration committed successfully
-warning:
-  description: Commit job warnings.
-  type: list
-  returned: on success
-  sample: ["","","","","","","","","","",""]
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -165,7 +153,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 try:
     from panos.panorama import PanoramaCommit
-    from dateutil import parser
 except ImportError:
     pass
 
@@ -217,8 +204,8 @@ def main():
     )
 
     # Execute the commit
-    # commit_results = dict(changed=False, jobid=0)
-    commit_results = {}
+    commit_results = dict(changed=False, jobid=0)
+    # commit_results = {}
     sync = module.params['sync']
     result = parent.commit(cmd=cmd, sync=sync)
 
@@ -236,10 +223,6 @@ def main():
         # The commit succeeded
         commit_results['changed'] = True
         commit_results['jobid'] = result['jobid']
-        commit_results['starttime'] = parser.parse(result['starttime'])
-        commit_results['endtime'] = parser.parse(result['endtime'])
-        commit_results['runtime'] = (commit_results['endtime'] - commit_results['starttime']).seconds
-        commit_results['warning'] = result['warnings']['line']
         commit_results['details'] = result['messages']
 
     module.exit_json(**commit_results)
