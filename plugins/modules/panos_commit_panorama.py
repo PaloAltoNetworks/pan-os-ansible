@@ -39,7 +39,7 @@ description:
     - The new configuration will become active immediately.
 author:
     - Robert Hagen (@stealthllama)
-version_added: "2.10"
+version_added: "2.9"
 requirements:
     - pan-os-python
     - dateutils
