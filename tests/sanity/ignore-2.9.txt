@@ -21,6 +21,9 @@ plugins/modules/panos_bgp_redistribute.py validate-modules:missing-gplv3-license
 plugins/modules/panos_cert_gen_ssh.py validate-modules:missing-gplv3-license
 plugins/modules/panos_check.py validate-modules:missing-gplv3-license
 plugins/modules/panos_commit.py validate-modules:missing-gplv3-license
+plugins/modules/panos_commit_panorama.py validate-modules:missing-gplv3-license
+plugins/modules/panos_commit_firewall.py validate-modules:missing-gplv3-license
+plugins/modules/panos_commit_push.py validate-modules:missing-gplv3-license
 plugins/modules/panos_custom_url_category.py import-3.8  # waiting for custom class to be removed
 plugins/modules/panos_custom_url_category.py validate-modules:missing-gplv3-license
 plugins/modules/panos_dag.py no-get-exception
