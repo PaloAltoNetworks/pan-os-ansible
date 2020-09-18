@@ -1,6 +1,8 @@
 PAN-OS Ansible Collection
 =========================
 
+![CI/CD](https://github.com/PaloAltoNetworks/pan-os-ansible/workflows/CI/CD/badge.svg?branch=develop)
+
 Ansible collection that automates the configuration and operational tasks on
 Palo Alto Networks Next Generation Firewalls, both physical and virtualized form
 factors, using the PAN-OS API.
