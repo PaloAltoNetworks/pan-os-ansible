@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_nat_rule
@@ -25,10 +28,11 @@ description:
 author:
     - Luigi Mori (@jtschichold)
     - Ivan Bojer (@ivanbojer)
-    - Robert Hagen (@rnh556)
+    - Robert Hagen (@stealthllama)
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.4"
+    - Ken Celenza (@itdependsnetworks)
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -45,6 +49,7 @@ options:
     state:
         description:
             - The state of the NAT rule.
+        type: str
         choices:
             - present
             - absent
@@ -55,6 +60,7 @@ options:
         description:
             - B(Removed)
             - Use I(state) instead.
+        type: str
     devicegroup:
         description:
             - B(Deprecated)
@@ -62,26 +68,32 @@ options:
             - HORIZONTALLINE
             - The device group to place the NAT rule into.
             - Panorama only; ignored for firewalls.
+        type: str
     tag:
         description:
             - Administrative tags.
         type: list
+        elements: str
     tag_name:
         description:
             - B(Deprecated)
             - Use I(tag) instead.
             - HORIZONTALLINE
             - Administrative tag.
+        type: str
     rule_name:
         description:
             - name of the SNAT rule
+        type: str
         required: true
     description:
         description:
             - NAT rule description.
+        type: str
     nat_type:
         description:
             - Type of NAT.
+        type: str
         choices:
             - ipv4
             - nat64
@@ -90,62 +102,70 @@ options:
     source_zone:
         description:
             - list of source zones
-        required: true
         type: list
+        elements: str
     source_ip:
         description:
             - list of source addresses
         required: false
         type: list
+        elements: str
         default: ["any"]
     destination_zone:
         description:
             - destination zone
-        type: list
-        required: true
+        type: str
     destination_ip:
         description:
             - list of destination addresses
         required: false
         type: list
+        elements: str
         default: ["any"]
     to_interface:
         description:
             - Original packet's destination interface.
+        type: str
         default: 'any'
     service:
         description:
             - service
+        type: str
         default: "any"
     snat_type:
         description:
             - type of source translation
+        type: str
         choices:
             - static-ip
             - dynamic-ip
             - dynamic-ip-and-port
-        default: None
     snat_address_type:
         description:
             - type of source translation.
+        type: str
         choices:
             - interface-address
             - translated-address
-        default: 'translated-address'
+        default: 'interface-address'
     snat_static_address:
         description:
             - Source NAT translated address. Used with Static-IP translation.
+        type: str
     snat_dynamic_address:
         description:
             - Source NAT translated address.
             - Used when I(snat_type=dynamic-ip) or I(snat_type=dynamic-ip-and-port).
         type: list
+        elements: str
     snat_interface:
         description:
             - snat interface
+        type: str
     snat_interface_address:
         description:
             - snat interface address
+        type: str
     snat_bidirectional:
         description:
             - bidirectional flag
@@ -153,12 +173,15 @@ options:
     dnat_address:
         description:
             - dnat translated address
+        type: str
     dnat_port:
         description:
             - dnat translated port
+        type: str
     location:
         description:
             - Position to place the created rule in the rule base.
+        type: str
         choices:
             - top
             - bottom
@@ -170,11 +193,12 @@ options:
               rule name.  The new rule will be created in the specified position relative to this
               rule.
             - If I(location=before) or I(location=after), I(existing_rule) is required.
+        type: str
     commit:
         description:
             - Commit configuration if changed.
         type: bool
-        default: true
+        default: false
 '''
 
 EXAMPLES = '''
@@ -209,15 +233,18 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'supported_by': 'community'}
 
 
-from ansible.module_utils.basic import get_exception, AnsibleModule
+from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection, eltostr
 
-
 try:
-    from pandevice.errors import PanDeviceError
-    from pandevice.policies import NatRule
+    from panos.errors import PanDeviceError
+    from panos.policies import NatRule
 except ImportError:
-    pass
+    try:
+        from pandevice.errors import PanDeviceError
+        from pandevice.policies import NatRule
+    except ImportError:
+        pass
 
 
 def create_nat_rule(**kwargs):
@@ -277,6 +304,7 @@ def create_nat_rule(**kwargs):
 
 def main():
     helper = get_connection(
+        with_classic_provider_spec=True,
         vsys=True,
         device_group=True,
         rulebase=True,
@@ -285,26 +313,26 @@ def main():
             rule_name=dict(required=True),
             description=dict(),
             nat_type=dict(default='ipv4', choices=['ipv4', 'nat64', 'nptv6']),
-            source_zone=dict(type='list'),
-            source_ip=dict(type='list', default=['any']),
-            destination_zone=dict(),
-            destination_ip=dict(type='list', default=['any']),
+            source_zone=dict(type='list', elements='str'),
+            source_ip=dict(type='list', elements='str', default=['any']),
+            destination_zone=dict(type='str'),
+            destination_ip=dict(type='list', elements='str', default=['any']),
             to_interface=dict(default='any'),
             service=dict(default='any'),
             snat_type=dict(choices=['static-ip', 'dynamic-ip-and-port', 'dynamic-ip']),
             snat_address_type=dict(choices=['interface-address', 'translated-address'], default='interface-address'),
             snat_static_address=dict(),
-            snat_dynamic_address=dict(type='list'),
+            snat_dynamic_address=dict(type='list', elements='str'),
             snat_interface=dict(),
             snat_interface_address=dict(),
             snat_bidirectional=dict(type='bool'),
             dnat_address=dict(),
             dnat_port=dict(),
-            tag=dict(type='list'),
+            tag=dict(type='list', elements='str'),
             state=dict(default='present', choices=['present', 'absent', 'enable', 'disable']),
             location=dict(choices=['top', 'bottom', 'before', 'after']),
             existing_rule=dict(),
-            commit=dict(type='bool', default=True),
+            commit=dict(type='bool', default=False),
 
             # TODO(gfreeman) - remove later.
             tag_name=dict(),
@@ -323,11 +351,17 @@ def main():
     if module.params['operation'] is not None:
         module.fail_json(msg='Param "operation" is removed; use "state"')
     if module.params['devicegroup'] is not None:
-        module.deprecate('Param "devicegroup" is deprecated; use "device_group"', '2.12')
+        module.deprecate(
+            'Param "devicegroup" is deprecated; use "device_group"',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
         module.params['device_group'] = module.params['devicegroup']
     if module.params['tag_name'] is not None:
         tag_val = module.params['tag_name']
-        module.deprecate('Param "tag_name" is deprecated; use "tag"', '2.12')
+        module.deprecate(
+            'Param "tag_name" is deprecated; use "tag"',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
         if module.params['tag']:
             module.fail_json(msg='Both "tag" and "tag_name" specified, use only one')
     else:

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -31,7 +31,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -44,22 +44,19 @@ extends_documentation_fragment:
 
 EXAMPLES = '''
 - name: retrieve api_key
-  panos_op:
+  panos_api_key:
     provider: '{{ provider }}'
   register: auth
 
-- name: show system info
-  panos_op:
-    ip_address: '{{ ip_address }}'
-    api_key: '{{ auth.api_key }}'
-    cmd: show system info
+- debug:
+    msg: '{{ auth.api_key }}'
 '''
 
 RETURN = '''
 api_key:
     description: output of the api_key
     returned: success
-    type: string
+    type: str
     sample: "LUFRPT14MW5xOEo1R09KVlBZNnpnemh0VHRBOWl6TGM9bXcwM3JHUGVhRlNiY0dCR0srNERUQT09"
 '''
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_admpwd
@@ -23,7 +26,7 @@ description:
     - Change the admin password of PAN-OS via SSH using a SSH key for authentication.
     - Useful for AWS instances where the first login should be done via SSH.
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
-version_added: "2.3"
+version_added: '1.0.0'
 requirements:
     - paramiko
 options:
@@ -31,19 +34,23 @@ options:
         description:
             - IP address (or hostname) of PAN-OS device
         required: true
+        type: str
     username:
         description:
             - username for initial authentication
         required: false
-        default: "admin"
+        type: str
+        default: admin
     key_filename:
         description:
             - filename of the SSH Key to use for authentication
         required: true
+        type: str
     newpassword:
         description:
             - password to configure for admin on the PAN-OS device
         required: true
+        type: str
 '''
 
 EXAMPLES = '''
@@ -65,7 +72,7 @@ RETURN = '''
 status:
     description: success status
     returned: success
-    type: string
+    type: str
     sample: "Last login: Fri Sep 16 11:09:20 2016 from 10.35.34.56.....Configuration committed successfully"
 '''
 
@@ -75,6 +82,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 
 from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils._text import to_text
 import time
 import sys
 
@@ -92,7 +100,7 @@ def wait_with_timeout(module, shell, prompt, timeout=60):
     result = ""
     while True:
         if shell.recv_ready():
-            result += shell.recv(_PROMPTBUFF)
+            result += to_text(shell.recv(_PROMPTBUFF))
             endresult = result.strip()
             if len(endresult) != 0 and endresult[-1] == prompt:
                 break

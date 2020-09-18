@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['deprecated'],
                     'supported_by': 'community'}
@@ -26,13 +29,13 @@ short_description: create/read/update/delete object in PAN-OS or Panorama
 description:
     - Policy objects form the match criteria for policy rules and many other functions in PAN-OS. These may include
     - address object, address groups, service objects, service groups, and tag.
-author: "Bob Hagen (@rnh556)"
-version_added: "2.4"
+author: "Bob Hagen (@stealthllama)"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
 deprecated:
-  removed_in: "2.9"
+  removed_in: '3.0.0'
   why: Updated to idempotent modules
   alternative: >
                  Use M(panos_address_object), M(panos_address_group),
@@ -41,88 +44,140 @@ deprecated:
 notes:
     - Checkmode is not supported.
     - Panorama is supported.
+extends_documentation_fragment:
+    - paloaltonetworks.panos.fragments.vsys
 options:
     ip_address:
         description:
             - IP address (or hostname) of PAN-OS device or Panorama management console being configured.
+        type: str
         required: true
     username:
         description:
             - Username credentials to use for authentication.
+        type: str
         required: false
         default: "admin"
     password:
         description:
             - Password credentials to use for authentication.
-        required: true
+        type: str
     api_key:
         description:
             - API key that can be used instead of I(username)/I(password) credentials.
+        type: str
     operation:
         description:
-            - The operation to be performed.  Supported values are I(add)/I(delete)/I(find).
+            - The operation to be performed.
+        type: str
         required: true
+        choices:
+            - add
+            - update
+            - delete
+            - find
     addressobject:
         description:
             - The name of the address object.
+        type: str
     address:
         description:
             - The IP address of the host or network in CIDR notation.
+        type: str
     address_type:
         description:
             - The type of address object definition.  Valid types are I(ip-netmask) and I(ip-range).
+        type: str
+        choices: ['ip-netmask', 'ip-range', 'fqdn']
+        default: 'ip-netmask'
     addressgroup:
         description:
             - A static group of address objects or dynamic address group.
+        type: str
     static_value:
         description:
             - A group of address objects to be used in an addressgroup definition.
+        type: list
+        elements: str
     dynamic_value:
         description:
             - The filter match criteria to be used in a dynamic addressgroup definition.
+        type: str
     serviceobject:
         description:
             - The name of the service object.
+        type: str
     source_port:
         description:
             - The source port to be used in a service object definition.
+        type: str
     destination_port:
         description:
             - The destination port to be used in a service object definition.
+        type: str
     protocol:
         description:
-            - The IP protocol to be used in a service object definition.  Valid values are I(tcp) or I(udp).
+            - The IP protocol to be used in a service object definition.
+        type: str
+        choices:
+            - tcp
+            - udp
     servicegroup:
         description:
             - A group of service objects.
+        type: str
     services:
         description:
             - The group of service objects used in a servicegroup definition.
+        type: list
+        elements: str
     description:
         description:
             - The description of the object.
+        type: str
     tag_name:
         description:
             - The name of an object or rule tag.
+        type: str
     color:
         description: >
             - The color of the tag object.  Valid values are I(red, green, blue, yellow, copper, orange, purple, gray,
             light green, cyan, light gray, blue gray, lime, black, gold, and brown).
+        type: str
+        choices:
+            - red
+            - green
+            - blue
+            - yellow
+            - copper
+            - orange
+            - purple
+            - gray
+            - light green
+            - cyan
+            - light gray
+            - blue gray
+            - lime
+            - black
+            - gold
+            - brown
     vsys:
         description:
             - The vsys to put the object into.
             - Firewall only.
+        type: str
         default: "vsys1"
     devicegroup:
         description:
             - The name of the (preexisting) Panorama device group.
             - If undefined and ip_address is Panorama, this defaults to shared.
+        type: str
         required: false
-        default: None
     commit:
         description:
             - Commit the config change.
-        default: False
+        type: bool
+        default: false
 '''
 
 EXAMPLES = '''
@@ -178,17 +233,27 @@ RETURN = '''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import get_exception
+
+try:
+    import panos
+    from panos.base import PanDevice
+    from panos.errors import PanDeviceError
+    from panos import panorama
+    from panos import objects
+except ImportError:
+    try:
+        import pandevice
+        from pandevice.base import PanDevice
+        from pandevice.errors import PanDeviceError
+        from pandevice import panorama
+        from pandevice import objects
+    except ImportError:
+        pass
 
 try:
     from pan.xapi import PanXapiError
-    import pandevice
-    from pandevice.base import PanDevice
-    from pandevice import panorama
-    from pandevice import objects
     import xmltodict
     import json
-
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
@@ -306,12 +371,12 @@ def main():
         servicegroup=dict(default=None),
         address=dict(default=None),
         address_type=dict(default='ip-netmask', choices=['ip-netmask', 'ip-range', 'fqdn']),
-        static_value=dict(type='list', default=None),
+        static_value=dict(type='list', elements='str', default=None),
         dynamic_value=dict(default=None),
         protocol=dict(default=None, choices=['tcp', 'udp']),
         source_port=dict(default=None),
         destination_port=dict(default=None),
-        services=dict(type='list', default=None),
+        services=dict(type='list', elements='str', default=None),
         description=dict(default=None),
         tag_name=dict(default=None),
         color=dict(default=None, choices=['red', 'green', 'blue', 'yellow', 'copper', 'orange', 'purple',
@@ -416,9 +481,8 @@ def main():
         if match:
             try:
                 match.delete()
-            except PanXapiError:
-                exc = get_exception()
-                module.fail_json(msg=exc.message)
+            except PanXapiError as e:
+                module.fail_json(msg=e.message)
 
             msg = "Object '{0}' successfully deleted".format(obj_name)
         else:
@@ -448,9 +512,8 @@ def main():
                     color=color
                 )
                 changed = add_object(device, dev_group, new_object)
-            except PanXapiError:
-                exc = get_exception()
-                module.fail_json(msg=exc.message)
+            except PanXapiError as e:
+                module.fail_json(msg=e.message)
         msg = "Object '{0}' successfully added".format(obj_name)
     elif operation == "update":
         # Search for the object. Update if found.
@@ -475,9 +538,8 @@ def main():
                     color=color
                 )
                 changed = add_object(device, dev_group, new_object)
-            except PanXapiError:
-                exc = get_exception()
-                module.fail_json(msg=exc.message)
+            except PanXapiError as e:
+                module.fail_json(msg=e.message)
             msg = "Object '{0}' successfully updated.".format(obj_name)
         else:
             module.fail_json(msg='Object \'%s\' does not exist. Use operation: \'add\' to add it.' % obj_name)

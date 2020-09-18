@@ -9,3 +9,5 @@
 # Runtime files
 *.retry
 *.swp
+
+tests/output/

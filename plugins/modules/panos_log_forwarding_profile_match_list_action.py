@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2019 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -29,7 +29,7 @@ short_description: Manage log forwarding profile match list actions.
 description:
     - Manages log forwarding profile match list actions.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice >= 0.11.1
@@ -40,22 +40,27 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
+    - paloaltonetworks.panos.fragments.state
 options:
     log_forwarding_profile:
         description:
             - Name of the log forwarding profile to add this action to.
+        type: str
         required: True
     log_forwarding_profile_match_list:
         description:
             - Name of the log forwarding profile match list to add this action to.
+        type: str
         required: True
     name:
         description:
             - Name of the profile.
+        type: str
         required: true
     action_type:
         description:
             - Action type.
+        type: str
         choices:
             - tagging
             - integration
@@ -63,6 +68,7 @@ options:
     action:
         description:
             - The action.
+        type: str
         choices:
             - add-tag
             - remove-tag
@@ -70,12 +76,14 @@ options:
     target:
         description:
             - The target.
+        type: str
         choices:
             - source-address
             - destination-address
     registration:
         description:
             - Registration.
+        type: str
         choices:
             - localhost
             - panorama
@@ -83,10 +91,12 @@ options:
     http_profile:
         description:
             - The HTTP profile when I(registration=remote).
+        type: str
     tags:
         description:
             - List of tags.
         type: list
+        elements: str
     timeout:
         description:
             - Valid for PAN-OS 9.0+
@@ -116,14 +126,19 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.objects import LogForwardingProfile
-    from pandevice.objects import LogForwardingProfileMatchList
-    from pandevice.objects import LogForwardingProfileMatchListAction
-    from pandevice.errors import PanDeviceError
+    from panos.objects import LogForwardingProfile
+    from panos.objects import LogForwardingProfileMatchList
+    from panos.objects import LogForwardingProfileMatchListAction
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.objects import LogForwardingProfile
+        from pandevice.objects import LogForwardingProfileMatchList
+        from pandevice.objects import LogForwardingProfileMatchListAction
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():
@@ -143,7 +158,7 @@ def main():
             target=dict(choices=['source-address', 'destination-address']),
             registration=dict(choices=['localhost', 'panorama', 'remote']),
             http_profile=dict(),
-            tags=dict(type='list'),
+            tags=dict(type='list', elements='str'),
             timeout=dict(type='int'),
         ),
     )

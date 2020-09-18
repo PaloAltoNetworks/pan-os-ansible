@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2020 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_ipv6_address
@@ -22,7 +25,7 @@ short_description: Manage IPv6 addresses on an interface.
 description:
     - Manage IPv6 addresses on an interface.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.9"
+version_added: '1.1.0'
 requirements:
     - pan-python
     - pandevice >= 0.14.0
@@ -37,10 +40,12 @@ options:
     iface_name:
         description:
             - The parent interface that this IPv6 address is attached to.
+        type: str
         required: true
     address:
         description:
             - IPv6 address.
+        type: str
         required: true
     enable_on_interface:
         description:
@@ -101,17 +106,25 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.network import AggregateInterface
-    from pandevice.network import EthernetInterface
-    from pandevice.network import IPv6Address
-    from pandevice.network import LoopbackInterface
-    from pandevice.network import TunnelInterface
-    from pandevice.network import VlanInterface
-    from pandevice.errors import PanDeviceError
+    from panos.network import AggregateInterface
+    from panos.network import EthernetInterface
+    from panos.network import IPv6Address
+    from panos.network import LoopbackInterface
+    from panos.network import TunnelInterface
+    from panos.network import VlanInterface
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import AggregateInterface
+        from pandevice.network import EthernetInterface
+        from pandevice.network import IPv6Address
+        from pandevice.network import LoopbackInterface
+        from pandevice.network import TunnelInterface
+        from pandevice.network import VlanInterface
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():
@@ -175,7 +188,7 @@ def main():
         elif iname.startswith('vlan'):
             eth = VlanInterface(iname)
         else:
-            module.fail_json(msg='Unknown interface style: {0}'.format(iface))
+            module.fail_json(msg='Unknown interface style: {0}'.format(iname))
 
     parent.add(eth)
     try:

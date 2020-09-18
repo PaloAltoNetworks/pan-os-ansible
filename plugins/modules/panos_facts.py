@@ -16,19 +16,18 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = '''
 ---
 module: panos_facts
-short_description: Collects facts from Palo Alto Networks device
+short_description: Collects facts from PAN-OS devices
 description:
-    - Collects fact information from Palo Alto Networks firewall running PanOS.
+    - Collects fact information from Palo Alto Networks firewalls and Panorama.
 author:
     - Tomi Raittinen (@traittinen)
     - Garfield Lee Freeman (@shinmog)
+    - Michael Richardson (@mrichardson03)
 notes:
-    - Tested on PanOS 8.0.5
     - Checkmode is not supported.
-    - Panorama is not supported.
 requirements:
     - pan-python
-version_added: 2.8
+version_added: '1.0.0'
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
 options:
@@ -36,6 +35,7 @@ options:
         description:
             - B(Removed)
             - Use I(provider) instead.
+        type: str
     gather_subset:
         description:
             - Scopes what information is gathered from the device.
@@ -43,8 +43,11 @@ options:
               interfaces, ha, routing, vr, vsys and config. You can specify a
               list of values to include a larger subset. Values can also be used
               with an initial ! to specify that a specific subset should not be
-              collected. Certain subsets might be supported by Panorama.
+              collected.  Panorama only supports the system, ha, and config
+              subsets.
         required: false
+        type: list
+        elements: str
         default: ['!config']
 '''
 
@@ -236,23 +239,39 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 from ansible.module_utils.six import iteritems
 
-
 try:
-    from pandevice.device import Vsys
-    from pandevice.errors import PanDeviceError
-    from pandevice.network import AggregateInterface
-    from pandevice.network import EthernetInterface
-    from pandevice.network import Layer3Subinterface
-    from pandevice.network import Layer2Subinterface
-    from pandevice.network import IPv6Address
-    from pandevice.network import VlanInterface
-    from pandevice.network import LoopbackInterface
-    from pandevice.network import TunnelInterface
-    from pandevice.network import VirtualRouter
-    from pandevice.network import Bgp
-    from pandevice.network import Zone
+    from panos.device import Vsys
+    from panos.errors import PanDeviceError
+    from panos.firewall import Firewall
+    from panos.network import AggregateInterface
+    from panos.network import EthernetInterface
+    from panos.network import Layer3Subinterface
+    from panos.network import Layer2Subinterface
+    from panos.network import IPv6Address
+    from panos.network import VlanInterface
+    from panos.network import LoopbackInterface
+    from panos.network import TunnelInterface
+    from panos.network import VirtualRouter
+    from panos.network import Bgp
+    from panos.network import Zone
 except ImportError:
-    pass
+    try:
+        from pandevice.device import Vsys
+        from pandevice.errors import PanDeviceError
+        from pandevice.firewall import Firewall
+        from pandevice.network import AggregateInterface
+        from pandevice.network import EthernetInterface
+        from pandevice.network import Layer3Subinterface
+        from pandevice.network import Layer2Subinterface
+        from pandevice.network import IPv6Address
+        from pandevice.network import VlanInterface
+        from pandevice.network import LoopbackInterface
+        from pandevice.network import TunnelInterface
+        from pandevice.network import VirtualRouter
+        from pandevice.network import Bgp
+        from pandevice.network import Zone
+    except ImportError:
+        pass
 
 
 class Factbase(object):
@@ -451,7 +470,7 @@ class Config(Factbase):
         })
 
 
-FACT_SUBSETS = dict(
+FIREWALL_SUBSETS = dict(
     system=System,
     session=Session,
     interfaces=Interfaces,
@@ -462,15 +481,18 @@ FACT_SUBSETS = dict(
     routing=Routing,
 )
 
-VALID_SUBSETS = frozenset(FACT_SUBSETS.keys())
+PANORAMA_SUBSETS = dict(
+    system=System,
+    ha=Ha,
+    config=Config,
+)
 
 
 def main():
     helper = get_connection(
         with_classic_provider_spec=True,
-        panorama_error='This module is for firewall facts only',
         argument_spec=dict(
-            gather_subset=dict(default=['!config'], type='list'),
+            gather_subset=dict(default=['!config'], type='list', elements='str'),
 
             # TODO(gfreeman) - remove in a later version.
             host=dict(),
@@ -494,23 +516,30 @@ def main():
     runable_subsets = set()
     exclude_subsets = set()
 
+    valid_subsets = None
+
+    if isinstance(parent, Firewall):
+        valid_subsets = frozenset(FIREWALL_SUBSETS)
+    else:
+        valid_subsets = frozenset(PANORAMA_SUBSETS)
+
     for subset in gather_subset:
         if subset == 'all':
-            runable_subsets.update(VALID_SUBSETS)
+            runable_subsets.update(valid_subsets)
             continue
 
         if subset.startswith('!'):
             subset = subset[1:]
             if subset == 'all':
-                exclude_subsets.update(VALID_SUBSETS)
+                exclude_subsets.update(valid_subsets)
                 continue
             exclude = True
         else:
             exclude = False
 
-        if subset not in VALID_SUBSETS:
+        if subset not in valid_subsets:
             module.fail_json(msg='Subset must be one of [%s], got %s' %
-                             (', '.join(VALID_SUBSETS), subset))
+                             (', '.join(valid_subsets), subset))
 
         if exclude:
             exclude_subsets.add(subset)
@@ -518,7 +547,7 @@ def main():
             runable_subsets.add(subset)
 
     if not runable_subsets:
-        runable_subsets.update(VALID_SUBSETS)
+        runable_subsets.update(valid_subsets)
 
     runable_subsets.difference_update(exclude_subsets)
     runable_subsets.add('system')
@@ -530,7 +559,10 @@ def main():
     instances = list()
 
     for key in runable_subsets:
-        instances.append(FACT_SUBSETS[key](module, parent))
+        if isinstance(parent, Firewall):
+            instances.append(FIREWALL_SUBSETS[key](module, parent))
+        else:
+            instances.append(PANORAMA_SUBSETS[key](module, parent))
 
     # Populate facts for instances
     for inst in instances:

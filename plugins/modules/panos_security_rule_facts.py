@@ -1,9 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
-
 #  Copyright 2019 Palo Alto Networks, Inc
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -30,7 +30,7 @@ short_description: Get information about a security rule.
 description:
     - Get information about a single security rule or the names of all security rules.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice
@@ -46,6 +46,7 @@ options:
     rule_name:
         description:
             - Name of the security rule.
+        type: str
     all_details:
         description:
             - Get full-policy details when name is not set.
@@ -279,12 +280,15 @@ spec:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.policies import SecurityRule
-    from pandevice.errors import PanDeviceError
+    from panos.policies import SecurityRule
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.policies import SecurityRule
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

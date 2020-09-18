@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_tunnel
@@ -22,7 +25,7 @@ short_description: configure tunnel interfaces
 description:
     - Configure tunnel interfaces on PanOS
 author: "Joshua Colson (@freakinhippie)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPi U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPi U(https://pypi.python.org/pypi/pandevice)
@@ -38,11 +41,13 @@ options:
     if_name:
         description:
             - Name of the interface to configure.
+        type: str
         required: true
     ip:
         description:
             - List of static IP addresses.
         type: list
+        elements: str
     ipv6_enabled:
         description:
             - Enable IPv6.
@@ -50,6 +55,7 @@ options:
     management_profile:
         description:
             - Interface management profile name; it must already exist.
+        type: str
     mtu:
         description:
             - MTU for tunnel interface.
@@ -57,27 +63,32 @@ options:
     netflow_profile:
         description:
             - Netflow profile for tunnel interface.
+        type: str
     comment:
         description:
             - Interface comment.
+        type: str
     zone_name:
         description:
             - Name of the zone for the interface. If the zone does not exist it is created but
-            - if the zone exists and it is not of the correct mode the operation will fail.
+              if the zone exists and it is not of the correct mode the operation will fail.
+        type: str
     vr_name:
         description:
             - Name of the virtual router; it must already exist.
+        type: str
     vsys_dg:
         description:
             - B(Deprecated)
             - Use I(vsys) to specify the vsys instead.
             - HORIZONTALLINE
             - Name of the vsys (if firewall) or device group (if panorama) to put this object.
+        type: str
     commit:
         description:
             - Commit if changed
-        default: true
         type: bool
+        default: false
 '''
 
 EXAMPLES = '''
@@ -110,10 +121,14 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 
 try:
-    from pandevice.network import TunnelInterface
-    from pandevice.errors import PanDeviceError
+    from panos.network import TunnelInterface
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import TunnelInterface
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():
@@ -125,7 +140,7 @@ def main():
         min_pandevice_version=(0, 8, 0),
         argument_spec=dict(
             if_name=dict(required=True),
-            ip=dict(type='list'),
+            ip=dict(type='list', elements='str'),
             ipv6_enabled=dict(type='bool'),
             management_profile=dict(),
             mtu=dict(type='int'),
@@ -133,7 +148,7 @@ def main():
             comment=dict(),
             zone_name=dict(),
             vr_name=dict(),
-            commit=dict(type='bool', default=True),
+            commit=dict(type='bool', default=False),
 
             # TODO(gfreeman) - remove this in 2.12
             vsys_dg=dict(),
@@ -168,7 +183,11 @@ def main():
     # TODO(gfreeman) - Remove vsys_dg in 2.12, as well as this code chunk.
     # In the mean time, we'll need to do this special handling.
     if vsys_dg is not None:
-        module.deprecate('Param "vsys_dg" is deprecated, use "vsys"', '2.12')
+        module.deprecate(
+            'Param "vsys_dg" is deprecated, use "vsys"',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
+
         if vsys is None:
             vsys = vsys_dg
         else:

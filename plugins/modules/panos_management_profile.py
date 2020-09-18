@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -29,7 +29,7 @@ short_description: Manage interface management profiles.
 description:
     - This module will allow you to manage interface management profiles on PAN-OS.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.6"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -47,9 +47,11 @@ options:
             - Use I(template) instead.
             - HORIZONTALLINE
             - (Panorama only) The template name.
+        type: str
     name:
         description:
             - The management profile name.
+        type: str
         required: true
     ping:
         description:
@@ -99,27 +101,27 @@ options:
         description:
             - The list of permitted IP addresses
         type: list
+        elements: str
     commit:
         description:
             - Perform a commit if a change is made.
         type: bool
-        default: true
+        default: false
 '''
 
 EXAMPLES = '''
-- name: ensure mngt profile foo exists and allows ping and ssh and commit
+- name: ensure mngt profile foo exists and allows ping and ssh
   panos_management_profile:
     provider: '{{ provider }}'
     name: 'foo'
     ping: true
     ssh: true
 
-- name: make sure mngt profile bar does not exist without doing a commit
+- name: make sure mngt profile bar does not exist
   panos_management_profile:
     provider: '{{ provider }}'
     name: 'bar'
     state: 'absent'
-    commit: false
 '''
 
 RETURN = '''
@@ -128,15 +130,17 @@ RETURN = '''
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import get_exception
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.network import ManagementProfile
-    from pandevice.errors import PanDeviceError
+    from panos.network import ManagementProfile
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import ManagementProfile
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():
@@ -159,8 +163,8 @@ def main():
             userid_service=dict(type='bool'),
             userid_syslog_listener_ssl=dict(type='bool'),
             userid_syslog_listener_udp=dict(type='bool'),
-            permitted_ip=dict(type='list'),
-            commit=dict(type='bool', default=True),
+            permitted_ip=dict(type='list', elements='str'),
+            commit=dict(type='bool', default=False),
 
             # TODO(gfreeman) - Removed in the next role release.
             panorama_template=dict(),
@@ -174,7 +178,10 @@ def main():
 
     # TODO(gfreeman) - Removed when "panorama_template" is removed.
     if module.params['panorama_template'] is not None:
-        module.deprecate('Param "panorama_template" is deprecated; use "template"', '2.12')
+        module.deprecate(
+            'Param "panorama_template" is deprecated; use "template"',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
         if module.params['template'] is not None:
             msg = [
                 'Both "template" and "panorama_template" have been given',

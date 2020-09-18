@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_mgtconfig
@@ -22,7 +25,7 @@ short_description: Module used to configure some of the device management.
 description:
     - Configure management settings of device. Not all configuration options are configurable at this time.
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer), Patrik Malinen (@pmalinen), Francesco Vigo (@fvigo)"
-version_added: "2.4"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -35,36 +38,47 @@ options:
     dns_server_primary:
         description:
             - IP address of primary DNS server.
+        type: str
     dns_server_secondary:
         description:
             - IP address of secondary DNS server.
+        type: str
     panorama_primary:
         description:
             - IP address (or hostname) of primary Panorama server.
+        type: str
     panorama_secondary:
         description:
             - IP address (or hostname) of secondary Panorama server.
+        type: str
     ntp_server_primary:
         description:
             - IP address (or hostname) of primary NTP server.
+        type: str
     ntp_server_secondary:
         description:
             - IP address (or hostname) of secondary NTP server.
+        type: str
     timezone:
         description:
             - Device timezone.
+        type: str
     login_banner:
         description:
             - Login banner text.
+        type: str
     update_server:
         description:
             - IP or hostname of the update server.
+        type: str
     hostname:
         description:
             - The hostname of the device.
+        type: str
     domain:
         description:
             - The domain of the device
+        type: str
     verify_update_server:
         description:
             - Verify the identify of the update server.
@@ -72,11 +86,12 @@ options:
     devicegroup:
         description:
             - B(Removed)
+        type: str
     commit:
         description:
             - Commit configuration if changed.
         type: bool
-        default: true
+        default: false
 '''
 
 EXAMPLES = '''
@@ -102,14 +117,19 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.errors import PanDeviceError
-    from pandevice.device import SystemSettings
-    from pandevice.device import NTPServerPrimary
-    from pandevice.device import NTPServerSecondary
+    from panos.errors import PanDeviceError
+    from panos.device import SystemSettings
+    from panos.device import NTPServerPrimary
+    from panos.device import NTPServerSecondary
 except ImportError:
-    pass
+    try:
+        from pandevice.errors import PanDeviceError
+        from pandevice.device import SystemSettings
+        from pandevice.device import NTPServerPrimary
+        from pandevice.device import NTPServerSecondary
+    except ImportError:
+        pass
 
 
 def main():
@@ -128,7 +148,7 @@ def main():
             verify_update_server=dict(type='bool'),
             ntp_server_primary=dict(),
             ntp_server_secondary=dict(),
-            commit=dict(type='bool', default=True),
+            commit=dict(type='bool', default=False),
 
             # TODO(gfreeman) - remove in the next role release.
             devicegroup=dict(),

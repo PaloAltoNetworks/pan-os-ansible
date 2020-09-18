@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2019 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_l3_subinterface
@@ -22,7 +25,7 @@ short_description: configure layer3 subinterface
 description:
     - Configure a layer3 subinterface.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice >= 0.8.0
@@ -40,16 +43,18 @@ options:
     name:
         description:
             - Name of the interface to configure.
+        type: str
         required: true
     tag:
         description:
             - Tag (vlan id) for the interface
-        required: true
         type: int
+        required: true
     ip:
         description:
             - List of static IP addresses.
         type: list
+        elements: str
     ipv6_enabled:
         description:
             - Enable IPv6.
@@ -57,6 +62,7 @@ options:
     management_profile:
         description:
             - Interface management profile name.
+        type: str
     mtu:
         description:
             - MTU for layer3 interface.
@@ -68,9 +74,11 @@ options:
     netflow_profile:
         description:
             - Netflow profile for layer3 interface.
+        type: str
     comment:
         description:
             - Interface comment.
+        type: str
     ipv4_mss_adjust:
         description:
             - (7.1+) TCP MSS adjustment for IPv4.
@@ -83,7 +91,7 @@ options:
         description:
             - Enable DHCP on this interface.
         type: bool
-        default: true
+        default: True
     create_default_route:
         description:
             - Whether or not to add default route with router learned via DHCP.
@@ -96,9 +104,12 @@ options:
         description:
             - Name of the zone for the interface.
             - If the zone does not exist it is created.
+        type: str
     vr_name:
         description:
             - Virtual router to add this interface to.
+        type: str
+        default: 'default'
 '''
 
 EXAMPLES = '''
@@ -110,7 +121,6 @@ EXAMPLES = '''
     tag: 1
     create_default_route: True
     zone_name: "public"
-    create_default_route: "yes"
 
 # Update ethernet1/2.7 with a static IP address in zone dmz.
 - name: ethernet1/2.7 as static in zone dmz
@@ -134,14 +144,19 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.network import AggregateInterface
-    from pandevice.network import EthernetInterface
-    from pandevice.network import Layer3Subinterface
-    from pandevice.errors import PanDeviceError
+    from panos.network import AggregateInterface
+    from panos.network import EthernetInterface
+    from panos.network import Layer3Subinterface
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import AggregateInterface
+        from pandevice.network import EthernetInterface
+        from pandevice.network import Layer3Subinterface
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():
@@ -154,7 +169,7 @@ def main():
         argument_spec=dict(
             name=dict(required=True),
             tag=dict(required=True, type='int'),
-            ip=dict(type='list'),
+            ip=dict(type='list', elements='str'),
             ipv6_enabled=dict(type='bool'),
             management_profile=dict(),
             mtu=dict(type='int'),

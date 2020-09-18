@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2019 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_zone_facts
@@ -25,7 +25,7 @@ short_description: Retrieves zone information
 description:
     - Retrieves information on zones from a firewall or Panorama.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice
@@ -40,6 +40,7 @@ options:
     name:
         description:
             - Name of the security zone.
+        type: str
 '''
 
 EXAMPLES = '''
@@ -65,15 +66,19 @@ spec:
     contains:
         zone:
             description: The name.
+            type: str
         mode:
             description: The mode of the zone.
+            type: str
         interface:
             description: List of interfaces.
             type: list
         zone_profile:
             description: Zone protection profile.
+            type: str
         log_setting:
             description: Log forwarding setting.
+            type: str
         enable_userid:
             description: Enable user identification.
             type: bool
@@ -96,12 +101,15 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.network import Zone
-    from pandevice.errors import PanDeviceError
+    from panos.network import Zone
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import Zone
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

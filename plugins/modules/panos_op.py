@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -31,10 +31,11 @@ description:
 author:
     - Ivan Bojer (@ivanbojer)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.5"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
+    - xmltodict
 notes:
     - Checkmode is NOT supported.
     - Panorama is supported.
@@ -44,12 +45,13 @@ options:
     cmd:
         description:
             - The OP command to be performed.
+        type: str
         required: true
     cmd_is_xml:
         description:
             - The cmd is already given in XML format, so don't convert it.
-        default: false
         type: bool
+        default: false
 '''
 
 EXAMPLES = '''
@@ -74,12 +76,12 @@ RETURN = '''
 stdout:
     description: output of the given OP command as JSON formatted string
     returned: success
-    type: string
+    type: str
     sample: "{system: {app-release-date: 2017/05/01  15:09:12}}"
 stdout_xml:
     description: output of the given OP command as an XML formatted string
     returned: success
-    type: string
+    type: str
     sample: "<response status=success><result><system><hostname>fw2</hostname>"
 '''
 
@@ -89,7 +91,14 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 
 try:
-    from pandevice.errors import PanDeviceError
+    from panos.errors import PanDeviceError
+except ImportError:
+    try:
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
+
+try:
     import xmltodict
     import json
     HAS_LIB = True

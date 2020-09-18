@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'status': ['preview'],
                     'supported_by': 'community',
                     'metadata_version': '1.1'}
@@ -28,7 +31,7 @@ description:
     - The authcode should have been previously registered on the Palo Alto Networks support portal.
     - The device should have Internet access.
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
-version_added: "2.3"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice
@@ -42,11 +45,12 @@ options:
         description:
             - authcode to be applied.
             - If this is not given, then "request license fetch" is performed instead.
+        type: str
     force:
         description:
             - Whether to apply authcode even if device is already licensed / has a serial number.
-        default: False
         type: bool
+        default: False
 '''
 
 EXAMPLES = '''
@@ -64,7 +68,7 @@ RETURN = '''
 serialnumber:
     description: PAN-OS serial number when this module began execution.
     returned: success
-    type: string
+    type: str
     sample: 007200004214
 licenses:
     description: List of PAN-OS licenses (as dicts) as a result of this module's execution.
@@ -76,11 +80,13 @@ licenses:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.errors import PanDeviceError
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

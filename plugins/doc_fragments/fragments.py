@@ -3,6 +3,9 @@
 # Copyright: (c) 2020, Garfield Lee Freeman (@shinmog)
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 
 class ModuleDocFragment(object):
     # Standard files documentation fragment
@@ -30,8 +33,9 @@ options:
     provider:
         description:
             - A dict object containing connection details.
-        version_added: '2.8'
+        version_added: 1.0.0
         required: true
+        type: dict
         suboptions:
             ip_address:
                 description:
@@ -72,7 +76,8 @@ options:
     provider:
         description:
             - A dict object containing connection details.
-        version_added: '2.8'
+        version_added: 1.0.0
+        type: dict
         suboptions:
             ip_address:
                 description:

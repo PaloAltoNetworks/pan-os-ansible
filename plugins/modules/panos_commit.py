@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -19,7 +19,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
@@ -32,7 +32,11 @@ description:
 author:
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.3"
+version_added: '1.0.0'
+deprecated:
+    alternative: 'Use M(panos_commit_firewall), M(panos_commit_panorama), M(panos_commit_push) instead.'
+    removed_in: '3.0.0'
+    why: 'This module is a subset of functionality found in other modules.'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -50,10 +54,12 @@ options:
             - Use I(device_group) instead.
             - HORIZONTALLINE
             - (Panorama only) The device group.
+        type: str
     admins:
         description:
             - (PanOS 8.0+ only) Commit only the changes made by specified list of administrators.
         type: list
+        elements: str
 '''
 
 EXAMPLES = '''
@@ -76,7 +82,6 @@ RETURN = '''
 # Default return values
 '''
 
-
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
@@ -88,7 +93,7 @@ def main():
         min_pandevice_version=(0, 12, 0),
         argument_spec=dict(
             include_template=dict(type='bool'),
-            admins=dict(type='list'),
+            admins=dict(type='list', elements='str'),
             # TODO(gfreeman) - remove in 2.12.
             devicegroup=dict(),
         ),
@@ -100,11 +105,19 @@ def main():
         required_one_of=helper.required_one_of,
     )
 
+    module.deprecate(
+        'This module is deprecated; use panos_commit_firewall, panos_commit_panorama, panos_commit_push',
+        version='3.0.0', collection_name='paloaltonetworks.panos'
+    )
+
     changed = False
 
     # TODO(gfreeman) - remove in 2.12
     if module.params['devicegroup'] is not None:
-        module.deprecate('Param "devicegroup" is deprecated; use "device_group"', '2.12')
+        module.deprecate(
+            'Param "devicegroup" is deprecated; use "device_group"',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
         if module.params['device_group'] is not None:
             msg = [
                 'Both "devicegroup" and "device_group" specified',

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -15,17 +15,20 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_sag
 short_description: Create a static address group.
 description:
     - Create a static address group object in the firewall used for policy rules.
-author: "Vinay Venkataraghavan @vinayvenkat"
-version_added: "2.4"
+author: "Vinay Venkataraghavan (@vinayvenkat)"
+version_added: '1.0.0'
 deprecated:
     alternative: Use M(panos_address_group) instead.
-    removed_in: '2.12'
+    removed_in: '3.0.0'
     why: This module's functionality is a subset of M(panos_address_group).
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
@@ -35,57 +38,63 @@ options:
     ip_address:
         description:
             - IP address (or hostname) of PAN-OS device
+        type: str
         required: true
-        default: null
     password:
         description:
             - password for authentication
-        required: true
-        default: null
+        type: str
     username:
         description:
             - username for authentication
+        type: str
         required: false
         default: "admin"
     api_key:
         description:
             - API key that can be used instead of I(username)/I(password) credentials.
+        type: str
     sag_name:
         description:
             - name of the dynamic address group
+        type: str
         required: true
-        default: null
-    static_match_filter:
+    sag_match_filter:
         description:
             - Static filter used by the address group
-        required: true
-        default: null
+        type: list
+        elements: str
     devicegroup:
         description: >
             - The name of the Panorama device group. The group must exist on Panorama. If device group is not defined
             it is assumed that we are contacting a firewall.
+        type: str
         required: false
-        default: None
     description:
         description:
             - The purpose / objective of the static Address Group
+        type: str
         required: false
-        default: null
     tags:
         description:
             - Tags to be associated with the address group
+        type: list
+        elements: str
         required: false
-        default: null
     commit:
         description:
             - commit if changed
-        required: false
-        default: true
+        type: bool
+        default: False
     operation:
         description:
             - The operation to perform Supported values are I(add)/I(list)/I(delete).
+        type: str
+        choices:
+            - add
+            - list
+            - delete
         required: true
-        default: null
 '''
 
 EXAMPLES = '''
@@ -240,18 +249,21 @@ def main():
         password=dict(no_log=True),
         username=dict(default='admin'),
         api_key=dict(no_log=True),
-        sag_match_filter=dict(type='list', required=False),
+        sag_match_filter=dict(type='list', elements='str', required=False),
         sag_name=dict(required=True),
-        commit=dict(type='bool', default=True),
+        commit=dict(type='bool', default=False),
         devicegroup=dict(default=None),
         description=dict(default=None),
-        tags=dict(type='list', default=[]),
+        tags=dict(type='list', elements='str', default=[]),
         operation=dict(type='str', required=True, choices=['add', 'list', 'delete'])
     )
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False,
                            required_one_of=[['api_key', 'password']])
 
-    module.deprecate('This module has been deprecated; use panos_address_group', '2.12')
+    module.deprecate(
+        'This module has been deprecated; use panos_address_group',
+        version='3.0.0', collection_name='paloaltonetworks.panos'
+    )
 
     if not HAS_LIB:
         module.fail_json(msg='pan-python is required for this module')

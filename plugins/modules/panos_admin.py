@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'status': ['deprecated'],
                     'supported_by': 'community',
                     'version': '1.0'}
@@ -27,10 +30,10 @@ description:
     - PanOS module that allows changes to the user account passwords by doing
       API calls to the Firewall using pan-api as the protocol.
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
-version_added: "2.3"
+version_added: '1.0.0'
 deprecated:
     alternative: Use M(panos_administrator) instead.
-    removed_in: '2.12'
+    removed_in: '3.0.0'
     why: This module is a subset of M(panos_administrator)'s functionality.
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
@@ -41,59 +44,65 @@ options:
         description:
             - IP address (or hostname) of PAN-OS device being configured.
         required: true
+        type: str
     port:
         description:
             - Port used to connect to the PAN-OS device being configured.
         required: false
+        type: str
         default: 443
     username:
         description:
             - Username credentials to use for auth unless I(api_key) is set.
-        default: "admin"
+        type: str
+        default: admin
     password:
         description:
             - Password credentials to use for auth unless I(api_key) is set.
-        required: true
+        type: str
     api_key:
         description:
             - API key that can be used instead of I(username)/I(password) credentials.
+        type: str
     admin_username:
         description:
             - Username that needs password change.
         required: false
-        default: "admin"
+        type: str
+        default: admin
     admin_password:
         description:
             - New password for I(admin_username) user
         required: true
+        type: str
     role:
         description:
             - role for admin user
         required: false
+        type: str
         default: null
     commit:
         description:
             - Commit configuration if changed.
-        default: true
+        type: bool
+        default: false
 '''
 
 EXAMPLES = '''
 # Set the password of user admin to "badpassword"
-# Doesn't commit the candidate config
   - name: set admin password
     panos_admin:
       ip_address: "192.168.1.1"
       password: "admin"
       admin_username: admin
       admin_password: "badpassword"
-      commit: False
 '''
 
 RETURN = '''
 status:
     description: success status
     returned: success
-    type: string
+    type: str
     sample: "okey dokey"
 '''
 from ansible.module_utils.basic import AnsibleModule
@@ -175,12 +184,15 @@ def main():
         admin_username=dict(default='admin'),
         admin_password=dict(no_log=True, required=True),
         role=dict(),
-        commit=dict(type='bool', default=True)
+        commit=dict(type='bool', default=False)
     )
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False,
                            required_one_of=[['api_key', 'password']])
 
-    module.deprecate('This module is deprecated; use panos_administrator', '2.12')
+    module.deprecate(
+        'This module is deprecated; use panos_administrator',
+        version='3.0.0', collection_name='paloaltonetworks.panos'
+    )
 
     if not HAS_LIB:
         module.fail_json(msg='Missing required libraries.')

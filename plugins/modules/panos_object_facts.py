@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -31,7 +31,7 @@ description:
 author:
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -47,17 +47,21 @@ options:
         description:
             - Name of object to retrieve.
             - Mutually exclusive with I(name_regex) and I(field).
+        type: str
     name_regex:
         description:
             - A python regex for an object's name to retrieve.
             - Mutually exclusive with I(name) and I(field).
+        type: str
     field:
         description:
             - The field to search instead of name.
             - Mutually exclusive with I(name) and I(name_regex)
+        type: str
     field_search_type:
         description:
             - The type of search to perform when doing a I(field) search.
+        type: str
         choices:
             - exact
             - regex
@@ -65,9 +69,11 @@ options:
     field_search_value:
         description:
             - The value for the I(field_search) and I(field) specified.
+        type: str
     object_type:
         description:
             - Type of object to retrieve.
+        type: str
         choices: ['address', 'address-group', 'service', 'service-group', 'tag']
         default: 'address'
 '''
@@ -120,12 +126,15 @@ import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice import objects
-    from pandevice.errors import PanDeviceError
+    from panos import objects
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice import objects
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 COLORS = {
@@ -167,17 +176,19 @@ def matches(obj, field, exact=None, regex=None):
         if is_str:
             return getattr(obj, field) == exact
         else:
-            for x in getattr(obj, field, []):
-                if x == exact:
-                    return True
+            if getattr(obj, field, []) is not None:
+                for x in getattr(obj, field, []):
+                    if x == exact:
+                        return True
             return False
     elif regex is not None:
         if is_str:
             return regex.search(getattr(obj, field)) is not None
         else:
-            for x in getattr(obj, field, []):
-                if regex.search(x):
-                    return True
+            if getattr(obj, field, []) is not None:
+                for x in getattr(obj, field, []):
+                    if regex.search(x):
+                        return True
             return False
 
     return False
@@ -185,13 +196,7 @@ def matches(obj, field, exact=None, regex=None):
 
 def main():
     name_params = ['name', 'name_regex', 'field']
-    obj_types = {
-        'address': objects.AddressObject,
-        'address-group': objects.AddressGroup,
-        'service': objects.ServiceObject,
-        'service-group': objects.ServiceGroup,
-        'tag': objects.Tag,
-    }
+
     helper = get_connection(
         vsys=True,
         device_group=True,
@@ -203,8 +208,10 @@ def main():
             field=dict(),
             field_search_type=dict(choices=['exact', 'regex'], default='exact'),
             field_search_value=dict(),
-            object_type=dict(default='address', choices=obj_types.keys()),
-        ),
+            object_type=dict(default='address', choices=[
+                'address', 'address-group', 'service', 'service-group', 'tag'
+            ])
+        )
     )
 
     module = AnsibleModule(
@@ -215,6 +222,14 @@ def main():
     )
 
     parent = helper.get_pandevice_parent(module)
+
+    obj_types = {
+        'address': objects.AddressObject,
+        'address-group': objects.AddressGroup,
+        'service': objects.ServiceObject,
+        'service-group': objects.ServiceGroup,
+        'tag': objects.Tag,
+    }
 
     object_type = module.params['object_type']
     obj_type = obj_types[object_type]

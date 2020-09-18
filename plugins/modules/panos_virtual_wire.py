@@ -1,9 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
-
 #  Copyright 2019 Palo Alto Networks, Inc
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -29,8 +29,8 @@ module: panos_virtual_wire
 short_description: Configures Virtual Wires (vwire).
 description:
     - Manage PAN-OS Virtual Wires (vwire).
-author: "Patrick Avery"
-version_added: "2.8"
+author: "Patrick Avery (@unknown)"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice
@@ -46,19 +46,23 @@ options:
     name:
         description:
             -  Name of the Virtual Wire
+        type: str
         required: True
     interface1:
         description:
             - First interface of Virtual Wire
+        type: str
         required: True
     interface2:
         description:
             - Second interface of Virtual Wire
+        type: str
         required: True
     tag:
         description:
             - Set tag that is allowed over Virtual Wire.  Currently
               pandevice only supports all (default) or 1 tag.
+        type: int
     multicast:
         description:
             - Enable multicast firewalling
@@ -90,10 +94,14 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 
 try:
-    from pandevice.network import VirtualWire
-    from pandevice.errors import PanDeviceError
+    from panos.network import VirtualWire
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import VirtualWire
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():
@@ -104,12 +112,12 @@ def main():
         with_state=True,
         with_classic_provider_spec=True,
         argument_spec=dict(
-            name=dict(required=True, ),
-            interface1=dict(required=True),
-            interface2=dict(required=True),
-            tag=dict(type=int,),
-            multicast=dict(type=bool,),
-            pass_through=dict(type=bool,),
+            name=dict(type='str', required=True, ),
+            interface1=dict(type='str', required=True),
+            interface2=dict(type='str', required=True),
+            tag=dict(type='int'),
+            multicast=dict(type='bool'),
+            pass_through=dict(type='bool'),
         ),
     )
 

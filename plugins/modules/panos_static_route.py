@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -28,7 +31,7 @@ description:
 author:
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.6"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -44,13 +47,16 @@ options:
     name:
         description:
             - Name of static route.
+        type: str
         required: true
     destination:
         description:
-            - Destination network.  Required if I(state) is I(present).
+            - Destination network.  Required if I(state=present).
+        type: str
     nexthop_type:
         description:
             - Type of next hop.
+        type: str
         choices:
             - ip-address
             - discard
@@ -59,21 +65,26 @@ options:
         default: 'ip-address'
     nexthop:
         description:
-            - Next hop IP address.  Required if I(state) is I(present).
+            - Next hop IP address.  Required if I(state=present).
+        type: str
     admin_dist:
         description:
             - Administrative distance for static route.
+        type: str
     metric:
         description:
             - Metric for route.
+        type: int
         default: '10'
     virtual_router:
         description:
             - Virtual router to use.
+        type: str
         default: 'default'
     interface:
         description:
             - The Interface to use.
+        type: str
 '''
 
 EXAMPLES = '''
@@ -113,7 +124,7 @@ EXAMPLES = '''
     virtual_router: 'VR-Two'
 
 - name: Create route 'Test-Five'
-    panos_static_route:
+  panos_static_route:
     provider: '{{ provider }}'
     name: 'Test-Five'
     destination: '5.5.5.0/24'
@@ -128,13 +139,17 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.network import StaticRoute
-    from pandevice.network import VirtualRouter
-    from pandevice.errors import PanDeviceError
+    from panos.network import StaticRoute
+    from panos.network import VirtualRouter
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import StaticRoute
+        from pandevice.network import VirtualRouter
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

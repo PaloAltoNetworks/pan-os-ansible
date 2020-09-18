@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2019 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -29,7 +29,7 @@ short_description: Manage log forwarding profile match lists.
 description:
     - Manages log forwarding profile match lists.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice >= 0.11.1
@@ -40,21 +40,26 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
+    - paloaltonetworks.panos.fragments.state
 options:
     log_forwarding_profile:
         description:
             - Name of the log forwarding profile to add this match list to.
+        type: str
         required: True
     name:
         description:
             - Name of the profile.
+        type: str
         required: true
     description:
         description:
             - Profile description
+        type: str
     log_type:
         description:
             - Log type.
+        type: str
         choices:
             - traffic
             - threat
@@ -69,6 +74,7 @@ options:
     filter:
         description:
             - The filter.  Leaving this empty means "All logs".
+        type: str
     send_to_panorama:
         description:
             - Send to panorama or not
@@ -77,18 +83,22 @@ options:
         description:
             - List of SNMP server profiles.
         type: list
+        elements: str
     email_profiles:
         description:
             - List of email server profiles.
         type: list
+        elements: str
     syslog_profiles:
         description:
             - List of syslog server profiles.
         type: list
+        elements: str
     http_profiles:
         description:
             - List of HTTP server profiles.
         type: list
+        elements: str
 '''
 
 EXAMPLES = '''
@@ -111,13 +121,17 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.objects import LogForwardingProfile
-    from pandevice.objects import LogForwardingProfileMatchList
-    from pandevice.errors import PanDeviceError
+    from panos.objects import LogForwardingProfile
+    from panos.objects import LogForwardingProfileMatchList
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.objects import LogForwardingProfile
+        from pandevice.objects import LogForwardingProfileMatchList
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():
@@ -137,10 +151,10 @@ def main():
                 'url', 'data', 'gtp', 'tunnel', 'auth', 'sctp']),
             filter=dict(),
             send_to_panorama=dict(type='bool'),
-            snmp_profiles=dict(type='list'),
-            email_profiles=dict(type='list'),
-            syslog_profiles=dict(type='list'),
-            http_profiles=dict(type='list'),
+            snmp_profiles=dict(type='list', elements='str'),
+            email_profiles=dict(type='list', elements='str'),
+            syslog_profiles=dict(type='list', elements='str'),
+            http_profiles=dict(type='list', elements='str'),
         ),
     )
     module = AnsibleModule(

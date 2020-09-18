@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2019 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -29,7 +29,7 @@ short_description: Manage HTTP params for a HTTP profile.
 description:
     - Manages HTTP params for a HTTP profile.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice >= 0.11.1
@@ -41,14 +41,17 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
+    - paloaltonetworks.panos.fragments.state
 options:
     http_profile:
         description:
             - Name of the http server profile.
+        type: str
         required: True
     log_type:
         description:
             - The log type for this parameter.
+        type: str
         choices:
             - config
             - system
@@ -68,10 +71,12 @@ options:
     param:
         description:
             - The param name.
+        type: str
         required: True
     value:
         description:
             - The value to assign the param.
+        type: str
 '''
 
 EXAMPLES = '''
@@ -91,46 +96,46 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.device import HttpServerProfile
-    from pandevice.device import HttpConfigParam
-    from pandevice.device import HttpSystemParam
-    from pandevice.device import HttpThreatParam
-    from pandevice.device import HttpTrafficParam
-    from pandevice.device import HttpHipMatchParam
-    from pandevice.device import HttpUrlParam
-    from pandevice.device import HttpDataParam
-    from pandevice.device import HttpWildfireParam
-    from pandevice.device import HttpTunnelParam
-    from pandevice.device import HttpUserIdParam
-    from pandevice.device import HttpGtpParam
-    from pandevice.device import HttpAuthParam
-    from pandevice.device import HttpSctpParam
-    from pandevice.device import HttpIpTagParam
-    from pandevice.errors import PanDeviceError
+    from panos.device import HttpServerProfile
+    from panos.device import HttpConfigParam
+    from panos.device import HttpSystemParam
+    from panos.device import HttpThreatParam
+    from panos.device import HttpTrafficParam
+    from panos.device import HttpHipMatchParam
+    from panos.device import HttpUrlParam
+    from panos.device import HttpDataParam
+    from panos.device import HttpWildfireParam
+    from panos.device import HttpTunnelParam
+    from panos.device import HttpUserIdParam
+    from panos.device import HttpGtpParam
+    from panos.device import HttpAuthParam
+    from panos.device import HttpSctpParam
+    from panos.device import HttpIpTagParam
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.device import HttpServerProfile
+        from pandevice.device import HttpConfigParam
+        from pandevice.device import HttpSystemParam
+        from pandevice.device import HttpThreatParam
+        from pandevice.device import HttpTrafficParam
+        from pandevice.device import HttpHipMatchParam
+        from pandevice.device import HttpUrlParam
+        from pandevice.device import HttpDataParam
+        from pandevice.device import HttpWildfireParam
+        from pandevice.device import HttpTunnelParam
+        from pandevice.device import HttpUserIdParam
+        from pandevice.device import HttpGtpParam
+        from pandevice.device import HttpAuthParam
+        from pandevice.device import HttpSctpParam
+        from pandevice.device import HttpIpTagParam
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():
-    cls_map = {
-        'config': HttpConfigParam,
-        'system': HttpSystemParam,
-        'threat': HttpThreatParam,
-        'traffic': HttpTrafficParam,
-        'hip match': HttpHipMatchParam,
-        'url': HttpUrlParam,
-        'data': HttpDataParam,
-        'wildfire': HttpWildfireParam,
-        'tunnel': HttpTunnelParam,
-        'user id': HttpUserIdParam,
-        'gtp': HttpGtpParam,
-        'auth': HttpAuthParam,
-        'sctp': HttpSctpParam,
-        'iptag': HttpIpTagParam,
-    }
-
     helper = get_connection(
         vsys_shared=True,
         device_group=True,
@@ -140,7 +145,11 @@ def main():
         min_panos_version=(8, 0, 0),
         argument_spec=dict(
             http_profile=dict(required=True),
-            log_type=dict(required=True, choices=sorted(cls_map.keys())),
+            log_type=dict(required=True, choices=[
+                'config', 'system', 'threat', 'traffic', 'hip match', 'url',
+                'data', 'wildfire', 'tunnel', 'user id', 'gtp', 'auth',
+                'sctp', 'iptag']
+            ),
             param=dict(required=True),
             value=dict(),
         ),
@@ -160,6 +169,23 @@ def main():
         sp.refresh()
     except PanDeviceError as e:
         module.fail_json(msg='Failed refresh: {0}'.format(e))
+
+    cls_map = {
+        'config': HttpConfigParam,
+        'system': HttpSystemParam,
+        'threat': HttpThreatParam,
+        'traffic': HttpTrafficParam,
+        'hip match': HttpHipMatchParam,
+        'url': HttpUrlParam,
+        'data': HttpDataParam,
+        'wildfire': HttpWildfireParam,
+        'tunnel': HttpTunnelParam,
+        'user id': HttpUserIdParam,
+        'gtp': HttpGtpParam,
+        'auth': HttpAuthParam,
+        'sctp': HttpSctpParam,
+        'iptag': HttpIpTagParam,
+    }
 
     cls = cls_map[module.params['log_type']]
 

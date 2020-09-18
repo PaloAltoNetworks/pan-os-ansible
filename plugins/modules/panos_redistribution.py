@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -32,7 +32,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -47,6 +47,7 @@ options:
     name:
         description:
             - Name of rule.
+        type: str
         required: True
     priority:
         description:
@@ -55,6 +56,7 @@ options:
     action:
         description:
             - Rule action.
+        type: str
         choices:
             - no-redist
             - redist
@@ -62,45 +64,65 @@ options:
     filter_type:
         description:
             - Any of 'static', 'connect', 'rip', 'ospf', or 'bgp'.
+        type: list
+        elements: str
     filter_interface:
         description:
             - Filter interface.
+        type: list
+        elements: str
     filter_destination:
         description:
             - Filter destination.
+        type: list
+        elements: str
     filter_nexthop:
         description:
             - Filter nexthop.
+        type: list
+        elements: str
     ospf_filter_pathtype:
         description:
             - Any of 'intra-area', 'inter-area', 'ext-1', or 'ext-2'.
+        type: list
+        elements: str
     ospf_filter_area:
         description:
             - OSPF filter on area.
+        type: list
+        elements: str
     ospf_filter_tag:
         description:
             - OSPF filter on tag.
+        type: list
+        elements: str
     bgp_filter_community:
         description:
             - BGP filter on community.
+        type: list
+        elements: str
     bgp_filter_extended_community:
         description:
             - BGP filter on extended community.
+        type: list
+        elements: str
     type:
         description:
             - Name of rule.
+        type: str
         choices:
             - ipv4
             - ipv6
         default: 'ipv4'
     vr_name:
         description:
-            - Name of the virtual router; it must already exist; see panos_virtual_router.
+            - Name of the virtual router; it must already exist; see M(panos_virtual_router).
+        type: str
         default: 'default'
     commit:
         description:
             - Commit configuration if changed.
-        default: True
+        default: false
         type: bool
 '''
 
@@ -119,65 +141,40 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.errors import PanDeviceError
-    from pandevice.network import VirtualRouter
-    from pandevice.network import RedistributionProfile
-    from pandevice.network import RedistributionProfileIPv6
+    from panos.errors import PanDeviceError
+    from panos.network import VirtualRouter
+    from panos.network import RedistributionProfile
+    from panos.network import RedistributionProfileIPv6
 except ImportError:
-    pass
+    try:
+        from pandevice.errors import PanDeviceError
+        from pandevice.network import VirtualRouter
+        from pandevice.network import RedistributionProfile
+        from pandevice.network import RedistributionProfileIPv6
+    except ImportError:
+        pass
 
 
 def setup_args():
     return dict(
-        commit=dict(
-            type='bool', default=True,
-            help='Commit configuration if changed'),
+        commit=dict(type='bool', default=False),
 
-        vr_name=dict(
-            default='default',
-            help='Name of the virtual router; it must already exist; see panos_virtual_router'),
-        type=dict(
-            type='str', default='ipv4', choices=['ipv4', 'ipv6'],
-            help='Name of rule'),
+        vr_name=dict(default='default'),
+        type=dict(type='str', default='ipv4', choices=['ipv4', 'ipv6']),
 
-        name=dict(
-            type='str', required=True,
-            help='Name of rule'),
-        priority=dict(
-            type='int',
-            help='Priority ID'),
-        action=dict(
-            type='str', default='no-redist', choices=['no-redist', 'redist'],
-            help='Rule action'),
-        filter_type=dict(
-            type='list',
-            help="Any of 'static', 'connect', 'rip', 'ospf', or 'bgp'"),
-        filter_interface=dict(
-            type='list',
-            help='Filter interface'),
-        filter_destination=dict(
-            type='list',
-            help='Filter destination'),
-        filter_nexthop=dict(
-            type='list',
-            help='Filter nexthop'),
-        ospf_filter_pathtype=dict(
-            type='list',
-            help="Any of 'intra-area', 'inter-area', 'ext-1', or 'ext-2'"),
-        ospf_filter_area=dict(
-            type='list',
-            help='OSPF filter on area'),
-        ospf_filter_tag=dict(
-            type='list',
-            help='OSPF filter on tag'),
-        bgp_filter_community=dict(
-            type='list',
-            help='BGP filter on community'),
-        bgp_filter_extended_community=dict(
-            type='list',
-            help='BGP filter on extended community'),
+        name=dict(type='str', required=True),
+        priority=dict(type='int'),
+        action=dict(type='str', default='no-redist', choices=['no-redist', 'redist']),
+        filter_type=dict(type='list', elements='str'),
+        filter_interface=dict(type='list', elements='str'),
+        filter_destination=dict(type='list', elements='str'),
+        filter_nexthop=dict(type='list', elements='str'),
+        ospf_filter_pathtype=dict(type='list', elements='str'),
+        ospf_filter_area=dict(type='list', elements='str'),
+        ospf_filter_tag=dict(type='list', elements='str'),
+        bgp_filter_community=dict(type='list', elements='str'),
+        bgp_filter_extended_community=dict(type='list', elements='str'),
     )
 
 

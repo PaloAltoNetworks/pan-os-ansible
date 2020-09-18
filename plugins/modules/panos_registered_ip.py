@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2018 Palo Alto Networks, Inc
@@ -29,7 +29,7 @@ short_description: Register IP addresses for use with dynamic address groups on 
 description:
     - Registers tags for IP addresses that can be used to build dynamic address groups.
 author: "Michael Richardson (@mrichardson03)"
-version_added: "2.7"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -44,10 +44,14 @@ options:
     ips:
         description:
             - List of IP addresses to register/unregister.
+        type: list
+        elements: str
         required: true
     tags:
         description:
             - List of tags that the IP address will be registered to.
+        type: list
+        elements: str
         required: true
 '''
 
@@ -101,9 +105,12 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 try:
-    from pandevice.errors import PanDeviceError
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():
@@ -113,8 +120,8 @@ def main():
         with_state=True,
         panorama_error='Panorama is not supported for this module.',
         argument_spec=dict(
-            ips=dict(type='list', required=True),
-            tags=dict(type='list', required=True),
+            ips=dict(type='list', elements='str', required=True),
+            tags=dict(type='list', elements='str', required=True),
         )
     )
 

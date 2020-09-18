@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2017 Palo Alto Networks, Inc
@@ -14,6 +14,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -33,7 +36,7 @@ author:
     - Robert Hagen (@stealthllama)
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.4"
+version_added: '1.0.0'
 requirements:
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
 notes:
@@ -49,22 +52,26 @@ options:
     rule_name:
         description:
             - Name of the security rule.
+        type: str
         required: true
     source_zone:
         description:
             - List of source zones.
         default: ["any"]
         type: list
+        elements: str
     source_ip:
         description:
             - List of source addresses.
         default: ["any"]
         type: list
+        elements: str
     source_user:
         description:
             - Use users to enforce policy for individual users or a group of users.
         default: ["any"]
         type: list
+        elements: str
     hip_profiles:
         description: >
             - If you are using GlobalProtect with host information profile (HIP) enabled, you can also base the policy
@@ -72,34 +79,41 @@ options:
             notifies the firewall about the user's local configuration.
         default: ["any"]
         type: list
+        elements: str
     destination_zone:
         description:
             - List of destination zones.
         default: ["any"]
         type: list
+        elements: str
     destination_ip:
         description:
             - List of destination addresses.
         default: ["any"]
         type: list
+        elements: str
     application:
         description:
             - List of applications, application groups, and/or application filters.
         default: ["any"]
         type: list
+        elements: str
     service:
         description:
             - List of services and/or service groups.
         default: ['application-default']
         type: list
+        elements: str
     category:
         description:
             - List of destination URL categories.
         default: ["any"]
         type: list
+        elements: str
     action:
         description:
             - Action to apply once rules matches.
+        type: str
         choices:
             - allow
             - deny
@@ -111,6 +125,7 @@ options:
     log_setting:
         description:
             - Log forwarding profile.
+        type: str
     log_start:
         description:
             - Whether to log at session start.
@@ -124,9 +139,11 @@ options:
     description:
         description:
             - Description of the security rule.
+        type: str
     rule_type:
         description:
             - Type of security rule (version 6.1 of PanOS and above).
+        type: str
         choices:
             - universal
             - intrazone
@@ -136,6 +153,7 @@ options:
         description:
             - List of tags associated with the rule.
         type: list
+        elements: str
     negate_source:
         description:
             - Match on the reverse of the 'source_ip' attribute
@@ -154,6 +172,7 @@ options:
     schedule:
         description:
             - Schedule in which this rule is active.
+        type: str
     icmp_unreachable:
         description:
             - Send 'ICMP Unreachable'. Used with 'deny', 'drop', and 'reset' actions.
@@ -167,31 +186,40 @@ options:
         description: >
             - Security profile group that is already defined in the system. This property supersedes antivirus,
             vulnerability, spyware, url_filtering, file_blocking, data_filtering, and wildfire_analysis properties.
+        type: str
     antivirus:
         description:
             - Name of the already defined antivirus profile.
+        type: str
     vulnerability:
         description:
             - Name of the already defined vulnerability profile.
+        type: str
     spyware:
         description:
             - Name of the already defined spyware profile.
+        type: str
     url_filtering:
         description:
             - Name of the already defined url_filtering profile.
+        type: str
     file_blocking:
         description:
             - Name of the already defined file_blocking profile.
+        type: str
     data_filtering:
         description:
             - Name of the already defined data_filtering profile.
+        type: str
     wildfire_analysis:
         description:
             - Name of the already defined wildfire_analysis profile.
+        type: str
     location:
         description:
             - Position to place the created rule in the rule base.  Supported values are
               I(top)/I(bottom)/I(before)/I(after).
+        type: str
         choices:
             - top
             - bottom
@@ -202,16 +230,19 @@ options:
             - If 'location' is set to 'before' or 'after', this option specifies an existing
               rule name.  The new rule will be created in the specified position relative to this
               rule.  If 'location' is set to 'before' or 'after', this option is required.
+        type: str
     devicegroup:
         description:
             - B(Deprecated)
             - Use I(device_group) instead.
             - HORIZONTALLINE
             - Device groups are logical groups of firewalls in Panorama.
+        type: str
     target:
         description:
             - Apply this rule exclusively to the listed firewalls in Panorama.
         type: list
+        elements: str
     negate_target:
         description:
             - Exclude this rule from the listed firewalls in Panorama.
@@ -220,11 +251,12 @@ options:
         description:
             - B(Removed)
             - Use I(state) instead.
+        type: str
     commit:
         description:
             - Commit configuration if changed.
-        default: false
         type: bool
+        default: false
 '''
 
 EXAMPLES = '''
@@ -315,12 +347,15 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.policies import SecurityRule
-    from pandevice.errors import PanDeviceError
+    from panos.policies import SecurityRule
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.policies import SecurityRule
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 ACCEPTABLE_MOVE_ERRORS = (
@@ -339,15 +374,15 @@ def main():
         error_on_shared=True,
         argument_spec=dict(
             rule_name=dict(required=True),
-            source_zone=dict(type='list', default=['any']),
-            source_ip=dict(type='list', default=["any"]),
-            source_user=dict(type='list', default=['any']),
-            hip_profiles=dict(type='list', default=['any']),
-            destination_zone=dict(type='list', default=['any']),
-            destination_ip=dict(type='list', default=["any"]),
-            application=dict(type='list', default=['any']),
-            service=dict(type='list', default=['application-default']),
-            category=dict(type='list', default=['any']),
+            source_zone=dict(type='list', elements='str', default=['any']),
+            source_ip=dict(type='list', elements='str', default=["any"]),
+            source_user=dict(type='list', elements='str', default=['any']),
+            hip_profiles=dict(type='list', elements='str', default=['any']),
+            destination_zone=dict(type='list', elements='str', default=['any']),
+            destination_ip=dict(type='list', elements='str', default=["any"]),
+            application=dict(type='list', elements='str', default=['any']),
+            service=dict(type='list', elements='str', default=['application-default']),
+            category=dict(type='list', elements='str', default=['any']),
             action=dict(
                 default='allow',
                 choices=['allow', 'deny', 'drop', 'reset-client', 'reset-server', 'reset-both'],
@@ -357,7 +392,7 @@ def main():
             log_end=dict(type='bool', default=True),
             description=dict(),
             rule_type=dict(default='universal', choices=['universal', 'intrazone', 'interzone']),
-            tag_name=dict(type='list'),
+            tag_name=dict(type='list', elements='str'),
             negate_source=dict(type='bool', default=False),
             negate_destination=dict(type='bool', default=False),
             disabled=dict(type='bool', default=False),
@@ -372,11 +407,11 @@ def main():
             file_blocking=dict(),
             wildfire_analysis=dict(),
             data_filtering=dict(),
-            target=dict(type='list'),
+            target=dict(type='list', elements='str'),
             negate_target=dict(type='bool'),
             location=dict(choices=['top', 'bottom', 'before', 'after']),
             existing_rule=dict(),
-            commit=dict(type='bool', default=True),
+            commit=dict(type='bool', default=False),
 
             # TODO(gfreeman) - remove this in the next role release.
             operation=dict(),
@@ -397,7 +432,10 @@ def main():
 
     # TODO(gfreeman) - remove when devicegroup is removed.
     if module.params['devicegroup'] is not None:
-        module.deprecate('Param "devicegroup" is deprecated; use "device_group"', '2.12')
+        module.deprecate(
+            'Param "devicegroup" is deprecated; use "device_group"',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
         if module.params['device_group'] is not None:
             msg = [
                 'Both "devicegroup" and "device_group" are specified',

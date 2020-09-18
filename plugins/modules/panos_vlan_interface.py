@@ -1,9 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
-
 #  Copyright 2019 Palo Alto Networks, Inc
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_vlan_interface
@@ -25,7 +25,7 @@ short_description: configure VLAN interfaces
 description:
     - Configure VLAN interfaces.
 author: "Garfield Lee Freeman (@shinmog)"
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python
     - pandevice
@@ -43,11 +43,13 @@ options:
         description:
             - Name of the interface to configure.
             - This should be in the format "vlan.<some_number>".
+        type: str
         required: true
     ip:
         description:
             - List of static IP addresses.
         type: list
+        elements: str
     ipv6_enabled:
         description:
             - Enable IPv6.
@@ -55,6 +57,7 @@ options:
     management_profile:
         description:
             - Interface management profile name.
+        type: str
     mtu:
         description:
             - MTU for layer3 interface.
@@ -66,9 +69,11 @@ options:
     netflow_profile:
         description:
             - Netflow profile for layer3 interface.
+        type: str
     comment:
         description:
             - Interface comment.
+        type: str
     ipv4_mss_adjust:
         description:
             - (7.1+) TCP MSS adjustment for IPv4.
@@ -94,13 +99,16 @@ options:
             - Name of the zone for the interface.
             - If the zone does not exist it is created.
             - If the zone already exists it should be I(mode=layer3).
+        type: str
     vlan_name:
         description:
             - The VLAN to put this interface in.
             - If the VLAN does not exist it is created.
+        type: str
     vr_name:
         description:
             - Name of the virtual router
+        type: str
 '''
 
 EXAMPLES = '''
@@ -136,13 +144,17 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.network import Vlan
-    from pandevice.network import VlanInterface
-    from pandevice.errors import PanDeviceError
+    from panos.network import Vlan
+    from panos.network import VlanInterface
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import Vlan
+        from pandevice.network import VlanInterface
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():
@@ -154,7 +166,7 @@ def main():
         min_pandevice_version=(0, 9, 0),
         argument_spec=dict(
             name=dict(required=True),
-            ip=dict(type='list'),
+            ip=dict(type='list', elements='str'),
             ipv6_enabled=dict(type='bool'),
             management_profile=dict(),
             mtu=dict(type='int'),

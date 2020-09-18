@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2016 Palo Alto Networks, Inc
@@ -15,6 +15,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 DOCUMENTATION = '''
 ---
 module: panos_dag
@@ -22,10 +25,10 @@ short_description: create a dynamic address group
 description:
     - Create a dynamic address group object in the firewall used for policy rules
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer), Vinay Venkataraghavan (@vinayvenkat)"
-version_added: "2.3"
+version_added: '1.0.0'
 deprecated:
     alternative: Use M(panos_address_group) instead.
-    removed_in: '2.12'
+    removed_in: '3.0.0'
     why: This module's functionality is a subset of M(panos_address_group).
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
@@ -34,66 +37,77 @@ options:
     ip_address:
         description:
             - IP address (or hostname) of PAN-OS device
+        type: str
         required: true
         default: null
     password:
         description:
             - password for authentication
+        type: str
         required: true
         default: null
     username:
         description:
             - username for authentication
+        type: str
         required: false
         default: "admin"
     api_key:
         description:
             - API key that can be used instead of I(username)/I(password) credentials.
+        type: str
     dag_name:
         description:
             - name of the dynamic address group
+        type: str
         required: true
         default: null
     dag_match_filter:
         description:
             - dynamic filter user by the dynamic address group
-        required: true
+        type: str
         default: null
     tag_name:
         description:
             - Add administrative tags to the DAG
+        type: list
+        elements: str
         required: false
         default: null
     devicegroup:
         description:
             - The name of the Panorama device group. The group must exist on Panorama. If
               device group is not defined it is assumed that we are contacting a firewall.
+        type: str
         required: false
-        default: None
     operation:
         description:
             - The operation to perform Supported values are I(add)/I(list)/I(delete).
+        type: str
         required: true
+        choices: ['add', 'list', 'delete']
         default: null
     commit:
         description:
             - commit if changed
+        type: bool
         required: false
-        default: true
+        default: false
     description:
         description:
             - The description of the object.
+        type: str
 '''
 
 EXAMPLES = '''
-- name: dag
-    panos_dag:
-        ip_address: "192.168.1.1"
-        password: "admin"
-        dag_name: "dag-1"
-        dag_match_filter: "'aws-tag.aws:cloudformation:logical-id.ServerInstance' and 'instanceState.running'"
-        description: 'Add / create dynamic address group to allow access to SaaS Applications'
-        operation: 'add'
+- name: Create dag
+  panos_dag:
+    ip_address: "192.168.1.1"
+    password: "admin"
+    dag_name: "dag-1"
+    dag_match_filter: "'aws-tag.aws:cloudformation:logical-id.ServerInstance' and 'instanceState.running'"
+    description: 'Add / create dynamic address group to allow access to SaaS Applications'
+    operation: 'add'
 '''
 
 RETURN = '''
@@ -104,18 +118,24 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['deprecated'],
                     'supported_by': 'community'}
 
-
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.basic import get_exception
 
 try:
     from pan.xapi import PanXapiError
-    from pandevice import base
-    from pandevice import objects
-
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
+
+try:
+    from panos import base
+    from panos import objects
+except ImportError:
+    try:
+        from pandevice import base
+        from pandevice import objects
+    except ImportError:
+        pass
 
 
 def create_address_group_object(**kwargs):
@@ -206,8 +226,8 @@ def main():
         api_key=dict(no_log=True),
         dag_match_filter=dict(type='str', default=None),
         dag_name=dict(required=True),
-        tag_name=dict(type='list', required=False),
-        commit=dict(type='bool', default=True),
+        tag_name=dict(type='list', elements='str', required=False),
+        commit=dict(type='bool', default=False),
         devicegroup=dict(default=None),
         description=dict(default=None),
         operation=dict(type='str', required=True, choices=['add', 'list', 'delete'])
@@ -215,7 +235,10 @@ def main():
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False,
                            required_one_of=[['api_key', 'password']])
 
-    module.deprecate('This module has been deprecated; use panos_address_group', '2.12')
+    module.deprecate(
+        'This module has been deprecated; use panos_address_group',
+        version='3.0.0', collection_name='paloaltonetworks.panos'
+    )
 
     if not HAS_LIB:
         module.fail_json(msg='Missing required libraries.')

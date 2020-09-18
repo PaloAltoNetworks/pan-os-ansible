@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2020 Palo Alto Networks, Inc
@@ -30,7 +30,7 @@ description:
     - Create GRE tunnel objects on PAN-OS devices.
 author:
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.9"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -46,13 +46,16 @@ options:
     name:
         description:
             - Name of object to create.
+        type: str
         required: true
     interface:
         description:
             - Interface to terminate the tunnel.
+        type: str
     local_address_type:
         description:
             Type of local address.
+        type: str
         choices:
             - ip
             - floating-ip
@@ -60,12 +63,15 @@ options:
     local_address_value:
         description:
             - IP address value.
+        type: str
     peer_address:
         description:
             - Peer IP address.
+        type: str
     tunnel_interface:
         description:
             - To apply GRE tunnels to tunnel interface.
+        type: str
     ttl:
         description:
             - TTL.
@@ -120,10 +126,14 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 try:
-    from pandevice.network import GreTunnel
-    from pandevice.errors import PanDeviceError
+    from panos.network import GreTunnel
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.network import GreTunnel
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():

@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -17,6 +14,9 @@ __metaclass__ = type
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -41,7 +41,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -56,12 +56,13 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: True
+        default: False
         type: bool
     vr_name:
         description:
             - Name of the virtual router; it must already exist and have BGP configured.
             - See M(panos_virtual_router).
+        type: str
         default: default
     advertise_filter:
         description:
@@ -69,12 +70,14 @@ options:
             - Use M(panos_bgp_policy_filter) to define filters after creation.
             - HORIZONTALLINE
             - Advertisement filter object returned by M(panos_bgp_policy_filter).
+        type: str
     non_exist_filter:
         description:
             - B(Deprecated)
             - Use M(panos_bgp_policy_filter) to define filters after creation.
             - HORIZONTALLINE
             - Non-Exist filter object returned by M(panos_bgp_policy_filter).
+        type: str
     enable:
         description:
             - Enable this policy.
@@ -82,11 +85,13 @@ options:
     name:
         description:
             - Name of Conditional Advertisement policy.
+        type: str
         required: True
     used_by:
         description:
             - List of Peer Groups using this policy.
         type: list
+        elements: str
 '''
 
 EXAMPLES = '''
@@ -103,45 +108,36 @@ RETURN = '''
 # Default return values
 '''
 
-
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.errors import PanDeviceError
-    from pandevice.network import VirtualRouter
-    from pandevice.network import Bgp
-    from pandevice.network import BgpPolicyConditionalAdvertisement
+    from panos.errors import PanDeviceError
+    from panos.network import VirtualRouter
+    from panos.network import Bgp
+    from panos.network import BgpPolicyConditionalAdvertisement
 except ImportError:
-    pass
+    try:
+        from pandevice.errors import PanDeviceError
+        from pandevice.network import VirtualRouter
+        from pandevice.network import Bgp
+        from pandevice.network import BgpPolicyConditionalAdvertisement
+    except ImportError:
+        pass
+
+import pickle
+from base64 import b64decode
 
 
 def setup_args():
     return dict(
-        commit=dict(
-            type='bool', default=True,
-            help='Commit configuration if changed'),
-
-        vr_name=dict(
-            default='default',
-            help='Name of the virtual router; it must already exist; see panos_virtual_router'),
-        non_exist_filter=dict(
-            type='str',
-            help='Non-Exist filter object returned by panos_bgp_policy_filter; only needed on creation'),
-        advertise_filter=dict(
-            type='str',
-            help='Advertise filter object returned by panos_bgp_policy_filter; only needed on creation'),
-
-        name=dict(
-            type='str', required=True,
-            help='Name of Conditional Advertisement policy'),
-        enable=dict(
-            type='bool',
-            help='Enable this policy'),
-        used_by=dict(
-            type='list',
-            help='List of Peer Groups using this policy'),
+        commit=dict(type='bool', default=False),
+        vr_name=dict(default='default'),
+        non_exist_filter=dict(type='str'),
+        advertise_filter=dict(type='str'),
+        name=dict(type='str', required=True),
+        enable=dict(type='bool'),
+        used_by=dict(type='list', elements='str'),
     )
 
 
@@ -187,9 +183,10 @@ def main():
     for ansible_param in ('non_exist_filter', 'advertise_filter'):
         val = module.params[ansible_param]
         if val is not None:
-            import pickle
-            from base64 import b64decode
-            module.deprecate('Param {0} is deprecated'.format(ansible_param), '2.12')
+            module.deprecate(
+                'Param {0} is deprecated'.format(ansible_param),
+                version='3.0.0', collection_name='paloaltonetworks.panos'
+            )
             filter_obj = pickle.loads(b64decode(val))
             obj.add(filter_obj)
 

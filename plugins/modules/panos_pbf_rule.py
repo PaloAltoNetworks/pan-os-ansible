@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #  Copyright 2020 Palo Alto Networks, Inc
@@ -31,7 +31,7 @@ description:
     - Manage Policy Based Forwarding rules on PAN-OS.
 author:
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.9"
+version_added: '1.0.0'
 requirements:
     - pandevice >= 0.13.0
     - pan-python
@@ -48,17 +48,21 @@ options:
     name:
         description:
             - Name of the rule.
+        type: str
         required: true
     description:
         description:
             - The description.
+        type: str
     tags:
         description:
             - List of tags.
         type: list
+        elements: str
     from_type:
         description:
             - Source from type.
+        type: str
         choices:
             - zone
             - interface
@@ -67,15 +71,18 @@ options:
         description:
             - The source values for the given type.
         type: list
+        elements: str
     source_addresses:
         description:
             - List of source IP addresses.
         type: list
+        elements: str
         default: ["any"]
     source_users:
         description:
             - List of source users.
         type: list
+        elements: str
         default: ["any"]
     negate_source:
         description:
@@ -85,6 +92,7 @@ options:
         description:
             - List of destination addresses.
         type: list
+        elements: str
         default: ["any"]
     negate_destination:
         description:
@@ -94,15 +102,18 @@ options:
         description:
             - List of applications.
         type: list
+        elements: str
         default: ["any"]
     services:
         description:
             - List of services.
         type: list
+        elements: str
         default: ["any"]
     schedule:
         description:
             - The schedule.
+        type: str
     disabled:
         description:
             - Disable this rule.
@@ -110,6 +121,7 @@ options:
     action:
         description:
             - The action to take.
+        type: str
         choices:
             - forward
             - forward-to-vsys
@@ -119,13 +131,16 @@ options:
     forward_vsys:
         description:
             - The vsys to forward to if action is set to forward to a vsys.
+        type: str
     forward_egress_interface:
         description:
             - The egress interface.
+        type: str
     forward_next_hop_type:
         description:
             - The next hop type.
             - Leave this as None for a next hop type of 'None'.
+        type: str
         choices:
             - None
             - ip-address
@@ -133,12 +148,15 @@ options:
     forward_next_hop_value:
         description:
             - The next hop value if forward next hop type is not None.
+        type: str
     forward_monitor_profile:
         description:
             - The monitor profile to use.
+        type: str
     forward_monitor_ip_address:
         description:
             - The monitor IP address.
+        type: str
     forward_monitor_disable_if_unreachable:
         description:
             - Set to disable this rule if nexthop / monitor IP is unreachable.
@@ -151,25 +169,28 @@ options:
         description:
             - List of symmetric return addresses.
         type: list
+        elements: str
     location:
         description:
             - Position to place the created rule in the rule base.
+        type: str
         choices:
             - top
             - bottom
             - before
             - after
-            - None
     existing_rule:
         description:
             - If 'location' is set to 'before' or 'after', this option specifies an existing
               rule name.  The new rule will be created in the specified position relative to this
               rule.  If 'location' is set to 'before' or 'after', this option is required.
+        type: str
     target:
         description:
             - For Panorama devices only.
             - Apply this rule exclusively to the listed firewalls in Panorama.
         type: list
+        elements: str
     negate_target:
         description:
             - For Panorama devices only.
@@ -194,12 +215,15 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.policies import PolicyBasedForwarding
-    from pandevice.errors import PanDeviceError
+    from panos.policies import PolicyBasedForwarding
+    from panos.errors import PanDeviceError
 except ImportError:
-    pass
+    try:
+        from pandevice.policies import PolicyBasedForwarding
+        from pandevice.errors import PanDeviceError
+    except ImportError:
+        pass
 
 
 def main():
@@ -214,16 +238,16 @@ def main():
         argument_spec=dict(
             name=dict(required=True),
             description=dict(),
-            tags=dict(type='list'),
+            tags=dict(type='list', elements='str'),
             from_type=dict(choices=['zone', 'interface'], default='zone'),
-            from_value=dict(type='list'),
-            source_addresses=dict(type='list', default=['any']),
-            source_users=dict(type='list', default=['any']),
+            from_value=dict(type='list', elements='str'),
+            source_addresses=dict(type='list', elements='str', default=['any']),
+            source_users=dict(type='list', elements='str', default=['any']),
             negate_source=dict(type='bool'),
-            destination_addresses=dict(type='list', default=['any']),
+            destination_addresses=dict(type='list', elements='str', default=['any']),
             negate_destination=dict(type='bool'),
-            applications=dict(type='list', default=['any']),
-            services=dict(type='list', default=['any']),
+            applications=dict(type='list', elements='str', default=['any']),
+            services=dict(type='list', elements='str', default=['any']),
             schedule=dict(),
             disabled=dict(type='bool'),
             action=dict(
@@ -238,8 +262,8 @@ def main():
             forward_monitor_ip_address=dict(),
             forward_monitor_disable_if_unreachable=dict(type='bool'),
             enable_enforce_symmetric_return=dict(type='bool'),
-            symmetric_return_addresses=dict(type='list'),
-            target=dict(type='list'),
+            symmetric_return_addresses=dict(type='list', elements='str'),
+            target=dict(type='list', elements='str'),
             negate_target=dict(type='bool'),
             location=dict(choices=['top', 'bottom', 'before', 'after']),
             existing_rule=dict(),

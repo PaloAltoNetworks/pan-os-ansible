@@ -1,8 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 #  Copyright 2018 Palo Alto Networks, Inc
 #
@@ -18,6 +15,9 @@ __metaclass__ = type
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -32,7 +32,7 @@ description:
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)
-version_added: "2.8"
+version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -50,11 +50,12 @@ options:
     commit:
         description:
             - Commit configuration if changed.
-        default: True
         type: bool
+        default: False
     name:
         description:
             - Name of Authentication Profile.
+        type: str
         required: True
     replace:
         description:
@@ -67,9 +68,11 @@ options:
     secret:
         description:
             - Secret.
+        type: str
     vr_name:
         description:
-            - Name of the virtual router; it must already exist; see panos_virtual_router.
+            - Name of the virtual router, it must already exist.  See M(panos_virtual_router).
+        type: str
         default: 'default'
 '''
 
@@ -89,39 +92,28 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
-
 try:
-    from pandevice.errors import PanDeviceError
-    from pandevice.network import Bgp
-    from pandevice.network import BgpAuthProfile
-    from pandevice.network import VirtualRouter
+    from panos.errors import PanDeviceError
+    from panos.network import Bgp
+    from panos.network import BgpAuthProfile
+    from panos.network import VirtualRouter
 except ImportError:
-    pass
+    try:
+        from pandevice.errors import PanDeviceError
+        from pandevice.network import Bgp
+        from pandevice.network import BgpAuthProfile
+        from pandevice.network import VirtualRouter
+    except ImportError:
+        pass
 
 
 def setup_args():
     return dict(
-        commit=dict(
-            type='bool', default=True,
-            help='Commit configuration if changed'),
-
-        vr_name=dict(
-            default='default',
-            help='Name of the virtual router; it must already exist; see panos_virtual_router'),
-        replace=dict(
-            type='bool',
-            help=' '.join(
-                [
-                    'The secret is encrypted so the state cannot be compared; this option',
-                    'forces removal of a matching item before applying the new config'
-                ])),
-
-        name=dict(
-            type='str', required=True,
-            help='Name of Authentication Profile'),
-        secret=dict(
-            type='str', no_log=True,
-            help='Secret'),
+        commit=dict(type='bool', default=False),
+        vr_name=dict(default='default'),
+        replace=dict(type='bool'),
+        name=dict(type='str', required=True),
+        secret=dict(type='str', no_log=True),
     )
 
 
@@ -144,7 +136,10 @@ def main():
 
     # TODO(gfreeman) - removed in 2.12
     if module.params['replace'] is not None:
-        module.deprecate('Param "replace" is deprecated; please remove it from your playbooks', '2.12')
+        module.deprecate(
+            'Param "replace" is deprecated; please remove it from your playbooks',
+            version='3.0.0', collection_name='paloaltonetworks.panos'
+        )
 
     vr = VirtualRouter(module.params['vr_name'])
     parent.add(vr)
