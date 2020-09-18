@@ -85,47 +85,14 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 try:
-    from panos.objects import VersionedPanObject, VersionedParamPath, Root, ENTRY
+    from panos.objects import CustomUrlCategory
     from panos.errors import PanDeviceError
 except ImportError:
     try:
-        from pandevice.objects import VersionedPanObject, VersionedParamPath, Root, ENTRY
+        from panos.objects import CustomUrlCategory
         from pandevice.errors import PanDeviceError
     except ImportError:
         pass
-
-
-# TODO: Remove this class when migrate to pan-os-python.
-# CustomUrlCategory class definition in pandevice is not complete.
-# This bug has been fixed in pan-os-python.
-class CustomUrlCategory(VersionedPanObject):
-    """Custom url category group
-
-    Args:
-        name (str): The name
-        url_value (list): Values to include in custom URL category object
-        description (str): Description of this object
-        type (str): Custom Url Category Type
-
-    """
-
-    ROOT = Root.VSYS
-    SUFFIX = ENTRY
-
-    def _setup(self):
-        # xpaths
-        self._xpaths.add_profile(value='/profiles/custom-url-category')
-
-        # params
-        params = []
-
-        params.append(VersionedParamPath(
-            'url_value', path='list', vartype='member'))
-        params.append(VersionedParamPath(
-            'description', path='description'))
-        params.append(VersionedParamPath('type'))
-
-        self._params = tuple(params)
 
 
 def main():
