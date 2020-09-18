@@ -129,12 +129,16 @@ options:
         default: 10
     local_ip_address:
         description:
-            - Bind IKE gateway to the specified interface IP address
+            - Bind IKE gateway to the specified interface IP address.  Only needed if
+              'interface' has multiple IP addresses associated with it.
             - It should include the mask, such as '192.168.1.1/24'
         type: str
     local_ip_address_type:
         description:
-            - The address type of the bound interface IP address
+            - The type of the bound interface IP address.
+            - "ip: Specify exact IP address if interface has multiple addresses."
+            - "floating-ip: Floating IP address in HA Active-Active configuration."
+            - Required when 'local_ip_address' is set.
         type: str
         choices: ['ip', 'floating-ip']
     pre_shared_key:
@@ -146,21 +150,31 @@ options:
             - psk
     local_id_type:
         description:
-            - Specify the type of local ID.
+            - Define the format of the identification of the local gateway.
+            - "ipaddr: IP address"
+            - "fqdn: FQDN (hostname)"
+            - "ufqdn: User FQDN (email address)"
+            - "keyid: Key ID (binary format ID string in hex)"
         type: str
         choices: ['ipaddr', 'fqdn', 'ufqdn', 'keyid', 'dn']
     local_id_value:
         description:
-            - The value for the local_id.  (See also local_id_type, above.)
+            - Define the value for the identification of the local gateway.
+            - Required when I(local_id_type) is set.
         type: str
     peer_id_type:
         description:
-            - Specify the type of peer ID.
+            - Define the format of the identification of the peer gateway.
+            - "ipaddr: IP address"
+            - "fqdn: FQDN (hostname)"
+            - "ufqdn: User FQDN (email address)"
+            - "keyid: Key ID (binary format ID string in hex)"
         type: str
         choices: ['ipaddr', 'fqdn', 'ufqdn', 'keyid', 'dn']
     peer_id_value:
         description:
-            - The value for the peer_id.  (See also peer_id_type, above.)
+            - Define the value for the identification of the peer gateway.
+            - Required when I(peer_id_type) is set.
         type: str
     peer_id_check:
         description:
@@ -282,6 +296,7 @@ def main():
         required_together=[
             ['peer_id_value', 'peer_id_type'],
             ['local_id_value', 'local_id_type'],
+            ['local_ip_address', 'local_ip_address_type'],
         ],
     )
 
