@@ -164,7 +164,7 @@ def main():
     except PanDeviceError as e:
         module.fail_json(msg='Failed register/unregister: {0}'.format(e))
 
-    module.exit_json(changed=changed, results=results)
+    module.exit_json(changed=changed, ansible_module_results=results)
 
 
 if __name__ == '__main__':
