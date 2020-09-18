@@ -20,6 +20,8 @@ plugins/modules/panos_bgp_policy_rule.py validate-modules:missing-gplv3-license
 plugins/modules/panos_bgp_redistribute.py validate-modules:missing-gplv3-license
 plugins/modules/panos_cert_gen_ssh.py validate-modules:missing-gplv3-license
 plugins/modules/panos_check.py validate-modules:missing-gplv3-license
+plugins/modules/panos_commit.py validate-modules:deprecation-mismatch
+plugins/modules/panos_commit.py validate-modules:invalid-documentation
 plugins/modules/panos_commit.py validate-modules:missing-gplv3-license
 plugins/modules/panos_commit_panorama.py validate-modules:missing-gplv3-license
 plugins/modules/panos_commit_firewall.py validate-modules:missing-gplv3-license
