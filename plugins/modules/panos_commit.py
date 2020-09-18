@@ -19,7 +19,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
@@ -33,6 +33,10 @@ author:
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
 version_added: '1.0.0'
+deprecated:
+    alternative: 'Use M(panos_commit_firewall), M(panos_commit_panorama), M(panos_commit_push) instead.'
+    removed_in: '3.0.0'
+    why: 'This module is a subset of functionality found in other modules.'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -99,6 +103,11 @@ def main():
         argument_spec=helper.argument_spec,
         supports_check_mode=False,
         required_one_of=helper.required_one_of,
+    )
+
+    module.deprecate(
+        'This module is deprecated; use panos_commit_firewall, panos_commit_panorama, panos_commit_push',
+        version='3.0.0', collection_name='paloaltonetworks.panos'
     )
 
     changed = False
