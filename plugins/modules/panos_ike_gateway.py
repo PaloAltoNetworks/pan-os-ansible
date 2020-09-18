@@ -104,7 +104,7 @@ options:
             - IP or dynamic.
         type: str
         default: ip
-        choices: ['ip', 'dynamic']
+        choices: ['ip', 'dynamic', 'fqdn']
     peer_ip_value:
         description:
             - IPv4 address of the peer gateway.
@@ -271,7 +271,7 @@ def main():
             enable_fragmentation=dict(type='bool', default=False, aliases=['fragmentation']),
             enable_liveness_check=dict(type='bool', default=True),
             liveness_check_interval=dict(type='int', default=5, aliases=['liveness_check']),
-            peer_ip_type=dict(default='ip', choices=['ip', 'dynamic']),
+            peer_ip_type=dict(default='ip', choices=['ip', 'dynamic', 'fqdn']),
             peer_ip_value=dict(default='127.0.0.1'),
             enable_dead_peer_detection=dict(type='bool', default=False, aliases=['dead_peer_detection']),
             dead_peer_detection_interval=dict(type='int', default=99),
