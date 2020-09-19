@@ -176,8 +176,13 @@ RETURN = '''
 stdout:
     description: If the output gives a directory listing, give the listing as JSON formatted string
     returned: success
+<<<<<<< Updated upstream
     type: str
     sample: '{"dir-listing": {"file": ["/capture-rx", "/capture-tx", "/capture-fw"]}}'
+=======
+    type: string
+    sample: "{'dir-listing': {'file': ['/capture-rx', '/capture-tx', '/capture-fw']}}"
+>>>>>>> Stashed changes
 stdout_xml:
     description: If the output gives a directory listing, give the listing as XML formatted string
     returned: success
