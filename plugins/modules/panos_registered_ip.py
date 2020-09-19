@@ -141,25 +141,20 @@ def main():
     changed = False
 
     try:
-        registered_ips = device.userid.get_registered_ip(tags=tags)
+        to_register = {}
+        for ip in ips:
+            to_register[ip] = tags
 
-        if state == 'present':
-            # Check to see if IPs actually need to be registered.
-            to_add = set(ips) - set(registered_ips.keys())
-            if to_add:
-                if not module.check_mode:
+        registered_ips = device.userid.get_registered_ip(ips, tags=tags)
+
+        # If the dicts aren't equal, register/unregister the IPs.
+        if registered_ips != to_register:
+            if not module.check_mode:
+                if state == 'present':
                     device.userid.register(ips, tags=tags)
-                changed = True
-
-        elif state == 'absent':
-            # Check to see if IPs actually need to be unregistered.
-            to_remove = set(ips) & set(registered_ips.keys())
-            if to_remove:
-                if not module.check_mode:
-                    device.userid.unregister(to_remove, tags=tags)
-                changed = True
-
-        results = device.userid.get_registered_ip(ips)
+                elif state == 'absent':
+                    device.userid.unregister(ips, tags=tags)
+            changed = True
 
     except PanDeviceError as e:
         module.fail_json(msg='Failed register/unregister: {0}'.format(e))

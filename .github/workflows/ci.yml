@@ -2,6 +2,13 @@ name: CI/CD
 
 on:
   push:
+    branches:
+      - master
+      - develop
+      - beta
+      - alpha
+      - '[0-9]+.x'
+      - '[0-9]+.[0-9]+.x'
   pull_request:
 
 jobs:
@@ -10,7 +17,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8]
-        ansible-version: [2.9.*, 2.10.0b1]
+        ansible-version: [2.9.*, 2.10.0rc1]
 
     defaults:
       run:
@@ -56,3 +63,43 @@ jobs:
       - name: Build collection
         run: |
           ansible-galaxy collection build
+
+  release:
+    name: release
+    if: github.event_name == 'push' && github.ref != 'refs/heads/develop'
+    needs: [sanity, build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Install Ansible
+        run: |
+          pip install --upgrade pip
+          pip install ansible
+
+      - name: Set up Galaxy auth
+        run: |
+          mkdir -p ~/.ansible
+          echo "token: $GALAXY_API_KEY" > ~/.ansible/galaxy_token
+        env:
+          GALAXY_API_KEY: ${{ secrets.GALAXY_API_KEY }}
+        shell: bash
+
+      - name: Create release and publish
+        id: release
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          semantic_version: 17.1.1
+          extra_plugins: |
+            conventional-changelog-conventionalcommits@^4.4.0
+            @semantic-release/git@^9.0.0
+            @semantic-release/exec@^5.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,45 @@
+{
+    "branches": [
+        "master",
+        {
+            "name": "beta",
+            "prerelease": true
+        },
+        {
+            "name": "alpha",
+            "prerelease": true
+        }
+    ],
+    "plugins": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator",
+        [
+            "@semantic-release/exec",
+            {
+                "prepareCmd": ".github/set-version.sh ${nextRelease.version}",
+                "publishCmd": ".github/do-release.sh"
+            }
+        ],
+        [
+            "@semantic-release/git",
+            {
+                "assets": [
+                    "galaxy.yml"
+                ],
+                "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
+            }
+        ],
+        [
+            "@semantic-release/github",
+            {
+                "assets": [
+                    {
+                        "path": "*.tar.gz"
+                    }
+                ],
+                "successComment": ":tada: This ${issue.pull_request ? 'PR is included' : 'issue has been resolved'} in version ${nextRelease.version} :tada:\n\nThe release is available on [Ansible Galaxy](https://galaxy.ansible.com/paloaltonetworks/panos) and [GitHub release](https://github.com/PaloAltoNetworks/pan-os-ansible/releases)\n\n> Posted by [semantic-release](https://github.com/semantic-release/semantic-release) bot"
+            }
+        ]
+    ],
+    "preset": "conventionalcommits"
+}
