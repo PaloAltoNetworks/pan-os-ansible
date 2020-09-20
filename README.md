@@ -9,7 +9,7 @@ factors, using the PAN-OS API.
 
 -   Free software: Apache 2.0 License
 -   Documentation:
-    <https://ansible-pan.readthedocs.io>
+    < https://paloaltonetworks.github.io/pan-os-ansible/>
 -   PANW community supported live page:
     <http://live.paloaltonetworks.com/ansible>
 -   Repo:
