@@ -1,0 +1,256 @@
+.. _panos_vlan_interface_module:
+
+
+panos_vlan_interface -- configure VLAN interfaces
+=================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Configure VLAN interfaces.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python
+- pandevice
+
+
+
+Parameters
+----------
+
+  name (required, type: str)
+    Name of the interface to configure.
+
+    This should be in the format "vlan.<some_number>".
+
+
+  ip (type: list)
+    List of static IP addresses.
+
+
+  ipv6_enabled (type: bool)
+    Enable IPv6.
+
+
+  management_profile (type: str)
+    Interface management profile name.
+
+
+  mtu (type: int)
+    MTU for layer3 interface.
+
+
+  adjust_tcp_mss (type: bool)
+    Adjust TCP MSS for layer3 interface.
+
+
+  netflow_profile (type: str)
+    Netflow profile for layer3 interface.
+
+
+  comment (type: str)
+    Interface comment.
+
+
+  ipv4_mss_adjust (type: int)
+    (7.1+) TCP MSS adjustment for IPv4.
+
+
+  ipv6_mss_adjust (type: int)
+    (7.1+) TCP MSS adjustment for IPv6.
+
+
+  enable_dhcp (type: bool)
+    Enable DHCP on this interface.
+
+
+  create_dhcp_default_route (type: bool)
+    Whether or not to add default route with router learned via DHCP.
+
+
+  dhcp_default_route_metric (type: int)
+    Metric for the DHCP default route.
+
+
+  zone_name (type: str)
+    Name of the zone for the interface.
+
+    If the zone does not exist it is created.
+
+    If the zone already exists it should be *mode=layer3*.
+
+
+  vlan_name (type: str)
+    The VLAN to put this interface in.
+
+    If the VLAN does not exist it is created.
+
+
+  vr_name (type: str)
+    Name of the virtual router
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+  vsys (type: str)
+    The vsys this object should be imported into.  Objects that are imported include interfaces, virtual routers, virtual wires, and VLANs.  Interfaces are typically imported into vsys1 if no vsys is specified.
+
+
+  template (type: str)
+    (Panorama only) The template this operation should target.  This param is required if the PAN-OS device is Panorama.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is supported.
+   - If the PAN-OS device is a firewall and *vsys* is not specified, then the vsys will default to *vsys=vsys1*.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    # Create vlan.2 as DHCP
+    - name: enable DHCP client on ethernet1/1 in zone public
+      panos_vlan_interface:
+        provider: '{{ provider }}'
+        name: "vlan.2"
+        zone_name: "public"
+        enable_dhcp: true
+        create_default_route: true
+
+    # Set vlan.7 with a static IP
+    - name: Configure vlan.7
+      panos_vlan_interface:
+        provider: '{{ provider }}'
+        name: "vlan.7"
+        ip: ["10.1.1.1/24"]
+        management_profile: "allow ping"
+        vlan_name: "dmz"
+        zone_name: "L3-untrust"
+        vr_name: "default"
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Garfield Lee Freeman (@shinmog)
+

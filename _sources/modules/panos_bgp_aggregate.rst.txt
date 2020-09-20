@@ -1,0 +1,258 @@
+.. _panos_bgp_aggregate_module:
+
+
+panos_bgp_aggregate -- Configures a BGP Aggregation Prefix Policy
+=================================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Use BGP to publish and consume routes from disparate networks.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+
+
+
+Parameters
+----------
+
+  commit (type: bool)
+    Commit configuration if changed.
+
+
+  as_set (type: bool)
+    Generate AS-set attribute.
+
+
+  attr_as_path_limit (type: int)
+    Add AS path limit attribute if it does not exist.
+
+
+  attr_as_path_prepend_times (type: int)
+    Prepend local AS for specified number of times.
+
+
+  attr_as_path_type (type: str, default: none)
+    AS path update options.
+
+
+  attr_community_argument (type: str)
+    Argument to the action community value if needed.
+
+
+  attr_community_type (type: str, default: none)
+    Community update options.
+
+
+  attr_extended_community_argument (type: str)
+    Argument to the action extended community value if needed.
+
+
+  attr_extended_community_type (type: str, default: none)
+    Extended community update options.
+
+
+  attr_local_preference (type: int)
+    New Local Preference value.
+
+
+  attr_med (type: int)
+    New Multi-Exit Discriminator value.
+
+
+  attr_nexthop (type: list)
+    Next-hop address.
+
+
+  attr_origin (type: str, default: incomplete)
+    New route origin.
+
+
+  attr_weight (type: int)
+    New weight value.
+
+
+  enable (type: bool, default: True)
+    Enable policy.
+
+
+  name (required, type: str)
+    Name of policy.
+
+
+  prefix (type: str)
+    Aggregating address prefix.
+
+
+  summary (type: bool)
+    Summarize route.
+
+
+  vr_name (type: str, default: default)
+    Name of the virtual router, it must already exist.  See :ref:`panos_virtual_router <panos_virtual_router_module>`.
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+  template (type: str)
+    (Panorama only) The template this operation should target. Mutually exclusive with *template_stack*.
+
+
+  template_stack (type: str)
+    (Panorama only) The template stack this operation should target. Mutually exclusive with *template*.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is supported.
+   - Panorama is supported.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+   - If the PAN-OS to be configured is Panorama, either *template* or *template_stack* must be specified.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create BGP Aggregation Rule
+      panos_bgp_aggregate:
+        provider: '{{ provider }}'
+        vr_name: 'default'
+        name: 'aggr-rule-01'
+        prefix: '10.0.0.0/24'
+        enable: true
+        summary: true
+
+    - name: Remove BGP Aggregation Rule
+      panos_bgp_aggregate:
+        provider: '{{ provider }}'
+        vr_name: 'default'
+        name: 'aggr-rule-01'
+        state: 'absent'
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Joshua Colson (@freakinhippie)
+- Garfield Lee Freeman (@shinmog)
+

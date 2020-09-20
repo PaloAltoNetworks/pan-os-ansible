@@ -1,0 +1,190 @@
+.. _panos_op_module:
+
+
+panos_op -- execute arbitrary OP commands on PANW devices (e.g. show interface all)
+===================================================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+This module will allow user to pass and execute any supported OP command on the PANW device.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+- xmltodict
+
+
+
+Parameters
+----------
+
+  cmd (required, type: str)
+    The OP command to be performed.
+
+
+  cmd_is_xml (type: bool)
+    The cmd is already given in XML format, so don't convert it.
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is NOT supported.
+   - Panorama is supported.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: show list of all interfaces
+      panos_op:
+        provider: '{{ provider }}'
+        cmd: 'show interfaces all'
+
+    - name: show system info
+      panos_op:
+        provider: '{{ provider }}'
+        cmd: 'show system info'
+
+    - name: show system info as XML command
+      panos_op:
+        provider: '{{ provider }}'
+        cmd: '<show><system><info/></system></show>'
+        cmd_is_xml: true
+
+
+
+Return Values
+-------------
+
+stdout (success, str, {system: {app-release-date: 2017/05/01  15:09:12}})
+  output of the given OP command as JSON formatted string
+
+
+stdout_xml (success, str, <response status=success><result><system><hostname>fw2</hostname>)
+  output of the given OP command as an XML formatted string
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Ivan Bojer (@ivanbojer)
+- Garfield Lee Freeman (@shinmog)
+

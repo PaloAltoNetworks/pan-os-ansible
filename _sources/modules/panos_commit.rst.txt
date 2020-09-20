@@ -1,0 +1,193 @@
+.. _panos_commit_module:
+
+
+panos_commit -- Commit a PAN-OS device's candidate configuration.
+=================================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Module that will commit the candidate configuration of a PAN-OS device.
+
+The new configuration will become active immediately.
+
+
+.. WARNING::
+   This module is **deprecated**, and will be removed in version 3.0.0
+   of the collection.
+
+   This module is a subset of functionality found in other modules.
+
+   Use M(panos_commit_firewall), M(panos_commit_panorama), M(panos_commit_push) instead.
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+
+
+
+Parameters
+----------
+
+  include_template (type: bool)
+    (Panorama only) Include template changes with the commit.
+
+
+  devicegroup (type: str)
+    **Deprecated**
+
+    Use *device_group* instead.
+
+    ------------
+
+    (Panorama only) The device group.
+
+
+  admins (type: list)
+    (PanOS 8.0+ only) Commit only the changes made by specified list of administrators.
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  device_group (type: str, default: shared)
+    (Panorama only) The device group the operation should target.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: commit candidate config on firewall
+      panos_commit:
+        provider: '{{ provider }}'
+
+    - name: commit candidate config on Panorama
+      panos_commit:
+        provider: '{{ provider }}'
+        device_group: 'Cloud-Edge'
+
+    - name: commit changes by specified admins to firewall
+      panos_commit:
+        provider: '{{ provider }}'
+        admins: ['admin1','admin2']
+
+
+
+
+
+Status
+------
+
+
+- This module will be removed in version
+  3.0.0.
+  *[deprecated]*
+
+
+Authors
+~~~~~~~
+
+- Michael Richardson (@mrichardson03)
+- Garfield Lee Freeman (@shinmog)
+

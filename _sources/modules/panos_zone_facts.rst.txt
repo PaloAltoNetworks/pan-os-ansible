@@ -1,0 +1,227 @@
+.. _panos_zone_facts_module:
+
+
+panos_zone_facts -- Retrieves zone information
+==============================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Retrieves information on zones from a firewall or Panorama.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python
+- pandevice
+
+
+
+Parameters
+----------
+
+  name (type: str)
+    Name of the security zone.
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  template (type: str)
+    (Panorama only) The template this operation should target. Mutually exclusive with *template_stack*.
+
+
+  template_stack (type: str)
+    (Panorama only) The template stack this operation should target. Mutually exclusive with *template*.
+
+
+  vsys (type: str, default: vsys1)
+    The vsys this object belongs to.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Panorama is supported.
+   - Check mode is not supported.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+   - If the PAN-OS to be configured is Panorama, either *template* or *template_stack* must be specified.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    # Get information on a specific zone
+    - name: Get zone3 info
+      panos_zone_facts:
+        provider: '{{ provider }}'
+        name: 'zone3'
+      register: ans
+
+    # Get the config of all zones
+    - name: Get all zones
+      panos_zone_facts:
+        provider: '{{ provider }}'
+      register: zones
+
+
+
+Return Values
+-------------
+
+spec (When I(name) is specified., complex, )
+  The spec of the specified virtual router.
+
+
+  zone (, str, )
+    The name.
+
+
+  mode (, str, )
+    The mode of the zone.
+
+
+  interface (, list, )
+    List of interfaces.
+
+
+  zone_profile (, str, )
+    Zone protection profile.
+
+
+  log_setting (, str, )
+    Log forwarding setting.
+
+
+  enable_userid (, bool, )
+    Enable user identification.
+
+
+  include_acl (, list, )
+    User identification ACL include list.
+
+
+  exclude_acl (, list, )
+    User identification ACL exclude list.
+
+
+
+zones (When I(name) is not specified., list, )
+  List of zone specs.
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Garfield Lee Freeman (@shinmog)
+

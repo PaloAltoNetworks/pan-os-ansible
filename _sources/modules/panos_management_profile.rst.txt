@@ -1,0 +1,244 @@
+.. _panos_management_profile_module:
+
+
+panos_management_profile -- Manage interface management profiles.
+=================================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+This module will allow you to manage interface management profiles on PAN-OS.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+
+
+
+Parameters
+----------
+
+  panorama_template (type: str)
+    **Deprecated**
+
+    Use *template* instead.
+
+    ------------
+
+    (Panorama only) The template name.
+
+
+  name (required, type: str)
+    The management profile name.
+
+
+  ping (type: bool)
+    Enable ping
+
+
+  telnet (type: bool)
+    Enable telnet
+
+
+  ssh (type: bool)
+    Enable ssh
+
+
+  http (type: bool)
+    Enable http
+
+
+  http_ocsp (type: bool)
+    Enable http-ocsp
+
+
+  https (type: bool)
+    Enable https
+
+
+  snmp (type: bool)
+    Enable snmp
+
+
+  response_pages (type: bool)
+    Enable response pages
+
+
+  userid_service (type: bool)
+    Enable userid service
+
+
+  userid_syslog_listener_ssl (type: bool)
+    Enable userid syslog listener ssl
+
+
+  userid_syslog_listener_udp (type: bool)
+    Enable userid syslog listener udp
+
+
+  permitted_ip (type: list)
+    The list of permitted IP addresses
+
+
+  commit (type: bool)
+    Perform a commit if a change is made.
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  template (type: str)
+    (Panorama only) The template this operation should target. Mutually exclusive with *template_stack*.
+
+
+  template_stack (type: str)
+    (Panorama only) The template stack this operation should target. Mutually exclusive with *template*.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is supported.
+   - Panorama is supported.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+   - If the PAN-OS to be configured is Panorama, either *template* or *template_stack* must be specified.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: ensure mngt profile foo exists and allows ping and ssh
+      panos_management_profile:
+        provider: '{{ provider }}'
+        name: 'foo'
+        ping: true
+        ssh: true
+
+    - name: make sure mngt profile bar does not exist
+      panos_management_profile:
+        provider: '{{ provider }}'
+        name: 'bar'
+        state: 'absent'
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Garfield Lee Freeman (@shinmog)
+

@@ -1,0 +1,162 @@
+.. _panos_query_rules_module:
+
+
+panos_query_rules -- PANOS module that allows search for security rules in PANW NGFW devices.
+=============================================================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Security policies allow you to enforce rules and take action, and can be as general or specific as needed.
+
+The policy rules are compared against the incoming traffic in sequence, and because the first rule that matches
+
+the traffic is applied, the more specific rules must precede the more general ones.
+
+
+.. WARNING::
+   This module is **deprecated**, and will be removed in version 3.0.0
+   of the collection.
+
+   Querying rules is handled better by M(panos_match_rule).
+
+   Use M(panos_match_rule)
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+- xmltodict can be obtains from PyPI https://pypi.python.org/pypi/xmltodict
+
+
+
+Parameters
+----------
+
+  ip_address (required, type: str)
+    IP address (or hostname) of PAN-OS firewall or Panorama management console being queried.
+
+
+  username (type: str, default: admin)
+    Username credentials to use for authentication.
+
+
+  password (type: str)
+    Password credentials to use for authentication.
+
+
+  api_key (type: str)
+    API key that can be used instead of *username*/*password* credentials.
+
+
+  application (type: str)
+    Name of the application or application group to be queried.
+
+
+  source_zone (type: str)
+    Name of the source security zone to be queried.
+
+
+  source_ip (type: str)
+    The source IP address to be queried.
+
+
+  source_port (type: str)
+    The source port to be queried.
+
+
+  destination_zone (type: str)
+    Name of the destination security zone to be queried.
+
+
+  destination_ip (type: str)
+    The destination IP address to be queried.
+
+
+  destination_port (type: str)
+    The destination port to be queried.
+
+
+  protocol (type: str)
+    The protocol used to be queried.
+
+
+  tag_name (type: str)
+    Name of the rule tag to be queried.
+
+
+  devicegroup (type: str)
+    The Panorama device group in which to conduct the query.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is not supported.
+   - Panorama is supported.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: search for rules with tcp/3306
+      panos_query_rules:
+        ip_address: '{{ ip_address }}'
+        username: '{{ username }}'
+        password: '{{ password }}'
+        source_zone: 'DevNet'
+        destination_zone: 'DevVPC'
+        destination_port: '3306'
+        protocol: 'tcp'
+
+    - name: search devicegroup for inbound rules to dmz host
+      panos_query_rules:
+        ip_address: '{{ ip_address }}'
+        api_key: '{{ api_key }}'
+        destination_zone: 'DMZ'
+        destination_ip: '10.100.42.18'
+        address: 'DeviceGroupA'
+
+    - name: search for rules containing a specified rule tag
+      panos_query_rules:
+        ip_address: '{{ ip_address }}'
+        username: '{{ username }}'
+        password: '{{ password }}'
+        tag_name: 'ProjectX'
+
+
+
+
+
+Status
+------
+
+
+- This module will be removed in version
+  3.0.0.
+  *[deprecated]*
+
+
+Authors
+~~~~~~~
+
+- Bob Hagen (@stealthllama)
+

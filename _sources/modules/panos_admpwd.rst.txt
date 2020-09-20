@@ -1,0 +1,104 @@
+.. _panos_admpwd_module:
+
+
+panos_admpwd -- change admin password of PAN-OS device using SSH with SSH key
+=============================================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Change the admin password of PAN-OS via SSH using a SSH key for authentication.
+
+Useful for AWS instances where the first login should be done via SSH.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- paramiko
+
+
+
+Parameters
+----------
+
+  ip_address (required, type: str)
+    IP address (or hostname) of PAN-OS device
+
+
+  username (type: str, default: admin)
+    username for initial authentication
+
+
+  key_filename (required, type: str)
+    filename of the SSH Key to use for authentication
+
+
+  newpassword (required, type: str)
+    password to configure for admin on the PAN-OS device
+
+
+
+
+
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    # Tries for 10 times to set the admin password of 192.168.1.1 to "badpassword"
+    # via SSH, authenticating using key /tmp/ssh.key
+    - name: set admin password
+      panos_admpwd:
+        ip_address: "192.168.1.1"
+        username: "admin"
+        key_filename: "/tmp/ssh.key"
+        newpassword: "badpassword"
+      register: result
+      until: not result|failed
+      retries: 10
+      delay: 30
+
+
+
+Return Values
+-------------
+
+status (success, str, Last login: Fri Sep 16 11:09:20 2016 from 10.35.34.56.....Configuration committed successfully)
+  success status
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)
+

@@ -1,0 +1,309 @@
+.. _panos_interface_module:
+
+
+panos_interface -- configure data-port network interfaces
+=========================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Configure data-port (DP) network interface. By default DP interfaces are static.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+- pandevice >= 0.8.0
+
+
+
+Parameters
+----------
+
+  if_name (required, type: str)
+    Name of the interface to configure.
+
+
+  mode (type: str, default: layer3)
+    The interface mode.
+
+
+  ip (type: list)
+    List of static IP addresses.
+
+
+  ipv6_enabled (type: bool)
+    Enable IPv6.
+
+
+  management_profile (type: str)
+    Interface management profile name.
+
+
+  mtu (type: int)
+    MTU for layer3 interface.
+
+
+  adjust_tcp_mss (type: bool)
+    Adjust TCP MSS for layer3 interface.
+
+
+  netflow_profile (type: str)
+    Netflow profile for layer3 interface.
+
+
+  lldp_enabled (type: str)
+    Enable LLDP for layer2 interface.
+
+
+  lldp_profile (type: str)
+    LLDP profile name for layer2 interface.
+
+
+  netflow_profile_l2 (type: str)
+    Netflow profile name for layer2 interface.
+
+
+  link_speed (type: str)
+    Link speed.
+
+
+  link_duplex (type: str)
+    Link duplex.
+
+
+  link_state (type: str)
+    Link state.
+
+
+  aggregate_group (type: str)
+    Aggregate interface name.
+
+
+  comment (type: str)
+    Interface comment.
+
+
+  ipv4_mss_adjust (type: int)
+    (7.1+) TCP MSS adjustment for IPv4.
+
+
+  ipv6_mss_adjust (type: int)
+    (7.1+) TCP MSS adjustment for IPv6.
+
+
+  enable_dhcp (type: bool, default: True)
+    Enable DHCP on this interface.
+
+
+  create_default_route (type: bool)
+    Whether or not to add default route with router learned via DHCP.
+
+
+  dhcp_default_route_metric (type: int)
+    Metric for the DHCP default route.
+
+
+  zone_name (type: str)
+    Name of the zone for the interface.
+
+    If the zone does not exist it is created.
+
+    If the zone already exists its mode should match *mode*.
+
+
+  vlan_name (type: str)
+    The VLAN to put this interface in.
+
+    If the VLAN does not exist it is created.
+
+    Only specify this if *mode=layer2*.
+
+
+  vr_name (type: str, default: default)
+    Name of the virtual router; it must already exist.
+
+
+  vsys_dg (type: str)
+    **Deprecated**
+
+    Use *vsys* to specify the vsys instead.
+
+    ------------
+
+    Name of the vsys (if firewall) or device group (if panorama) to put this object.
+
+
+  commit (type: bool)
+    Commit if changed
+
+
+  operation (type: str)
+    **Removed**
+
+    Use *state* instead.
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+  vsys (type: str)
+    The vsys this object should be imported into.  Objects that are imported include interfaces, virtual routers, virtual wires, and VLANs.  Interfaces are typically imported into vsys1 if no vsys is specified.
+
+
+  template (type: str)
+    (Panorama only) The template this operation should target.  This param is required if the PAN-OS device is Panorama.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is supported.
+   - If the PAN-OS device is a firewall and *vsys* is not specified, then the vsys will default to *vsys=vsys1*.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    # Create ethernet1/1 as DHCP.
+    - name: enable DHCP client on ethernet1/1 in zone public
+      panos_interface:
+        provider: '{{ provider }}'
+        if_name: "ethernet1/1"
+        zone_name: "public"
+        create_default_route: "yes"
+
+    # Update ethernet1/2 with a static IP address in zone dmz.
+    - name: ethernet1/2 as static in zone dmz
+      panos_interface:
+        provider: '{{ provider }}'
+        if_name: "ethernet1/2"
+        mode: "layer3"
+        ip: ["10.1.1.1/24"]
+        enable_dhcp: false
+        zone_name: "dmz"
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Luigi Mori (@jtschichold)
+- Ivan Bojer (@ivanbojer)
+- Garfield Lee Freeman (@shinmog)
+

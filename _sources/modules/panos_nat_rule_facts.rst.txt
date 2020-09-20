@@ -1,0 +1,299 @@
+.. _panos_nat_rule_facts_module:
+
+
+panos_nat_rule_facts -- Get information about a NAT rule.
+=========================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Get information about one or more NAT rules.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python
+- pandevice
+
+
+
+Parameters
+----------
+
+  listing (type: bool)
+    Return all rules.
+
+    Mutually exclusive with rule_name, rule_regex, and uuid.
+
+
+  rule_name (type: str)
+    Name of the rule.
+
+    Mutually exclusive with rule_regex, listing, and uuid.
+
+
+  rule_regex (type: str)
+    A regex to match against the rule name.
+
+    Mutually exclusive with rule_name, listing, and uuid.
+
+
+  uuid (type: str)
+    Match the given rule UUID (PAN-OS 9.0+).
+
+    Mutually exclusive with rule_name, listing, and rule_regex.
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  device_group (type: str, default: shared)
+    (Panorama only) The device group the operation should target.
+
+
+  vsys (type: str, default: vsys1)
+    The vsys this object belongs to.
+
+
+  rulebase (type: str)
+    The rulebase in which the rule is to exist.  If left unspecified, this defaults to *rulebase=pre-rulebase* for Panorama.  For NGFW, this is always set to be *rulebase=rulebase*.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is not supported.
+   - Panorama is supported.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get a list of all NAT rules
+      panos_nat_rule_facts:
+        provider: '{{ provider }}'
+        listing: true
+      register: res1
+
+    - debug:
+        msg: '{{ res1.listing }}'
+
+    - name: Get the NAT rule foo
+      panos_nat_rule_facts:
+        provider: '{{ provider }}'
+        rule_name: 'foo'
+      register: res2
+
+    - debug:
+        msg: '{{ res2.object }}'
+
+
+
+Return Values
+-------------
+
+object (When I(rule_name) or I(uuid) is specified, complex, )
+  Single rule definition
+
+
+  description (, str, )
+    Description
+
+
+  destination_ip (, list, )
+    Destination addresses
+
+
+  destination_zone (, list, )
+    To zones
+
+
+  dnat_address (, str, )
+    Destination NAT translated address
+
+
+  dnat_port (, int, )
+    Destination NAT translated port
+
+
+  nat_type (, str, )
+    The NAT type
+
+
+  rule_name (, str, )
+    Rule name
+
+
+  service (, str, )
+    The service
+
+
+  snat_address_type (, str, )
+    Type of source translation
+
+
+  snat_bidirectional (, bool, )
+    Bidirectional flag
+
+
+  snat_dynamic_address (, list, )
+    Source NAT translated address
+
+
+  snat_interface (, str, )
+    Source NAT interface
+
+
+  snat_interface_address (, str, )
+    SNAT interface address
+
+
+  snat_static_address (, str, )
+    Static IP SNAT translated address
+
+
+  snat_type (, str, )
+    Type of source translation
+
+
+  source_ip (, list, )
+    Source addresses
+
+
+  source_zone (, list, )
+    Source zone
+
+
+  tag_val (, list, )
+    Administrative tags for this rule
+
+
+  to_interface (, str, )
+    Egress interface from route lookup
+
+
+  uuid (, str, )
+    The UUID of the rule (PAN-OS 9.0+)
+
+
+
+listing (When I(listing) or I(rule_regex) is set, list, )
+  List of rules
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Garfield Lee Freeman (@shinmog)
+

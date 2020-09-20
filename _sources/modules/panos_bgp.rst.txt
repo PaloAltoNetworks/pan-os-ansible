@@ -1,0 +1,260 @@
+.. _panos_bgp_module:
+
+
+panos_bgp -- Configures Border Gateway Protocol (BGP)
+=====================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Use BGP to publish and consume routes from disparate networks.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+
+
+
+Parameters
+----------
+
+  commit (type: bool)
+    Commit configuration if changed.
+
+
+  enable (type: bool, default: True)
+    Enable BGP.
+
+
+  router_id (type: str)
+    Router ID in IP format (eg. 1.1.1.1)
+
+
+  reject_default_route (type: bool, default: True)
+    Reject default route.
+
+
+  allow_redist_default_route (type: bool)
+    Allow redistribute default route to BGP.
+
+
+  install_route (type: bool)
+    Populate BGP learned route to global route table.
+
+
+  ecmp_multi_as (type: bool)
+    Support multiple AS in ECMP.
+
+
+  enforce_first_as (type: bool, default: True)
+    Enforce First AS for EBGP.
+
+
+  local_as (type: str)
+    Local Autonomous System (AS) number.
+
+
+  global_bfd_profile (type: str)
+    Bidirectional Forwarding Detection (BFD) profile.
+
+
+  as_format (type: str, default: 2-byte)
+    AS format *'2-byte'*/*'4-byte'*.
+
+
+  always_compare_med (type: bool)
+    Always compare MEDs.
+
+
+  deterministic_med_comparison (type: bool, default: True)
+    Deterministic MEDs comparison.
+
+
+  default_local_preference (type: int, default: 100)
+    Default local preference.
+
+
+  graceful_restart_enable (type: bool, default: True)
+    Enable graceful restart.
+
+
+  gr_stale_route_time (type: int)
+    Time to remove stale routes after peer restart (in seconds).
+
+
+  gr_local_restart_time (type: int)
+    Local restart time to advertise to peer (in seconds).
+
+
+  gr_max_peer_restart_time (type: int)
+    Maximum of peer restart time accepted (in seconds).
+
+
+  reflector_cluster_id (type: str)
+    Route reflector cluster ID.
+
+
+  confederation_member_as (type: str)
+    Confederation requires member-AS number.
+
+
+  aggregate_med (type: bool, default: True)
+    Aggregate route only if they have same MED attributes.
+
+
+  vr_name (type: str, default: default)
+    Name of the virtual router; it must already exist.
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  template (type: str)
+    (Panorama only) The template this operation should target. Mutually exclusive with *template_stack*.
+
+
+  template_stack (type: str)
+    (Panorama only) The template stack this operation should target. Mutually exclusive with *template*.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is supported.
+   - Panorama is supported.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+   - If the PAN-OS to be configured is Panorama, either *template* or *template_stack* must be specified.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Configure and enable BGP
+      panos_bgp:
+        provider: '{{ provider }}'
+        router_id: '1.1.1.1'
+        local_as: '64512'
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Joshua Colson (@freakinhippie)
+- Garfield Lee Freeman (@shinmog)
+

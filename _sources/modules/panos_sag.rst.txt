@@ -1,0 +1,125 @@
+.. _panos_sag_module:
+
+
+panos_sag -- Create a static address group.
+===========================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Create a static address group object in the firewall used for policy rules.
+
+
+.. WARNING::
+   This module is **deprecated**, and will be removed in version 3.0.0
+   of the collection.
+
+   This module's functionality is a subset of M(panos_address_group).
+
+   Use M(panos_address_group) instead.
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+- xmltodict can be obtained from PyPI https://pypi.python.org/pypi/xmltodict
+
+
+
+Parameters
+----------
+
+  ip_address (required, type: str)
+    IP address (or hostname) of PAN-OS device
+
+
+  password (type: str)
+    password for authentication
+
+
+  username (type: str, default: admin)
+    username for authentication
+
+
+  api_key (type: str)
+    API key that can be used instead of *username*/*password* credentials.
+
+
+  sag_name (required, type: str)
+    name of the dynamic address group
+
+
+  sag_match_filter (type: list)
+    Static filter used by the address group
+
+
+  devicegroup (type: str)
+    - The name of the Panorama device group. The group must exist on Panorama. If device group is not defined it is assumed that we are contacting a firewall.
+
+
+
+  description (type: str)
+    The purpose / objective of the static Address Group
+
+
+  tags (type: list)
+    Tags to be associated with the address group
+
+
+  commit (type: bool)
+    commit if changed
+
+
+  operation (required, type: str)
+    The operation to perform Supported values are *add*/*list*/*delete*.
+
+
+
+
+
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: sag
+      panos_sag:
+        ip_address: "192.168.1.1"
+        password: "admin"
+        sag_name: "sag-1"
+        static_value: ['test-addresses', ]
+        description: "A description for the static address group"
+        tags: ["tags to be associated with the group", ]
+
+
+
+
+
+Status
+------
+
+
+- This module will be removed in version
+  3.0.0.
+  *[deprecated]*
+
+
+Authors
+~~~~~~~
+
+- Vinay Venkataraghavan (@vinayvenkat)
+
