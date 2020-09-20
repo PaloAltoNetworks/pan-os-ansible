@@ -112,6 +112,24 @@ options:
         description:
             - Metric for the DHCP default route
         type: int
+    lacp_enable:
+        description:
+            - Enable LACP on this interface
+        type: bool
+    lacp_passive_pre_negotiation:
+        description:
+            - Enable LACP passive pre-negotiation
+        type: bool
+    lacp_rate:
+        description:
+            - Set LACP transmission rate
+        type: str
+        choices: ['fast', 'slow']
+    lacp_mode:
+        description:
+            - Set LACP mode
+        type: str
+        choices: ['active', 'passive']
     zone_name:
         description:
             - The zone to put this interface into.
@@ -178,6 +196,10 @@ def main():
             enable_dhcp=dict(type='bool'),
             create_dhcp_default_route=dict(type='bool'),
             dhcp_default_route_metric=dict(type='int'),
+            lacp_enable=dict(type='bool'),
+            lacp_passive_pre_negotiation=dict(type='bool'),
+            lacp_rate=dict(type='str', choices=['fast', 'slow']),
+            lacp_mode=dict(type='str', choices=['active', 'passive']),
             zone_name=dict(),
             vr_name=dict(default='default'),
             commit=dict(type='bool', default=False),
