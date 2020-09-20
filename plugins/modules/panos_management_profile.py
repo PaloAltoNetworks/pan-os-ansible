@@ -40,6 +40,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     panorama_template:
         description:
@@ -102,11 +103,6 @@ options:
             - The list of permitted IP addresses
         type: list
         elements: str
-    commit:
-        description:
-            - Perform a commit if a change is made.
-        type: bool
-        default: false
 '''
 
 EXAMPLES = '''

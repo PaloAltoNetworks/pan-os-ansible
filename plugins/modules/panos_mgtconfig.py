@@ -34,6 +34,7 @@ notes:
     - Panorama is supported
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     dns_server_primary:
         description:
@@ -87,11 +88,6 @@ options:
         description:
             - B(Removed)
         type: str
-    commit:
-        description:
-            - Commit configuration if changed.
-        type: bool
-        default: false
 '''
 
 EXAMPLES = '''

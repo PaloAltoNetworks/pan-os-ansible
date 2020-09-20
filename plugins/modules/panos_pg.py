@@ -37,6 +37,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     pg_name:
         description:
@@ -71,11 +72,6 @@ options:
         description:
             - name of the wildfire analysis profile
         type: str
-    commit:
-        description:
-            - commit if changed
-        type: bool
-        default: false
 '''
 
 EXAMPLES = '''

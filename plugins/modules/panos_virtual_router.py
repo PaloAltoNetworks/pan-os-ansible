@@ -41,15 +41,11 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.state
     - paloaltonetworks.panos.fragments.vsys_import
     - paloaltonetworks.panos.fragments.full_template_support
+    - paloaltonetworks.panos.fragments.deprecated_commit
 notes:
     - Checkmode is supported.
     - Panorama is supported.
 options:
-    commit:
-        description:
-            - Commit configuration if changed.
-        type: bool
-        default: false
     name:
         description:
             -  Name of virtual router
