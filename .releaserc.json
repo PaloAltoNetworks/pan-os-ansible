@@ -24,7 +24,8 @@
             "@semantic-release/git",
             {
                 "assets": [
-                    "galaxy.yml"
+                    "galaxy.yml",
+                    "docs/source/index.rst"
                 ],
                 "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
             }

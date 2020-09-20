@@ -1,0 +1,186 @@
+.. _{{ module }}_module:
+
+{% if short_description %}
+{%   set title = module + ' -- ' + short_description | rst_ify %}
+{% else %}
+{%   set title = module %}
+{% endif %}
+
+{{ title }}
+{{ '=' * title|length }}
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+{% if description -%}
+Synopsis
+--------
+
+{%   for desc in description %}
+{{ desc | rst_ify }}
+
+{%   endfor %}
+{% endif %}
+
+{% if deprecated %}
+.. WARNING::
+   This module is **deprecated**, and will be removed in version {{ deprecated['removed_in'] }}
+   of the collection.
+
+   {{ deprecated['why'] }}
+
+   {{ deprecated['alternative'] }}
+
+{% endif %}
+
+
+{% if requirements -%}
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+{%   for req in requirements %}
+- {{ req | rst_ify }}
+{%   endfor %}
+{% endif %}
+
+
+{% macro option_desc(opts, level) %}
+{%   for name, spec in opts.items() %}
+{%     set req = spec.required %}
+{%     set typ = spec.type %}
+{%     set def_val = spec.default %}
+  {{ "  " * level }}{{ name }} ({% if req %}required, {% endif %}type: {{ typ }}{% if def_val %}, default: {{ def_val }}{% endif %})
+{%     for para in spec.description %}
+    {{ "  " * level }}{{ para | rst_ify }}
+
+{%     endfor %}
+
+{%     if spec.suboptions %}
+{{ option_desc(spec.suboptions, level + 1) }}
+{%     endif %}
+{%   endfor %}
+{% endmacro %}
+
+{% if options -%}
+Parameters
+----------
+
+{{ option_desc(options, 0) }}
+{% endif %}
+
+
+{% if notes -%}
+Notes
+-----
+
+.. note::
+{%   for note in notes %}
+   - {{ note | rst_ify }}
+{%   endfor %}
+{% endif %}
+
+
+{% if seealso -%}
+See Also
+--------
+
+.. seealso::
+
+{% for item in seealso %}
+{%   if item.module is defined and item.description is defined %}
+   :ref:`{{ item.module }}_module`
+       {{ item.description | rst_ify }}
+{%   elif item.module is defined %}
+   :ref:`{{ item.module }}_module`
+      The official documentation on the **{{ item.module }}** module.
+{%   elif item.name is defined and item.link is defined and item.description is defined %}
+   `{{ item.name }} <{{ item.link }}>`_
+       {{ item.description | rst_ify }}
+{%   elif item.ref is defined and item.description is defined %}
+   :ref:`{{ item.ref }}`
+       {{ item.description | rst_ify }}
+{%   endif %}
+{% endfor %}
+{% endif %}
+
+
+{% if examples -%}
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+{{ examples | indent(4, True) }}
+{% endif %}
+
+{% macro result_desc(results, level) %}
+{%   for name, spec in results.items() %}
+{%     set ret = spec.returned %}
+{%     set typ = spec.type | default("any") %}
+{%     set sample = spec.sample %}
+{{ "  " * level }}{{ name }} ({{ ret }}, {{ typ }}, {{ sample }})
+{%     for para in spec.description %}
+  {{ "  " * level }}{{ para | rst_ify }}
+
+{%     endfor %}
+
+{%     if spec.contains %}
+{{ result_desc(spec.contains, level + 1) }}
+{%     endif %}
+{%   endfor %}
+{% endmacro %}
+
+{% if returndocs -%}
+Return Values
+-------------
+
+{{ result_desc(returndocs, 0) }}
+{% endif %}
+
+
+Status
+------
+
+{% if deprecated %}
+
+- This {{ plugin_type }} will be removed in version
+  {{ deprecated['removed_in'] | default('') | string | rst_ify }}.
+  *[deprecated]*
+
+{% else %}
+
+{% set module_states = {
+     "preview": "not guaranteed to have a backwards compatible interface",
+     "stableinterface": "guaranteed to have backward compatible interface changes going forward",
+   }
+%}
+
+{%   if metadata %}
+{%     if metadata.status %}
+
+{%       for cur_state in metadata.status %}
+- This {{ plugin_type }} is {{ module_states[cur_state] }}. *[{{ cur_state }}]*
+{%       endfor %}
+
+{%     endif %}
+
+{%     if metadata.supported_by %}
+- This {{ plugin_type }} is maintained by {{ metadata.supported_by }}.
+{%     endif %}
+
+{%   endif %}
+
+{% endif %}
+
+{% if author is defined -%}
+Authors
+~~~~~~~
+
+{%   for author_name in author %}
+- {{ author_name }}
+{%   endfor %}
+
+{% endif %}
