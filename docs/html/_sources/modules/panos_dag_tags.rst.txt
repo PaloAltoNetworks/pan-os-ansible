@@ -1,0 +1,147 @@
+.. _panos_dag_tags_module:
+
+
+panos_dag_tags -- Create tags for DAG's on PAN-OS devices.
+==========================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Create the ip address to tag associations. Tags will in turn be used to create DAG's
+
+
+.. WARNING::
+   This module is **deprecated**, and will be removed in version 3.0.0
+   of the collection.
+
+   Using new modern API calls in the panos_registered_ip
+
+   Use M(panos_registered_ip) instead.
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+
+
+
+Parameters
+----------
+
+  ip_address (required, type: str)
+    IP address (or hostname) of PAN-OS device
+
+
+  password (required, type: str)
+    password for authentication
+
+
+  api_key (type: str)
+    API key that can be used instead of *username*/*password* credentials.
+
+
+  username (type: str, default: admin)
+    username for authentication
+
+
+  description (type: str)
+    The purpose / objective of the static Address Group
+
+
+  commit (type: bool)
+    commit if changed
+
+
+  devicegroup (type: str)
+    - Device groups are used for the Panorama interaction with Firewall(s). The group must exists on Panorama. If device group is not define we assume that we are contacting Firewall.
+
+
+
+  operation (required, type: str)
+    The action to be taken. Supported values are *add*/*update*/*find*/*delete*.
+
+
+  tag_names (required, type: list)
+    The list of the tags that will be added or removed from the IP address.
+
+
+  ip_to_register (type: str)
+    IP that will be registered with the given tag names.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is not supported.
+   - Panorama is not supported.
+   - use panos_registered_ip from now on
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create the tags to map IP addresses
+      panos_dag_tags:
+        ip_address: "{{ ip_address }}"
+        password: "{{ password }}"
+        ip_to_register: "{{ ip_to_register }}"
+        tag_names: "{{ tag_names }}"
+        description: "Tags to allow certain IP's to access various SaaS Applications"
+        operation: 'add'
+      tags: "adddagip"
+
+    - name: List the IP address to tag mapping
+      panos_dag_tags:
+        ip_address: "{{ ip_address }}"
+        password: "{{ password }}"
+        tag_names: "{{ tag_names }}"
+        description: "List the IP address to tag mapping"
+        operation: 'list'
+      tags: "listdagip"
+
+    - name: Unregister an IP address from a tag mapping
+      panos_dag_tags:
+        ip_address: "{{ ip_address }}"
+        password: "{{ password }}"
+        ip_to_register: "{{ ip_to_register }}"
+        tag_names: "{{ tag_names }}"
+        description: "Unregister IP address from tag mappings"
+        operation: 'delete'
+      tags: "deletedagip"
+
+
+
+
+
+Status
+------
+
+
+- This module will be removed in version
+  3.0.0.
+  *[deprecated]*
+
+
+Authors
+~~~~~~~
+
+- Vinay Venkataraghavan (@vinayvenkat)
+

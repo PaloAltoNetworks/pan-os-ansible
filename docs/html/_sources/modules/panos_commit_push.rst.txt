@@ -1,0 +1,173 @@
+.. _panos_commit_push_module:
+
+
+panos_commit_push -- Commit Panorama's candidate configuration.
+===============================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Module that will push the running Panorama configuration to managed devices.
+
+The new configuration will become active immediately.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-os-python
+
+
+
+Parameters
+----------
+
+  style (required, type: str)
+    The type of configuration element to push.
+
+
+  name (type: str)
+    The name of the configuration element to push.
+
+
+  description (type: str)
+    A description of the commit.
+
+
+  include_template (type: bool)
+    Include device group reference templates.
+
+
+  force_template_values (type: bool)
+    Force template values to override local settings.
+
+
+  devices (type: list)
+    Push the configuration to specific device serial numbers.
+
+
+  sync (type: bool, default: True)
+    Wait for the commit to complete.
+
+
+  provider (required, type: )
+    A dict object containing connection details.
+
+
+    ip_address (required, type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+
+
+
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: push device group configs
+      panos_commit_push:
+        provider: '{{ credentials }}'
+        style: 'device group'
+        name: 'Internet Edge Firewalls'
+        description: 'Update ECMP routing'
+
+    - name: push template configs and force values
+      panos_commit_push:
+        provider: '{{ credentials }}'
+        style: 'template'
+        name: 'APAC Regional Template'
+        force_template_values: True
+
+    - name: push log collector group configs
+      panos_commit_push:
+        provider: '{{ credentials }}'
+        style: 'log collector group'
+        name: 'LatAm Collector Group'
+
+    - name: push to multiple devices
+      panos_commit_push:
+        provider: '{{ credentials }}'
+        style: 'device group'
+        name: 'Partner DMZ Firewalls'
+        devices:
+          - 0001234567890
+          - 0987654321000
+          - 1001001F0F000
+
+    - name: push to multiple device groups
+      panos_commit_push:
+        provider: '{{ credentials }}'
+        style: 'device group'
+        name: '{{ item }}'
+        sync: False
+      loop:
+        - Production Firewalls
+        - Staging Firewalls
+        - Development Firewalls
+
+
+
+Return Values
+-------------
+
+jobid (always, int, 49152)
+  The ID of the PAN-OS commit job.
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Robert Hagen (@stealthllama)
+

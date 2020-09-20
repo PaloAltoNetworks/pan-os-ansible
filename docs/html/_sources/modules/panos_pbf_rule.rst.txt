@@ -1,0 +1,294 @@
+.. _panos_pbf_rule_module:
+
+
+panos_pbf_rule -- Manage Policy Based Forwarding rules on PAN-OS.
+=================================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Manage Policy Based Forwarding rules on PAN-OS.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pandevice >= 0.13.0
+- pan-python
+
+
+
+Parameters
+----------
+
+  name (required, type: str)
+    Name of the rule.
+
+
+  description (type: str)
+    The description.
+
+
+  tags (type: list)
+    List of tags.
+
+
+  from_type (type: str, default: zone)
+    Source from type.
+
+
+  from_value (type: list)
+    The source values for the given type.
+
+
+  source_addresses (type: list, default: ['any'])
+    List of source IP addresses.
+
+
+  source_users (type: list, default: ['any'])
+    List of source users.
+
+
+  negate_source (type: bool)
+    Set to negate the source.
+
+
+  destination_addresses (type: list, default: ['any'])
+    List of destination addresses.
+
+
+  negate_destination (type: bool)
+    Set to negate the destination.
+
+
+  applications (type: list, default: ['any'])
+    List of applications.
+
+
+  services (type: list, default: ['any'])
+    List of services.
+
+
+  schedule (type: str)
+    The schedule.
+
+
+  disabled (type: bool)
+    Disable this rule.
+
+
+  action (type: str, default: forward)
+    The action to take.
+
+
+  forward_vsys (type: str)
+    The vsys to forward to if action is set to forward to a vsys.
+
+
+  forward_egress_interface (type: str)
+    The egress interface.
+
+
+  forward_next_hop_type (type: str)
+    The next hop type.
+
+    Leave this as None for a next hop type of 'None'.
+
+
+  forward_next_hop_value (type: str)
+    The next hop value if forward next hop type is not None.
+
+
+  forward_monitor_profile (type: str)
+    The monitor profile to use.
+
+
+  forward_monitor_ip_address (type: str)
+    The monitor IP address.
+
+
+  forward_monitor_disable_if_unreachable (type: bool)
+    Set to disable this rule if nexthop / monitor IP is unreachable.
+
+
+  enable_enforce_symmetric_return (type: bool)
+    Set to enforce symmetric return.
+
+
+  symmetric_return_addresses (type: list)
+    List of symmetric return addresses.
+
+
+  location (type: str)
+    Position to place the created rule in the rule base.
+
+
+  existing_rule (type: str)
+    If 'location' is set to 'before' or 'after', this option specifies an existing rule name.  The new rule will be created in the specified position relative to this rule.  If 'location' is set to 'before' or 'after', this option is required.
+
+
+  target (type: list)
+    For Panorama devices only.
+
+    Apply this rule exclusively to the listed firewalls in Panorama.
+
+
+  negate_target (type: bool)
+    For Panorama devices only.
+
+    Exclude this rule from the listed firewalls in Panorama.
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+  device_group (type: str, default: shared)
+    (Panorama only) The device group the operation should target.
+
+
+  vsys (type: str, default: vsys1)
+    The vsys this object belongs to.
+
+
+  rulebase (type: str)
+    The rulebase in which the rule is to exist.  If left unspecified, this defaults to *rulebase=pre-rulebase* for Panorama.  For NGFW, this is always set to be *rulebase=rulebase*.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is supported.
+   - Panorama is supported.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: add a pbf rule
+      panos_pbf_rule:
+        provider: '{{ provider }}'
+        name: 'my-pbf'
+        description: 'Made by Ansible'
+        from_value: ['myZone']
+        action: 'discard'
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Garfield Lee Freeman (@shinmog)
+

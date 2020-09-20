@@ -1,0 +1,123 @@
+.. _panos_dag_module:
+
+
+panos_dag -- create a dynamic address group
+===========================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Create a dynamic address group object in the firewall used for policy rules
+
+
+.. WARNING::
+   This module is **deprecated**, and will be removed in version 3.0.0
+   of the collection.
+
+   This module's functionality is a subset of M(panos_address_group).
+
+   Use M(panos_address_group) instead.
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+
+
+
+Parameters
+----------
+
+  ip_address (required, type: str)
+    IP address (or hostname) of PAN-OS device
+
+
+  password (required, type: str)
+    password for authentication
+
+
+  username (type: str, default: admin)
+    username for authentication
+
+
+  api_key (type: str)
+    API key that can be used instead of *username*/*password* credentials.
+
+
+  dag_name (required, type: str)
+    name of the dynamic address group
+
+
+  dag_match_filter (type: str)
+    dynamic filter user by the dynamic address group
+
+
+  tag_name (type: list)
+    Add administrative tags to the DAG
+
+
+  devicegroup (type: str)
+    The name of the Panorama device group. The group must exist on Panorama. If device group is not defined it is assumed that we are contacting a firewall.
+
+
+  operation (required, type: str)
+    The operation to perform Supported values are *add*/*list*/*delete*.
+
+
+  commit (type: bool)
+    commit if changed
+
+
+  description (type: str)
+    The description of the object.
+
+
+
+
+
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create dag
+      panos_dag:
+        ip_address: "192.168.1.1"
+        password: "admin"
+        dag_name: "dag-1"
+        dag_match_filter: "'aws-tag.aws:cloudformation:logical-id.ServerInstance' and 'instanceState.running'"
+        description: 'Add / create dynamic address group to allow access to SaaS Applications'
+        operation: 'add'
+
+
+
+
+
+Status
+------
+
+
+- This module will be removed in version
+  3.0.0.
+  *[deprecated]*
+
+
+Authors
+~~~~~~~
+
+- Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer), Vinay Venkataraghavan (@vinayvenkat)
+

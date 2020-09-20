@@ -1,0 +1,258 @@
+.. _panos_administrator_module:
+
+
+panos_administrator -- Manage PAN-OS administrator user accounts.
+=================================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Manages PAN-OS administrator user accounts.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+
+
+
+Parameters
+----------
+
+  admin_username (type: str, default: admin)
+    Admin name.
+
+
+  authentication_profile (type: str)
+    The authentication profile.
+
+
+  web_client_cert_only (type: bool)
+    Use only client certificate authenciation (Web)
+
+
+  superuser (type: bool)
+    Admin type - superuser
+
+
+  superuser_read_only (type: bool)
+    Admin type - superuser, read only
+
+
+  panorama_admin (type: bool)
+    This is for Panorama only.
+
+    Make the user a Panorama admin only
+
+
+  device_admin (type: bool)
+    Admin type - device admin
+
+
+  device_admin_read_only (type: bool)
+    Admin type - device admin, read only
+
+
+  vsys (type: list)
+    This is for multi-vsys physical firewalls only.
+
+    The list of vsys this admin should manage.
+
+
+  vsys_read_only (type: list)
+    This is for multi-vsys physical firewalls only.
+
+    The list of vsys this read only admin should manage.
+
+
+  ssh_public_key (type: str)
+    Use public key authentication (ssh)
+
+
+  role_profile (type: str)
+    The role based profile.
+
+
+  admin_password (type: str)
+    New plain text password for the *admin_username* user.
+
+    If this is not specified, then the password is left as-is.
+
+    Takes priority over *admin_phash*
+
+
+  admin_phash (type: str)
+    New password hash for the *admin_username* user
+
+    If this is not specified, then the phash is left as-is.
+
+
+  password_profile (type: str)
+    The password profile for this user.
+
+
+  commit (type: bool)
+    Commit configuration if changed.
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+  template (type: str)
+    (Panorama only) The template this operation should target. Mutually exclusive with *template_stack*.
+
+
+  template_stack (type: str)
+    (Panorama only) The template stack this operation should target. Mutually exclusive with *template*.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is supported.
+   - Panorama is supported.
+   - Because "request password-hash" does not always generate the same hash with the same password every time, it isn't possible to tell if the admin's password is correct or not.  Specifying check mode or *state=present* with *admin_password* specified will always report *changed=True* in the return value.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+   - If the PAN-OS to be configured is Panorama, either *template* or *template_stack* must be specified.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    # Configure user "foo"
+      - name: configure foo administrator
+        panos_administrator:
+          provider: '{{ provider }}'
+          admin_username: 'foo'
+          admin_password: 'secret'
+          superuser: true
+
+
+
+Return Values
+-------------
+
+status (success, str, done)
+  success status
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Garfield Lee Freeman (@shinmog)
+

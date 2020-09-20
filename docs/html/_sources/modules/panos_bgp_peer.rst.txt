@@ -1,0 +1,294 @@
+.. _panos_bgp_peer_module:
+
+
+panos_bgp_peer -- Configures a BGP Peer
+=======================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Use BGP to publish and consume routes from disparate networks.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+
+
+
+Parameters
+----------
+
+  commit (type: bool)
+    Commit configuration if changed.
+
+
+  address_family_identifier (type: str)
+    Peer address family type.
+
+
+  bfd_profile (type: str)
+    BFD profile configuration.
+
+
+  connection_authentication (type: str)
+    BGP auth profile name.
+
+
+  connection_hold_time (type: int)
+    Hold time (in seconds).
+
+
+  connection_idle_hold_time (type: int)
+    Idle hold time (in seconds).
+
+
+  connection_incoming_allow (type: bool)
+    Allow incoming connections.
+
+
+  connection_incoming_remote_port (type: int)
+    Restrict remote port for incoming BGP connections.
+
+
+  connection_keep_alive_interval (type: int)
+    Keep-alive interval (in seconds).
+
+
+  connection_min_route_adv_interval (type: int)
+    Minimum Route Advertisement Interval (in seconds).
+
+
+  connection_multihop (type: int)
+    IP TTL value used for sending BGP packet. set to 0 means eBGP use 2, iBGP use 255.
+
+
+  connection_open_delay_time (type: int)
+    Open delay time (in seconds).
+
+
+  connection_outgoing_allow (type: bool)
+    Allow outgoing connections.
+
+
+  connection_outgoing_local_port (type: int)
+    Use specific local port for outgoing BGP connections.
+
+
+  enable (type: bool, default: True)
+    Enable BGP Peer.
+
+
+  enable_mp_bgp (type: bool)
+    Enable MP-BGP extentions.
+
+
+  enable_sender_side_loop_detection (type: bool)
+    Enable sender side loop detection.
+
+
+  local_interface (type: str)
+    Interface to accept BGP session.
+
+
+  local_interface_ip (type: str)
+    Specify exact IP address if interface has multiple addresses.
+
+
+  max_prefixes (type: int)
+    Maximum of prefixes to receive from peer.
+
+
+  name (required, type: str)
+    Name of BGP Peer.
+
+
+  peer_address_ip (type: str)
+    IP address of peer.
+
+
+  peer_as (type: str)
+    Peer AS number.
+
+
+  peer_group (required, type: str)
+    Name of the peer group; it must already exist; see :ref:`panos_bgp_peer_group <panos_bgp_peer_group_module>`.
+
+
+  peering_type (type: str)
+    Peering type.
+
+
+  reflector_client (type: str)
+    Reflector client type.
+
+
+  subsequent_address_multicast (type: bool)
+    Select SAFI for this peer.
+
+
+  subsequent_address_unicast (type: bool)
+    Select SAFI for this peer.
+
+
+  vr_name (type: str, default: default)
+    Name of the virtual router; it must already exist; see panos_virtual_router.
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  template (type: str)
+    (Panorama only) The template this operation should target. Mutually exclusive with *template_stack*.
+
+
+  template_stack (type: str)
+    (Panorama only) The template stack this operation should target. Mutually exclusive with *template*.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is supported.
+   - Panorama is supported.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+   - If the PAN-OS to be configured is Panorama, either *template* or *template_stack* must be specified.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create BGP Peer
+      panos_bgp_peer:
+        provider: '{{ provider }}'
+        peer_group: 'peer-group-1'
+        name: 'peer-1'
+        enable: true
+        local_interface: 'ethernet1/1'
+        local_interface_ip: '192.168.1.1'
+        peer_address_ip: '10.1.1.1'
+        peer_as: '64512'
+        commit: true
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Joshua Colson (@freakinhippie)
+- Garfield Lee Freeman (@shinmog)
+

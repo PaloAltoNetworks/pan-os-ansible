@@ -1,0 +1,202 @@
+.. _panos_bgp_auth_module:
+
+
+panos_bgp_auth -- Configures a BGP Authentication Profile
+=========================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Use BGP to publish and consume routes from disparate networks.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+
+
+
+Parameters
+----------
+
+  commit (type: bool)
+    Commit configuration if changed.
+
+
+  name (required, type: str)
+    Name of Authentication Profile.
+
+
+  replace (type: bool)
+    **Deprecated**
+
+    This is the behavior of *state=present*, so this can safely be removed from your playbooks.
+
+    ------------
+
+    The secret is encrypted so the state cannot be compared.
+
+    This option forces removal of a matching item before applying the new config.
+
+
+  secret (type: str)
+    Secret.
+
+
+  vr_name (type: str, default: default)
+    Name of the virtual router, it must already exist.  See :ref:`panos_virtual_router <panos_virtual_router_module>`.
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+  template (type: str)
+    (Panorama only) The template this operation should target. Mutually exclusive with *template_stack*.
+
+
+  template_stack (type: str)
+    (Panorama only) The template stack this operation should target. Mutually exclusive with *template*.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is not supported.
+   - Panorama is supported.
+   - Since the *secret* value is encrypted in PAN-OS, there is no way to verify if the secret is properly set or not.  Invoking this module with *state=present* will always apply the config to PAN-OS.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+   - If the PAN-OS to be configured is Panorama, either *template* or *template_stack* must be specified.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create BGP Authentication Profile
+      panos_bgp_auth:
+        provider: '{{ provider }}'
+        vr_name: 'my virtual router'
+        name: auth-profile-1
+        secret: SuperSecretCode
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Joshua Colson (@freakinhippie)
+- Garfield Lee Freeman (@shinmog)
+

@@ -1,0 +1,248 @@
+.. _panos_aggregate_interface_module:
+
+
+panos_aggregate_interface -- configure aggregate network interfaces
+===================================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Configure aggregate network interfaces on PanOS
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPi https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPi https://pypi.python.org/pypi/pandevice
+
+
+
+Parameters
+----------
+
+  if_name (required, type: str)
+    Name of the interface to configure.
+
+
+  mode (type: str, default: layer3)
+    The interface mode.
+
+
+  ip (type: list)
+    List of static IP addresses.
+
+
+  ipv6_enabled (type: bool)
+    Enable IPv6.
+
+
+  management_profile (type: str)
+    Interface management profile name.
+
+
+  mtu (type: int)
+    MTU for aggregate interface.
+
+
+  adjust_tcp_mss (type: bool)
+    Adjust TCP MSS.
+
+
+  netflow_profile (type: str)
+    Netflow profile for aggregate interface.
+
+
+  lldp_enabled (type: bool)
+    (Layer2) Enable LLDP
+
+
+  lldp_profile (type: str)
+    (Layer2) Reference to an lldp profile
+
+
+  comment (type: str)
+    Interface comment.
+
+
+  ipv4_mss_adjust (type: int)
+    (7.1+) TCP MSS adjustment for IPv4.
+
+
+  ipv6_mss_adjust (type: int)
+    (7.1+) TCP MSS adjustment for IPv6.
+
+
+  enable_dhcp (type: bool)
+    Enable DHCP on this interface
+
+
+  create_dhcp_default_route (type: bool)
+    Create default route pointing to default gateway provided by server
+
+
+  dhcp_default_route_metric (type: int)
+    Metric for the DHCP default route
+
+
+  zone_name (type: str)
+    The zone to put this interface into.
+
+
+  vr_name (type: str, default: default)
+    The virtual router to associate with this interface.
+
+
+  commit (type: bool)
+    Commit if changed
+
+
+  provider (type: )
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  vsys (type: str)
+    The vsys this object should be imported into.  Objects that are imported include interfaces, virtual routers, virtual wires, and VLANs.  Interfaces are typically imported into vsys1 if no vsys is specified.
+
+
+  template (type: str)
+    (Panorama only) The template this operation should target.  This param is required if the PAN-OS device is Panorama.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is supported.
+   - Panorama is supported.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    # Create ae1 interface.
+    - name: create ae1 interface with IP in untrust zone
+      panos_aggregate_interface:
+        provider: '{{ provider }}'
+        if_name: "ae1"
+        ip: '[ "192.168.0.1" ]'
+        zone_name: 'untrust'
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Heiko Burghardt (@odysseus107)
+
