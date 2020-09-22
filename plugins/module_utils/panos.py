@@ -307,7 +307,7 @@ class ConnectionHelper(object):
                 parent = rb
 
         # If the module has the commit option set, show a deprecation warning.
-        if module.params['commit']:
+        if module.params.get('commit'):
             module.deprecate(
                 'Please use the commit modules instead of the commit option',
                 version='3.0.0', collection_name='paloaltonetworks.panos'
