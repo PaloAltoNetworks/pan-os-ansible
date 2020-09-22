@@ -45,6 +45,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.state
     - paloaltonetworks.panos.fragments.full_template_support
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     admin_username:
         description:
@@ -115,11 +116,6 @@ options:
         description:
             - The password profile for this user.
         type: str
-    commit:
-        description:
-            - Commit configuration if changed.
-        default: false
-        type: bool
 '''
 
 EXAMPLES = '''

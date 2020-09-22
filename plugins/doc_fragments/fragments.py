@@ -270,3 +270,17 @@ notes:
     - If the PAN-OS to be configured is Panorama, either I(template) or
       I(template_stack) must be specified.
 '''
+
+    DEPRECATED_COMMIT = r'''
+options:
+    commit:
+        description:
+            - B(Deprecated)
+            - Please use M(panos_commit_firewall), M(panos_commit_panorama),
+              M(panos_commit_push) instead.
+            - HORIZONTALLINE
+            - Commit changes after creating object.  If I(ip_address) is a Panorama device, and I(device_group) or
+              I(template) are also set, perform a commit to Panorama and a commit-all to the device group/template.
+        default: false
+        type: bool
+'''

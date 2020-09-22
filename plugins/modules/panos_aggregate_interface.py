@@ -38,6 +38,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys_import
     - paloaltonetworks.panos.fragments.template_only
     - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     if_name:
         description:
@@ -120,11 +121,6 @@ options:
             - The virtual router to associate with this interface.
         type: str
         default: default
-    commit:
-        description:
-            - Commit if changed
-        default: false
-        type: bool
 '''
 
 EXAMPLES = '''

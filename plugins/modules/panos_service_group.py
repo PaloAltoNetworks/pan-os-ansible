@@ -41,6 +41,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     name:
         description:
@@ -58,13 +59,6 @@ options:
             - List of tags for this service group.
         type: list
         elements: str
-    commit:
-        description:
-            - Commit changes after creating object.  If I(ip_address) is a Panorama device, and I(device_group) is
-              also set, perform a commit to Panorama and a commit-all to the device group.
-        required: false
-        type: bool
-        default: false
 '''
 
 EXAMPLES = '''

@@ -37,6 +37,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.state
     - paloaltonetworks.panos.fragments.vsys_import
     - paloaltonetworks.panos.fragments.template_only
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     if_name:
         description:
@@ -84,11 +85,6 @@ options:
             - HORIZONTALLINE
             - Name of the vsys (if firewall) or device group (if panorama) to put this object.
         type: str
-    commit:
-        description:
-            - Commit if changed
-        type: bool
-        default: false
 '''
 
 EXAMPLES = '''

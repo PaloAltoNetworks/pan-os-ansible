@@ -43,12 +43,8 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.enabled_state
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
-    commit:
-        description:
-            - Commit configuration if changed.
-        type: bool
-        default: false
     enable:
         description:
             - Enable BGP.

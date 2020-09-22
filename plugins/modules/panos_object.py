@@ -46,6 +46,7 @@ notes:
     - Panorama is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     ip_address:
         description:
@@ -173,11 +174,6 @@ options:
             - If undefined and ip_address is Panorama, this defaults to shared.
         type: str
         required: false
-    commit:
-        description:
-            - Commit the config change.
-        type: bool
-        default: false
 '''
 
 EXAMPLES = '''
