@@ -78,6 +78,7 @@ plugins/modules/panos_pg.py validate-modules:missing-gplv3-license
 plugins/modules/panos_query_rules.py validate-modules:deprecation-mismatch
 plugins/modules/panos_query_rules.py validate-modules:invalid-documentation
 plugins/modules/panos_query_rules.py validate-modules:missing-gplv3-license
+plugins/modules/panos_region.py validate-modules:missing-gplv3-license
 plugins/modules/panos_redistribution.py validate-modules:missing-gplv3-license
 plugins/modules/panos_registered_ip.py validate-modules:missing-gplv3-license
 plugins/modules/panos_registered_ip_facts.py validate-modules:missing-gplv3-license
