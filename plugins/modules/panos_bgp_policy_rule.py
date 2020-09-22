@@ -43,6 +43,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     type:
         description:
@@ -200,11 +201,6 @@ options:
             - Name of the virtual router; it must already exist; see M(panos_virtual_router).
         type: str
         default: default
-    commit:
-        description:
-            - Commit configuration if changed.
-        type: bool
-        default: False
 '''
 
 EXAMPLES = '''
@@ -362,7 +358,6 @@ def main():
         'action_extended_community_type': module.params['action_extended_community_type'],
         'action_extended_community_argument': module.params['action_extended_community_argument'],
     }
-
     # Add the correct rule type.
     if module.params['type'] == 'import':
         spec['action_dampening'] = module.params['action_dampening']

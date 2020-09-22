@@ -34,6 +34,8 @@ requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
     - xmltodict can be obtained from PyPI U(https://pypi.python.org/pypi/xmltodict)
+extends_documentation_fragment:
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     ip_address:
         description:
@@ -81,11 +83,6 @@ options:
         type: list
         elements: str
         required: false
-    commit:
-        description:
-            - commit if changed
-        type: bool
-        default: False
     operation:
         description:
             - The operation to perform Supported values are I(add)/I(list)/I(delete).

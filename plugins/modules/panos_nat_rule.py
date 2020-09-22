@@ -45,6 +45,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.rulebase
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     state:
         description:
@@ -194,11 +195,6 @@ options:
               rule.
             - If I(location=before) or I(location=after), I(existing_rule) is required.
         type: str
-    commit:
-        description:
-            - Commit configuration if changed.
-        type: bool
-        default: false
 '''
 
 EXAMPLES = '''

@@ -43,12 +43,8 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
-    commit:
-        description:
-            - Commit configuration if changed.
-        type: bool
-        default: False
     address_family_identifier:
         description:
             - Peer address family type.

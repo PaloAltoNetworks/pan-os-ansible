@@ -43,12 +43,8 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
-    commit:
-        description:
-            - Commit configuration if changed.
-        default: False
-        type: bool
     vr_name:
         description:
             - Name of the virtual router; it must already exist.

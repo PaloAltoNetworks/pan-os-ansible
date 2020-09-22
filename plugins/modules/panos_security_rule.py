@@ -48,6 +48,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.rulebase
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     rule_name:
         description:
@@ -252,11 +253,6 @@ options:
             - B(Removed)
             - Use I(state) instead.
         type: str
-    commit:
-        description:
-            - Commit configuration if changed.
-        type: bool
-        default: false
 '''
 
 EXAMPLES = '''

@@ -42,6 +42,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.full_template_support
+    - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     state:
         description:
@@ -53,11 +54,6 @@ options:
             - absent
             - return-object
         default: 'present'
-    commit:
-        description:
-            - Commit configuration if changed.
-        type: bool
-        default: False
     filter_type:
         description:
             - The type of filter.
@@ -294,6 +290,9 @@ def main():
         'match_community_regex': module.params['match_community_regex'],
         'match_extended_community_regex': module.params['match_extended_community_regex'],
     }
+
+    commit = module.params['commit']
+
     obj = obj_type(**spec)
     policy.add(obj)
 
