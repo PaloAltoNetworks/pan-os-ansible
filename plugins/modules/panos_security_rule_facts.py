@@ -297,7 +297,6 @@ def main():
         device_group=True,
         rulebase=True,
         with_classic_provider_spec=True,
-        error_on_shared=True,
         argument_spec=dict(
             rule_name=dict(),
             all_details=dict(default=False, type='bool'),
