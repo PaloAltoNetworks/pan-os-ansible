@@ -87,11 +87,11 @@ options:
         default: True
     address_prefix:
         description:
-            - List of address prefix strings or dicts with "name"/"exact" keys.
+            - List of dicts with "name"/"exact" keys.
             - Using the dict form for address prefixes should only be used with
               I(policy_type=aggregate).
         type: list
-        elements: str
+        elements: dict
     match_afi:
         description:
             - Address Family Identifier.
@@ -228,7 +228,7 @@ def setup_args():
         match_as_path_regex=dict(type='str'),
         match_community_regex=dict(type='str'),
         match_extended_community_regex=dict(type='str'),
-        address_prefix=dict(type='list', elements='str'),
+        address_prefix=dict(type='list', elements='dict'),
     )
 
 
@@ -298,15 +298,10 @@ def main():
 
     # Handle address prefixes.
     for x in module.params['address_prefix']:
-        if isinstance(x, dict):
-            if 'name' not in x:
-                module.fail_json(msg='Address prefix dict requires "name": {0}'.format(x))
-            obj.add(BgpPolicyAddressPrefix(
-                to_text(x['name'], encoding='utf-8', errors='surrogate_or_strict'),
-                None if x.get('exact') is None else module.boolean(x['exact']),
-            ))
-        else:
-            obj.add(BgpPolicyAddressPrefix(to_text(x, encoding='utf-8', errors='surrogate_or_strict')))
+        obj.add(BgpPolicyAddressPrefix(
+            to_text(x['name'], encoding='utf-8', errors='surrogate_or_strict'),
+            None if x.get('exact') is None else module.boolean(x['exact']),
+        ))
 
     if module.params['state'] == 'return-object':
         module.deprecate('state=return-object is deprecated', version='3.0.0', collection_name='paloaltonetworks.panos')
