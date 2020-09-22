@@ -176,7 +176,7 @@ RETURN = '''
 stdout:
     description: If the output gives a directory listing, give the listing as JSON formatted string
     returned: success
-    type: string
+    type: str
     sample: "{'dir-listing': {'file': ['/capture-rx', '/capture-tx', '/capture-fw']}}"
 stdout_xml:
     description: If the output gives a directory listing, give the listing as XML formatted string
