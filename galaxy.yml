@@ -53,7 +53,7 @@ dependencies: {}
 repository: 'https://github.com/PaloAltoNetworks/pan-os-ansible'
 
 # The URL to any online docs
-documentation: 'https://ansible-pan.readthedocs.io/en/latest/'
+documentation: 'https://paloaltonetworks.github.io/pan-os-ansible/'
 
 # The URL to the homepage of the collection/project
 homepage: 'https://github.com/PaloAltoNetworks/pan-os-ansible'

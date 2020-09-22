@@ -41,7 +41,7 @@ jobs:
 
       - name: ansible-test sanity
         run: |
-          ansible-test sanity
+          ansible-test sanity plugins/
 
   build:
     name: build
@@ -103,3 +103,23 @@ jobs:
             @semantic-release/exec@^5.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install documentation utils
+        run: |
+          pip install Sphinx sphinx-rtd-theme
+          pip install git+https://github.com/mrichardson03/ansible-doc-extractor.git
+
+      - name: Generate documentation
+        run: |
+          cd docs
+          mkdir -p source/modules
+          ansible-doc-extractor --template templates/module.rst.j2 source/modules ../plugins/modules/panos*.py
+          sphinx-build source html
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.6.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: docs/html # The folder the action should deploy.
+          CLEAN: true # Automatically remove deleted files from the deploy branch
