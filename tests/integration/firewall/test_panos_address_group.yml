@@ -1,0 +1,103 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: Create object 'Test-One'
+  panos_address_object:
+    provider: '{{ device }}'
+    name: 'Test-One'
+    value: '1.1.1.1'
+    description: 'Description One'
+
+- name: Create object 'Test-Two'
+  panos_address_object:
+    provider: '{{ device }}'
+    name: 'Test-Two'
+    address_type: 'ip-range'
+    value: '1.1.1.1-2.2.2.2'
+    description: 'Description Two'
+
+- name: Create object 'Test-Three'
+  panos_address_object:
+    provider: '{{ device }}'
+    name: 'Test-Three'
+    address_type: 'fqdn'
+    value: 'foo.bar.baz'
+    description: 'Description Three'
+
+- name: Create object group 'Prod'
+  panos_address_group:
+    provider: '{{ device }}'
+    name: 'Prod'
+    static_value: ['Test-One', 'Test-Three']
+  register: result
+
+- name: Assert 'Prod' was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: Create object group 'Prod' - idempotence
+  panos_address_group:
+    provider: '{{ device }}'
+    name: 'Prod'
+    static_value: ['Test-One', 'Test-Three']
+  register: result
+
+- name: Assert 'Prod' - idempotence was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: Create object group 'SI'
+  panos_address_group:
+    provider: '{{ device }}'
+    name: 'SI'
+    dynamic_value: "'SI_Instances'"
+  register: result
+
+- name: Assert 'SI' was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: Create object group 'SI' - idempotence
+  panos_address_group:
+    provider: '{{ device }}'
+    name: 'SI'
+    dynamic_value: "'SI_Instances'"
+  register: result
+
+- name: Assert 'SI' - idempotence was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: Delete object group 'SI'
+  panos_address_group:
+    provider: '{{ device }}'
+    name: 'SI'
+    state: 'absent'
+  register: result
+
+- name: Assert delete 'SI' was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: Make sure changes commit cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: Assert commit was successful
+  assert:
+    that:
+      - result is success
+
+- import_tasks: 'reset.yml'
+  when: reset_after_test|bool

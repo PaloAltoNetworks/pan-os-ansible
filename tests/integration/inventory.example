@@ -1,0 +1,2 @@
+[firewalls]
+panos-10    ip_address=192.168.55.10     username=admin      password=P4loalto!

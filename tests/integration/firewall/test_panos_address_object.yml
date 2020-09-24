@@ -1,0 +1,154 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: Create object 'Test-One'
+  panos_address_object:
+    provider: '{{ device }}'
+    name: 'Test-One'
+    value: '1.1.1.1'
+    description: 'Description One'
+  register: result
+
+- name: Assert 'Test-One' was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: Create object 'Test-Two'
+  panos_address_object:
+    provider: '{{ device }}'
+    name: 'Test-Two'
+    address_type: 'ip-range'
+    value: '1.1.1.1-2.2.2.2'
+    description: 'Description Two'
+  register: result
+
+- name: Assert 'Test-Two' was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: Create object 'Test-Three'
+  panos_address_object:
+    provider: '{{ device }}'
+    name: 'Test-Three'
+    address_type: 'fqdn'
+    value: 'foo.bar.baz'
+    description: 'Description Three'
+  register: result
+
+- name: Assert 'Test-Three' was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: Create object 'Test-One - Idempotence'
+  panos_address_object:
+    provider: '{{ device }}'
+    name: 'Test-One'
+    value: '1.1.1.1'
+    description: 'Description One'
+  register: result
+
+- name: Assert 'Test-One - Idempotence' was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: Create object 'Test-Two'
+  panos_address_object:
+    provider: '{{ device }}'
+    name: 'Test-Two'
+    address_type: 'ip-range'
+    value: '1.1.1.1-2.2.2.2'
+    description: 'Description Two'
+  register: result
+
+- name: Assert 'Test-Two - Idempotence' was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: Create object 'Test-Three - Idempotence'
+  panos_address_object:
+    provider: '{{ device }}'
+    name: 'Test-Three'
+    address_type: 'fqdn'
+    value: 'foo.bar.baz'
+    description: 'Description Three'
+  register: result
+
+- name: Assert 'Test-Three - Idempotence' was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: Modify object 'Test-One'
+  panos_address_object:
+    provider: '{{ device }}'
+    name: 'Test-One'
+    value: '2.2.2.2'
+  register: result
+
+- name: Assert modify 'Test-One' was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: Check result of modify 'Test-One'
+  panos_type_cmd:
+    provider: '{{ device }}'
+    cmd: get
+    xpath: |
+      /config/devices/entry[@name='localhost.localdomain']
+      /vsys/entry[@name='vsys1']
+      /address/entry[@name='Test-One']
+  register: modify
+
+- name: Assert modify 'Test-One' contains expected result
+  assert:
+    that:
+      - modify.stdout_xml is regex("2.2.2.2</ip-netmask>")
+
+- name: Delete object 'Test-Two'
+  panos_address_object:
+    provider: '{{ device }}'
+    name: 'Test-Two'
+    state: 'absent'
+  register: result
+
+- name: Assert delete 'Test-Two' was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: Make sure 'Test-Two' is now gone
+  panos_type_cmd:
+    provider: '{{ device }}'
+    cmd: get
+    xpath: |
+      /config/devices/entry[@name='localhost.localdomain']
+      /vsys/entry[@name='vsys1']
+      /address/entry[@name='Test-Two']
+  register: test_two
+
+- name: Make sure changes commit cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: Assert commit was successful
+  assert:
+    that:
+      - result is success
+
+- import_tasks: 'reset.yml'
+  when: reset_after_test|bool

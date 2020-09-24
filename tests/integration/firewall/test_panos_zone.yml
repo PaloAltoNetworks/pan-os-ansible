@@ -1,0 +1,17 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: Create zone 'untrust'
+  panos_zone:
+    provider: '{{ device }}'
+    zone: 'untrust'
+  register: result
+
+- name: Assert 'untrust' was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- import_tasks: 'reset.yml'
+  when: reset_after_test|bool
