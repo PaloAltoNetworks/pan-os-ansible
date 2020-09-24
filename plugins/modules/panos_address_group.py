@@ -138,6 +138,14 @@ def main():
     # Verify libs are present, get parent object.
     parent = helper.get_pandevice_parent(module)
 
+    if module.params['state'] == 'present':
+        if (module.params['static_value'] is None and
+                module.params['dynamic_value'] is None):
+            module.fail_json(
+                msg="One of 'static_value' or 'dynamic_value' is required when "
+                "state' is 'present'"
+            )
+
     # Object params.
     spec = {
         'name': module.params['name'],
