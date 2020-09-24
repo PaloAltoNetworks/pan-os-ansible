@@ -26,6 +26,7 @@
         - test_panos_address_object
         - test_panos_address_group
         - test_panos_administrator
+        - test_panos_application_object
         - test_panos_zone
       tags:
         - always
