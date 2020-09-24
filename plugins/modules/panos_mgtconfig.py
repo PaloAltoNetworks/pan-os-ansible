@@ -84,10 +84,6 @@ options:
         description:
             - Verify the identify of the update server.
         type: bool
-    devicegroup:
-        description:
-            - B(Removed)
-        type: str
 '''
 
 EXAMPLES = '''
@@ -145,9 +141,6 @@ def main():
             ntp_server_primary=dict(),
             ntp_server_secondary=dict(),
             commit=dict(type='bool', default=False),
-
-            # TODO(gfreeman) - remove in the next role release.
-            devicegroup=dict(),
         ),
     )
 
@@ -158,10 +151,6 @@ def main():
     )
 
     parent = helper.get_pandevice_parent(module)
-
-    # TODO(gfreeman) - remove this in the next role release.
-    if module.params['devicegroup'] is not None:
-        module.fail_json(msg='Param "devicegroup" has been removed')
 
     obj = SystemSettings()
     parent.add(obj)
