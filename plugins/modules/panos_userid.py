@@ -37,11 +37,6 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.state
 options:
-    operation:
-        description:
-            - B(Removed)
-            - Use I(state) instead.
-        type: str
     userid:
         description:
             - User UPN
@@ -91,9 +86,6 @@ def main():
         argument_spec=dict(
             userid=dict(required=True),
             register_ip=dict(required=True),
-
-            # TODO(gfreeman) - remove in the next role release.
-            operation=dict(),
         ),
     )
 
@@ -104,10 +96,6 @@ def main():
     )
 
     parent = helper.get_pandevice_parent(module)
-
-    # TODO(gfreeman) - remove in the next role release.
-    if module.params['operation'] is not None:
-        module.fail_json(msg='Param "operation" is removed; use "state" instead')
 
     func = None
     prefix = ''

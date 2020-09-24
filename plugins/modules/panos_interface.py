@@ -178,11 +178,6 @@ options:
             - HORIZONTALLINE
             - Name of the vsys (if firewall) or device group (if panorama) to put this object.
         type: str
-    operation:
-        description:
-            - B(Removed)
-            - Use I(state) instead.
-        type: str
 '''
 
 EXAMPLES = '''
@@ -269,9 +264,6 @@ def main():
 
             # TODO(gfreeman) - remove this in 2.12.
             vsys_dg=dict(),
-
-            # TODO(gfreeman) - remove in the next release.
-            operation=dict(),
         ),
     )
     module = AnsibleModule(

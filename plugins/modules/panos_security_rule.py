@@ -248,11 +248,6 @@ options:
         description:
             - Exclude this rule from the listed firewalls in Panorama.
         type: bool
-    operation:
-        description:
-            - B(Removed)
-            - Use I(state) instead.
-        type: str
 '''
 
 EXAMPLES = '''
@@ -409,9 +404,6 @@ def main():
             commit=dict(type='bool', default=False),
 
             # TODO(gfreeman) - remove this in the next role release.
-            operation=dict(),
-
-            # TODO(gfreeman) - remove this in the next role release.
             devicegroup=dict(),
         ),
     )
@@ -420,10 +412,6 @@ def main():
         supports_check_mode=True,
         required_one_of=helper.required_one_of,
     )
-
-    # TODO(gfreeman) - removed when operation is removed.
-    if module.params['operation'] is not None:
-        module.fail_json(msg='Param "operation" is removed; use "state" instead')
 
     # TODO(gfreeman) - remove when devicegroup is removed.
     if module.params['devicegroup'] is not None:

@@ -31,11 +31,6 @@ version_added: '1.0.0'
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
 options:
-    host:
-        description:
-            - B(Removed)
-            - Use I(provider) instead.
-        type: str
     gather_subset:
         description:
             - Scopes what information is gathered from the device.
@@ -492,10 +487,7 @@ def main():
     helper = get_connection(
         with_classic_provider_spec=True,
         argument_spec=dict(
-            gather_subset=dict(default=['!config'], type='list', elements='str'),
-
-            # TODO(gfreeman) - remove in a later version.
-            host=dict(),
+            gather_subset=dict(default=['!config'], type='list', elements='str')
         ),
     )
 
@@ -504,10 +496,6 @@ def main():
         supports_check_mode=False,
         required_one_of=helper.required_one_of,
     )
-
-    # TODO(gfreeman) - remove in a later version.
-    if module.params['host'] is not None:
-        module.fail_json(msg='Param "host" is removed; use "provider" instead')
 
     parent = helper.get_pandevice_parent(module)
 
