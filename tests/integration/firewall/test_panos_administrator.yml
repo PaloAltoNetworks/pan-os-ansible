@@ -1,0 +1,69 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: Create
+  panos_administrator:
+    provider: '{{ device }}'
+    admin_username: 'foo'
+    superuser: true
+  register: result
+
+- name: Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: Create (idempotence)
+  panos_administrator:
+    provider: '{{ device }}'
+    admin_username: 'foo'
+    superuser: true
+  register: result
+
+- name: Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: Modify
+  panos_administrator:
+    provider: '{{ device }}'
+    admin_username: 'foo'
+    admin_password: 'secret'
+    superuser: true
+  register: result
+
+- name: Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: Modify (password hash with same value should still result in changed)
+  panos_administrator:
+    provider: '{{ device }}'
+    admin_username: 'foo'
+    admin_password: 'secret'
+    superuser: true
+  register: result
+
+- name: Assert modify (password hash) was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: Make sure changes commit cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: Assert commit was successful
+  assert:
+    that:
+      - result is success
+
+- import_tasks: 'reset.yml'
+  when: reset_after_test|bool
