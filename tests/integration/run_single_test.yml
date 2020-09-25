@@ -10,8 +10,6 @@
 
     blank_config: blank.xml
 
-    reset_after_test: True
-
   collections:
     - paloaltonetworks.panos
 
@@ -19,8 +17,3 @@
     - name: Run test
       include_tasks:
         file: 'firewall/{{ test }}.yml'
-        apply:
-          tags:
-            - '{{ test }}'
-      tags:
-        - always
