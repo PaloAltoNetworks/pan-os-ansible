@@ -7,6 +7,7 @@
     name: 'Test-One'
     value: '1.1.1.1'
     description: 'Description One'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_address_object - Assert create was successful
@@ -21,6 +22,7 @@
     name: 'Test-One'
     value: '1.1.1.1'
     description: 'Description One'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_address_object - Assert create (idempotence) was successful
@@ -34,6 +36,7 @@
     provider: '{{ device }}'
     name: 'Test-One'
     value: '2.2.2.2'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_address_object - Assert modify was successful
@@ -47,6 +50,7 @@
     provider: '{{ device }}'
     name: 'Test-One'
     state: 'absent'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_address_object - Assert delete was successful

@@ -6,6 +6,7 @@
     provider: '{{ device }}'
     name: 'Test'
     color: 'red'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_tag_object - Assert create was successful
@@ -19,6 +20,7 @@
     provider: '{{ device }}'
     name: 'Test'
     color: 'red'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_tag_object - Assert create (idempotence) was successful
@@ -32,6 +34,7 @@
     provider: '{{ device }}'
     name: 'Test'
     color: 'blue'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_tag_object - Assert modify was successful
@@ -45,6 +48,7 @@
     provider: '{{ device }}'
     name: 'Test'
     state: 'absent'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_tag_object - Assert delete was successful

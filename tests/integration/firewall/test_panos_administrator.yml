@@ -6,6 +6,7 @@
     provider: '{{ device }}'
     admin_username: 'foo'
     superuser: true
+    template: '{{ template | default(omit) }}'
   register: result
 
 - name: test_panos_administrator - Assert create was successful
@@ -19,6 +20,7 @@
     provider: '{{ device }}'
     admin_username: 'foo'
     superuser: true
+    template: '{{ template | default(omit) }}'
   register: result
 
 - name: test_panos_administrator - Assert create (idempotence) was successful
@@ -33,6 +35,7 @@
     admin_username: 'foo'
     admin_password: 'secret'
     superuser: true
+    template: '{{ template | default(omit) }}'
   register: result
 
 - name: test_panos_administrator - Assert modify was successful
@@ -47,6 +50,7 @@
     admin_username: 'foo'
     admin_password: 'secret'
     superuser: true
+    template: '{{ template | default(omit) }}'
   register: result
 
 - name: test_panos_administrator - Assert modify (password hash) was successful

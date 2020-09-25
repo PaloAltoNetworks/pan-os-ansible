@@ -7,6 +7,7 @@
     name: 'Test-One'
     value: '1.1.1.1'
     description: 'Description One'
+    device_group: '{{ device_group | default(omit) }}'
   tags: 'test_panos_address_group'
 
 - name: test_panos_address_group - Create child address object 'Test-Two'
@@ -14,6 +15,7 @@
     provider: '{{ device }}'
     name: 'Test-Two'
     value: '2.2.2.2'
+    device_group: '{{ device_group | default(omit) }}'
     description: 'Description Two'
 
 - name: test_panos_address_group - Create
@@ -21,6 +23,7 @@
     provider: '{{ device }}'
     name: 'Test'
     static_value: ['Test-One', 'Test-Two']
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_address_group - Assert create was successful
@@ -34,6 +37,7 @@
     provider: '{{ device }}'
     name: 'Test'
     static_value: ['Test-One', 'Test-Two']
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_address_group - Assert create (idempotence) was successful
@@ -47,6 +51,7 @@
     provider: '{{ device }}'
     name: 'Test'
     static_value: ['Test-One']
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_address_group - Assert modify was successful
@@ -60,6 +65,7 @@
     provider: '{{ device }}'
     name: 'Test'
     state: 'absent'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_address_group - Assert delete was successful
@@ -72,6 +78,7 @@
   panos_address_group:
     provider: '{{ device }}'
     name: 'Test'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
   failed_when: result.msg is not match("One of 'static_value' or 'dynamic_value' is required")
 

@@ -7,6 +7,7 @@
     name: 'ssh-tcp-22'
     destination_port: '22'
     description: 'SSH on tcp/22'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_service_object - Assert create was successful
@@ -21,6 +22,7 @@
     name: 'ssh-tcp-22'
     destination_port: '22'
     description: 'SSH on tcp/22'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_service_object - Assert create (idempotence) was successful
@@ -35,6 +37,7 @@
     name: 'ssh-tcp-22'
     destination_port: '23'
     description: 'SSH on tcp/22'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_service_object - Assert modify was successful
@@ -48,6 +51,7 @@
     provider: '{{ device }}'
     name: 'ssh-tcp-22'
     state: 'absent'
+    device_group: '{{ device_group | default(omit) }}'
   register: result
 
 - name: test_panos_service_object - Assert delete was successful

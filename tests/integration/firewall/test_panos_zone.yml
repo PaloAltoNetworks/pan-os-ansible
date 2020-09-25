@@ -5,6 +5,7 @@
   panos_zone:
     provider: '{{ device }}'
     zone: 'untrust'
+    template: '{{ template | default(omit) }}'
   register: result
 
 - name: test_panos_zone - Assert 'untrust' was successful

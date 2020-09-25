@@ -8,6 +8,7 @@
     esp_authentication: ['sha1']
     esp_encryption: ['aes-128-cbc']
     lifetime_seconds: '3600'
+    template: '{{ template | default(omit) }}'
   register: result
 
 - name: test_panos_ipsec_profile - Assert create was successful
@@ -23,6 +24,7 @@
     esp_authentication: ['sha1']
     esp_encryption: ['aes-128-cbc']
     lifetime_seconds: '3600'
+    template: '{{ template | default(omit) }}'
   register: result
 
 - name: test_panos_ipsec_profile - Assert create (idempotence) was successful
@@ -38,6 +40,7 @@
     esp_authentication: ['sha1']
     esp_encryption: ['aes-128-cbc']
     lifetime_hours: '24'
+    template: '{{ template | default(omit) }}'
   register: result
 
 - name: test_panos_ipsec_profile - Assert modify was successful
@@ -51,6 +54,7 @@
     provider: '{{ device }}'
     name: 'Test'
     state: 'absent'
+    template: '{{ template | default(omit) }}'
   register: result
 
 - name: test_panos_ipsec_profile - Assert delete was successful
@@ -63,6 +67,7 @@
   panos_ipsec_profile:
     provider: '{{ device }}'
     name: 'Test'
+    template: '{{ template | default(omit) }}'
   diff: yes
   register: result
 

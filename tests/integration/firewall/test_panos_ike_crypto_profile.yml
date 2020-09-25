@@ -9,6 +9,7 @@
     authentication: ['sha1']
     encryption: ['aes-128-cbc']
     lifetime_seconds: '28800'
+    template: '{{ template | default(omit) }}'
   register: result
 
 - name: test_panos_ike_crypto_profile - Assert create was successful
@@ -25,6 +26,7 @@
     authentication: ['sha1']
     encryption: ['aes-128-cbc']
     lifetime_seconds: '28800'
+    template: '{{ template | default(omit) }}'
   register: result
 
 - name: test_panos_ike_crypto_profile - Assert create (idempotence) was successful
@@ -41,6 +43,7 @@
     authentication: ['sha1']
     encryption: ['aes-128-cbc']
     lifetime_seconds: '3600'
+    template: '{{ template | default(omit) }}'
   diff: yes
   register: result
 
@@ -56,6 +59,7 @@
     provider: '{{ device }}'
     name: 'Test'
     state: 'absent'
+    template: '{{ template | default(omit) }}'
   register: result
 
 - name: test_panos_ike_crypto_profile - Assert delete was successful
@@ -71,6 +75,7 @@
     dh_group: ['group2']
     authentication: ['sha1']
     encryption: ['aes-128-cbc']
+    template: '{{ template | default(omit) }}'
   diff: yes
   register: result
 

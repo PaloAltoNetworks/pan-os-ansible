@@ -1,0 +1,5 @@
+---
+
+- import_tasks: '../firewall/test_panos_ike_crypto_profile.yml'
+  vars:
+    template: 'Test-Template'
