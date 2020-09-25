@@ -1,0 +1,65 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: panos_tag_object - Create
+  panos_tag_object:
+    provider: '{{ device }}'
+    name: 'Test'
+    color: 'red'
+  register: result
+
+- name: panos_tag_object - Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: panos_tag_object - Create (idempotence)
+  panos_tag_object:
+    provider: '{{ device }}'
+    name: 'Test'
+    color: 'red'
+  register: result
+
+- name: panos_tag_object - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: panos_tag_object - Modify
+  panos_tag_object:
+    provider: '{{ device }}'
+    name: 'Test'
+    color: 'blue'
+  register: result
+
+- name: panos_tag_object - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: panos_tag_object - Delete
+  panos_tag_object:
+    provider: '{{ device }}'
+    name: 'Test'
+    state: 'absent'
+  register: result
+
+- name: panos_tag_object - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: panos_tag_object - Make sure changes commit cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: panos_tag_object - Assert commit was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
