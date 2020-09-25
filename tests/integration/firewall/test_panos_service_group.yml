@@ -1,0 +1,84 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: test_panos_service_group - Create service object 'ssh-tcp-22'
+  panos_service_object:
+    provider: '{{ device }}'
+    name: 'ssh-tcp-22'
+    destination_port: '22'
+    description: 'SSH on tcp/22'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_service_group - Create service object 'mysql-tcp-3306'
+  panos_service_object:
+    provider: '{{ device }}'
+    name: 'mysql-tcp-3306'
+    destination_port: '3306'
+    description: 'MySQL on tcp/3306'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_service_group - Create
+  panos_service_group:
+    provider: '{{ device }}'
+    name: 'Test'
+    value: ['ssh-tcp-22', 'mysql-tcp-3306']
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_service_group - Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_service_group - Create (idempotence)
+  panos_service_group:
+    provider: '{{ device }}'
+    name: 'Test'
+    value: ['ssh-tcp-22', 'mysql-tcp-3306']
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_service_group - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: test_panos_service_group - Modify
+  panos_service_group:
+    provider: '{{ device }}'
+    name: 'Test'
+    value: ['ssh-tcp-22']
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_service_group - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_service_group - Delete
+  panos_service_group:
+    provider: '{{ device }}'
+    name: 'Test'
+    state: 'absent'
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_service_group - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_service_group - Make sure changes commit cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_service_group - Assert commit was successful
+  assert:
+    that:
+      - result is success
