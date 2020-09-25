@@ -1,0 +1,101 @@
+---
+- include_tasks: 'reset.yml'
+
+- name: test_panos_ike_gateway - Create
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test'
+    version: 'ikev2'
+    interface: 'ethernet1/1'
+    enable_passive_mode: True
+    enable_liveness_check: True
+    liveness_check_interval: '5'
+    peer_ip_value: '1.2.3.4'
+    pre_shared_key: 'CHANGEME'
+    ikev2_crypto_profile: 'default'
+  register: result
+
+- name: test_panos_ike_gateway - Assert create was successful
+  assert:
+    that:
+      - result is changed
+      - result is success
+
+- name: test_panos_ike_gateway - Create (idempotence)
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test'
+    version: 'ikev2'
+    interface: 'ethernet1/1'
+    enable_passive_mode: True
+    enable_liveness_check: True
+    liveness_check_interval: '5'
+    peer_ip_value: '1.2.3.4'
+    pre_shared_key: 'CHANGEME'
+    ikev2_crypto_profile: 'default'
+  register: result
+
+- name: test_panos_ike_gateway - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is not changed
+      - result is success
+
+- name: test_panos_ike_gateway - Modify
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test'
+    version: 'ikev2'
+    interface: 'ethernet1/2'
+    enable_passive_mode: True
+    enable_liveness_check: True
+    liveness_check_interval: '5'
+    peer_ip_value: '1.2.3.4'
+    pre_shared_key: 'CHANGEME'
+    ikev2_crypto_profile: 'default'
+  diff: yes
+  register: result
+
+- name: test_panos_ike_gateway - Assert modify was successful
+  assert:
+    that:
+      - result is changed
+      - result is success
+      - result.diff.after is search("<interface>ethernet1/2</interface>")
+
+- name: test_panos_ike_gateway - Delete
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test'
+    state: 'absent'
+  register: result
+
+- name: test_panos_ike_gateway - Assert delete was successful
+  assert:
+    that:
+      - result is changed
+      - result is success
+
+- name: test_panos_ike_gateway - Required together 'peer_id_value'
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test'
+    peer_id_value: 'foo'
+  register: result
+  failed_when: result.msg is not search("peer_id_type")
+
+- name: test_panos_ike_gateway - Required together 'local_id_value'
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test'
+    local_id_value: 'foo'
+  register: result
+  failed_when: result.msg is not search("local_id_type")
+
+- name: test_panos_ike_gateway - Required together 'local_ip_address'
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test'
+    peer_id_value: 'foo'
+  register: result
+  failed_when: result.msg is not search("local_ip_address_type")
