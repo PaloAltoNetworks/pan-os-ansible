@@ -16,3 +16,5 @@ tests/output/
 
 docs/html/
 docs/source/modules/
+
+tests/integration/inventory
