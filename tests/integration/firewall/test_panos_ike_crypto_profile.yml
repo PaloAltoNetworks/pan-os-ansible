@@ -80,20 +80,6 @@
       - result is success
       - result.diff.after is search("<hours>8</hours>")
 
-- name: test_panos_ike_crypto_profile - Mutually exclusive
-  panos_ike_crypto_profile:
-    provider: '{{ device }}'
-    name: 'Test'
-    dh_group: ['group2']
-    authentication: ['sha1']
-    encryption: ['aes-128-cbc']
-    lifetime_seconds: '1'
-    lifetime_minutes: '1'
-    lifetime_hours: '1'
-    lifetime_days: '1'
-  register: result
-  failed_when: result.msg is not search("lifetime_seconds|lifetime_minutes|lifetime_hours|lifetime_days")
-
 - name: test_panos_ike_crypto_profile - Make sure changes commit cleanly
   panos_commit:
     provider: '{{ device }}'
