@@ -1,33 +1,33 @@
 ---
 - import_tasks: 'reset.yml'
 
-- name: Create
+- name: test_panos_administrator - Create
   panos_administrator:
     provider: '{{ device }}'
     admin_username: 'foo'
     superuser: true
   register: result
 
-- name: Assert create was successful
+- name: test_panos_administrator - Assert create was successful
   assert:
     that:
       - result is success
       - result is changed
 
-- name: Create (idempotence)
+- name: test_panos_administrator - Create (idempotence)
   panos_administrator:
     provider: '{{ device }}'
     admin_username: 'foo'
     superuser: true
   register: result
 
-- name: Assert create (idempotence) was successful
+- name: test_panos_administrator - Assert create (idempotence) was successful
   assert:
     that:
       - result is success
       - result is not changed
 
-- name: Modify
+- name: test_panos_administrator - Modify
   panos_administrator:
     provider: '{{ device }}'
     admin_username: 'foo'
@@ -35,13 +35,13 @@
     superuser: true
   register: result
 
-- name: Assert modify was successful
+- name: test_panos_administrator - Assert modify was successful
   assert:
     that:
       - result is success
       - result is changed
 
-- name: Modify (password hash with same value should still result in changed)
+- name: test_panos_administrator - Modify (password hash with same value should still result in changed)
   panos_administrator:
     provider: '{{ device }}'
     admin_username: 'foo'
@@ -49,21 +49,18 @@
     superuser: true
   register: result
 
-- name: Assert modify (password hash) was successful
+- name: test_panos_administrator - Assert modify (password hash) was successful
   assert:
     that:
       - result is success
       - result is changed
 
-- name: Make sure changes commit cleanly
+- name: test_panos_administrator - Make sure changes commit cleanly
   panos_commit:
     provider: '{{ device }}'
   register: result
 
-- name: Assert commit was successful
+- name: test_panos_administrator - Assert commit was successful
   assert:
     that:
       - result is success
-
-- import_tasks: 'reset.yml'
-  when: reset_after_test|bool

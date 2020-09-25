@@ -1,80 +1,81 @@
 ---
 - import_tasks: 'reset.yml'
 
-- name: Create child address object 'Test-One'
+- name: test_panos_address_group - Create child address object 'Test-One'
   panos_address_object:
     provider: '{{ device }}'
     name: 'Test-One'
     value: '1.1.1.1'
     description: 'Description One'
+  tags: 'test_panos_address_group'
 
-- name: Create child address object 'Test-Two'
+- name: test_panos_address_group - Create child address object 'Test-Two'
   panos_address_object:
     provider: '{{ device }}'
     name: 'Test-Two'
     value: '2.2.2.2'
     description: 'Description Two'
 
-- name: Create
+- name: test_panos_address_group - Create
   panos_address_group:
     provider: '{{ device }}'
     name: 'Test'
     static_value: ['Test-One', 'Test-Two']
   register: result
 
-- name: Assert create was successful
+- name: test_panos_address_group - Assert create was successful
   assert:
     that:
       - result is success
       - result is changed
 
-- name: Create (idempotence)
+- name: test_panos_address_group - Create (idempotence)
   panos_address_group:
     provider: '{{ device }}'
     name: 'Test'
     static_value: ['Test-One', 'Test-Two']
   register: result
 
-- name: Assert create (idempotence) was successful
+- name: test_panos_address_group - Assert create (idempotence) was successful
   assert:
     that:
       - result is success
       - result is not changed
 
-- name: Modify
+- name: test_panos_address_group - Modify
   panos_address_group:
     provider: '{{ device }}'
     name: 'Test'
     static_value: ['Test-One']
   register: result
 
-- name: Assert modify was successful
+- name: test_panos_address_group - Assert modify was successful
   assert:
     that:
       - result is success
       - result is changed
 
-- name: Delete
+- name: test_panos_address_group - Delete
   panos_address_group:
     provider: '{{ device }}'
     name: 'Test'
     state: 'absent'
   register: result
 
-- name: Assert delete was successful
+- name: test_panos_address_group - Assert delete was successful
   assert:
     that:
       - result is success
       - result is changed
 
-- name: Have to provide one of 'static_value' or 'dynamic_value'
+- name: test_panos_address_group - Have to provide one of 'static_value' or 'dynamic_value'
   panos_address_group:
     provider: '{{ device }}'
     name: 'Test'
   register: result
   failed_when: result.msg is not match("One of 'static_value' or 'dynamic_value' is required")
 
-- name: Can't provide both 'static_value' and 'dynamic_value'
+- name: test_panos_address_group - Can't provide both 'static_value' and 'dynamic_value'
   panos_address_group:
     provider: '{{ device }}'
     name: 'Test'
@@ -83,15 +84,12 @@
   register: result
   failed_when: result.msg is not search("static_value|dynamic_value")
 
-- name: Make sure changes commit cleanly
+- name: test_panos_address_group - Make sure changes commit cleanly
   panos_commit:
     provider: '{{ device }}'
   register: result
 
-- name: Assert commit was successful
+- name: test_panos_address_group - Assert commit was successful
   assert:
     that:
       - result is success
-
-- import_tasks: 'reset.yml'
-  when: reset_after_test|bool
