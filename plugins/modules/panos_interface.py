@@ -268,10 +268,6 @@ def main():
         required_one_of=helper.required_one_of,
     )
 
-    # TODO(gfreeman) - remove in the next release.
-    if module.params['operation'] is not None:
-        module.fail_json(msg='Operation has been removed; use "state"')
-
     # Get the object params.
     spec = {
         'name': module.params['if_name'],
