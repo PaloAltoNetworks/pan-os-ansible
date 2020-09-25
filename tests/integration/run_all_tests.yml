@@ -17,5 +17,4 @@
     - name: Run test
       include_tasks:
         file: '{{ item }}'
-      with_fileglob:
-        - "firewall/*"
+      loop: "{{ query('fileglob', 'firewall/*') | sort }}"
