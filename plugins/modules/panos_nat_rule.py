@@ -299,7 +299,7 @@ def main():
         vsys=True,
         device_group=True,
         rulebase=True,
-        error_on_shared=True,
+        error_on_firewall_shared=True,
         argument_spec=dict(
             rule_name=dict(required=True),
             description=dict(),

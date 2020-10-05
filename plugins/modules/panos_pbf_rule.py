@@ -228,7 +228,7 @@ def main():
         rulebase=True,
         with_state=True,
         with_classic_provider_spec=True,
-        error_on_shared=True,
+        error_on_firewall_shared=True,
         min_pandevice_version=(0, 13, 0),
         argument_spec=dict(
             name=dict(required=True),
