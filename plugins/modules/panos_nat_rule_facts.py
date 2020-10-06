@@ -175,7 +175,7 @@ def main():
         device_group=True,
         rulebase=True,
         with_classic_provider_spec=True,
-        error_on_shared=True,
+        error_on_firewall_shared=True,
         required_one_of=[
             ['listing', 'rule_name', 'rule_regex', 'uuid'],
         ],

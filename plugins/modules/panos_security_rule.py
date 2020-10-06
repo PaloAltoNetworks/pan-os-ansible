@@ -357,6 +357,7 @@ def main():
         rulebase=True,
         with_state=True,
         with_classic_provider_spec=True,
+        error_on_firewall_shared=True,
         argument_spec=dict(
             rule_name=dict(required=True),
             source_zone=dict(type='list', elements='str', default=['any']),
