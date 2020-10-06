@@ -128,7 +128,7 @@ jobs:
         run: |
           cd docs
           mkdir -p source/modules
-          ansible-doc-extractor --template templates/module.rst.j2 source/modules ~/.ansible/collections/ansible_collections/paloaltonetworks/panos/plugins/modules/*.py
+          ansible-doc-extractor --template templates/module.rst.j2 source/modules ~/.ansible/collections/ansible_collections/paloaltonetworks/panos/plugins/modules/panos*.py
           sphinx-build source html
 
       - name: Deploy to GitHub Pages
