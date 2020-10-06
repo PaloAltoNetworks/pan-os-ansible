@@ -134,7 +134,13 @@ Parameters
 
 
   commit (type: bool)
-    Commit the config change.
+    **Deprecated**
+
+    Please use :ref:`panos_commit_firewall <panos_commit_firewall_module>`, :ref:`panos_commit_panorama <panos_commit_panorama_module>`, :ref:`panos_commit_push <panos_commit_push_module>` instead.
+
+    ------------
+
+    Commit changes after creating object.  If *ip_address* is a Panorama device, and *device_group* or *template* are also set, perform a commit to Panorama and a commit-all to the device group/template.
 
 
 

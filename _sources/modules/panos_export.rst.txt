@@ -86,7 +86,7 @@ Parameters
     When category is set to 'tech-support', 'stats-dump', or 'device-state', the operating can take a while to complete.  This is the maximum amount of time to wait, in seconds.
 
 
-  provider (type: )
+  provider (type: dict)
     A dict object containing connection details.
 
 
@@ -216,7 +216,7 @@ Examples
 Return Values
 -------------
 
-stdout (success, string, {'dir-listing': {'file': ['/capture-rx', '/capture-tx', '/capture-fw']}})
+stdout (success, str, {'dir-listing': {'file': ['/capture-rx', '/capture-tx', '/capture-fw']}})
   If the output gives a directory listing, give the listing as JSON formatted string
 
 
@@ -231,12 +231,6 @@ Status
 ------
 
 
-
-
-- This module is not guaranteed to have a backwards compatible interface. *[preview]*
-
-
-- This module is maintained by community.
 
 
 

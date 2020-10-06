@@ -28,17 +28,11 @@ The below requirements are needed on the host that executes this module.
 Parameters
 ----------
 
-  host (type: str)
-    **Removed**
-
-    Use *provider* instead.
-
-
   gather_subset (type: list, default: ['!config'])
     Scopes what information is gathered from the device. Possible values for this argument include all, system, session, interfaces, ha, routing, vr, vsys and config. You can specify a list of values to include a larger subset. Values can also be used with an initial ! to specify that a specific subset should not be collected.  Panorama only supports the system, ha, and config subsets.
 
 
-  provider (type: )
+  provider (type: dict)
     A dict object containing connection details.
 
 
@@ -338,12 +332,6 @@ Status
 ------
 
 
-
-
-- This module is not guaranteed to have a backwards compatible interface. *[preview]*
-
-
-- This module is maintained by community.
 
 
 

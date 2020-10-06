@@ -293,8 +293,6 @@ This module has the following limitations due to no support in pandevice - * No 
 <h2><a class="toc-backref" href="#id3">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><dl>
-<dt>commit (type: bool)</dt><dd><p>Commit configuration if changed.</p>
-</dd>
 <dt>ha_enabled (type: bool, default: True)</dt><dd><p>Enable HA</p>
 </dd>
 <dt>ha_group_id (type: int, default: 1)</dt><dd><p>The group identifier</p>
@@ -365,7 +363,7 @@ This module has the following limitations due to no support in pandevice - * No 
 </dd>
 <dt>ha3_port (type: str)</dt><dd><p>Interface to use for this HA3 interface (eg. ethernet1/5, ae1)</p>
 </dd>
-<dt>provider (type: )</dt><dd><p>A dict object containing connection details.</p>
+<dt>provider (type: dict)</dt><dd><p>A dict object containing connection details.</p>
 <dl class="simple">
 <dt>ip_address (type: str)</dt><dd><p>The IP address or hostname of the PAN-OS device being configured.</p>
 </dd>
@@ -408,6 +406,10 @@ This module has the following limitations due to no support in pandevice - * No 
 <dt>template (type: str)</dt><dd><p>(Panorama only) The template this operation should target. Mutually exclusive with <em>template_stack</em>.</p>
 </dd>
 <dt>template_stack (type: str)</dt><dd><p>(Panorama only) The template stack this operation should target. Mutually exclusive with <em>template</em>.</p>
+</dd>
+<dt>commit (type: bool)</dt><dd><p><strong>Deprecated</strong></p>
+<p>Please use <a class="reference internal" href="panos_commit_firewall.html#panos-commit-firewall-module"><span class="std std-ref">panos_commit_firewall</span></a>, <a class="reference internal" href="panos_commit_panorama.html#panos-commit-panorama-module"><span class="std std-ref">panos_commit_panorama</span></a>, <a class="reference internal" href="panos_commit_push.html#panos-commit-push-module"><span class="std std-ref">panos_commit_push</span></a> instead.</p>
+<p>Commit changes after creating object.  If <em>ip_address</em> is a Panorama device, and <em>device_group</em> or <em>template</em> are also set, perform a commit to Panorama and a commit-all to the device group/template.</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -473,10 +475,6 @@ This module has the following limitations due to no support in pandevice - * No 
 </div>
 <div class="section" id="status">
 <h2><a class="toc-backref" href="#id6">Status</a><a class="headerlink" href="#status" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>This module is not guaranteed to have a backwards compatible interface. <em>[preview]</em></p></li>
-<li><p>This module is maintained by community.</p></li>
-</ul>
 <div class="section" id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">

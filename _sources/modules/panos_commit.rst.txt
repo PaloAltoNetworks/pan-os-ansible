@@ -57,7 +57,7 @@ Parameters
     (PanOS 8.0+ only) Commit only the changes made by specified list of administrators.
 
 
-  provider (type: )
+  provider (type: dict)
     A dict object containing connection details.
 
 

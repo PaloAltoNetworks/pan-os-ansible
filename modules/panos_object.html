@@ -347,7 +347,9 @@ of the collection.</p>
 <dt>devicegroup (type: str)</dt><dd><p>The name of the (preexisting) Panorama device group.</p>
 <p>If undefined and ip_address is Panorama, this defaults to shared.</p>
 </dd>
-<dt>commit (type: bool)</dt><dd><p>Commit the config change.</p>
+<dt>commit (type: bool)</dt><dd><p><strong>Deprecated</strong></p>
+<p>Please use <a class="reference internal" href="panos_commit_firewall.html#panos-commit-firewall-module"><span class="std std-ref">panos_commit_firewall</span></a>, <a class="reference internal" href="panos_commit_panorama.html#panos-commit-panorama-module"><span class="std std-ref">panos_commit_panorama</span></a>, <a class="reference internal" href="panos_commit_push.html#panos-commit-push-module"><span class="std std-ref">panos_commit_push</span></a> instead.</p>
+<p>Commit changes after creating object.  If <em>ip_address</em> is a Panorama device, and <em>device_group</em> or <em>template</em> are also set, perform a commit to Panorama and a commit-all to the device group/template.</p>
 </dd>
 </dl>
 </div></blockquote>

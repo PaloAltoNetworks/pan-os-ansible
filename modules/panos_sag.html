@@ -296,7 +296,7 @@ of the collection.</p>
 <div class="section" id="parameters">
 <h2><a class="toc-backref" href="#id3">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><dl class="simple">
+<div><dl>
 <dt>ip_address (required, type: str)</dt><dd><p>IP address (or hostname) of PAN-OS device</p>
 </dd>
 <dt>password (type: str)</dt><dd><p>password for authentication</p>
@@ -317,9 +317,11 @@ of the collection.</p>
 </dd>
 <dt>tags (type: list)</dt><dd><p>Tags to be associated with the address group</p>
 </dd>
-<dt>commit (type: bool)</dt><dd><p>commit if changed</p>
-</dd>
 <dt>operation (required, type: str)</dt><dd><p>The operation to perform Supported values are <em>add</em>/<em>list</em>/<em>delete</em>.</p>
+</dd>
+<dt>commit (type: bool)</dt><dd><p><strong>Deprecated</strong></p>
+<p>Please use <a class="reference internal" href="panos_commit_firewall.html#panos-commit-firewall-module"><span class="std std-ref">panos_commit_firewall</span></a>, <a class="reference internal" href="panos_commit_panorama.html#panos-commit-panorama-module"><span class="std std-ref">panos_commit_panorama</span></a>, <a class="reference internal" href="panos_commit_push.html#panos-commit-push-module"><span class="std std-ref">panos_commit_push</span></a> instead.</p>
+<p>Commit changes after creating object.  If <em>ip_address</em> is a Panorama device, and <em>device_group</em> or <em>template</em> are also set, perform a commit to Panorama and a commit-all to the device group/template.</p>
 </dd>
 </dl>
 </div></blockquote>

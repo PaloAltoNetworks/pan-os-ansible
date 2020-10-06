@@ -296,8 +296,6 @@
 <dt>state (type: str, default: present)</dt><dd><p>Add or remove BGP Policy Filter.</p>
 <p><em>state=return-object</em> is deprecated and will be removed in 2.12.</p>
 </dd>
-<dt>commit (type: bool)</dt><dd><p>Commit configuration if changed.</p>
-</dd>
 <dt>filter_type (required, type: str)</dt><dd><p>The type of filter.</p>
 </dd>
 <dt>policy_name (type: str)</dt><dd><p>The name of the policy object.</p>
@@ -308,7 +306,7 @@
 </dd>
 <dt>enable (type: bool, default: True)</dt><dd><p>Enable filter.</p>
 </dd>
-<dt>address_prefix (type: list)</dt><dd><p>List of address prefix strings or dicts with “name”/”exact” keys.</p>
+<dt>address_prefix (type: list)</dt><dd><p>List of dicts with “name”/”exact” keys.</p>
 <p>Using the dict form for address prefixes should only be used with <em>policy_type=aggregate</em>.</p>
 </dd>
 <dt>match_afi (type: str)</dt><dd><p>Address Family Identifier.</p>
@@ -332,7 +330,7 @@
 <dt>vr_name (type: str, default: default)</dt><dd><p>Name of the virtual router; it must already exist and have BGP configured.</p>
 <p>See <a class="reference internal" href="panos_virtual_router.html#panos-virtual-router-module"><span class="std std-ref">panos_virtual_router</span></a>.</p>
 </dd>
-<dt>provider (type: )</dt><dd><p>A dict object containing connection details.</p>
+<dt>provider (type: dict)</dt><dd><p>A dict object containing connection details.</p>
 <dl class="simple">
 <dt>ip_address (type: str)</dt><dd><p>The IP address or hostname of the PAN-OS device being configured.</p>
 </dd>
@@ -372,6 +370,10 @@
 </dd>
 <dt>template_stack (type: str)</dt><dd><p>(Panorama only) The template stack this operation should target. Mutually exclusive with <em>template</em>.</p>
 </dd>
+<dt>commit (type: bool)</dt><dd><p><strong>Deprecated</strong></p>
+<p>Please use <a class="reference internal" href="panos_commit_firewall.html#panos-commit-firewall-module"><span class="std std-ref">panos_commit_firewall</span></a>, <a class="reference internal" href="panos_commit_panorama.html#panos-commit-panorama-module"><span class="std std-ref">panos_commit_panorama</span></a>, <a class="reference internal" href="panos_commit_push.html#panos-commit-push-module"><span class="std std-ref">panos_commit_push</span></a> instead.</p>
+<p>Commit changes after creating object.  If <em>ip_address</em> is a Panorama device, and <em>device_group</em> or <em>template</em> are also set, perform a commit to Panorama and a commit-all to the device group/template.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -402,10 +404,6 @@
 </div>
 <div class="section" id="status">
 <h2><a class="toc-backref" href="#id7">Status</a><a class="headerlink" href="#status" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>This module is not guaranteed to have a backwards compatible interface. <em>[preview]</em></p></li>
-<li><p>This module is maintained by community.</p></li>
-</ul>
 <div class="section" id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">

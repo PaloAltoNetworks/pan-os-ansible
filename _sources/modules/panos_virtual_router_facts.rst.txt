@@ -33,7 +33,7 @@ Parameters
     Name of the virtual router.
 
 
-  provider (type: )
+  provider (type: dict)
     A dict object containing connection details.
 
 
@@ -219,12 +219,6 @@ Status
 ------
 
 
-
-
-- This module is not guaranteed to have a backwards compatible interface. *[preview]*
-
-
-- This module is maintained by community.
 
 
 
