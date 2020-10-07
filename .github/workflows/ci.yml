@@ -97,9 +97,8 @@ jobs:
 
   docs:
     name: docs
-    # if: github.event_name == 'push' && github.ref != 'refs/heads/develop'
-    # needs: [release]
-    needs: [build]
+    if: github.event_name == 'push' && github.ref != 'refs/heads/develop'
+    needs: [release]
     runs-on: ubuntu-latest
 
     steps:
