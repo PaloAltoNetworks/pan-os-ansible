@@ -156,7 +156,7 @@
   assert:
     that:
       - result is success
-      - result.rules == ['One', 'Two', 'Three', 'Four', 'Five']
+      - result.rule_names == ['One', 'Two', 'Three', 'Four', 'Five']
 
 - name: test_panos_security_rule - Make sure changes commit cleanly
   panos_commit:
