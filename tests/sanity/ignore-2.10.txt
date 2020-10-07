@@ -7,6 +7,8 @@ plugins/modules/panos_administrator.py validate-modules:missing-gplv3-license
 plugins/modules/panos_admpwd.py validate-modules:missing-gplv3-license
 plugins/modules/panos_aggregate_interface.py validate-modules:missing-gplv3-license
 plugins/modules/panos_api_key.py validate-modules:missing-gplv3-license
+plugins/modules/panos_application_filter.py validate-modules:missing-gplv3-license
+plugins/modules/panos_application_group.py validate-modules:missing-gplv3-license
 plugins/modules/panos_application_object.py validate-modules:missing-gplv3-license
 plugins/modules/panos_bgp.py validate-modules:missing-gplv3-license
 plugins/modules/panos_bgp_aggregate.py validate-modules:missing-gplv3-license
@@ -35,6 +37,7 @@ plugins/modules/panos_dag_tags.py no-get-exception
 plugins/modules/panos_dag_tags.py validate-modules:deprecation-mismatch
 plugins/modules/panos_dag_tags.py validate-modules:invalid-documentation
 plugins/modules/panos_dag_tags.py validate-modules:missing-gplv3-license
+plugins/modules/panos_dynamic_user_group.py validate-modules:missing-gplv3-license
 plugins/modules/panos_email_profile.py validate-modules:missing-gplv3-license
 plugins/modules/panos_email_server.py validate-modules:missing-gplv3-license
 plugins/modules/panos_export.py validate-modules:missing-gplv3-license
@@ -76,6 +79,7 @@ plugins/modules/panos_query_rules.py validate-modules:deprecation-mismatch
 plugins/modules/panos_query_rules.py validate-modules:invalid-documentation
 plugins/modules/panos_query_rules.py validate-modules:missing-gplv3-license
 plugins/modules/panos_redistribution.py validate-modules:missing-gplv3-license
+plugins/modules/panos_region.py validate-modules:missing-gplv3-license
 plugins/modules/panos_registered_ip.py validate-modules:missing-gplv3-license
 plugins/modules/panos_registered_ip_facts.py validate-modules:missing-gplv3-license
 plugins/modules/panos_restart.py validate-modules:missing-gplv3-license
@@ -83,6 +87,7 @@ plugins/modules/panos_sag.py no-get-exception
 plugins/modules/panos_sag.py validate-modules:deprecation-mismatch
 plugins/modules/panos_sag.py validate-modules:invalid-documentation
 plugins/modules/panos_sag.py validate-modules:missing-gplv3-license
+plugins/modules/panos_schedule_object.py validate-modules:missing-gplv3-license
 plugins/modules/panos_security_rule.py validate-modules:missing-gplv3-license
 plugins/modules/panos_security_rule_facts.py validate-modules:missing-gplv3-license
 plugins/modules/panos_service_group.py validate-modules:missing-gplv3-license
