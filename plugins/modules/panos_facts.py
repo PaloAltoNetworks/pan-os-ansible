@@ -392,6 +392,26 @@ class Ha(Factbase):
         })
 
 
+class PanoramaHa(Factbase):
+    def populate_facts(self):
+        root = self.parent.op('show high-availability all')
+
+        if root.find('./result/enabled').text == 'yes':
+            ha_enabled = True
+            ha_localmode = "Active-Passive"  # Only type of HA on Panorama
+            ha_localstate = root.find('./result/local-info/state').text
+        else:
+            ha_enabled = False
+            ha_localmode = "standalone"
+            ha_localstate = "active"
+
+        self.facts.update({
+            'ha_enabled': ha_enabled,
+            'ha_localmode': ha_localmode,
+            'ha_localstate': ha_localstate
+        })
+
+
 class Vr(Factbase):
     def populate_facts(self):
         listing = VirtualRouter.refreshall(self.parent, add=False)
@@ -472,7 +492,7 @@ FIREWALL_SUBSETS = dict(
 
 PANORAMA_SUBSETS = dict(
     system=System,
-    ha=Ha,
+    ha=PanoramaHa,
     config=Config,
 )
 
