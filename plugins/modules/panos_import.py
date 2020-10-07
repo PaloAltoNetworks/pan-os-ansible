@@ -24,39 +24,92 @@ module: panos_import
 short_description: import file on PAN-OS devices
 description:
     - Import file on PAN-OS device
-author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
+author:
+    - 'Luigi Mori (@jtschichold)'
+    - 'Ivan Bojer (@ivanbojer)'
+    - 'Michael Richardson (@mrichardson03)'
 version_added: '1.0.0'
 requirements:
     - pan-python
     - requests
     - requests_toolbelt
+extends_documentation_fragment:
+    - paloaltonetworks.panos.fragments.transitional_provider
 options:
-    ip_address:
-        description:
-            - IP address (or hostname) of PAN-OS device.
-        type: str
-        required: true
-    password:
-        description:
-            - Password for device authentication.
-        type: str
-        required: true
-    username:
-        description:
-            - Username for device authentication.
-        type: str
-        required: false
-        default: "admin"
     category:
         description:
-            - Category of file uploaded. The default is software.
+            - Category of file to import.
         type: str
-        required: false
+        choices:
+            - anti-virus
+            - application-block-page
+            - captive-portal-text
+            - certificate
+            - configuration
+            - content
+            - credential-block-page
+            - credential-coach-text
+            - custom-logo
+            - data-filter-block-page
+            - device-state
+            - file-block-continue-page
+            - file-block-page
+            - global-protect-client
+            - global-protect-clientless-vpn
+            - global-protect-portal-custom-help-page
+            - global-protect-portal-custom-home-page
+            - global-protect-portal-custom-login-page
+            - global-protect-portal-custom-welcome-page
+            - high-availability-key
+            - keypair
+            - license
+            - logdb
+            - mfa-login-page
+            - pandb-url-database
+            - plugin
+            - safe-search-block-page
+            - saml-auth-internal-error-page
+            - signed-url-database
+            - software
+            - ssl-cert-status-page
+            - ssl-optout-text
+            - url-block-page
+            - url-coach-text
+            - url-database
+            - virus-block-page
+            - wildfire
         default: software
-    file:
+    certificate_name:
+        description:
+            - When I(category=certificate), this is the name of the certificate object.
+            - When I(category=keypair), the key pair will be associated with this certificate object.
+        type: str
+    format:
+        description:
+            - Format of the imported certifcate.
+        type: str
+        choices:
+            - pem
+            - pkcs12
+    passphrase:
+        description:
+            - Passphrase used to decrypt the certificate and/or private key.
+        type: str
+    custom_logo_location:
+        description:
+            - When I(category=custom-logo), import this logo file here.
+        type: str
+        choices:
+            - login-screen
+            - main-ui
+            - pdf-report-footer
+            - pdf-report-header
+    filename:
         description:
             - Location of the file to import into device.
         type: str
+        aliases:
+            - file
         required: false
     url:
         description:
@@ -66,14 +119,44 @@ options:
 '''
 
 EXAMPLES = '''
-# import software image PanOS_vm-6.1.1 on 192.168.1.1
-- name: import software image into PAN-OS
+- name: Import software image into PAN-OS
   panos_import:
-    ip_address: 192.168.1.1
-    username: admin
-    password: admin
-    file: /tmp/PanOS_vm-6.1.1
+    provider: '{{ provider }}'
     category: software
+    file: /tmp/PanOS_vm-10.0.1
+
+- name: Import certificate
+  panos_import:
+    provider: '{{ device }}'
+    category: 'certificate'
+    certificate_name: 'ISRG Root X1'
+    format: 'pem'
+    filename: '/tmp/isrgrootx1.pem'
+
+- name: Import content
+  panos_import:
+    provider: '{{ device }}'
+    category: 'content'
+    filename: '/tmp/panupv2-all-contents-8322-6317'
+
+- name: Import named configuration snapshot
+  panos_import:
+    provider: '{{ device }}'
+    category: 'configuration'
+    filename: '/tmp/config.xml'
+
+- name: Import application block page
+  panos_import:
+    provider: '{{ device }}'
+    category: 'application-block-page'
+    filename: '/tmp/application-block-page.html'
+
+- name: Import custom logo
+  panos_import:
+    provider: '{{ device }}'
+    category: 'custom-logo'
+    custom_logo_location: 'login-screen'
+    filename: '/tmp/logo.jpg'
 '''
 
 RETURN = '''
@@ -81,6 +164,7 @@ RETURN = '''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 import os.path
 import xml.etree
@@ -97,40 +181,20 @@ except ImportError:
     HAS_LIB = False
 
 
-def import_file(xapi, module, ip_address, file_, category):
-    xapi.keygen()
-
-    params = {
+def import_file(module, xapi, filename, params):
+    params.update({
         'type': 'import',
-        'category': category,
         'key': xapi.api_key
-    }
+    })
 
-    filename = os.path.basename(file_)
+    url = 'https://{0}/api'.format(xapi.hostname)
+    files = {'file': open(filename, 'rb')}
 
-    mef = requests_toolbelt.MultipartEncoder(
-        fields={
-            'file': (filename, open(file_, 'rb'), 'application/octet-stream')
-        }
-    )
+    r = requests.post(url, params=params, files=files, verify=False)
+    response = xml.etree.ElementTree.fromstring(r.content)
 
-    r = requests.post(
-        'https://' + ip_address + '/api/',
-        verify=False,
-        params=params,
-        headers={'Content-Type': mef.content_type},
-        data=mef
-    )
-
-    # if something goes wrong just raise an exception
-    r.raise_for_status()
-
-    resp = xml.etree.ElementTree.fromstring(r.content)
-
-    if resp.attrib['status'] == 'error':
+    if r.status_code != 200 or response.attrib['status'] == 'error':
         module.fail_json(msg=r.content)
-
-    return True, filename
 
 
 def download_file(url):
@@ -147,45 +211,121 @@ def delete_file(path):
 
 
 def main():
-    argument_spec = dict(
-        ip_address=dict(required=True),
-        password=dict(required=True, no_log=True),
-        username=dict(default='admin'),
-        category=dict(default='software'),
-        file=dict(),
-        url=dict()
+    helper = get_connection(
+        with_classic_provider_spec=True,
+        argument_spec=dict(
+            category=dict(
+                type='str',
+                choices=[
+                    'anti-virus',
+                    'application-block-page',
+                    'captive-portal-text',
+                    'certificate',
+                    'configuration',
+                    'content',
+                    'credential-block-page',
+                    'credential-coach-text',
+                    'custom-logo',
+                    'data-filter-block-page',
+                    'device-state',
+                    'file-block-continue-page',
+                    'file-block-page',
+                    'global-protect-client',
+                    'global-protect-clientless-vpn',
+                    'global-protect-portal-custom-help-page',
+                    'global-protect-portal-custom-home-page',
+                    'global-protect-portal-custom-login-page',
+                    'global-protect-portal-custom-welcome-page',
+                    'high-availability-key',
+                    'keypair',
+                    'license',
+                    'logdb',
+                    'mfa-login-page',
+                    'pandb-url-database',
+                    'plugin',
+                    'safe-search-block-page',
+                    'saml-auth-internal-error-page',
+                    'signed-url-database',
+                    'software',
+                    'ssl-cert-status-page',
+                    'ssl-optout-text',
+                    'url-block-page',
+                    'url-coach-text',
+                    'url-database',
+                    'virus-block-page',
+                    'wildfire',
+                ],
+                default='software'
+            ),
+            certificate_name=dict(type='str'),
+            format=dict(
+                type='str',
+                choices=[
+                    'pem',
+                    'pkcs12'
+                ]
+            ),
+            passphrase=dict(type='str', no_log=True),
+            custom_logo_location=dict(
+                type='str',
+                choices=[
+                    'login-screen',
+                    'main-ui',
+                    'pdf-report-footer',
+                    'pdf-report-header'
+                ]
+            ),
+
+            filename=dict(type='str', aliases=['file']),
+            url=dict()
+        )
     )
-    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False, required_one_of=[['file', 'url']])
+    module = AnsibleModule(
+        argument_spec=helper.argument_spec,
+        supports_check_mode=True,
+        required_one_of=helper.required_one_of
+    )
+
     if not HAS_LIB:
-        module.fail_json(msg='pan-python, requests, and requests_toolbelt are required for this module')
-
-    ip_address = module.params["ip_address"]
-    password = module.params["password"]
-    username = module.params['username']
-
-    xapi = pan.xapi.PanXapi(
-        hostname=ip_address,
-        api_username=username,
-        api_password=password
-    )
-
-    file_ = module.params['file']
-    url = module.params['url']
+        module.fail_json(msg='requests and requests_toolbelt are required for this module')
 
     category = module.params['category']
+    filename = module.params['filename']
+
+    url = module.params['url']
+
+    parent = helper.get_pandevice_parent(module)
+    xapi = parent.xapi
+
+    changed = False
 
     # we can get file from URL or local storage
     if url is not None:
-        file_ = download_file(url)
+        filename = download_file(url)
+
+    params = {
+        'category': module.params['category']
+    }
+
+    if category == 'certificate' or category == 'keypair':
+        params['certificate-name'] = module.params['certificate_name']
+        params['format'] = module.params['format']
+        params['passphrase'] = module.params['passphrase']
+
+    elif category == 'custom-logo':
+        params['where'] = module.params['custom_logo_location']
 
     try:
-        changed, filename = import_file(xapi, module, ip_address, file_, category)
+        if not module.check_mode:
+            import_file(module, xapi, filename, params)
+        changed = True
+
     except Exception as e:
         module.fail_json(msg='Failed: {0}'.format(e))
 
-    # cleanup and delete file if local
+    # If the file was downloaded from a URL, clean up.
     if url is not None:
-        delete_file(file_)
+        delete_file(filename)
 
     module.exit_json(changed=changed, filename=filename, msg="okey dokey")
 
