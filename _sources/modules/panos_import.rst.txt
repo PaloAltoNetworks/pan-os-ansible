@@ -30,23 +30,29 @@ The below requirements are needed on the host that executes this module.
 Parameters
 ----------
 
-  ip_address (required, type: str)
-    IP address (or hostname) of PAN-OS device.
-
-
-  password (required, type: str)
-    Password for device authentication.
-
-
-  username (type: str, default: admin)
-    Username for device authentication.
-
-
   category (type: str, default: software)
-    Category of file uploaded. The default is software.
+    Category of file to import.
 
 
-  file (type: str)
+  certificate_name (type: str)
+    When *category=certificate*, this is the name of the certificate object.
+
+    When *category=keypair*, the key pair will be associated with this certificate object.
+
+
+  format (type: str)
+    Format of the imported certifcate.
+
+
+  passphrase (type: str)
+    Passphrase used to decrypt the certificate and/or private key.
+
+
+  custom_logo_location (type: str)
+    When *category=custom-logo*, import this logo file here.
+
+
+  filename (type: str)
     Location of the file to import into device.
 
 
@@ -54,9 +60,93 @@ Parameters
     URL of the file that will be imported to device.
 
 
+  provider (type: dict)
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
 
 
 
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
 
 
 
@@ -67,14 +157,44 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    # import software image PanOS_vm-6.1.1 on 192.168.1.1
-    - name: import software image into PAN-OS
+    - name: Import software image into PAN-OS
       panos_import:
-        ip_address: 192.168.1.1
-        username: admin
-        password: admin
-        file: /tmp/PanOS_vm-6.1.1
+        provider: '{{ provider }}'
         category: software
+        file: /tmp/PanOS_vm-10.0.1
+
+    - name: Import certificate
+      panos_import:
+        provider: '{{ device }}'
+        category: 'certificate'
+        certificate_name: 'ISRG Root X1'
+        format: 'pem'
+        filename: '/tmp/isrgrootx1.pem'
+
+    - name: Import content
+      panos_import:
+        provider: '{{ device }}'
+        category: 'content'
+        filename: '/tmp/panupv2-all-contents-8322-6317'
+
+    - name: Import named configuration snapshot
+      panos_import:
+        provider: '{{ device }}'
+        category: 'configuration'
+        filename: '/tmp/config.xml'
+
+    - name: Import application block page
+      panos_import:
+        provider: '{{ device }}'
+        category: 'application-block-page'
+        filename: '/tmp/application-block-page.html'
+
+    - name: Import custom logo
+      panos_import:
+        provider: '{{ device }}'
+        category: 'custom-logo'
+        custom_logo_location: 'login-screen'
+        filename: '/tmp/logo.jpg'
 
 
 
@@ -90,5 +210,7 @@ Status
 Authors
 ~~~~~~~
 
-- Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)
+- Luigi Mori (@jtschichold)
+- Ivan Bojer (@ivanbojer)
+- Michael Richardson (@mrichardson03)
 

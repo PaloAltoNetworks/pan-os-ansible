@@ -93,6 +93,8 @@
 <li class="toctree-l2"><a class="reference internal" href="panos_admpwd.html">panos_admpwd – change admin password of PAN-OS device using SSH with SSH key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_aggregate_interface.html">panos_aggregate_interface – configure aggregate network interfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_api_key.html">panos_api_key – retrieve api_key for username/password combination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_application_filter.html">panos_application_filter – Create application filters on PAN-OS devices.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_application_group.html">panos_application_group – Create application groups on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_application_object.html">panos_application_object – Create application objects on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_bgp.html">panos_bgp – Configures Border Gateway Protocol (BGP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_bgp_aggregate.html">panos_bgp_aggregate – Configures a BGP Aggregation Prefix Policy</a></li>
@@ -113,6 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="panos_custom_url_category.html">panos_custom_url_category – Create custom url category objects on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_dag.html">panos_dag – create a dynamic address group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_dag_tags.html">panos_dag_tags – Create tags for DAG’s on PAN-OS devices.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_dynamic_user_group.html">panos_dynamic_user_group – Create dynamic user groups on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_email_profile.html">panos_email_profile – Manage email server profiles.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_email_server.html">panos_email_server – Manage email servers in an email profile.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_export.html">panos_export – export file from PAN-OS devices</a></li>
@@ -129,6 +132,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#status">Status</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#authors">Authors</a></li>
@@ -161,12 +165,14 @@
 <li class="toctree-l2"><a class="reference internal" href="panos_pg.html">panos_pg – create a security profiles group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_query_rules.html">panos_query_rules – PANOS module that allows search for security rules in PANW NGFW devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_redistribution.html">panos_redistribution – Configures a Redistribution Profile on a virtual router</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_region.html">panos_region – Create regions on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_registered_ip.html">panos_registered_ip – Register IP addresses for use with dynamic address groups on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_registered_ip_facts.html">panos_registered_ip_facts – Retrieve facts about registered IPs on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_restart.html">panos_restart – Restart a device</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_sag.html">panos_sag – Create a static address group.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_schedule_object.html">panos_schedule_object – Create schedule objects on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_security_rule.html">panos_security_rule – Create security rule policy on PAN-OS devices or Panorama management console.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="panos_security_rule_facts.html">panos_security_rule_facts – Get information about a security rule.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_security_rule_facts.html">panos_security_rule_facts – Retrieve information about security rules.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_service_group.html">panos_service_group – Create service group objects on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_service_object.html">panos_service_object – Create service objects on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_snmp_profile.html">panos_snmp_profile – Manage SNMP server profiles.</a></li>
@@ -269,8 +275,9 @@
 <li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
 <li><p><a class="reference internal" href="#requirements" id="id2">Requirements</a></p></li>
 <li><p><a class="reference internal" href="#parameters" id="id3">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id4">Examples</a></p></li>
-<li><p><a class="reference internal" href="#status" id="id5">Status</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id4">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id5">Examples</a></p></li>
+<li><p><a class="reference internal" href="#status" id="id6">Status</a></p></li>
 </ul>
 </div>
 <div class="section" id="synopsis">
@@ -289,41 +296,121 @@
 <div class="section" id="parameters">
 <h2><a class="toc-backref" href="#id3">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><dl class="simple">
-<dt>ip_address (required, type: str)</dt><dd><p>IP address (or hostname) of PAN-OS device.</p>
+<div><dl>
+<dt>category (type: str, default: software)</dt><dd><p>Category of file to import.</p>
 </dd>
-<dt>password (required, type: str)</dt><dd><p>Password for device authentication.</p>
+<dt>certificate_name (type: str)</dt><dd><p>When <em>category=certificate</em>, this is the name of the certificate object.</p>
+<p>When <em>category=keypair</em>, the key pair will be associated with this certificate object.</p>
 </dd>
-<dt>username (type: str, default: admin)</dt><dd><p>Username for device authentication.</p>
+<dt>format (type: str)</dt><dd><p>Format of the imported certifcate.</p>
 </dd>
-<dt>category (type: str, default: software)</dt><dd><p>Category of file uploaded. The default is software.</p>
+<dt>passphrase (type: str)</dt><dd><p>Passphrase used to decrypt the certificate and/or private key.</p>
 </dd>
-<dt>file (type: str)</dt><dd><p>Location of the file to import into device.</p>
+<dt>custom_logo_location (type: str)</dt><dd><p>When <em>category=custom-logo</em>, import this logo file here.</p>
+</dd>
+<dt>filename (type: str)</dt><dd><p>Location of the file to import into device.</p>
 </dd>
 <dt>url (type: str)</dt><dd><p>URL of the file that will be imported to device.</p>
+</dd>
+<dt>provider (type: dict)</dt><dd><p>A dict object containing connection details.</p>
+<dl class="simple">
+<dt>ip_address (type: str)</dt><dd><p>The IP address or hostname of the PAN-OS device being configured.</p>
+</dd>
+<dt>username (type: str, default: admin)</dt><dd><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
+</dd>
+<dt>password (type: str)</dt><dd><p>The password to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
+</dd>
+<dt>api_key (type: str)</dt><dd><p>The API key to use instead of generating it using <em>username</em> / <em>password</em>.</p>
+</dd>
+<dt>port (type: int, default: 443)</dt><dd><p>The port number to connect to the PAN-OS device on.</p>
+</dd>
+<dt>serial_number (type: str)</dt><dd><p>The serial number of a firewall to use for targeted commands. If <em>ip_address</em> is not a Panorama PAN-OS device, then this param is ignored.</p>
+</dd>
+</dl>
+</dd>
+<dt>ip_address (type: str)</dt><dd><p><strong>Deprecated</strong></p>
+<p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
+<p>The IP address or hostname of the PAN-OS device being configured.</p>
+</dd>
+<dt>username (type: str, default: admin)</dt><dd><p><strong>Deprecated</strong></p>
+<p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
+<p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
+</dd>
+<dt>password (type: str)</dt><dd><p><strong>Deprecated</strong></p>
+<p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
+<p>The password to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
+</dd>
+<dt>api_key (type: str)</dt><dd><p><strong>Deprecated</strong></p>
+<p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
+<p>The API key to use instead of generating it using <em>username</em> / <em>password</em>.</p>
+</dd>
+<dt>port (type: int, default: 443)</dt><dd><p><strong>Deprecated</strong></p>
+<p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
+<p>The port number to connect to the PAN-OS device on.</p>
 </dd>
 </dl>
 </div></blockquote>
 </div>
+<div class="section" id="notes">
+<h2><a class="toc-backref" href="#id4">Notes</a><a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>PAN-OS connectivity should be specified using <em>provider</em> or the classic PAN-OS connectivity params (<em>ip_address</em>, <em>username</em>, <em>password</em>, <em>api_key</em>, and <em>port</em>).  If both are present, then the classic params are ignored.</p></li>
+</ul>
+</div>
+</div>
 <div class="section" id="examples">
-<h2><a class="toc-backref" href="#id4">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="c1"># import software image PanOS_vm-6.1.1 on 192.168.1.1</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">import software image into PAN-OS</span>
+<h2><a class="toc-backref" href="#id5">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Import software image into PAN-OS</span>
   <span class="nt">panos_import</span><span class="p">:</span>
-    <span class="nt">ip_address</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">192.168.1.1</span>
-    <span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">admin</span>
-    <span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">admin</span>
-    <span class="nt">file</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/tmp/PanOS_vm-6.1.1</span>
+    <span class="nt">provider</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
     <span class="nt">category</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">software</span>
+    <span class="nt">file</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/tmp/PanOS_vm-10.0.1</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Import certificate</span>
+  <span class="nt">panos_import</span><span class="p">:</span>
+    <span class="nt">provider</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">device</span> <span class="cp">}}</span><span class="s">&#39;</span>
+    <span class="nt">category</span><span class="p">:</span> <span class="s">&#39;certificate&#39;</span>
+    <span class="nt">certificate_name</span><span class="p">:</span> <span class="s">&#39;ISRG</span><span class="nv"> </span><span class="s">Root</span><span class="nv"> </span><span class="s">X1&#39;</span>
+    <span class="nt">format</span><span class="p">:</span> <span class="s">&#39;pem&#39;</span>
+    <span class="nt">filename</span><span class="p">:</span> <span class="s">&#39;/tmp/isrgrootx1.pem&#39;</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Import content</span>
+  <span class="nt">panos_import</span><span class="p">:</span>
+    <span class="nt">provider</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">device</span> <span class="cp">}}</span><span class="s">&#39;</span>
+    <span class="nt">category</span><span class="p">:</span> <span class="s">&#39;content&#39;</span>
+    <span class="nt">filename</span><span class="p">:</span> <span class="s">&#39;/tmp/panupv2-all-contents-8322-6317&#39;</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Import named configuration snapshot</span>
+  <span class="nt">panos_import</span><span class="p">:</span>
+    <span class="nt">provider</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">device</span> <span class="cp">}}</span><span class="s">&#39;</span>
+    <span class="nt">category</span><span class="p">:</span> <span class="s">&#39;configuration&#39;</span>
+    <span class="nt">filename</span><span class="p">:</span> <span class="s">&#39;/tmp/config.xml&#39;</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Import application block page</span>
+  <span class="nt">panos_import</span><span class="p">:</span>
+    <span class="nt">provider</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">device</span> <span class="cp">}}</span><span class="s">&#39;</span>
+    <span class="nt">category</span><span class="p">:</span> <span class="s">&#39;application-block-page&#39;</span>
+    <span class="nt">filename</span><span class="p">:</span> <span class="s">&#39;/tmp/application-block-page.html&#39;</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Import custom logo</span>
+  <span class="nt">panos_import</span><span class="p">:</span>
+    <span class="nt">provider</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">device</span> <span class="cp">}}</span><span class="s">&#39;</span>
+    <span class="nt">category</span><span class="p">:</span> <span class="s">&#39;custom-logo&#39;</span>
+    <span class="nt">custom_logo_location</span><span class="p">:</span> <span class="s">&#39;login-screen&#39;</span>
+    <span class="nt">filename</span><span class="p">:</span> <span class="s">&#39;/tmp/logo.jpg&#39;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="status">
-<h2><a class="toc-backref" href="#id5">Status</a><a class="headerlink" href="#status" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">Status</a><a class="headerlink" href="#status" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Luigi Mori (&#64;jtschichold), Ivan Bojer (&#64;ivanbojer)</p></li>
+<li><p>Luigi Mori (&#64;jtschichold)</p></li>
+<li><p>Ivan Bojer (&#64;ivanbojer)</p></li>
+<li><p>Michael Richardson (&#64;mrichardson03)</p></li>
 </ul>
 </div>
 </div>

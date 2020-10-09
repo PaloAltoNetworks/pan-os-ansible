@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>panos_security_rule_facts – Get information about a security rule. &mdash; Palo Alto Networks Ansible Collection  documentation</title>
+  <title>panos_security_rule_facts – Retrieve information about security rules. &mdash; Palo Alto Networks Ansible Collection  documentation</title>
   
 
   
@@ -93,6 +93,8 @@
 <li class="toctree-l2"><a class="reference internal" href="panos_admpwd.html">panos_admpwd – change admin password of PAN-OS device using SSH with SSH key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_aggregate_interface.html">panos_aggregate_interface – configure aggregate network interfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_api_key.html">panos_api_key – retrieve api_key for username/password combination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_application_filter.html">panos_application_filter – Create application filters on PAN-OS devices.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_application_group.html">panos_application_group – Create application groups on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_application_object.html">panos_application_object – Create application objects on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_bgp.html">panos_bgp – Configures Border Gateway Protocol (BGP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_bgp_aggregate.html">panos_bgp_aggregate – Configures a BGP Aggregation Prefix Policy</a></li>
@@ -113,6 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="panos_custom_url_category.html">panos_custom_url_category – Create custom url category objects on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_dag.html">panos_dag – create a dynamic address group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_dag_tags.html">panos_dag_tags – Create tags for DAG’s on PAN-OS devices.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_dynamic_user_group.html">panos_dynamic_user_group – Create dynamic user groups on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_email_profile.html">panos_email_profile – Manage email server profiles.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_email_server.html">panos_email_server – Manage email servers in an email profile.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_export.html">panos_export – export file from PAN-OS devices</a></li>
@@ -151,12 +154,14 @@
 <li class="toctree-l2"><a class="reference internal" href="panos_pg.html">panos_pg – create a security profiles group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_query_rules.html">panos_query_rules – PANOS module that allows search for security rules in PANW NGFW devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_redistribution.html">panos_redistribution – Configures a Redistribution Profile on a virtual router</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_region.html">panos_region – Create regions on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_registered_ip.html">panos_registered_ip – Register IP addresses for use with dynamic address groups on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_registered_ip_facts.html">panos_registered_ip_facts – Retrieve facts about registered IPs on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_restart.html">panos_restart – Restart a device</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_sag.html">panos_sag – Create a static address group.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_schedule_object.html">panos_schedule_object – Create schedule objects on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_security_rule.html">panos_security_rule – Create security rule policy on PAN-OS devices or Panorama management console.</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">panos_security_rule_facts – Get information about a security rule.</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">panos_security_rule_facts – Retrieve information about security rules.</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a></li>
@@ -243,7 +248,7 @@
         
           <li><a href="../modules.html">Module reference</a> &raquo;</li>
         
-      <li>panos_security_rule_facts – Get information about a security rule.</li>
+      <li>panos_security_rule_facts – Retrieve information about security rules.</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -264,8 +269,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="panos-security-rule-facts-get-information-about-a-security-rule">
-<span id="panos-security-rule-facts-module"></span><h1>panos_security_rule_facts – Get information about a security rule.<a class="headerlink" href="#panos-security-rule-facts-get-information-about-a-security-rule" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="panos-security-rule-facts-retrieve-information-about-security-rules">
+<span id="panos-security-rule-facts-module"></span><h1>panos_security_rule_facts – Retrieve information about security rules.<a class="headerlink" href="#panos-security-rule-facts-retrieve-information-about-security-rules" title="Permalink to this headline">¶</a></h1>
 <div class="contents local topic" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
@@ -279,7 +284,7 @@
 </div>
 <div class="section" id="synopsis">
 <h2><a class="toc-backref" href="#id1">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
-<p>Get information about a single security rule or the names of all security rules.</p>
+<p>Retrieve information about security rules.</p>
 </div>
 <div class="section" id="requirements">
 <h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
@@ -295,7 +300,34 @@
 <div><dl>
 <dt>rule_name (type: str)</dt><dd><p>Name of the security rule.</p>
 </dd>
-<dt>all_details (type: bool)</dt><dd><p>Get full-policy details when name is not set.</p>
+<dt>names (type: list)</dt><dd><p>List of security rule names to return data for.</p>
+</dd>
+<dt>details (type: bool)</dt><dd><p>Retrieve full details instead of just rule names.</p>
+<p>Implied when <em>names</em> is set and not using <em>match_rules</em>.</p>
+</dd>
+<dt>match_rules (type: dict)</dt><dd><p>Returns security rule(s) in the policy that will match the specified traffic using the ‘test security-policy-match’ API command.</p>
+<dl class="simple">
+<dt>source_zone (required, type: str)</dt><dd><p>Source zone</p>
+</dd>
+<dt>source_ip (required, type: str)</dt><dd><p>Source IP address</p>
+</dd>
+<dt>source_user (type: str)</dt><dd><p>Source user</p>
+</dd>
+<dt>destination_zone (required, type: str)</dt><dd><p>Destination zone</p>
+</dd>
+<dt>destination_ip (required, type: str)</dt><dd><p>Destination IP address</p>
+</dd>
+<dt>destination_port (required, type: str)</dt><dd><p>Destination port</p>
+</dd>
+<dt>protocol (required, type: str)</dt><dd><p>IP protocol type</p>
+</dd>
+<dt>application (type: str)</dt><dd><p>Application name</p>
+</dd>
+<dt>category (type: str)</dt><dd><p>URL filtering category</p>
+</dd>
+<dt>show_all (type: bool)</dt><dd><p>Show all potential matches until first allow rule</p>
+</dd>
+</dl>
 </dd>
 <dt>provider (type: dict)</dt><dd><p>A dict object containing connection details.</p>
 <dl class="simple">
@@ -361,91 +393,41 @@
   <span class="nt">register</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sec_rules</span>
 
 <span class="p p-Indicator">-</span> <span class="nt">debug</span><span class="p">:</span>
-    <span class="nt">msg</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">sec_rules.rules</span> <span class="cp">}}</span><span class="s">&#39;</span>
+    <span class="nt">msg</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">sec_rules.rule_names</span> <span class="cp">}}</span><span class="s">&#39;</span>
 
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Get the definition for rule &#39;HTTP Multimedia&#39;</span>
   <span class="nt">panos_security_rule_facts</span><span class="p">:</span>
     <span class="nt">provider</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
-    <span class="nt">rule_name</span><span class="p">:</span> <span class="s">&#39;HTTP</span><span class="nv"> </span><span class="s">Multimedia&#39;</span>
+    <span class="nt">names</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="s">&#39;HTTP</span><span class="nv"> </span><span class="s">Multimedia&#39;</span>
   <span class="nt">register</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">rule1</span>
 
 <span class="p p-Indicator">-</span> <span class="nt">debug</span><span class="p">:</span>
     <span class="nt">msg</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">rule1.spec</span> <span class="cp">}}</span><span class="s">&#39;</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Get rule names matching DNS traffic</span>
+  <span class="nt">panos_security_rule_facts</span><span class="p">:</span>
+    <span class="nt">provider</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
+    <span class="nt">match_rules</span><span class="p">:</span>
+      <span class="nt">source_zone</span><span class="p">:</span> <span class="s">&#39;trust&#39;</span>
+      <span class="nt">source_ip</span><span class="p">:</span> <span class="s">&#39;192.168.1.10&#39;</span>
+      <span class="nt">destination_zone</span><span class="p">:</span> <span class="s">&#39;untrust&#39;</span>
+      <span class="nt">destination_ip</span><span class="p">:</span> <span class="s">&#39;8.8.8.8&#39;</span>
+      <span class="nt">destination_port</span><span class="p">:</span> <span class="s">&#39;53&#39;</span>
+      <span class="nt">protocol</span><span class="p">:</span> <span class="s">&#39;udp&#39;</span>
+  <span class="nt">register</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">dns_rule</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">debug</span><span class="p">:</span>
+    <span class="nt">msg</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">dns_rule.spec</span> <span class="cp">}}</span><span class="s">&#39;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="return-values">
 <h2><a class="toc-backref" href="#id6">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this headline">¶</a></h2>
 <dl>
-<dt>rules (When I(rule_name) is not specified and I(all_details) is False, list, [‘rule1’, ‘rule2’, ‘rule3’])</dt><dd><p>List of security rules present</p>
+<dt>rule_names (When I(details=False), list, [‘rule1’, ‘rule2’, ‘rule3’])</dt><dd><p>List of security rules present, or matching traffic as specified in <em>match_rules</em>.</p>
 </dd>
-<dt>policy (When I(rule_name) is not specified and I(all_details) is True, complex, )</dt><dd><p>List of security rules present with details</p>
-<dl class="simple">
-<dt>rule_name (, str, )</dt><dd><p>Name of the security rule.</p>
-</dd>
-<dt>source_zone (, list, )</dt><dd><p>List of source zones.</p>
-</dd>
-<dt>source_ip (, list, )</dt><dd><p>List of source addresses.</p>
-</dd>
-<dt>source_user (, list, )</dt><dd><p>List of source users.</p>
-</dd>
-<dt>hip_profiles (, list, )</dt><dd><p>GlobalProtect host information profile list.</p>
-</dd>
-<dt>destination_zone (, list, )</dt><dd><p>List of destination zones.</p>
-</dd>
-<dt>destination_ip (, list, )</dt><dd><p>List of destination addresses.</p>
-</dd>
-<dt>application (, list, )</dt><dd><p>List of applications, application groups, and/or application filters.</p>
-</dd>
-<dt>service (, list, )</dt><dd><p>List of services and/or service groups.</p>
-</dd>
-<dt>category (, list, )</dt><dd><p>List of destination URL categories.</p>
-</dd>
-<dt>action (, str, )</dt><dd><p>The rule action.</p>
-</dd>
-<dt>log_setting (, str, )</dt><dd><p>Log forwarding profile.</p>
-</dd>
-<dt>log_start (, bool, )</dt><dd><p>Whether to log at session start.</p>
-</dd>
-<dt>log_end (, bool, )</dt><dd><p>Whether to log at session end.</p>
-</dd>
-<dt>description (, str, )</dt><dd><p>Description of the security rule.</p>
-</dd>
-<dt>rule_type (, str, )</dt><dd><p>Type of security rule (version 6.1 of PanOS and above).</p>
-</dd>
-<dt>tag_name (, list, )</dt><dd><p>List of tags associated with the rule.</p>
-</dd>
-<dt>negate_source (, bool, )</dt><dd><p>Match on the reverse of the ‘source_ip’ attribute</p>
-</dd>
-<dt>negate_destination (, bool, )</dt><dd><p>Match on the reverse of the ‘destination_ip’ attribute</p>
-</dd>
-<dt>disabled (, bool, )</dt><dd><p>Disable this rule.</p>
-</dd>
-<dt>schedule (, str, )</dt><dd><p>Schedule in which this rule is active.</p>
-</dd>
-<dt>icmp_unreachable (, bool, )</dt><dd><p>Send ‘ICMP Unreachable’.</p>
-</dd>
-<dt>disable_server_response_inspection (, bool, )</dt><dd><p>Disables packet inspection from the server to the client.</p>
-</dd>
-<dt>group_profile (, str, )</dt><dd><p>Security profile group setting.</p>
-</dd>
-<dt>antivirus (, str, )</dt><dd><p>Name of the already defined antivirus profile.</p>
-</dd>
-<dt>vulnerability (, str, )</dt><dd><p>Name of the already defined vulnerability profile.</p>
-</dd>
-<dt>spyware (, str, )</dt><dd><p>Name of the already defined spyware profile.</p>
-</dd>
-<dt>url_filtering (, str, )</dt><dd><p>Name of the already defined url_filtering profile.</p>
-</dd>
-<dt>file_blocking (, str, )</dt><dd><p>Name of the already defined file_blocking profile.</p>
-</dd>
-<dt>data_filtering (, str, )</dt><dd><p>Name of the already defined data_filtering profile.</p>
-</dd>
-<dt>wildfire_analysis (, str, )</dt><dd><p>Name of the already defined wildfire_analysis profile.</p>
-</dd>
-</dl>
-</dd>
-<dt>spec (When I(rule_name) is specified, complex, )</dt><dd><p>The security rule definition</p>
+<dt>rule_details (When I(details=True), list, )</dt><dd><p>Full details of requested security rules, or matching traffic as specified in <em>match_rules</em>.</p>
 <dl class="simple">
 <dt>rule_name (, str, )</dt><dd><p>Name of the security rule.</p>
 </dd>
@@ -519,6 +501,7 @@
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Garfield Lee Freeman (&#64;shinmog)</p></li>
+<li><p>Michael Richardson (&#64;mrichardson03)</p></li>
 </ul>
 </div>
 </div>

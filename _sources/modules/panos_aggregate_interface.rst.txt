@@ -93,6 +93,22 @@ Parameters
     Metric for the DHCP default route
 
 
+  lacp_enable (type: bool)
+    Enable LACP on this interface
+
+
+  lacp_passive_pre_negotiation (type: bool)
+    Enable LACP passive pre-negotiation
+
+
+  lacp_rate (type: str)
+    Set LACP transmission rate
+
+
+  lacp_mode (type: str)
+    Set LACP mode
+
+
   zone_name (type: str)
     The zone to put this interface into.
 

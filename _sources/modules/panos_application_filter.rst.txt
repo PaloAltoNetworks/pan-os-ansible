@@ -1,0 +1,239 @@
+.. _panos_application_filter_module:
+
+
+panos_application_filter -- Create application filters on PAN-OS devices.
+=========================================================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+Create application filters on PAN-OS devices.
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
+- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+
+
+
+Parameters
+----------
+
+  name (required, type: str)
+    Name of the object.
+
+
+  category (type: str)
+    Application category
+
+
+  subcategory (type: str)
+    Application subcategory
+
+
+  technology (type: str)
+    Application technology
+
+
+  risk (type: str)
+    Risk (1-5) of the application
+
+
+  evasive (type: bool)
+    If the applications are evasive
+
+
+  excessive_bandwidth_use (type: bool)
+    If the applications use excessive bandwidth
+
+
+  prone_to_misuse (type: bool)
+    If the applications are prone to misuse
+
+
+  is_saas (type: bool)
+    If the applications are SaaS
+
+
+  transfers_files (type: bool)
+    If the applications transfer files
+
+
+  tunnels_other_apps (type: bool)
+    If the applications tunnel other applications
+
+
+  used_by_malware (type: bool)
+    If the applications are used by malware
+
+
+  has_known_vulnerabilities (type: bool)
+    If the applications have known vulnerabilities
+
+
+  pervasive (type: bool)
+    If the applications are used pervasively
+
+
+  tag (type: list)
+    Administrative tags
+
+
+  provider (type: dict)
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  vsys (type: str, default: vsys1)
+    The vsys this object belongs to.
+
+
+  device_group (type: str, default: shared)
+    (Panorama only) The device group the operation should target.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Panorama is supported.
+   - Check mode is supported.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create application filter
+      panos_application_filter:
+        provider: '{{ provider }}'
+        name: 'custom-apps'
+        category: 'business-systems'
+        subcategory: 'auth-service'
+        technology: 'client-server'
+        risk: '1'
+
+    - name: Remove custom application
+      panos_application_filter:
+        provider: '{{ provider }}'
+        name: 'custom-apps'
+        state: 'absent'
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Michael Richardson (@mrichardson03)
+
