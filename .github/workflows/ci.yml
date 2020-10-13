@@ -53,13 +53,6 @@ jobs:
         run: |
           ansible-galaxy collection build
 
-      - name: Store built collection
-        uses: actions/upload-artifact@v2
-        with:
-          name: collection
-          path: |
-            *.tar.gz
-
   release:
     name: release
     if: github.event_name == 'push' && github.ref != 'refs/heads/develop'
@@ -69,11 +62,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Download built collection
-        uses: actions/download-artifact@v2
-        with:
-          name: collection
 
       - name: Set up Galaxy auth
         run: |
@@ -94,6 +82,13 @@ jobs:
             @semantic-release/exec@^5.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Store built collection
+        uses: actions/upload-artifact@v2
+        with:
+          name: collection
+          path: |
+            *.tar.gz
 
   docs:
     name: docs
