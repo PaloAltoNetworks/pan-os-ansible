@@ -85,7 +85,7 @@ try:
     from panos.errors import PanDeviceError
 except ImportError:
     try:
-        from panos.objects import CustomUrlCategory
+        from pandevice.objects import CustomUrlCategory
         from pandevice.errors import PanDeviceError
     except ImportError:
         pass
