@@ -77,3 +77,17 @@
           - result is success
 
   when: ansible_facts['net_version'] is version('9.1', '>=')
+
+- name: test_dynamic_user_group - Module should fail prior to PAN-OS 9.1
+  block:
+    - name: test_panos_dynamic_user_group - Module should fail prior to PAN-OS 9.1
+      panos_dynamic_user_group:
+        provider: '{{ device }}'
+        name: 'Test'
+        description: 'Questionable Users'
+        filter: 'questionable-activity'
+        device_group: '{{ device_group | default(omit) }}'
+      register: result
+      failed_when: result.msg is not search("minimum version")
+
+  when: ansible_facts['net_version'] is version('9.1', '<')
