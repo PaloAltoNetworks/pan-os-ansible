@@ -1,0 +1,29 @@
+---
+- hosts: all
+  connection: local
+
+  vars:
+    device:
+      ip_address: '{{ ip_address }}'
+      username: '{{ username | default(omit) }}'
+      password: '{{ password | default(omit) }}'
+
+  collections:
+    - paloaltonetworks.panos
+
+  tasks:
+    - name: Check to see if device is ready
+      panos_op:
+        provider: '{{ device }}'
+        cmd: 'show chassis-ready'
+      changed_when: false
+      register: result
+      until: result is not failed and (result.stdout | from_json).response.result == 'yes'
+      retries: 5
+      delay: 300
+
+    - name: Save copy of blank config
+      panos_op:
+        provider: '{{ device }}'
+        cmd: '<save><config><to>blank.xml</to></config></save>'
+        cmd_is_xml: True

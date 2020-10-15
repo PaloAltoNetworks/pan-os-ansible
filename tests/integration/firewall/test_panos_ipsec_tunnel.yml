@@ -1,0 +1,94 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: test_panos_ipsec_tunnel - Create tunnel interface
+  panos_tunnel:
+    provider: '{{ device }}'
+    if_name: 'tunnel.1'
+    ip: ['10.1.1.1/30']
+    template: '{{ template | default(omit) }}'
+
+- name: test_panos_ipsec_tunnel - Create IKE gateway
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test-IKE-Gateway'
+    version: 'ikev2'
+    interface: 'ethernet1/1'
+    enable_passive_mode: True
+    enable_liveness_check: True
+    liveness_check_interval: '5'
+    peer_ip_value: '1.2.3.4'
+    pre_shared_key: 'CHANGEME'
+    ikev2_crypto_profile: 'default'
+    template: '{{ template | default(omit) }}'
+
+- name: test_panos_ipsec_tunnel - Create
+  panos_ipsec_tunnel:
+    provider: '{{ device }}'
+    name: 'Test'
+    tunnel_interface: 'tunnel.1'
+    ak_ike_gateway: 'Test-IKE-Gateway'
+    ak_ipsec_crypto_profile: 'default'
+  register: result
+
+- name: test_panos_ipsec_tunnel - Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_ipsec_tunnel - Create (idempotence)
+  panos_ipsec_tunnel:
+    provider: '{{ device }}'
+    name: 'Test'
+    tunnel_interface: 'tunnel.1'
+    ak_ike_gateway: 'Test-IKE-Gateway'
+    ak_ipsec_crypto_profile: 'default'
+  register: result
+
+- name: test_panos_ipsec_tunnel - Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: test_panos_ipsec_tunnel - Modify
+  panos_ipsec_tunnel:
+    provider: '{{ device }}'
+    name: 'Test'
+    tunnel_interface: 'tunnel.1'
+    ak_ike_gateway: 'Test-IKE-Gateway'
+    ak_ipsec_crypto_profile: 'Suite-B-GCM-256'
+    anti_replay: False
+  diff: True
+  register: result
+
+- name: test_panos_ipsec_tunnel - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+      # - result.diff.after is search("<anti-replay>no</anti-replay>")
+
+- name: test_panos_ipsec_tunnel - Delete
+  panos_ipsec_tunnel:
+    provider: '{{ device }}'
+    name: 'Test'
+    state: 'absent'
+  register: result
+
+- name: test_panos_ipsec_tunnel - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_ipsec_tunnel - Make sure changes commit cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_ipsec_tunnel - Assert commit was successful
+  assert:
+    that:
+      - result is success

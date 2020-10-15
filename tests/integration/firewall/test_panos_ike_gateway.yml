@@ -1,0 +1,121 @@
+---
+- include_tasks: 'reset.yml'
+
+- name: test_panos_ike_gateway - Create
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test'
+    version: 'ikev2'
+    interface: 'ethernet1/1'
+    enable_passive_mode: True
+    enable_liveness_check: True
+    liveness_check_interval: '5'
+    peer_ip_value: '1.2.3.4'
+    pre_shared_key: 'CHANGEME'
+    ikev2_crypto_profile: 'default'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_ike_gateway - Assert create was successful
+  assert:
+    that:
+      - result is changed
+      - result is success
+
+- name: test_panos_ike_gateway - Create (idempotence)
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test'
+    version: 'ikev2'
+    interface: 'ethernet1/1'
+    enable_passive_mode: True
+    enable_liveness_check: True
+    liveness_check_interval: '5'
+    peer_ip_value: '1.2.3.4'
+    pre_shared_key: 'CHANGEME'
+    ikev2_crypto_profile: 'default'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_ike_gateway - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is not changed
+      - result is success
+
+- name: test_panos_ike_gateway - Modify
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test'
+    version: 'ikev2'
+    interface: 'ethernet1/2'
+    enable_passive_mode: True
+    enable_liveness_check: True
+    liveness_check_interval: '5'
+    peer_ip_value: '1.2.3.4'
+    pre_shared_key: 'CHANGEME'
+    ikev2_crypto_profile: 'default'
+    template: '{{ template | default(omit) }}'
+  diff: yes
+  register: result
+
+- name: test_panos_ike_gateway - Assert modify was successful
+  assert:
+    that:
+      - result is changed
+      - result is success
+      - result.diff.after is search("<interface>ethernet1/2</interface>")
+
+- name: test_panos_ike_gateway - Delete
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test'
+    state: 'absent'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_ike_gateway - Assert delete was successful
+  assert:
+    that:
+      - result is changed
+      - result is success
+
+- name: test_panos_ike_gateway - No ikev1_crypto_profile if ikev2
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test'
+    version: 'ikev2'
+    ikev1_crypto_profile: 'ikev1'
+    template: '{{ template | default(omit) }}'
+  diff: yes
+  register: result
+
+- name: test_panos_ike_gateway - Assert no ikev1_crypto_profile if ikev2
+  assert:
+    that:
+      - result.diff.after is not search("<ike-crypto-profile>ikev1</ike-crypto-profile")
+
+- name: test_panos_ike_gateway - No ikev2_crypto_profile if ikev1
+  panos_ike_gateway:
+    provider: '{{ device }}'
+    name: 'Test'
+    version: 'ikev1'
+    ikev2_crypto_profile: 'ikev2'
+    template: '{{ template | default(omit) }}'
+  diff: yes
+  register: result
+
+- name: test_panos_ike_gateway - Assert no ikev2_crypto_profile if ikev1
+  assert:
+    that:
+      - result.diff.after is not search("<ike-crypto-profile>ikev2/ike-crypto-profile")
+
+- name: test_panos_ike_gateway - Make sure changes commit cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_ike_gateway - Assert commit was successful
+  assert:
+    that:
+      - result is success

@@ -1,0 +1,77 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: test_panos_registered_ip - Register
+  panos_registered_ip:
+    provider: '{{ device }}'
+    ips: '192.168.1.1'
+    tags: ['first_tag']
+  register: result
+
+- name: test_panos_registered_ip - Assert register was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+      - result.ansible_module_results['192.168.1.1'] | list == ['first_tag']
+
+- name: test_panos_registered_ip - Register (idempotence)
+  panos_registered_ip:
+    provider: '{{ device }}'
+    ips: '192.168.1.1'
+    tags: ['first_tag']
+  register: result
+
+- name: test_panos_registered_ip - Assert register (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+      - result.ansible_module_results['192.168.1.1'] | list == ['first_tag']
+
+- name: test_panos_registered_ip - Modify
+  panos_registered_ip:
+    provider: '{{ device }}'
+    ips: '192.168.1.1'
+    tags: ['first_tag', 'second_tag']
+  register: result
+
+- name: test_panos_registered_ip - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+      - result.ansible_module_results['192.168.1.1'] | list == ['first_tag', 'second_tag']
+
+- name: test_panos_registered_ip - Remove tag
+  panos_registered_ip:
+    provider: '{{ device }}'
+    ips: '192.168.1.1'
+    tags: ['second_tag']
+    state: 'absent'
+  register: result
+
+- name: test_panos_registered_ip - Assert remove tag was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+      - result.ansible_module_results['192.168.1.1'] | list == ['first_tag']
+
+- name: test_panos_registered_ip - Remove last tag
+  panos_registered_ip:
+    provider: '{{ device }}'
+    ips: '192.168.1.1'
+    tags: ['first_tag']
+    state: 'absent'
+  register: result
+
+- debug:
+    msg: '{{ result }}'
+
+- name: test_panos_registered_ip - Assert remove last tag was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+      - "'192.168.1.1' not in result.ansible_module_results"

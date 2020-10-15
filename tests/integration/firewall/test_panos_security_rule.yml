@@ -1,0 +1,169 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: test_panos_security_rule - Create
+  panos_security_rule:
+    provider: '{{ device }}'
+    rule_name: 'Test'
+    description: 'Test description'
+    source_zone: ['trust']
+    source_ip: ['any']
+    destination_zone: ['untrust']
+    destination_ip: ['1.1.1.1']
+    application: ['ssh']
+    action: 'allow'
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_security_rule - Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_security_rule - Create (idempotence)
+  panos_security_rule:
+    provider: '{{ device }}'
+    rule_name: 'Test'
+    description: 'Test description'
+    source_zone: ['trust']
+    source_ip: ['any']
+    destination_zone: ['untrust']
+    destination_ip: ['1.1.1.1']
+    application: ['ssh']
+    action: 'allow'
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_security_rule - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: test_panos_security_rule - Modify
+  panos_security_rule:
+    provider: '{{ device }}'
+    rule_name: 'Test'
+    description: 'Test description'
+    source_zone: ['trust']
+    source_ip: ['any']
+    destination_zone: ['untrust']
+    destination_ip: ['1.1.1.1', '2.2.2.2']
+    application: ['ssh']
+    action: 'allow'
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_security_rule - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_security_rule - Delete
+  panos_security_rule:
+    provider: '{{ device }}'
+    rule_name: 'Test'
+    state: 'absent'
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_security_rule - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_security_rule - Test rule ordering (1)
+  panos_security_rule:
+    provider: '{{ device }}'
+    rule_name: 'Three'
+    description: 'Test description'
+    source_zone: ['trust']
+    source_ip: ['any']
+    destination_zone: ['untrust']
+    destination_ip: ['3.3.3.3']
+    application: ['ssh']
+    action: 'allow'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_security_rule - Test rule ordering (2)
+  panos_security_rule:
+    provider: '{{ device }}'
+    rule_name: 'Two'
+    description: 'Test description'
+    source_zone: ['trust']
+    source_ip: ['any']
+    destination_zone: ['untrust']
+    destination_ip: ['2.2.2.2']
+    application: ['ssh']
+    action: 'allow'
+    location: 'top'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_security_rule  - Test rule ordering (3)
+  panos_security_rule:
+    provider: '{{ device }}'
+    rule_name: 'One'
+    description: 'Test description'
+    source_zone: ['trust']
+    source_ip: ['any']
+    destination_zone: ['untrust']
+    destination_ip: ['1.1.1.1']
+    application: ['ssh']
+    action: 'allow'
+    location: 'before'
+    existing_rule: 'Two'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_security_rule - Test rule ordering (4)
+  panos_security_rule:
+    provider: '{{ device }}'
+    rule_name: 'Four'
+    description: 'Test description'
+    source_zone: ['trust']
+    source_ip: ['any']
+    destination_zone: ['untrust']
+    destination_ip: ['4.4.4.4']
+    application: ['ssh']
+    action: 'allow'
+    location: 'bottom'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_security_rule  - Test rule ordering (5)
+  panos_security_rule:
+    provider: '{{ device }}'
+    rule_name: 'Five'
+    description: 'Test description'
+    source_zone: ['trust']
+    source_ip: ['any']
+    destination_zone: ['untrust']
+    destination_ip: ['5.5.5.5']
+    application: ['ssh']
+    action: 'allow'
+    location: 'after'
+    existing_rule: 'Four'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_security_rule - Retrieve rulebase facts
+  panos_security_rule_facts:
+    provider: '{{ device }}'
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_security_rule - Assert rule ordering matches expected
+  assert:
+    that:
+      - result is success
+      - result.rule_names == ['One', 'Two', 'Three', 'Four', 'Five']
+
+- name: test_panos_security_rule - Make sure changes commit cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_security_rule - Assert commit was successful
+  assert:
+    that:
+      - result is success

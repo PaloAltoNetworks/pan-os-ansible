@@ -1,0 +1,64 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: test_panos_virtual_router - Create
+  panos_virtual_router:
+    provider: '{{ device }}'
+    name: 'Test'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_virtual_router - Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_virtual_router - Create (idempotence)
+  panos_virtual_router:
+    provider: '{{ device }}'
+    name: 'Test'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_virtual_router - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: test_panos_virtual_router - Modify
+  panos_virtual_router:
+    provider: '{{ device }}'
+    name: 'Test'
+    ad_static: '20'
+  register: result
+
+- name: test_panos_virtual_router - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_virtual_router - Delete
+  panos_virtual_router:
+    provider: '{{ device }}'
+    name: 'Test'
+    state: 'absent'
+  register: result
+
+- name: test_panos_virtual_router - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_virtual_router - Make sure config commits cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_virtual_router - Assert commit was successful
+  assert:
+    that:
+      - result is success

@@ -112,9 +112,6 @@ def main():
         device_group=True,
         with_classic_provider_spec=True,
         with_state=True,
-        required_one_of=[
-            ['static_value', 'dynamic_value'],
-        ],
         argument_spec=dict(
             name=dict(type='str', required=True),
             static_value=dict(type='list', elements='str'),

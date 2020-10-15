@@ -1,0 +1,98 @@
+---
+- include_tasks: 'reset.yml'
+
+- name: test_panos_ipsec_profile - Create
+  panos_ipsec_profile:
+    provider: '{{ device }}'
+    name: 'Test'
+    esp_authentication: ['sha1']
+    esp_encryption: ['aes-128-cbc']
+    lifetime_seconds: '3600'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_ipsec_profile - Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_ipsec_profile - Create (idempotence)
+  panos_ipsec_profile:
+    provider: '{{ device }}'
+    name: 'Test'
+    esp_authentication: ['sha1']
+    esp_encryption: ['aes-128-cbc']
+    lifetime_seconds: '3600'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_ipsec_profile - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: test_panos_ipsec_profile - Modify
+  panos_ipsec_profile:
+    provider: '{{ device }}'
+    name: 'Test'
+    esp_authentication: ['sha1']
+    esp_encryption: ['aes-128-cbc']
+    lifetime_hours: '24'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_ipsec_profile - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_ipsec_profile -  Deletee
+  panos_ipsec_profile:
+    provider: '{{ device }}'
+    name: 'Test'
+    state: 'absent'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_ipsec_profile - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_ipsec_profile - Default key lifetime
+  panos_ipsec_profile:
+    provider: '{{ device }}'
+    name: 'Test'
+    template: '{{ template | default(omit) }}'
+  diff: yes
+  register: result
+
+- name: test_panos_ipsec_profilile - Assert default key lifetime
+  assert:
+    that:
+      - result is success
+      - result is changed
+      - result.diff.after is search("<hours>1</hours>")
+
+- name: test_panos_ipsec_profile - Assert default encryption
+  assert:
+    that:
+      - result is success
+      - result is changed
+      - result.diff.after is search("<member>aes-256-cbc</member>")
+      - result.diff.after is search("<member>3des</member>")
+      - result.diff.after is search("<member>sha1</member>")
+
+- name: test_panos_ipsec_profile - Make sure changes commit cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_ipsec_profile - Assert commit was successful
+  assert:
+    that:
+      - result is success

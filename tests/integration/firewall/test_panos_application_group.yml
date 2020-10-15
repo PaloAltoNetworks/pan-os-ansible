@@ -1,0 +1,82 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: test_panos_application_group - Create
+  panos_application_group:
+    provider: '{{ device }}'
+    name: 'Test'
+    value:
+        - ms-update
+        - apple-update
+        - adobe-update
+        - google-update
+        - ms-product-activation
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_application_group - Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_application_group - Create (idempotence)
+  panos_application_group:
+    provider: '{{ device }}'
+    name: 'Test'
+    value:
+        - ms-update
+        - apple-update
+        - adobe-update
+        - google-update
+        - ms-product-activation
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_application_group - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: test_panos_application_group - Modify
+  panos_application_group:
+    provider: '{{ device }}'
+    name: 'Test'
+    value:
+        - ms-update
+        - apple-update
+        - adobe-update
+        - google-update
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_application_group - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_application_group - Delete
+  panos_application_group:
+    provider: '{{ device }}'
+    name: 'Test'
+    state: 'absent'
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_application_group - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_application_group - Make sure changes commit cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_application_group - Assert commit was successful
+  assert:
+    that:
+      - result is success

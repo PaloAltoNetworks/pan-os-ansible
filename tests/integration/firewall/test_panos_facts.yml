@@ -1,0 +1,10 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: test_panos_facts - Gather facts from device
+  panos_facts:
+    provider: '{{ device }}'
+    gather_subset: ['all']
+
+- debug:
+    msg: '{{ ansible_facts }}'
