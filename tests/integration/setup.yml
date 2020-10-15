@@ -19,8 +19,8 @@
       changed_when: false
       register: result
       until: result is not failed and (result.stdout | from_json).response.result == 'yes'
-      retries: 50
-      delay: 30
+      retries: 5
+      delay: 300
 
     - name: Save copy of blank config
       panos_op:
