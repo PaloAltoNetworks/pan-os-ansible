@@ -50,7 +50,7 @@ options:
         elements: str
     type:
         description:
-            - Custom category type
+            - Custom category type (currently unused)
         type: str
         choices: ['URL List', 'Category Match']
         default: 'URL List'
@@ -64,7 +64,6 @@ EXAMPLES = '''
     url_value:
         - microsoft.com
         - redhat.com
-    type: "URL List"
 
 - name: Remove Custom Url Category 'Internet Access List'
   panos_tag_object:
@@ -116,11 +115,11 @@ def main():
     )
 
     parent = helper.get_pandevice_parent(module)
+    device = parent.nearest_pandevice()
 
     spec = {
         'name': module.params['name'],
         'url_value': module.params['url_value'],
-        'type': module.params['type']
     }
 
     try:

@@ -1,6 +1,10 @@
 ---
 - include_tasks: 'reset.yml'
 
+- name: test_panos_custom_url_category - Gather PAN-OS facts
+  panos_facts:
+    provider: '{{ device }}'
+
 - name: test_panos_custom_url_category - Create
   panos_custom_url_category:
     provider: '{{ device }}'
