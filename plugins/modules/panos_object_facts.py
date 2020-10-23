@@ -70,7 +70,7 @@ options:
         description:
             - Type of object to retrieve.
         type: str
-        choices: ['address', 'address-group', 'service', 'service-group', 'tag']
+        choices: ['address', 'address-group', 'application', 'application-group', 'service', 'service-group', 'tag']
         default: 'address'
 '''
 
@@ -205,7 +205,7 @@ def main():
             field_search_type=dict(choices=['exact', 'regex'], default='exact'),
             field_search_value=dict(),
             object_type=dict(default='address', choices=[
-                'address', 'address-group', 'service', 'service-group', 'tag'
+                'address', 'address-group', 'application', 'application-group', 'service', 'service-group', 'tag'
             ])
         )
     )
@@ -222,6 +222,8 @@ def main():
     obj_types = {
         'address': objects.AddressObject,
         'address-group': objects.AddressGroup,
+        'application': objects.ApplicationObject,
+        'application-group': objects.ApplicationGroup,
         'service': objects.ServiceObject,
         'service-group': objects.ServiceGroup,
         'tag': objects.Tag,
