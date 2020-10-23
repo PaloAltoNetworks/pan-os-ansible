@@ -178,8 +178,6 @@ def main():
                 if restart:
                     device.restart()
 
-
-
     except PanDeviceError as e:
         module.fail_json(msg=e.message)
 
