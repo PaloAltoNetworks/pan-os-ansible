@@ -122,6 +122,9 @@ def main():
         'url_value': module.params['url_value'],
     }
 
+    if device.get_device_version() >= (9, 0, 0):
+        spec.update({'type': module.params['type']})
+
     try:
         listing = CustomUrlCategory.refreshall(parent, add=False)
     except PanDeviceError as e:
