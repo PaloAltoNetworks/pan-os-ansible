@@ -16,6 +16,7 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
 DOCUMENTATION = '''
@@ -152,9 +153,24 @@ def main():
 
         if PanOSVersion(version) != PanOSVersion(device.version):
 
+            changed = True
+
             if not module.check_mode:
                 if download:
-                    device.software.download(version, sync_to_peer=sync_to_peer, sync=True)
+                    cmd_string = 'request system software info'
+
+                    try:
+                        response = device.op(cmd=cmd_string)
+                        downloaded = response.findtext('./result/sw-updates/versions/entry/version[.="{0}"]/../'
+                                                       'downloaded'.format(version))
+
+                        if downloaded != 'yes':
+                            device.software.download(version, sync_to_peer=sync_to_peer, sync=True)
+                        else:
+                            changed = False
+
+                    except PanDeviceError as e:
+                        module.fail_json(msg='Failed "{0}": {1}'.format(cmd_string, e))
 
                 if install:
                     device.software.install(version, sync=True)
@@ -162,7 +178,7 @@ def main():
                 if restart:
                     device.restart()
 
-            changed = True
+
 
     except PanDeviceError as e:
         module.fail_json(msg=e.message)
