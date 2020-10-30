@@ -38,7 +38,7 @@ Parameters
 
 
   type (type: str, default: URL List)
-    Custom category type
+    Custom category type (currently unused)
 
 
   provider (type: dict)
@@ -159,7 +159,6 @@ Examples
         url_value:
             - microsoft.com
             - redhat.com
-        type: "URL List"
 
     - name: Remove Custom Url Category 'Internet Access List'
       panos_tag_object:
