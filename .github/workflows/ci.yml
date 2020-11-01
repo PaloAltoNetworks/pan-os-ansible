@@ -52,6 +52,18 @@ jobs:
       - name: Build collection
         run: |
           ansible-galaxy collection build
+          
+  automerge:
+    name: auto-merge
+    needs: [sanity, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto-merge pull requests from dependabot (patches only)
+        uses: ridedott/merge-me-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_LOGIN: dependabot[bot]
+          PRESET: DEPENDABOT_PATCH
 
   release:
     name: release
