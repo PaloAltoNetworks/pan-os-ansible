@@ -1,8 +1,8 @@
 .. _panos_match_rule_module:
 
 
-panos_match_rule -- Test for match against a security rule on PAN-OS devices or Panorama management console.
-============================================================================================================
+panos_match_rule -- Test for match against a security rule on PAN-OS devices.
+=============================================================================
 
 .. contents::
    :local:
