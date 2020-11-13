@@ -21,7 +21,7 @@ __metaclass__ = type
 DOCUMENTATION = '''
 ---
 module: panos_match_rule
-short_description: Test for match against a security rule on PAN-OS devices or Panorama management console.
+short_description: Test for match against a security rule on PAN-OS devices.
 description:
     - Security policies allow you to enforce rules and take action, and can be as general or specific as needed.
 author: "Robert Hagen (@stealthllama)"
