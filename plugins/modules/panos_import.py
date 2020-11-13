@@ -187,7 +187,7 @@ def import_file(module, xapi, filename, params):
         'key': xapi.api_key
     })
 
-    url = 'https://{0}/api'.format(xapi.hostname)
+    url = 'https://{0}:{1}/api'.format(xapi.hostname, xapi.port)
     files = {'file': open(filename, 'rb')}
 
     r = requests.post(url, params=params, files=files, verify=False)
