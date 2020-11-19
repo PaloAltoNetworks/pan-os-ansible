@@ -1,0 +1,88 @@
+---
+- include_tasks: 'reset.yml'
+
+- name: test_panos_custom_url_category - Gather PAN-OS facts
+  panos_facts:
+    provider: '{{ device }}'
+
+- name: test_panos_custom_url_category - Create
+  panos_custom_url_category:
+    provider: '{{ device }}'
+    name: 'Internet Access List'
+    url_value:
+        - microsoft.com
+    type: 'URL List'
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_custom_url_category - Assert create was successful
+  assert:
+    that:
+      - result is changed
+      - result is success
+
+- name: test_panos_custom_url_category - Create (idempotence)
+  panos_custom_url_category:
+    provider: '{{ device }}'
+    name: 'Internet Access List'
+    url_value:
+        - microsoft.com
+    type: 'URL List'
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_custom_url_category - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is not changed
+      - result is success
+
+- name: test_panos_custom_url_category - Modify
+  panos_custom_url_category:
+    provider: '{{ device }}'
+    name: 'Internet Access List'
+    url_value:
+        - microsoft.com
+        - redhat.com
+    type: 'URL List'
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_custom_url_category - Assert modify was successful
+  assert:
+    that:
+      - result is changed
+      - result is success
+
+- name: test_panos_custom_url_category - Delete
+  panos_custom_url_category:
+    provider: '{{ device }}'
+    name: 'Internet Access List'
+    device_group: '{{ device_group | default(omit) }}'
+    state: 'absent'
+  register: result
+
+- name: test_panos_custom_url_category - Assert delete was successful
+  assert:
+    that:
+      - result is changed
+      - result is success
+
+- name: test_panos_custom_url_category - Have to provide 'url_value'
+  panos_custom_url_category:
+    provider: '{{ device }}'
+    name: 'Test'
+    state: 'present'
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+  failed_when: result.msg is not search("url_value")
+
+- name: test_panos_custom_url_category - Make sure changes commit cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_custom_url_category - Assert commit was successful
+  assert:
+    that:
+      - result is success

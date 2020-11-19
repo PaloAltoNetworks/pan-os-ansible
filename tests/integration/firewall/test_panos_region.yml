@@ -1,0 +1,102 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: test_panos_region - Gather PAN-OS facts
+  panos_facts:
+    provider: '{{ device }}'
+
+- name: test_panos_region - Only run on PAN-OS 9.1 and later
+  block:
+    - name: test_panos_region - Create
+      panos_region:
+        provider: '{{ device }}'
+        name: 'Palo-Alto-Networks'
+        address:
+            - '192.168.0.0/16'
+        latitude: 37.383415
+        longitude: -121.982882
+        device_group: '{{ device_group | default(omit) }}'
+      register: result
+
+    - name: test_panos_region - Assert create was successful
+      assert:
+        that:
+          - result is success
+          - result is changed
+
+    - name: test_panos_region - Create (idempotence)
+      panos_region:
+        provider: '{{ device }}'
+        name: 'Palo-Alto-Networks'
+        address:
+            - '192.168.0.0/16'
+        latitude: 37.383415
+        longitude: -121.982882
+        device_group: '{{ device_group | default(omit) }}'
+      register: result
+
+    - name: test_panos_region - Assert create (idempotence) was successful
+      assert:
+        that:
+          - result is success
+          - result is not changed
+
+    - name: test_panos_region - Modify
+      panos_region:
+        provider: '{{ device }}'
+        name: 'Palo-Alto-Networks'
+        address:
+            - '192.168.0.0/16'
+            - '10.0.0.0/8'
+        latitude: 37.383415
+        longitude: -121.982882
+        device_group: '{{ device_group | default(omit) }}'
+      register: result
+
+    - name: test_panos_region - Assert modify was successful
+      assert:
+        that:
+          - result is success
+          - result is changed
+
+    - name: test_panos_region - Delete
+      panos_region:
+        provider: '{{ device }}'
+        name: 'Palo-Alto-Networks'
+        state: 'absent'
+        device_group: '{{ device_group | default(omit) }}'
+      register: result
+
+    - name: test_panos_region - Assert delete was successful
+      assert:
+        that:
+          - result is success
+          - result is changed
+
+    - name: test_panos_region - Make sure changes commit cleanly
+      panos_commit:
+        provider: '{{ device }}'
+      register: result
+
+    - name: test_panos_region - Assert commit was successful
+      assert:
+        that:
+          - result is success
+
+  when: ansible_facts['net_version'] is version('9.1', '>=')
+
+- name: test_panos_region - Module should fail prior to PAN-OS 9.1
+  block:
+    - name: test_panos_region - Module should fail prior to PAN-OS 9.1
+      panos_region:
+        provider: '{{ device }}'
+        name: 'Palo-Alto-Networks'
+        address:
+            - '192.168.0.0/16'
+        latitude: 37.383415
+        longitude: -121.982882
+        device_group: '{{ device_group | default(omit) }}'
+      register: result
+      failed_when: result.msg is not search("minimum version")
+
+  when: ansible_facts['net_version'] is version('9.1', '<')

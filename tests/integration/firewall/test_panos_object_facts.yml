@@ -1,0 +1,215 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: test_panos_object_facts - Create address object
+  panos_address_object:
+    provider: '{{ device }}'
+    name: 'Test-Address-Object'
+    value: '1.1.1.1'
+    description: 'Description One'
+    device_group: '{{ device_group | default(omit) }}'
+  register: create
+
+- name: test_panos_object_facts - Retrieve address object
+  panos_object_facts:
+    provider: '{{ device }}'
+    name: 'Test-Address-Object'
+    object_type: 'address'
+    device_group: '{{ device_group | default(omit) }}'
+  register: retrieve
+
+- assert:
+    that:
+      - retrieve is success
+      - retrieve is not changed
+      - retrieve.objects[0].name == 'Test-Address-Object'
+
+- name: test_panos_object_facts - Create address group
+  panos_address_group:
+    provider: '{{ device }}'
+    name: 'Test-Address-Group'
+    static_value: ['Test-Address-Object']
+    device_group: '{{ device_group | default(omit) }}'
+  register: create
+
+- name: test_panos_object_facts - Retrieve address group
+  panos_object_facts:
+    provider: '{{ device }}'
+    name: 'Test-Address-Group'
+    object_type: 'address-group'
+    device_group: '{{ device_group | default(omit) }}'
+  register: retrieve
+
+- assert:
+    that:
+      - retrieve is success
+      - retrieve is not changed
+      - retrieve.objects[0].name == 'Test-Address-Group'
+
+- name: test_panos_object_facts - Create application
+  panos_application_object:
+    provider: '{{ device }}'
+    name: 'Test-Application'
+    category: 'business-systems'
+    subcategory: 'auth-service'
+    technology: 'client-server'
+    risk: '1'
+    device_group: '{{ device_group | default(omit) }}'
+  register: create
+
+- name: test_panos_object_facts - Retrieve application
+  panos_object_facts:
+    provider: '{{ device }}'
+    name: 'Test-Application'
+    object_type: 'application'
+    device_group: '{{ device_group | default(omit) }}'
+  register: retrieve
+
+- assert:
+    that:
+      - retrieve is success
+      - retrieve is not changed
+      - retrieve.objects[0].name == 'Test-Application'
+
+- name: test_panos_object_facts - Create application group
+  panos_application_group:
+    provider: '{{ device }}'
+    name: 'Test-Application-Group'
+    value:
+        - ms-update
+    device_group: '{{ device_group | default(omit) }}'
+  register: create
+
+- name: test_panos_object_facts - Retrieve application group
+  panos_object_facts:
+    provider: '{{ device }}'
+    name: 'Test-Application-Group'
+    object_type: 'application-group'
+    device_group: '{{ device_group | default(omit) }}'
+  register: retrieve
+
+- assert:
+    that:
+      - retrieve is success
+      - retrieve is not changed
+      - retrieve.objects[0].name == 'Test-Application-Group'
+
+- name: test_panos_object_facts - Create service object
+  panos_service_object:
+    provider: '{{ device }}'
+    name: 'Test-Service'
+    destination_port: '22'
+    description: 'SSH on tcp/22'
+    device_group: '{{ device_group | default(omit) }}'
+  register: create
+
+- name: test_panos_object_facts - Retrieve service object
+  panos_object_facts:
+    provider: '{{ device }}'
+    name: 'Test-Service'
+    object_type: 'service'
+    device_group: '{{ device_group | default(omit) }}'
+  register: retrieve
+
+- assert:
+    that:
+      - retrieve is success
+      - retrieve is not changed
+      - retrieve.objects[0].name == 'Test-Service'
+
+- name: test_panos_object_facts - Create service group
+  panos_service_group:
+    provider: '{{ device }}'
+    name: 'Test-Service-Group'
+    value: ['Test-Service']
+    device_group: '{{ device_group | default(omit) }}'
+  register: create
+
+- name: test_panos_object_facts - Retrieve service group
+  panos_object_facts:
+    provider: '{{ device }}'
+    name: 'Test-Service-Group'
+    object_type: 'service-group'
+    device_group: '{{ device_group | default(omit) }}'
+  register: retrieve
+
+- assert:
+    that:
+      - retrieve is success
+      - retrieve is not changed
+      - retrieve.objects[0].name == 'Test-Service-Group'
+
+- name: test_panos_object_facts - Create tag object
+  panos_tag_object:
+    provider: '{{ device }}'
+    name: 'Test-Tag'
+    color: 'red'
+    device_group: '{{ device_group | default(omit) }}'
+  register: create
+
+- name: test_panos_object_facts - Retrieve tag
+  panos_object_facts:
+    provider: '{{ device }}'
+    name: 'Test-Tag'
+    object_type: 'tag'
+    device_group: '{{ device_group | default(omit) }}'
+  register: retrieve
+
+- assert:
+    that:
+      - retrieve is success
+      - retrieve is not changed
+      - retrieve.objects[0].name == 'Test-Tag'
+
+- name: test_panos_object_facts - Retrieve object that doesn't exist
+  panos_object_facts:
+    provider: '{{ device }}'
+    name: 'Nope'
+    object_type: 'address'
+    device_group: '{{ device_group | default(omit) }}'
+  register: retrieve
+
+- assert:
+    that:
+      - retrieve is success
+      - retrieve is not changed
+      - retrieve.objects == []
+
+- name: test_panos_object_facts - Create second address object
+  panos_address_object:
+    provider: '{{ device }}'
+    name: 'Test-Address-Object-2'
+    value: '2.2.2.2'
+    description: 'Description Two'
+    device_group: '{{ device_group | default(omit) }}'
+  register: create
+
+- name: test_panos_object_facts - Retrieve address objects by regex
+  panos_object_facts:
+    provider: '{{ device }}'
+    name_regex: 'Test-*'
+    object_type: 'address'
+    device_group: '{{ device_group | default(omit) }}'
+  register: retrieve
+
+- assert:
+    that:
+      - retrieve is success
+      - retrieve is not changed
+      - retrieve.objects[0].name == 'Test-Address-Object'
+      - retrieve.objects[1].name == 'Test-Address-Object-2'
+
+- name: test_panos_object_facts - Retrieve address objects by field
+  panos_object_facts:
+    provider: '{{ device }}'
+    object_type: 'address'
+    field: 'value'
+    field_search_type: 'exact'
+    field_search_value: '1.1.1.1'
+  register: retrieve
+
+- assert:
+    that:
+      - retrieve is success
+      - retrieve is not changed
+      - retrieve.objects[0].name == 'Test-Address-Object'

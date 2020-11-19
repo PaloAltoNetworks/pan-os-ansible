@@ -16,6 +16,7 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
 DOCUMENTATION = '''
@@ -114,6 +115,22 @@ except ImportError:
         pass
 
 
+def check_download(device, version):
+    cmd = 'request system software info'
+    response = device.op(cmd=cmd)
+
+    for entry in response.findall('./result/sw-updates/versions/entry'):
+        if version == entry.findtext('version'):
+            downloaded = entry.findtext('downloaded')
+
+            if downloaded == 'yes':
+                return True
+            else:
+                return False
+
+    return None
+
+
 def main():
     helper = get_connection(
         with_classic_provider_spec=True,
@@ -152,17 +169,25 @@ def main():
 
         if PanOSVersion(version) != PanOSVersion(device.version):
 
-            if not module.check_mode:
-                if download:
-                    device.software.download(version, sync_to_peer=sync_to_peer, sync=True)
+            if download:
+                downloaded = check_download(device, version)
 
-                if install:
+                # Only perform download if actually required.
+                if not downloaded:
+                    if not module.check_mode:
+                        device.software.download(version, sync_to_peer=sync_to_peer, sync=True)
+
+                    changed = True
+
+            if install:
+                if not module.check_mode:
                     device.software.install(version, sync=True)
+                changed = True
 
-                if restart:
+            if restart:
+                if not module.check_mode:
                     device.restart()
-
-            changed = True
+                changed = True
 
     except PanDeviceError as e:
         module.fail_json(msg=e.message)

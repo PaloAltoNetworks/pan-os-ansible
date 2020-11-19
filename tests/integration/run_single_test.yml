@@ -1,0 +1,35 @@
+---
+- hosts: firewalls
+  connection: local
+
+  vars:
+    device:
+      ip_address: '{{ ip_address }}'
+      username: '{{ username | default(omit) }}'
+      password: '{{ password | default(omit) }}'
+
+    blank_config: blank.xml
+
+  collections:
+    - paloaltonetworks.panos
+
+  tasks:
+    - name: Run test
+      include_tasks:
+        file: 'firewall/{{ test }}.yml'
+
+- hosts: panoramas
+  connection: local
+
+  vars:
+    device:
+      ip_address: '{{ ip_address }}'
+      username: '{{ username | default(omit) }}'
+      password: '{{ password | default(omit) }}'
+
+    blank_config: blank.xml
+
+  tasks:
+    - name: Run test
+      include_tasks:
+        file: 'panorama/{{ test }}.yml'

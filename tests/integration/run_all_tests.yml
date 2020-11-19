@@ -1,0 +1,40 @@
+---
+- hosts: firewalls
+  connection: local
+
+  vars:
+    device:
+      ip_address: '{{ ip_address }}'
+      username: '{{ username | default(omit) }}'
+      password: '{{ password | default(omit) }}'
+
+    blank_config: blank.xml
+
+  collections:
+    - paloaltonetworks.panos
+
+  tasks:
+    - name: Run test
+      include_tasks:
+        file: '{{ item }}'
+      loop: "{{ query('fileglob', 'firewall/*') | sort }}"
+
+- hosts: panoramas
+  connection: local
+
+  vars:
+    device:
+      ip_address: '{{ ip_address }}'
+      username: '{{ username | default(omit) }}'
+      password: '{{ password | default(omit) }}'
+
+    blank_config: blank.xml
+
+  collections:
+    - paloaltonetworks.panos
+
+  tasks:
+    - name: Run test
+      include_tasks:
+        file: '{{ item }}'
+      loop: "{{ query('fileglob', 'panorama/*') | sort }}"

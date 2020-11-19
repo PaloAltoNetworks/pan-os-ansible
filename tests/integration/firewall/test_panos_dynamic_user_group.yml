@@ -1,0 +1,93 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: test_panos_dynamic_user_group - Gather PAN-OS facts
+  panos_facts:
+    provider: '{{ device }}'
+
+- name: test_panos_dynamic_user_group - Only run on PAN-OS 9.1 and later
+  block:
+    - name: test_panos_dynamic_user_group - Create
+      panos_dynamic_user_group:
+        provider: '{{ device }}'
+        name: 'Test'
+        description: 'Questionable Users'
+        filter: 'questionable-activity'
+        device_group: '{{ device_group | default(omit) }}'
+      register: result
+
+    - name: test_panos_dynamic_user_group - Assert create was successful
+      assert:
+        that:
+          - result is success
+          - result is changed
+
+    - name: test_panos_dynamic_user_group - Create (idempotence)
+      panos_dynamic_user_group:
+        provider: '{{ device }}'
+        name: 'Test'
+        description: 'Questionable Users'
+        filter: 'questionable-activity'
+        device_group: '{{ device_group | default(omit) }}'
+      register: result
+
+    - name: test_panos_dynamic_user_group - Assert create (idempotence) was successful
+      assert:
+        that:
+          - result is success
+          - result is not changed
+
+    - name: test_panos_dynamic_user_group - Modify
+      panos_dynamic_user_group:
+        provider: '{{ device }}'
+        name: 'Test'
+        description: 'Description'
+        filter: 'filter'
+        device_group: '{{ device_group | default(omit) }}'
+      register: result
+
+    - name: test_panos_dynamic_user_group - Assert modify was successful
+      assert:
+        that:
+          - result is success
+          - result is changed
+
+    - name: test_panos_dynamic_user_group - Delete
+      panos_dynamic_user_group:
+        provider: '{{ device }}'
+        name: 'Test'
+        state: 'absent'
+        device_group: '{{ device_group | default(omit) }}'
+      register: result
+
+    - name: test_panos_dynamic_user_group - Assert delete was successful
+      assert:
+        that:
+          - result is success
+          - result is changed
+
+    - name: test_panos_dynamic_user_group - Make sure changes commit cleanly
+      panos_commit:
+        provider: '{{ device }}'
+      register: result
+
+    - name: test_panos_dynamic_user_group - Assert commit was successful
+      assert:
+        that:
+          - result is success
+
+  when: ansible_facts['net_version'] is version('9.1', '>=')
+
+- name: test_dynamic_user_group - Module should fail prior to PAN-OS 9.1
+  block:
+    - name: test_panos_dynamic_user_group - Module should fail prior to PAN-OS 9.1
+      panos_dynamic_user_group:
+        provider: '{{ device }}'
+        name: 'Test'
+        description: 'Questionable Users'
+        filter: 'questionable-activity'
+        device_group: '{{ device_group | default(omit) }}'
+      register: result
+      failed_when: result.msg is not search("minimum version")
+
+  when: ansible_facts['net_version'] is version('9.1', '<')

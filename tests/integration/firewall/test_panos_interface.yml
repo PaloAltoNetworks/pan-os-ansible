@@ -1,0 +1,113 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: test_panos_interface - Create 'dmz' zone
+  panos_zone:
+    provider: '{{ device }}'
+    zone: 'dmz'
+    template: '{{ template | default(omit) }}'
+
+- name: test_panos_interface - Create
+  panos_interface:
+    provider: '{{ device }}'
+    if_name: 'ethernet1/3'
+    mode: 'layer3'
+    zone_name: 'dmz'
+    create_default_route: 'yes'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_inteface - Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_interface - Create (idempotence)
+  panos_interface:
+    provider: '{{ device }}'
+    if_name: 'ethernet1/3'
+    mode: 'layer3'
+    zone_name: 'dmz'
+    create_default_route: 'yes'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_inteface - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: test_panos_interface - Modify
+  panos_interface:
+    provider: '{{ device }}'
+    if_name: 'ethernet1/3'
+    mode: 'layer3'
+    zone_name: 'dmz'
+    ip: ['10.1.1.1/24']
+    enable_dhcp: False
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_interface - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_interface - Delete
+  panos_interface:
+    provider: '{{ device }}'
+    if_name: 'ethernet1/3'
+    state: 'absent'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_interface - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_interface - create-default-route implies dhcp-client
+  panos_interface:
+    provider: '{{ device }}'
+    if_name: 'ethernet1/3'
+    create_default_route: True
+    template: '{{ template | default(omit) }}'
+  diff: True
+  register: result
+
+- name: test_panos_interface - Assert create-default-route implies dhcp-client
+  assert:
+    that:
+      - result is success
+      - result.diff.after is regex("<dhcp-client>\s+<enable>yes</enable")
+      - result.diff.after is search("<create-default-route>yes</create-default-route>")
+
+- name: test_panos_interface - Assert dhcp-client does not imply create-default-route
+  panos_interface:
+    provider: '{{ device }}'
+    if_name: 'ethernet1/3'
+    enable_dhcp: True
+    template: '{{ template | default(omit) }}'
+  diff: True
+  register: result
+
+- name: test_panos_interface - Assert dhcp-client does not imply create-default-route
+  assert:
+    that:
+      - result is success
+      - result.diff.after is regex("<dhcp-client>\s+<enable>yes</enable>")
+      - result.diff.after is search("<create-default-route>no</create-default-route>")
+
+- name: test_panos_inteface - Make sure changes commit cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_interface - Assert commit was successful
+  assert:
+    that:
+      - result is success

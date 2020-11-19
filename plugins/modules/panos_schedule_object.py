@@ -120,8 +120,7 @@ EXAMPLES = '''
     type: 'recurring'
     recurrence: 'weekly'
     weekly_monday_time:
-        - '09:00'
-        - '17:00'
+      - '09:00-17:00'
 
 - name: Create non-recurring schedule object
   panos_schedule_object:

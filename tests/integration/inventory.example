@@ -1,0 +1,9 @@
+[firewalls]
+panos-10        ip_address=192.168.55.10
+
+[panoramas]
+panorama-10     ip_address=192.168.55.5
+
+[all:vars]
+username=admin
+password=P4loalto!

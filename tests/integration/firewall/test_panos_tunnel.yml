@@ -1,0 +1,69 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: test_panos_tunnel - Create
+  panos_tunnel:
+    provider: '{{ device }}'
+    if_name: "tunnel.1"
+    ip: ["10.1.1.1/32"]
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_tunnel - Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_tunnel - Create (idempotence)
+  panos_tunnel:
+    provider: '{{ device }}'
+    if_name: 'tunnel.1'
+    ip: ['10.1.1.1/32']
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_tunnel - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: test_panos_tunnel - Modify
+  panos_tunnel:
+    provider: '{{ device }}'
+    if_name: 'tunnel.1'
+    ip: ['10.1.1.1/32']
+    comment: 'tunnel comment'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_tunnel - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_tunnel - Delete
+  panos_tunnel:
+    provider: '{{ device }}'
+    if_name: 'tunnel.1'
+    template: '{{ template | default(omit) }}'
+    state: 'absent'
+  register: result
+
+- name: test_panos_tunnel - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_tunnel - Make sure changes commit cleanly
+  panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_tunnel - Assert commit was successful
+  assert:
+    that:
+      - result is success

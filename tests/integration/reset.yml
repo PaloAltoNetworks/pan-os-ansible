@@ -1,0 +1,10 @@
+---
+- name: Load blank config
+  panos_op:
+    provider: '{{ device }}'
+    cmd: '<load><config><from>blank.xml</from></config></load>'
+    cmd_is_xml: True
+
+- name: Commit
+  panos_commit:
+    provider: '{{ device }}'
