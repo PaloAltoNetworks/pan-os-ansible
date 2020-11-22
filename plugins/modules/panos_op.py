@@ -37,6 +37,7 @@ notes:
     - Panorama is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.vsys
 options:
     cmd:
         description:
@@ -48,6 +49,11 @@ options:
             - The cmd is already given in XML format, so don't convert it.
         type: bool
         default: false
+    vsys:
+        description:
+            - The vsys target where the OP command will be performed.
+        type: str
+        default: "vsys1"
 '''
 
 EXAMPLES = '''
@@ -104,6 +110,7 @@ except ImportError:
 
 def main():
     helper = get_connection(
+        vsys=True,
         with_classic_provider_spec=True,
         argument_spec=dict(
             cmd=dict(required=True),
