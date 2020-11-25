@@ -379,7 +379,7 @@ def main():
         params = {
             'certificate-name': cert_name,
             'format': cert_format,
-            'include-keys': cert_include_keys
+            'include-key': cert_include_keys
         }
 
         if cert_include_keys == 'yes' and cert_passphrase is None:
