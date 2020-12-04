@@ -38,6 +38,10 @@ Parameters
     The cmd is already given in XML format, so don't convert it.
 
 
+  vsys (type: str, default: vsys1)
+    The vsys target where the OP command will be performed.
+
+
   provider (type: dict)
     A dict object containing connection details.
 
