@@ -43,6 +43,10 @@ options:
             - Name of the tag.
         type: str
         required: true
+    description:
+        description:
+            - Descriptive name for this custom url category.
+        type: str
     url_value:
         description:
             - List with urls
@@ -61,12 +65,13 @@ EXAMPLES = '''
   panos_custom_url_category:
     provider: '{{ provider }}'
     name: 'Internet Access List'
+    description: 'Description One'
     url_value:
         - microsoft.com
         - redhat.com
 
 - name: Remove Custom Url Category 'Internet Access List'
-  panos_tag_object:
+  panos_custom_url_category:
     provider: '{{ provider }}'
     name: 'Internet Access List'
     state: 'absent'
@@ -98,6 +103,7 @@ def main():
         with_state=True,
         argument_spec=dict(
             name=dict(type='str', required=True),
+            description=dict(),
             url_value=dict(type='list', elements='str'),
             type=dict(type='str', choices=['URL List', 'Category Match'], default="URL List")
         )
@@ -119,6 +125,7 @@ def main():
 
     spec = {
         'name': module.params['name'],
+        'description': module.params['description'],
         'url_value': module.params['url_value'],
     }
 
