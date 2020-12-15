@@ -24,27 +24,16 @@ module: panos_loadcfg
 short_description: load configuration on PAN-OS device
 description:
     - Load configuration on PAN-OS device
-author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
+author: 
+    - Luigi Mori (@jtschichold)
+    - Ivan Bojer (@ivanbojer)
+    - Patrik Malinen (@pmalinen)
 version_added: '1.0.0'
 requirements:
     - pan-python
+extends_documentation_fragment:
+    - paloaltonetworks.panos.fragments.transitional_provider
 options:
-    ip_address:
-        description:
-            - IP address (or hostname) of PAN-OS device
-        type: str
-        required: true
-    password:
-        description:
-            - password for authentication
-        type: str
-        required: true
-    username:
-        description:
-            - username for authentication
-        type: str
-        required: false
-        default: "admin"
     file:
         description:
             - configuration file to load
@@ -62,16 +51,14 @@ EXAMPLES = '''
 # Import and load config file from URL
   - name: import configuration
     panos_import:
-      ip_address: "192.168.1.1"
-      password: "admin"
-      url: "{{ConfigURL}}"
+      provider: '{{ device }}'
+      url: "{{ ConfigURL }}"
       category: "configuration"
     register: result
   - name: load configuration
     panos_loadcfg:
-      ip_address: "192.168.1.1"
-      password: "admin"
-      file: "{{result.filename}}"
+      provider: '{{ device }}'
+      file: "{{ result.filename }}"
 '''
 
 RETURN = '''
@@ -79,6 +66,7 @@ RETURN = '''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 
 try:
     import pan.xapi
@@ -87,7 +75,7 @@ except ImportError:
     HAS_LIB = False
 
 
-def load_cfgfile(xapi, module, ip_address, file_):
+def load_cfgfile(xapi, module, file_):
     # load configuration file
     cmd = '<load><config><from>%s</from></config></load>' %\
           file_
@@ -98,32 +86,39 @@ def load_cfgfile(xapi, module, ip_address, file_):
 
 
 def main():
-    argument_spec = dict(
-        ip_address=dict(required=True),
-        password=dict(required=True, no_log=True),
-        username=dict(default='admin'),
-        file=dict(),
-        commit=dict(type='bool', default=False)
+    helper = get_connection(
+        with_classic_provider_spec=True,
+        argument_spec = dict(
+            file=dict(),
+            commit=dict(type='bool', default=False)
+        )
     )
-    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False)
+    module = AnsibleModule(
+        argument_spec=helper.argument_spec,
+        supports_check_mode=True,
+        required_one_of=helper.required_one_of
+    )
     if not HAS_LIB:
         module.fail_json(msg='pan-python is required for this module')
 
-    ip_address = module.params["ip_address"]
-    password = module.params["password"]
-    username = module.params['username']
-    file_ = module.params['file']
     commit = module.params['commit']
+    file_ = module.params['file']
 
-    xapi = pan.xapi.PanXapi(
-        hostname=ip_address,
-        api_username=username,
-        api_password=password
-    )
+    parent = helper.get_pandevice_parent(module)
+    xapi = parent.xapi
 
-    changed = load_cfgfile(xapi, module, ip_address, file_)
-    if changed and commit:
-        xapi.commit(cmd="<commit></commit>", sync=True, interval=1)
+    changed = False
+
+    try:
+        if not module.check_mode:
+            load_cfgfile(xapi, module, file_)
+        changed = True
+
+    except Exception as e:
+        module.fail_json(msg='Failed: {0}'.format(e))
+
+    if commit and changed:
+        helper.commit(module)
 
     module.exit_json(changed=changed, msg="okey dokey")
 
