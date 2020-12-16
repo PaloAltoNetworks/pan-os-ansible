@@ -24,7 +24,7 @@ module: panos_loadcfg
 short_description: load configuration on PAN-OS device
 description:
     - Load configuration on PAN-OS device
-author: 
+author:
     - Luigi Mori (@jtschichold)
     - Ivan Bojer (@ivanbojer)
     - Patrik Malinen (@pmalinen)
@@ -88,7 +88,7 @@ def load_cfgfile(xapi, module, file_):
 def main():
     helper = get_connection(
         with_classic_provider_spec=True,
-        argument_spec = dict(
+        argument_spec=dict(
             file=dict(),
             commit=dict(type='bool', default=False)
         )
