@@ -298,6 +298,8 @@
 <div><dl>
 <dt>name (required, type: str)</dt><dd><p>Name of the tag.</p>
 </dd>
+<dt>description (type: str)</dt><dd><p>Descriptive name for this custom url category.</p>
+</dd>
 <dt>url_value (type: list)</dt><dd><p>List with urls</p>
 </dd>
 <dt>type (type: str, default: URL List)</dt><dd><p>Custom category type (currently unused)</p>
@@ -364,12 +366,13 @@
   <span class="nt">panos_custom_url_category</span><span class="p">:</span>
     <span class="nt">provider</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
     <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;Internet</span><span class="nv"> </span><span class="s">Access</span><span class="nv"> </span><span class="s">List&#39;</span>
+    <span class="nt">description</span><span class="p">:</span> <span class="s">&#39;Description</span><span class="nv"> </span><span class="s">One&#39;</span>
     <span class="nt">url_value</span><span class="p">:</span>
         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">microsoft.com</span>
         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">redhat.com</span>
 
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Remove Custom Url Category &#39;Internet Access List&#39;</span>
-  <span class="nt">panos_tag_object</span><span class="p">:</span>
+  <span class="nt">panos_custom_url_category</span><span class="p">:</span>
     <span class="nt">provider</span><span class="p">:</span> <span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
     <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;Internet</span><span class="nv"> </span><span class="s">Access</span><span class="nv"> </span><span class="s">List&#39;</span>
     <span class="nt">state</span><span class="p">:</span> <span class="s">&#39;absent&#39;</span>

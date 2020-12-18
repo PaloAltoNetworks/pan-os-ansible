@@ -33,6 +33,10 @@ Parameters
     Name of the tag.
 
 
+  description (type: str)
+    Descriptive name for this custom url category.
+
+
   url_value (type: list)
     List with urls
 
@@ -156,12 +160,13 @@ Examples
       panos_custom_url_category:
         provider: '{{ provider }}'
         name: 'Internet Access List'
+        description: 'Description One'
         url_value:
             - microsoft.com
             - redhat.com
 
     - name: Remove Custom Url Category 'Internet Access List'
-      panos_tag_object:
+      panos_custom_url_category:
         provider: '{{ provider }}'
         name: 'Internet Access List'
         state: 'absent'
