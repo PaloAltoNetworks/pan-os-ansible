@@ -151,8 +151,8 @@ def main():
             ),
             name=dict(type='str'),
             description=dict(type='str'),
-            include_template=dict(type='bool'),
-            force_template_values=dict(type='bool'),
+            include_template=dict(type='bool', default=False),
+            force_template_values=dict(type='bool', default=False),
             devices=dict(type='list', elements='str'),
             sync=dict(type='bool', default=True)
         )

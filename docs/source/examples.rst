@@ -2,8 +2,6 @@
 Examples
 ========
 
-**Note**: You can see complete examples [here](https://github.com/PaloAltoNetworks/ansible-pan/tree/master/examples)
-
 Add security policy to Firewall or Panorama
 ===========================================
 

@@ -96,6 +96,7 @@ options:
         description:
             - Whether or not to add default route with router learned via DHCP.
         type: bool
+        default: False
     dhcp_default_route_metric:
         description:
             - Metric for the DHCP default route.

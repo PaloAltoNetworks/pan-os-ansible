@@ -158,9 +158,9 @@ def main():
             wildfire_clusters=dict(type='list', elements='str'),
             log_collectors=dict(type='list', elements='str'),
             log_collector_groups=dict(type='list', elements='str'),
-            exclude_device_and_network=dict(type='bool'),
-            exclude_shared_objects=dict(type='bool'),
-            force=dict(type='bool'),
+            exclude_device_and_network=dict(type='bool', default=False),
+            exclude_shared_objects=dict(type='bool', default=False),
+            force=dict(type='bool', default=False),
             sync=dict(type='bool', default=True)
         )
     )
