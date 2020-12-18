@@ -74,6 +74,7 @@ options:
         description:
             - Enable user identification.
         type: bool
+        default: False
     include_acl:
         description:
             - User identification ACL include list.

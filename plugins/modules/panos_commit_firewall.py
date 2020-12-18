@@ -116,10 +116,10 @@ def main():
         argument_spec=dict(
             description=dict(type='str'),
             admins=dict(type='list', elements='str'),
-            exclude_device_and_network=dict(type='bool'),
-            exclude_shared_objects=dict(type='bool'),
-            exclude_policy_and_objects=dict(type='bool'),
-            force=dict(type='bool'),
+            exclude_device_and_network=dict(type='bool', default=False),
+            exclude_shared_objects=dict(type='bool', default=False),
+            exclude_policy_and_objects=dict(type='bool', default=False),
+            force=dict(type='bool', default=False),
             sync=dict(type='bool', default=True)
         )
     )

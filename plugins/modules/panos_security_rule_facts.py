@@ -54,6 +54,7 @@ options:
             - Retrieve full details instead of just rule names.
             - Implied when I(names) is set and not using I(match_rules).
         type: bool
+        default: False
         aliases: ['all_details']
     match_rules:
         description:
