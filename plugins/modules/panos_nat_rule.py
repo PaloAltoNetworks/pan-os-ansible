@@ -195,6 +195,15 @@ options:
               rule.
             - If I(location=before) or I(location=after), I(existing_rule) is required.
         type: str
+    target:
+        description:
+            - Apply this rule exclusively to the listed firewalls in Panorama.
+        type: list
+        elements: str
+    negate_target:
+        description:
+            - Exclude this rule from the listed firewalls in Panorama.
+        type: bool
 '''
 
 EXAMPLES = '''
@@ -290,6 +299,9 @@ def create_nat_rule(**kwargs):
     if 'tag_val' in kwargs:
         nat_rule.tag = kwargs['tag_val']
 
+    nat_rule.target = kwargs['target']
+    nat_rule.negate_target = kwargs['negate_target']
+
     return nat_rule
 
 
@@ -323,6 +335,8 @@ def main():
             state=dict(default='present', choices=['present', 'absent', 'enable', 'disable']),
             location=dict(choices=['top', 'bottom', 'before', 'after']),
             existing_rule=dict(),
+            target=dict(type='list', elements='str'),
+            negate_target=dict(type='bool'),
             commit=dict(type='bool', default=False),
 
             # TODO(gfreeman) - remove later.
@@ -384,6 +398,8 @@ def main():
     state = module.params['state']
     location = module.params['location']
     existing_rule = module.params['existing_rule']
+    target = module.params['target']
+    negate_target = module.params['negate_target']
 
     # Sanity check the location / existing_rule params.
     if location in ('before', 'after') and not existing_rule:
@@ -415,7 +431,9 @@ def main():
         snat_interface_address=snat_interface_address,
         snat_bidirectional=snat_bidirectional,
         dnat_address=dnat_address,
-        dnat_port=dnat_port
+        dnat_port=dnat_port,
+        target=target,
+        negate_target=negate_target
     )
 
     if not new_rule:
