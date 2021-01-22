@@ -151,6 +151,14 @@ Parameters
     If *location=before* or *location=after*, *existing_rule* is required.
 
 
+  target (type: list)
+    Apply this rule exclusively to the listed firewalls in Panorama.
+
+
+  negate_target (type: bool)
+    Exclude this rule from the listed firewalls in Panorama.
+
+
   provider (type: dict)
     A dict object containing connection details.
 
