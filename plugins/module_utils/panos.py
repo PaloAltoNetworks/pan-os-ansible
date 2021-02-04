@@ -114,7 +114,7 @@ class ConnectionHelper(object):
         """
         # Sanity check.
         if not HAS_PANDEVICE:
-            module.fail_json(msg='Missing required library "pandevice".')
+            module.fail_json(msg='Missing required library "pan-os-python".')
 
         pdv = tuple(int(x) for x in panos.__version__.split('.'))
 
