@@ -10,8 +10,6 @@
 *.retry
 *.swp
 
-.vscode/
-
 tests/output/
 
 docs/html/

@@ -1,0 +1,8 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "python.linting.enabled": false,
+    "python.formatting.provider": "black",
+    "editor.formatOnSave": true,
+}
