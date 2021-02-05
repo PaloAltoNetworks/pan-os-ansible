@@ -37,6 +37,10 @@ jobs:
           pip install pipenv
           python -m pipenv install --dev --system
 
+      - name: Check format
+        run: |
+          make check-format
+
       - name: ansible-test sanity
         run: |
           make sanity
