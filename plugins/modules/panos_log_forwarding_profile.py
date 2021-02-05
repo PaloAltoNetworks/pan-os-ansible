@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_log_forwarding_profile
 short_description: Manage log forwarding profiles.
@@ -52,31 +53,33 @@ options:
             - Valid for PAN-OS 8.1+
             - Enabling enhanced application logging.
         type: bool
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create a profile
 - name: Create log forwarding profile
   panos_log_forwarding_profile:
     provider: '{{ provider }}'
     name: 'my-profile'
     enhanced_logging: true
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.objects import LogForwardingProfile
     from panos.errors import PanDeviceError
+    from panos.objects import LogForwardingProfile
 except ImportError:
     try:
-        from pandevice.objects import LogForwardingProfile
         from pandevice.errors import PanDeviceError
+        from pandevice.objects import LogForwardingProfile
     except ImportError:
         pass
 
@@ -92,7 +95,7 @@ def main():
         argument_spec=dict(
             name=dict(required=True),
             description=dict(),
-            enhanced_logging=dict(type='bool'),
+            enhanced_logging=dict(type="bool"),
         ),
     )
     module = AnsibleModule(
@@ -107,19 +110,19 @@ def main():
     try:
         listing = LogForwardingProfile.refreshall(parent)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     spec = {
-        'name': module.params['name'],
-        'description': module.params['description'],
-        'enhanced_logging': module.params['enhanced_logging'],
+        "name": module.params["name"],
+        "description": module.params["description"],
+        "enhanced_logging": module.params["enhanced_logging"],
     }
     obj = LogForwardingProfile(**spec)
     parent.add(obj)
 
     changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

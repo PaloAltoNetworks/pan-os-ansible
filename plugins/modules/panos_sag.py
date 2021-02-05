@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_sag
 short_description: Create a static address group.
@@ -92,9 +93,9 @@ options:
             - list
             - delete
         required: true
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: sag
   panos_sag:
     ip_address: "192.168.1.1"
@@ -103,19 +104,17 @@ EXAMPLES = '''
     static_value: ['test-addresses', ]
     description: "A description for the static address group"
     tags: ["tags to be associated with the group", ]
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule, get_exception
 
 try:
-    from pandevice import base
-    from pandevice import firewall
-    from pandevice import panorama
-    from pandevice import objects
+    from pandevice import base, firewall, objects, panorama
+
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
@@ -156,10 +155,10 @@ def create_address_group_object(**kwargs):
     @return False or ```objects.AddressObject```
     """
     ad_object = objects.AddressGroup(
-        name=kwargs['address_gp_name'],
-        static_value=kwargs['sag_match_filter'],
-        description=kwargs['description'],
-        tag=kwargs['tag_name']
+        name=kwargs["address_gp_name"],
+        static_value=kwargs["sag_match_filter"],
+        description=kwargs["description"],
+        tag=kwargs["tag_name"],
     )
     if ad_object.static_value or ad_object.dynamic_value:
         return ad_object
@@ -240,43 +239,50 @@ def main():
     argument_spec = dict(
         ip_address=dict(required=True),
         password=dict(no_log=True),
-        username=dict(default='admin'),
+        username=dict(default="admin"),
         api_key=dict(no_log=True),
-        sag_match_filter=dict(type='list', elements='str', required=False),
+        sag_match_filter=dict(type="list", elements="str", required=False),
         sag_name=dict(required=True),
-        commit=dict(type='bool', default=False),
+        commit=dict(type="bool", default=False),
         devicegroup=dict(default=None),
         description=dict(default=None),
-        tags=dict(type='list', elements='str', default=[]),
-        operation=dict(type='str', required=True, choices=['add', 'list', 'delete'])
+        tags=dict(type="list", elements="str", default=[]),
+        operation=dict(type="str", required=True, choices=["add", "list", "delete"]),
     )
-    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False,
-                           required_one_of=[['api_key', 'password']])
+    module = AnsibleModule(
+        argument_spec=argument_spec,
+        supports_check_mode=False,
+        required_one_of=[["api_key", "password"]],
+    )
 
     module.deprecate(
-        'This module has been deprecated; use panos_address_group',
-        version='3.0.0', collection_name='paloaltonetworks.panos'
+        "This module has been deprecated; use panos_address_group",
+        version="3.0.0",
+        collection_name="paloaltonetworks.panos",
     )
 
     if not HAS_LIB:
-        module.fail_json(msg='pan-python is required for this module')
+        module.fail_json(msg="pan-python is required for this module")
 
     ip_address = module.params["ip_address"]
     password = module.params["password"]
-    username = module.params['username']
-    api_key = module.params['api_key']
-    operation = module.params['operation']
+    username = module.params["username"]
+    api_key = module.params["api_key"]
+    operation = module.params["operation"]
 
-    ag_object = create_address_group_object(address_gp_name=module.params.get('sag_name', None),
-                                            sag_match_filter=module.params.get('sag_match_filter', None),
-                                            description=module.params.get('description', None),
-                                            tag_name=module.params.get('tags', None)
-                                            )
-    commit = module.params['commit']
+    ag_object = create_address_group_object(
+        address_gp_name=module.params.get("sag_name", None),
+        sag_match_filter=module.params.get("sag_match_filter", None),
+        description=module.params.get("description", None),
+        tag_name=module.params.get("tags", None),
+    )
+    commit = module.params["commit"]
 
-    devicegroup = module.params['devicegroup']
+    devicegroup = module.params["devicegroup"]
     # Create the device with the appropriate pandevice type
-    device = base.PanDevice.create_from_device(ip_address, username, password, api_key=api_key)
+    device = base.PanDevice.create_from_device(
+        ip_address, username, password, api_key=api_key
+    )
 
     # If Panorama, validate the devicegroup
     dev_group = None
@@ -285,9 +291,12 @@ def main():
         if dev_group:
             device.add(dev_group)
         else:
-            module.fail_json(msg='\'%s\' device group not found in Panorama. Is the name correct?' % devicegroup)
+            module.fail_json(
+                msg="'%s' device group not found in Panorama. Is the name correct?"
+                % devicegroup
+            )
 
-    if operation == 'add':
+    if operation == "add":
         result, exc = add_address_group(device, dev_group, ag_object)
 
         if result and commit:
@@ -296,15 +305,15 @@ def main():
             except Exception:
                 exc = get_exception()
                 module.fail_json(msg=exc.message)
-    elif operation == 'list':
+    elif operation == "list":
         result, exc = get_all_address_group(device)
 
         if not exc:
             module.exit_json(msg=result)
         else:
             module.fail_json(msg=exc.message)
-    elif operation == 'delete':
-        obj_name = module.params.get('sag_name', None)
+    elif operation == "delete":
+        obj_name = module.params.get("sag_name", None)
         result, exc = delete_address_group(device, dev_group, obj_name)
         if not result and exc:
             module.fail_json(msg=exc.message)
@@ -316,5 +325,5 @@ def main():
     module.exit_json(changed=True, msg="Address Group Operation Completed.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

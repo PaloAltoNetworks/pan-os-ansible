@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_nat_rule
 short_description: create a policy NAT rule
@@ -204,9 +205,9 @@ options:
         description:
             - Exclude this rule from the listed firewalls in Panorama.
         type: bool
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create a source and destination nat rule
 - name: Create NAT SSH rule for 10.0.1.101
   panos_nat_rule:
@@ -227,14 +228,17 @@ EXAMPLES = '''
     provider: '{{ provider }}'
     rule_name: 'Prod-Legacy 1'
     state: 'disable'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection, eltostr
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    eltostr,
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
@@ -249,58 +253,68 @@ except ImportError:
 
 def create_nat_rule(**kwargs):
     nat_rule = NatRule(
-        name=kwargs['rule_name'],
-        description=kwargs['description'],
-        fromzone=kwargs['source_zone'],
-        source=kwargs['source_ip'],
-        tozone=kwargs['destination_zone'],
-        destination=kwargs['destination_ip'],
-        service=kwargs['service'],
-        to_interface=kwargs['to_interface'],
-        nat_type=kwargs['nat_type']
+        name=kwargs["rule_name"],
+        description=kwargs["description"],
+        fromzone=kwargs["source_zone"],
+        source=kwargs["source_ip"],
+        tozone=kwargs["destination_zone"],
+        destination=kwargs["destination_ip"],
+        service=kwargs["service"],
+        to_interface=kwargs["to_interface"],
+        nat_type=kwargs["nat_type"],
     )
 
     # Source translation: Static IP
-    if kwargs['snat_type'] in ['static-ip'] and kwargs['snat_static_address']:
-        nat_rule.source_translation_type = kwargs['snat_type']
-        nat_rule.source_translation_static_translated_address = kwargs['snat_static_address']
+    if kwargs["snat_type"] in ["static-ip"] and kwargs["snat_static_address"]:
+        nat_rule.source_translation_type = kwargs["snat_type"]
+        nat_rule.source_translation_static_translated_address = kwargs[
+            "snat_static_address"
+        ]
         # Bi-directional flag set?
-        if kwargs['snat_bidirectional']:
-            nat_rule.source_translation_static_bi_directional = kwargs['snat_bidirectional']
+        if kwargs["snat_bidirectional"]:
+            nat_rule.source_translation_static_bi_directional = kwargs[
+                "snat_bidirectional"
+            ]
 
     # Source translation: Dynamic IP and port
-    elif kwargs['snat_type'] in ['dynamic-ip-and-port']:
-        nat_rule.source_translation_type = kwargs['snat_type']
-        nat_rule.source_translation_address_type = kwargs['snat_address_type']
+    elif kwargs["snat_type"] in ["dynamic-ip-and-port"]:
+        nat_rule.source_translation_type = kwargs["snat_type"]
+        nat_rule.source_translation_address_type = kwargs["snat_address_type"]
         # Interface address?
-        if kwargs['snat_interface']:
-            nat_rule.source_translation_interface = kwargs['snat_interface']
+        if kwargs["snat_interface"]:
+            nat_rule.source_translation_interface = kwargs["snat_interface"]
             # Interface IP?
-            if kwargs['snat_interface_address']:
-                nat_rule.source_translation_ip_address = kwargs['snat_interface_address']
+            if kwargs["snat_interface_address"]:
+                nat_rule.source_translation_ip_address = kwargs[
+                    "snat_interface_address"
+                ]
         else:
-            nat_rule.source_translation_translated_addresses = kwargs['snat_dynamic_address']
+            nat_rule.source_translation_translated_addresses = kwargs[
+                "snat_dynamic_address"
+            ]
 
     # Source translation: Dynamic IP
-    elif kwargs['snat_type'] in ['dynamic-ip']:
-        if kwargs['snat_dynamic_address']:
-            nat_rule.source_translation_type = kwargs['snat_type']
-            nat_rule.source_translation_translated_addresses = kwargs['snat_dynamic_address']
+    elif kwargs["snat_type"] in ["dynamic-ip"]:
+        if kwargs["snat_dynamic_address"]:
+            nat_rule.source_translation_type = kwargs["snat_type"]
+            nat_rule.source_translation_translated_addresses = kwargs[
+                "snat_dynamic_address"
+            ]
         else:
             return False
 
     # Destination translation
-    if kwargs['dnat_address']:
-        nat_rule.destination_translated_address = kwargs['dnat_address']
-        if kwargs['dnat_port']:
-            nat_rule.destination_translated_port = kwargs['dnat_port']
+    if kwargs["dnat_address"]:
+        nat_rule.destination_translated_address = kwargs["dnat_address"]
+        if kwargs["dnat_port"]:
+            nat_rule.destination_translated_port = kwargs["dnat_port"]
 
     # Any tags?
-    if 'tag_val' in kwargs:
-        nat_rule.tag = kwargs['tag_val']
+    if "tag_val" in kwargs:
+        nat_rule.tag = kwargs["tag_val"]
 
-    nat_rule.target = kwargs['target']
-    nat_rule.negate_target = kwargs['negate_target']
+    nat_rule.target = kwargs["target"]
+    nat_rule.negate_target = kwargs["negate_target"]
 
     return nat_rule
 
@@ -315,30 +329,34 @@ def main():
         argument_spec=dict(
             rule_name=dict(required=True),
             description=dict(),
-            nat_type=dict(default='ipv4', choices=['ipv4', 'nat64', 'nptv6']),
-            source_zone=dict(type='list', elements='str'),
-            source_ip=dict(type='list', elements='str', default=['any']),
-            destination_zone=dict(type='str'),
-            destination_ip=dict(type='list', elements='str', default=['any']),
-            to_interface=dict(default='any'),
-            service=dict(default='any'),
-            snat_type=dict(choices=['static-ip', 'dynamic-ip-and-port', 'dynamic-ip']),
-            snat_address_type=dict(choices=['interface-address', 'translated-address'], default='interface-address'),
+            nat_type=dict(default="ipv4", choices=["ipv4", "nat64", "nptv6"]),
+            source_zone=dict(type="list", elements="str"),
+            source_ip=dict(type="list", elements="str", default=["any"]),
+            destination_zone=dict(type="str"),
+            destination_ip=dict(type="list", elements="str", default=["any"]),
+            to_interface=dict(default="any"),
+            service=dict(default="any"),
+            snat_type=dict(choices=["static-ip", "dynamic-ip-and-port", "dynamic-ip"]),
+            snat_address_type=dict(
+                choices=["interface-address", "translated-address"],
+                default="interface-address",
+            ),
             snat_static_address=dict(),
-            snat_dynamic_address=dict(type='list', elements='str'),
+            snat_dynamic_address=dict(type="list", elements="str"),
             snat_interface=dict(),
             snat_interface_address=dict(),
-            snat_bidirectional=dict(type='bool'),
+            snat_bidirectional=dict(type="bool"),
             dnat_address=dict(),
             dnat_port=dict(),
-            tag=dict(type='list', elements='str'),
-            state=dict(default='present', choices=['present', 'absent', 'enable', 'disable']),
-            location=dict(choices=['top', 'bottom', 'before', 'after']),
+            tag=dict(type="list", elements="str"),
+            state=dict(
+                default="present", choices=["present", "absent", "enable", "disable"]
+            ),
+            location=dict(choices=["top", "bottom", "before", "after"]),
             existing_rule=dict(),
-            target=dict(type='list', elements='str'),
-            negate_target=dict(type='bool'),
-            commit=dict(type='bool', default=False),
-
+            target=dict(type="list", elements="str"),
+            negate_target=dict(type="bool"),
+            commit=dict(type="bool", default=False),
             # TODO(gfreeman) - remove later.
             tag_name=dict(),
             devicegroup=dict(),
@@ -353,63 +371,67 @@ def main():
     )
 
     # TODO(gfreeman) - remove later.
-    if module.params['operation'] is not None:
+    if module.params["operation"] is not None:
         module.fail_json(msg='Param "operation" is removed; use "state"')
-    if module.params['devicegroup'] is not None:
+    if module.params["devicegroup"] is not None:
         module.deprecate(
             'Param "devicegroup" is deprecated; use "device_group"',
-            version='3.0.0', collection_name='paloaltonetworks.panos'
+            version="3.0.0",
+            collection_name="paloaltonetworks.panos",
         )
-        module.params['device_group'] = module.params['devicegroup']
-    if module.params['tag_name'] is not None:
-        tag_val = module.params['tag_name']
+        module.params["device_group"] = module.params["devicegroup"]
+    if module.params["tag_name"] is not None:
+        tag_val = module.params["tag_name"]
         module.deprecate(
             'Param "tag_name" is deprecated; use "tag"',
-            version='3.0.0', collection_name='paloaltonetworks.panos'
+            version="3.0.0",
+            collection_name="paloaltonetworks.panos",
         )
-        if module.params['tag']:
+        if module.params["tag"]:
             module.fail_json(msg='Both "tag" and "tag_name" specified, use only one')
     else:
-        tag_val = module.params['tag']
+        tag_val = module.params["tag"]
 
     parent = helper.get_pandevice_parent(module)
 
     # Get object params.
-    rule_name = module.params['rule_name']
-    description = module.params['description']
-    source_zone = module.params['source_zone']
-    source_ip = module.params['source_ip']
-    destination_zone = module.params['destination_zone']
-    destination_ip = module.params['destination_ip']
-    service = module.params['service']
-    to_interface = module.params['to_interface']
-    nat_type = module.params['nat_type']
-    snat_type = module.params['snat_type']
-    snat_address_type = module.params['snat_address_type']
-    snat_static_address = module.params['snat_static_address']
-    snat_dynamic_address = module.params['snat_dynamic_address']
-    snat_interface = module.params['snat_interface']
-    snat_interface_address = module.params['snat_interface_address']
-    snat_bidirectional = module.params['snat_bidirectional']
-    dnat_address = module.params['dnat_address']
-    dnat_port = module.params['dnat_port']
+    rule_name = module.params["rule_name"]
+    description = module.params["description"]
+    source_zone = module.params["source_zone"]
+    source_ip = module.params["source_ip"]
+    destination_zone = module.params["destination_zone"]
+    destination_ip = module.params["destination_ip"]
+    service = module.params["service"]
+    to_interface = module.params["to_interface"]
+    nat_type = module.params["nat_type"]
+    snat_type = module.params["snat_type"]
+    snat_address_type = module.params["snat_address_type"]
+    snat_static_address = module.params["snat_static_address"]
+    snat_dynamic_address = module.params["snat_dynamic_address"]
+    snat_interface = module.params["snat_interface"]
+    snat_interface_address = module.params["snat_interface_address"]
+    snat_bidirectional = module.params["snat_bidirectional"]
+    dnat_address = module.params["dnat_address"]
+    dnat_port = module.params["dnat_port"]
 
     # Get other info.
-    state = module.params['state']
-    location = module.params['location']
-    existing_rule = module.params['existing_rule']
-    target = module.params['target']
-    negate_target = module.params['negate_target']
+    state = module.params["state"]
+    location = module.params["location"]
+    existing_rule = module.params["existing_rule"]
+    target = module.params["target"]
+    negate_target = module.params["negate_target"]
 
     # Sanity check the location / existing_rule params.
-    if location in ('before', 'after') and not existing_rule:
-        module.fail_json(msg="'existing_rule' must be specified if location is 'before' or 'after'.")
+    if location in ("before", "after") and not existing_rule:
+        module.fail_json(
+            msg="'existing_rule' must be specified if location is 'before' or 'after'."
+        )
 
     # Get the current NAT rules.
     try:
         rules = NatRule.refreshall(parent)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed NAT refreshall: {0}'.format(e))
+        module.fail_json(msg="Failed NAT refreshall: {0}".format(e))
 
     # Create the desired rule.
     new_rule = create_nat_rule(
@@ -433,47 +455,45 @@ def main():
         dnat_address=dnat_address,
         dnat_port=dnat_port,
         target=target,
-        negate_target=negate_target
+        negate_target=negate_target,
     )
 
     if not new_rule:
-        module.fail_json(msg='Incorrect NAT rule params specified; quitting')
+        module.fail_json(msg="Incorrect NAT rule params specified; quitting")
 
     # Perform the desired operation.
     changed = False
     diff = None
-    if state in ('enable', 'disable'):
+    if state in ("enable", "disable"):
         for rule in rules:
             if rule.name == new_rule.name:
                 break
         else:
             module.fail_json(msg='Rule "{0}" not present'.format(new_rule.name))
-        if state == 'enable' and rule.disabled:
+        if state == "enable" and rule.disabled:
             changed = True
-        elif state == 'disable' and not rule.disabled:
+        elif state == "disable" and not rule.disabled:
             changed = True
         if changed:
-            diff = dict(
-                before=eltostr(rule)
-            )
+            diff = dict(before=eltostr(rule))
             rule.disabled = not rule.disabled
-            diff['after'] = eltostr(rule)
+            diff["after"] = eltostr(rule)
             if not module.check_mode:
                 try:
-                    rule.update('disabled')
+                    rule.update("disabled")
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed enable: {0}'.format(e))
+                    module.fail_json(msg="Failed enable: {0}".format(e))
     else:
         parent.add(new_rule)
         changed, diff = helper.apply_state(new_rule, rules, module)
-        if state == 'present':
+        if state == "present":
             changed |= helper.apply_position(new_rule, location, existing_rule, module)
 
-    if changed and module.params['commit']:
+    if changed and module.params["commit"]:
         helper.commit(module)
 
-    module.exit_json(changed=changed, diff=diff, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_userid
 short_description: Allow for registration and de-registration of userid
@@ -47,22 +48,24 @@ options:
             - IP of the user's machine that needs to be registered with userid.
         type: str
         required: true
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Register user ivanb to 10.0.1.101
   panos_userid:
     provider: '{{ provider }}'
     userid: 'ACMECORP\\ivanb'
     register_ip: '10.0.1.101'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
@@ -77,7 +80,7 @@ def main():
     helper = get_connection(
         with_state=True,
         with_classic_provider_spec=True,
-        panorama_error='The user-id API is not supported on Panorama',
+        panorama_error="The user-id API is not supported on Panorama",
         argument_spec=dict(
             userid=dict(required=True),
             register_ip=dict(required=True),
@@ -93,21 +96,29 @@ def main():
     parent = helper.get_pandevice_parent(module)
 
     func = None
-    prefix = ''
-    if module.params['state'] == 'present':
-        func = 'login'
+    prefix = ""
+    if module.params["state"] == "present":
+        func = "login"
     else:
-        func = 'logout'
-        prefix = 'un'
+        func = "logout"
+        prefix = "un"
 
     # Apply the state.
     try:
-        getattr(parent.userid, func)(module.params['userid'], module.params['register_ip'])
+        getattr(parent.userid, func)(
+            module.params["userid"], module.params["register_ip"]
+        )
     except PanDeviceError as e:
-        module.fail_json(msg='Failed to {0} {1}: {2}'.format(func, module.params['userid'], e))
+        module.fail_json(
+            msg="Failed to {0} {1}: {2}".format(func, module.params["userid"], e)
+        )
 
-    module.exit_json(msg="User '{0}' successfully {1}registered".format(module.params['userid'], prefix))
+    module.exit_json(
+        msg="User '{0}' successfully {1}registered".format(
+            module.params["userid"], prefix
+        )
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

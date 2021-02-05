@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_l2_subinterface
 short_description: configure layer2 subinterface
@@ -76,9 +77,9 @@ options:
             - The VLAN to put this interface in.
             - If the VLAN does not exist it is created.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create ethernet1/1.5
 - name: ethernet1/1.5 in zone sales
   panos_l2_subinterface:
@@ -87,26 +88,28 @@ EXAMPLES = '''
     tag: 5
     zone_name: "sales"
     vlan_name: "myVlan"
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import AggregateInterface
-    from panos.network import EthernetInterface
-    from panos.network import Layer2Subinterface
     from panos.errors import PanDeviceError
+    from panos.network import AggregateInterface, EthernetInterface, Layer2Subinterface
 except ImportError:
     try:
-        from pandevice.network import AggregateInterface
-        from pandevice.network import EthernetInterface
-        from pandevice.network import Layer2Subinterface
         from pandevice.errors import PanDeviceError
+        from pandevice.network import (
+            AggregateInterface,
+            EthernetInterface,
+            Layer2Subinterface,
+        )
     except ImportError:
         pass
 
@@ -120,8 +123,8 @@ def main():
         min_pandevice_version=(0, 8, 0),
         argument_spec=dict(
             name=dict(required=True),
-            tag=dict(required=True, type='int'),
-            lldp_enabled=dict(type='bool'),
+            tag=dict(required=True, type="int"),
+            lldp_enabled=dict(type="bool"),
             lldp_profile=dict(),
             netflow_profile=dict(),
             comment=dict(),
@@ -140,29 +143,29 @@ def main():
 
     # Get the object params.
     spec = {
-        'name': module.params['name'],
-        'tag': module.params['tag'],
-        'lldp_enabled': module.params['lldp_enabled'],
-        'lldp_profile': module.params['lldp_profile'],
-        'netflow_profile_l2': module.params['netflow_profile'],
-        'comment': module.params['comment'],
+        "name": module.params["name"],
+        "tag": module.params["tag"],
+        "lldp_enabled": module.params["lldp_enabled"],
+        "lldp_profile": module.params["lldp_profile"],
+        "netflow_profile_l2": module.params["netflow_profile"],
+        "comment": module.params["comment"],
     }
 
     # Get other info.
-    state = module.params['state']
-    zone_name = module.params['zone_name']
-    vlan_name = module.params['vlan_name']
-    vsys = module.params['vsys']
+    state = module.params["state"]
+    zone_name = module.params["zone_name"]
+    vlan_name = module.params["vlan_name"]
+    vsys = module.params["vsys"]
 
     # Sanity check.
-    if '.' not in spec['name']:
+    if "." not in spec["name"]:
         module.fail_json(msg='Interface name does not have "." in it')
 
     # Check on EthernetInterface or AggregateInterface.
-    parent_iname = spec['name'].split('.')[0]
+    parent_iname = spec["name"].split(".")[0]
 
     # Retrieve the current config.
-    if parent_iname.startswith('ae'):
+    if parent_iname.startswith("ae"):
         parent_eth = AggregateInterface(parent_iname)
     else:
         parent_eth = EthernetInterface(parent_iname)
@@ -170,10 +173,12 @@ def main():
     try:
         parent_eth.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
-    if parent_eth.mode != 'layer2':
-        module.fail_json(msg='{0} mode is {1}, not layer2'.format(parent_eth.name, parent_eth.mode))
+    if parent_eth.mode != "layer2":
+        module.fail_json(
+            msg="{0} mode is {1}, not layer2".format(parent_eth.name, parent_eth.mode)
+        )
 
     interfaces = parent_eth.findall(Layer2Subinterface)
 
@@ -184,11 +189,11 @@ def main():
     # Which action should we take on the interface?
     changed = False
     reference_params = {
-        'refresh': True,
-        'update': not module.check_mode,
-        'return_type': 'bool',
+        "refresh": True,
+        "update": not module.check_mode,
+        "return_type": "bool",
     }
-    if state == 'present':
+    if state == "present":
         for item in interfaces:
             if item.name != eth.name:
                 continue
@@ -200,7 +205,7 @@ def main():
                     try:
                         eth.apply()
                     except PanDeviceError as e:
-                        module.fail_json(msg='Failed apply: {0}'.format(e))
+                        module.fail_json(msg="Failed apply: {0}".format(e))
             break
         else:
             changed = True
@@ -208,7 +213,7 @@ def main():
                 try:
                     eth.create()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed create: {0}'.format(e))
+                    module.fail_json(msg="Failed create: {0}".format(e))
 
         # Set references.
         try:
@@ -216,15 +221,15 @@ def main():
             changed |= eth.set_zone(zone_name, mode=parent_eth.mode, **reference_params)
             changed |= eth.set_vlan(vlan_name, **reference_params)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed setref: {0}'.format(e))
-    elif state == 'absent':
+            module.fail_json(msg="Failed setref: {0}".format(e))
+    elif state == "absent":
         # Remove references.
         try:
             changed |= eth.set_vlan(None, **reference_params)
             changed |= eth.set_zone(None, mode=parent_eth.mode, **reference_params)
             changed |= eth.set_vsys(None, **reference_params)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed setref: {0}'.format(e))
+            module.fail_json(msg="Failed setref: {0}".format(e))
 
         # Remove the interface.
         if eth.name in [x.name for x in interfaces]:
@@ -233,11 +238,11 @@ def main():
                 try:
                     eth.delete()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed delete: {0}'.format(e))
+                    module.fail_json(msg="Failed delete: {0}".format(e))
 
     # Done!
-    module.exit_json(changed=changed, msg='Done')
+    module.exit_json(changed=changed, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_snmp_v2c_server
 short_description: Manage SNMP v2c servers.
@@ -56,9 +57,9 @@ options:
         description:
             - SNMP community
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create a snmp v2 server
 - name: Create snmp v2 server
   panos_snmp_v2c_server:
@@ -67,23 +68,23 @@ EXAMPLES = '''
     name: 'my-v2c-server'
     manager: '192.168.55.10'
     community: 'foobar'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.device import SnmpServerProfile
-    from panos.device import SnmpV2cServer
+    from panos.device import SnmpServerProfile, SnmpV2cServer
     from panos.errors import PanDeviceError
 except ImportError:
     try:
-        from pandevice.device import SnmpServerProfile
-        from pandevice.device import SnmpV2cServer
+        from pandevice.device import SnmpServerProfile, SnmpV2cServer
         from pandevice.errors import PanDeviceError
     except ImportError:
         pass
@@ -113,26 +114,26 @@ def main():
     # Verify imports, build pandevice object tree.
     parent = helper.get_pandevice_parent(module)
 
-    sp = SnmpServerProfile(module.params['snmp_profile'])
+    sp = SnmpServerProfile(module.params["snmp_profile"])
     parent.add(sp)
     try:
         sp.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     listing = sp.findall(SnmpV2cServer)
 
     spec = {
-        'name': module.params['name'],
-        'manager': module.params['manager'],
-        'community': module.params['community'],
+        "name": module.params["name"],
+        "manager": module.params["manager"],
+        "community": module.params["community"],
     }
     obj = SnmpV2cServer(**spec)
     sp.add(obj)
 
     changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_tag_object
 short_description: Create tag objects on PAN-OS devices.
@@ -69,9 +70,9 @@ options:
         description:
             - Comments for the tag.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create tag object 'Prod'
   panos_tag_object:
     provider: '{{ provider }}'
@@ -84,28 +85,44 @@ EXAMPLES = '''
     provider: '{{ provider }}'
     name: 'Prod'
     state: 'absent'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.objects import Tag
     from panos.errors import PanDeviceError
+    from panos.objects import Tag
 except ImportError:
     try:
-        from pandevice.objects import Tag
         from pandevice.errors import PanDeviceError
+        from pandevice.objects import Tag
     except ImportError:
         pass
 
 COLOR_NAMES = [
-    'red', 'green', 'blue', 'yellow', 'copper', 'orange', 'purple', 'gray', 'light green',
-    'cyan', 'light gray', 'blue gray', 'lime', 'black', 'gold', 'brown'
+    "red",
+    "green",
+    "blue",
+    "yellow",
+    "copper",
+    "orange",
+    "purple",
+    "gray",
+    "light green",
+    "cyan",
+    "light gray",
+    "blue gray",
+    "lime",
+    "black",
+    "gold",
+    "brown",
 ]
 
 
@@ -116,35 +133,32 @@ def main():
         with_classic_provider_spec=True,
         with_state=True,
         argument_spec=dict(
-            name=dict(type='str', required=True),
-            color=dict(type='str', default=None, choices=COLOR_NAMES),
-            comments=dict(type='str'),
-            commit=dict(type='bool', default=False)
-        )
+            name=dict(type="str", required=True),
+            color=dict(type="str", default=None, choices=COLOR_NAMES),
+            comments=dict(type="str"),
+            commit=dict(type="bool", default=False),
+        ),
     )
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         required_one_of=helper.required_one_of,
-        supports_check_mode=True
+        supports_check_mode=True,
     )
 
     parent = helper.get_pandevice_parent(module)
 
-    spec = {
-        'name': module.params['name'],
-        'comments': module.params['comments']
-    }
+    spec = {"name": module.params["name"], "comments": module.params["comments"]}
 
-    if module.params['color']:
-        spec['color'] = Tag.color_code(module.params['color'])
+    if module.params["color"]:
+        spec["color"] = Tag.color_code(module.params["color"])
 
-    commit = module.params['commit']
+    commit = module.params["commit"]
 
     try:
         listing = Tag.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     obj = Tag(**spec)
     parent.add(obj)
@@ -157,5 +171,5 @@ def main():
     module.exit_json(changed=changed, diff=diff)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

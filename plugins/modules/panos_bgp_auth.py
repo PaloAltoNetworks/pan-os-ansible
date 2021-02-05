@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_bgp_auth
 short_description: Configures a BGP Authentication Profile
@@ -65,46 +66,44 @@ options:
             - Name of the virtual router, it must already exist.  See M(panos_virtual_router).
         type: str
         default: 'default'
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create BGP Authentication Profile
   panos_bgp_auth:
     provider: '{{ provider }}'
     vr_name: 'my virtual router'
     name: auth-profile-1
     secret: SuperSecretCode
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
-    from panos.network import Bgp
-    from panos.network import BgpAuthProfile
-    from panos.network import VirtualRouter
+    from panos.network import Bgp, BgpAuthProfile, VirtualRouter
 except ImportError:
     try:
         from pandevice.errors import PanDeviceError
-        from pandevice.network import Bgp
-        from pandevice.network import BgpAuthProfile
-        from pandevice.network import VirtualRouter
+        from pandevice.network import Bgp, BgpAuthProfile, VirtualRouter
     except ImportError:
         pass
 
 
 def setup_args():
     return dict(
-        commit=dict(type='bool', default=False),
-        vr_name=dict(default='default'),
-        replace=dict(type='bool'),
-        name=dict(type='str', required=True),
-        secret=dict(type='str', no_log=True),
+        commit=dict(type="bool", default=False),
+        vr_name=dict(default="default"),
+        replace=dict(type="bool"),
+        name=dict(type="str", required=True),
+        secret=dict(type="str", no_log=True),
     )
 
 
@@ -126,31 +125,32 @@ def main():
     parent = helper.get_pandevice_parent(module)
 
     # TODO(gfreeman) - removed in 2.12
-    if module.params['replace'] is not None:
+    if module.params["replace"] is not None:
         module.deprecate(
             'Param "replace" is deprecated; please remove it from your playbooks',
-            version='3.0.0', collection_name='paloaltonetworks.panos'
+            version="3.0.0",
+            collection_name="paloaltonetworks.panos",
         )
 
-    vr = VirtualRouter(module.params['vr_name'])
+    vr = VirtualRouter(module.params["vr_name"])
     parent.add(vr)
     try:
         vr.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
-    bgp = vr.find('', Bgp)
+    bgp = vr.find("", Bgp)
     if bgp is None:
-        module.fail_json(msg='BGP config not yet added to {0}'.format(vr.name))
+        module.fail_json(msg="BGP config not yet added to {0}".format(vr.name))
     parent = bgp
 
     listing = parent.findall(BgpAuthProfile)
 
-    commit = module.params['commit']
+    commit = module.params["commit"]
 
     spec = {
-        'name': module.params['name'],
-        'secret': module.params['secret'],
+        "name": module.params["name"],
+        "secret": module.params["secret"],
     }
     obj = BgpAuthProfile(**spec)
     parent.add(obj)
@@ -160,8 +160,8 @@ def main():
     if commit and changed:
         helper.commit(module)
 
-    module.exit_json(changed=changed, diff=diff, msg='done')
+    module.exit_json(changed=changed, diff=diff, msg="done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

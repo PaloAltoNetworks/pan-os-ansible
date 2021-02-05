@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_l3_subinterface
 short_description: configure layer3 subinterface
@@ -111,9 +112,9 @@ options:
             - Virtual router to add this interface to.
         type: str
         default: 'default'
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create ethernet1/1.5 as DHCP.
 - name: enable DHCP client on ethernet1/1.5 in zone public
   panos_l3_subinterface:
@@ -132,26 +133,28 @@ EXAMPLES = '''
     enable_dhcp: false
     ip: ["10.1.1.1/24"]
     zone_name: "dmz"
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import AggregateInterface
-    from panos.network import EthernetInterface
-    from panos.network import Layer3Subinterface
     from panos.errors import PanDeviceError
+    from panos.network import AggregateInterface, EthernetInterface, Layer3Subinterface
 except ImportError:
     try:
-        from pandevice.network import AggregateInterface
-        from pandevice.network import EthernetInterface
-        from pandevice.network import Layer3Subinterface
         from pandevice.errors import PanDeviceError
+        from pandevice.network import (
+            AggregateInterface,
+            EthernetInterface,
+            Layer3Subinterface,
+        )
     except ImportError:
         pass
 
@@ -165,21 +168,21 @@ def main():
         min_pandevice_version=(0, 8, 0),
         argument_spec=dict(
             name=dict(required=True),
-            tag=dict(required=True, type='int'),
-            ip=dict(type='list', elements='str'),
-            ipv6_enabled=dict(type='bool'),
+            tag=dict(required=True, type="int"),
+            ip=dict(type="list", elements="str"),
+            ipv6_enabled=dict(type="bool"),
             management_profile=dict(),
-            mtu=dict(type='int'),
-            adjust_tcp_mss=dict(type='bool'),
+            mtu=dict(type="int"),
+            adjust_tcp_mss=dict(type="bool"),
             netflow_profile=dict(),
             comment=dict(),
-            ipv4_mss_adjust=dict(type='int'),
-            ipv6_mss_adjust=dict(type='int'),
-            enable_dhcp=dict(type='bool', default=True),
-            create_default_route=dict(type='bool', default=False),
-            dhcp_default_route_metric=dict(type='int'),
+            ipv4_mss_adjust=dict(type="int"),
+            ipv6_mss_adjust=dict(type="int"),
+            enable_dhcp=dict(type="bool", default=True),
+            create_default_route=dict(type="bool", default=False),
+            dhcp_default_route_metric=dict(type="int"),
             zone_name=dict(),
-            vr_name=dict(default='default'),
+            vr_name=dict(default="default"),
         ),
     )
     module = AnsibleModule(
@@ -193,44 +196,44 @@ def main():
 
     # Get the object params.
     spec = {
-        'name': module.params['name'],
-        'tag': module.params['tag'],
-        'ip': module.params['ip'],
-        'ipv6_enabled': module.params['ipv6_enabled'],
-        'management_profile': module.params['management_profile'],
-        'mtu': module.params['mtu'],
-        'adjust_tcp_mss': module.params['adjust_tcp_mss'],
-        'netflow_profile': module.params['netflow_profile'],
-        'comment': module.params['comment'],
-        'ipv4_mss_adjust': module.params['ipv4_mss_adjust'],
-        'ipv6_mss_adjust': module.params['ipv6_mss_adjust'],
-        'enable_dhcp': True if module.params['enable_dhcp'] else None,
+        "name": module.params["name"],
+        "tag": module.params["tag"],
+        "ip": module.params["ip"],
+        "ipv6_enabled": module.params["ipv6_enabled"],
+        "management_profile": module.params["management_profile"],
+        "mtu": module.params["mtu"],
+        "adjust_tcp_mss": module.params["adjust_tcp_mss"],
+        "netflow_profile": module.params["netflow_profile"],
+        "comment": module.params["comment"],
+        "ipv4_mss_adjust": module.params["ipv4_mss_adjust"],
+        "ipv6_mss_adjust": module.params["ipv6_mss_adjust"],
+        "enable_dhcp": True if module.params["enable_dhcp"] else None,
         # 'create_dhcp_default_route': set below
-        'dhcp_default_route_metric': module.params['dhcp_default_route_metric'],
+        "dhcp_default_route_metric": module.params["dhcp_default_route_metric"],
     }
 
-    if module.params['create_default_route']:
-        spec['create_dhcp_default_route'] = True
-    elif spec['enable_dhcp']:
-        spec['create_dhcp_default_route'] = False
+    if module.params["create_default_route"]:
+        spec["create_dhcp_default_route"] = True
+    elif spec["enable_dhcp"]:
+        spec["create_dhcp_default_route"] = False
     else:
-        spec['create_dhcp_default_route'] = None
+        spec["create_dhcp_default_route"] = None
 
     # Get other info.
-    state = module.params['state']
-    zone_name = module.params['zone_name']
-    vr_name = module.params['vr_name']
-    vsys = module.params['vsys']
+    state = module.params["state"]
+    zone_name = module.params["zone_name"]
+    vr_name = module.params["vr_name"]
+    vsys = module.params["vsys"]
 
     # Sanity check.
-    if '.' not in spec['name']:
+    if "." not in spec["name"]:
         module.fail_json(msg='Interface name does not have "." in it')
 
     # check on EthernetInterface or AggregateInterface
-    parent_iname = spec['name'].split('.')[0]
+    parent_iname = spec["name"].split(".")[0]
 
     # Retrieve the current config.
-    if parent_iname.startswith('ae'):
+    if parent_iname.startswith("ae"):
         parent_eth = AggregateInterface(parent_iname)
     else:
         parent_eth = EthernetInterface(parent_iname)
@@ -239,10 +242,12 @@ def main():
     try:
         parent_eth.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
-    if parent_eth.mode != 'layer3':
-        module.fail_json(msg='{0} mode is {1}, not layer3'.format(parent_eth.name, parent_eth.mode))
+    if parent_eth.mode != "layer3":
+        module.fail_json(
+            msg="{0} mode is {1}, not layer3".format(parent_eth.name, parent_eth.mode)
+        )
 
     interfaces = parent_eth.findall(Layer3Subinterface)
 
@@ -253,11 +258,11 @@ def main():
     # Which action should we take on the interface?
     changed = False
     reference_params = {
-        'refresh': True,
-        'update': not module.check_mode,
-        'return_type': 'bool',
+        "refresh": True,
+        "update": not module.check_mode,
+        "return_type": "bool",
     }
-    if state == 'present':
+    if state == "present":
         for item in interfaces:
             if item.name != eth.name:
                 continue
@@ -269,7 +274,7 @@ def main():
                     try:
                         eth.apply()
                     except PanDeviceError as e:
-                        module.fail_json(msg='Failed apply: {0}'.format(e))
+                        module.fail_json(msg="Failed apply: {0}".format(e))
             break
         else:
             changed = True
@@ -277,7 +282,7 @@ def main():
                 try:
                     eth.create()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed create: {0}'.format(e))
+                    module.fail_json(msg="Failed create: {0}".format(e))
 
         # Set references.
         try:
@@ -285,15 +290,15 @@ def main():
             changed |= eth.set_zone(zone_name, mode=parent_eth.mode, **reference_params)
             changed |= eth.set_virtual_router(vr_name, **reference_params)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed setref: {0}'.format(e))
-    elif state == 'absent':
+            module.fail_json(msg="Failed setref: {0}".format(e))
+    elif state == "absent":
         # Remove references.
         try:
             changed |= eth.set_virtual_router(None, **reference_params)
             changed |= eth.set_zone(None, mode=parent_eth.mode, **reference_params)
             changed |= eth.set_vsys(None, **reference_params)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed setref: {0}'.format(e))
+            module.fail_json(msg="Failed setref: {0}".format(e))
 
         # Remove the interface.
         if eth.name in [x.name for x in interfaces]:
@@ -302,11 +307,11 @@ def main():
                 try:
                     eth.delete()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed delete: {0}'.format(e))
+                    module.fail_json(msg="Failed delete: {0}".format(e))
 
     # Done!
-    module.exit_json(changed=changed, msg='Done')
+    module.exit_json(changed=changed, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

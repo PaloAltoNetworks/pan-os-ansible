@@ -4,12 +4,13 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
 
 class ModuleDocFragment(object):
     # Standard files documentation fragment
-    DOCUMENTATION = r'''
+    DOCUMENTATION = r"""
 options:
     ip_address:
         description:
@@ -26,9 +27,9 @@ options:
             - Username for authentication.
         type: str
         default: admin
-'''
+"""
 
-    PROVIDER = r'''
+    PROVIDER = r"""
 options:
     provider:
         description:
@@ -69,9 +70,9 @@ options:
                       If I(ip_address) is not a Panorama PAN-OS device, then
                       this param is ignored.
                 type: str
-'''
+"""
 
-    TRANSITIONAL_PROVIDER = r'''
+    TRANSITIONAL_PROVIDER = r"""
 options:
     provider:
         description:
@@ -155,9 +156,9 @@ notes:
       classic PAN-OS connectivity params (I(ip_address), I(username),
       I(password), I(api_key), and I(port)).  If both are present, then the
       classic params are ignored.
-'''
+"""
 
-    STATE = r'''
+    STATE = r"""
 options:
     state:
         description:
@@ -167,9 +168,9 @@ options:
         choices:
             - present
             - absent
-'''
+"""
 
-    ENABLED_STATE = r'''
+    ENABLED_STATE = r"""
 options:
     state:
         description:
@@ -181,9 +182,9 @@ options:
             - absent
             - enabled
             - disabled
-'''
+"""
 
-    RULEBASE = r'''
+    RULEBASE = r"""
 options:
     rulebase:
         description:
@@ -195,9 +196,9 @@ options:
             - pre-rulebase
             - rulebase
             - post-rulebase
-'''
+"""
 
-    VSYS_DG = r'''
+    VSYS_DG = r"""
 options:
     vsys_dg:
         description:
@@ -205,18 +206,18 @@ options:
               operation should target.  If left unspecified, this defaults to
               I(vsys_dg=vsys1) for NGFW or I(vsys_dg=shared) for Panorama.
         type: str
-'''
+"""
 
-    DEVICE_GROUP = r'''
+    DEVICE_GROUP = r"""
 options:
     device_group:
         description:
             - (Panorama only) The device group the operation should target.
         type: str
         default: shared
-'''
+"""
 
-    VSYS_IMPORT = r'''
+    VSYS_IMPORT = r"""
 options:
     vsys:
         description:
@@ -225,36 +226,36 @@ options:
               VLANs.  Interfaces are typically imported into vsys1 if no vsys
               is specified.
         type: str
-'''
+"""
 
-    VSYS = r'''
+    VSYS = r"""
 options:
     vsys:
         description:
             - The vsys this object belongs to.
         type: str
         default: vsys1
-'''
+"""
 
-    VSYS_SHARED = r'''
+    VSYS_SHARED = r"""
 options:
     vsys:
         description:
             - The vsys this object belongs to.
         type: str
         default: shared
-'''
+"""
 
-    TEMPLATE_ONLY = r'''
+    TEMPLATE_ONLY = r"""
 options:
     template:
         description:
             - (Panorama only) The template this operation should target.  This
               param is required if the PAN-OS device is Panorama.
         type: str
-'''
+"""
 
-    FULL_TEMPLATE_SUPPORT = r'''
+    FULL_TEMPLATE_SUPPORT = r"""
 options:
     template:
         description:
@@ -269,9 +270,9 @@ options:
 notes:
     - If the PAN-OS to be configured is Panorama, either I(template) or
       I(template_stack) must be specified.
-'''
+"""
 
-    DEPRECATED_COMMIT = r'''
+    DEPRECATED_COMMIT = r"""
 options:
     commit:
         description:
@@ -283,4 +284,4 @@ options:
               I(template) are also set, perform a commit to Panorama and a commit-all to the device group/template.
         default: false
         type: bool
-'''
+"""

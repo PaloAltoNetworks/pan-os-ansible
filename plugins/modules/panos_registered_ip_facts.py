@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_registered_ip_facts
 short_description: Retrieve facts about registered IPs on PAN-OS devices.
@@ -45,9 +46,9 @@ options:
             - List of IP addresses to retrieve facts for.  If not specified, retrieve all addresses.
         type: list
         elements: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Get facts for all registered IPs
   panos_registered_ip_facts:
     provider: '{{ provider }}'
@@ -64,18 +65,20 @@ EXAMPLES = '''
     provider: '{{ provider }}'
     ips: ['192.168.1.1']
   register: ipaddress_registered_ip_facts
-'''
+"""
 
-RETURN = '''
+RETURN = """
 results:
     description: IP addresses as keys, tags as values.
     returned: always
     type: dict
     sample: { '1.1.1.1': ['First_Tag', 'Second_Tag'] }
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
@@ -90,20 +93,19 @@ def main():
     helper = get_connection(
         vsys=True,
         with_classic_provider_spec=True,
-        panorama_error='Panorama is not supported for this module.',
+        panorama_error="Panorama is not supported for this module.",
         argument_spec=dict(
-            tags=dict(type='list', elements='str'),
-            ips=dict(type='list', elements='str')
-        )
+            tags=dict(type="list", elements="str"),
+            ips=dict(type="list", elements="str"),
+        ),
     )
 
     module = AnsibleModule(
-        argument_spec=helper.argument_spec,
-        required_one_of=helper.required_one_of
+        argument_spec=helper.argument_spec, required_one_of=helper.required_one_of
     )
 
-    tags = module.params['tags']
-    ips = module.params['ips']
+    tags = module.params["tags"]
+    ips = module.params["ips"]
 
     device = helper.get_pandevice_parent(module)
 
@@ -111,10 +113,10 @@ def main():
         registered_ips = device.userid.get_registered_ip(tags=tags, ip=ips)
 
     except PanDeviceError as e:
-        module.fail_json(msg='Failed get_registered_ip: {0}'.format(e))
+        module.fail_json(msg="Failed get_registered_ip: {0}".format(e))
 
     module.exit_json(changed=False, ansible_module_results=registered_ips)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

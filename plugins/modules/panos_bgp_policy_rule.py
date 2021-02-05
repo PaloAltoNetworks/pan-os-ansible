@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_bgp_policy_rule
 short_description: Configures a BGP Policy Import/Export Rule
@@ -195,9 +196,9 @@ options:
             - Name of the virtual router; it must already exist; see M(panos_virtual_router).
         type: str
         default: default
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Add a BGP Policy
   - name: Create Policy Import Rule
     panos_bgp_policy_rule:
@@ -231,70 +232,78 @@ EXAMPLES = '''
       vr_name: 'default'
       name: 'export-rule-001'
       type: 'export'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 from ansible.module_utils._text import to_text
+from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
-    from panos.network import VirtualRouter
-    from panos.network import Bgp
-    from panos.network import BgpPolicyImportRule
-    from panos.network import BgpPolicyExportRule
-    from panos.network import BgpPolicyAddressPrefix
+    from panos.network import (
+        Bgp,
+        BgpPolicyAddressPrefix,
+        BgpPolicyExportRule,
+        BgpPolicyImportRule,
+        VirtualRouter,
+    )
 except ImportError:
     try:
         from pandevice.errors import PanDeviceError
-        from pandevice.network import VirtualRouter
-        from pandevice.network import Bgp
-        from pandevice.network import BgpPolicyImportRule
-        from pandevice.network import BgpPolicyExportRule
-        from pandevice.network import BgpPolicyAddressPrefix
+        from pandevice.network import (
+            Bgp,
+            BgpPolicyAddressPrefix,
+            BgpPolicyExportRule,
+            BgpPolicyImportRule,
+            VirtualRouter,
+        )
     except ImportError:
         pass
 
 
 def setup_args():
     return dict(
-        commit=dict(type='bool', default=False),
-
-        vr_name=dict(default='default'),
-
-        type=dict(type='str', required=True, choices=['import', 'export']),
-
-        name=dict(type='str', required=True),
-        enable=dict(default=True, type='bool'),
-        match_afi=dict(type='str', choices=['ip', 'ipv6']),
-        match_safi=dict(type='str', choices=['ip', 'ipv6']),
-        match_route_table=dict(type='str', choices=['unicast', 'multicast', 'both']),
-        match_nexthop=dict(type='list', elements='str'),
-        match_from_peer=dict(type='list', elements='str'),
-        match_med=dict(type='int'),
-        match_as_path_regex=dict(type='str'),
-        match_community_regex=dict(type='str'),
-        match_extended_community_regex=dict(type='str'),
-        used_by=dict(type='list', elements='str'),
-        action=dict(type='str', choices=['allow', 'deny']),
-        action_local_preference=dict(type='int'),
-        action_med=dict(type='int'),
-        action_nexthop=dict(type='str'),
-        action_origin=dict(type='str', choices=['igp', 'egp', 'incomplete']),
-        action_as_path_limit=dict(type='int'),
-        action_as_path_type=dict(type='str', choices=['none', 'remove', 'prepend', 'remove-and-prepend']),
-        action_as_path_prepend_times=dict(type='int'),
-        action_community_type=dict(type='str', choices=['none', 'remove-all', 'remove-regex', 'append', 'overwrite']),
-        action_community_argument=dict(type='str'),
-        action_extended_community_type=dict(type='str'),
-        action_extended_community_argument=dict(type='str'),
-        action_dampening=dict(type='str'),
-        action_weight=dict(type='int'),
-        address_prefix=dict(type='list', elements='dict'),
+        commit=dict(type="bool", default=False),
+        vr_name=dict(default="default"),
+        type=dict(type="str", required=True, choices=["import", "export"]),
+        name=dict(type="str", required=True),
+        enable=dict(default=True, type="bool"),
+        match_afi=dict(type="str", choices=["ip", "ipv6"]),
+        match_safi=dict(type="str", choices=["ip", "ipv6"]),
+        match_route_table=dict(type="str", choices=["unicast", "multicast", "both"]),
+        match_nexthop=dict(type="list", elements="str"),
+        match_from_peer=dict(type="list", elements="str"),
+        match_med=dict(type="int"),
+        match_as_path_regex=dict(type="str"),
+        match_community_regex=dict(type="str"),
+        match_extended_community_regex=dict(type="str"),
+        used_by=dict(type="list", elements="str"),
+        action=dict(type="str", choices=["allow", "deny"]),
+        action_local_preference=dict(type="int"),
+        action_med=dict(type="int"),
+        action_nexthop=dict(type="str"),
+        action_origin=dict(type="str", choices=["igp", "egp", "incomplete"]),
+        action_as_path_limit=dict(type="int"),
+        action_as_path_type=dict(
+            type="str", choices=["none", "remove", "prepend", "remove-and-prepend"]
+        ),
+        action_as_path_prepend_times=dict(type="int"),
+        action_community_type=dict(
+            type="str",
+            choices=["none", "remove-all", "remove-regex", "append", "overwrite"],
+        ),
+        action_community_argument=dict(type="str"),
+        action_extended_community_type=dict(type="str"),
+        action_extended_community_argument=dict(type="str"),
+        action_dampening=dict(type="str"),
+        action_weight=dict(type="int"),
+        address_prefix=dict(type="list", elements="dict"),
     )
 
 
@@ -315,59 +324,67 @@ def main():
 
     parent = helper.get_pandevice_parent(module)
 
-    vr = VirtualRouter(module.params['vr_name'])
+    vr = VirtualRouter(module.params["vr_name"])
     parent.add(vr)
     try:
         vr.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
-    bgp = vr.find('', Bgp)
+    bgp = vr.find("", Bgp)
     if bgp is None:
         module.fail_json(msg='BGP is not configured for "{0}"'.format(vr.name))
 
     spec = {
-        'name': module.params['name'],
-        'enable': module.params['enable'],
-        'match_afi': module.params['match_afi'],
-        'match_safi': module.params['match_safi'],
-        'match_route_table': module.params['match_route_table'],
-        'match_nexthop': module.params['match_nexthop'],
-        'match_from_peer': module.params['match_from_peer'],
-        'match_med': module.params['match_med'],
-        'match_as_path_regex': module.params['match_as_path_regex'],
-        'match_community_regex': module.params['match_community_regex'],
-        'match_extended_community_regex': module.params['match_extended_community_regex'],
-        'used_by': module.params['used_by'],
-        'action': module.params['action'],
-        'action_local_preference': module.params['action_local_preference'],
-        'action_med': module.params['action_med'],
-        'action_nexthop': module.params['action_nexthop'],
-        'action_origin': module.params['action_origin'],
-        'action_as_path_limit': module.params['action_as_path_limit'],
-        'action_as_path_type': module.params['action_as_path_type'],
-        'action_as_path_prepend_times': module.params['action_as_path_prepend_times'],
-        'action_community_type': module.params['action_community_type'],
-        'action_community_argument': module.params['action_community_argument'],
-        'action_extended_community_type': module.params['action_extended_community_type'],
-        'action_extended_community_argument': module.params['action_extended_community_argument'],
+        "name": module.params["name"],
+        "enable": module.params["enable"],
+        "match_afi": module.params["match_afi"],
+        "match_safi": module.params["match_safi"],
+        "match_route_table": module.params["match_route_table"],
+        "match_nexthop": module.params["match_nexthop"],
+        "match_from_peer": module.params["match_from_peer"],
+        "match_med": module.params["match_med"],
+        "match_as_path_regex": module.params["match_as_path_regex"],
+        "match_community_regex": module.params["match_community_regex"],
+        "match_extended_community_regex": module.params[
+            "match_extended_community_regex"
+        ],
+        "used_by": module.params["used_by"],
+        "action": module.params["action"],
+        "action_local_preference": module.params["action_local_preference"],
+        "action_med": module.params["action_med"],
+        "action_nexthop": module.params["action_nexthop"],
+        "action_origin": module.params["action_origin"],
+        "action_as_path_limit": module.params["action_as_path_limit"],
+        "action_as_path_type": module.params["action_as_path_type"],
+        "action_as_path_prepend_times": module.params["action_as_path_prepend_times"],
+        "action_community_type": module.params["action_community_type"],
+        "action_community_argument": module.params["action_community_argument"],
+        "action_extended_community_type": module.params[
+            "action_extended_community_type"
+        ],
+        "action_extended_community_argument": module.params[
+            "action_extended_community_argument"
+        ],
     }
     # Add the correct rule type.
-    if module.params['type'] == 'import':
-        spec['action_dampening'] = module.params['action_dampening']
-        spec['action_weight'] = module.params['action_weight']
+    if module.params["type"] == "import":
+        spec["action_dampening"] = module.params["action_dampening"]
+        spec["action_weight"] = module.params["action_weight"]
         obj = BgpPolicyImportRule(**spec)
     else:
         obj = BgpPolicyExportRule(**spec)
 
     # Handle address prefixes.
-    for x in module.params['address_prefix']:
-        if 'name' not in x:
+    for x in module.params["address_prefix"]:
+        if "name" not in x:
             module.fail_json(msg='Address prefix dict requires "name": {0}'.format(x))
-        obj.add(BgpPolicyAddressPrefix(
-            to_text(x['name'], encoding='utf-8', errors='surrogate_or_strict'),
-            None if x.get('exact') is None else module.boolean(x['exact']),
-        ))
+        obj.add(
+            BgpPolicyAddressPrefix(
+                to_text(x["name"], encoding="utf-8", errors="surrogate_or_strict"),
+                None if x.get("exact") is None else module.boolean(x["exact"]),
+            )
+        )
 
     listing = bgp.findall(obj.__class__)
     bgp.add(obj)
@@ -376,11 +393,11 @@ def main():
     changed, diff = helper.apply_state(obj, listing, module)
 
     # Optional commit.
-    if changed and module.params['commit']:
+    if changed and module.params["commit"]:
         helper.commit(module)
 
-    module.exit_json(changed=changed, diff=diff, msg='done')
+    module.exit_json(changed=changed, diff=diff, msg="done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

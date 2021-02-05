@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_static_route
 short_description: Create static routes on PAN-OS devices.
@@ -81,9 +82,9 @@ options:
         description:
             - The Interface to use.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create route 'Test-One'
   panos_static_route:
     provider: '{{ provider }}'
@@ -125,25 +126,25 @@ EXAMPLES = '''
     name: 'Test-Five'
     destination: '5.5.5.0/24'
     nexthop_type: 'none'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import StaticRoute
-    from panos.network import VirtualRouter
     from panos.errors import PanDeviceError
+    from panos.network import StaticRoute, VirtualRouter
 except ImportError:
     try:
-        from pandevice.network import StaticRoute
-        from pandevice.network import VirtualRouter
         from pandevice.errors import PanDeviceError
+        from pandevice.network import StaticRoute, VirtualRouter
     except ImportError:
         pass
 
@@ -158,13 +159,13 @@ def main():
             name=dict(required=True),
             destination=dict(),
             nexthop_type=dict(
-                default='ip-address',
-                choices=['ip-address', 'discard', 'none', 'next-vr'],
+                default="ip-address",
+                choices=["ip-address", "discard", "none", "next-vr"],
             ),
             nexthop=dict(),
             admin_dist=dict(),
-            metric=dict(type='int', default=10),
-            virtual_router=dict(default='default'),
+            metric=dict(type="int", default=10),
+            virtual_router=dict(default="default"),
             interface=dict(),
         ),
     )
@@ -176,26 +177,26 @@ def main():
     )
 
     spec = {
-        'name': module.params['name'],
-        'destination': module.params['destination'],
-        'nexthop_type': module.params['nexthop_type'],
-        'nexthop': module.params['nexthop'],
-        'interface': module.params['interface'],
-        'admin_dist': module.params['admin_dist'],
-        'metric': module.params['metric'],
+        "name": module.params["name"],
+        "destination": module.params["destination"],
+        "nexthop_type": module.params["nexthop_type"],
+        "nexthop": module.params["nexthop"],
+        "interface": module.params["interface"],
+        "admin_dist": module.params["admin_dist"],
+        "metric": module.params["metric"],
     }
 
     parent = helper.get_pandevice_parent(module)
-    virtual_router = module.params['virtual_router']
+    virtual_router = module.params["virtual_router"]
 
     # Allow None for nexthop_type.
-    if spec['nexthop_type'] == 'none':
-        spec['nexthop_type'] = None
+    if spec["nexthop_type"] == "none":
+        spec["nexthop_type"] = None
 
     try:
         vr_list = VirtualRouter.refreshall(parent, add=False, name_only=True)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed vr refresh: {0}'.format(e))
+        module.fail_json(msg="Failed vr refresh: {0}".format(e))
 
     # Find the virtual router.
     for vr in vr_list:
@@ -203,13 +204,15 @@ def main():
             parent.add(vr)
             break
     else:
-        module.fail_json(msg='Virtual router "{0}" does not exist'.format(virtual_router))
+        module.fail_json(
+            msg='Virtual router "{0}" does not exist'.format(virtual_router)
+        )
 
     # Get the listing.
     try:
         listing = StaticRoute.refreshall(vr, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     # Create the object and attach it to the object tree.
     obj = StaticRoute(**spec)
@@ -221,5 +224,5 @@ def main():
     module.exit_json(changed=changed, diff=diff)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

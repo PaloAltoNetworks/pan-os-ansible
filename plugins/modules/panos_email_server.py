@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_email_server
 short_description: Manage email servers in an email profile.
@@ -68,9 +69,9 @@ options:
         description:
             - IP address or FQDN of email gateway to use.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create a profile
 - name: Create email server in an email profile
   panos_email_server:
@@ -80,23 +81,23 @@ EXAMPLES = '''
     from_email: 'alerts@example.com'
     to_email: 'notify@example.com'
     email_gateway: 'smtp.example.com'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.device import EmailServerProfile
-    from panos.device import EmailServer
+    from panos.device import EmailServer, EmailServerProfile
     from panos.errors import PanDeviceError
 except ImportError:
     try:
-        from pandevice.device import EmailServerProfile
-        from pandevice.device import EmailServer
+        from pandevice.device import EmailServer, EmailServerProfile
         from pandevice.errors import PanDeviceError
     except ImportError:
         pass
@@ -129,29 +130,29 @@ def main():
     # Verify imports, build pandevice object tree.
     parent = helper.get_pandevice_parent(module)
 
-    sp = EmailServerProfile(module.params['email_profile'])
+    sp = EmailServerProfile(module.params["email_profile"])
     parent.add(sp)
     try:
         sp.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     listing = sp.findall(EmailServer)
 
     spec = {
-        'name': module.params['name'],
-        'display_name': module.params['display_name'],
-        'from': module.params['from_email'],
-        'to': module.params['to_email'],
-        'also_to': module.params['also_to_email'],
-        'email_gateway': module.params['email_gateway'],
+        "name": module.params["name"],
+        "display_name": module.params["display_name"],
+        "from": module.params["from_email"],
+        "to": module.params["to_email"],
+        "also_to": module.params["also_to_email"],
+        "email_gateway": module.params["email_gateway"],
     }
     obj = EmailServer(**spec)
     sp.add(obj)
 
     changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

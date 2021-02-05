@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_security_rule_facts
 short_description: Retrieve information about security rules.
@@ -100,9 +101,9 @@ options:
             show_all:
                 description: Show all potential matches until first allow rule
                 type: bool
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Get a list of all security rules
   panos_security_rule_facts:
     provider: '{{ provider }}'
@@ -135,9 +136,9 @@ EXAMPLES = '''
 
 - debug:
     msg: '{{ dns_rule.spec }}'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 rule_names:
     description:
         List of security rules present, or matching traffic as specified in
@@ -246,19 +247,21 @@ rule_details:
         wildfire_analysis:
             description: Name of the already defined wildfire_analysis profile.
             type: str
-'''
+"""
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.policies import SecurityRule
     from panos.errors import PanDeviceError
+    from panos.policies import SecurityRule
 except ImportError:
     try:
-        from pandevice.policies import SecurityRule
         from pandevice.errors import PanDeviceError
+        from pandevice.policies import SecurityRule
     except ImportError:
         pass
 
@@ -267,40 +270,40 @@ import xml.etree.ElementTree as ET
 
 
 def match_rules(module, device):
-    params = module.params['match_rules']
+    params = module.params["match_rules"]
     rule_names = []
 
     spec = {}
 
     renames = [
-        ('from', 'source_zone'),
-        ('source', 'source_ip'),
-        ('source-user', 'source_user'),
-        ('to', 'destination_zone'),
-        ('destination', 'destination_ip'),
-        ('destination-port', 'destination_port'),
-        ('application', 'application'),
-        ('category', 'category')
+        ("from", "source_zone"),
+        ("source", "source_ip"),
+        ("source-user", "source_user"),
+        ("to", "destination_zone"),
+        ("destination", "destination_ip"),
+        ("destination-port", "destination_port"),
+        ("application", "application"),
+        ("category", "category"),
     ]
 
     for s, p in renames:
         if params[p] is not None:
             spec[s] = params[p]
 
-    if params['protocol'] == 'icmp':
-        spec['protocol'] = '1'
-    elif params['protocol'] == 'tcp':
-        spec['protocol'] = '6'
-    elif params['protocol'] == 'udp':
-        spec['protocol'] = '17'
+    if params["protocol"] == "icmp":
+        spec["protocol"] = "1"
+    elif params["protocol"] == "tcp":
+        spec["protocol"] = "6"
+    elif params["protocol"] == "udp":
+        spec["protocol"] = "17"
 
-    if params['show_all']:
-        spec['show-all'] = 'yes'
+    if params["show_all"]:
+        spec["show-all"] = "yes"
 
     # Build XML command, starting from 'security-policy-match' element.
-    cmd = '<test><security-policy-match/></test>'
+    cmd = "<test><security-policy-match/></test>"
     tree = ET.fromstring(cmd)
-    match = tree.find('.//security-policy-match')
+    match = tree.find(".//security-policy-match")
 
     for element, text in spec.items():
         e = ET.SubElement(match, element)
@@ -310,9 +313,9 @@ def match_rules(module, device):
     result = device.op(cmd_str, cmd_xml=False)
 
     # Loop through 'entry' elements in XML result, get policy names.
-    rules = result.findall('.//entry')
+    rules = result.findall(".//entry")
     for rule in rules:
-        rule_names.append(rule.get('name'))
+        rule_names.append(rule.get("name"))
 
     return rule_names
 
@@ -326,22 +329,24 @@ def main():
         error_on_firewall_shared=True,
         argument_spec=dict(
             rule_name=dict(),
-            names=dict(type='list', elements='str'),
-            details=dict(default=False, type='bool', aliases=['all_details']),
+            names=dict(type="list", elements="str"),
+            details=dict(default=False, type="bool", aliases=["all_details"]),
             match_rules=dict(
-                type='dict',
+                type="dict",
                 options=dict(
-                    source_zone=dict(type='str', required=True),
-                    source_ip=dict(type='str', required=True),
-                    source_user=dict(type='str'),
-                    destination_zone=dict(type='str', required=True),
-                    destination_ip=dict(type='str', required=True),
-                    destination_port=dict(type='str', required=True),
-                    protocol=dict(type='str', choices=['tcp', 'udp', 'icmp'], required=True),
-                    application=dict(type='str'),
-                    category=dict(type='str'),
-                    show_all=dict(type='bool')
-                )
+                    source_zone=dict(type="str", required=True),
+                    source_ip=dict(type="str", required=True),
+                    source_user=dict(type="str"),
+                    destination_zone=dict(type="str", required=True),
+                    destination_ip=dict(type="str", required=True),
+                    destination_port=dict(type="str", required=True),
+                    protocol=dict(
+                        type="str", choices=["tcp", "udp", "icmp"], required=True
+                    ),
+                    application=dict(type="str"),
+                    category=dict(type="str"),
+                    show_all=dict(type="bool"),
+                ),
             ),
         ),
     )
@@ -355,35 +360,37 @@ def main():
     parent = helper.get_pandevice_parent(module)
 
     renames = (
-        ('name', 'rule_name'),
-        ('fromzone', 'source_zone'),
-        ('tozone', 'destination_zone'),
-        ('source', 'source_ip'),
-        ('destination', 'destination_ip'),
-        ('type', 'rule_type'),
-        ('tag', 'tag_name'),
-        ('group', 'group_profile'),
-        ('virus', 'antivirus'),
+        ("name", "rule_name"),
+        ("fromzone", "source_zone"),
+        ("tozone", "destination_zone"),
+        ("source", "source_ip"),
+        ("destination", "destination_ip"),
+        ("type", "rule_type"),
+        ("tag", "tag_name"),
+        ("group", "group_profile"),
+        ("virus", "antivirus"),
     )
 
-    names = module.params['names']
-    details = module.params['details']
+    names = module.params["names"]
+    details = module.params["details"]
 
-    if module.params.get('all_details'):
+    if module.params.get("all_details"):
         module.deprecate(
-            'Please use details instead of all_details.',
-            version='3.0.0', collection_name='paloaltonetworks.panos'
+            "Please use details instead of all_details.",
+            version="3.0.0",
+            collection_name="paloaltonetworks.panos",
         )
 
-    if module.params['rule_name']:
+    if module.params["rule_name"]:
         module.deprecate(
-            'Please use the names parameter instead of rule_name.',
-            version='3.0.0', collection_name='paloaltonetworks.panos'
+            "Please use the names parameter instead of rule_name.",
+            version="3.0.0",
+            collection_name="paloaltonetworks.panos",
         )
 
-        names = [module.params['rule_name']]
+        names = [module.params["rule_name"]]
 
-    if module.params['match_rules']:
+    if module.params["match_rules"]:
         names = match_rules(module, parent.nearest_pandevice())
 
     if names is None and details is False:
@@ -391,7 +398,7 @@ def main():
         listing = SecurityRule.refreshall(parent, name_only=True)
         module.exit_json(changed=False, rule_names=[r.name for r in listing])
 
-    elif module.params['match_rules'] and details is False:
+    elif module.params["match_rules"] and details is False:
         # match_rules was set, but not details, so return list of rule names.
         module.exit_json(changed=False, rule_names=names)
 
@@ -411,7 +418,7 @@ def main():
                 try:
                     rule.refresh()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed refresh: {0}'.format(e))
+                    module.fail_json(msg="Failed refresh: {0}".format(e))
 
                 rules.append(rule.about())
 
@@ -424,5 +431,5 @@ def main():
         module.exit_json(changed=False, rule_details=rules)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_vm_auth_key
 short_description: Create a VM auth key for VM-Series bootstrapping
@@ -41,9 +42,9 @@ options:
             - The number of hours the VM auth key should be valid for.
         default: 24
         type: int
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create an 8 hour VM auth key
   panos_vm_auth_key:
     provider: '{{ provider }}'
@@ -52,9 +53,9 @@ EXAMPLES = '''
 
 - debug:
     msg: 'Auth key {{ res.authkey }} expires at {{ res.expires }}'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 authkey:
     description: The VM auth key.
     returned: success
@@ -64,12 +65,13 @@ expires:
     returned: success
     type: str
     sample: "2020/02/14 01:02:03"
-'''
+"""
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
-
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
@@ -83,10 +85,10 @@ except ImportError:
 def main():
     helper = get_connection(
         with_classic_provider_spec=True,
-        firewall_error='This is a Panorama only module',
+        firewall_error="This is a Panorama only module",
         min_pandevice_version=(0, 14, 0),
         argument_spec=dict(
-            hours=dict(default=24, type='int'),
+            hours=dict(default=24, type="int"),
         ),
     )
 
@@ -102,13 +104,13 @@ def main():
     # Create the VM auth key.
     result = {}
     try:
-        result = helper.device.generate_vm_auth_key(module.params['hours'])
+        result = helper.device.generate_vm_auth_key(module.params["hours"])
     except PanDeviceError as e:
-        module.fail_json(msg='Failed to generate VM auth key: {0}'.format(e))
+        module.fail_json(msg="Failed to generate VM auth key: {0}".format(e))
 
     # Done.
     module.exit_json(changed=True, **result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

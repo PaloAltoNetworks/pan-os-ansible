@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_application_object
 short_description: Create application objects on PAN-OS devices.
@@ -142,9 +143,9 @@ options:
             - Administrative tags
         type: list
         elements: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create custom application
   panos_application_object:
     provider: '{{ provider }}'
@@ -159,22 +160,24 @@ EXAMPLES = '''
     provider: '{{ provider }}'
     name: 'custom-app'
     state: 'absent'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.objects import ApplicationObject
     from panos.errors import PanDeviceError
+    from panos.objects import ApplicationObject
 except ImportError:
     try:
-        from pandevice.objects import ApplicationObject
         from pandevice.errors import PanDeviceError
+        from pandevice.objects import ApplicationObject
     except ImportError:
         pass
 
@@ -186,79 +189,77 @@ def main():
         with_classic_provider_spec=True,
         with_state=True,
         argument_spec=dict(
-            name=dict(type='str', required=True),
-            category=dict(type='str'),
-            subcategory=dict(type='str'),
-            technology=dict(type='str'),
-            risk=dict(choices=['1', '2', '3', '4', '5']),
-            parent_app=dict(type='str'),
-            timeout=dict(type='int'),
-            tcp_timeout=dict(type='int'),
-            udp_timeout=dict(type='int'),
-            tcp_half_closed_timeout=dict(type='int'),
-            tcp_time_wait_timeout=dict(type='int'),
-            evasive_behavior=dict(type='bool'),
-            consume_big_bandwidth=dict(type='bool'),
-            used_by_malware=dict(type='bool'),
-            able_to_transfer_file=dict(type='bool'),
-            has_known_vulnerability=dict(type='bool'),
-            tunnel_other_application=dict(type='bool'),
-            tunnel_applications=dict(type='list', elements='str'),
-            prone_to_misuse=dict(type='bool'),
-            pervasive_use=dict(type='bool'),
-            file_type_ident=dict(type='bool'),
-            virus_ident=dict(type='bool'),
-            data_ident=dict(type='bool'),
-            description=dict(type='str'),
-            tag=dict(type='list', elements='str'),
-        )
+            name=dict(type="str", required=True),
+            category=dict(type="str"),
+            subcategory=dict(type="str"),
+            technology=dict(type="str"),
+            risk=dict(choices=["1", "2", "3", "4", "5"]),
+            parent_app=dict(type="str"),
+            timeout=dict(type="int"),
+            tcp_timeout=dict(type="int"),
+            udp_timeout=dict(type="int"),
+            tcp_half_closed_timeout=dict(type="int"),
+            tcp_time_wait_timeout=dict(type="int"),
+            evasive_behavior=dict(type="bool"),
+            consume_big_bandwidth=dict(type="bool"),
+            used_by_malware=dict(type="bool"),
+            able_to_transfer_file=dict(type="bool"),
+            has_known_vulnerability=dict(type="bool"),
+            tunnel_other_application=dict(type="bool"),
+            tunnel_applications=dict(type="list", elements="str"),
+            prone_to_misuse=dict(type="bool"),
+            pervasive_use=dict(type="bool"),
+            file_type_ident=dict(type="bool"),
+            virus_ident=dict(type="bool"),
+            data_ident=dict(type="bool"),
+            description=dict(type="str"),
+            tag=dict(type="list", elements="str"),
+        ),
     )
 
-    required_if = [
-        ["state", "present", ["category", "subcategory", "technology"]]
-    ]
+    required_if = [["state", "present", ["category", "subcategory", "technology"]]]
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         required_one_of=helper.required_one_of,
         required_if=required_if,
-        supports_check_mode=True
+        supports_check_mode=True,
     )
 
     parent = helper.get_pandevice_parent(module)
 
     spec = {
-        'name': module.params['name'],
-        'category': module.params['category'],
-        'subcategory': module.params['subcategory'],
-        'technology': module.params['technology'],
-        'risk': module.params['risk'],
-        'parent_app': module.params['parent_app'],
-        'timeout': module.params['timeout'],
-        'tcp_timeout': module.params['tcp_timeout'],
-        'udp_timeout': module.params['udp_timeout'],
-        'tcp_half_closed_timeout': module.params['tcp_half_closed_timeout'],
-        'tcp_time_wait_timeout': module.params['tcp_time_wait_timeout'],
-        'evasive_behavior': module.params['evasive_behavior'],
-        'consume_big_bandwidth': module.params['consume_big_bandwidth'],
-        'used_by_malware': module.params['used_by_malware'],
-        'able_to_transfer_file': module.params['able_to_transfer_file'],
-        'has_known_vulnerability': module.params['has_known_vulnerability'],
-        'tunnel_other_application': module.params['tunnel_other_application'],
-        'tunnel_applications': module.params['tunnel_applications'],
-        'prone_to_misuse': module.params['prone_to_misuse'],
-        'pervasive_use': module.params['pervasive_use'],
-        'file_type_ident': module.params['file_type_ident'],
-        'virus_ident': module.params['virus_ident'],
-        'data_ident': module.params['data_ident'],
-        'description': module.params['description'],
-        'tag': module.params['tag'],
+        "name": module.params["name"],
+        "category": module.params["category"],
+        "subcategory": module.params["subcategory"],
+        "technology": module.params["technology"],
+        "risk": module.params["risk"],
+        "parent_app": module.params["parent_app"],
+        "timeout": module.params["timeout"],
+        "tcp_timeout": module.params["tcp_timeout"],
+        "udp_timeout": module.params["udp_timeout"],
+        "tcp_half_closed_timeout": module.params["tcp_half_closed_timeout"],
+        "tcp_time_wait_timeout": module.params["tcp_time_wait_timeout"],
+        "evasive_behavior": module.params["evasive_behavior"],
+        "consume_big_bandwidth": module.params["consume_big_bandwidth"],
+        "used_by_malware": module.params["used_by_malware"],
+        "able_to_transfer_file": module.params["able_to_transfer_file"],
+        "has_known_vulnerability": module.params["has_known_vulnerability"],
+        "tunnel_other_application": module.params["tunnel_other_application"],
+        "tunnel_applications": module.params["tunnel_applications"],
+        "prone_to_misuse": module.params["prone_to_misuse"],
+        "pervasive_use": module.params["pervasive_use"],
+        "file_type_ident": module.params["file_type_ident"],
+        "virus_ident": module.params["virus_ident"],
+        "data_ident": module.params["data_ident"],
+        "description": module.params["description"],
+        "tag": module.params["tag"],
     }
 
     try:
         listing = ApplicationObject.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     obj = ApplicationObject(**spec)
     parent.add(obj)
@@ -267,5 +268,5 @@ def main():
     module.exit_json(changed=changed, diff=diff)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

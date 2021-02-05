@@ -16,10 +16,11 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_bgp_conditional_advertisement
 short_description: Configures a BGP conditional advertisement.
@@ -84,9 +85,9 @@ options:
             - List of Peer Groups using this policy.
         type: list
         elements: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create BGP Conditional Advertisement Rule
   panos_bgp_conditional_advertisement:
     provider: '{{ provider }}'
@@ -94,26 +95,28 @@ EXAMPLES = '''
     enable: true
     non_exist_filter: '{{ non_exist.panos_obj }}'
     advertise_filter: '{{ advertise.panos_obj }}'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
-    from panos.network import VirtualRouter
-    from panos.network import Bgp
-    from panos.network import BgpPolicyConditionalAdvertisement
+    from panos.network import Bgp, BgpPolicyConditionalAdvertisement, VirtualRouter
 except ImportError:
     try:
         from pandevice.errors import PanDeviceError
-        from pandevice.network import VirtualRouter
-        from pandevice.network import Bgp
-        from pandevice.network import BgpPolicyConditionalAdvertisement
+        from pandevice.network import (
+            Bgp,
+            BgpPolicyConditionalAdvertisement,
+            VirtualRouter,
+        )
     except ImportError:
         pass
 
@@ -123,13 +126,13 @@ from base64 import b64decode
 
 def setup_args():
     return dict(
-        commit=dict(type='bool', default=False),
-        vr_name=dict(default='default'),
-        non_exist_filter=dict(type='str'),
-        advertise_filter=dict(type='str'),
-        name=dict(type='str', required=True),
-        enable=dict(type='bool'),
-        used_by=dict(type='list', elements='str'),
+        commit=dict(type="bool", default=False),
+        vr_name=dict(default="default"),
+        non_exist_filter=dict(type="str"),
+        advertise_filter=dict(type="str"),
+        name=dict(type="str", required=True),
+        enable=dict(type="bool"),
+        used_by=dict(type="list", elements="str"),
     )
 
 
@@ -150,44 +153,47 @@ def main():
 
     parent = helper.get_pandevice_parent(module)
 
-    vr = VirtualRouter(module.params['vr_name'])
+    vr = VirtualRouter(module.params["vr_name"])
     parent.add(vr)
     try:
         vr.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
-    bgp = vr.find('', Bgp)
+    bgp = vr.find("", Bgp)
     if bgp is None:
-        module.fail_json(msg='BGP is not configured on virtual router {0}'.format(vr.name))
+        module.fail_json(
+            msg="BGP is not configured on virtual router {0}".format(vr.name)
+        )
 
     listing = bgp.findall(BgpPolicyConditionalAdvertisement)
 
     spec = {
-        'name': module.params['name'],
-        'enable': module.params['enable'],
-        'used_by': module.params['used_by'],
+        "name": module.params["name"],
+        "enable": module.params["enable"],
+        "used_by": module.params["used_by"],
     }
     obj = BgpPolicyConditionalAdvertisement(**spec)
     bgp.add(obj)
 
     # TODO(gfreeman) - Remove this in 2.12.
-    for ansible_param in ('non_exist_filter', 'advertise_filter'):
+    for ansible_param in ("non_exist_filter", "advertise_filter"):
         val = module.params[ansible_param]
         if val is not None:
             module.deprecate(
-                'Param {0} is deprecated'.format(ansible_param),
-                version='3.0.0', collection_name='paloaltonetworks.panos'
+                "Param {0} is deprecated".format(ansible_param),
+                version="3.0.0",
+                collection_name="paloaltonetworks.panos",
             )
             filter_obj = pickle.loads(b64decode(val))
             obj.add(filter_obj)
 
     changed, diff = helper.apply_state(obj, listing, module)
-    if changed and module.params['commit']:
+    if changed and module.params["commit"]:
         helper.commit(module)
 
-    module.exit_json(changed=changed, diff=diff, msg='done')
+    module.exit_json(changed=changed, diff=diff, msg="done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

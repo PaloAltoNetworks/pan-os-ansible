@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_administrator
 short_description: Manage PAN-OS administrator user accounts.
@@ -112,9 +113,9 @@ options:
         description:
             - The password profile for this user.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Configure user "foo"
   - name: configure foo administrator
     panos_administrator:
@@ -122,18 +123,20 @@ EXAMPLES = '''
       admin_username: 'foo'
       admin_password: 'secret'
       superuser: true
-'''
+"""
 
-RETURN = '''
+RETURN = """
 status:
     description: success status
     returned: success
     type: str
     sample: "done"
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.device import Administrator
@@ -155,22 +158,22 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 8, 0),
         argument_spec=dict(
-            admin_username=dict(default='admin'),
+            admin_username=dict(default="admin"),
             authentication_profile=dict(),
-            web_client_cert_only=dict(type='bool'),
-            superuser=dict(type='bool'),
-            superuser_read_only=dict(type='bool'),
-            panorama_admin=dict(type='bool'),
-            device_admin=dict(type='bool'),
-            device_admin_read_only=dict(type='bool'),
-            vsys=dict(type='list', elements='str'),
-            vsys_read_only=dict(type='list', elements='str'),
+            web_client_cert_only=dict(type="bool"),
+            superuser=dict(type="bool"),
+            superuser_read_only=dict(type="bool"),
+            panorama_admin=dict(type="bool"),
+            device_admin=dict(type="bool"),
+            device_admin_read_only=dict(type="bool"),
+            vsys=dict(type="list", elements="str"),
+            vsys_read_only=dict(type="list", elements="str"),
             ssh_public_key=dict(),
             role_profile=dict(),
             admin_password=dict(no_log=True),
             admin_phash=dict(no_log=True),
             password_profile=dict(no_log=False),
-            commit=dict(type='bool', default=False)
+            commit=dict(type="bool", default=False),
         ),
     )
     module = AnsibleModule(
@@ -184,25 +187,33 @@ def main():
 
     # Get administrator object spec.
     spec_params = [
-        'authentication_profile', 'web_client_cert_only', 'superuser',
-        'superuser_read_only', 'panorama_admin', 'device_admin',
-        'device_admin_read_only', 'vsys', 'vsys_read_only',
-        'ssh_public_key', 'role_profile', 'password_profile',
+        "authentication_profile",
+        "web_client_cert_only",
+        "superuser",
+        "superuser_read_only",
+        "panorama_admin",
+        "device_admin",
+        "device_admin_read_only",
+        "vsys",
+        "vsys_read_only",
+        "ssh_public_key",
+        "role_profile",
+        "password_profile",
     ]
     params = dict((k, module.params[k]) for k in spec_params)
-    params['name'] = module.params['admin_username']
-    password = module.params['admin_password']
-    phash = module.params['admin_phash']
+    params["name"] = module.params["admin_username"]
+    password = module.params["admin_password"]
+    phash = module.params["admin_phash"]
 
     # Get other params.
-    state = module.params['state']
-    commit = module.params['commit']
+    state = module.params["state"]
+    commit = module.params["commit"]
 
     # Get the current administrators.
     try:
         admins = Administrator.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.foramt(e))
+        module.fail_json(msg="Failed refresh: {0}".foramt(e))
     obj = Administrator(**params)
     parent.add(obj)
 
@@ -211,12 +222,12 @@ def main():
         try:
             obj.password_hash = helper.device.request_password_hash(password)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed to get phash: {0}'.format(e))
+            module.fail_json(msg="Failed to get phash: {0}".format(e))
     elif phash is not None:
         obj.password_hash = phash
     # Perform the requested action.
     changed = False
-    if state == 'present':
+    if state == "present":
         for item in admins:
             if item.name != obj.name:
                 continue
@@ -231,28 +242,29 @@ def main():
                     try:
                         obj.apply()
                     except PanDeviceError as e:
-                        module.fail_json(msg='Failed apply: {0}'.format(e))
+                        module.fail_json(msg="Failed apply: {0}".format(e))
 
                     # If changing the current user's password, we have to
                     # fetch the new API key before any subsequent API commands
                     # (aka - commit) will work.
-                    if (
-                        helper.device._api_username == obj.name
-                        and (password is not None or phash is not None)
+                    if helper.device._api_username == obj.name and (
+                        password is not None or phash is not None
                     ):
                         if phash is not None:
                             msg = [
-                                'Password of current user was changed by hash.',
-                                'Exiting module as API key cannot be determined.',
+                                "Password of current user was changed by hash.",
+                                "Exiting module as API key cannot be determined.",
                             ]
-                            module.warn(' '.join(msg))
+                            module.warn(" ".join(msg))
                             module.exit_json(changed=changed)
                         helper.device._api_key = None
                         helper.device._api_password = password
                         try:
                             helper.device.xapi.api_key = helper.device.api_key
                         except PanDeviceError as e:
-                            module.fail_json(msg='Failed API key refresh: {0}'.format(e))
+                            module.fail_json(
+                                msg="Failed API key refresh: {0}".format(e)
+                            )
             break
         else:
             changed = True
@@ -260,23 +272,23 @@ def main():
                 try:
                     obj.create()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed create: {0}'.format(e))
-    elif state == 'absent':
+                    module.fail_json(msg="Failed create: {0}".format(e))
+    elif state == "absent":
         if obj.name in [x.name for x in admins]:
             changed = True
             if not module.check_mode:
                 try:
                     obj.delete()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed delete: {0}'.format(e))
+                    module.fail_json(msg="Failed delete: {0}".format(e))
 
     # Commit if appropriate.
     if changed and commit:
         helper.commit(module)
 
     # Done.
-    module.exit_json(changed=changed, msg='done')
+    module.exit_json(changed=changed, msg="done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

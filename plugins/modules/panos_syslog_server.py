@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_syslog_server
 short_description: Manage syslog server profile syslog servers.
@@ -89,9 +90,9 @@ options:
             - LOG_LOCAL6
             - LOG_LOCAL7
         default: "LOG_USER"
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create syslog server
   panos_syslog_server:
     provider: '{{ provider }}'
@@ -99,23 +100,23 @@ EXAMPLES = '''
     name: 'my-syslog-server'
     server: '10.1.1.1'
     syslog_port: 514
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.device import SyslogServerProfile
-    from panos.device import SyslogServer
+    from panos.device import SyslogServer, SyslogServerProfile
     from panos.errors import PanDeviceError
 except ImportError:
     try:
-        from pandevice.device import SyslogServerProfile
-        from pandevice.device import SyslogServer
+        from pandevice.device import SyslogServer, SyslogServerProfile
         from pandevice.errors import PanDeviceError
     except ImportError:
         pass
@@ -133,13 +134,23 @@ def main():
             syslog_profile=dict(required=True),
             name=dict(required=True),
             server=dict(required=True),
-            transport=dict(default='UDP', choices=['UDP', 'TCP', 'SSL']),
-            syslog_port=dict(type='int'),
-            format=dict(default='BSD', choices=['BSD', 'IETF']),
-            facility=dict(default='LOG_USER', choices=[
-                'LOG_USER',
-                'LOG_LOCAL0', 'LOG_LOCAL1', 'LOG_LOCAL2', 'LOG_LOCAL3',
-                'LOG_LOCAL4', 'LOG_LOCAL5', 'LOG_LOCAL6', 'LOG_LOCAL7']),
+            transport=dict(default="UDP", choices=["UDP", "TCP", "SSL"]),
+            syslog_port=dict(type="int"),
+            format=dict(default="BSD", choices=["BSD", "IETF"]),
+            facility=dict(
+                default="LOG_USER",
+                choices=[
+                    "LOG_USER",
+                    "LOG_LOCAL0",
+                    "LOG_LOCAL1",
+                    "LOG_LOCAL2",
+                    "LOG_LOCAL3",
+                    "LOG_LOCAL4",
+                    "LOG_LOCAL5",
+                    "LOG_LOCAL6",
+                    "LOG_LOCAL7",
+                ],
+            ),
         ),
     )
     module = AnsibleModule(
@@ -151,29 +162,29 @@ def main():
     # Verify imports, build pandevice object tree.
     parent = helper.get_pandevice_parent(module)
 
-    sp = SyslogServerProfile(module.params['syslog_profile'])
+    sp = SyslogServerProfile(module.params["syslog_profile"])
     parent.add(sp)
     try:
         sp.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     listing = sp.findall(SyslogServer)
 
     spec = {
-        'name': module.params['name'],
-        'server': module.params['server'],
-        'transport': module.params['transport'],
-        'port': module.params['syslog_port'],
-        'format': module.params['format'],
-        'facility': module.params['facility'],
+        "name": module.params["name"],
+        "server": module.params["server"],
+        "transport": module.params["transport"],
+        "port": module.params["syslog_port"],
+        "format": module.params["format"],
+        "facility": module.params["facility"],
     }
     obj = SyslogServer(**spec)
     sp.add(obj)
 
     changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_restart
 short_description: Restart a device
@@ -37,21 +38,22 @@ notes:
     - Panorama is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Restart PAN-OS
   panos_restart:
     provider: '{{ provider }}'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Standard return values.
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
-
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
@@ -79,10 +81,10 @@ def main():
     try:
         parent.restart()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed to restart: {0}'.format(e))
+        module.fail_json(msg="Failed to restart: {0}".format(e))
 
     module.exit_json(changed=True, msg="done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

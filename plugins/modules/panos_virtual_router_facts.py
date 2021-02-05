@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_virtual_router_facts
 short_description: Retrieves virtual router information
@@ -40,9 +41,9 @@ options:
         description:
             - Name of the virtual router.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Get information on a specific virtual router
 - name: Get vr3 info
   panos_virtual_router_facts:
@@ -55,9 +56,9 @@ EXAMPLES = '''
   panos_virtual_router_facts:
     provider: '{{ provider }}'
   register: vrlist
-'''
+"""
 
-RETURN = '''
+RETURN = """
 spec:
     description: The spec of the specified virtual router.
     returned: When I(name) is specified.
@@ -100,18 +101,20 @@ vrlist:
     description: List of virtual router specs.
     returned: When I(name) is not specified.
     type: list
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import VirtualRouter
     from panos.errors import PanDeviceError
+    from panos.network import VirtualRouter
 except ImportError:
     try:
-        from pandevice.network import VirtualRouter
         from pandevice.errors import PanDeviceError
+        from pandevice.network import VirtualRouter
     except ImportError:
         pass
 
@@ -134,12 +137,12 @@ def main():
     # Verify imports, build pandevice object tree.
     parent = helper.get_pandevice_parent(module)
 
-    name = module.params['name']
+    name = module.params["name"]
     if name is None:
         try:
             listing = VirtualRouter.refreshall(parent)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed refreshall: {0}'.format(e))
+            module.fail_json(msg="Failed refreshall: {0}".format(e))
 
         vrlist = helper.to_module_dict(listing)
         module.exit_json(changed=False, vrlist=vrlist)
@@ -149,11 +152,11 @@ def main():
     try:
         vr.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     spec = helper.to_module_dict(vr)
     module.exit_json(changed=False, spec=spec)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -16,10 +16,11 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_api_key
 short_description: retrieve api_key for username/password combination
@@ -37,9 +38,9 @@ notes:
     - Checkmode is NOT supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: retrieve api_key
   panos_api_key:
     provider: '{{ provider }}'
@@ -47,19 +48,21 @@ EXAMPLES = '''
 
 - debug:
     msg: '{{ auth.api_key }}'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 api_key:
     description: output of the api_key
     returned: success
     type: str
     sample: "LUFRPT14MW5xOEo1R09KVlBZNnpnemh0VHRBOWl6TGM9bXcwM3JHUGVhRlNiY0dCR0srNERUQT09"
-'''
+"""
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 
 def main():
@@ -84,9 +87,8 @@ def main():
         # Standard.
         api_key = helper.device.api_key
 
-    module.exit_json(changed=False, msg="Done",
-                     api_key=api_key)
+    module.exit_json(changed=False, msg="Done", api_key=api_key)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

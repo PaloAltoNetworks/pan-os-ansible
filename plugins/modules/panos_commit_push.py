@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_commit_push
 short_description: Commit Panorama's candidate configuration.
@@ -73,9 +74,9 @@ options:
             - Wait for the commit to complete.
         type: bool
         default: True
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: push device group configs
   panos_commit_push:
     provider: '{{ credentials }}'
@@ -116,18 +117,20 @@ EXAMPLES = '''
     - Production Firewalls
     - Staging Firewalls
     - Development Firewalls
-'''
+"""
 
-RETURN = '''
+RETURN = """
 jobid:
   description: The ID of the PAN-OS commit job.
   type: int
   returned: always
   sample: 49152
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.panorama import PanoramaCommitAll
@@ -140,28 +143,30 @@ def main():
         min_pandevice_version=(1, 0, 0),
         min_panos_version=(8, 0, 0),
         argument_spec=dict(
-            style=dict(choices=[
-                'device group',
-                'template',
-                'template stack',
-                'log collector group',
-                'wildfire appliance',
-                'wildfire cluster'
-            ], required=True
+            style=dict(
+                choices=[
+                    "device group",
+                    "template",
+                    "template stack",
+                    "log collector group",
+                    "wildfire appliance",
+                    "wildfire cluster",
+                ],
+                required=True,
             ),
-            name=dict(type='str'),
-            description=dict(type='str'),
-            include_template=dict(type='bool', default=False),
-            force_template_values=dict(type='bool', default=False),
-            devices=dict(type='list', elements='str'),
-            sync=dict(type='bool', default=True)
-        )
+            name=dict(type="str"),
+            description=dict(type="str"),
+            include_template=dict(type="bool", default=False),
+            force_template_values=dict(type="bool", default=False),
+            devices=dict(type="list", elements="str"),
+            sync=dict(type="bool", default=True),
+        ),
     )
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         supports_check_mode=False,
-        required_one_of=helper.required_one_of
+        required_one_of=helper.required_one_of,
     )
 
     # Verify libs are present, get the parent object.
@@ -169,33 +174,33 @@ def main():
 
     # Construct the commit command
     cmd = PanoramaCommitAll(
-        style=module.params['style'],
-        name=module.params['name'],
-        description=module.params['description'],
-        include_template=module.params['include_template'],
-        force_template_values=module.params['force_template_values'],
-        devices=module.params['devices'],
+        style=module.params["style"],
+        name=module.params["name"],
+        description=module.params["description"],
+        include_template=module.params["include_template"],
+        force_template_values=module.params["force_template_values"],
+        devices=module.params["devices"],
     )
 
     # Execute the commit
     commit_results = {}
-    sync = module.params['sync']
+    sync = module.params["sync"]
     result = parent.commit(cmd=cmd, sync=sync, sync_all=sync)
 
     # Exit with status
     if not sync:
         # When sync is False only jobid is returned
-        commit_results['jobid'] = int(result)
-    elif not result['success']:
+        commit_results["jobid"] = int(result)
+    elif not result["success"]:
         # The commit failed
-        module.fail_json(msg=' | '.join(result['messages']))
+        module.fail_json(msg=" | ".join(result["messages"]))
     else:
         # The commit succeeded
-        commit_results['changed'] = True
-        commit_results['jobid'] = result['jobid']
+        commit_results["changed"] = True
+        commit_results["jobid"] = result["jobid"]
 
     module.exit_json(**commit_results)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

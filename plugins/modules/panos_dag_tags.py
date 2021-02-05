@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_dag_tags
 short_description: Create tags for DAG's on PAN-OS devices.
@@ -87,9 +88,9 @@ options:
         description:
             - IP that will be registered with the given tag names.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create the tags to map IP addresses
   panos_dag_tags:
     ip_address: "{{ ip_address }}"
@@ -118,27 +119,26 @@ EXAMPLES = '''
     description: "Unregister IP address from tag mappings"
     operation: 'delete'
   tags: "deletedagip"
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule, get_exception
 
 try:
     from pan.xapi import PanXapiError
+
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
 
 try:
-    from panos import base
-    from panos import panorama
+    from panos import base, panorama
 except ImportError:
     try:
-        from pandevice import base
-        from pandevice import panorama
+        from pandevice import base, panorama
     except ImportError:
         pass
 
@@ -196,30 +196,34 @@ def main():
     argument_spec = dict(
         ip_address=dict(required=True),
         password=dict(required=True, no_log=True),
-        username=dict(default='admin'),
+        username=dict(default="admin"),
         api_key=dict(no_log=True),
         devicegroup=dict(default=None),
         description=dict(default=None),
-        ip_to_register=dict(type='str', required=False),
-        tag_names=dict(type='list', elements='str', required=True),
-        commit=dict(type='bool', default=False),
-        operation=dict(type='str', choices=['add', 'update', 'find', 'delete'], required=True)
+        ip_to_register=dict(type="str", required=False),
+        tag_names=dict(type="list", elements="str", required=True),
+        commit=dict(type="bool", default=False),
+        operation=dict(
+            type="str", choices=["add", "update", "find", "delete"], required=True
+        ),
     )
 
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False)
     if not HAS_LIB:
-        module.fail_json(msg='pan-python is required for this module')
+        module.fail_json(msg="pan-python is required for this module")
 
     ip_address = module.params["ip_address"]
     password = module.params["password"]
-    username = module.params['username']
-    api_key = module.params['api_key']
-    commit = module.params['commit']
-    devicegroup = module.params['devicegroup']
-    operation = module.params['operation']
+    username = module.params["username"]
+    api_key = module.params["api_key"]
+    commit = module.params["commit"]
+    devicegroup = module.params["devicegroup"]
+    operation = module.params["operation"]
 
     # Create the device with the appropriate pandevice type
-    device = base.PanDevice.create_from_device(ip_address, username, password, api_key=api_key)
+    device = base.PanDevice.create_from_device(
+        ip_address, username, password, api_key=api_key
+    )
 
     # If Panorama, validate the devicegroup
     dev_group = None
@@ -228,21 +232,26 @@ def main():
         if dev_group:
             device.add(dev_group)
         else:
-            module.fail_json(msg='\'%s\' device group not found in Panorama. Is the name correct?' % devicegroup)
+            module.fail_json(
+                msg="'%s' device group not found in Panorama. Is the name correct?"
+                % devicegroup
+            )
 
     result = None
-    if operation == 'add':
-        result, exc = register_ip_to_tag_map(device,
-                                             ip_addresses=module.params.get('ip_to_register', None),
-                                             tag=module.params.get('tag_names', None)
-                                             )
-    elif operation == 'list':
+    if operation == "add":
+        result, exc = register_ip_to_tag_map(
+            device,
+            ip_addresses=module.params.get("ip_to_register", None),
+            tag=module.params.get("tag_names", None),
+        )
+    elif operation == "list":
         result, exc = get_all_address_group_mapping(device)
-    elif operation == 'delete':
-        result, exc = delete_address_from_mapping(device,
-                                                  ip_address=module.params.get('ip_to_register', None),
-                                                  tags=module.params.get('tag_names', [])
-                                                  )
+    elif operation == "delete":
+        result, exc = delete_address_from_mapping(
+            device,
+            ip_address=module.params.get("ip_to_register", None),
+            tags=module.params.get("tag_names", []),
+        )
     else:
         module.fail_json(msg="Unsupported option")
 
