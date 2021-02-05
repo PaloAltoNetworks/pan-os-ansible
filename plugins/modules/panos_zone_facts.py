@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_zone_facts
 short_description: Retrieves zone information
@@ -41,9 +42,9 @@ options:
         description:
             - Name of the security zone.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Get information on a specific zone
 - name: Get zone3 info
   panos_zone_facts:
@@ -56,9 +57,9 @@ EXAMPLES = '''
   panos_zone_facts:
     provider: '{{ provider }}'
   register: zones
-'''
+"""
 
-RETURN = '''
+RETURN = """
 spec:
     description: The spec of the specified virtual router.
     returned: When I(name) is specified.
@@ -92,18 +93,20 @@ zones:
     description: List of zone specs.
     returned: When I(name) is not specified.
     type: list
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import Zone
     from panos.errors import PanDeviceError
+    from panos.network import Zone
 except ImportError:
     try:
-        from pandevice.network import Zone
         from pandevice.errors import PanDeviceError
+        from pandevice.network import Zone
     except ImportError:
         pass
 
@@ -128,16 +131,16 @@ def main():
     parent = helper.get_pandevice_parent(module)
 
     renames = (
-        ('name', 'zone'),
-        ('enable_user_identification', 'enable_userid'),
+        ("name", "zone"),
+        ("enable_user_identification", "enable_userid"),
     )
 
-    name = module.params['name']
+    name = module.params["name"]
     if name is None:
         try:
             listing = Zone.refreshall(parent)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed refreshall: {0}'.format(e))
+            module.fail_json(msg="Failed refreshall: {0}".format(e))
 
         zones = helper.to_module_dict(listing, renames)
         module.exit_json(changed=False, zones=zones)
@@ -147,11 +150,11 @@ def main():
     try:
         zone.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     spec = helper.to_module_dict(zone, renames)
     module.exit_json(changed=False, spec=spec)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

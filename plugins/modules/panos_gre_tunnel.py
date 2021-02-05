@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_gre_tunnel
 short_description: Create GRE tunnels on PAN-OS devices.
@@ -100,9 +101,9 @@ options:
         description:
             - Disable the GRE tunnel.
         type: bool
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create GRE tunnel
   panos_gre_tunnel:
     provider: '{{ provider }}'
@@ -112,22 +113,24 @@ EXAMPLES = '''
     peer_address: '192.168.1.1'
     tunnel_interface: 'tunnel.7'
     ttl: 42
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import GreTunnel
     from panos.errors import PanDeviceError
+    from panos.network import GreTunnel
 except ImportError:
     try:
-        from pandevice.network import GreTunnel
         from pandevice.errors import PanDeviceError
+        from pandevice.network import GreTunnel
     except ImportError:
         pass
 
@@ -143,17 +146,17 @@ def main():
         argument_spec=dict(
             name=dict(required=True),
             interface=dict(),
-            local_address_type=dict(default='ip', choices=['ip', 'floating-ip']),
+            local_address_type=dict(default="ip", choices=["ip", "floating-ip"]),
             local_address_value=dict(),
             peer_address=dict(),
             tunnel_interface=dict(),
-            ttl=dict(type='int', default=64),
-            copy_tos=dict(type='bool'),
-            enable_keep_alive=dict(type='bool'),
-            keep_alive_interval=dict(type='int', default=10),
-            keep_alive_retry=dict(type='int', default=3),
-            keep_alive_hold_timer=dict(type='int', default=5),
-            disabled=dict(type='bool'),
+            ttl=dict(type="int", default=64),
+            copy_tos=dict(type="bool"),
+            enable_keep_alive=dict(type="bool"),
+            keep_alive_interval=dict(type="int", default=10),
+            keep_alive_retry=dict(type="int", default=3),
+            keep_alive_hold_timer=dict(type="int", default=5),
+            disabled=dict(type="bool"),
         ),
     )
 
@@ -168,26 +171,26 @@ def main():
 
     # Object params.
     spec = {
-        'name': module.params['name'],
-        'interface': module.params['interface'],
-        'local_address_type': module.params['local_address_type'],
-        'local_address_value': module.params['local_address_value'],
-        'peer_address': module.params['peer_address'],
-        'tunnel_interface': module.params['tunnel_interface'],
-        'ttl': module.params['ttl'],
-        'copy_tos': module.params['copy_tos'],
-        'enable_keep_alive': module.params['enable_keep_alive'],
-        'keep_alive_interval': module.params['keep_alive_interval'],
-        'keep_alive_retry': module.params['keep_alive_retry'],
-        'keep_alive_hold_timer': module.params['keep_alive_hold_timer'],
-        'disabled': module.params['disabled'],
+        "name": module.params["name"],
+        "interface": module.params["interface"],
+        "local_address_type": module.params["local_address_type"],
+        "local_address_value": module.params["local_address_value"],
+        "peer_address": module.params["peer_address"],
+        "tunnel_interface": module.params["tunnel_interface"],
+        "ttl": module.params["ttl"],
+        "copy_tos": module.params["copy_tos"],
+        "enable_keep_alive": module.params["enable_keep_alive"],
+        "keep_alive_interval": module.params["keep_alive_interval"],
+        "keep_alive_retry": module.params["keep_alive_retry"],
+        "keep_alive_hold_timer": module.params["keep_alive_hold_timer"],
+        "disabled": module.params["disabled"],
     }
 
     # Retrieve current info.
     try:
         listing = GreTunnel.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     # Build the object based on the user spec.
     obj = GreTunnel(**spec)
@@ -200,5 +203,5 @@ def main():
     module.exit_json(changed=changed, diff=diff)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

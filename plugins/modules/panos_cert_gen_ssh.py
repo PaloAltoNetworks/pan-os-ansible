@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_cert_gen_ssh
 short_description: generates a self-signed certificate using SSH protocol with SSH key
@@ -78,9 +79,9 @@ options:
         required: false
         type: str
         default: "2048"
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Generates a new self-signed certificate using ssh
 - name: generate self signed certificate
   panos_cert_gen_ssh:
@@ -90,19 +91,20 @@ EXAMPLES = '''
     cert_cn: "1.1.1.1"
     cert_friendly_name: "test123"
     signed_by: "root-ca"
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
-
-from ansible.module_utils.basic import AnsibleModule
 
 import time
 
+from ansible.module_utils.basic import AnsibleModule
+
 try:
     import paramiko
+
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
@@ -126,8 +128,17 @@ def wait_with_timeout(module, shell, prompt, timeout=60):
     return result
 
 
-def generate_cert(module, ip_address, username, key_filename, password,
-                  cert_cn, cert_friendly_name, signed_by, rsa_nbits):
+def generate_cert(
+    module,
+    ip_address,
+    username,
+    key_filename,
+    password,
+    cert_cn,
+    cert_friendly_name,
+    signed_by,
+    rsa_nbits,
+):
     stdout = ""
 
     client = paramiko.SSHClient()
@@ -149,15 +160,17 @@ def generate_cert(module, ip_address, username, key_filename, password,
     # generate self-signed certificate
     if isinstance(cert_cn, list):
         cert_cn = cert_cn[0]
-    cmd = ' '.join([
-        'request certificate generate signed-by',
-        signed_by,
-        'certificate-name',
-        cert_friendly_name,
-        'name',
-        cert_cn,
-        'algorithm RSA rsa-nbits {0}\n'.format(rsa_nbits),
-    ])
+    cmd = " ".join(
+        [
+            "request certificate generate signed-by",
+            signed_by,
+            "certificate-name",
+            cert_friendly_name,
+            "name",
+            cert_cn,
+            "algorithm RSA rsa-nbits {0}\n".format(rsa_nbits),
+        ]
+    )
     shell.send(cmd)
 
     # wait for the shell to complete
@@ -165,9 +178,9 @@ def generate_cert(module, ip_address, username, key_filename, password,
     stdout += buff
 
     # exit
-    shell.send('exit\n')
+    shell.send("exit\n")
 
-    if 'Success' not in buff:
+    if "Success" not in buff:
         module.fail_json(msg="Error generating self signed certificate: " + stdout)
 
     client.close()
@@ -177,19 +190,21 @@ def generate_cert(module, ip_address, username, key_filename, password,
 def main():
     argument_spec = dict(
         ip_address=dict(required=True),
-        username=dict(default='admin'),
+        username=dict(default="admin"),
         key_filename=dict(),
         password=dict(no_log=True),
         cert_cn=dict(required=True),
         cert_friendly_name=dict(required=True),
-        rsa_nbits=dict(default='2048'),
-        signed_by=dict(required=True)
-
+        rsa_nbits=dict(default="2048"),
+        signed_by=dict(required=True),
     )
-    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False,
-                           required_one_of=[['key_filename', 'password']])
+    module = AnsibleModule(
+        argument_spec=argument_spec,
+        supports_check_mode=False,
+        required_one_of=[["key_filename", "password"]],
+    )
     if not HAS_LIB:
-        module.fail_json(msg='paramiko is required for this module')
+        module.fail_json(msg="paramiko is required for this module")
 
     ip_address = module.params["ip_address"]
     username = module.params["username"]
@@ -201,14 +216,22 @@ def main():
     rsa_nbits = module.params["rsa_nbits"]
 
     try:
-        generate_cert(module, ip_address, username, key_filename,
-                      password, cert_cn, cert_friendly_name,
-                      signed_by, rsa_nbits)
+        generate_cert(
+            module,
+            ip_address,
+            username,
+            key_filename,
+            password,
+            cert_cn,
+            cert_friendly_name,
+            signed_by,
+            rsa_nbits,
+        )
     except Exception as e:
         module.fail_json(msg=e.message)
 
     module.exit_json(changed=True, msg="okey dokey")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

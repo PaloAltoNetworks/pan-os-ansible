@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_ha
 short_description: Configures High Availability on PAN-OS
@@ -195,9 +196,9 @@ options:
     ha3_port:
         description: Interface to use for this HA3 interface (eg. ethernet1/5, ae1)
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
   - name: set ports to HA mode
     panos_interface:
       provider: '{{ provider }}'
@@ -240,64 +241,77 @@ EXAMPLES = '''
       ha2_port: "ethernet1/3"
       ha2b_port: "ethernet1/4"
       ha3_port: "ethernet1/5"
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.ha import HighAvailability, HA1, HA1Backup, HA2, HA2Backup, HA3
     from panos.errors import PanDeviceError
+    from panos.ha import HA1, HA2, HA3, HA1Backup, HA2Backup, HighAvailability
 except ImportError:
     try:
-        from pandevice.ha import HighAvailability, HA1, HA1Backup, HA2, HA2Backup, HA3
         from pandevice.errors import PanDeviceError
+        from pandevice.ha import HA1, HA2, HA3, HA1Backup, HA2Backup, HighAvailability
     except ImportError:
         pass
 
 
 def setup_args():
     return dict(
-        commit=dict(type='bool', default=False),
-        ha_enabled=dict(type='bool', default=True),
-        ha_group_id=dict(type='int', default=1),
-        ha_config_sync=dict(type='bool', default=True),
-        ha_peer_ip=dict(type='str'),
-        ha_peer_ip_backup=dict(type='str'),
-        ha_mode=dict(type='str', choices=['active-passive', 'active-active'], default='active-passive'),
-        ha_passive_link_state=dict(type='str', choices=['shutdown', 'auto'], default='auto'),
-        ha_state_sync=dict(type='bool', default=False),
-        ha_ha2_keepalive=dict(type='bool', default=True),
-        ha_ha2_keepalive_action=dict(type='str'),
-        ha_ha2_keepalive_threshold=dict(type='int'),
-        ha_device_id=dict(type='int', choices=[0, 1]),
-        ha_session_owner_selection=dict(type='str', choices=['primary-device', 'first-packet']),
-        ha_session_setup=dict(type='str', choices=['primary-device', 'first-packet', 'ip-modulo', 'ip-hash']),
-        ha_tentative_hold_time=dict(type='int'),
-        ha_sync_qos=dict(type='bool'),
-        ha_sync_virtual_router=dict(type='bool'),
-        ha_ip_hash_key=dict(type='str', choices=['source', 'source-and-destination']),
-        ha1_ip_address=dict(type='str'),
-        ha1_netmask=dict(type='str'),
-        ha1_port=dict(type='str'),
-        ha1_gateway=dict(type='str'),
-        ha1b_ip_address=dict(type='str'),
-        ha1b_netmask=dict(type='str'),
-        ha1b_port=dict(type='str'),
-        ha1b_gateway=dict(type='str'),
-        ha2_ip_address=dict(type='str'),
-        ha2_netmask=dict(type='str'),
-        ha2_port=dict(type='str', default='ha2-a'),
-        ha2_gateway=dict(type='str'),
-        ha2b_ip_address=dict(type='str'),
-        ha2b_netmask=dict(type='str'),
-        ha2b_port=dict(type='str'),
-        ha2b_gateway=dict(type='str'),
-        ha3_port=dict(type='str'),
+        commit=dict(type="bool", default=False),
+        ha_enabled=dict(type="bool", default=True),
+        ha_group_id=dict(type="int", default=1),
+        ha_config_sync=dict(type="bool", default=True),
+        ha_peer_ip=dict(type="str"),
+        ha_peer_ip_backup=dict(type="str"),
+        ha_mode=dict(
+            type="str",
+            choices=["active-passive", "active-active"],
+            default="active-passive",
+        ),
+        ha_passive_link_state=dict(
+            type="str", choices=["shutdown", "auto"], default="auto"
+        ),
+        ha_state_sync=dict(type="bool", default=False),
+        ha_ha2_keepalive=dict(type="bool", default=True),
+        ha_ha2_keepalive_action=dict(type="str"),
+        ha_ha2_keepalive_threshold=dict(type="int"),
+        ha_device_id=dict(type="int", choices=[0, 1]),
+        ha_session_owner_selection=dict(
+            type="str", choices=["primary-device", "first-packet"]
+        ),
+        ha_session_setup=dict(
+            type="str",
+            choices=["primary-device", "first-packet", "ip-modulo", "ip-hash"],
+        ),
+        ha_tentative_hold_time=dict(type="int"),
+        ha_sync_qos=dict(type="bool"),
+        ha_sync_virtual_router=dict(type="bool"),
+        ha_ip_hash_key=dict(type="str", choices=["source", "source-and-destination"]),
+        ha1_ip_address=dict(type="str"),
+        ha1_netmask=dict(type="str"),
+        ha1_port=dict(type="str"),
+        ha1_gateway=dict(type="str"),
+        ha1b_ip_address=dict(type="str"),
+        ha1b_netmask=dict(type="str"),
+        ha1b_port=dict(type="str"),
+        ha1b_gateway=dict(type="str"),
+        ha2_ip_address=dict(type="str"),
+        ha2_netmask=dict(type="str"),
+        ha2_port=dict(type="str", default="ha2-a"),
+        ha2_gateway=dict(type="str"),
+        ha2b_ip_address=dict(type="str"),
+        ha2b_netmask=dict(type="str"),
+        ha2b_port=dict(type="str"),
+        ha2b_gateway=dict(type="str"),
+        ha3_port=dict(type="str"),
     )
 
 
@@ -325,49 +339,86 @@ def main():
     try:
         listing = HighAvailability.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     # Exclude non-object items from kwargs passed to the object.
     exclude_list = [
-        'ip_address', 'username', 'password', 'api_key', 'state', 'commit',
-        'provider', 'template', 'template_stack', 'vsys', 'port',
+        "ip_address",
+        "username",
+        "password",
+        "api_key",
+        "state",
+        "commit",
+        "provider",
+        "template",
+        "template_stack",
+        "vsys",
+        "port",
     ]
 
     # Remove excluded items from spec
-    spec_included = dict((k, module.params[k]) for k in helper.argument_spec.keys() if k not in exclude_list)
+    spec_included = dict(
+        (k, module.params[k])
+        for k in helper.argument_spec.keys()
+        if k not in exclude_list
+    )
 
     # Generate the kwargs for ha.HighAvailability
-    ha_obj_spec = {k.replace('ha_', ''): spec_included[k] for k in spec_included if k.startswith("ha_")}
+    ha_obj_spec = {
+        k.replace("ha_", ""): spec_included[k]
+        for k in spec_included
+        if k.startswith("ha_")
+    }
 
     # Generate the kwargs for ha.HA1
-    ha1_obj_spec = {k.replace('ha1_', ''): spec_included[k] for k in spec_included if k.startswith("ha1_")}
+    ha1_obj_spec = {
+        k.replace("ha1_", ""): spec_included[k]
+        for k in spec_included
+        if k.startswith("ha1_")
+    }
 
     # Generate the kwargs for ha.HA1Backup
-    ha1b_obj_spec = {k.replace('ha1b_', ''): spec_included[k] for k in spec_included if k.startswith("ha1b_")}
+    ha1b_obj_spec = {
+        k.replace("ha1b_", ""): spec_included[k]
+        for k in spec_included
+        if k.startswith("ha1b_")
+    }
 
     # Generate the kwargs for ha.HA2
-    ha2_obj_spec = {k.replace('ha2_', ''): spec_included[k] for k in spec_included if k.startswith("ha2_")}
+    ha2_obj_spec = {
+        k.replace("ha2_", ""): spec_included[k]
+        for k in spec_included
+        if k.startswith("ha2_")
+    }
 
     # Generate the kwargs for ha.HA2Backup
-    ha2b_obj_spec = {k.replace('ha2b_', ''): spec_included[k] for k in spec_included if k.startswith("ha2b_")}
+    ha2b_obj_spec = {
+        k.replace("ha2b_", ""): spec_included[k]
+        for k in spec_included
+        if k.startswith("ha2b_")
+    }
 
     # Generate the kwargs for ha.HA3
-    ha3_obj_spec = {k.replace('ha3_', ''): spec_included[k] for k in spec_included if k.startswith("ha3_")}
+    ha3_obj_spec = {
+        k.replace("ha3_", ""): spec_included[k]
+        for k in spec_included
+        if k.startswith("ha3_")
+    }
 
-    state = module.params['state']
-    commit = module.params['commit']
+    state = module.params["state"]
+    commit = module.params["commit"]
 
     # Create the new state object.
     obj = HighAvailability(**ha_obj_spec)
 
     # Add sub-objects only if at least one param for that type is specified.
-    '''
+    """
     obj.add(HA1(**ha1_obj_spec))
     obj.add(HA1Backup(**ha1b_obj_spec))
     obj.add(HA2(**ha2_obj_spec))
     obj.add(HA2Backup(**ha2b_obj_spec))
     obj.add(HA3(**ha3_obj_spec))
-    '''
+    """
     class_specs = [
         (HA1, ha1_obj_spec),
         (HA1Backup, ha1b_obj_spec),
@@ -394,8 +445,8 @@ def main():
     if commit and changed:
         helper.commit(module)
 
-    module.exit_json(msg='Done', changed=changed, diff=diff)
+    module.exit_json(msg="Done", changed=changed, diff=diff)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

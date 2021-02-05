@@ -5,9 +5,10 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_facts
 short_description: Collects facts from PAN-OS devices
@@ -38,17 +39,17 @@ options:
         type: list
         elements: str
         default: ['!config']
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Gather facts
 - name: Get facts
   panos_facts:
     provider: '{{ provider }}'
     gather_subset: ['config']
-'''
+"""
 
-RETURN = '''
+RETURN = """
 ansible_net_hostname:
     description: Hostname of the local node.
     returned: When C(system) is specified in C(gather_subset).
@@ -222,43 +223,49 @@ ansible_net_routing_table:
         virtual_router:
             description: Virtual router the route belongs to.
             type: str
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
 from ansible.module_utils.six import iteritems
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.device import Vsys
     from panos.errors import PanDeviceError
     from panos.firewall import Firewall
-    from panos.network import AggregateInterface
-    from panos.network import EthernetInterface
-    from panos.network import Layer3Subinterface
-    from panos.network import Layer2Subinterface
-    from panos.network import IPv6Address
-    from panos.network import VlanInterface
-    from panos.network import LoopbackInterface
-    from panos.network import TunnelInterface
-    from panos.network import VirtualRouter
-    from panos.network import Bgp
-    from panos.network import Zone
+    from panos.network import (
+        AggregateInterface,
+        Bgp,
+        EthernetInterface,
+        IPv6Address,
+        Layer2Subinterface,
+        Layer3Subinterface,
+        LoopbackInterface,
+        TunnelInterface,
+        VirtualRouter,
+        VlanInterface,
+        Zone,
+    )
 except ImportError:
     try:
         from pandevice.device import Vsys
         from pandevice.errors import PanDeviceError
         from pandevice.firewall import Firewall
-        from pandevice.network import AggregateInterface
-        from pandevice.network import EthernetInterface
-        from pandevice.network import Layer3Subinterface
-        from pandevice.network import Layer2Subinterface
-        from pandevice.network import IPv6Address
-        from pandevice.network import VlanInterface
-        from pandevice.network import LoopbackInterface
-        from pandevice.network import TunnelInterface
-        from pandevice.network import VirtualRouter
-        from pandevice.network import Bgp
-        from pandevice.network import Zone
+        from pandevice.network import (
+            AggregateInterface,
+            Bgp,
+            EthernetInterface,
+            IPv6Address,
+            Layer2Subinterface,
+            Layer3Subinterface,
+            LoopbackInterface,
+            TunnelInterface,
+            VirtualRouter,
+            VlanInterface,
+            Zone,
+        )
     except ImportError:
         pass
 
@@ -274,19 +281,21 @@ class Factbase(object):
 class System(Factbase):
     def populate_facts(self):
         xapi = self.parent
-        root = xapi.op('show system info').find('./result/system')
+        root = xapi.op("show system info").find("./result/system")
 
-        self.facts.update({
-            'hostname': root.findtext('hostname'),
-            'model': root.findtext('model'),
-            'serial': root.findtext('serial'),
-            'version': root.findtext('sw-version'),
-            'uptime': root.findtext('uptime'),
-            'multivsys': root.findtext('multi-vsys')
-        })
+        self.facts.update(
+            {
+                "hostname": root.findtext("hostname"),
+                "model": root.findtext("model"),
+                "serial": root.findtext("serial"),
+                "version": root.findtext("sw-version"),
+                "uptime": root.findtext("uptime"),
+                "multivsys": root.findtext("multi-vsys"),
+            }
+        )
 
         # Check uncommitted changes
-        result = xapi.op('check pending-changes').find('./result').text
+        result = xapi.op("check pending-changes").find("./result").text
 
         if result == "yes":
             uncommitted_changes = True
@@ -295,7 +304,7 @@ class System(Factbase):
 
         # Check if full commit is required
         if uncommitted_changes:
-            result = xapi.op('check full-commit-required').find('./result').text
+            result = xapi.op("check full-commit-required").find("./result").text
 
             if result == "yes":
                 full_commit_required = True
@@ -304,112 +313,124 @@ class System(Factbase):
         else:
             full_commit_required = False
 
-        self.facts.update({
-            'uncommitted_changes': uncommitted_changes,
-            'full_commit_required': full_commit_required
-        })
+        self.facts.update(
+            {
+                "uncommitted_changes": uncommitted_changes,
+                "full_commit_required": full_commit_required,
+            }
+        )
 
 
 class Session(Factbase):
     def populate_facts(self):
-        root = self.parent.op('show session info')
+        root = self.parent.op("show session info")
 
-        self.facts.update({
-            'session_usage': root.find('./result/num-active').text,
-            'session_max': root.find('./result/num-max').text,
-            'pps': root.find('./result/pps').text,
-            'kbps': root.find('./result/kbps').text
-        })
+        self.facts.update(
+            {
+                "session_usage": root.find("./result/num-active").text,
+                "session_max": root.find("./result/num-max").text,
+                "pps": root.find("./result/pps").text,
+                "kbps": root.find("./result/kbps").text,
+            }
+        )
 
 
 class Routing(Factbase):
     def populate_facts(self):
-        entries = self.parent.op('show routing route').findall('./result/entry')
+        entries = self.parent.op("show routing route").findall("./result/entry")
         routing_table = [
-            {route.tag.replace('-', '_'): route.text for route in entry}
+            {route.tag.replace("-", "_"): route.text for route in entry}
             for entry in entries
         ]
 
-        self.facts.update({
-            'routing_table': routing_table
-        })
+        self.facts.update({"routing_table": routing_table})
 
 
 class Interfaces(Factbase):
     def populate_facts(self):
         interfaces = []
-        cls_types = (AggregateInterface, EthernetInterface, VlanInterface, LoopbackInterface, TunnelInterface)
+        cls_types = (
+            AggregateInterface,
+            EthernetInterface,
+            VlanInterface,
+            LoopbackInterface,
+            TunnelInterface,
+        )
 
         for cls_type in cls_types:
             listing = cls_type.refreshall(self.parent, add=False)
             for elm in listing:
                 iface_info = {
-                    'name': elm.name,
-                    'comment': elm.comment,
-                    'ip': getattr(elm, 'ip', []),
-                    'ipv6': [],
+                    "name": elm.name,
+                    "comment": elm.comment,
+                    "ip": getattr(elm, "ip", []),
+                    "ipv6": [],
                 }
                 for child in elm.children:
                     if isinstance(child, IPv6Address):
-                        iface_info['ipv6'].append(child.uid)
-                    elif isinstance(child, Layer3Subinterface) or isinstance(child, Layer2Subinterface):
+                        iface_info["ipv6"].append(child.uid)
+                    elif isinstance(child, Layer3Subinterface) or isinstance(
+                        child, Layer2Subinterface
+                    ):
                         child_info = {
-                            'name': child.name,
-                            'comment': child.comment,
-                            'tag': child.tag,
-                            'ip': getattr(child, 'ip', []),
-                            'ipv6': [],
+                            "name": child.name,
+                            "comment": child.comment,
+                            "tag": child.tag,
+                            "ip": getattr(child, "ip", []),
+                            "ipv6": [],
                         }
                         for sub_child in child.children:
                             if isinstance(child, IPv6Address):
-                                child_info['ipv6'].append(sub_child.name)
+                                child_info["ipv6"].append(sub_child.name)
                         interfaces.append(child_info)
                 interfaces.append(iface_info)
 
-        newlist = sorted(interfaces, key=lambda k: k['name'])
-        self.facts.update({
-            'interfaces': newlist
-        })
+        newlist = sorted(interfaces, key=lambda k: k["name"])
+        self.facts.update({"interfaces": newlist})
 
 
 class Ha(Factbase):
     def populate_facts(self):
-        root = self.parent.op('show high-availability all')
+        root = self.parent.op("show high-availability all")
 
-        if root.find('./result/enabled').text == 'yes':
+        if root.find("./result/enabled").text == "yes":
             ha_enabled = True
-            ha_localmode = root.find('./result/group/local-info/mode').text
-            ha_localstate = root.find('./result/group/local-info/state').text
+            ha_localmode = root.find("./result/group/local-info/mode").text
+            ha_localstate = root.find("./result/group/local-info/state").text
         else:
             ha_enabled = False
             ha_localmode = "standalone"
             ha_localstate = "active"
 
-        self.facts.update({
-            'ha_enabled': ha_enabled,
-            'ha_localmode': ha_localmode,
-            'ha_localstate': ha_localstate
-        })
+        self.facts.update(
+            {
+                "ha_enabled": ha_enabled,
+                "ha_localmode": ha_localmode,
+                "ha_localstate": ha_localstate,
+            }
+        )
 
 
 class PanoramaHa(Factbase):
     def populate_facts(self):
-        root = self.parent.op('show high-availability all')
+        root = self.parent.op("show high-availability all")
 
-        if root.find('./result/enabled').text == 'yes':
+        if root.find("./result/enabled").text == "yes":
             ha_enabled = True
             ha_localmode = "Active-Passive"  # Only type of HA on Panorama
-            ha_localstate = root.find('./result/local-info/state').text
+            ha_localstate = root.find("./result/local-info/state").text
         else:
             ha_enabled = False
             ha_localmode = "standalone"
             ha_localstate = "active"
 
-        self.facts.update({
-            'ha_enabled': ha_enabled,
-            'ha_localmode': ha_localmode,
-            'ha_localstate': ha_localstate
-        })
+        self.facts.update(
+            {
+                "ha_enabled": ha_enabled,
+                "ha_localmode": ha_localmode,
+                "ha_localstate": ha_localstate,
+            }
+        )
 
 
 class Vr(Factbase):
@@ -419,64 +440,60 @@ class Vr(Factbase):
         virtual_routers = []
         for vr in listing:
             info = {
-                'vr_name': vr.name,
-                'vr_iflist': vr.interface or [],
-                'vr_asn': None,
-                'vr_routerid': None,
+                "vr_name": vr.name,
+                "vr_iflist": vr.interface or [],
+                "vr_asn": None,
+                "vr_routerid": None,
             }
             for child in vr.children:
                 if isinstance(child, Bgp):
-                    info['vr_asn'] = child.local_as
-                    info['vr_routerid'] = child.router_id
+                    info["vr_asn"] = child.local_as
+                    info["vr_routerid"] = child.router_id
             virtual_routers.append(info)
 
-        self.facts.update({
-            'virtual_routers': virtual_routers
-        })
+        self.facts.update({"virtual_routers": virtual_routers})
 
 
 class VsysFacts(Factbase):
     def populate_facts(self):
         # Get session usage XML
-        session_root = self.parent.op('show session meter')
+        session_root = self.parent.op("show session meter")
 
         # Loop through all VSYS
         virtual_systems = []
         vsys_list = Vsys.refreshall(self.parent, name_only=True)
         for vsys in vsys_list:
-            for var in ('display_name', 'interface', 'virtual_routers'):
+            for var in ("display_name", "interface", "virtual_routers"):
                 vsys.refresh_variable(var)
 
             zones = [x.name for x in Zone.refreshall(vsys, name_only=True)]
             vsys_id = vsys.name[4:]
             vsys_sessions = session_root.find(".//entry/[vsys='" + vsys_id + "']")
-            vsys_currentsessions = vsys_sessions.find('.//current').text
-            vsys_maxsessions = vsys_sessions.find('.//maximum').text
+            vsys_currentsessions = vsys_sessions.find(".//current").text
+            vsys_maxsessions = vsys_sessions.find(".//maximum").text
 
-            virtual_systems.append({
-                'vsys_id': vsys_id,
-                'vsys_name': vsys.name,
-                'vsys_description': vsys.display_name,
-                'vsys_iflist': vsys.interface,
-                'vsys_vrlist': vsys.virtual_routers,
-                'vsys_zonelist': zones,
-                'vsys_maxsessions': vsys_maxsessions,
-                'vsys_currentsessions': vsys_currentsessions,
-            })
+            virtual_systems.append(
+                {
+                    "vsys_id": vsys_id,
+                    "vsys_name": vsys.name,
+                    "vsys_description": vsys.display_name,
+                    "vsys_iflist": vsys.interface,
+                    "vsys_vrlist": vsys.virtual_routers,
+                    "vsys_zonelist": zones,
+                    "vsys_maxsessions": vsys_maxsessions,
+                    "vsys_currentsessions": vsys_currentsessions,
+                }
+            )
 
-        self.facts.update({
-            'virtual-systems': virtual_systems
-        })
+        self.facts.update({"virtual-systems": virtual_systems})
 
 
 class Config(Factbase):
     def populate_facts(self):
         self.parent.xapi.show()
-        config = self.parent.xapi.xml_result().encode('utf-8')
+        config = self.parent.xapi.xml_result().encode("utf-8")
 
-        self.facts.update({
-            'config': config
-        })
+        self.facts.update({"config": config})
 
 
 FIREWALL_SUBSETS = dict(
@@ -501,7 +518,7 @@ def main():
     helper = get_connection(
         with_classic_provider_spec=True,
         argument_spec=dict(
-            gather_subset=dict(default=['!config'], type='list', elements='str')
+            gather_subset=dict(default=["!config"], type="list", elements="str")
         ),
     )
 
@@ -513,7 +530,7 @@ def main():
 
     parent = helper.get_pandevice_parent(module)
 
-    gather_subset = module.params['gather_subset']
+    gather_subset = module.params["gather_subset"]
 
     runable_subsets = set()
     exclude_subsets = set()
@@ -526,13 +543,13 @@ def main():
         valid_subsets = frozenset(PANORAMA_SUBSETS)
 
     for subset in gather_subset:
-        if subset == 'all':
+        if subset == "all":
             runable_subsets.update(valid_subsets)
             continue
 
-        if subset.startswith('!'):
+        if subset.startswith("!"):
             subset = subset[1:]
-            if subset == 'all':
+            if subset == "all":
                 exclude_subsets.update(valid_subsets)
                 continue
             exclude = True
@@ -540,8 +557,10 @@ def main():
             exclude = False
 
         if subset not in valid_subsets:
-            module.fail_json(msg='Subset must be one of [%s], got %s' %
-                             (', '.join(valid_subsets), subset))
+            module.fail_json(
+                msg="Subset must be one of [%s], got %s"
+                % (", ".join(valid_subsets), subset)
+            )
 
         if exclude:
             exclude_subsets.add(subset)
@@ -552,10 +571,10 @@ def main():
         runable_subsets.update(valid_subsets)
 
     runable_subsets.difference_update(exclude_subsets)
-    runable_subsets.add('system')
+    runable_subsets.add("system")
 
     facts = dict()
-    facts['gather_subset'] = list(runable_subsets)
+    facts["gather_subset"] = list(runable_subsets)
 
     # Create instance classes, e.g. System, Session etc.
     instances = list()
@@ -574,11 +593,11 @@ def main():
     ansible_facts = dict()
 
     for key, value in iteritems(facts):
-        key = 'ansible_net_%s' % key
+        key = "ansible_net_%s" % key
         ansible_facts[key] = value
 
     module.exit_json(ansible_facts=ansible_facts)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

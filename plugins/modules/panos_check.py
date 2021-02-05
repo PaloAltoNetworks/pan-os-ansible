@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_check
 short_description: check if PAN-OS device is ready for configuration
@@ -54,9 +55,9 @@ options:
             - Length of time (in seconds) to wait between checks.
         default: 0
         type: int
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Single check.
 - name: check if ready
   panos_check:
@@ -70,16 +71,19 @@ EXAMPLES = '''
     initial_delay: 120
     interval: 5
     timeout: 600
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 
 import time
+
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
@@ -92,8 +96,8 @@ except ImportError:
 
 def check_jobs(jobs):
     for j in jobs:
-        status = j.find('.//status')
-        if status is None or status.text != 'FIN':
+        status = j.find(".//status")
+        if status is None or status.text != "FIN":
             return False
 
     return True
@@ -103,9 +107,9 @@ def main():
     helper = get_connection(
         with_classic_provider_spec=True,
         argument_spec=dict(
-            initial_delay=dict(default=0, type='int'),
-            timeout=dict(default=60, type='int'),
-            interval=dict(default=0, type='int')
+            initial_delay=dict(default=0, type="int"),
+            timeout=dict(default=60, type="int"),
+            interval=dict(default=0, type="int"),
         ),
     )
 
@@ -116,11 +120,11 @@ def main():
     )
 
     # Optional delay before performing readiness checks.
-    if module.params['initial_delay']:
-        time.sleep(module.params['initial_delay'])
+    if module.params["initial_delay"]:
+        time.sleep(module.params["initial_delay"])
 
-    timeout = module.params['timeout']
-    interval = module.params['interval']
+    timeout = module.params["timeout"]
+    interval = module.params["interval"]
     end_time = time.time() + timeout
 
     parent = helper.get_pandevice_parent(module, timeout)
@@ -132,17 +136,17 @@ def main():
         except PanDeviceError:
             pass
         else:
-            jobs = ans.findall('.//job')
+            jobs = ans.findall(".//job")
             if check_jobs(jobs):
                 break
 
         if time.time() > end_time:
-            module.fail_json(msg='Timeout')
+            module.fail_json(msg="Timeout")
 
         time.sleep(interval)
 
     module.exit_json(changed=True, msg="done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

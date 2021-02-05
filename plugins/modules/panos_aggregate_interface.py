@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_aggregate_interface
 short_description: configure aggregate network interfaces
@@ -139,9 +140,9 @@ options:
             - The virtual router to associate with this interface.
         type: str
         default: default
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create ae1 interface.
 - name: create ae1 interface with IP in untrust zone
   panos_aggregate_interface:
@@ -149,22 +150,24 @@ EXAMPLES = '''
     if_name: "ae1"
     ip: '[ "192.168.0.1" ]'
     zone_name: 'untrust'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import AggregateInterface
     from panos.errors import PanDeviceError
+    from panos.network import AggregateInterface
 except ImportError:
     try:
-        from pandevice.network import AggregateInterface
         from pandevice.errors import PanDeviceError
+        from pandevice.network import AggregateInterface
     except ImportError:
         pass
 
@@ -179,30 +182,30 @@ def main():
         argument_spec=dict(
             if_name=dict(required=True),
             mode=dict(
-                default='layer3',
-                choices=['layer3', 'layer2', 'virtual-wire', 'ha'],
+                default="layer3",
+                choices=["layer3", "layer2", "virtual-wire", "ha"],
             ),
-            ip=dict(type='list', elements='str'),
-            ipv6_enabled=dict(type='bool'),
+            ip=dict(type="list", elements="str"),
+            ipv6_enabled=dict(type="bool"),
             management_profile=dict(),
-            mtu=dict(type='int'),
-            adjust_tcp_mss=dict(type='bool'),
+            mtu=dict(type="int"),
+            adjust_tcp_mss=dict(type="bool"),
             netflow_profile=dict(),
-            lldp_enabled=dict(type='bool'),
+            lldp_enabled=dict(type="bool"),
             lldp_profile=dict(),
             comment=dict(),
-            ipv4_mss_adjust=dict(type='int'),
-            ipv6_mss_adjust=dict(type='int'),
-            enable_dhcp=dict(type='bool'),
-            create_dhcp_default_route=dict(type='bool'),
-            dhcp_default_route_metric=dict(type='int'),
-            lacp_enable=dict(type='bool'),
-            lacp_passive_pre_negotiation=dict(type='bool'),
-            lacp_rate=dict(type='str', choices=['fast', 'slow']),
-            lacp_mode=dict(type='str', choices=['active', 'passive']),
+            ipv4_mss_adjust=dict(type="int"),
+            ipv6_mss_adjust=dict(type="int"),
+            enable_dhcp=dict(type="bool"),
+            create_dhcp_default_route=dict(type="bool"),
+            dhcp_default_route_metric=dict(type="int"),
+            lacp_enable=dict(type="bool"),
+            lacp_passive_pre_negotiation=dict(type="bool"),
+            lacp_rate=dict(type="str", choices=["fast", "slow"]),
+            lacp_mode=dict(type="str", choices=["active", "passive"]),
             zone_name=dict(),
-            vr_name=dict(default='default'),
-            commit=dict(type='bool', default=False),
+            vr_name=dict(default="default"),
+            commit=dict(type="bool", default=False),
         ),
     )
 
@@ -214,34 +217,34 @@ def main():
 
     # Get the object params.
     spec = {
-        'name': module.params['if_name'],
-        'mode': module.params['mode'],
-        'ip': module.params['ip'],
-        'ipv6_enabled': module.params['ipv6_enabled'],
-        'management_profile': module.params['management_profile'],
-        'mtu': module.params['mtu'],
-        'adjust_tcp_mss': module.params['adjust_tcp_mss'],
-        'netflow_profile': module.params['netflow_profile'],
-        'lldp_enabled': module.params['lldp_enabled'],
-        'lldp_profile': module.params['lldp_profile'],
-        'lacp_enable': module.params['lacp_enable'],
-        'lacp_passive_pre_negotiation': module.params['lacp_passive_pre_negotiation'],
-        'lacp_rate': module.params['lacp_rate'],
-        'lacp_mode': module.params['lacp_mode'],
-        'comment': module.params['comment'],
-        'ipv4_mss_adjust': module.params['ipv4_mss_adjust'],
-        'ipv6_mss_adjust': module.params['ipv6_mss_adjust'],
-        'enable_dhcp': module.params['enable_dhcp'],
-        'create_dhcp_default_route': module.params['create_dhcp_default_route'],
-        'dhcp_default_route_metric': module.params['dhcp_default_route_metric'],
+        "name": module.params["if_name"],
+        "mode": module.params["mode"],
+        "ip": module.params["ip"],
+        "ipv6_enabled": module.params["ipv6_enabled"],
+        "management_profile": module.params["management_profile"],
+        "mtu": module.params["mtu"],
+        "adjust_tcp_mss": module.params["adjust_tcp_mss"],
+        "netflow_profile": module.params["netflow_profile"],
+        "lldp_enabled": module.params["lldp_enabled"],
+        "lldp_profile": module.params["lldp_profile"],
+        "lacp_enable": module.params["lacp_enable"],
+        "lacp_passive_pre_negotiation": module.params["lacp_passive_pre_negotiation"],
+        "lacp_rate": module.params["lacp_rate"],
+        "lacp_mode": module.params["lacp_mode"],
+        "comment": module.params["comment"],
+        "ipv4_mss_adjust": module.params["ipv4_mss_adjust"],
+        "ipv6_mss_adjust": module.params["ipv6_mss_adjust"],
+        "enable_dhcp": module.params["enable_dhcp"],
+        "create_dhcp_default_route": module.params["create_dhcp_default_route"],
+        "dhcp_default_route_metric": module.params["dhcp_default_route_metric"],
     }
 
     # Get other info.
-    state = module.params['state']
-    zone_name = module.params['zone_name']
-    vr_name = module.params['vr_name']
-    vsys = module.params['vsys']
-    commit = module.params['commit']
+    state = module.params["state"]
+    zone_name = module.params["zone_name"]
+    vr_name = module.params["vr_name"]
+    vsys = module.params["vsys"]
+    commit = module.params["commit"]
 
     # Verify libs are present, get the parent object.
     parent = helper.get_pandevice_parent(module)
@@ -249,9 +252,10 @@ def main():
     # Retrieve the current config.
     try:
         interfaces = AggregateInterface.refreshall(
-            parent, add=False, matching_vsys=False)
+            parent, add=False, matching_vsys=False
+        )
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     # Build the object based on the user spec.
     obj = AggregateInterface(**spec)
@@ -260,11 +264,11 @@ def main():
     # Which action should we take on the interface?
     changed = False
     reference_params = {
-        'refresh': True,
-        'update': not module.check_mode,
-        'return_type': 'bool',
+        "refresh": True,
+        "update": not module.check_mode,
+        "return_type": "bool",
     }
-    if state == 'present':
+    if state == "present":
         for item in interfaces:
             if item.name != obj.name:
                 continue
@@ -276,7 +280,7 @@ def main():
                     try:
                         obj.apply()
                     except PanDeviceError as e:
-                        module.fail_json(msg='Failed apply: {0}'.format(e))
+                        module.fail_json(msg="Failed apply: {0}".format(e))
             break
         else:
             changed = True
@@ -284,7 +288,7 @@ def main():
                 try:
                     obj.create()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed create: {0}'.format(e))
+                    module.fail_json(msg="Failed create: {0}".format(e))
 
         # Set references.
         try:
@@ -292,15 +296,15 @@ def main():
             changed |= obj.set_zone(zone_name, mode=obj.mode, **reference_params)
             changed |= obj.set_virtual_router(vr_name, **reference_params)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed setref: {0}'.format(e))
-    elif state == 'absent':
+            module.fail_json(msg="Failed setref: {0}".format(e))
+    elif state == "absent":
         # Remove references.
         try:
             changed |= obj.set_virtual_router(None, **reference_params)
             changed |= obj.set_zone(None, mode=obj.mode, **reference_params)
             changed |= obj.set_vsys(None, **reference_params)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed setref: {0}'.format(e))
+            module.fail_json(msg="Failed setref: {0}".format(e))
 
         # Remove the interface.
         if obj.name in [x.name for x in interfaces]:
@@ -309,15 +313,15 @@ def main():
                 try:
                     obj.delete()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed delete: {0}'.format(e))
+                    module.fail_json(msg="Failed delete: {0}".format(e))
 
     # Commit if we were asked to do so.
     if changed and commit:
         helper.commit(module)
 
     # Done!
-    module.exit_json(changed=changed, msg='Done')
+    module.exit_json(changed=changed, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

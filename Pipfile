@@ -1,0 +1,30 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pan-os-python = "*"
+xmltodict = "==0.12.0"
+requests = "==2.22.0"
+
+[dev-packages]
+ansible = "*"
+black = "*"
+isort = "*"
+pytest = "*"
+coverage = "==4.5.4"
+pycodestyle = "*"
+pylint = "*"
+voluptuous = "*"
+yamllint = "*"
+sphinx = "*"
+sphinx-rtd-theme = "*"
+ansible-doc-extractor = "*"
+rstcheck = "*"
+
+[requires]
+python_version = "3.6"
+
+[pipenv]
+allow_prereleases = true

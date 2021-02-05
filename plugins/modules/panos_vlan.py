@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_vlan
 short_description: Configures VLANs.
@@ -53,30 +54,32 @@ options:
             - The VLAN interface
             - See M(panos_vlan_interface)
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create VLAN
   panos_vlan:
     provider: '{{ provider }}'
     name: 'Internal'
     virtual_interface: 'vlan.2'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import Vlan
     from panos.errors import PanDeviceError
+    from panos.network import Vlan
 except ImportError:
     try:
-        from pandevice.network import Vlan
         from pandevice.errors import PanDeviceError
+        from pandevice.network import Vlan
     except ImportError:
         pass
 
@@ -89,8 +92,10 @@ def main():
         with_state=True,
         with_classic_provider_spec=True,
         argument_spec=dict(
-            name=dict(required=True, ),
-            interface=dict(type='list', elements='str'),
+            name=dict(
+                required=True,
+            ),
+            interface=dict(type="list", elements="str"),
             virtual_interface=dict(),
         ),
     )
@@ -104,26 +109,26 @@ def main():
     parent = helper.get_pandevice_parent(module)
 
     spec = {
-        'name': module.params['name'],
-        'interface': module.params['interface'],
-        'virtual_interface': module.params['virtual_interface'],
+        "name": module.params["name"],
+        "interface": module.params["interface"],
+        "virtual_interface": module.params["virtual_interface"],
     }
     obj = Vlan(**spec)
 
     try:
         listing = Vlan.refreshall(parent, matching_vsys=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     reference_params = {
-        'refresh': True,
-        'update': not module.check_mode,
-        'return_type': 'bool',
+        "refresh": True,
+        "update": not module.check_mode,
+        "return_type": "bool",
     }
     parent.add(obj)
 
     changed = False
-    if module.params['state'] == 'present':
+    if module.params["state"] == "present":
         for vlan in listing:
             if vlan.name != obj.name:
                 continue
@@ -134,7 +139,7 @@ def main():
                     try:
                         obj.apply()
                     except PanDeviceError as e:
-                        module.fail_json(msg='Failed apply: {0}'.format(e))
+                        module.fail_json(msg="Failed apply: {0}".format(e))
             break
         else:
             changed = True
@@ -142,26 +147,26 @@ def main():
                 try:
                     obj.create()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed create: {0}'.format(e))
+                    module.fail_json(msg="Failed create: {0}".format(e))
         try:
-            changed |= obj.set_vsys(module.params['vsys'], **reference_params)
+            changed |= obj.set_vsys(module.params["vsys"], **reference_params)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed setref: {0}'.format(e))
-    elif module.params['state'] == 'absent':
+            module.fail_json(msg="Failed setref: {0}".format(e))
+    elif module.params["state"] == "absent":
         try:
             changed |= obj.set_vsys(None, **reference_params)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed setref: {0}'.format(e))
+            module.fail_json(msg="Failed setref: {0}".format(e))
         if obj.name in [x.name for x in listing]:
             changed = True
             if not module.check_mode:
                 try:
                     obj.delete()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed delete: {0}'.format(e))
+                    module.fail_json(msg="Failed delete: {0}".format(e))
 
-    module.exit_json(changed=changed, msg='done')
+    module.exit_json(changed=changed, msg="done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

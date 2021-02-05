@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_log_forwarding_profile_match_list_action
 short_description: Manage log forwarding profile match list actions.
@@ -98,9 +99,9 @@ options:
             - Valid for PAN-OS 9.0+
             - Timeout in minutes
         type: int
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create a log forwarding server match list action
 - name: Create the action
   panos_log_forwarding_profile_match_list_action:
@@ -113,26 +114,32 @@ EXAMPLES = '''
     registration: 'localhost'
     tags: ['foo', 'bar']
     timeout: 2
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.objects import LogForwardingProfile
-    from panos.objects import LogForwardingProfileMatchList
-    from panos.objects import LogForwardingProfileMatchListAction
     from panos.errors import PanDeviceError
+    from panos.objects import (
+        LogForwardingProfile,
+        LogForwardingProfileMatchList,
+        LogForwardingProfileMatchListAction,
+    )
 except ImportError:
     try:
-        from pandevice.objects import LogForwardingProfile
-        from pandevice.objects import LogForwardingProfileMatchList
-        from pandevice.objects import LogForwardingProfileMatchListAction
         from pandevice.errors import PanDeviceError
+        from pandevice.objects import (
+            LogForwardingProfile,
+            LogForwardingProfileMatchList,
+            LogForwardingProfileMatchListAction,
+        )
     except ImportError:
         pass
 
@@ -149,13 +156,15 @@ def main():
             log_forwarding_profile=dict(required=True),
             log_forwarding_profile_match_list=dict(required=True),
             name=dict(required=True),
-            action_type=dict(default='tagging', choices=['tagging', 'integration']),
-            action=dict(choices=['add-tag', 'remove-tag', 'Azure-Security-Center-Integration']),
-            target=dict(choices=['source-address', 'destination-address']),
-            registration=dict(choices=['localhost', 'panorama', 'remote']),
+            action_type=dict(default="tagging", choices=["tagging", "integration"]),
+            action=dict(
+                choices=["add-tag", "remove-tag", "Azure-Security-Center-Integration"]
+            ),
+            target=dict(choices=["source-address", "destination-address"]),
+            registration=dict(choices=["localhost", "panorama", "remote"]),
             http_profile=dict(),
-            tags=dict(type='list', elements='str'),
-            timeout=dict(type='int'),
+            tags=dict(type="list", elements="str"),
+            timeout=dict(type="int"),
         ),
     )
     module = AnsibleModule(
@@ -167,36 +176,42 @@ def main():
     # Verify imports, build pandevice object tree.
     parent = helper.get_pandevice_parent(module)
 
-    lfp = LogForwardingProfile(module.params['log_forwarding_profile'])
+    lfp = LogForwardingProfile(module.params["log_forwarding_profile"])
     parent.add(lfp)
     try:
         lfp.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
-    ml = lfp.find(module.params['log_forwarding_profile_match_list'], LogForwardingProfileMatchList)
+    ml = lfp.find(
+        module.params["log_forwarding_profile_match_list"],
+        LogForwardingProfileMatchList,
+    )
     if ml is None:
-        module.fail_json(msg='Log forwarding profile match list "{0}" does not exist'.format(
-            module.params['log_forwarding_profile_match_list']))
+        module.fail_json(
+            msg='Log forwarding profile match list "{0}" does not exist'.format(
+                module.params["log_forwarding_profile_match_list"]
+            )
+        )
 
     listing = ml.findall(LogForwardingProfileMatchListAction)
 
     spec = {
-        'name': module.params['name'],
-        'action_type': module.params['action_type'],
-        'action': module.params['action'],
-        'target': module.params['target'],
-        'registration': module.params['registration'],
-        'http_profile': module.params['http_profile'],
-        'tags': module.params['tags'],
-        'timeout': module.params['timeout'],
+        "name": module.params["name"],
+        "action_type": module.params["action_type"],
+        "action": module.params["action"],
+        "target": module.params["target"],
+        "registration": module.params["registration"],
+        "http_profile": module.params["http_profile"],
+        "tags": module.params["tags"],
+        "timeout": module.params["timeout"],
     }
     obj = LogForwardingProfileMatchListAction(**spec)
     ml.add(obj)
 
     changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

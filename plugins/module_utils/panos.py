@@ -26,39 +26,38 @@
 # USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
 
 import time
 
-
-_MIN_VERSION_ERROR = '{0} version ({1}) < minimum version ({2})'
+_MIN_VERSION_ERROR = "{0} version ({1}) < minimum version ({2})"
 HAS_PANDEVICE = True
 try:
-    import panos
     from panos.base import PanDevice
+    from panos.device import Vsys
+    from panos.errors import PanCommitNotNeeded, PanDeviceError
     from panos.firewall import Firewall
     from panos.panorama import DeviceGroup, Template, TemplateStack
-    from panos.policies import PreRulebase, PostRulebase, Rulebase
-    from panos.device import Vsys
-    from panos.errors import PanDeviceError
-    from panos.errors import PanCommitNotNeeded
+    from panos.policies import PostRulebase, PreRulebase, Rulebase
+
+    import panos
 except ImportError:
     try:
         import pandevice as panos
         from pandevice.base import PanDevice
+        from pandevice.device import Vsys
+        from pandevice.errors import PanCommitNotNeeded, PanDeviceError
         from pandevice.firewall import Firewall
         from pandevice.panorama import DeviceGroup, Template, TemplateStack
-        from pandevice.policies import PreRulebase, PostRulebase, Rulebase
-        from pandevice.device import Vsys
-        from pandevice.errors import PanDeviceError
-        from pandevice.errors import PanCommitNotNeeded
+        from pandevice.policies import PostRulebase, PreRulebase, Rulebase
     except ImportError:
         HAS_PANDEVICE = False
 
 
 def _vstr(val):
-    return '{0}.{1}.{2}'.format(*val)
+    return "{0}.{1}.{2}".format(*val)
 
 
 def eltostr(obj):
@@ -71,9 +70,15 @@ def eltostr(obj):
 
 
 class ConnectionHelper(object):
-    def __init__(self, min_pandevice_version, min_panos_version,
-                 error_on_firewall_shared, panorama_error, firewall_error,
-                 template_is_optional):
+    def __init__(
+        self,
+        min_pandevice_version,
+        min_panos_version,
+        error_on_firewall_shared,
+        panorama_error,
+        firewall_error,
+        template_is_optional,
+    ):
         """Performs connection initialization and determines params."""
         # Params for AnsibleModule.
         self.argument_spec = {}
@@ -116,7 +121,7 @@ class ConnectionHelper(object):
         if not HAS_PANDEVICE:
             module.fail_json(msg='Missing required library "pandevice".')
 
-        pdv = tuple(int(x) for x in panos.__version__.split('.'))
+        pdv = tuple(int(x) for x in panos.__version__.split("."))
 
         # Inform people that they should upgrade to pan-os-python instead of pandevice.
         if pdv < (1, 0, 0):
@@ -124,64 +129,74 @@ class ConnectionHelper(object):
                 'Python library "pandevice" is now "pan-os-python" and is now 1.0!',
                 'Please "pip install pan-os-python" at your earliest convenience.',
             ]
-            module.deprecate(' '.join(lum), version='3.0.0', collection_name='paloaltonetworks.panos')
+            module.deprecate(
+                " ".join(lum), version="3.0.0", collection_name="paloaltonetworks.panos"
+            )
 
         # Verify pandevice minimum version.
         if self.min_pandevice_version is not None:
             if pdv < self.min_pandevice_version:
-                module.fail_json(msg=_MIN_VERSION_ERROR.format(
-                    'panos', panos.__version__,
-                    _vstr(self.min_pandevice_version)))
+                module.fail_json(
+                    msg=_MIN_VERSION_ERROR.format(
+                        "panos", panos.__version__, _vstr(self.min_pandevice_version)
+                    )
+                )
 
         pan_device_auth, serial_number = None, None
-        if module.params['provider'] and module.params['provider']['ip_address']:
+        if module.params["provider"] and module.params["provider"]["ip_address"]:
             pan_device_auth = (
-                module.params['provider']['ip_address'],
-                module.params['provider']['username'],
-                module.params['provider']['password'],
-                module.params['provider']['api_key'],
-                module.params['provider']['port'],
+                module.params["provider"]["ip_address"],
+                module.params["provider"]["username"],
+                module.params["provider"]["password"],
+                module.params["provider"]["api_key"],
+                module.params["provider"]["port"],
             )
-            serial_number = module.params['provider']['serial_number']
-        elif module.params.get('ip_address', None) is not None:
+            serial_number = module.params["provider"]["serial_number"]
+        elif module.params.get("ip_address", None) is not None:
             pan_device_auth = (
-                module.params['ip_address'],
-                module.params['username'],
-                module.params['password'],
-                module.params['api_key'],
-                module.params['port'],
+                module.params["ip_address"],
+                module.params["username"],
+                module.params["password"],
+                module.params["api_key"],
+                module.params["port"],
             )
             msg = 'Classic provider params are deprecated; use "provider" instead'
-            module.deprecate(msg, version='3.0.0', collection_name='paloaltonetworks.panos')
+            module.deprecate(
+                msg, version="3.0.0", collection_name="paloaltonetworks.panos"
+            )
         else:
-            module.fail_json(msg='Provider params are required.')
+            module.fail_json(msg="Provider params are required.")
 
         # Create the connection object.
         if not isinstance(timeout, int):
-            raise ValueError('Timeout must be an int')
+            raise ValueError("Timeout must be an int")
         elif timeout < 0:
-            raise ValueError('Timeout must greater than or equal to 0')
+            raise ValueError("Timeout must greater than or equal to 0")
         end_time = time.time() + timeout
         while True:
             try:
                 self.device = PanDevice.create_from_device(*pan_device_auth)
             except PanDeviceError as e:
                 if timeout == 0:
-                    module.fail_json(msg='Failed connection: {0}'.format(e))
+                    module.fail_json(msg="Failed connection: {0}".format(e))
                 elif time.time() >= end_time:
-                    module.fail_json(msg='Connection timeout: {0}'.format(e))
+                    module.fail_json(msg="Connection timeout: {0}".format(e))
             else:
                 break
 
         # Verify PAN-OS minimum version.
         if self.min_panos_version is not None:
             if self.device._version_info < self.min_panos_version:
-                module.fail_json(msg=_MIN_VERSION_ERROR.format(
-                    'PAN-OS', _vstr(self.device._version_info),
-                    _vstr(self.min_panos_version)))
+                module.fail_json(
+                    msg=_MIN_VERSION_ERROR.format(
+                        "PAN-OS",
+                        _vstr(self.device._version_info),
+                        _vstr(self.min_panos_version),
+                    )
+                )
 
         # Optional: Firewall via Panorama connectivity specified.
-        if hasattr(self.device, 'refresh_devices') and serial_number:
+        if hasattr(self.device, "refresh_devices") and serial_number:
             fw = Firewall(serial=serial_number)
             self.device.add(fw)
             self.device = fw
@@ -190,8 +205,8 @@ class ConnectionHelper(object):
         no_shared = 'Scope "shared" is not allowed'
         not_found = '{0} "{1}" is not present.'
         pano_mia_param = 'Param "{0}" is required for Panorama but not specified.'
-        ts_error = 'Specify either the template or the template stack{0}.'
-        if hasattr(self.device, 'refresh_devices'):
+        ts_error = "Specify either the template or the template stack{0}."
+        if hasattr(self.device, "refresh_devices"):
             # Panorama connection.
             templated = False
 
@@ -213,9 +228,12 @@ class ConnectionHelper(object):
                             added_template = True
                             break
                     else:
-                        module.fail_json(msg=not_found.format(
-                            'Template stack', name,
-                        ))
+                        module.fail_json(
+                            msg=not_found.format(
+                                "Template stack",
+                                name,
+                            )
+                        )
                 elif self.template is not None:
                     tmpl_required = True
                 elif not self.template_is_optional:
@@ -227,20 +245,23 @@ class ConnectionHelper(object):
                 if name is not None:
                     templated = True
                     if added_template:
-                        module.fail_json(msg=ts_error.format(', not both'))
+                        module.fail_json(msg=ts_error.format(", not both"))
                     templates = Template.refreshall(parent, name_only=True)
                     for t in templates:
                         if t.name == name:
                             parent = t
                             break
                     else:
-                        module.fail_json(msg=not_found.format(
-                            'Template', name,
-                        ))
+                        module.fail_json(
+                            msg=not_found.format(
+                                "Template",
+                                name,
+                            )
+                        )
                 elif self.template_is_optional:
                     pass
                 elif tmpl_required:
-                    module.fail_json(msg=ts_error.format(''))
+                    module.fail_json(msg=ts_error.format(""))
                 elif not added_template:
                     module.fail_json(msg=pano_mia_param.format(self.template))
 
@@ -248,43 +269,47 @@ class ConnectionHelper(object):
             dg_name = self.vsys_dg or self.device_group
             if dg_name is not None:
                 name = module.params[dg_name]
-                if name not in (None, 'shared'):
+                if name not in (None, "shared"):
                     groups = DeviceGroup.refreshall(parent, name_only=True)
                     for dg in groups:
                         if dg.name == name:
                             parent = dg
                             break
                     else:
-                        module.fail_json(msg=not_found.format(
-                            'Device group', name,
-                        ))
+                        module.fail_json(
+                            msg=not_found.format(
+                                "Device group",
+                                name,
+                            )
+                        )
 
             # Spec: vsys importable.
             vsys_name = self.vsys_importable or self.vsys or self.vsys_shared
             if dg_name is None and templated and vsys_name is not None:
                 name = module.params[vsys_name]
-                if name not in (None, 'shared'):
+                if name not in (None, "shared"):
                     vo = Vsys(name)
                     parent.add(vo)
                     parent = vo
 
             # Spec: rulebase.
             if self.rulebase is not None:
-                if module.params[self.rulebase] in (None, 'pre-rulebase'):
+                if module.params[self.rulebase] in (None, "pre-rulebase"):
                     rb = PreRulebase()
                     parent.add(rb)
                     parent = rb
-                elif module.params[self.rulebase] == 'rulebase':
+                elif module.params[self.rulebase] == "rulebase":
                     rb = Rulebase()
                     parent.add(rb)
                     parent = rb
-                elif module.params[self.rulebase] == 'post-rulebase':
+                elif module.params[self.rulebase] == "post-rulebase":
                     rb = PostRulebase()
                     parent.add(rb)
                     parent = rb
                 else:
-                    module.fail_json(msg=not_found.format(
-                        'Rulebase', module.params[self.rulebase]))
+                    module.fail_json(
+                        msg=not_found.format("Rulebase", module.params[self.rulebase])
+                    )
         else:
             # Firewall connection.
             # Error if firewalls are not supported.
@@ -292,10 +317,12 @@ class ConnectionHelper(object):
                 module.fail_json(msg=self.firewall_error)
 
             # Spec: vsys or vsys_dg or vsys_importable.
-            vsys_name = self.vsys_dg or self.vsys or self.vsys_importable or self.vsys_shared
+            vsys_name = (
+                self.vsys_dg or self.vsys or self.vsys_importable or self.vsys_shared
+            )
             if vsys_name is not None:
                 parent.vsys = module.params[vsys_name]
-                if parent.vsys == 'shared' and self.error_on_firewall_shared:
+                if parent.vsys == "shared" and self.error_on_firewall_shared:
                     module.fail_json(msg=no_shared)
 
             # Spec: rulebase.
@@ -305,17 +332,24 @@ class ConnectionHelper(object):
                 parent = rb
 
         # If the module has the commit option set, show a deprecation warning.
-        if module.params.get('commit'):
+        if module.params.get("commit"):
             module.deprecate(
-                'Please use the commit modules instead of the commit option',
-                version='3.0.0', collection_name='paloaltonetworks.panos'
+                "Please use the commit modules instead of the commit option",
+                version="3.0.0",
+                collection_name="paloaltonetworks.panos",
             )
 
         # Done.
         return parent
 
-    def apply_state(self, obj, listing, module, enabled_disabled_param=None,
-                    invert_enabled_disabled=False):
+    def apply_state(
+        self,
+        obj,
+        listing,
+        module,
+        enabled_disabled_param=None,
+        invert_enabled_disabled=False,
+    ):
         """Generic state handling.
 
         Note:  If module.check_mode is True, then this function returns
@@ -335,29 +369,34 @@ class ConnectionHelper(object):
         Returns:
             bool: If a change was made or not.
         """
-        supported_states = ['present', 'absent']
+        supported_states = ["present", "absent"]
         if enabled_disabled_param is not None:
-            supported_states.extend(['enabled', 'disabled'])
+            supported_states.extend(["enabled", "disabled"])
 
         # Sanity check.
-        if 'state' not in module.params:
+        if "state" not in module.params:
             module.fail_json(msg='No "state" present')
-        elif module.params['state'] not in supported_states:
-            module.fail_json(msg='Unsupported state: {0}'.format(
-                module.params['state']))
-        elif enabled_disabled_param is not None and not hasattr(obj, enabled_disabled_param):
-            module.fail_json(msg='enabled/disabled param {0} not present'.format(enabled_disabled_param))
+        elif module.params["state"] not in supported_states:
+            module.fail_json(
+                msg="Unsupported state: {0}".format(module.params["state"])
+            )
+        elif enabled_disabled_param is not None and not hasattr(
+            obj, enabled_disabled_param
+        ):
+            module.fail_json(
+                msg="enabled/disabled param {0} not present".format(
+                    enabled_disabled_param
+                )
+            )
 
         # Apply the state.
         changed = False
         diff = None
-        if module.params['state'] == 'present':
+        if module.params["state"] == "present":
             for item in listing:
                 if item.uid != obj.uid:
                     continue
-                diff = dict(
-                    before=eltostr(item)
-                )
+                diff = dict(before=eltostr(item))
                 obj_child_types = [x.__class__ for x in obj.children]
                 other_children = []
                 for x in item.children:
@@ -368,36 +407,30 @@ class ConnectionHelper(object):
                 if not item.equal(obj, compare_children=True):
                     changed = True
                     obj.extend(other_children)
-                    diff['after'] = eltostr(obj)
+                    diff["after"] = eltostr(obj)
                     if not module.check_mode:
                         try:
                             obj.apply()
                         except PanDeviceError as e:
-                            module.fail_json(msg='Failed apply: {0}'.format(e))
+                            module.fail_json(msg="Failed apply: {0}".format(e))
                 break
             else:
                 changed = True
-                diff = dict(
-                    before="",
-                    after=eltostr(obj)
-                )
+                diff = dict(before="", after=eltostr(obj))
                 if not module.check_mode:
                     try:
                         obj.create()
                     except PanDeviceError as e:
-                        module.fail_json(msg='Failed create: {0}'.format(e))
-        elif module.params['state'] == 'absent':
+                        module.fail_json(msg="Failed create: {0}".format(e))
+        elif module.params["state"] == "absent":
             if obj.uid in [x.uid for x in listing]:
                 changed = True
-                diff = dict(
-                    before=eltostr(obj),
-                    after=""
-                )
+                diff = dict(before=eltostr(obj), after="")
                 if not module.check_mode:
                     try:
                         obj.delete()
                     except PanDeviceError as e:
-                        module.fail_json(msg='Failed delete: {0}'.format(e))
+                        module.fail_json(msg="Failed delete: {0}".format(e))
         else:
             for item in listing:
                 if item.uid != obj.uid:
@@ -407,25 +440,23 @@ class ConnectionHelper(object):
                 if invert_enabled_disabled:
                     val = not val
 
-                if module.params['state'] == 'enabled' and not val:
+                if module.params["state"] == "enabled" and not val:
                     changed = True
-                elif module.params['state'] == 'disabled' and val:
+                elif module.params["state"] == "disabled" and val:
                     changed = True
 
                 if changed:
-                    diff = dict(
-                        before=eltostr(item)
-                    )
+                    diff = dict(before=eltostr(item))
                     setattr(item, enabled_disabled_param, not val)
-                    diff['after'] = eltostr(item)
+                    diff["after"] = eltostr(item)
                     if not module.check_mode:
                         try:
                             item.update(enabled_disabled_param)
                         except PanDeviceError as e:
-                            module.fail_json(msg='Failed toggle: {0}'.format(e))
+                            module.fail_json(msg="Failed toggle: {0}".format(e))
                 break
             else:
-                module.fail_json(msg='Cannot enable/disable non-existing obj')
+                module.fail_json(msg="Cannot enable/disable non-existing obj")
 
         return changed, diff
 
@@ -459,10 +490,12 @@ class ConnectionHelper(object):
         # Sanity check the location / existing_rule params.
         improper_combo = False
         improper_combo |= location is None and existing_rule is not None
-        improper_combo |= location in ('before', 'after') and existing_rule is None
-        improper_combo |= location in ('top', 'bottom') and existing_rule is not None
+        improper_combo |= location in ("before", "after") and existing_rule is None
+        improper_combo |= location in ("top", "bottom") and existing_rule is not None
         if improper_combo:
-            module.fail_json(msg='Improper combination of "location" / "existing_rule".')
+            module.fail_json(
+                msg='Improper combination of "location" / "existing_rule".'
+            )
         elif location is None:
             return False
 
@@ -470,7 +503,7 @@ class ConnectionHelper(object):
         try:
             rules = obj.__class__.refreshall(obj.parent, name_only=True)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed move refresh: {0}'.format(e))
+            module.fail_json(msg="Failed move refresh: {0}".format(e))
 
         listing = [x.uid for x in rules]
         try:
@@ -479,10 +512,10 @@ class ConnectionHelper(object):
         except ValueError:
             module.fail_json(msg="Object {0} isn't present for move".format(uid))
 
-        if location == 'top':
+        if location == "top":
             if listing[0] != uid:
                 changed = True
-        elif location == 'bottom':
+        elif location == "bottom":
             if listing[-1] != uid:
                 changed = True
         else:
@@ -490,14 +523,14 @@ class ConnectionHelper(object):
                 ref_index = listing.index(existing_rule)
             except ValueError:
                 msg = [
-                    'Cannot do relative rule placement',
+                    "Cannot do relative rule placement",
                     '"{0}" does not exist.'.format(existing_rule),
                 ]
-                module.fail_json(msg='{0}'.format(msg))
-            if location == 'before':
+                module.fail_json(msg="{0}".format(msg))
+            if location == "before":
                 if obj_index + 1 != ref_index:
                     changed = True
-            elif location == 'after':
+            elif location == "after":
                 if ref_index + 1 != obj_index:
                     changed = True
 
@@ -506,7 +539,7 @@ class ConnectionHelper(object):
             try:
                 rule.move(location, existing_rule)
             except PanDeviceError as e:
-                module.fail_json(msg='Failed move: {0}'.format(e))
+                module.fail_json(msg="Failed move: {0}".format(e))
 
         # Done.
         return changed
@@ -539,16 +572,16 @@ class ConnectionHelper(object):
         except PanCommitNotNeeded:
             pass
         except PanDeviceError as e:
-            module.fail_json(msg='Failed commit: {0}'.format(e))
+            module.fail_json(msg="Failed commit: {0}".format(e))
 
-        if not hasattr(self.device, 'commit_all'):
+        if not hasattr(self.device, "commit_all"):
             return committed
 
         dg_name = self.vsys_dg or self.device_group
         if dg_name is not None:
             dg_name = module.params[dg_name]
 
-        if dg_name in (None, 'shared'):
+        if dg_name in (None, "shared"):
             return committed
 
         if not include_template:
@@ -567,7 +600,7 @@ class ConnectionHelper(object):
         except PanCommitNotNeeded:
             pass
         except PanDeviceError as e:
-            module.fail_json(msg='Failed commit-all: {0}'.format(e))
+            module.fail_json(msg="Failed commit-all: {0}".format(e))
 
         return committed
 
@@ -603,16 +636,27 @@ class ConnectionHelper(object):
         return ans
 
 
-def get_connection(vsys=None, vsys_shared=None, device_group=None,
-                   vsys_dg=None, vsys_importable=None,
-                   rulebase=None, template=None, template_stack=None,
-                   with_classic_provider_spec=False,
-                   with_state=False, with_enabled_state=False,
-                   argument_spec=None, required_one_of=None,
-                   min_pandevice_version=None, min_panos_version=None,
-                   error_on_firewall_shared=False,
-                   panorama_error=None, firewall_error=None,
-                   template_is_optional=False):
+def get_connection(
+    vsys=None,
+    vsys_shared=None,
+    device_group=None,
+    vsys_dg=None,
+    vsys_importable=None,
+    rulebase=None,
+    template=None,
+    template_stack=None,
+    with_classic_provider_spec=False,
+    with_state=False,
+    with_enabled_state=False,
+    argument_spec=None,
+    required_one_of=None,
+    min_pandevice_version=None,
+    min_panos_version=None,
+    error_on_firewall_shared=False,
+    panorama_error=None,
+    firewall_error=None,
+    template_is_optional=False,
+):
     """Returns a helper object that handles pandevice object tree init.
 
     The `vsys`, `vsys_shared`, `device_group`, `vsys_dg`, `vsys_importable`, `rulebase`,
@@ -664,58 +708,67 @@ def get_connection(vsys=None, vsys_shared=None, device_group=None,
         ConnectionHelper
     """
     helper = ConnectionHelper(
-        min_pandevice_version, min_panos_version,
-        error_on_firewall_shared, panorama_error, firewall_error,
+        min_pandevice_version,
+        min_panos_version,
+        error_on_firewall_shared,
+        panorama_error,
+        firewall_error,
         template_is_optional,
     )
     req = []
     spec = {
-        'provider': {
-            'required': True,
-            'type': 'dict',
-            'required_one_of': [['password', 'api_key'], ],
-            'options': {
-                'ip_address': {'required': True},
-                'username': {'default': 'admin'},
-                'password': {'no_log': True},
-                'api_key': {'no_log': True},
-                'port': {'default': 443, 'type': 'int'},
-                'serial_number': {'no_log': True},
+        "provider": {
+            "required": True,
+            "type": "dict",
+            "required_one_of": [
+                ["password", "api_key"],
+            ],
+            "options": {
+                "ip_address": {"required": True},
+                "username": {"default": "admin"},
+                "password": {"no_log": True},
+                "api_key": {"no_log": True},
+                "port": {"default": 443, "type": "int"},
+                "serial_number": {"no_log": True},
             },
         },
     }
 
     if with_classic_provider_spec:
-        spec['provider']['required'] = False
-        spec['provider']['options']['ip_address']['required'] = False
-        del(spec['provider']['required_one_of'])
-        spec.update({
-            'ip_address': {'required': False},
-            'username': {'default': 'admin'},
-            'password': {'no_log': True},
-            'api_key': {'no_log': True},
-            'port': {'default': 443, 'type': 'int'},
-        })
-        req.extend([
-            ['provider', 'ip_address'],
-            ['provider', 'password', 'api_key'],
-        ])
+        spec["provider"]["required"] = False
+        spec["provider"]["options"]["ip_address"]["required"] = False
+        del spec["provider"]["required_one_of"]
+        spec.update(
+            {
+                "ip_address": {"required": False},
+                "username": {"default": "admin"},
+                "password": {"no_log": True},
+                "api_key": {"no_log": True},
+                "port": {"default": 443, "type": "int"},
+            }
+        )
+        req.extend(
+            [
+                ["provider", "ip_address"],
+                ["provider", "password", "api_key"],
+            ]
+        )
 
     if with_state:
-        spec['state'] = {
-            'default': 'present',
-            'choices': ['present', 'absent'],
+        spec["state"] = {
+            "default": "present",
+            "choices": ["present", "absent"],
         }
 
     if with_enabled_state:
-        spec['state'] = {
-            'default': 'present',
-            'choices': ['present', 'absent', 'enabled', 'disabled'],
+        spec["state"] = {
+            "default": "present",
+            "choices": ["present", "absent", "enabled", "disabled"],
         }
 
     if vsys_dg is not None:
         if isinstance(vsys_dg, bool):
-            param = 'vsys_dg'
+            param = "vsys_dg"
         else:
             param = vsys_dg
         spec[param] = {}
@@ -723,23 +776,23 @@ def get_connection(vsys=None, vsys_shared=None, device_group=None,
     else:
         if vsys is not None:
             if isinstance(vsys, bool):
-                param = 'vsys'
+                param = "vsys"
             else:
                 param = vsys
-            spec[param] = {'default': 'vsys1'}
+            spec[param] = {"default": "vsys1"}
             helper.vsys = param
         if device_group is not None:
             if isinstance(device_group, bool):
-                param = 'device_group'
+                param = "device_group"
             else:
                 param = device_group
-            spec[param] = {'default': 'shared'}
+            spec[param] = {"default": "shared"}
             helper.device_group = param
         if vsys_importable is not None:
             if vsys is not None:
                 raise KeyError('Define "vsys" or "vsys_importable", not both.')
             if isinstance(vsys_importable, bool):
-                param = 'vsys'
+                param = "vsys"
             else:
                 param = vsys_importable
             spec[param] = {}
@@ -750,26 +803,26 @@ def get_connection(vsys=None, vsys_shared=None, device_group=None,
             elif vsys_importable is not None:
                 raise KeyError('Define "vsys_importable" or "vsys_shared", not both.')
             if isinstance(vsys_shared, bool):
-                param = 'vsys'
+                param = "vsys"
             else:
                 param = vsys_shared
-            spec[param] = {'default': 'shared'}
+            spec[param] = {"default": "shared"}
             helper.vsys_shared = param
 
     if rulebase is not None:
         if isinstance(rulebase, bool):
-            param = 'rulebase'
+            param = "rulebase"
         else:
             param = rulebase
         spec[param] = {
-            'default': None,
-            'choices': ['pre-rulebase', 'rulebase', 'post-rulebase'],
+            "default": None,
+            "choices": ["pre-rulebase", "rulebase", "post-rulebase"],
         }
         helper.rulebase = param
 
     if template is not None:
         if isinstance(template, bool):
-            param = 'template'
+            param = "template"
         else:
             param = template
         spec[param] = {}
@@ -777,7 +830,7 @@ def get_connection(vsys=None, vsys_shared=None, device_group=None,
 
     if template_stack is not None:
         if isinstance(template_stack, bool):
-            param = 'template_stack'
+            param = "template_stack"
         else:
             param = template_stack
         spec[param] = {}
@@ -786,7 +839,7 @@ def get_connection(vsys=None, vsys_shared=None, device_group=None,
     if argument_spec is not None:
         for k in argument_spec.keys():
             if k in spec:
-                raise KeyError('{0}: key used by connection helper.'.format(k))
+                raise KeyError("{0}: key used by connection helper.".format(k))
             spec[k] = argument_spec[k]
 
     if required_one_of is not None:

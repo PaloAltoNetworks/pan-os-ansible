@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_import
 short_description: import file on PAN-OS devices
@@ -116,9 +117,9 @@ options:
             - URL of the file that will be imported to device.
         type: str
         required: false
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Import software image into PAN-OS
   panos_import:
     provider: '{{ provider }}'
@@ -157,49 +158,49 @@ EXAMPLES = '''
     category: 'custom-logo'
     custom_logo_location: 'login-screen'
     filename: '/tmp/logo.jpg'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
+
+import os
+import os.path
+import shutil
+import tempfile
+import xml.etree
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
-
-import os.path
-import xml.etree
-import tempfile
-import shutil
-import os
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     import pan.xapi
     import requests
     import requests_toolbelt
+
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
 
 
 def import_file(module, xapi, filename, params):
-    params.update({
-        'type': 'import',
-        'key': xapi.api_key
-    })
+    params.update({"type": "import", "key": xapi.api_key})
 
-    url = 'https://{0}:{1}/api'.format(xapi.hostname, xapi.port)
-    files = {'file': open(filename, 'rb')}
+    url = "https://{0}:{1}/api".format(xapi.hostname, xapi.port)
+    files = {"file": open(filename, "rb")}
 
     r = requests.post(url, params=params, files=files, verify=False)
     response = xml.etree.ElementTree.fromstring(r.content)
 
-    if r.status_code != 200 or response.attrib['status'] == 'error':
+    if r.status_code != 200 or response.attrib["status"] == "error":
         module.fail_json(msg=r.content)
 
 
 def download_file(url):
     r = requests.get(url, stream=True)
-    fo = tempfile.NamedTemporaryFile(prefix='ai', delete=False)
+    fo = tempfile.NamedTemporaryFile(prefix="ai", delete=False)
     shutil.copyfileobj(r.raw, fo)
     fo.close()
 
@@ -215,84 +216,79 @@ def main():
         with_classic_provider_spec=True,
         argument_spec=dict(
             category=dict(
-                type='str',
+                type="str",
                 choices=[
-                    'anti-virus',
-                    'application-block-page',
-                    'captive-portal-text',
-                    'certificate',
-                    'configuration',
-                    'content',
-                    'credential-block-page',
-                    'credential-coach-text',
-                    'custom-logo',
-                    'data-filter-block-page',
-                    'device-state',
-                    'file-block-continue-page',
-                    'file-block-page',
-                    'global-protect-client',
-                    'global-protect-clientless-vpn',
-                    'global-protect-portal-custom-help-page',
-                    'global-protect-portal-custom-home-page',
-                    'global-protect-portal-custom-login-page',
-                    'global-protect-portal-custom-welcome-page',
-                    'high-availability-key',
-                    'keypair',
-                    'license',
-                    'logdb',
-                    'mfa-login-page',
-                    'pandb-url-database',
-                    'plugin',
-                    'safe-search-block-page',
-                    'saml-auth-internal-error-page',
-                    'signed-url-database',
-                    'software',
-                    'ssl-cert-status-page',
-                    'ssl-optout-text',
-                    'url-block-page',
-                    'url-coach-text',
-                    'url-database',
-                    'virus-block-page',
-                    'wildfire',
+                    "anti-virus",
+                    "application-block-page",
+                    "captive-portal-text",
+                    "certificate",
+                    "configuration",
+                    "content",
+                    "credential-block-page",
+                    "credential-coach-text",
+                    "custom-logo",
+                    "data-filter-block-page",
+                    "device-state",
+                    "file-block-continue-page",
+                    "file-block-page",
+                    "global-protect-client",
+                    "global-protect-clientless-vpn",
+                    "global-protect-portal-custom-help-page",
+                    "global-protect-portal-custom-home-page",
+                    "global-protect-portal-custom-login-page",
+                    "global-protect-portal-custom-welcome-page",
+                    "high-availability-key",
+                    "keypair",
+                    "license",
+                    "logdb",
+                    "mfa-login-page",
+                    "pandb-url-database",
+                    "plugin",
+                    "safe-search-block-page",
+                    "saml-auth-internal-error-page",
+                    "signed-url-database",
+                    "software",
+                    "ssl-cert-status-page",
+                    "ssl-optout-text",
+                    "url-block-page",
+                    "url-coach-text",
+                    "url-database",
+                    "virus-block-page",
+                    "wildfire",
                 ],
-                default='software'
+                default="software",
             ),
-            certificate_name=dict(type='str'),
-            format=dict(
-                type='str',
-                choices=[
-                    'pem',
-                    'pkcs12'
-                ]
-            ),
-            passphrase=dict(type='str', no_log=True),
+            certificate_name=dict(type="str"),
+            format=dict(type="str", choices=["pem", "pkcs12"]),
+            passphrase=dict(type="str", no_log=True),
             custom_logo_location=dict(
-                type='str',
+                type="str",
                 choices=[
-                    'login-screen',
-                    'main-ui',
-                    'pdf-report-footer',
-                    'pdf-report-header'
-                ]
+                    "login-screen",
+                    "main-ui",
+                    "pdf-report-footer",
+                    "pdf-report-header",
+                ],
             ),
-
-            filename=dict(type='str', aliases=['file']),
-            url=dict()
-        )
+            filename=dict(type="str", aliases=["file"]),
+            url=dict(),
+        ),
     )
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         supports_check_mode=True,
-        required_one_of=helper.required_one_of
+        required_one_of=helper.required_one_of,
     )
 
     if not HAS_LIB:
-        module.fail_json(msg='requests and requests_toolbelt are required for this module')
+        module.fail_json(
+            msg="requests and requests_toolbelt are required for this module"
+        )
 
-    category = module.params['category']
-    filename = module.params['filename']
+    category = module.params["category"]
+    filename = module.params["filename"]
 
-    url = module.params['url']
+    url = module.params["url"]
 
     parent = helper.get_pandevice_parent(module)
     xapi = parent.xapi
@@ -303,17 +299,15 @@ def main():
     if url is not None:
         filename = download_file(url)
 
-    params = {
-        'category': module.params['category']
-    }
+    params = {"category": module.params["category"]}
 
-    if category == 'certificate' or category == 'keypair':
-        params['certificate-name'] = module.params['certificate_name']
-        params['format'] = module.params['format']
-        params['passphrase'] = module.params['passphrase']
+    if category == "certificate" or category == "keypair":
+        params["certificate-name"] = module.params["certificate_name"]
+        params["format"] = module.params["format"]
+        params["passphrase"] = module.params["passphrase"]
 
-    elif category == 'custom-logo':
-        params['where'] = module.params['custom_logo_location']
+    elif category == "custom-logo":
+        params["where"] = module.params["custom_logo_location"]
 
     try:
         if not module.check_mode:
@@ -321,7 +315,7 @@ def main():
         changed = True
 
     except Exception as e:
-        module.fail_json(msg='Failed: {0}'.format(e))
+        module.fail_json(msg="Failed: {0}".format(e))
 
     # If the file was downloaded from a URL, clean up.
     if url is not None:
@@ -330,5 +324,5 @@ def main():
     module.exit_json(changed=changed, filename=filename, msg="okey dokey")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

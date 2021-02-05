@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_lic
 short_description: apply authcode to a device/instance
@@ -47,9 +48,9 @@ options:
             - Whether to apply authcode even if device is already licensed / has a serial number.
         type: bool
         default: False
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Activate my authcode
   panos_lic:
     provider: '{{ provider }}'
@@ -58,9 +59,9 @@ EXAMPLES = '''
 
 - debug:
     msg: 'Serial number is {{ result.serialnumber }}'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 serialnumber:
     description: PAN-OS serial number when this module began execution.
     returned: success
@@ -70,11 +71,13 @@ licenses:
     description: List of PAN-OS licenses (as dicts) as a result of this module's execution.
     type: list
     returned: when not using auth_code
-'''
+"""
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
@@ -90,8 +93,10 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 9, 1),
         argument_spec=dict(
-            auth_code=dict(no_log=True, ),
-            force=dict(type='bool', default=False)
+            auth_code=dict(
+                no_log=True,
+            ),
+            force=dict(type="bool", default=False),
         ),
     )
 
@@ -103,43 +108,51 @@ def main():
 
     parent = helper.get_pandevice_parent(module)
 
-    auth_code = module.params['auth_code']
+    auth_code = module.params["auth_code"]
     changed = False
     licenses = []
-    if parent.serial != 'unknown' and not module.params['force']:
+    if parent.serial != "unknown" and not module.params["force"]:
         try:
             licenses = parent.request_license_info()
         except PanDeviceError as e:
-            module.fail_json(msg='Failed request license info: {0}'.format(e))
+            module.fail_json(msg="Failed request license info: {0}".format(e))
     else:
         changed = True
         if auth_code is None:
             try:
                 licenses = parent.fetch_licenses_from_license_server()
             except PanDeviceError as e:
-                module.fail_json(msg='Failed license fetch: {0}'.format(e))
+                module.fail_json(msg="Failed license fetch: {0}".format(e))
         else:
             try:
                 parent.activate_feature_using_authorization_code(auth_code)
             except PanDeviceError as e:
-                module.fail_json(msg='Failed authcode apply: {0}'.format(e))
+                module.fail_json(msg="Failed authcode apply: {0}".format(e))
 
     # datetime.date objects can't be jsonify'ed, so do that manually.
     ans = []
-    date_format = '%b %d, %Y'
+    date_format = "%b %d, %Y"
     for x in licenses:
-        ans.append({
-            'feature': x[0],
-            'description': x[1],
-            'serial': x[2],
-            'issued': x[3].strftime(date_format) if hasattr(x[3], 'strftime') else x[3],
-            'expires': x[4].strftime(date_format) if hasattr(x[4], 'strftime') else x[4],
-            'expired': x[5],
-            'authcode': x[6],
-        })
+        ans.append(
+            {
+                "feature": x[0],
+                "description": x[1],
+                "serial": x[2],
+                "issued": x[3].strftime(date_format)
+                if hasattr(x[3], "strftime")
+                else x[3],
+                "expires": x[4].strftime(date_format)
+                if hasattr(x[4], "strftime")
+                else x[4],
+                "expired": x[5],
+                "authcode": x[6],
+            }
+        )
 
-    module.exit_json(changed=changed, msg='done', licenses=ans, serialnumber=parent.serial)
+    module.exit_json(
+        changed=changed, msg="done", licenses=ans, serialnumber=parent.serial
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

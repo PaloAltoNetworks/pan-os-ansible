@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_loopback_interface
 short_description: configure network loopback interfaces
@@ -100,9 +101,9 @@ options:
             - HORIZONTALLINE
             - Name of the vsys (if firewall) or device group (if panorama) to put this object.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Delete loopback.1
 - name: delete loopback.1
   panos_loopback_interface:
@@ -117,22 +118,24 @@ EXAMPLES = '''
     if_name: "loopback.1"
     ip: ["10.1.1.1/32"]
     comment: "Loopback iterface"
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import LoopbackInterface
     from panos.errors import PanDeviceError
+    from panos.network import LoopbackInterface
 except ImportError:
     try:
-        from pandevice.network import LoopbackInterface
         from pandevice.errors import PanDeviceError
+        from pandevice.network import LoopbackInterface
     except ImportError:
         pass
 
@@ -146,19 +149,18 @@ def main():
         min_pandevice_version=(0, 8, 0),
         argument_spec=dict(
             if_name=dict(required=True),
-            ip=dict(type='list', elements='str'),
-            ipv6_enabled=dict(type='bool'),
+            ip=dict(type="list", elements="str"),
+            ipv6_enabled=dict(type="bool"),
             management_profile=dict(),
-            mtu=dict(type='int'),
-            adjust_tcp_mss=dict(type='bool'),
+            mtu=dict(type="int"),
+            adjust_tcp_mss=dict(type="bool"),
             netflow_profile=dict(),
             comment=dict(),
-            ipv4_mss_adjust=dict(type='int'),
-            ipv6_mss_adjust=dict(type='int'),
+            ipv4_mss_adjust=dict(type="int"),
+            ipv6_mss_adjust=dict(type="int"),
             zone_name=dict(),
-            vr_name=dict(default='default'),
-            commit=dict(type='bool', default=False),
-
+            vr_name=dict(default="default"),
+            commit=dict(type="bool", default=False),
             # TODO(gfreeman) - remove this in 2.12
             vsys_dg=dict(),
         ),
@@ -172,47 +174,48 @@ def main():
 
     # Get the object params.
     spec = {
-        'name': module.params['if_name'],
-        'ip': module.params['ip'],
-        'ipv6_enabled': module.params['ipv6_enabled'],
-        'management_profile': module.params['management_profile'],
-        'mtu': module.params['mtu'],
-        'adjust_tcp_mss': module.params['adjust_tcp_mss'],
-        'netflow_profile': module.params['netflow_profile'],
-        'comment': module.params['comment'],
-        'ipv4_mss_adjust': module.params['ipv4_mss_adjust'],
-        'ipv6_mss_adjust': module.params['ipv6_mss_adjust'],
+        "name": module.params["if_name"],
+        "ip": module.params["ip"],
+        "ipv6_enabled": module.params["ipv6_enabled"],
+        "management_profile": module.params["management_profile"],
+        "mtu": module.params["mtu"],
+        "adjust_tcp_mss": module.params["adjust_tcp_mss"],
+        "netflow_profile": module.params["netflow_profile"],
+        "comment": module.params["comment"],
+        "ipv4_mss_adjust": module.params["ipv4_mss_adjust"],
+        "ipv6_mss_adjust": module.params["ipv6_mss_adjust"],
     }
 
     # Get other info.
-    state = module.params['state']
-    zone_name = module.params['zone_name']
-    vr_name = module.params['vr_name']
-    vsys = module.params['vsys']
-    vsys_dg = module.params['vsys_dg']
-    commit = module.params['commit']
+    state = module.params["state"]
+    zone_name = module.params["zone_name"]
+    vr_name = module.params["vr_name"]
+    vsys = module.params["vsys"]
+    vsys_dg = module.params["vsys_dg"]
+    commit = module.params["commit"]
 
     # TODO(gfreeman) - Remove vsys_dg in 2.12, as well as this code chunk.
     # In the mean time, we'll need to do this special handling.
     if vsys_dg is not None:
         module.deprecate(
             'Param "vsys_dg" is deprecated, use "vsys"',
-            version='3.0.0', collection_name='paloaltonetworks.panos'
+            version="3.0.0",
+            collection_name="paloaltonetworks.panos",
         )
         if vsys is None:
             vsys = vsys_dg
         else:
             msg = [
                 'Params "vsys" and "vsys_dg" both given',
-                'Specify one or the other, not both.',
+                "Specify one or the other, not both.",
             ]
-            module.fail_json(msg='.  '.join(msg))
+            module.fail_json(msg=".  ".join(msg))
     elif vsys is None:
         # TODO(gfreeman) - v2.12, just set the default for vsys to 'vsys1'.
-        vsys = 'vsys1'
+        vsys = "vsys1"
 
     # Make sure 'vsys' is set appropriately.
-    module.params['vsys'] = vsys
+    module.params["vsys"] = vsys
 
     # Verify libs are present, get the parent object.
     parent = helper.get_pandevice_parent(module)
@@ -220,9 +223,10 @@ def main():
     # Retrieve the current config.
     try:
         interfaces = LoopbackInterface.refreshall(
-            parent, add=False, matching_vsys=False)
+            parent, add=False, matching_vsys=False
+        )
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     # Build the object based on the user spec.
     obj = LoopbackInterface(**spec)
@@ -231,11 +235,11 @@ def main():
     # Which action should we take on the interface?
     changed = False
     reference_params = {
-        'refresh': True,
-        'update': not module.check_mode,
-        'return_type': 'bool',
+        "refresh": True,
+        "update": not module.check_mode,
+        "return_type": "bool",
     }
-    if state == 'present':
+    if state == "present":
         for item in interfaces:
             if item.name != obj.name:
                 continue
@@ -247,7 +251,7 @@ def main():
                     try:
                         obj.apply()
                     except PanDeviceError as e:
-                        module.fail_json(msg='Failed apply: {0}'.format(e))
+                        module.fail_json(msg="Failed apply: {0}".format(e))
             break
         else:
             changed = True
@@ -255,23 +259,23 @@ def main():
                 try:
                     obj.create()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed create: {0}'.format(e))
+                    module.fail_json(msg="Failed create: {0}".format(e))
 
         # Set references.
         try:
             changed |= obj.set_vsys(vsys, **reference_params)
-            changed |= obj.set_zone(zone_name, mode='layer3', **reference_params)
+            changed |= obj.set_zone(zone_name, mode="layer3", **reference_params)
             changed |= obj.set_virtual_router(vr_name, **reference_params)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed setref: {0}'.format(e))
-    elif state == 'absent':
+            module.fail_json(msg="Failed setref: {0}".format(e))
+    elif state == "absent":
         # Remove references.
         try:
             changed |= obj.set_virtual_router(None, **reference_params)
-            changed |= obj.set_zone(None, mode='layer3', **reference_params)
+            changed |= obj.set_zone(None, mode="layer3", **reference_params)
             changed |= obj.set_vsys(None, **reference_params)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed setref: {0}'.format(e))
+            module.fail_json(msg="Failed setref: {0}".format(e))
 
         # Remove the interface.
         if obj.name in [x.name for x in interfaces]:
@@ -280,15 +284,15 @@ def main():
                 try:
                     obj.delete()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed delete: {0}'.format(e))
+                    module.fail_json(msg="Failed delete: {0}".format(e))
 
     # Commit if we were asked to do so.
     if changed and commit:
         helper.commit(module)
 
     # Done!
-    module.exit_json(changed=changed, msg='Done')
+    module.exit_json(changed=changed, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

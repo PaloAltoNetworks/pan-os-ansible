@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_object_facts
 short_description: Retrieve facts about objects on PAN-OS devices.
@@ -72,9 +73,9 @@ options:
         type: str
         choices: ['address', 'address-group', 'application', 'application-group', 'service', 'service-group', 'tag']
         default: 'address'
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Retrieve address group object 'Prod'
   panos_object_facts:
     provider: '{{ provider }}'
@@ -104,9 +105,9 @@ EXAMPLES = '''
     field_search_type: 'exact'
     field_search_value: 'addy1'
   register: result
-'''
+"""
 
-RETURN = '''
+RETURN = """
 ansible_module_results:
     description: Dict containing object attributes.  Empty if object is not found.
     returned: when "name" is specified
@@ -115,16 +116,19 @@ objects:
     description: List of object dicts.
     returned: always
     type: list
-'''
+"""
 
 import re
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos import objects
     from panos.errors import PanDeviceError
+
+    from panos import objects
 except ImportError:
     try:
         from pandevice import objects
@@ -134,39 +138,39 @@ except ImportError:
 
 
 COLORS = {
-    'color1': 'red',
-    'color2': 'green',
-    'color3': 'blue',
-    'color4': 'yellow',
-    'color5': 'copper',
-    'color6': 'orange',
-    'color7': 'purple',
-    'color8': 'gray',
-    'color9': 'light green',
-    'color10': 'cyan',
-    'color11': 'light gray',
-    'color12': 'blue gray',
-    'color13': 'lime',
-    'color14': 'black',
-    'color15': 'gold',
-    'color16': 'brown',
+    "color1": "red",
+    "color2": "green",
+    "color3": "blue",
+    "color4": "yellow",
+    "color5": "copper",
+    "color6": "orange",
+    "color7": "purple",
+    "color8": "gray",
+    "color9": "light green",
+    "color10": "cyan",
+    "color11": "light gray",
+    "color12": "blue gray",
+    "color13": "lime",
+    "color14": "black",
+    "color15": "gold",
+    "color16": "brown",
 }
 
 
 def colorize(obj, object_type):
     ans = obj.about()
-    if object_type == 'tag':
+    if object_type == "tag":
         # Fail gracefully if the color is unknown.
-        ans['color'] = COLORS.get(obj.color, obj.color)
+        ans["color"] = COLORS.get(obj.color, obj.color)
 
     return ans
 
 
 def matches(obj, field, exact=None, regex=None):
     is_str = True
-    about = obj.about(field)['About']
+    about = obj.about(field)["About"]
     if isinstance(about, dict):
-        is_str = about.get('Type', 'string') == 'string'
+        is_str = about.get("Type", "string") == "string"
 
     if exact is not None:
         if is_str:
@@ -191,64 +195,77 @@ def matches(obj, field, exact=None, regex=None):
 
 
 def main():
-    name_params = ['name', 'name_regex', 'field']
+    name_params = ["name", "name_regex", "field"]
 
     helper = get_connection(
         vsys=True,
         device_group=True,
         with_classic_provider_spec=True,
-        required_one_of=[name_params, ],
+        required_one_of=[
+            name_params,
+        ],
         argument_spec=dict(
             name=dict(),
             name_regex=dict(),
             field=dict(),
-            field_search_type=dict(choices=['exact', 'regex'], default='exact'),
+            field_search_type=dict(choices=["exact", "regex"], default="exact"),
             field_search_value=dict(),
-            object_type=dict(default='address', choices=[
-                'address', 'address-group', 'application', 'application-group', 'service', 'service-group', 'tag'
-            ])
-        )
+            object_type=dict(
+                default="address",
+                choices=[
+                    "address",
+                    "address-group",
+                    "application",
+                    "application-group",
+                    "service",
+                    "service-group",
+                    "tag",
+                ],
+            ),
+        ),
     )
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         supports_check_mode=False,
         required_one_of=helper.required_one_of,
-        mutually_exclusive=[name_params, ],
+        mutually_exclusive=[
+            name_params,
+        ],
     )
 
     parent = helper.get_pandevice_parent(module)
 
     obj_types = {
-        'address': objects.AddressObject,
-        'address-group': objects.AddressGroup,
-        'application': objects.ApplicationObject,
-        'application-group': objects.ApplicationGroup,
-        'service': objects.ServiceObject,
-        'service-group': objects.ServiceGroup,
-        'tag': objects.Tag,
+        "address": objects.AddressObject,
+        "address-group": objects.AddressGroup,
+        "application": objects.ApplicationObject,
+        "application-group": objects.ApplicationGroup,
+        "service": objects.ServiceObject,
+        "service-group": objects.ServiceGroup,
+        "tag": objects.Tag,
     }
 
-    object_type = module.params['object_type']
+    object_type = module.params["object_type"]
     obj_type = obj_types[object_type]
 
     try:
         obj_listing = obj_type.refreshall(parent)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed {0} refresh: {1}'.format(object_type, e))
+        module.fail_json(msg="Failed {0} refresh: {1}".format(object_type, e))
 
     results = {}
     ans_objects = []
-    if module.params['name'] is not None:
-        obj = parent.find(module.params['name'], obj_type)
+    if module.params["name"] is not None:
+        obj = parent.find(module.params["name"], obj_type)
         if obj:
             results = colorize(obj, object_type)
             ans_objects.append(results)
-    elif module.params['name_regex']:
+    elif module.params["name_regex"]:
         try:
-            matcher = re.compile(module.params['name_regex'])
+            matcher = re.compile(module.params["name_regex"])
         except Exception as e:
-            module.fail_json(msg='Invalid regex: {0}'.format(e))
+            module.fail_json(msg="Invalid regex: {0}".format(e))
 
         ans_objects = [
             colorize(x, object_type)
@@ -257,33 +274,41 @@ def main():
         ]
     else:
         # Sanity checks.
-        if not hasattr(obj_type(), module.params['field']):
-            module.fail_json(msg='Object({0}) does not have field({1})'.format(object_type, module.params['field']))
-        elif not module.params['field_search_value']:
-            module.fail_json(msg='Searching a field requires that field_search_value is specified')
+        if not hasattr(obj_type(), module.params["field"]):
+            module.fail_json(
+                msg="Object({0}) does not have field({1})".format(
+                    object_type, module.params["field"]
+                )
+            )
+        elif not module.params["field_search_value"]:
+            module.fail_json(
+                msg="Searching a field requires that field_search_value is specified"
+            )
 
         # Perform requested search type.
-        if module.params['field_search_type'] == 'exact':
+        if module.params["field_search_type"] == "exact":
             ans_objects = [
                 colorize(x, object_type)
                 for x in obj_listing
-                if matches(x, module.params['field'], exact=module.params['field_search_value'])
+                if matches(
+                    x, module.params["field"], exact=module.params["field_search_value"]
+                )
             ]
-        elif module.params['field_search_type'] == 'regex':
+        elif module.params["field_search_type"] == "regex":
             try:
-                regex = re.compile(module.params['field_search_value'])
+                regex = re.compile(module.params["field_search_value"])
             except Exception as e:
-                module.fail_json(msg='Invalid field regex: {0}'.format(e))
+                module.fail_json(msg="Invalid field regex: {0}".format(e))
 
             ans_objects = [
                 colorize(x, object_type)
                 for x in obj_listing
-                if matches(x, module.params['field'], regex=regex)
+                if matches(x, module.params["field"], regex=regex)
             ]
 
     # Done.
     module.exit_json(changed=False, ansible_module_results=results, objects=ans_objects)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_log_forwarding_profile_match_list
 short_description: Manage log forwarding profile match lists.
@@ -95,9 +96,9 @@ options:
             - List of HTTP server profiles.
         type: list
         elements: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create a server match list
 - name: Create log forwarding profile match list
   panos_log_forwarding_profile_match_list:
@@ -108,24 +109,27 @@ EXAMPLES = '''
     log_type: 'threat'
     filter: '(action eq allow) and (zone eq DMZ)'
     syslog_profiles: ['syslog-prof1']
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.objects import LogForwardingProfile
-    from panos.objects import LogForwardingProfileMatchList
     from panos.errors import PanDeviceError
+    from panos.objects import LogForwardingProfile, LogForwardingProfileMatchList
 except ImportError:
     try:
-        from pandevice.objects import LogForwardingProfile
-        from pandevice.objects import LogForwardingProfileMatchList
         from pandevice.errors import PanDeviceError
+        from pandevice.objects import (
+            LogForwardingProfile,
+            LogForwardingProfileMatchList,
+        )
     except ImportError:
         pass
 
@@ -142,15 +146,26 @@ def main():
             log_forwarding_profile=dict(required=True),
             name=dict(required=True),
             description=dict(),
-            log_type=dict(default='traffic', choices=[
-                'traffic', 'threat', 'wildfire',
-                'url', 'data', 'gtp', 'tunnel', 'auth', 'sctp']),
+            log_type=dict(
+                default="traffic",
+                choices=[
+                    "traffic",
+                    "threat",
+                    "wildfire",
+                    "url",
+                    "data",
+                    "gtp",
+                    "tunnel",
+                    "auth",
+                    "sctp",
+                ],
+            ),
             filter=dict(),
-            send_to_panorama=dict(type='bool'),
-            snmp_profiles=dict(type='list', elements='str'),
-            email_profiles=dict(type='list', elements='str'),
-            syslog_profiles=dict(type='list', elements='str'),
-            http_profiles=dict(type='list', elements='str'),
+            send_to_panorama=dict(type="bool"),
+            snmp_profiles=dict(type="list", elements="str"),
+            email_profiles=dict(type="list", elements="str"),
+            syslog_profiles=dict(type="list", elements="str"),
+            http_profiles=dict(type="list", elements="str"),
         ),
     )
     module = AnsibleModule(
@@ -162,32 +177,32 @@ def main():
     # Verify imports, build pandevice object tree.
     parent = helper.get_pandevice_parent(module)
 
-    lfp = LogForwardingProfile(module.params['log_forwarding_profile'])
+    lfp = LogForwardingProfile(module.params["log_forwarding_profile"])
     parent.add(lfp)
     try:
         lfp.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     listing = lfp.findall(LogForwardingProfileMatchList)
 
     spec = {
-        'name': module.params['name'],
-        'description': module.params['description'],
-        'log_type': module.params['log_type'],
-        'filter': module.params['filter'],
-        'send_to_panorama': module.params['send_to_panorama'],
-        'snmp_profiles': module.params['snmp_profiles'],
-        'email_profiles': module.params['email_profiles'],
-        'syslog_profiles': module.params['syslog_profiles'],
-        'http_profiles': module.params['http_profiles'],
+        "name": module.params["name"],
+        "description": module.params["description"],
+        "log_type": module.params["log_type"],
+        "filter": module.params["filter"],
+        "send_to_panorama": module.params["send_to_panorama"],
+        "snmp_profiles": module.params["snmp_profiles"],
+        "email_profiles": module.params["email_profiles"],
+        "syslog_profiles": module.params["syslog_profiles"],
+        "http_profiles": module.params["http_profiles"],
     }
     obj = LogForwardingProfileMatchList(**spec)
     lfp.add(obj)
 
     changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

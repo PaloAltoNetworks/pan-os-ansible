@@ -19,7 +19,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_software
 short_description: Manage PAN-OS software versions.
@@ -69,9 +69,9 @@ options:
             - Timeout value in seconds to wait for the device operation to complete
         type: int
         default: 1200
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Install PAN-OS 8.1.6 and restart
   panos_software:
     provider: '{{ provider }}'
@@ -92,21 +92,24 @@ EXAMPLES = '''
     sync_to_peer: true
     install: false
     restart: false
-'''
+"""
 
-RETURN = '''
+RETURN = """
 version:
     description: After performing the software install, returns the version installed on the device.
     type: str
     returned: on success
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos import PanOSVersion
     from panos.errors import PanDeviceError
+
+    from panos import PanOSVersion
 except ImportError:
     try:
         from pandevice import PanOSVersion
@@ -116,14 +119,14 @@ except ImportError:
 
 
 def check_download(device, version):
-    cmd = 'request system software info'
+    cmd = "request system software info"
     response = device.op(cmd=cmd)
 
-    for entry in response.findall('./result/sw-updates/versions/entry'):
-        if version == entry.findtext('version'):
-            downloaded = entry.findtext('downloaded')
+    for entry in response.findall("./result/sw-updates/versions/entry"):
+        if version == entry.findtext("version"):
+            downloaded = entry.findtext("downloaded")
 
-            if downloaded == 'yes':
+            if downloaded == "yes":
                 return True
             else:
                 return False
@@ -135,31 +138,31 @@ def main():
     helper = get_connection(
         with_classic_provider_spec=True,
         argument_spec=dict(
-            version=dict(type='str', required=True),
-            sync_to_peer=dict(type='bool', default=False),
-            download=dict(type='bool', default=True),
-            install=dict(type='bool', default=True),
-            restart=dict(type='bool', default=False),
-            timeout=dict(type='int', default=1200)
-        )
+            version=dict(type="str", required=True),
+            sync_to_peer=dict(type="bool", default=False),
+            download=dict(type="bool", default=True),
+            install=dict(type="bool", default=True),
+            restart=dict(type="bool", default=False),
+            timeout=dict(type="int", default=1200),
+        ),
     )
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         required_one_of=helper.required_one_of,
-        supports_check_mode=True
+        supports_check_mode=True,
     )
 
     # Verify libs are present, get parent object.
     device = helper.get_pandevice_parent(module)
 
     # Module params.
-    version = module.params['version']
-    sync_to_peer = module.params['sync_to_peer']
-    download = module.params['download']
-    install = module.params['install']
-    restart = module.params['restart']
-    timeout = module.params['timeout']
+    version = module.params["version"]
+    sync_to_peer = module.params["sync_to_peer"]
+    download = module.params["download"]
+    install = module.params["install"]
+    restart = module.params["restart"]
+    timeout = module.params["timeout"]
 
     changed = False
 
@@ -175,7 +178,9 @@ def main():
                 # Only perform download if actually required.
                 if not downloaded:
                     if not module.check_mode:
-                        device.software.download(version, sync_to_peer=sync_to_peer, sync=True)
+                        device.software.download(
+                            version, sync_to_peer=sync_to_peer, sync=True
+                        )
 
                     changed = True
 
@@ -195,5 +200,5 @@ def main():
     module.exit_json(changed=changed, version=version)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

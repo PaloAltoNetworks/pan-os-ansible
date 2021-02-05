@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_op
 short_description: execute arbitrary OP commands on PANW devices (e.g. show interface all)
@@ -54,9 +55,9 @@ options:
             - The vsys target where the OP command will be performed.
         type: str
         default: "vsys1"
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: show list of all interfaces
   panos_op:
     provider: '{{ provider }}'
@@ -72,9 +73,9 @@ EXAMPLES = '''
     provider: '{{ provider }}'
     cmd: '<show><system><info/></system></show>'
     cmd_is_xml: true
-'''
+"""
 
-RETURN = '''
+RETURN = """
 stdout:
     description: output of the given OP command as JSON formatted string
     returned: success
@@ -85,12 +86,13 @@ stdout_xml:
     returned: success
     type: str
     sample: "<response status=success><result><system><hostname>fw2</hostname>"
-'''
+"""
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
-
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
@@ -101,8 +103,10 @@ except ImportError:
         pass
 
 try:
-    import xmltodict
     import json
+
+    import xmltodict
+
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
@@ -114,7 +118,7 @@ def main():
         with_classic_provider_spec=True,
         argument_spec=dict(
             cmd=dict(required=True),
-            cmd_is_xml=dict(default=False, type='bool'),
+            cmd_is_xml=dict(default=False, type="bool"),
         ),
     )
 
@@ -125,29 +129,31 @@ def main():
     )
 
     if not HAS_LIB:
-        module.fail_json(msg='Missing required libraries.')
+        module.fail_json(msg="Missing required libraries.")
 
     parent = helper.get_pandevice_parent(module)
 
-    cmd = module.params['cmd']
-    cmd_is_xml = module.params['cmd_is_xml']
+    cmd = module.params["cmd"]
+    cmd_is_xml = module.params["cmd_is_xml"]
 
     changed = True
-    safecmd = ['diff', 'show']
+    safecmd = ["diff", "show"]
 
-    xml_output = ''
+    xml_output = ""
     try:
         xml_output = parent.op(cmd, xml=True, cmd_xml=(not cmd_is_xml))
     except PanDeviceError as e1:
         if cmd_is_xml:
-            module.fail_json(msg='Failed to run XML command : {0} : {1}'.format(cmd, e1))
+            module.fail_json(
+                msg="Failed to run XML command : {0} : {1}".format(cmd, e1)
+            )
         tokens = cmd.split()
         tokens[-1] = '"{0}"'.format(tokens[-1])
-        cmd2 = ' '.join(tokens)
+        cmd2 = " ".join(tokens)
         try:
             xml_output = parent.op(cmd2, xml=True)
         except PanDeviceError as e2:
-            module.fail_json(msg='Failed to run command : {0} : {1}'.format(cmd2, e2))
+            module.fail_json(msg="Failed to run command : {0} : {1}".format(cmd2, e2))
 
         if tokens[0] in safecmd:
             changed = False
@@ -155,9 +161,10 @@ def main():
     obj_dict = xmltodict.parse(xml_output)
     json_output = json.dumps(obj_dict)
 
-    module.exit_json(changed=changed, msg="Done",
-                     stdout=json_output, stdout_xml=xml_output)
+    module.exit_json(
+        changed=changed, msg="Done", stdout=json_output, stdout_xml=xml_output
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

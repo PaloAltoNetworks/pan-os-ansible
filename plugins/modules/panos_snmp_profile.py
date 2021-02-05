@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_snmp_profile
 short_description: Manage SNMP server profiles.
@@ -51,22 +52,24 @@ options:
             - v2c
             - v3
         default: "v2c"
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create snmp profile
 - name: Create snmp profile
   panos_snmp_profile:
     provider: '{{ provider }}'
     name: 'my-profile'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.device import SnmpServerProfile
@@ -89,7 +92,7 @@ def main():
         min_panos_version=(7, 1, 0),
         argument_spec=dict(
             name=dict(required=True),
-            version=dict(default='v2c', choices=['v2c', 'v3']),
+            version=dict(default="v2c", choices=["v2c", "v3"]),
         ),
     )
     module = AnsibleModule(
@@ -104,18 +107,18 @@ def main():
     try:
         listing = SnmpServerProfile.refreshall(parent)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     spec = {
-        'name': module.params['name'],
-        'version': module.params['version'],
+        "name": module.params["name"],
+        "version": module.params["version"],
     }
     obj = SnmpServerProfile(**spec)
     parent.add(obj)
 
     changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

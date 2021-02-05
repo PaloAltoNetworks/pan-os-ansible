@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_admpwd
 short_description: change admin password of PAN-OS device using SSH with SSH key
@@ -51,9 +52,9 @@ options:
             - password to configure for admin on the PAN-OS device
         required: true
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Tries for 10 times to set the admin password of 192.168.1.1 to "badpassword"
 # via SSH, authenticating using key /tmp/ssh.key
 - name: set admin password
@@ -66,24 +67,26 @@ EXAMPLES = '''
   until: not result|failed
   retries: 10
   delay: 30
-'''
+"""
 
-RETURN = '''
+RETURN = """
 status:
     description: success status
     returned: success
     type: str
     sample: "Last login: Fri Sep 16 11:09:20 2016 from 10.35.34.56.....Configuration committed successfully"
-'''
+"""
 
 
-from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils._text import to_text
-import time
 import sys
+import time
+
+from ansible.module_utils._text import to_text
+from ansible.module_utils.basic import AnsibleModule
 
 try:
     import paramiko
+
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
@@ -124,50 +127,50 @@ def set_panwfw_password(module, ip_address, key_filename, newpassword, username)
     stdout += buff
 
     # step into config mode
-    shell.send('configure\n')
+    shell.send("configure\n")
     # wait for the config prompt
     buff = wait_with_timeout(module, shell, "#")
     stdout += buff
 
     if module.check_mode:
         # exit and close connection
-        shell.send('exit\n')
+        shell.send("exit\n")
         ssh.close()
-        return False, 'Connection test successful. Password left intact.'
+        return False, "Connection test successful. Password left intact."
 
     # set admin password
-    shell.send('set mgt-config users ' + username + ' password\n')
+    shell.send("set mgt-config users " + username + " password\n")
 
     # wait for the password prompt
     buff = wait_with_timeout(module, shell, ":")
     stdout += buff
 
     # enter password for the first time
-    shell.send(newpassword + '\n')
+    shell.send(newpassword + "\n")
 
     # wait for the password prompt
     buff = wait_with_timeout(module, shell, ":")
     stdout += buff
 
     # enter password for the second time
-    shell.send(newpassword + '\n')
+    shell.send(newpassword + "\n")
 
     # wait for the config mode prompt
     buff = wait_with_timeout(module, shell, "#")
     stdout += buff
 
     # commit !
-    shell.send('commit\n')
+    shell.send("commit\n")
 
     # wait for the prompt
     buff = wait_with_timeout(module, shell, "#", 120)
     stdout += buff
 
-    if 'success' not in buff:
+    if "success" not in buff:
         module.fail_json(msg="Error setting " + username + " password: " + stdout)
 
     # exit
-    shell.send('exit\n')
+    shell.send("exit\n")
 
     ssh.close()
 
@@ -177,13 +180,13 @@ def set_panwfw_password(module, ip_address, key_filename, newpassword, username)
 def main():
     argument_spec = dict(
         ip_address=dict(required=True),
-        username=dict(default='admin'),
+        username=dict(default="admin"),
         key_filename=dict(required=True),
-        newpassword=dict(no_log=True, required=True)
+        newpassword=dict(no_log=True, required=True),
     )
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
     if not HAS_LIB:
-        module.fail_json(msg='paramiko is required for this module')
+        module.fail_json(msg="paramiko is required for this module")
 
     ip_address = module.params["ip_address"]
     if not ip_address:
@@ -194,15 +197,17 @@ def main():
     newpassword = module.params["newpassword"]
     if not newpassword:
         module.fail_json(msg="newpassword is required")
-    username = module.params['username']
+    username = module.params["username"]
 
     try:
-        changed, stdout = set_panwfw_password(module, ip_address, key_filename, newpassword, username)
+        changed, stdout = set_panwfw_password(
+            module, ip_address, key_filename, newpassword, username
+        )
         module.exit_json(changed=changed, stdout=stdout)
     except Exception:
         x = sys.exc_info()[1]
         module.fail_json(msg=x)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

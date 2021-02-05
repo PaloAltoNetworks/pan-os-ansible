@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_nat_rule_facts
 short_description: Get information about a NAT rule.
@@ -58,9 +59,9 @@ options:
             - Match the given rule UUID (PAN-OS 9.0+).
             - Mutually exclusive with rule_name, listing, and rule_regex.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Get a list of all NAT rules
   panos_nat_rule_facts:
     provider: '{{ provider }}'
@@ -78,9 +79,9 @@ EXAMPLES = '''
 
 - debug:
     msg: '{{ res2.object }}'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 object:
     description: Single rule definition
     returned: When I(rule_name) or I(uuid) is specified
@@ -150,21 +151,23 @@ listing:
     description: List of rules
     returned: When I(listing) or I(rule_regex) is set
     type: list
-'''
+"""
 
 
 import re
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.policies import NatRule
     from panos.errors import PanDeviceError
+    from panos.policies import NatRule
 except ImportError:
     try:
-        from pandevice.policies import NatRule
         from pandevice.errors import PanDeviceError
+        from pandevice.policies import NatRule
     except ImportError:
         pass
 
@@ -177,10 +180,10 @@ def main():
         with_classic_provider_spec=True,
         error_on_firewall_shared=True,
         required_one_of=[
-            ['listing', 'rule_name', 'rule_regex', 'uuid'],
+            ["listing", "rule_name", "rule_regex", "uuid"],
         ],
         argument_spec=dict(
-            listing=dict(type='bool'),
+            listing=dict(type="bool"),
             rule_name=dict(),
             rule_regex=dict(),
             uuid=dict(),
@@ -196,30 +199,30 @@ def main():
     parent = helper.get_pandevice_parent(module)
 
     renames = (
-        ('name', 'rule_name'),
-        ('fromzone', 'source_zone'),
-        ('tozone', 'destination_zone'),
-        ('source', 'source_ip'),
-        ('destination', 'destination_ip'),
-        ('source_translation_type', 'snat_type'),
-        ('source_translation_static_translated_address', 'snat_static_address'),
-        ('source_translation_static_bi_directional', 'snat_bidirectional'),
-        ('source_translation_address_type', 'snat_address_type'),
-        ('source_translation_interface', 'snat_interface'),
-        ('source_translation_ip_address', 'snat_interface_address'),
-        ('source_translation_translated_addresses', 'snat_dynamic_address'),
-        ('destination_translated_address', 'dnat_address'),
-        ('destination_translated_port', 'dnat_port'),
-        ('tag', 'tag_val'),
+        ("name", "rule_name"),
+        ("fromzone", "source_zone"),
+        ("tozone", "destination_zone"),
+        ("source", "source_ip"),
+        ("destination", "destination_ip"),
+        ("source_translation_type", "snat_type"),
+        ("source_translation_static_translated_address", "snat_static_address"),
+        ("source_translation_static_bi_directional", "snat_bidirectional"),
+        ("source_translation_address_type", "snat_address_type"),
+        ("source_translation_interface", "snat_interface"),
+        ("source_translation_ip_address", "snat_interface_address"),
+        ("source_translation_translated_addresses", "snat_dynamic_address"),
+        ("destination_translated_address", "dnat_address"),
+        ("destination_translated_port", "dnat_port"),
+        ("tag", "tag_val"),
     )
 
-    if module.params['rule_name']:
-        obj = NatRule(module.params['rule_name'])
+    if module.params["rule_name"]:
+        obj = NatRule(module.params["rule_name"])
         parent.add(obj)
         try:
             obj.refresh()
         except PanDeviceError as e:
-            module.fail_json(msg='Failed refresh: {0}'.format(e))
+            module.fail_json(msg="Failed refresh: {0}".format(e))
 
         module.exit_json(
             changed=False,
@@ -229,33 +232,33 @@ def main():
     try:
         listing = NatRule.refreshall(parent)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refreshall: {0}'.format(e))
+        module.fail_json(msg="Failed refreshall: {0}".format(e))
 
-    if module.params['uuid']:
+    if module.params["uuid"]:
         for x in listing:
-            if x.uuid == module.params['uuid']:
+            if x.uuid == module.params["uuid"]:
                 module.exit_json(
                     changed=False,
                     object=helper.to_module_dict(x, renames),
                 )
-        module.fail_json(msg='No rule with uuid "{0}"'.format(module.params['uuid']))
+        module.fail_json(msg='No rule with uuid "{0}"'.format(module.params["uuid"]))
 
     ans = []
     matcher = None
-    if module.params['rule_regex']:
+    if module.params["rule_regex"]:
         try:
-            matcher = re.compile(module.params['rule_regex'])
+            matcher = re.compile(module.params["rule_regex"])
         except Exception as e:
-            module.fail_json(msg='Invalid regex: {0}'.format(e))
+            module.fail_json(msg="Invalid regex: {0}".format(e))
 
     ans = [
         helper.to_module_dict(x, renames)
         for x in listing
-        if module.params['listing'] or matcher.search(x.uid) is not None
+        if module.params["listing"] or matcher.search(x.uid) is not None
     ]
 
     module.exit_json(changed=False, listing=ans)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

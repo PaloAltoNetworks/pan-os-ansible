@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_virtual_router
 short_description: Configures a Virtual Router
@@ -87,49 +88,50 @@ options:
         description:
             -  Administrative distance for this protocol
         type: int
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create Virtual Router
   panos_virtual_router:
     provider: '{{ provider }}'
     name: vr-1
     commit: true
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import VirtualRouter
     from panos.errors import PanDeviceError
+    from panos.network import VirtualRouter
 except ImportError:
     try:
-        from pandevice.network import VirtualRouter
         from pandevice.errors import PanDeviceError
+        from pandevice.network import VirtualRouter
     except ImportError:
         pass
 
 
 def setup_args():
     return dict(
-        commit=dict(type='bool', default=False),
-
-        name=dict(type='str', default='default'),
-        interface=dict(type='list', elements='str'),
-        ad_static=dict(type='int'),
-        ad_static_ipv6=dict(type='int'),
-        ad_ospf_int=dict(type='int'),
-        ad_ospf_ext=dict(type='int'),
-        ad_ospfv3_int=dict(type='int'),
-        ad_ospfv3_ext=dict(type='int'),
-        ad_ibgp=dict(type='int'),
-        ad_ebgp=dict(type='int'),
-        ad_rip=dict(type='int'),
+        commit=dict(type="bool", default=False),
+        name=dict(type="str", default="default"),
+        interface=dict(type="list", elements="str"),
+        ad_static=dict(type="int"),
+        ad_static_ipv6=dict(type="int"),
+        ad_ospf_int=dict(type="int"),
+        ad_ospf_ext=dict(type="int"),
+        ad_ospfv3_int=dict(type="int"),
+        ad_ospfv3_ext=dict(type="int"),
+        ad_ibgp=dict(type="int"),
+        ad_ebgp=dict(type="int"),
+        ad_rip=dict(type="int"),
     )
 
 
@@ -154,34 +156,47 @@ def main():
 
     # Exclude non-object items from kwargs passed to the object.
     exclude_list = [
-        'ip_address', 'username', 'password', 'api_key', 'state', 'commit',
-        'provider', 'template', 'template_stack', 'vsys', 'port',
+        "ip_address",
+        "username",
+        "password",
+        "api_key",
+        "state",
+        "commit",
+        "provider",
+        "template",
+        "template_stack",
+        "vsys",
+        "port",
     ]
 
     # Generate the kwargs for network.VirtualRouter.
-    obj_spec = dict((k, module.params[k]) for k in helper.argument_spec.keys() if k not in exclude_list)
+    obj_spec = dict(
+        (k, module.params[k])
+        for k in helper.argument_spec.keys()
+        if k not in exclude_list
+    )
 
-    name = module.params['name']
-    state = module.params['state']
-    commit = module.params['commit']
+    name = module.params["name"]
+    state = module.params["state"]
+    commit = module.params["commit"]
 
     # Retrieve current virtual routers.
     try:
         vr_list = VirtualRouter.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     # Create the new state object.
     virtual_router = VirtualRouter(**obj_spec)
     parent.add(virtual_router)
 
     reference_params = {
-        'refresh': True,
-        'update': not module.check_mode,
-        'return_type': 'bool',
+        "refresh": True,
+        "update": not module.check_mode,
+        "return_type": "bool",
     }
     changed = False
-    if state == 'present':
+    if state == "present":
         for item in vr_list:
             if item.name != name:
                 continue
@@ -192,7 +207,7 @@ def main():
                     try:
                         virtual_router.apply()
                     except PanDeviceError as e:
-                        module.fail_json(msg='Failed apply: {0}'.format(e))
+                        module.fail_json(msg="Failed apply: {0}".format(e))
             break
         else:
             changed = True
@@ -200,33 +215,31 @@ def main():
                 try:
                     virtual_router.create()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed apply: {0}'.format(e))
+                    module.fail_json(msg="Failed apply: {0}".format(e))
 
-        changed |= virtual_router.set_vsys(
-            module.params['vsys'], **reference_params)
+        changed |= virtual_router.set_vsys(module.params["vsys"], **reference_params)
     else:
-        changed |= virtual_router.set_vsys(
-            None, **reference_params)
+        changed |= virtual_router.set_vsys(None, **reference_params)
         if name in [x.name for x in vr_list]:
             changed = True
             if not module.check_mode:
                 try:
                     virtual_router.delete()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed delete: {0}'.format(e))
+                    module.fail_json(msg="Failed delete: {0}".format(e))
 
     if commit and changed:
         helper.commit(module)
 
     if not changed:
-        msg = 'no changes required.'
+        msg = "no changes required."
     elif module.check_mode:
-        msg = 'Changes are required.'
+        msg = "Changes are required."
     else:
-        msg = 'Virtual router update successful.'
+        msg = "Virtual router update successful."
 
     module.exit_json(msg=msg, changed=changed)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

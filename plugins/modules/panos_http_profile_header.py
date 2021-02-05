@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_http_profile_header
 short_description: Manage HTTP headers for a HTTP profile.
@@ -73,9 +74,9 @@ options:
         description:
             - The value to assign the header.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Add a header to the config log type
   panos_http_profile_header:
     provider: '{{ provider }}'
@@ -83,49 +84,55 @@ EXAMPLES = '''
     log_type: 'user id'
     header: 'Content-Type'
     value: 'application/json'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.device import HttpServerProfile
-    from panos.device import HttpConfigHeader
-    from panos.device import HttpSystemHeader
-    from panos.device import HttpThreatHeader
-    from panos.device import HttpTrafficHeader
-    from panos.device import HttpHipMatchHeader
-    from panos.device import HttpUrlHeader
-    from panos.device import HttpDataHeader
-    from panos.device import HttpWildfireHeader
-    from panos.device import HttpTunnelHeader
-    from panos.device import HttpUserIdHeader
-    from panos.device import HttpGtpHeader
-    from panos.device import HttpAuthHeader
-    from panos.device import HttpSctpHeader
-    from panos.device import HttpIpTagHeader
+    from panos.device import (
+        HttpAuthHeader,
+        HttpConfigHeader,
+        HttpDataHeader,
+        HttpGtpHeader,
+        HttpHipMatchHeader,
+        HttpIpTagHeader,
+        HttpSctpHeader,
+        HttpServerProfile,
+        HttpSystemHeader,
+        HttpThreatHeader,
+        HttpTrafficHeader,
+        HttpTunnelHeader,
+        HttpUrlHeader,
+        HttpUserIdHeader,
+        HttpWildfireHeader,
+    )
     from panos.errors import PanDeviceError
 except ImportError:
     try:
-        from pandevice.device import HttpServerProfile
-        from pandevice.device import HttpConfigHeader
-        from pandevice.device import HttpSystemHeader
-        from pandevice.device import HttpThreatHeader
-        from pandevice.device import HttpTrafficHeader
-        from pandevice.device import HttpHipMatchHeader
-        from pandevice.device import HttpUrlHeader
-        from pandevice.device import HttpDataHeader
-        from pandevice.device import HttpWildfireHeader
-        from pandevice.device import HttpTunnelHeader
-        from pandevice.device import HttpUserIdHeader
-        from pandevice.device import HttpGtpHeader
-        from pandevice.device import HttpAuthHeader
-        from pandevice.device import HttpSctpHeader
-        from pandevice.device import HttpIpTagHeader
+        from pandevice.device import (
+            HttpAuthHeader,
+            HttpConfigHeader,
+            HttpDataHeader,
+            HttpGtpHeader,
+            HttpHipMatchHeader,
+            HttpIpTagHeader,
+            HttpSctpHeader,
+            HttpServerProfile,
+            HttpSystemHeader,
+            HttpThreatHeader,
+            HttpTrafficHeader,
+            HttpTunnelHeader,
+            HttpUrlHeader,
+            HttpUserIdHeader,
+            HttpWildfireHeader,
+        )
         from pandevice.errors import PanDeviceError
     except ImportError:
         pass
@@ -142,10 +149,24 @@ def main():
         min_panos_version=(8, 0, 0),
         argument_spec=dict(
             http_profile=dict(required=True),
-            log_type=dict(required=True, choices=[
-                'config', 'system', 'threat', 'traffic', 'hip match', 'url',
-                'data', 'wildfire', 'tunnel', 'user id', 'gtp', 'auth',
-                'sctp', 'iptag']
+            log_type=dict(
+                required=True,
+                choices=[
+                    "config",
+                    "system",
+                    "threat",
+                    "traffic",
+                    "hip match",
+                    "url",
+                    "data",
+                    "wildfire",
+                    "tunnel",
+                    "user id",
+                    "gtp",
+                    "auth",
+                    "sctp",
+                    "iptag",
+                ],
             ),
             header=dict(required=True),
             value=dict(),
@@ -160,44 +181,44 @@ def main():
     # Verify imports, build pandevice object tree.
     parent = helper.get_pandevice_parent(module)
 
-    sp = HttpServerProfile(module.params['http_profile'])
+    sp = HttpServerProfile(module.params["http_profile"])
     parent.add(sp)
     try:
         sp.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     cls_map = {
-        'config': HttpConfigHeader,
-        'system': HttpSystemHeader,
-        'threat': HttpThreatHeader,
-        'traffic': HttpTrafficHeader,
-        'hip match': HttpHipMatchHeader,
-        'url': HttpUrlHeader,
-        'data': HttpDataHeader,
-        'wildfire': HttpWildfireHeader,
-        'tunnel': HttpTunnelHeader,
-        'user id': HttpUserIdHeader,
-        'gtp': HttpGtpHeader,
-        'auth': HttpAuthHeader,
-        'sctp': HttpSctpHeader,
-        'iptag': HttpIpTagHeader,
+        "config": HttpConfigHeader,
+        "system": HttpSystemHeader,
+        "threat": HttpThreatHeader,
+        "traffic": HttpTrafficHeader,
+        "hip match": HttpHipMatchHeader,
+        "url": HttpUrlHeader,
+        "data": HttpDataHeader,
+        "wildfire": HttpWildfireHeader,
+        "tunnel": HttpTunnelHeader,
+        "user id": HttpUserIdHeader,
+        "gtp": HttpGtpHeader,
+        "auth": HttpAuthHeader,
+        "sctp": HttpSctpHeader,
+        "iptag": HttpIpTagHeader,
     }
 
-    cls = cls_map[module.params['log_type']]
+    cls = cls_map[module.params["log_type"]]
 
     listing = sp.findall(cls)
 
     spec = {
-        'name': module.params['header'],
-        'value': module.params['value'],
+        "name": module.params["header"],
+        "value": module.params["value"],
     }
     obj = cls(**spec)
     sp.add(obj)
 
     changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

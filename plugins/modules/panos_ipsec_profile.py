@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_ipsec_profile
 short_description: Configures IPSec Crypto profile on the firewall with subset of settings.
@@ -107,9 +108,9 @@ options:
         description:
             - IPSec SA lifetime in terabytes.
         type: int
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Add IPSec crypto config to the firewall
   panos_ipsec_profile:
     provider: '{{ provider }}'
@@ -118,22 +119,24 @@ EXAMPLES = '''
     esp_authentication: ['sha1']
     esp_encryption: ['aes-128-cbc']
     lifetime_seconds: '3600'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import IpsecCryptoProfile
     from panos.errors import PanDeviceError
+    from panos.network import IpsecCryptoProfile
 except ImportError:
     try:
-        from pandevice.network import IpsecCryptoProfile
         from pandevice.errors import PanDeviceError
+        from pandevice.network import IpsecCryptoProfile
     except ImportError:
         pass
 
@@ -147,101 +150,113 @@ def main():
         argument_spec=dict(
             name=dict(required=True),
             esp_encryption=dict(
-                type='list',
-                elements='str',
+                type="list",
+                elements="str",
                 choices=[
-                    'des', '3des', 'null', 'aes-128-cbc', 'aes-192-cbc',
-                    'aes-256-cbc', 'aes-128-gcm', 'aes-256-gcm'
+                    "des",
+                    "3des",
+                    "null",
+                    "aes-128-cbc",
+                    "aes-192-cbc",
+                    "aes-256-cbc",
+                    "aes-128-gcm",
+                    "aes-256-gcm",
                 ],
-                aliases=['encryption']
+                aliases=["encryption"],
             ),
             esp_authentication=dict(
-                type='list',
-                elements='str',
-                choices=[
-                    'none', 'md5', 'sha1', 'sha256', 'sha384', 'sha512'
-                ],
-                aliases=['authentication']
+                type="list",
+                elements="str",
+                choices=["none", "md5", "sha1", "sha256", "sha384", "sha512"],
+                aliases=["authentication"],
             ),
             ah_authentication=dict(
-                type='list',
-                elements='str',
-                choices=[
-                    'md5', 'sha1', 'sha256', 'sha384', 'sha512'
-                ]
+                type="list",
+                elements="str",
+                choices=["md5", "sha1", "sha256", "sha384", "sha512"],
             ),
             dh_group=dict(
                 choices=[
-                    'no-pfs', 'group1', 'group2', 'group5', 'group14', 'group19',
-                    'group20'
+                    "no-pfs",
+                    "group1",
+                    "group2",
+                    "group5",
+                    "group14",
+                    "group19",
+                    "group20",
                 ],
-                default='group2',
-                aliases=['dhgroup']
+                default="group2",
+                aliases=["dhgroup"],
             ),
-            lifetime_seconds=dict(type='int'),
-            lifetime_minutes=dict(type='int'),
-            lifetime_hours=dict(type='int', aliases=['lifetime_hrs']),
-            lifetime_days=dict(type='int'),
-            lifesize_kb=dict(type='int'),
-            lifesize_mb=dict(type='int'),
-            lifesize_gb=dict(type='int'),
-            lifesize_tb=dict(type='int'),
-            commit=dict(type='bool', default=False)
-        )
+            lifetime_seconds=dict(type="int"),
+            lifetime_minutes=dict(type="int"),
+            lifetime_hours=dict(type="int", aliases=["lifetime_hrs"]),
+            lifetime_days=dict(type="int"),
+            lifesize_kb=dict(type="int"),
+            lifesize_mb=dict(type="int"),
+            lifesize_gb=dict(type="int"),
+            lifesize_tb=dict(type="int"),
+            commit=dict(type="bool", default=False),
+        ),
     )
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         required_one_of=helper.required_one_of,
         mutually_exclusive=[
-            ['esp_encryption', 'ah_authentication'],
-            ['esp_authentication', 'ah_authentication'],
-            ['lifetime_seconds', 'lifetime_minutes', 'lifetime_hours', 'lifetime_days'],
-            ['lifesize_kb', 'lifesize_mb', 'lifesize_gb', 'lifesize_tb']
+            ["esp_encryption", "ah_authentication"],
+            ["esp_authentication", "ah_authentication"],
+            ["lifetime_seconds", "lifetime_minutes", "lifetime_hours", "lifetime_days"],
+            ["lifesize_kb", "lifesize_mb", "lifesize_gb", "lifesize_tb"],
         ],
-        supports_check_mode=True
+        supports_check_mode=True,
     )
 
     # Verify libs are present, get parent object.
     parent = helper.get_pandevice_parent(module)
 
     spec = {
-        'name': module.params['name'],
-        'esp_encryption': module.params['esp_encryption'],
-        'esp_authentication': module.params['esp_authentication'],
-        'ah_authentication': module.params['ah_authentication'],
-        'dh_group': module.params['dh_group'],
-        'lifetime_seconds': module.params['lifetime_seconds'],
-        'lifetime_minutes': module.params['lifetime_minutes'],
-        'lifetime_hours': module.params['lifetime_hours'],
-        'lifetime_days': module.params['lifetime_days'],
-        'lifesize_kb': module.params['lifesize_kb'],
-        'lifesize_mb': module.params['lifesize_mb'],
-        'lifesize_gb': module.params['lifesize_gb'],
-        'lifesize_tb': module.params['lifesize_tb']
+        "name": module.params["name"],
+        "esp_encryption": module.params["esp_encryption"],
+        "esp_authentication": module.params["esp_authentication"],
+        "ah_authentication": module.params["ah_authentication"],
+        "dh_group": module.params["dh_group"],
+        "lifetime_seconds": module.params["lifetime_seconds"],
+        "lifetime_minutes": module.params["lifetime_minutes"],
+        "lifetime_hours": module.params["lifetime_hours"],
+        "lifetime_days": module.params["lifetime_days"],
+        "lifesize_kb": module.params["lifesize_kb"],
+        "lifesize_mb": module.params["lifesize_mb"],
+        "lifesize_gb": module.params["lifesize_gb"],
+        "lifesize_tb": module.params["lifesize_tb"],
     }
 
     # Other info.
-    commit = module.params['commit']
+    commit = module.params["commit"]
 
-    if spec['esp_encryption'] is None and spec['ah_authentication'] is None:
-        spec['esp_encryption'] = ['aes-256-cbc', '3des']
+    if spec["esp_encryption"] is None and spec["ah_authentication"] is None:
+        spec["esp_encryption"] = ["aes-256-cbc", "3des"]
 
-    if spec['esp_authentication'] is None and spec['ah_authentication'] is None:
-        spec['esp_authentication'] = ['sha1']
+    if spec["esp_authentication"] is None and spec["ah_authentication"] is None:
+        spec["esp_authentication"] = ["sha1"]
 
     # Reflect GUI behavior.  Default is 1 hour key lifetime if nothing else is
     # specified.
-    if not any([
-        spec['lifetime_seconds'], spec['lifetime_minutes'], spec['lifetime_hours'], spec['lifetime_days']
-    ]):
-        spec['lifetime_hours'] = 1
+    if not any(
+        [
+            spec["lifetime_seconds"],
+            spec["lifetime_minutes"],
+            spec["lifetime_hours"],
+            spec["lifetime_days"],
+        ]
+    ):
+        spec["lifetime_hours"] = 1
 
     # Retrieve current info.
     try:
         listing = IpsecCryptoProfile.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     # Build the object based on the user spec.
     obj = IpsecCryptoProfile(**spec)
@@ -258,5 +273,5 @@ def main():
     module.exit_json(changed=changed, diff=diff)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

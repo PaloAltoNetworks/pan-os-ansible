@@ -16,13 +16,16 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    "metadata_version": "1.1",
+    "status": ["preview"],
+    "supported_by": "community",
+}
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_application_group
 short_description: Create application groups on PAN-OS devices.
@@ -57,9 +60,9 @@ options:
             - Administrative tags
         type: list
         elements: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create application group
   panos_application_group:
     provider: '{{ provider }}'
@@ -70,22 +73,24 @@ EXAMPLES = '''
         - adobe-update
         - google-update
         - ms-product-activation
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.objects import ApplicationGroup
     from panos.errors import PanDeviceError
+    from panos.objects import ApplicationGroup
 except ImportError:
     try:
-        from pandevice.objects import ApplicationGroup
         from pandevice.errors import PanDeviceError
+        from pandevice.objects import ApplicationGroup
     except ImportError:
         pass
 
@@ -97,35 +102,33 @@ def main():
         with_classic_provider_spec=True,
         with_state=True,
         argument_spec=dict(
-            name=dict(type='str', required=True),
-            value=dict(type='list', elements='str'),
-            tag=dict(type='list', elements='str'),
-        )
+            name=dict(type="str", required=True),
+            value=dict(type="list", elements="str"),
+            tag=dict(type="list", elements="str"),
+        ),
     )
 
-    required_if = [
-        ["state", "present", ["value"]]
-    ]
+    required_if = [["state", "present", ["value"]]]
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         required_one_of=helper.required_one_of,
         required_if=required_if,
-        supports_check_mode=True
+        supports_check_mode=True,
     )
 
     parent = helper.get_pandevice_parent(module)
 
     spec = {
-        'name': module.params['name'],
-        'value': module.params['value'],
-        'tag': module.params['tag'],
+        "name": module.params["name"],
+        "value": module.params["value"],
+        "tag": module.params["tag"],
     }
 
     try:
         listing = ApplicationGroup.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     obj = ApplicationGroup(**spec)
     parent.add(obj)
@@ -134,5 +137,5 @@ def main():
     module.exit_json(changed=changed, diff=diff)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

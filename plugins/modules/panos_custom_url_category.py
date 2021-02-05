@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_custom_url_category
 short_description: Create custom url category objects on PAN-OS devices.
@@ -58,9 +59,9 @@ options:
         type: str
         choices: ['URL List', 'Category Match']
         default: 'URL List'
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create Custom Url Category 'Internet Access List'
   panos_custom_url_category:
     provider: '{{ provider }}'
@@ -75,22 +76,24 @@ EXAMPLES = '''
     provider: '{{ provider }}'
     name: 'Internet Access List'
     state: 'absent'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.objects import CustomUrlCategory
     from panos.errors import PanDeviceError
+    from panos.objects import CustomUrlCategory
 except ImportError:
     try:
-        from pandevice.objects import CustomUrlCategory
         from pandevice.errors import PanDeviceError
+        from pandevice.objects import CustomUrlCategory
     except ImportError:
         pass
 
@@ -102,40 +105,40 @@ def main():
         with_classic_provider_spec=True,
         with_state=True,
         argument_spec=dict(
-            name=dict(type='str', required=True),
+            name=dict(type="str", required=True),
             description=dict(),
-            url_value=dict(type='list', elements='str'),
-            type=dict(type='str', choices=['URL List', 'Category Match'], default="URL List")
-        )
+            url_value=dict(type="list", elements="str"),
+            type=dict(
+                type="str", choices=["URL List", "Category Match"], default="URL List"
+            ),
+        ),
     )
 
-    required_if = [
-        ["state", "present", ["url_value"]]
-    ]
+    required_if = [["state", "present", ["url_value"]]]
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         required_one_of=helper.required_one_of,
         required_if=required_if,
-        supports_check_mode=True
+        supports_check_mode=True,
     )
 
     parent = helper.get_pandevice_parent(module)
     device = parent.nearest_pandevice()
 
     spec = {
-        'name': module.params['name'],
-        'description': module.params['description'],
-        'url_value': module.params['url_value'],
+        "name": module.params["name"],
+        "description": module.params["description"],
+        "url_value": module.params["url_value"],
     }
 
     if device.get_device_version() >= (9, 0, 0):
-        spec.update({'type': module.params['type']})
+        spec.update({"type": module.params["type"]})
 
     try:
         listing = CustomUrlCategory.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     obj = CustomUrlCategory(**spec)
     parent.add(obj)
@@ -144,5 +147,5 @@ def main():
     module.exit_json(changed=changed, diff=diff)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

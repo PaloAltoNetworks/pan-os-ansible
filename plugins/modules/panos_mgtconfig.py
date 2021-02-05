@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_mgtconfig
 short_description: Module used to configure some of the device management.
@@ -84,9 +85,9 @@ options:
         description:
             - Verify the identify of the update server.
         type: bool
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: set dns and panorama
   panos_mgtconfig:
     provider: '{{ provider }}'
@@ -96,26 +97,28 @@ EXAMPLES = '''
     panorama_secondary: "1.1.1.4"
     ntp_server_primary: "1.1.1.5"
     ntp_server_secondary: "1.1.1.6"
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
+    from panos.device import NTPServerPrimary, NTPServerSecondary, SystemSettings
     from panos.errors import PanDeviceError
-    from panos.device import SystemSettings
-    from panos.device import NTPServerPrimary
-    from panos.device import NTPServerSecondary
 except ImportError:
     try:
+        from pandevice.device import (
+            NTPServerPrimary,
+            NTPServerSecondary,
+            SystemSettings,
+        )
         from pandevice.errors import PanDeviceError
-        from pandevice.device import SystemSettings
-        from pandevice.device import NTPServerPrimary
-        from pandevice.device import NTPServerSecondary
     except ImportError:
         pass
 
@@ -133,10 +136,10 @@ def main():
             panorama_secondary=dict(),
             login_banner=dict(),
             update_server=dict(),
-            verify_update_server=dict(type='bool'),
+            verify_update_server=dict(type="bool"),
             ntp_server_primary=dict(),
             ntp_server_secondary=dict(),
-            commit=dict(type='bool', default=False),
+            commit=dict(type="bool", default=False),
         ),
     )
 
@@ -153,19 +156,19 @@ def main():
     try:
         obj.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     param_relationships = {
-        'hostname': 'hostname',
-        'domain': 'domain',
-        'dns_server_primary': 'dns_primary',
-        'dns_server_secondary': 'dns_secondary',
-        'timezone': 'timezone',
-        'panorama_primary': 'panorama',
-        'panorama_secondary': 'panorama2',
-        'login_banner': 'login_banner',
-        'update_server': 'update_server',
-        'verify_update_server': 'verify_update_server',
+        "hostname": "hostname",
+        "domain": "domain",
+        "dns_server_primary": "dns_primary",
+        "dns_server_secondary": "dns_secondary",
+        "timezone": "timezone",
+        "panorama_primary": "panorama",
+        "panorama_secondary": "panorama2",
+        "login_banner": "login_banner",
+        "update_server": "update_server",
+        "verify_update_server": "verify_update_server",
     }
 
     changed = False
@@ -178,12 +181,13 @@ def main():
                 try:
                     obj.update(obj_param)
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed to update {0}: {1}'.format(
-                        obj_param, e))
+                    module.fail_json(
+                        msg="Failed to update {0}: {1}".format(obj_param, e)
+                    )
 
     ntp_relationships = {
-        'ntp_server_primary': NTPServerPrimary,
-        'ntp_server_secondary': NTPServerSecondary,
+        "ntp_server_primary": NTPServerPrimary,
+        "ntp_server_secondary": NTPServerSecondary,
     }
 
     for ansible_param, ntp_obj_cls in ntp_relationships.items():
@@ -205,15 +209,16 @@ def main():
                     try:
                         ntp_obj.apply()
                     except PanDeviceError as e:
-                        module.fail_json(msg='Failed to set {0}: {1}'.format(
-                            ansible_param, e))
+                        module.fail_json(
+                            msg="Failed to set {0}: {1}".format(ansible_param, e)
+                        )
 
     # Optional commit.
-    if changed and module.params['commit'] and not module.check_mode:
+    if changed and module.params["commit"] and not module.check_mode:
         helper.commit(module)
 
-    module.exit_json(changed=changed, msg='done')
+    module.exit_json(changed=changed, msg="done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

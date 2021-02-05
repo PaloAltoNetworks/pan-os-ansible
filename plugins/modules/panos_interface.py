@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_interface
 short_description: configure data-port network interfaces
@@ -178,9 +179,9 @@ options:
             - HORIZONTALLINE
             - Name of the vsys (if firewall) or device group (if panorama) to put this object.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create ethernet1/1 as DHCP.
 - name: enable DHCP client on ethernet1/1 in zone public
   panos_interface:
@@ -198,22 +199,25 @@ EXAMPLES = '''
     ip: ["10.1.1.1/24"]
     enable_dhcp: false
     zone_name: "dmz"
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection, eltostr
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    eltostr,
+    get_connection,
+)
 
 try:
-    from panos.network import EthernetInterface
     from panos.errors import PanDeviceError
+    from panos.network import EthernetInterface
 except ImportError:
     try:
-        from pandevice.network import EthernetInterface
         from pandevice.errors import PanDeviceError
+        from pandevice.network import EthernetInterface
     except ImportError:
         pass
 
@@ -228,36 +232,40 @@ def main():
         argument_spec=dict(
             if_name=dict(required=True),
             mode=dict(
-                default='layer3',
+                default="layer3",
                 choices=[
-                    'layer3', 'layer2', 'virtual-wire', 'tap', 'ha',
-                    'decrypt-mirror', 'aggregate-group',
+                    "layer3",
+                    "layer2",
+                    "virtual-wire",
+                    "tap",
+                    "ha",
+                    "decrypt-mirror",
+                    "aggregate-group",
                 ],
             ),
-            ip=dict(type='list', elements='str'),
-            ipv6_enabled=dict(type='bool'),
+            ip=dict(type="list", elements="str"),
+            ipv6_enabled=dict(type="bool"),
             management_profile=dict(),
-            mtu=dict(type='int'),
-            adjust_tcp_mss=dict(type='bool'),
+            mtu=dict(type="int"),
+            adjust_tcp_mss=dict(type="bool"),
             netflow_profile=dict(),
             lldp_enabled=dict(),
             lldp_profile=dict(),
             netflow_profile_l2=dict(),
-            link_speed=dict(choices=['auto', '10', '100', '1000']),
-            link_duplex=dict(choices=['auto', 'full', 'half']),
-            link_state=dict(choices=['auto', 'up', 'down']),
+            link_speed=dict(choices=["auto", "10", "100", "1000"]),
+            link_duplex=dict(choices=["auto", "full", "half"]),
+            link_state=dict(choices=["auto", "up", "down"]),
             aggregate_group=dict(),
             comment=dict(),
-            ipv4_mss_adjust=dict(type='int'),
-            ipv6_mss_adjust=dict(type='int'),
-            enable_dhcp=dict(type='bool', default=True),
-            create_default_route=dict(type='bool', default=False),
-            dhcp_default_route_metric=dict(type='int'),
+            ipv4_mss_adjust=dict(type="int"),
+            ipv6_mss_adjust=dict(type="int"),
+            enable_dhcp=dict(type="bool", default=True),
+            create_default_route=dict(type="bool", default=False),
+            dhcp_default_route_metric=dict(type="int"),
             zone_name=dict(),
-            vr_name=dict(default='default'),
+            vr_name=dict(default="default"),
             vlan_name=dict(),
-            commit=dict(type='bool', default=False),
-
+            commit=dict(type="bool", default=False),
             # TODO(gfreeman) - remove this in 2.12.
             vsys_dg=dict(),
         ),
@@ -270,64 +278,65 @@ def main():
 
     # Get the object params.
     spec = {
-        'name': module.params['if_name'],
-        'mode': module.params['mode'],
-        'ip': module.params['ip'],
-        'ipv6_enabled': module.params['ipv6_enabled'],
-        'management_profile': module.params['management_profile'],
-        'mtu': module.params['mtu'],
-        'adjust_tcp_mss': module.params['adjust_tcp_mss'],
-        'netflow_profile': module.params['netflow_profile'],
-        'lldp_enabled': module.params['lldp_enabled'],
-        'lldp_profile': module.params['lldp_profile'],
-        'netflow_profile_l2': module.params['netflow_profile_l2'],
-        'link_speed': module.params['link_speed'],
-        'link_duplex': module.params['link_duplex'],
-        'link_state': module.params['link_state'],
-        'aggregate_group': module.params['aggregate_group'],
-        'comment': module.params['comment'],
-        'ipv4_mss_adjust': module.params['ipv4_mss_adjust'],
-        'ipv6_mss_adjust': module.params['ipv6_mss_adjust'],
-        'enable_dhcp': True if module.params['enable_dhcp'] else None,
+        "name": module.params["if_name"],
+        "mode": module.params["mode"],
+        "ip": module.params["ip"],
+        "ipv6_enabled": module.params["ipv6_enabled"],
+        "management_profile": module.params["management_profile"],
+        "mtu": module.params["mtu"],
+        "adjust_tcp_mss": module.params["adjust_tcp_mss"],
+        "netflow_profile": module.params["netflow_profile"],
+        "lldp_enabled": module.params["lldp_enabled"],
+        "lldp_profile": module.params["lldp_profile"],
+        "netflow_profile_l2": module.params["netflow_profile_l2"],
+        "link_speed": module.params["link_speed"],
+        "link_duplex": module.params["link_duplex"],
+        "link_state": module.params["link_state"],
+        "aggregate_group": module.params["aggregate_group"],
+        "comment": module.params["comment"],
+        "ipv4_mss_adjust": module.params["ipv4_mss_adjust"],
+        "ipv6_mss_adjust": module.params["ipv6_mss_adjust"],
+        "enable_dhcp": True if module.params["enable_dhcp"] else None,
         # 'create_dhcp_default_route': set below
-        'dhcp_default_route_metric': module.params['dhcp_default_route_metric'],
+        "dhcp_default_route_metric": module.params["dhcp_default_route_metric"],
     }
 
-    if module.params['create_default_route']:
-        spec['create_dhcp_default_route'] = True
-    elif spec['enable_dhcp']:
-        spec['create_dhcp_default_route'] = False
+    if module.params["create_default_route"]:
+        spec["create_dhcp_default_route"] = True
+    elif spec["enable_dhcp"]:
+        spec["create_dhcp_default_route"] = False
     else:
-        spec['create_dhcp_default_route'] = None
+        spec["create_dhcp_default_route"] = None
 
     # Get other info.
-    state = module.params['state']
-    zone_name = module.params['zone_name']
-    vlan_name = module.params['vlan_name']
-    vr_name = module.params['vr_name'] if module.params['vr_name'] else None
-    vsys = module.params['vsys']
-    vsys_dg = module.params['vsys_dg']
+    state = module.params["state"]
+    zone_name = module.params["zone_name"]
+    vlan_name = module.params["vlan_name"]
+    vr_name = module.params["vr_name"] if module.params["vr_name"] else None
+    vsys = module.params["vsys"]
+    vsys_dg = module.params["vsys_dg"]
 
     # TODO(gfreeman) - Remove vsys_dg in 2.12, as well as this code chunk.
     # In the mean time, we'll need to do this special handling.
     if vsys_dg is not None:
         module.deprecate(
             'Param "vsys_dg" is deprecated, use "vsys"',
-            version='3.0.0', collection_name='paloaltonetworks.panos'
+            version="3.0.0",
+            collection_name="paloaltonetworks.panos",
         )
         if vsys is None:
             vsys = vsys_dg
         else:
             msg = [
                 'Params "vsys" and "vsys_dg" both given',
-                'Specify one or the other, not both.',
+                "Specify one or the other, not both.",
             ]
-            module.fail_json(msg='.  '.join(msg))
+            module.fail_json(msg=".  ".join(msg))
     elif vsys is None:
         # TODO(gfreeman) - v2.12, just set the default for vsys to 'vsys1'.
-        vsys = 'vsys1'
+        vsys = "vsys1"
 
-    module.params['vsys'] = vsys
+    module.params["vsys"] = vsys
 
     # Verify libs are present, get the parent object.
     parent = helper.get_pandevice_parent(module)
@@ -335,7 +344,8 @@ def main():
     # Retrieve the current config.
     try:
         interfaces = EthernetInterface.refreshall(
-            parent, add=False, matching_vsys=False)
+            parent, add=False, matching_vsys=False
+        )
     except PanDeviceError as e:
         module.fail_json(msg=e.message)
 
@@ -347,39 +357,34 @@ def main():
     changed = False
     diff = None
     reference_params = {
-        'refresh': True,
-        'update': not module.check_mode,
-        'return_type': 'bool',
+        "refresh": True,
+        "update": not module.check_mode,
+        "return_type": "bool",
     }
-    if state == 'present':
+    if state == "present":
         for item in interfaces:
             if item.name != eth.name:
                 continue
-            diff = dict(
-                before=eltostr(item)
-            )
+            diff = dict(before=eltostr(item))
             # Interfaces have children, so don't compare them.
             if not item.equal(eth, compare_children=False):
                 changed = True
                 eth.extend(item.children)
-                diff['after'] = eltostr(eth)
+                diff["after"] = eltostr(eth)
                 if not module.check_mode:
                     try:
                         eth.apply()
                     except PanDeviceError as e:
-                        module.fail_json(msg='Failed apply: {0}'.format(e))
+                        module.fail_json(msg="Failed apply: {0}".format(e))
             break
         else:
             changed = True
-            diff = dict(
-                before="",
-                after=eltostr(eth)
-            )
+            diff = dict(before="", after=eltostr(eth))
             if not module.check_mode:
                 try:
                     eth.create()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed create: {0}'.format(e))
+                    module.fail_json(msg="Failed create: {0}".format(e))
 
         # Set references.
         try:
@@ -388,8 +393,8 @@ def main():
             changed |= eth.set_vlan(vlan_name, **reference_params)
             changed |= eth.set_virtual_router(vr_name, **reference_params)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed setref: {0}'.format(e))
-    elif state == 'absent':
+            module.fail_json(msg="Failed setref: {0}".format(e))
+    elif state == "absent":
         # Remove references.
         try:
             changed |= eth.set_virtual_router(None, **reference_params)
@@ -397,28 +402,25 @@ def main():
             changed |= eth.set_zone(None, mode=eth.mode, **reference_params)
             changed |= eth.set_vsys(None, **reference_params)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed setref: {0}'.format(e))
+            module.fail_json(msg="Failed setref: {0}".format(e))
 
         # Remove the interface.
         if eth.name in [x.name for x in interfaces]:
             changed = True
-            diff = dict(
-                before=eltostr(eth),
-                after=""
-            )
+            diff = dict(before=eltostr(eth), after="")
             if not module.check_mode:
                 try:
                     eth.delete()
                 except PanDeviceError as e:
-                    module.fail_json(msg='Failed delete: {0}'.format(e))
+                    module.fail_json(msg="Failed delete: {0}".format(e))
 
     # Commit if we were asked to do so.
-    if changed and module.params['commit']:
+    if changed and module.params["commit"]:
         helper.commit(module)
 
     # Done!
-    module.exit_json(changed=changed, diff=diff, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

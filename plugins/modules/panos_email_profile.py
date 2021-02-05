@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_email_profile
 short_description: Manage email server profiles.
@@ -116,22 +117,24 @@ options:
         description:
             - Escape character
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create a profile
 - name: Create email profile
   panos_email_profile:
     provider: '{{ provider }}'
     name: 'my-profile'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.device import EmailServerProfile
@@ -184,33 +187,33 @@ def main():
     try:
         listing = EmailServerProfile.refreshall(parent)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     spec = {
-        'name': module.params['name'],
-        'config': module.params['config'],
-        'system': module.params['system'],
-        'threat': module.params['threat'],
-        'traffic': module.params['traffic'],
-        'hip_match': module.params['hip_match'],
-        'url': module.params['url'],
-        'data': module.params['data'],
-        'wildfire': module.params['wildfire'],
-        'tunnel': module.params['tunnel'],
-        'user_id': module.params['user_id'],
-        'gtp': module.params['gtp'],
-        'auth': module.params['auth'],
-        'sctp': module.params['sctp'],
-        'iptag': module.params['iptag'],
-        'escaped_characters': module.params['escaped_characters'],
-        'escape_character': module.params['escape_character'],
+        "name": module.params["name"],
+        "config": module.params["config"],
+        "system": module.params["system"],
+        "threat": module.params["threat"],
+        "traffic": module.params["traffic"],
+        "hip_match": module.params["hip_match"],
+        "url": module.params["url"],
+        "data": module.params["data"],
+        "wildfire": module.params["wildfire"],
+        "tunnel": module.params["tunnel"],
+        "user_id": module.params["user_id"],
+        "gtp": module.params["gtp"],
+        "auth": module.params["auth"],
+        "sctp": module.params["sctp"],
+        "iptag": module.params["iptag"],
+        "escaped_characters": module.params["escaped_characters"],
+        "escape_character": module.params["escape_character"],
     }
     obj = EmailServerProfile(**spec)
     parent.add(obj)
 
     changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
