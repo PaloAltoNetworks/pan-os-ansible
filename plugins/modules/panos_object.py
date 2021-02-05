@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_object
 short_description: create/read/update/delete object in PAN-OS or Panorama
@@ -170,9 +171,9 @@ options:
             - If undefined and ip_address is Panorama, this defaults to shared.
         type: str
         required: false
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: search for shared address object
   panos_object:
     ip_address: '{{ ip_address }}'
@@ -218,34 +219,35 @@ EXAMPLES = '''
     api_key: '{{ api_key }}'
     operation: 'delete'
     addressobject: 'Win2K test'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    import panos
     from panos.base import PanDevice
     from panos.errors import PanDeviceError
-    from panos import panorama
-    from panos import objects
+
+    import panos
+    from panos import objects, panorama
 except ImportError:
     try:
         import pandevice
+        from pandevice import objects, panorama
         from pandevice.base import PanDevice
         from pandevice.errors import PanDeviceError
-        from pandevice import panorama
-        from pandevice import objects
     except ImportError:
         pass
 
 try:
-    from pan.xapi import PanXapiError
-    import xmltodict
     import json
+
+    import xmltodict
+    from pan.xapi import PanXapiError
+
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
@@ -279,59 +281,57 @@ def find_object(device, dev_group, obj_name, obj_type):
 
 
 def create_object(**kwargs):
-    if kwargs['addressobject']:
+    if kwargs["addressobject"]:
         newobject = objects.AddressObject(
-            name=kwargs['addressobject'],
-            value=kwargs['address'],
-            type=kwargs['address_type'],
-            description=kwargs['description'],
-            tag=kwargs['tag_name']
+            name=kwargs["addressobject"],
+            value=kwargs["address"],
+            type=kwargs["address_type"],
+            description=kwargs["description"],
+            tag=kwargs["tag_name"],
         )
         if newobject.type and newobject.value:
             return newobject
         else:
             return False
-    elif kwargs['addressgroup']:
+    elif kwargs["addressgroup"]:
         newobject = objects.AddressGroup(
-            name=kwargs['addressgroup'],
-            static_value=kwargs['static_value'],
-            dynamic_value=kwargs['dynamic_value'],
-            description=kwargs['description'],
-            tag=kwargs['tag_name']
+            name=kwargs["addressgroup"],
+            static_value=kwargs["static_value"],
+            dynamic_value=kwargs["dynamic_value"],
+            description=kwargs["description"],
+            tag=kwargs["tag_name"],
         )
         if newobject.static_value or newobject.dynamic_value:
             return newobject
         else:
             return False
-    elif kwargs['serviceobject']:
+    elif kwargs["serviceobject"]:
         newobject = objects.ServiceObject(
-            name=kwargs['serviceobject'],
-            protocol=kwargs['protocol'],
-            source_port=kwargs['source_port'],
-            destination_port=kwargs['destination_port'],
-            tag=kwargs['tag_name']
+            name=kwargs["serviceobject"],
+            protocol=kwargs["protocol"],
+            source_port=kwargs["source_port"],
+            destination_port=kwargs["destination_port"],
+            tag=kwargs["tag_name"],
         )
         if newobject.protocol and newobject.destination_port:
             return newobject
         else:
             return False
-    elif kwargs['servicegroup']:
+    elif kwargs["servicegroup"]:
         newobject = objects.ServiceGroup(
-            name=kwargs['servicegroup'],
-            value=kwargs['services'],
-            tag=kwargs['tag_name']
+            name=kwargs["servicegroup"],
+            value=kwargs["services"],
+            tag=kwargs["tag_name"],
         )
         if newobject.value:
             return newobject
         else:
             return False
-    elif kwargs['tag_name']:
+    elif kwargs["tag_name"]:
         t = objects.Tag
-        c = t.color_code(kwargs['color'])
+        c = t.color_code(kwargs["color"])
         newobject = objects.Tag(
-            name=kwargs['tag_name'],
-            color=c,
-            comments=kwargs['description']
+            name=kwargs["tag_name"], color=c, comments=kwargs["description"]
         )
         if newobject.name:
             return newobject
@@ -354,71 +354,101 @@ def main():
     argument_spec = dict(
         ip_address=dict(required=True),
         password=dict(no_log=True),
-        username=dict(default='admin'),
+        username=dict(default="admin"),
         api_key=dict(no_log=True),
-        operation=dict(required=True, choices=['add', 'update', 'delete', 'find']),
+        operation=dict(required=True, choices=["add", "update", "delete", "find"]),
         addressobject=dict(default=None),
         addressgroup=dict(default=None),
         serviceobject=dict(default=None),
         servicegroup=dict(default=None),
         address=dict(default=None),
-        address_type=dict(default='ip-netmask', choices=['ip-netmask', 'ip-range', 'fqdn']),
-        static_value=dict(type='list', elements='str', default=None),
+        address_type=dict(
+            default="ip-netmask", choices=["ip-netmask", "ip-range", "fqdn"]
+        ),
+        static_value=dict(type="list", elements="str", default=None),
         dynamic_value=dict(default=None),
-        protocol=dict(default=None, choices=['tcp', 'udp']),
+        protocol=dict(default=None, choices=["tcp", "udp"]),
         source_port=dict(default=None),
         destination_port=dict(default=None),
-        services=dict(type='list', elements='str', default=None),
+        services=dict(type="list", elements="str", default=None),
         description=dict(default=None),
         tag_name=dict(default=None),
-        color=dict(default=None, choices=['red', 'green', 'blue', 'yellow', 'copper', 'orange', 'purple',
-                                          'gray', 'light green', 'cyan', 'light gray', 'blue gray',
-                                          'lime', 'black', 'gold', 'brown']),
-        vsys=dict(default='vsys1'),
+        color=dict(
+            default=None,
+            choices=[
+                "red",
+                "green",
+                "blue",
+                "yellow",
+                "copper",
+                "orange",
+                "purple",
+                "gray",
+                "light green",
+                "cyan",
+                "light gray",
+                "blue gray",
+                "lime",
+                "black",
+                "gold",
+                "brown",
+            ],
+        ),
+        vsys=dict(default="vsys1"),
         devicegroup=dict(default=None),
-        commit=dict(type='bool', default=False),
+        commit=dict(type="bool", default=False),
     )
-    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False,
-                           required_one_of=[['api_key', 'password']],
-                           mutually_exclusive=[['addressobject', 'addressgroup',
-                                                'serviceobject', 'servicegroup',
-                                                'tag_name']]
-                           )
+    module = AnsibleModule(
+        argument_spec=argument_spec,
+        supports_check_mode=False,
+        required_one_of=[["api_key", "password"]],
+        mutually_exclusive=[
+            [
+                "addressobject",
+                "addressgroup",
+                "serviceobject",
+                "servicegroup",
+                "tag_name",
+            ]
+        ],
+    )
     if not HAS_LIB:
-        module.fail_json(msg='Missing required libraries.')
+        module.fail_json(msg="Missing required libraries.")
 
     ip_address = module.params["ip_address"]
     password = module.params["password"]
-    username = module.params['username']
-    api_key = module.params['api_key']
-    operation = module.params['operation']
-    addressobject = module.params['addressobject']
-    addressgroup = module.params['addressgroup']
-    serviceobject = module.params['serviceobject']
-    servicegroup = module.params['servicegroup']
-    address = module.params['address']
-    address_type = module.params['address_type']
-    static_value = module.params['static_value']
-    dynamic_value = module.params['dynamic_value']
-    protocol = module.params['protocol']
-    source_port = module.params['source_port']
-    destination_port = module.params['destination_port']
-    services = module.params['services']
-    description = module.params['description']
-    tag_name = module.params['tag_name']
-    color = module.params['color']
-    vsys = module.params['vsys']
-    devicegroup = module.params['devicegroup']
-    commit = module.params['commit']
+    username = module.params["username"]
+    api_key = module.params["api_key"]
+    operation = module.params["operation"]
+    addressobject = module.params["addressobject"]
+    addressgroup = module.params["addressgroup"]
+    serviceobject = module.params["serviceobject"]
+    servicegroup = module.params["servicegroup"]
+    address = module.params["address"]
+    address_type = module.params["address_type"]
+    static_value = module.params["static_value"]
+    dynamic_value = module.params["dynamic_value"]
+    protocol = module.params["protocol"]
+    source_port = module.params["source_port"]
+    destination_port = module.params["destination_port"]
+    services = module.params["services"]
+    description = module.params["description"]
+    tag_name = module.params["tag_name"]
+    color = module.params["color"]
+    vsys = module.params["vsys"]
+    devicegroup = module.params["devicegroup"]
+    commit = module.params["commit"]
 
     # Create the device with the appropriate pandevice type
-    device = PanDevice.create_from_device(ip_address, username, password, api_key=api_key)
+    device = PanDevice.create_from_device(
+        ip_address, username, password, api_key=api_key
+    )
 
     # If Panorama, validate the devicegroup
     dev_group = None
-    if hasattr(device, 'refresh_devices'):
+    if hasattr(device, "refresh_devices"):
         # Panorama: set the device group.
-        if devicegroup == 'shared':
+        if devicegroup == "shared":
             # Device group of None is "shared" scope for Panorama.
             devicegroup = None
         if devicegroup is not None:
@@ -426,7 +456,10 @@ def main():
             if dev_group:
                 device.add(dev_group)
             else:
-                module.fail_json(msg='\'%s\' device group not found in Panorama. Is the name correct?' % devicegroup)
+                module.fail_json(
+                    msg="'%s' device group not found in Panorama. Is the name correct?"
+                    % devicegroup
+                )
     else:
         # Firewall: set the targetted vsys.
         device.vsys = vsys
@@ -448,7 +481,7 @@ def main():
         obj_name = tag_name
         obj_type = objects.Tag
     else:
-        module.fail_json(msg='No object type defined!')
+        module.fail_json(msg="No object type defined!")
 
     # Which operation shall we perform on the object?
     msg = None
@@ -460,11 +493,12 @@ def main():
         if match:
             match_dict = xmltodict.parse(match.element_str())
             module.exit_json(
-                stdout_lines=json.dumps(match_dict, indent=2),
-                msg='Object matched'
+                stdout_lines=json.dumps(match_dict, indent=2), msg="Object matched"
             )
         else:
-            module.fail_json(msg='Object \'%s\' not found. Is the name correct?' % obj_name)
+            module.fail_json(
+                msg="Object '%s' not found. Is the name correct?" % obj_name
+            )
     elif operation == "delete":
         # Search for the object
         match = find_object(device, dev_group, obj_name, obj_type)
@@ -478,12 +512,17 @@ def main():
 
             msg = "Object '{0}' successfully deleted".format(obj_name)
         else:
-            module.fail_json(msg='Object \'%s\' not found. Is the name correct?' % obj_name)
+            module.fail_json(
+                msg="Object '%s' not found. Is the name correct?" % obj_name
+            )
     elif operation == "add":
         # Search for the object. Fail if found.
         match = find_object(device, dev_group, obj_name, obj_type)
         if match:
-            module.fail_json(msg='Object \'%s\' already exists. Use operation: \'update\' to change it.' % obj_name)
+            module.fail_json(
+                msg="Object '%s' already exists. Use operation: 'update' to change it."
+                % obj_name
+            )
         else:
             try:
                 new_object = create_object(
@@ -501,7 +540,7 @@ def main():
                     services=services,
                     description=description,
                     tag_name=tag_name,
-                    color=color
+                    color=color,
                 )
                 changed = add_object(device, dev_group, new_object)
             except PanXapiError as e:
@@ -527,25 +566,28 @@ def main():
                     services=services,
                     description=description,
                     tag_name=tag_name,
-                    color=color
+                    color=color,
                 )
                 changed = add_object(device, dev_group, new_object)
             except PanXapiError as e:
                 module.fail_json(msg=e.message)
             msg = "Object '{0}' successfully updated.".format(obj_name)
         else:
-            module.fail_json(msg='Object \'%s\' does not exist. Use operation: \'add\' to add it.' % obj_name)
+            module.fail_json(
+                msg="Object '%s' does not exist. Use operation: 'add' to add it."
+                % obj_name
+            )
 
     # Optional: commit the change.
     if commit:
         try:
             device.commit(sync=True)
         except PanDeviceError as e:
-            module.fail_json(msg='Failed to commit: {0}'.format(e))
+            module.fail_json(msg="Failed to commit: {0}".format(e))
 
     # Done.
     module.exit_json(changed=True, msg=msg)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

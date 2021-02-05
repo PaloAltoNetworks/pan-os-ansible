@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_ipv6_address
 short_description: Manage IPv6 addresses on an interface.
@@ -84,41 +85,47 @@ options:
             - Set the auto address configuration flag.
         default: true
         type: bool
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Have an IPv6 address on ethernet1/6.2
 - name: Assert the given IPv6 address
   panos_ipv6_address:
     provider: '{{ provider }}'
     iface_name: 'ethernet1/6.2'
     address: '2001:db8:123:1::1'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import AggregateInterface
-    from panos.network import EthernetInterface
-    from panos.network import IPv6Address
-    from panos.network import LoopbackInterface
-    from panos.network import TunnelInterface
-    from panos.network import VlanInterface
     from panos.errors import PanDeviceError
+    from panos.network import (
+        AggregateInterface,
+        EthernetInterface,
+        IPv6Address,
+        LoopbackInterface,
+        TunnelInterface,
+        VlanInterface,
+    )
 except ImportError:
     try:
-        from pandevice.network import AggregateInterface
-        from pandevice.network import EthernetInterface
-        from pandevice.network import IPv6Address
-        from pandevice.network import LoopbackInterface
-        from pandevice.network import TunnelInterface
-        from pandevice.network import VlanInterface
         from pandevice.errors import PanDeviceError
+        from pandevice.network import (
+            AggregateInterface,
+            EthernetInterface,
+            IPv6Address,
+            LoopbackInterface,
+            TunnelInterface,
+            VlanInterface,
+        )
     except ImportError:
         pass
 
@@ -132,14 +139,14 @@ def main():
         argument_spec=dict(
             iface_name=dict(required=True),
             address=dict(required=True),
-            enable_on_interface=dict(type='bool', default=True),
-            prefix=dict(type='bool'),
-            anycast=dict(type='bool'),
-            advertise_enabled=dict(type='bool'),
-            valid_lifetime=dict(type='int', default=2592000),
-            preferred_lifetime=dict(type='int', default=604800),
-            onlink_flag=dict(type='bool', default=True),
-            auto_config_flag=dict(type='bool', default=True),
+            enable_on_interface=dict(type="bool", default=True),
+            prefix=dict(type="bool"),
+            anycast=dict(type="bool"),
+            advertise_enabled=dict(type="bool"),
+            valid_lifetime=dict(type="int", default=2592000),
+            preferred_lifetime=dict(type="int", default=604800),
+            onlink_flag=dict(type="bool", default=True),
+            auto_config_flag=dict(type="bool", default=True),
         ),
     )
     module = AnsibleModule(
@@ -153,51 +160,51 @@ def main():
 
     # Get the object params.
     spec = {
-        'address': module.params['address'],
-        'enable_on_interface': module.params['enable_on_interface'],
-        'prefix': module.params['prefix'],
-        'anycast': module.params['anycast'],
-        'advertise_enabled': module.params['advertise_enabled'],
-        'valid_lifetime': module.params['valid_lifetime'],
-        'preferred_lifetime': module.params['preferred_lifetime'],
-        'onlink_flag': module.params['onlink_flag'],
-        'auto_config_flag': module.params['auto_config_flag'],
+        "address": module.params["address"],
+        "enable_on_interface": module.params["enable_on_interface"],
+        "prefix": module.params["prefix"],
+        "anycast": module.params["anycast"],
+        "advertise_enabled": module.params["advertise_enabled"],
+        "valid_lifetime": module.params["valid_lifetime"],
+        "preferred_lifetime": module.params["preferred_lifetime"],
+        "onlink_flag": module.params["onlink_flag"],
+        "auto_config_flag": module.params["auto_config_flag"],
     }
 
     # Get other info.
-    iname = module.params['iface_name']
+    iname = module.params["iface_name"]
 
     # Determine parent interface.
     eth = None
     part = iname
-    if iname.startswith('ethernet') or iname.startswith('ae'):
-        part = iname.split('.')[0]
-        if iname.startswith('ethernet'):
+    if iname.startswith("ethernet") or iname.startswith("ae"):
+        part = iname.split(".")[0]
+        if iname.startswith("ethernet"):
             eth = EthernetInterface(part)
         else:
             eth = AggregateInterface(part)
     else:
-        if iname.startswith('loopback'):
+        if iname.startswith("loopback"):
             eth = LoopbackInterface(iname)
-        elif iname.startswith('tunnel'):
+        elif iname.startswith("tunnel"):
             eth = TunnelInterface(iname)
-        elif iname.startswith('vlan'):
+        elif iname.startswith("vlan"):
             eth = VlanInterface(iname)
         else:
-            module.fail_json(msg='Unknown interface style: {0}'.format(iname))
+            module.fail_json(msg="Unknown interface style: {0}".format(iname))
 
     parent.add(eth)
     try:
         eth.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
     if iname != part:
         for child in eth.children:
             if child.uid == iname:
                 eth = child
                 break
         else:
-            module.fail_json(msg='Could not find parent interface')
+            module.fail_json(msg="Could not find parent interface")
 
     listing = eth.findall(IPv6Address)
 
@@ -212,5 +219,5 @@ def main():
     module.exit_json(changed=changed, diff=diff)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

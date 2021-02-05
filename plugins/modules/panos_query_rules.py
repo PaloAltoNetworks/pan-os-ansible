@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_query_rules
 short_description: PANOS module that allows search for security rules in PANW NGFW devices.
@@ -110,9 +111,9 @@ options:
             - The Panorama device group in which to conduct the query.
         type: str
         required: false
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: search for rules with tcp/3306
   panos_query_rules:
     ip_address: '{{ ip_address }}'
@@ -137,36 +138,30 @@ EXAMPLES = '''
     username: '{{ username }}'
     password: '{{ password }}'
     tag_name: 'ProjectX'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
 
 try:
     import panos
-    from panos import base
-    from panos import firewall
-    from panos import panorama
-    from panos import objects
-    from panos import policies
+    from panos import base, firewall, objects, panorama, policies
 except ImportError:
     try:
         import pandevice
-        from pandevice import base
-        from pandevice import firewall
-        from pandevice import panorama
-        from pandevice import objects
-        from pandevice import policies
+        from pandevice import base, firewall, objects, panorama, policies
     except ImportError:
         pass
 
 try:
     import ipaddress
-    import xmltodict
     import json
+
+    import xmltodict
+
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
@@ -226,12 +221,12 @@ def addr_in_obj(addr, obj):
     ip = ipaddress.ip_address(addr)
     # Process address objects
     if isinstance(obj, objects.AddressObject):
-        if obj.type == 'ip-netmask':
+        if obj.type == "ip-netmask":
             net = ipaddress.ip_network(obj.value)
             if ip in net:
                 return True
-        if obj.type == 'ip-range':
-            ip_range = obj.value.split('-')
+        if obj.type == "ip-range":
+            ip_range = obj.value.split("-")
             lower = ipaddress.ip_address(ip_range[0])
             upper = ipaddress.ip_address(ip_range[1])
             if lower < ip < upper:
@@ -270,10 +265,10 @@ def get_services(device, dev_group, svc_list, obj_list):
 
 def port_in_svc(orientation, port, protocol, obj):
     # Process address objects
-    if orientation == 'source':
-        for x in obj.source_port.split(','):
-            if '-' in x:
-                port_range = x.split('-')
+    if orientation == "source":
+        for x in obj.source_port.split(","):
+            if "-" in x:
+                port_range = x.split("-")
                 lower = int(port_range[0])
                 upper = int(port_range[1])
                 if (lower <= int(port) <= upper) and (obj.protocol == protocol):
@@ -281,10 +276,10 @@ def port_in_svc(orientation, port, protocol, obj):
             else:
                 if port == x and obj.protocol == protocol:
                     return True
-    elif orientation == 'destination':
-        for x in obj.destination_port.split(','):
-            if '-' in x:
-                port_range = x.split('-')
+    elif orientation == "destination":
+        for x in obj.destination_port.split(","):
+            if "-" in x:
+                port_range = x.split("-")
                 lower = int(port_range[0])
                 upper = int(port_range[1])
                 if (lower <= int(port) <= upper) and (obj.protocol == protocol):
@@ -313,7 +308,7 @@ def main():
     argument_spec = dict(
         ip_address=dict(required=True),
         password=dict(no_log=True),
-        username=dict(default='admin'),
+        username=dict(default="admin"),
         api_key=dict(no_log=True),
         application=dict(default=None),
         source_zone=dict(default=None),
@@ -322,39 +317,44 @@ def main():
         destination_ip=dict(default=None),
         source_port=dict(default=None),
         destination_port=dict(default=None),
-        protocol=dict(default=None, choices=['tcp', 'udp']),
+        protocol=dict(default=None, choices=["tcp", "udp"]),
         tag_name=dict(default=None),
-        devicegroup=dict(default=None)
+        devicegroup=dict(default=None),
     )
-    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False,
-                           required_one_of=[['api_key', 'password']]
-                           )
+    module = AnsibleModule(
+        argument_spec=argument_spec,
+        supports_check_mode=False,
+        required_one_of=[["api_key", "password"]],
+    )
 
     module.deprecate(
-        'This module has been deprecated; use panos_match_rule',
-        version='3.0.0', collection_name='paloaltonetworks.panos'
+        "This module has been deprecated; use panos_match_rule",
+        version="3.0.0",
+        collection_name="paloaltonetworks.panos",
     )
 
     if not HAS_LIB:
-        module.fail_json(msg='Missing required libraries.')
+        module.fail_json(msg="Missing required libraries.")
 
     ip_address = module.params["ip_address"]
     password = module.params["password"]
-    username = module.params['username']
-    api_key = module.params['api_key']
+    username = module.params["username"]
+    api_key = module.params["api_key"]
     # application = module.params['application']
-    source_zone = module.params['source_zone']
-    source_ip = module.params['source_ip']
-    source_port = module.params['source_port']
-    destination_zone = module.params['destination_zone']
-    destination_ip = module.params['destination_ip']
-    destination_port = module.params['destination_port']
-    protocol = module.params['protocol']
-    tag_name = module.params['tag_name']
-    devicegroup = module.params['devicegroup']
+    source_zone = module.params["source_zone"]
+    source_ip = module.params["source_ip"]
+    source_port = module.params["source_port"]
+    destination_zone = module.params["destination_zone"]
+    destination_ip = module.params["destination_ip"]
+    destination_port = module.params["destination_port"]
+    protocol = module.params["protocol"]
+    tag_name = module.params["tag_name"]
+    devicegroup = module.params["devicegroup"]
 
     # Create the device with the appropriate pandevice type
-    device = base.PanDevice.create_from_device(ip_address, username, password, api_key=api_key)
+    device = base.PanDevice.create_from_device(
+        ip_address, username, password, api_key=api_key
+    )
 
     # Grab the global objects
     objects.AddressObject.refreshall(device)
@@ -377,7 +377,8 @@ def main():
         else:
             module.fail_json(
                 failed=1,
-                msg='\'%s\' device group not found in Panorama. Is the name correct?' % devicegroup
+                msg="'%s' device group not found in Panorama. Is the name correct?"
+                % devicegroup,
             )
 
     # Build the rulebase and produce list
@@ -392,7 +393,7 @@ def main():
 
         if source_zone:
             source_zone_match = False
-            if loose_match and 'any' in rule.fromzone:
+            if loose_match and "any" in rule.fromzone:
                 source_zone_match = True
             else:
                 for object_string in rule.fromzone:
@@ -402,7 +403,7 @@ def main():
 
         if destination_zone:
             destination_zone_match = False
-            if loose_match and 'any' in rule.tozone:
+            if loose_match and "any" in rule.tozone:
                 destination_zone_match = True
             else:
                 for object_string in rule.tozone:
@@ -412,7 +413,7 @@ def main():
 
         if source_ip:
             source_ip_match = False
-            if loose_match and 'any' in rule.source:
+            if loose_match and "any" in rule.source:
                 source_ip_match = True
             else:
                 for object_string in rule.source:
@@ -420,9 +421,9 @@ def main():
                     obj = get_object(device, dev_group, object_string)
                     # Otherwise the object_string is not an object and should be handled differently
                     if obj is False:
-                        if '-' in object_string:
+                        if "-" in object_string:
                             obj = ipaddress.ip_address(source_ip)
-                            source_range = object_string.split('-')
+                            source_range = object_string.split("-")
                             source_lower = ipaddress.ip_address(source_range[0])
                             source_upper = ipaddress.ip_address(source_range[1])
                             if source_lower <= obj <= source_upper:
@@ -430,7 +431,9 @@ def main():
                         else:
                             if source_ip == object_string:
                                 source_ip_match = True
-                    if isinstance(obj, objects.AddressObject) and addr_in_obj(source_ip, obj):
+                    if isinstance(obj, objects.AddressObject) and addr_in_obj(
+                        source_ip, obj
+                    ):
                         source_ip_match = True
                     elif isinstance(obj, objects.AddressGroup) and obj.static_value:
                         for member_string in obj.static_value:
@@ -441,7 +444,7 @@ def main():
 
         if destination_ip:
             destination_ip_match = False
-            if loose_match and 'any' in rule.destination:
+            if loose_match and "any" in rule.destination:
                 destination_ip_match = True
             else:
                 for object_string in rule.destination:
@@ -449,17 +452,23 @@ def main():
                     obj = get_object(device, dev_group, object_string)
                     # Otherwise the object_string is not an object and should be handled differently
                     if obj is False:
-                        if '-' in object_string:
+                        if "-" in object_string:
                             obj = ipaddress.ip_address(destination_ip)
-                            destination_range = object_string.split('-')
-                            destination_lower = ipaddress.ip_address(destination_range[0])
-                            destination_upper = ipaddress.ip_address(destination_range[1])
+                            destination_range = object_string.split("-")
+                            destination_lower = ipaddress.ip_address(
+                                destination_range[0]
+                            )
+                            destination_upper = ipaddress.ip_address(
+                                destination_range[1]
+                            )
                             if destination_lower <= obj <= destination_upper:
                                 destination_ip_match = True
                         else:
                             if destination_ip == object_string:
                                 destination_ip_match = True
-                    if isinstance(obj, objects.AddressObject) and addr_in_obj(destination_ip, obj):
+                    if isinstance(obj, objects.AddressObject) and addr_in_obj(
+                        destination_ip, obj
+                    ):
                         destination_ip_match = True
                     elif isinstance(obj, objects.AddressGroup) and obj.static_value:
                         for member_string in obj.static_value:
@@ -470,14 +479,16 @@ def main():
 
         if source_port:
             source_port_match = False
-            orientation = 'source'
-            if loose_match and (rule.service[0] == 'any'):
+            orientation = "source"
+            if loose_match and (rule.service[0] == "any"):
                 source_port_match = True
-            elif rule.service[0] == 'application-default':
+            elif rule.service[0] == "application-default":
                 source_port_match = False  # Fix this once apps are supported
             else:
                 service_list = []
-                service_list = get_services(device, dev_group, rule.service, service_list)
+                service_list = get_services(
+                    device, dev_group, rule.service, service_list
+                )
                 for obj in service_list:
                     if port_in_svc(orientation, source_port, protocol, obj):
                         source_port_match = True
@@ -486,14 +497,16 @@ def main():
 
         if destination_port:
             destination_port_match = False
-            orientation = 'destination'
-            if loose_match and (rule.service[0] == 'any'):
+            orientation = "destination"
+            if loose_match and (rule.service[0] == "any"):
                 destination_port_match = True
-            elif rule.service[0] == 'application-default':
+            elif rule.service[0] == "application-default":
                 destination_port_match = False  # Fix this once apps are supported
             else:
                 service_list = []
-                service_list = get_services(device, dev_group, rule.service, service_list)
+                service_list = get_services(
+                    device, dev_group, rule.service, service_list
+                )
                 for obj in service_list:
                     if port_in_svc(orientation, destination_port, protocol, obj):
                         destination_port_match = True
@@ -518,11 +531,12 @@ def main():
         output_string = xmltodict.parse(hitbase.element_str())
         module.exit_json(
             stdout_lines=json.dumps(output_string, indent=2),
-            msg='%s of %s rules matched' % (hitbase.children.__len__(), rulebase.children.__len__())
+            msg="%s of %s rules matched"
+            % (hitbase.children.__len__(), rulebase.children.__len__()),
         )
     else:
-        module.fail_json(msg='No matching rules found.')
+        module.fail_json(msg="No matching rules found.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_bgp
 short_description: Configures Border Gateway Protocol (BGP)
@@ -138,62 +139,60 @@ options:
             - Name of the virtual router; it must already exist.
         type: str
         default: "default"
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Configure and enable BGP
   panos_bgp:
     provider: '{{ provider }}'
     router_id: '1.1.1.1'
     local_as: '64512'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
-    from panos.network import Bgp
-    from panos.network import BgpRoutingOptions
-    from panos.network import VirtualRouter
+    from panos.network import Bgp, BgpRoutingOptions, VirtualRouter
 except ImportError:
     try:
         from pandevice.errors import PanDeviceError
-        from pandevice.network import Bgp
-        from pandevice.network import BgpRoutingOptions
-        from pandevice.network import VirtualRouter
+        from pandevice.network import Bgp, BgpRoutingOptions, VirtualRouter
     except ImportError:
         pass
 
 
 def setup_args():
     return dict(
-        enable=dict(default=True, type='bool'),
-        router_id=dict(type='str'),
-        reject_default_route=dict(type='bool', default=True),
-        allow_redist_default_route=dict(type='bool', default=False),
-        install_route=dict(type='bool', default=False),
-        ecmp_multi_as=dict(type='bool', default=False),
-        enforce_first_as=dict(type='bool', default=True),
-        local_as=dict(type='str'),
-        global_bfd_profile=dict(type='str'),
-        as_format=dict(type='str', default='2-byte', choices=['2-byte', '4-byte']),
-        always_compare_med=dict(type='bool', default=False),
-        deterministic_med_comparison=dict(type='bool', default=True),
-        default_local_preference=dict(type='int', default=100),
-        graceful_restart_enable=dict(type='bool', default=True),
-        gr_stale_route_time=dict(type='int'),
-        gr_local_restart_time=dict(type='int'),
-        gr_max_peer_restart_time=dict(type='int'),
-        reflector_cluster_id=dict(type='str'),
-        confederation_member_as=dict(type='str'),
-        aggregate_med=dict(type='bool', default=True),
-        vr_name=dict(default='default'),
-        commit=dict(type='bool', default=False),
+        enable=dict(default=True, type="bool"),
+        router_id=dict(type="str"),
+        reject_default_route=dict(type="bool", default=True),
+        allow_redist_default_route=dict(type="bool", default=False),
+        install_route=dict(type="bool", default=False),
+        ecmp_multi_as=dict(type="bool", default=False),
+        enforce_first_as=dict(type="bool", default=True),
+        local_as=dict(type="str"),
+        global_bfd_profile=dict(type="str"),
+        as_format=dict(type="str", default="2-byte", choices=["2-byte", "4-byte"]),
+        always_compare_med=dict(type="bool", default=False),
+        deterministic_med_comparison=dict(type="bool", default=True),
+        default_local_preference=dict(type="int", default=100),
+        graceful_restart_enable=dict(type="bool", default=True),
+        gr_stale_route_time=dict(type="int"),
+        gr_local_restart_time=dict(type="int"),
+        gr_max_peer_restart_time=dict(type="int"),
+        reflector_cluster_id=dict(type="str"),
+        confederation_member_as=dict(type="str"),
+        aggregate_med=dict(type="bool", default=True),
+        vr_name=dict(default="default"),
+        commit=dict(type="bool", default=False),
     )
 
 
@@ -215,34 +214,50 @@ def main():
     parent = helper.get_pandevice_parent(module)
 
     # Other params.
-    vr_name = module.params['vr_name']
-    commit = module.params['commit']
+    vr_name = module.params["vr_name"]
+    commit = module.params["commit"]
 
     vr = VirtualRouter(vr_name)
     parent.add(vr)
     try:
         vr.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
     parent = vr
 
     listing = parent.findall(Bgp)
 
     # Generate the kwargs for network.Bgp.
     bgp_params = [
-        'enable', 'router_id', 'reject_default_route', 'allow_redist_default_route',
-        'install_route', 'ecmp_multi_as', 'enforce_first_as', 'local_as', 'global_bfd_profile'
+        "enable",
+        "router_id",
+        "reject_default_route",
+        "allow_redist_default_route",
+        "install_route",
+        "ecmp_multi_as",
+        "enforce_first_as",
+        "local_as",
+        "global_bfd_profile",
     ]
     bgp_spec = dict((k, module.params[k]) for k in bgp_params)
 
     # Generate the kwargs for network.BgpRoutingOptions.
     bgp_routing_options_params = [
-        'as_format', 'always_compare_med', 'deterministic_med_comparison',
-        'default_local_preference', 'graceful_restart_enable',
-        'gr_stale_route_time', 'gr_local_restart_time', 'gr_max_peer_restart_time',
-        'reflector_cluster_id', 'confederation_member_as', 'aggregate_med',
+        "as_format",
+        "always_compare_med",
+        "deterministic_med_comparison",
+        "default_local_preference",
+        "graceful_restart_enable",
+        "gr_stale_route_time",
+        "gr_local_restart_time",
+        "gr_max_peer_restart_time",
+        "reflector_cluster_id",
+        "confederation_member_as",
+        "aggregate_med",
     ]
-    bgp_routing_options_spec = dict((k, module.params[k]) for k in bgp_routing_options_params)
+    bgp_routing_options_spec = dict(
+        (k, module.params[k]) for k in bgp_routing_options_params
+    )
 
     bgp = Bgp(**bgp_spec)
     bgp_routing_options = BgpRoutingOptions(**bgp_routing_options_spec)
@@ -250,13 +265,13 @@ def main():
     parent.add(bgp)
 
     # Apply the state.
-    changed, diff = helper.apply_state(bgp, listing, module, 'enable')
+    changed, diff = helper.apply_state(bgp, listing, module, "enable")
 
     if commit and changed:
         helper.commit(module)
 
-    module.exit_json(msg='BGP configuration successful.', changed=changed, diff=diff)
+    module.exit_json(msg="BGP configuration successful.", changed=changed, diff=diff)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

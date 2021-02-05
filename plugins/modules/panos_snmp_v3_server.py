@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_snmp_v3_server
 short_description: Manage SNMP v3 servers.
@@ -68,9 +69,9 @@ options:
         description:
             - Privacy protocol password.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create snmp v3 server
 - name: Create snmp v3 server
   panos_snmp_v3_server:
@@ -81,23 +82,23 @@ EXAMPLES = '''
     user: 'jdoe'
     auth_password: 'password'
     priv_password: 'drowssap'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.device import SnmpServerProfile
-    from panos.device import SnmpV3Server
+    from panos.device import SnmpServerProfile, SnmpV3Server
     from panos.errors import PanDeviceError
 except ImportError:
     try:
-        from pandevice.device import SnmpServerProfile
-        from pandevice.device import SnmpV3Server
+        from pandevice.device import SnmpServerProfile, SnmpV3Server
         from pandevice.errors import PanDeviceError
     except ImportError:
         pass
@@ -130,29 +131,29 @@ def main():
     # Verify imports, build pandevice object tree.
     parent = helper.get_pandevice_parent(module)
 
-    sp = SnmpServerProfile(module.params['snmp_profile'])
+    sp = SnmpServerProfile(module.params["snmp_profile"])
     parent.add(sp)
     try:
         sp.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     listing = sp.findall(SnmpV3Server)
 
     spec = {
-        'name': module.params['name'],
-        'manager': module.params['manager'],
-        'user': module.params['user'],
-        'engine_id': module.params['engine_id'],
-        'auth_password': module.params['auth_password'],
-        'priv_password': module.params['priv_password'],
+        "name": module.params["name"],
+        "manager": module.params["manager"],
+        "user": module.params["user"],
+        "engine_id": module.params["engine_id"],
+        "auth_password": module.params["auth_password"],
+        "priv_password": module.params["priv_password"],
     }
     obj = SnmpV3Server(**spec)
     sp.add(obj)
 
     changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff, msg='Done')
+    module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

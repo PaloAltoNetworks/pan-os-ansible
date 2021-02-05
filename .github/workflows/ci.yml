@@ -16,10 +16,6 @@ on:
 jobs:
   sanity:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.8]
-        ansible-version: ["2.9", "2.10"]
 
     defaults:
       run:
@@ -30,19 +26,24 @@ jobs:
         with:
           path: ./ansible_collections/paloaltonetworks/panos
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v2.2.1
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.6.8
 
-      - name: Install sanity dependencies
+      - name: Install dev dependencies
         run: |
-          pip install "ansible==${{ matrix.ansible-version }}.*"
-          pip install pycodestyle pylint voluptuous yamllint
+          python -m pip install --upgrade pip
+          pip install pipenv
+          python -m pipenv install --dev --system
+
+      - name: Check format
+        run: |
+          make check-format
 
       - name: ansible-test sanity
         run: |
-          ansible-test sanity plugins/
+          make sanity
 
   build:
     name: build
@@ -114,10 +115,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up Python 3.8
+      - name: Set up Python 3.6.8
         uses: actions/setup-python@v2.2.1
         with:
-          python-version: 3.8
+          python-version: 3.6.8
+
+      - name: Install dev dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pipenv
+          python -m pipenv install --dev --system
 
       - name: Download built collection
         uses: actions/download-artifact@v2
@@ -127,10 +134,6 @@ jobs:
       - name: Install built collection
         run:
           ansible-galaxy collection install *.tar.gz
-
-      - name: Install documentation utils
-        run: |
-          pip install Sphinx sphinx-rtd-theme ansible-doc-extractor
 
       - name: Generate documentation
         run: |

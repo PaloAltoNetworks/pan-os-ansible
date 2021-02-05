@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_pg
 short_description: create a security profiles group
@@ -72,9 +73,9 @@ options:
         description:
             - name of the wildfire analysis profile
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: setup security profile group
   panos_pg:
     provider: '{{ provider }}'
@@ -82,14 +83,16 @@ EXAMPLES = '''
     virus: "default"
     spyware: "default"
     vulnerability: "default"
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
@@ -117,7 +120,7 @@ def main():
             virus=dict(),
             vulnerability=dict(),
             wildfire=dict(),
-            commit=dict(type='bool', default=False)
+            commit=dict(type="bool", default=False),
         ),
     )
 
@@ -131,23 +134,23 @@ def main():
     parent = helper.get_pandevice_parent(module)
 
     # Other info.
-    commit = module.params['commit']
+    commit = module.params["commit"]
 
     # Retrieve current profiles.
     try:
         listing = SecurityProfileGroup.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     spec = {
-        'name': module.params['pg_name'],
-        'virus': module.params['virus'],
-        'spyware': module.params['spyware'],
-        'vulnerability': module.params['vulnerability'],
-        'url_filtering': module.params['url_filtering'],
-        'file_blocking': module.params['file_blocking'],
-        'data_filtering': module.params['data_filtering'],
-        'wildfire_analysis': module.params['wildfire'],
+        "name": module.params["pg_name"],
+        "virus": module.params["virus"],
+        "spyware": module.params["spyware"],
+        "vulnerability": module.params["vulnerability"],
+        "url_filtering": module.params["url_filtering"],
+        "file_blocking": module.params["file_blocking"],
+        "data_filtering": module.params["data_filtering"],
+        "wildfire_analysis": module.params["wildfire"],
     }
     obj = SecurityProfileGroup(**spec)
     parent.add(obj)
@@ -159,8 +162,8 @@ def main():
     if changed and commit:
         helper.commit(module)
 
-    module.exit_json(changed=changed, diff=diff, msg='done')
+    module.exit_json(changed=changed, diff=diff, msg="done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

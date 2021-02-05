@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_bgp_redistribute
 short_description: Configures a BGP Redistribution Rule
@@ -108,9 +109,9 @@ options:
             - See M(panos_virtual_router)
         type: str
         default: 'default'
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: BGP use Redistribution Policy 1
   panos_bgp_redistribute:
     provider: '{{ provider }}'
@@ -119,47 +120,49 @@ EXAMPLES = '''
     address_family_identifier: ipv4
     set_origin: incomplete
     vr_name: default
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
-    from panos.network import VirtualRouter
-    from panos.network import Bgp
-    from panos.network import BgpRedistributionRule
+    from panos.network import Bgp, BgpRedistributionRule, VirtualRouter
 except ImportError:
     try:
         from pandevice.errors import PanDeviceError
-        from pandevice.network import VirtualRouter
-        from pandevice.network import Bgp
-        from pandevice.network import BgpRedistributionRule
+        from pandevice.network import Bgp, BgpRedistributionRule, VirtualRouter
     except ImportError:
         pass
 
 
 def setup_args():
     return dict(
-        commit=dict(type='bool', default=False),
-
-        vr_name=dict(default='default'),
-
-        name=dict(type='str', required=True),
-        enable=dict(default=True, type='bool'),
-        address_family_identifier=dict(type='str', default='ipv4', choices=['ipv4', 'ipv6']),
-        route_table=dict(type='str', default='unicast', choices=['unicast', 'multicast', 'both']),
-        set_origin=dict(type='str', default='incomplete', choices=['igp', 'egp', 'incomplete']),
-        set_med=dict(type='int'),
-        set_local_preference=dict(type='int'),
-        set_as_path_limit=dict(type='int'),
-        set_community=dict(type='list', elements='str'),
-        set_extended_community=dict(type='list', elements='str'),
-        metric=dict(type='int'),
+        commit=dict(type="bool", default=False),
+        vr_name=dict(default="default"),
+        name=dict(type="str", required=True),
+        enable=dict(default=True, type="bool"),
+        address_family_identifier=dict(
+            type="str", default="ipv4", choices=["ipv4", "ipv6"]
+        ),
+        route_table=dict(
+            type="str", default="unicast", choices=["unicast", "multicast", "both"]
+        ),
+        set_origin=dict(
+            type="str", default="incomplete", choices=["igp", "egp", "incomplete"]
+        ),
+        set_med=dict(type="int"),
+        set_local_preference=dict(type="int"),
+        set_as_path_limit=dict(type="int"),
+        set_community=dict(type="list", elements="str"),
+        set_extended_community=dict(type="list", elements="str"),
+        metric=dict(type="int"),
     )
 
 
@@ -180,29 +183,29 @@ def main():
 
     parent = helper.get_pandevice_parent(module)
 
-    vr = VirtualRouter(module.params['vr_name'])
+    vr = VirtualRouter(module.params["vr_name"])
     parent.add(vr)
     try:
         vr.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
-    bgp = vr.find('', Bgp)
+    bgp = vr.find("", Bgp)
     if bgp is None:
         module.fail_json(msg='BGP is not configured for "{0}"'.format(vr.name))
 
     spec = {
-        'name': module.params['name'],
-        'enable': module.params['enable'],
-        'address_family_identifier': module.params['address_family_identifier'],
-        'route_table': module.params['route_table'],
-        'set_origin': module.params['set_origin'],
-        'set_med': module.params['set_med'],
-        'set_local_preference': module.params['set_local_preference'],
-        'set_as_path_limit': module.params['set_as_path_limit'],
-        'set_community': module.params['set_community'],
-        'set_extended_community': module.params['set_extended_community'],
-        'metric': module.params['metric'],
+        "name": module.params["name"],
+        "enable": module.params["enable"],
+        "address_family_identifier": module.params["address_family_identifier"],
+        "route_table": module.params["route_table"],
+        "set_origin": module.params["set_origin"],
+        "set_med": module.params["set_med"],
+        "set_local_preference": module.params["set_local_preference"],
+        "set_as_path_limit": module.params["set_as_path_limit"],
+        "set_community": module.params["set_community"],
+        "set_extended_community": module.params["set_extended_community"],
+        "metric": module.params["metric"],
     }
 
     listing = bgp.findall(BgpRedistributionRule)
@@ -211,11 +214,11 @@ def main():
 
     changed, diff = helper.apply_state(obj, listing, module)
 
-    if changed and module.params['commit']:
+    if changed and module.params["commit"]:
         helper.commit(module)
 
-    module.exit_json(changed=changed, diff=diff, msg='done')
+    module.exit_json(changed=changed, diff=diff, msg="done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

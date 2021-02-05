@@ -19,7 +19,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_software
 short_description: Manage PAN-OS software versions.
@@ -69,9 +69,9 @@ options:
             - Timeout value in seconds to wait for the device operation to complete
         type: int
         default: 1200
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Install PAN-OS 8.1.6 and restart
   panos_software:
     provider: '{{ provider }}'
@@ -92,21 +92,24 @@ EXAMPLES = '''
     sync_to_peer: true
     install: false
     restart: false
-'''
+"""
 
-RETURN = '''
+RETURN = """
 version:
     description: After performing the software install, returns the version installed on the device.
     type: str
     returned: on success
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos import PanOSVersion
     from panos.errors import PanDeviceError
+
+    from panos import PanOSVersion
 except ImportError:
     try:
         from pandevice import PanOSVersion
@@ -115,51 +118,60 @@ except ImportError:
         pass
 
 
-def check_download(device, version):
-    cmd = 'request system software info'
-    response = device.op(cmd=cmd)
+def needs_download(device, version):
+    device.software.info()
 
-    for entry in response.findall('./result/sw-updates/versions/entry'):
-        if version == entry.findtext('version'):
-            downloaded = entry.findtext('downloaded')
+    return not device.software.versions[str(version)]["downloaded"]
 
-            if downloaded == 'yes':
-                return True
-            else:
-                return False
 
-    return None
+def is_valid_upgrade(current, target):
+    # Patch version upgrade (major and minor versions match)
+    if (current.major == target.major) and (current.minor == target.minor):
+        return True
+
+    # Upgrade minor version (9.0.0 -> 9.1.0)
+    elif (current.major == target.major) and (current.minor + 1 == target.minor):
+        return True
+
+    # Upgrade major version (9.1.0 -> 10.0.0)
+    elif (current.major + 1 == target.major) and (target.minor == 0):
+        return True
+
+    else:
+        return False
 
 
 def main():
     helper = get_connection(
         with_classic_provider_spec=True,
         argument_spec=dict(
-            version=dict(type='str', required=True),
-            sync_to_peer=dict(type='bool', default=False),
-            download=dict(type='bool', default=True),
-            install=dict(type='bool', default=True),
-            restart=dict(type='bool', default=False),
-            timeout=dict(type='int', default=1200)
-        )
+            version=dict(type="str", required=True),
+            sync_to_peer=dict(type="bool", default=False),
+            download=dict(type="bool", default=True),
+            install=dict(type="bool", default=True),
+            restart=dict(type="bool", default=False),
+            timeout=dict(type="int", default=1200),
+        ),
     )
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         required_one_of=helper.required_one_of,
-        supports_check_mode=True
+        supports_check_mode=True,
     )
 
     # Verify libs are present, get parent object.
     device = helper.get_pandevice_parent(module)
 
     # Module params.
-    version = module.params['version']
-    sync_to_peer = module.params['sync_to_peer']
-    download = module.params['download']
-    install = module.params['install']
-    restart = module.params['restart']
-    timeout = module.params['timeout']
+    target = PanOSVersion(module.params["version"])
+    sync_to_peer = module.params["sync_to_peer"]
+    download = module.params["download"]
+    install = module.params["install"]
+    restart = module.params["restart"]
+    timeout = module.params["timeout"]
+
+    current = PanOSVersion(device.version)
 
     changed = False
 
@@ -167,21 +179,33 @@ def main():
         device.timeout = timeout
         device.software.check()
 
-        if PanOSVersion(version) != PanOSVersion(device.version):
+        if target != current:
+
+            if not is_valid_upgrade(current, target):
+                module.fail_json(
+                    msg="Upgrade is invalid: {0} -> {1}".format(current, target)
+                )
+
+            # Download new base version if needed.
+            if download and (
+                (current.major != target.major) or (current.minor != target.minor)
+            ):
+                base = PanOSVersion("{0}.{1}.0".format(target.major, target.minor))
+
+                if needs_download(device, base) and not module.check_mode:
+                    device.software.download(base, sync_to_peer, sync=True)
+                    changed = True
 
             if download:
-                downloaded = check_download(device, version)
-
-                # Only perform download if actually required.
-                if not downloaded:
-                    if not module.check_mode:
-                        device.software.download(version, sync_to_peer=sync_to_peer, sync=True)
-
+                if needs_download(device, target) and not module.check_mode:
+                    device.software.download(
+                        target, sync_to_peer=sync_to_peer, sync=True
+                    )
                     changed = True
 
             if install:
                 if not module.check_mode:
-                    device.software.install(version, sync=True)
+                    device.software.install(target, sync=True)
                 changed = True
 
             if restart:
@@ -192,8 +216,8 @@ def main():
     except PanDeviceError as e:
         module.fail_json(msg=e.message)
 
-    module.exit_json(changed=changed, version=version)
+    module.exit_json(changed=changed, version=str(target))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

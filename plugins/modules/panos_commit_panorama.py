@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_commit_panorama
 short_description: Commit Panorama's candidate configuration.
@@ -97,9 +98,9 @@ options:
             - Wait for the commit to complete.
         type: bool
         default: True
-'''
+"""
 
-EXAMPLES = r'''
+EXAMPLES = r"""
 - name: commit candidate configs on panorama
   panos_commit_panorama:
     provider: '{{ credentials }}'
@@ -120,9 +121,9 @@ EXAMPLES = r'''
     provider: '{{ credentials }}'
     log_collector_groups: ['us-west-loggers','apac-loggers','latam-loggers']
     description: 'Log collector changes'
-'''
+"""
 
-RETURN = r'''
+RETURN = r"""
 jobid:
   description: The ID of the PAN-OS commit job.
   type: int
@@ -133,10 +134,12 @@ details:
   type: str
   returned: on success
   sample: Configuration committed successfully
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.panorama import PanoramaCommit
@@ -149,26 +152,26 @@ def main():
         min_pandevice_version=(1, 0, 0),
         min_panos_version=(8, 0, 0),
         argument_spec=dict(
-            description=dict(type='str'),
-            admins=dict(type='list', elements='str'),
-            device_groups=dict(type='list', elements='str'),
-            templates=dict(type='list', elements='str'),
-            template_stacks=dict(type='list', elements='str'),
-            wildfire_appliances=dict(type='list', elements='str'),
-            wildfire_clusters=dict(type='list', elements='str'),
-            log_collectors=dict(type='list', elements='str'),
-            log_collector_groups=dict(type='list', elements='str'),
-            exclude_device_and_network=dict(type='bool', default=False),
-            exclude_shared_objects=dict(type='bool', default=False),
-            force=dict(type='bool', default=False),
-            sync=dict(type='bool', default=True)
-        )
+            description=dict(type="str"),
+            admins=dict(type="list", elements="str"),
+            device_groups=dict(type="list", elements="str"),
+            templates=dict(type="list", elements="str"),
+            template_stacks=dict(type="list", elements="str"),
+            wildfire_appliances=dict(type="list", elements="str"),
+            wildfire_clusters=dict(type="list", elements="str"),
+            log_collectors=dict(type="list", elements="str"),
+            log_collector_groups=dict(type="list", elements="str"),
+            exclude_device_and_network=dict(type="bool", default=False),
+            exclude_shared_objects=dict(type="bool", default=False),
+            force=dict(type="bool", default=False),
+            sync=dict(type="bool", default=True),
+        ),
     )
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         supports_check_mode=False,
-        required_one_of=helper.required_one_of
+        required_one_of=helper.required_one_of,
     )
 
     # Verify libs are present, get the parent object.
@@ -176,24 +179,24 @@ def main():
 
     # Construct the commit command
     cmd = PanoramaCommit(
-        description=module.params['description'],
-        admins=module.params['admins'],
-        device_groups=module.params['device_groups'],
-        templates=module.params['templates'],
-        template_stacks=module.params['template_stacks'],
-        wildfire_appliances=module.params['wildfire_appliances'],
-        wildfire_clusters=module.params['wildfire_clusters'],
-        log_collectors=module.params['log_collectors'],
-        log_collector_groups=module.params['log_collector_groups'],
-        exclude_device_and_network=module.params['exclude_device_and_network'],
-        exclude_shared_objects=module.params['exclude_shared_objects'],
-        force=module.params['force']
+        description=module.params["description"],
+        admins=module.params["admins"],
+        device_groups=module.params["device_groups"],
+        templates=module.params["templates"],
+        template_stacks=module.params["template_stacks"],
+        wildfire_appliances=module.params["wildfire_appliances"],
+        wildfire_clusters=module.params["wildfire_clusters"],
+        log_collectors=module.params["log_collectors"],
+        log_collector_groups=module.params["log_collector_groups"],
+        exclude_device_and_network=module.params["exclude_device_and_network"],
+        exclude_shared_objects=module.params["exclude_shared_objects"],
+        force=module.params["force"],
     )
 
     # Execute the commit
     commit_results = dict(changed=False, jobid=0)
     # commit_results = {}
-    sync = module.params['sync']
+    sync = module.params["sync"]
     result = parent.commit(cmd=cmd, sync=sync)
 
     # Exit with status
@@ -202,18 +205,18 @@ def main():
         pass
     elif not sync:
         # When sync is False only jobid is returned
-        commit_results['jobid'] = int(result)
-    elif not result['success']:
+        commit_results["jobid"] = int(result)
+    elif not result["success"]:
         # The commit failed
-        module.fail_json(msg=' | '.join(result["messages"]))
+        module.fail_json(msg=" | ".join(result["messages"]))
     else:
         # The commit succeeded
-        commit_results['changed'] = True
-        commit_results['jobid'] = result['jobid']
-        commit_results['details'] = result['messages']
+        commit_results["changed"] = True
+        commit_results["jobid"] = result["jobid"]
+        commit_results["details"] = result["messages"]
 
     module.exit_json(**commit_results)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

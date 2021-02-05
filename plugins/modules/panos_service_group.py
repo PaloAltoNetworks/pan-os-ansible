@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_service_group
 short_description: Create service group objects on PAN-OS devices.
@@ -55,9 +56,9 @@ options:
             - List of tags for this service group.
         type: list
         elements: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create service group 'Prod-Services'
   panos_service_group:
     provider: '{{ provider }}'
@@ -69,22 +70,24 @@ EXAMPLES = '''
     provider: '{{ provider }}'
     name: 'Prod-Services'
     state: 'absent'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.objects import ServiceGroup
     from panos.errors import PanDeviceError
+    from panos.objects import ServiceGroup
 except ImportError:
     try:
-        from pandevice.objects import ServiceGroup
         from pandevice.errors import PanDeviceError
+        from pandevice.objects import ServiceGroup
     except ImportError:
         pass
 
@@ -96,17 +99,17 @@ def main():
         with_classic_provider_spec=True,
         with_state=True,
         argument_spec=dict(
-            name=dict(type='str', required=True),
-            value=dict(type='list', elements='str'),
-            tag=dict(type='list', elements='str'),
-            commit=dict(type='bool', default=False)
-        )
+            name=dict(type="str", required=True),
+            value=dict(type="list", elements="str"),
+            tag=dict(type="list", elements="str"),
+            commit=dict(type="bool", default=False),
+        ),
     )
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         required_one_of=helper.required_one_of,
-        supports_check_mode=True
+        supports_check_mode=True,
     )
 
     # Verify libs are present, get parent object.
@@ -114,19 +117,19 @@ def main():
 
     # Object params.
     spec = {
-        'name': module.params['name'],
-        'value': module.params['value'],
-        'tag': module.params['tag']
+        "name": module.params["name"],
+        "value": module.params["value"],
+        "tag": module.params["tag"],
     }
 
     # Other info.
-    commit = module.params['commit']
+    commit = module.params["commit"]
 
     # Retrieve current info.
     try:
         listing = ServiceGroup.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     # Build the object based on the user spec.
     obj = ServiceGroup(**spec)
@@ -143,5 +146,5 @@ def main():
     module.exit_json(changed=changed, diff=diff)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

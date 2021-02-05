@@ -1,0 +1,29 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pan-os-python = "*"
+xmltodict = "*"
+requests = "*"
+requests-toolbelt = "*"
+
+[dev-packages]
+ansible = "*"
+pycodestyle = "*"
+pylint = "*"
+voluptuous = "*"
+yamllint = "*"
+rstcheck = "*"
+black = "*"
+isort = "*"
+sphinx = "*"
+sphinx-rtd-theme = "*"
+ansible-doc-extractor = "*"
+
+[requires]
+python_version = "3.6.8"
+
+[pipenv]
+allow_prereleases = true

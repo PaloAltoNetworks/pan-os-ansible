@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_management_profile
 short_description: Manage interface management profiles.
@@ -99,9 +100,9 @@ options:
             - The list of permitted IP addresses
         type: list
         elements: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: ensure mngt profile foo exists and allows ping and ssh
   panos_management_profile:
     provider: '{{ provider }}'
@@ -114,23 +115,25 @@ EXAMPLES = '''
     provider: '{{ provider }}'
     name: 'bar'
     state: 'absent'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values.
-'''
+"""
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import ManagementProfile
     from panos.errors import PanDeviceError
+    from panos.network import ManagementProfile
 except ImportError:
     try:
-        from pandevice.network import ManagementProfile
         from pandevice.errors import PanDeviceError
+        from pandevice.network import ManagementProfile
     except ImportError:
         pass
 
@@ -144,20 +147,19 @@ def main():
         min_pandevice_version=(0, 8, 0),
         argument_spec=dict(
             name=dict(required=True),
-            ping=dict(type='bool'),
-            telnet=dict(type='bool'),
-            ssh=dict(type='bool'),
-            http=dict(type='bool'),
-            http_ocsp=dict(type='bool'),
-            https=dict(type='bool'),
-            snmp=dict(type='bool'),
-            response_pages=dict(type='bool'),
-            userid_service=dict(type='bool'),
-            userid_syslog_listener_ssl=dict(type='bool'),
-            userid_syslog_listener_udp=dict(type='bool'),
-            permitted_ip=dict(type='list', elements='str'),
-            commit=dict(type='bool', default=False),
-
+            ping=dict(type="bool"),
+            telnet=dict(type="bool"),
+            ssh=dict(type="bool"),
+            http=dict(type="bool"),
+            http_ocsp=dict(type="bool"),
+            https=dict(type="bool"),
+            snmp=dict(type="bool"),
+            response_pages=dict(type="bool"),
+            userid_service=dict(type="bool"),
+            userid_syslog_listener_ssl=dict(type="bool"),
+            userid_syslog_listener_udp=dict(type="bool"),
+            permitted_ip=dict(type="list", elements="str"),
+            commit=dict(type="bool", default=False),
             # TODO(gfreeman) - Removed in the next role release.
             panorama_template=dict(),
         ),
@@ -169,45 +171,60 @@ def main():
     )
 
     # TODO(gfreeman) - Removed when "panorama_template" is removed.
-    if module.params['panorama_template'] is not None:
+    if module.params["panorama_template"] is not None:
         module.deprecate(
             'Param "panorama_template" is deprecated; use "template"',
-            version='3.0.0', collection_name='paloaltonetworks.panos'
+            version="3.0.0",
+            collection_name="paloaltonetworks.panos",
         )
-        if module.params['template'] is not None:
+        if module.params["template"] is not None:
             msg = [
                 'Both "template" and "panorama_template" have been given',
-                'Specify one or the other, not both.',
+                "Specify one or the other, not both.",
             ]
-            module.fail_json(msg='. '.join(msg))
-        module.params['template'] = module.params['panorama_template']
+            module.fail_json(msg=". ".join(msg))
+        module.params["template"] = module.params["panorama_template"]
 
     # Verify imports, build pandevice object tree.
     parent = helper.get_pandevice_parent(module)
 
     # Build the object based on the spec.
     obj = ManagementProfile(
-        *[module.params[x] for x in (
-            'name', 'ping', 'telnet', 'ssh', 'http', 'http_ocsp', 'https',
-            'snmp', 'response_pages', 'userid_service',
-            'userid_syslog_listener_ssl', 'userid_syslog_listener_udp',
-            'permitted_ip')])
+        *[
+            module.params[x]
+            for x in (
+                "name",
+                "ping",
+                "telnet",
+                "ssh",
+                "http",
+                "http_ocsp",
+                "https",
+                "snmp",
+                "response_pages",
+                "userid_service",
+                "userid_syslog_listener_ssl",
+                "userid_syslog_listener_udp",
+                "permitted_ip",
+            )
+        ]
+    )
     parent.add(obj)
 
     # Retrieve current config.
     try:
         profiles = ManagementProfile.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     # Perform requested action.
     changed, diff = helper.apply_state(obj, profiles, module)
-    if changed and module.params['commit']:
+    if changed and module.params["commit"]:
         helper.commit(module)
 
     # Done.
     module.exit_json(changed=changed, diff=diff, msg="Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

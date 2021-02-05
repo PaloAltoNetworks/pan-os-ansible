@@ -16,10 +16,11 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_bgp_dampening
 short_description: Configures a BGP Dampening Profile
@@ -77,49 +78,47 @@ options:
         description:
             - Reuse threshold value.
         type: float
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create BGP Dampening Profile
   panos_bgp_dampening:
     name: damp-profile-1
     enable: true
     commit: true
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
-    from panos.network import VirtualRouter
-    from panos.network import Bgp
-    from panos.network import BgpDampeningProfile
+    from panos.network import Bgp, BgpDampeningProfile, VirtualRouter
 except ImportError:
     try:
         from pandevice.errors import PanDeviceError
-        from pandevice.network import VirtualRouter
-        from pandevice.network import Bgp
-        from pandevice.network import BgpDampeningProfile
+        from pandevice.network import Bgp, BgpDampeningProfile, VirtualRouter
     except ImportError:
         pass
 
 
 def setup_args():
     return dict(
-        commit=dict(type='bool', default=False),
-        vr_name=dict(default='default'),
-        name=dict(type='str', required=True),
-        enable=dict(default=True, type='bool'),
-        cutoff=dict(type='float'),
-        reuse=dict(type='float'),
-        max_hold_time=dict(type='int'),
-        decay_half_life_reachable=dict(type='int'),
-        decay_half_life_unreachable=dict(type='int'),
+        commit=dict(type="bool", default=False),
+        vr_name=dict(default="default"),
+        name=dict(type="str", required=True),
+        enable=dict(default=True, type="bool"),
+        cutoff=dict(type="float"),
+        reuse=dict(type="float"),
+        max_hold_time=dict(type="int"),
+        decay_half_life_reachable=dict(type="int"),
+        decay_half_life_unreachable=dict(type="int"),
     )
 
 
@@ -141,26 +140,28 @@ def main():
     # Verify libs, initialize pandevice object tree.
     parent = helper.get_pandevice_parent(module)
 
-    vr = VirtualRouter(module.params['vr_name'])
+    vr = VirtualRouter(module.params["vr_name"])
     parent.add(vr)
     try:
         vr.refresh()
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
-    bgp = vr.find('', Bgp)
+    bgp = vr.find("", Bgp)
     if bgp is None:
-        module.fail_json(msg='BGP is not configured for virtual router "{0}"'.format(vr.name))
+        module.fail_json(
+            msg='BGP is not configured for virtual router "{0}"'.format(vr.name)
+        )
 
     listing = bgp.findall(BgpDampeningProfile)
     spec = {
-        'name': module.params['name'],
-        'enable': module.params['enable'],
-        'cutoff': module.params['cutoff'],
-        'reuse': module.params['reuse'],
-        'max_hold_time': module.params['max_hold_time'],
-        'decay_half_life_reachable': module.params['decay_half_life_reachable'],
-        'decay_half_life_unreachable': module.params['decay_half_life_unreachable'],
+        "name": module.params["name"],
+        "enable": module.params["enable"],
+        "cutoff": module.params["cutoff"],
+        "reuse": module.params["reuse"],
+        "max_hold_time": module.params["max_hold_time"],
+        "decay_half_life_reachable": module.params["decay_half_life_reachable"],
+        "decay_half_life_unreachable": module.params["decay_half_life_unreachable"],
     }
     obj = BgpDampeningProfile(**spec)
     bgp.add(obj)
@@ -169,11 +170,11 @@ def main():
     changed, diff = helper.apply_state(obj, listing, module)
 
     # Optional commit.
-    if changed and module.params['commit']:
+    if changed and module.params["commit"]:
         helper.commit(module)
 
-    module.exit_json(changed=changed, diff=diff, msg='done')
+    module.exit_json(changed=changed, diff=diff, msg="done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

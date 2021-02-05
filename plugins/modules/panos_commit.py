@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_commit
 short_description: Commit a PAN-OS device's candidate configuration.
@@ -56,9 +57,9 @@ options:
             - (PanOS 8.0+ only) Commit only the changes made by specified list of administrators.
         type: list
         elements: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: commit candidate config on firewall
   panos_commit:
     provider: '{{ provider }}'
@@ -72,14 +73,16 @@ EXAMPLES = '''
   panos_commit:
     provider: '{{ provider }}'
     admins: ['admin1','admin2']
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 
 def main():
@@ -88,8 +91,8 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 12, 0),
         argument_spec=dict(
-            include_template=dict(type='bool'),
-            admins=dict(type='list', elements='str'),
+            include_template=dict(type="bool"),
+            admins=dict(type="list", elements="str"),
             # TODO(gfreeman) - remove in 2.12.
             devicegroup=dict(),
         ),
@@ -102,35 +105,37 @@ def main():
     )
 
     module.deprecate(
-        'This module is deprecated; use panos_commit_firewall, panos_commit_panorama, panos_commit_push',
-        version='3.0.0', collection_name='paloaltonetworks.panos'
+        "This module is deprecated; use panos_commit_firewall, panos_commit_panorama, panos_commit_push",
+        version="3.0.0",
+        collection_name="paloaltonetworks.panos",
     )
 
     changed = False
 
     # TODO(gfreeman) - remove in 2.12
-    if module.params['devicegroup'] is not None:
+    if module.params["devicegroup"] is not None:
         module.deprecate(
             'Param "devicegroup" is deprecated; use "device_group"',
-            version='3.0.0', collection_name='paloaltonetworks.panos'
+            version="3.0.0",
+            collection_name="paloaltonetworks.panos",
         )
-        if module.params['device_group'] is not None:
+        if module.params["device_group"] is not None:
             msg = [
                 'Both "devicegroup" and "device_group" specified',
-                'please use one or the other.',
+                "please use one or the other.",
             ]
-            module.fail_json(msg='; '.join(msg))
-        module.params['device_group'] = module.params['devicegroup']
+            module.fail_json(msg="; ".join(msg))
+        module.params["device_group"] = module.params["devicegroup"]
 
     helper.get_pandevice_parent(module)
     changed = helper.commit(
         module,
-        include_template=module.params['include_template'],
-        admins=module.params['admins'],
+        include_template=module.params["include_template"],
+        admins=module.params["admins"],
     )
 
     module.exit_json(changed=changed)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

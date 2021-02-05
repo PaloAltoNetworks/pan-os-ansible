@@ -16,13 +16,16 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    "metadata_version": "1.1",
+    "status": ["preview"],
+    "supported_by": "community",
+}
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_schedule_object
 short_description: Create schedule objects on PAN-OS devices.
@@ -110,9 +113,9 @@ options:
             - Time range (e.x. '17:00-19:00') for a weekly recurring schedule (Saturday)
         type: list
         elements: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create schedule object
   panos_schedule_object:
     provider: '{{ provider }}'
@@ -128,22 +131,24 @@ EXAMPLES = '''
     name: 'Week-of-Sept-21'
     type: 'non-recurring'
     non_recurring_date_time: '2020/09/21@00:15-2020/09/25@17:00'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.objects import ScheduleObject
     from panos.errors import PanDeviceError
+    from panos.objects import ScheduleObject
 except ImportError:
     try:
-        from pandevice.objects import ScheduleObject
         from pandevice.errors import PanDeviceError
+        from pandevice.objects import ScheduleObject
     except ImportError:
         pass
 
@@ -155,50 +160,50 @@ def main():
         with_classic_provider_spec=True,
         with_state=True,
         argument_spec=dict(
-            name=dict(type='str', required=True),
-            disable_override=dict(type='bool'),
-            type=dict(type='str', choices=['recurring', 'non-recurring']),
-            non_recurring_date_time=dict(type='list', elements='str'),
-            recurrence=dict(type='str', choices=['daily', 'weekly']),
-            daily_time=dict(type='list', elements='str'),
-            weekly_sunday_time=dict(type='list', elements='str'),
-            weekly_monday_time=dict(type='list', elements='str'),
-            weekly_tuesday_time=dict(type='list', elements='str'),
-            weekly_wednesday_time=dict(type='list', elements='str'),
-            weekly_thursday_time=dict(type='list', elements='str'),
-            weekly_friday_time=dict(type='list', elements='str'),
-            weekly_saturday_time=dict(type='list', elements='str')
-        )
+            name=dict(type="str", required=True),
+            disable_override=dict(type="bool"),
+            type=dict(type="str", choices=["recurring", "non-recurring"]),
+            non_recurring_date_time=dict(type="list", elements="str"),
+            recurrence=dict(type="str", choices=["daily", "weekly"]),
+            daily_time=dict(type="list", elements="str"),
+            weekly_sunday_time=dict(type="list", elements="str"),
+            weekly_monday_time=dict(type="list", elements="str"),
+            weekly_tuesday_time=dict(type="list", elements="str"),
+            weekly_wednesday_time=dict(type="list", elements="str"),
+            weekly_thursday_time=dict(type="list", elements="str"),
+            weekly_friday_time=dict(type="list", elements="str"),
+            weekly_saturday_time=dict(type="list", elements="str"),
+        ),
     )
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         required_one_of=helper.required_one_of,
-        supports_check_mode=True
+        supports_check_mode=True,
     )
 
     parent = helper.get_pandevice_parent(module)
 
     spec = {
-        'name': module.params['name'],
-        'disable_override': module.params['disable_override'],
-        'type': module.params['type'],
-        'non_recurring_date_time': module.params['non_recurring_date_time'],
-        'recurrence': module.params['recurrence'],
-        'daily_time': module.params['daily_time'],
-        'weekly_sunday_time': module.params['weekly_sunday_time'],
-        'weekly_monday_time': module.params['weekly_monday_time'],
-        'weekly_tuesday_time': module.params['weekly_tuesday_time'],
-        'weekly_wednesday_time': module.params['weekly_wednesday_time'],
-        'weekly_thursday_time': module.params['weekly_thursday_time'],
-        'weekly_friday_time': module.params['weekly_friday_time'],
-        'weekly_saturday_time': module.params['weekly_saturday_time']
+        "name": module.params["name"],
+        "disable_override": module.params["disable_override"],
+        "type": module.params["type"],
+        "non_recurring_date_time": module.params["non_recurring_date_time"],
+        "recurrence": module.params["recurrence"],
+        "daily_time": module.params["daily_time"],
+        "weekly_sunday_time": module.params["weekly_sunday_time"],
+        "weekly_monday_time": module.params["weekly_monday_time"],
+        "weekly_tuesday_time": module.params["weekly_tuesday_time"],
+        "weekly_wednesday_time": module.params["weekly_wednesday_time"],
+        "weekly_thursday_time": module.params["weekly_thursday_time"],
+        "weekly_friday_time": module.params["weekly_friday_time"],
+        "weekly_saturday_time": module.params["weekly_saturday_time"],
     }
 
     try:
         listing = ScheduleObject.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     obj = ScheduleObject(**spec)
     parent.add(obj)
@@ -207,5 +212,5 @@ def main():
     module.exit_json(changed=changed, diff=diff)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

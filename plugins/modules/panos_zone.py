@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_zone
 short_description: configure security zone
@@ -85,9 +86,9 @@ options:
             - User identification ACL exclude list.
         type: list
         elements: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Create an L3 zone.
 - name: create DMZ zone on a firewall
   panos_zone:
@@ -122,23 +123,24 @@ EXAMPLES = '''
     mode: 'layer3'
     enable_userid: true
     exclude_acl: ['10.0.200.0/24']
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
-
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
-    from panos.network import Zone
     from panos.errors import PanDeviceError
+    from panos.network import Zone
 except ImportError:
     try:
-        from pandevice.network import Zone
         from pandevice.errors import PanDeviceError
+        from pandevice.network import Zone
     except ImportError:
         pass
 
@@ -152,13 +154,16 @@ def main():
         with_classic_provider_spec=True,
         argument_spec=dict(
             zone=dict(required=True),
-            mode=dict(choices=['tap', 'virtual-wire', 'layer2', 'layer3', 'external'], default='layer3'),
-            interface=dict(type='list', elements='str'),
+            mode=dict(
+                choices=["tap", "virtual-wire", "layer2", "layer3", "external"],
+                default="layer3",
+            ),
+            interface=dict(type="list", elements="str"),
             zone_profile=dict(),
             log_setting=dict(),
-            enable_userid=dict(type='bool', default=False),
-            include_acl=dict(type='list', elements='str'),
-            exclude_acl=dict(type='list', elements='str'),
+            enable_userid=dict(type="bool", default=False),
+            include_acl=dict(type="list", elements="str"),
+            exclude_acl=dict(type="list", elements="str"),
         ),
     )
     module = AnsibleModule(
@@ -172,21 +177,21 @@ def main():
 
     # Set the Zone object params
     zone_spec = {
-        'name': module.params['zone'],
-        'mode': module.params['mode'],
-        'interface': module.params['interface'],
-        'zone_profile': module.params['zone_profile'],
-        'log_setting': module.params['log_setting'],
-        'enable_user_identification': module.params['enable_userid'],
-        'include_acl': module.params['include_acl'],
-        'exclude_acl': module.params['exclude_acl']
+        "name": module.params["zone"],
+        "mode": module.params["mode"],
+        "interface": module.params["interface"],
+        "zone_profile": module.params["zone_profile"],
+        "log_setting": module.params["log_setting"],
+        "enable_user_identification": module.params["enable_userid"],
+        "include_acl": module.params["include_acl"],
+        "exclude_acl": module.params["exclude_acl"],
     }
 
     # Retrieve the current list of zones
     try:
         zones = Zone.refreshall(parent, add=False)
     except PanDeviceError as e:
-        module.fail_json(msg='Failed refresh: {0}'.format(e))
+        module.fail_json(msg="Failed refresh: {0}".format(e))
 
     # Build the zone and attach to the parent
     new_zone = Zone(**zone_spec)
@@ -196,8 +201,8 @@ def main():
     changed, diff = helper.apply_state(new_zone, zones, module)
 
     # Done!
-    module.exit_json(changed=changed, diff=diff, msg='Done!')
+    module.exit_json(changed=changed, diff=diff, msg="Done!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

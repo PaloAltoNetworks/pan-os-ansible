@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_admin
 short_description: Add or modify PAN-OS user accounts password.
@@ -79,9 +80,9 @@ options:
         required: false
         type: str
         default: null
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Set the password of user admin to "badpassword"
   - name: set admin password
     panos_admin:
@@ -89,19 +90,20 @@ EXAMPLES = '''
       password: "admin"
       admin_username: admin
       admin_password: "badpassword"
-'''
+"""
 
-RETURN = '''
+RETURN = """
 status:
     description: success status
     returned: success
     type: str
     sample: "okey dokey"
-'''
+"""
 from ansible.module_utils.basic import AnsibleModule
 
 try:
     import pan.xapi
+
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
@@ -111,19 +113,20 @@ _ADMIN_XPATH = "/config/mgt-config/users/entry[@name='%s']"
 
 def admin_exists(xapi, admin_username):
     xapi.get(_ADMIN_XPATH % admin_username)
-    e = xapi.element_root.find('.//entry')
+    e = xapi.element_root.find(".//entry")
     return e
 
 
 def admin_set(xapi, module, admin_username, admin_password, role):
     if admin_password is not None:
-        xapi.op(cmd='request password-hash password "%s"' % admin_password,
-                cmd_xml=True)
+        xapi.op(
+            cmd='request password-hash password "%s"' % admin_password, cmd_xml=True
+        )
         r = xapi.element_root
-        phash = r.find('.//phash').text
+        phash = r.find(".//phash").text
     if role is not None:
         rbval = "yes"
-        if role != "superuser" and role != 'superreader':
+        if role != "superuser" and role != "superreader":
             rbval = ""
 
     ea = admin_exists(xapi, admin_username)
@@ -132,22 +135,23 @@ def admin_set(xapi, module, admin_username, admin_password, role):
         changed = False
 
         if role is not None:
-            rb = ea.find('.//role-based')
+            rb = ea.find(".//role-based")
             if rb is not None:
                 if rb[0].tag != role:
                     changed = True
                     xpath = _ADMIN_XPATH % admin_username
-                    xpath += '/permissions/role-based/%s' % rb[0].tag
+                    xpath += "/permissions/role-based/%s" % rb[0].tag
                     xapi.delete(xpath=xpath)
 
                     xpath = _ADMIN_XPATH % admin_username
-                    xpath += '/permissions/role-based'
-                    xapi.set(xpath=xpath,
-                             element='<%s>%s</%s>' % (role, rbval, role))
+                    xpath += "/permissions/role-based"
+                    xapi.set(xpath=xpath, element="<%s>%s</%s>" % (role, rbval, role))
 
         if admin_password is not None:
-            xapi.edit(xpath=_ADMIN_XPATH % admin_username + '/phash',
-                      element='<phash>%s</phash>' % phash)
+            xapi.edit(
+                xpath=_ADMIN_XPATH % admin_username + "/phash",
+                element="<phash>%s</phash>" % phash,
+            )
             changed = True
 
         return changed
@@ -155,11 +159,13 @@ def admin_set(xapi, module, admin_username, admin_password, role):
     # setup the non encrypted part of the monitor
     exml = []
 
-    exml.append('<phash>%s</phash>' % phash)
-    exml.append('<permissions><role-based><%s>%s</%s>'
-                '</role-based></permissions>' % (role, rbval, role))
+    exml.append("<phash>%s</phash>" % phash)
+    exml.append(
+        "<permissions><role-based><%s>%s</%s>"
+        "</role-based></permissions>" % (role, rbval, role)
+    )
 
-    exml = ''.join(exml)
+    exml = "".join(exml)
     # module.fail_json(msg=exml)
 
     xapi.set(xpath=_ADMIN_XPATH % admin_username, element=exml)
@@ -172,48 +178,53 @@ def main():
         ip_address=dict(required=True),
         port=dict(default=443),
         password=dict(no_log=True),
-        username=dict(default='admin'),
+        username=dict(default="admin"),
         api_key=dict(no_log=True),
-        admin_username=dict(default='admin'),
+        admin_username=dict(default="admin"),
         admin_password=dict(no_log=True, required=True),
         role=dict(),
-        commit=dict(type='bool', default=False)
+        commit=dict(type="bool", default=False),
     )
-    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False,
-                           required_one_of=[['api_key', 'password']])
+    module = AnsibleModule(
+        argument_spec=argument_spec,
+        supports_check_mode=False,
+        required_one_of=[["api_key", "password"]],
+    )
 
     module.deprecate(
-        'This module is deprecated; use panos_administrator',
-        version='3.0.0', collection_name='paloaltonetworks.panos'
+        "This module is deprecated; use panos_administrator",
+        version="3.0.0",
+        collection_name="paloaltonetworks.panos",
     )
 
     if not HAS_LIB:
-        module.fail_json(msg='Missing required libraries.')
+        module.fail_json(msg="Missing required libraries.")
 
     ip_address = module.params["ip_address"]
-    port = module.params['port']
+    port = module.params["port"]
     password = module.params["password"]
-    username = module.params['username']
-    api_key = module.params['api_key']
-    admin_username = module.params['admin_username']
-    admin_password = module.params['admin_password']
-    role = module.params['role']
-    commit = module.params['commit']
+    username = module.params["username"]
+    api_key = module.params["api_key"]
+    admin_username = module.params["admin_username"]
+    admin_password = module.params["admin_password"]
+    role = module.params["role"]
+    commit = module.params["commit"]
 
     xapi = pan.xapi.PanXapi(
         hostname=ip_address,
         api_username=username,
         api_password=password,
         api_key=api_key,
-        port=port
+        port=port,
     )
 
     changed = admin_set(xapi, module, admin_username, admin_password, role)
 
     if commit:
         module.deprecate(
-            'Please use the commit modules instead of the commit option.',
-            version='3.0.0', collection_name='paloaltonetworks.panos'
+            "Please use the commit modules instead of the commit option.",
+            version="3.0.0",
+            collection_name="paloaltonetworks.panos",
         )
 
     if changed and commit:
@@ -222,5 +233,5 @@ def main():
     module.exit_json(changed=changed, msg="okey dokey")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

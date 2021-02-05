@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_loadcfg
 short_description: load configuration on PAN-OS device
@@ -56,9 +57,9 @@ options:
         type: bool
         required: false
         default: false
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 # Import and load config file from URL
   - name: import configuration
     panos_import:
@@ -72,16 +73,17 @@ EXAMPLES = '''
       ip_address: "192.168.1.1"
       password: "admin"
       file: "{{result.filename}}"
-'''
+"""
 
-RETURN = '''
+RETURN = """
 # Default return values
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
 
 try:
     import pan.xapi
+
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
@@ -89,8 +91,7 @@ except ImportError:
 
 def load_cfgfile(xapi, module, ip_address, file_):
     # load configuration file
-    cmd = '<load><config><from>%s</from></config></load>' %\
-          file_
+    cmd = "<load><config><from>%s</from></config></load>" % file_
 
     xapi.op(cmd=cmd)
 
@@ -101,24 +102,22 @@ def main():
     argument_spec = dict(
         ip_address=dict(required=True),
         password=dict(required=True, no_log=True),
-        username=dict(default='admin'),
+        username=dict(default="admin"),
         file=dict(),
-        commit=dict(type='bool', default=False)
+        commit=dict(type="bool", default=False),
     )
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False)
     if not HAS_LIB:
-        module.fail_json(msg='pan-python is required for this module')
+        module.fail_json(msg="pan-python is required for this module")
 
     ip_address = module.params["ip_address"]
     password = module.params["password"]
-    username = module.params['username']
-    file_ = module.params['file']
-    commit = module.params['commit']
+    username = module.params["username"]
+    file_ = module.params["file"]
+    commit = module.params["commit"]
 
     xapi = pan.xapi.PanXapi(
-        hostname=ip_address,
-        api_username=username,
-        api_password=password
+        hostname=ip_address, api_username=username, api_password=password
     )
 
     changed = load_cfgfile(xapi, module, ip_address, file_)
@@ -128,5 +127,5 @@ def main():
     module.exit_json(changed=changed, msg="okey dokey")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

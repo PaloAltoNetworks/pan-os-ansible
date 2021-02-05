@@ -16,9 +16,10 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: panos_match_rule
 short_description: Test for match against a security rule on PAN-OS devices.
@@ -103,9 +104,9 @@ options:
             - B(DEPRECATED)
             - This is no longer used and may safely be removed from your playbook.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: check security rules for Google DNS
   panos_match_rule:
     provider: '{{ provider }}'
@@ -166,9 +167,9 @@ EXAMPLES = '''
     protocol: '6'
   register: result
 - debug: msg='{{ result.rule }}'
-'''
+"""
 
-RETURN = '''
+RETURN = """
 stdout_lines:
     description: B(DEPRECATED); use "rule" instead
     returned: always
@@ -181,22 +182,22 @@ rulebase:
     description: Rule location; panorama-pre-rulebase, firewall-rulebase, or panorama-post-rulebase
     returned: always
     type: str
-'''
+"""
 
 import json
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import get_connection
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
-    from panos.policies import NatRule
-    from panos.policies import SecurityRule
+    from panos.policies import NatRule, SecurityRule
 except ImportError:
     try:
         from pandevice.errors import PanDeviceError
-        from pandevice.policies import NatRule
-        from pandevice.policies import SecurityRule
+        from pandevice.policies import NatRule, SecurityRule
     except ImportError:
         pass
 
@@ -204,8 +205,9 @@ except ImportError:
 # TODO(gfreeman) - Remove this dependency in the next role release.
 HAS_LIB = True
 try:
-    import xmltodict
     import xml.etree.ElementTree as ET
+
+    import xmltodict
 except ImportError:
     HAS_LIB = False
 
@@ -214,21 +216,20 @@ def main():
     helper = get_connection(
         vsys=True,
         with_classic_provider_spec=True,
-        panorama_error='Panorama is not supported',
+        panorama_error="Panorama is not supported",
         argument_spec=dict(
-            rule_type=dict(default='security', choices=['security', 'nat']),
+            rule_type=dict(default="security", choices=["security", "nat"]),
             source_zone=dict(),
             source_ip=dict(required=True),
-            source_port=dict(type='int'),
+            source_port=dict(type="int"),
             source_user=dict(),
             to_interface=dict(),
             destination_zone=dict(),
             destination_ip=dict(required=True),
-            destination_port=dict(required=True, type='int'),
+            destination_port=dict(required=True, type="int"),
             application=dict(),
-            protocol=dict(required=True, type='int'),
+            protocol=dict(required=True, type="int"),
             category=dict(),
-
             # TODO(gfreeman) - Remove this in the next role release.
             vsys_id=dict(),
             rulebase=dict(),
@@ -243,34 +244,58 @@ def main():
 
     # TODO(gfreeman) - Remove this in the next role release.
     if not HAS_LIB:
-        module.fail_json(msg='Missing xmltodict library')
-    if module.params['vsys_id'] is not None:
+        module.fail_json(msg="Missing xmltodict library")
+    if module.params["vsys_id"] is not None:
         module.fail_json(msg='Param "vsys_id" is removed; use vsys')
-    if module.params['rulebase'] is not None:
+    if module.params["rulebase"] is not None:
         module.deprecate(
             'Param "rulebase" is deprecated and may safely be removed from your playbook',
-            version='3.0.0',
-            collection_name='paloaltonetworks.panos'
+            version="3.0.0",
+            collection_name="paloaltonetworks.panos",
         )
 
     parent = helper.get_pandevice_parent(module)
 
     params = (
-        ('application', 'application', ['security', ]),
-        ('category', 'category', ['security', ]),
-        ('destination_ip', 'destination', ['security', 'nat']),
-        ('destination_port', 'destination-port', ['security', 'nat']),
-        ('source_zone', 'from', ['security', 'nat']),
-        ('protocol', 'protocol', ['security', 'nat']),
-        ('source_ip', 'source', ['security', 'nat']),
-        ('source_user', 'source-user', ['security', ]),
-        ('destination_zone', 'to', ['security', 'nat']),
-        ('to_interface', 'to-interface', ['nat', ]),
+        (
+            "application",
+            "application",
+            [
+                "security",
+            ],
+        ),
+        (
+            "category",
+            "category",
+            [
+                "security",
+            ],
+        ),
+        ("destination_ip", "destination", ["security", "nat"]),
+        ("destination_port", "destination-port", ["security", "nat"]),
+        ("source_zone", "from", ["security", "nat"]),
+        ("protocol", "protocol", ["security", "nat"]),
+        ("source_ip", "source", ["security", "nat"]),
+        (
+            "source_user",
+            "source-user",
+            [
+                "security",
+            ],
+        ),
+        ("destination_zone", "to", ["security", "nat"]),
+        (
+            "to_interface",
+            "to-interface",
+            [
+                "nat",
+            ],
+        ),
     )
 
     cmd = []
-    rtype = module.params['rule_type']
-    vsys = module.params['vsys']
+    rtype = module.params["rule_type"]
+    vsys = module.params["vsys"]
 
     # This module used to refreshall on either the security rules or the NAT
     # rules, however if the rule matched came from Panorama, then this module
@@ -280,25 +305,25 @@ def main():
     # this back to using normal pandevice objects.
     rule_locations = (
         (
-            'panorama-pre-rulebase',
+            "panorama-pre-rulebase",
             "/config/panorama/vsys/entry[@name='{0}']/pre-rulebase",
         ),
         (
-            'firewall-rulebase',
+            "firewall-rulebase",
             "/config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name='{0}']/rulebase",
         ),
         (
-            'panorama-post-rulebase',
+            "panorama-post-rulebase",
             "/config/panorama/vsys/entry[@name='{0}']/post-rulebase",
         ),
     )
     suffix = "/{0}/rules/entry[@name='{1}']"
 
-    if rtype == 'security':
-        cmd.append('test security-policy-match')
+    if rtype == "security":
+        cmd.append("test security-policy-match")
         obj = SecurityRule()
     else:
-        cmd.append('test nat-policy-match')
+        cmd.append("test nat-policy-match")
         obj = NatRule()
     parent.add(obj)
 
@@ -308,58 +333,59 @@ def main():
         cmd.append('{0} "{1}"'.format(cmd_param, module.params[ansible_param]))
 
     # Submit the op command with the appropriate test string
-    test_string = ' '.join(cmd)
+    test_string = " ".join(cmd)
     try:
         response = helper.device.op(cmd=test_string, vsys=parent.vsys)
     except PanDeviceError as e:
         module.fail_json(msg='Failed "{0}": {1}'.format(test_string, e))
 
-    elm = response.find('./result/rules/entry')
-    elm2 = response.find('./result/msg/line')
+    elm = response.find("./result/rules/entry")
+    elm2 = response.find("./result/msg/line")
     if elm is not None:
         try:
-            rule_name = elm.attrib['name']
+            rule_name = elm.attrib["name"]
         except KeyError:
             rule_name = elm.text
     elif elm2 is not None:
-        '''
-        From 8.1 (matching Panorama rule):
-        NOTE: Ending newlines have been truncated to appease codestyle rules.
+        """
+                From 8.1 (matching Panorama rule):
+                NOTE: Ending newlines have been truncated to appease codestyle rules.
 
-<response cmd="status" status="success"><result><msg><line><![CDATA["Rule Name; index: 1" {
-        from L3-trust;
-        source [ 10.0.0.1 1.1.1.1 ];
-        source-region none;
-        to L3-untrust;
-        destination [ 8.8.8.8 ];
-        destination-region none;
-        user any;
-        category any;
-        application/service [0:any/tcp/any/21 1:any/tcp/any/22 ];
-        action allow;
-        icmp-unreachable: no
-        terminal yes;
-}
+        <response cmd="status" status="success"><result><msg><line><![CDATA["Rule Name; index: 1" {
+                from L3-trust;
+                source [ 10.0.0.1 1.1.1.1 ];
+                source-region none;
+                to L3-untrust;
+                destination [ 8.8.8.8 ];
+                destination-region none;
+                user any;
+                category any;
+                application/service [0:any/tcp/any/21 1:any/tcp/any/22 ];
+                action allow;
+                icmp-unreachable: no
+                terminal yes;
+        }
 
-]]></line></msg></result></response>
-        '''
-        rule_name = elm2.text.split(';')[0].split('"')[1].strip()
+        ]]></line></msg></result></response>
+        """
+        rule_name = elm2.text.split(";")[0].split('"')[1].strip()
     else:
-        msg = 'No matching {0} rule; resp = {1}'.format(
-            rtype, ET.tostring(response, encoding='utf-8'),
+        msg = "No matching {0} rule; resp = {1}".format(
+            rtype,
+            ET.tostring(response, encoding="utf-8"),
         )
         module.exit_json(msg=msg, rule=[])
 
-    '''
+    """
     Example response (newlines after newlines to appease pycodestyle line length limitations):
 
     <response cmd="status" status="success"><result><rules>\n
 \t<entry>deny all and log; index: 3</entry>\n
 </rules>\n
 </result></response>
-    '''
-    tokens = rule_name.split(';')
-    if len(tokens) == 2 and tokens[1].startswith(' index: '):
+    """
+    tokens = rule_name.split(";")
+    if len(tokens) == 2 and tokens[1].startswith(" index: "):
         rule_name = tokens[0]
 
     fw = obj.nearest_pandevice()
@@ -368,23 +394,27 @@ def main():
         ans = fw.xapi.get(xpath)
         if ans is None:
             continue
-        rules = obj.refreshall_from_xml(ans.find('./result'))
+        rules = obj.refreshall_from_xml(ans.find("./result"))
         if rules:
             x = rules[0]
             module.deprecate(
                 'The "stdout_lines" output is deprecated; use "rule" instead',
-                version='3.0.0',
-                collection_name='paloaltonetworks.panos',
+                version="3.0.0",
+                collection_name="paloaltonetworks.panos",
             )
             module.exit_json(
                 stdout_lines=json.dumps(xmltodict.parse(x.element_str()), indent=2),
-                msg='Rule matched',
+                msg="Rule matched",
                 rule=x.about(),
                 rulebase=rulebase,
             )
 
-    module.fail_json(msg='Matched "{0}" with "{1}", but wasn\'t in any rulebase'.format(rule_name, test_string))
+    module.fail_json(
+        msg='Matched "{0}" with "{1}", but wasn\'t in any rulebase'.format(
+            rule_name, test_string
+        )
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
