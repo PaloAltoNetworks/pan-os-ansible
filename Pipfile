@@ -21,6 +21,7 @@ yamllint = "*"
 sphinx = "*"
 sphinx-rtd-theme = "*"
 ansible-doc-extractor = "*"
+rstcheck = "*"
 
 [requires]
 python_version = "3.6"
