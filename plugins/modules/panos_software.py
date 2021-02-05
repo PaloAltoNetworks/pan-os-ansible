@@ -118,20 +118,27 @@ except ImportError:
         pass
 
 
-def check_download(device, version):
-    cmd = "request system software info"
-    response = device.op(cmd=cmd)
+def needs_download(device, version):
+    device.software.info()
 
-    for entry in response.findall("./result/sw-updates/versions/entry"):
-        if version == entry.findtext("version"):
-            downloaded = entry.findtext("downloaded")
+    return not device.software.versions[str(version)]["downloaded"]
 
-            if downloaded == "yes":
-                return True
-            else:
-                return False
 
-    return None
+def is_valid_upgrade(current, target):
+    # Patch version upgrade (major and minor versions match)
+    if (current.major == target.major) and (current.minor == target.minor):
+        return True
+
+    # Upgrade minor version (9.0.0 -> 9.1.0)
+    elif (current.major == target.major) and (current.minor + 1 == target.minor):
+        return True
+
+    # Upgrade major version (9.1.0 -> 10.0.0)
+    elif (current.major + 1 == target.major) and (target.minor == 0):
+        return True
+
+    else:
+        return False
 
 
 def main():
@@ -157,12 +164,14 @@ def main():
     device = helper.get_pandevice_parent(module)
 
     # Module params.
-    version = module.params["version"]
+    target = PanOSVersion(module.params["version"])
     sync_to_peer = module.params["sync_to_peer"]
     download = module.params["download"]
     install = module.params["install"]
     restart = module.params["restart"]
     timeout = module.params["timeout"]
+
+    current = PanOSVersion(device.version)
 
     changed = False
 
@@ -170,23 +179,33 @@ def main():
         device.timeout = timeout
         device.software.check()
 
-        if PanOSVersion(version) != PanOSVersion(device.version):
+        if target != current:
+
+            if not is_valid_upgrade(current, target):
+                module.fail_json(
+                    msg="Upgrade is invalid: {0} -> {1}".format(current, target)
+                )
+
+            # Download new base version if needed.
+            if download and (
+                (current.major != target.major) or (current.minor != target.minor)
+            ):
+                base = PanOSVersion("{0}.{1}.0".format(target.major, target.minor))
+
+                if needs_download(device, base) and not module.check_mode:
+                    device.software.download(base, sync_to_peer, sync=True)
+                    changed = True
 
             if download:
-                downloaded = check_download(device, version)
-
-                # Only perform download if actually required.
-                if not downloaded:
-                    if not module.check_mode:
-                        device.software.download(
-                            version, sync_to_peer=sync_to_peer, sync=True
-                        )
-
+                if needs_download(device, target) and not module.check_mode:
+                    device.software.download(
+                        target, sync_to_peer=sync_to_peer, sync=True
+                    )
                     changed = True
 
             if install:
                 if not module.check_mode:
-                    device.software.install(version, sync=True)
+                    device.software.install(target, sync=True)
                 changed = True
 
             if restart:
@@ -197,7 +216,7 @@ def main():
     except PanDeviceError as e:
         module.fail_json(msg=e.message)
 
-    module.exit_json(changed=changed, version=version)
+    module.exit_json(changed=changed, version=str(target))
 
 
 if __name__ == "__main__":
