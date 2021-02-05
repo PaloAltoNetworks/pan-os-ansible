@@ -22,14 +22,14 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_check
-short_description: check if PAN-OS device is ready for configuration
+short_description: Checks is a PAN-OS device is ready for configuration.
 description:
-    - Check if PAN-OS device is ready for being configured (no pending jobs).
-    - The check could be done once or multiple times until the device is ready.
+    - Checks to see if the autocommit job has succeeded on a PAN-OS device.
 author:
     - Luigi Mori (@jtschichold)
     - Ivan Bojer (@ivanbojer)
     - Garfield Lee Freeman (@shinmog)
+    - Michael Richardson (@mrichardson03)
 version_added: '1.0.0'
 requirements:
     - pan-python
@@ -95,11 +95,23 @@ except ImportError:
 
 
 def check_jobs(jobs):
+    if len(jobs) == 0:
+        return False
+
     for j in jobs:
-        status = j.find(".//status")
-        if status is None or status.text != "FIN":
+        job_type = j.findtext(".//type")
+        job_result = j.findtext(".//result")
+
+        if job_type is None or job_result is None:
             return False
 
+        if job_type == "AutoCom" and job_result == "OK":
+            return True
+        elif job_type == "AutoCom":
+            return False
+
+    # If we get to this point, the autocommit job is no longer in the job
+    # history and it is assumed the device is ready.
     return True
 
 
@@ -129,7 +141,6 @@ def main():
 
     parent = helper.get_pandevice_parent(module, timeout)
 
-    # TODO(gfreeman) - consider param for "show chassis-ready".
     while True:
         try:
             ans = parent.op(cmd="show jobs all")
@@ -141,11 +152,11 @@ def main():
                 break
 
         if time.time() > end_time:
-            module.fail_json(msg="Timeout")
+            module.fail_json(msg="Timeout reached.")
 
         time.sleep(interval)
 
-    module.exit_json(changed=True, msg="done")
+    module.exit_json(changed=True, msg="Device is ready.")
 
 
 if __name__ == "__main__":
