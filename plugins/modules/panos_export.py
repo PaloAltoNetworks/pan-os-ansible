@@ -235,8 +235,10 @@ def export_text(module, xapi, category, filename):
         f.close()
 
 
-def export_binary(module, xapi, filename):
+def export_binary(module, xapi, category, filename):
     f = None
+
+    xapi.export(category=category)
 
     try:
         f = open(filename, "wb")
@@ -303,7 +305,7 @@ HTML_EXPORTS = [
     "virus-block-page",
 ]
 
-FILE_EXPORTS = ["device-state", "tech-support", "stats-dump"]
+FILE_EXPORTS = ["tech-support", "stats-dump"]
 
 
 def main():
@@ -316,6 +318,7 @@ def main():
                     ["configuration", "certificate"]
                     + HTML_EXPORTS
                     + FILE_EXPORTS
+                    + ["device-state"]
                     + ["application-pcap", "filter-pcap", "dlp-pcap", "threat-pcap"]
                 ),
             ),
@@ -371,6 +374,12 @@ def main():
             module.fail_json(msg="stats-dump is not supported on Panorama")
 
         export_async(module, xapi, category, filename, timeout=timeout)
+
+    elif category == "device-state":
+        if filename is None:
+            module.fail_json(msg="filename is required for export")
+
+        export_binary(module, xapi, category, filename)
 
     elif category == "certificate":
         if filename is None:
