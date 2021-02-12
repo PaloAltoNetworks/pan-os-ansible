@@ -103,7 +103,14 @@ RETURN = """
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+# from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+#     get_connection,
+# )
+import os, sys
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+from module_utils.panos import (
     get_connection,
 )
 
@@ -133,6 +140,15 @@ def setup_args():
         ad_ebgp=dict(type="int"),
         ad_rip=dict(type="int"),
     )
+
+
+def eltostr(obj):
+    try:
+        # Try pretty print first if pandevice supports it
+        return obj.element_str(pretty_print=True)
+    except TypeError:
+        # Fall back to normal
+        return obj.element_str()
 
 
 def main():
@@ -195,19 +211,52 @@ def main():
         "update": not module.check_mode,
         "return_type": "bool",
     }
+
     changed = False
+    diff = None
     if state == "present":
+        # Get the diff state
+        changed, diff = helper.apply_state(virtual_router, vr_list, module)
         for item in vr_list:
             if item.name != name:
                 continue
-            if not item.equal(virtual_router, compare_children=False):
+            diff = dict(before=eltostr(item))
+            obj_child_types = [x.__class__ for x in virtual_router.children]
+            other_children = []
+            other_interface = []
+            for x in item.children:
+                if x.__class__ in obj_child_types:
+                    continue
+                other_children.append(x)
+                item.remove(x)
+            if virtual_router.interface and item.interface:
+                for x in item.interface:
+                    if x in virtual_router.interface:
+                        other_interface.append(x)
+                        item.interface.remove(x)
+            elif virtual_router.interface and not item.interface:
+                other_interface = virtual_router.interface
+            elif not virtual_router.interface and not item.interface:
+                other_interface = item.interface
+                item.interface = None
+            if not item.equal(virtual_router, compare_children=True):
                 changed = True
-                virtual_router.extend(item.children)
+                virtual_router.extend(other_children)
+                virtual_router.interface = other_interface
+                diff["after"] = eltostr(virtual_router)
                 if not module.check_mode:
                     try:
                         virtual_router.apply()
                     except PanDeviceError as e:
                         module.fail_json(msg="Failed apply: {0}".format(e))
+                #if not item.equal(virtual_router, compare_children=False):
+                # changed = True
+                # virtual_router.extend(item.children)
+                # if not module.check_mode:
+                #     try:
+                #         virtual_router.apply()
+                #     except PanDeviceError as e:
+                #         module.fail_json(msg="Failed apply: {0}".format(e))
             break
         else:
             changed = True
