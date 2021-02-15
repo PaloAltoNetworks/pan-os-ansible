@@ -195,7 +195,6 @@ def main():
         "update": not module.check_mode,
         "return_type": "bool",
     }
-
     changed = False
     if state == "present":
         for item in vr_list:
@@ -206,6 +205,7 @@ def main():
             for x in other_children:
                 if x in item.children:
                     item.children.remove(x)
+            other_interface = []
             if virtual_router.interface and item.interface:
                 other_interface = [x for x in item.interface if x not in virtual_router.interface]
                 for x in other_interface:
