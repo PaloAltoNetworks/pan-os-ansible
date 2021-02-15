@@ -201,13 +201,17 @@ def main():
             if item.name != name:
                 continue
             obj_child_types = [x.__class__ for x in virtual_router.children]
-            other_children = [x for x in item.children if x.__class__ not in obj_child_types]
+            other_children = [
+                x for x in item.children if x.__class__ not in obj_child_types
+            ]
             for x in other_children:
                 if x in item.children:
                     item.children.remove(x)
             other_interface = []
             if virtual_router.interface and item.interface:
-                other_interface = [x for x in item.interface if x not in virtual_router.interface]
+                other_interface = [
+                    x for x in item.interface if x not in virtual_router.interface
+                ]
                 for x in other_interface:
                     item.interface.remove(x)
             elif virtual_router.interface and not item.interface:
