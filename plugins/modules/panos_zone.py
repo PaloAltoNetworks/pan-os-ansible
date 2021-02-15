@@ -197,6 +197,21 @@ def main():
     new_zone = Zone(**zone_spec)
     parent.add(new_zone)
 
+    # Account for interfaces configured outside this module
+    for item in zones:
+        if item.name != new_zone.name:
+            continue
+        other_interface = []
+        if new_zone.interface and item.interface:
+            other_interface = [
+                x for x in item.interface if x not in new_zone.interface
+            ]
+            for x in other_interface:
+                item.interface.remove(x)
+        elif not new_zone.interface and item.interface:
+            other_interface = item.interface
+        new_zone.interface.extend(other_interface)
+
     # Perform the requeseted action.
     changed, diff = helper.apply_state(new_zone, zones, module)
 
