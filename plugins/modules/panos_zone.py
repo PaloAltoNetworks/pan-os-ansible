@@ -210,7 +210,7 @@ def main():
             other_interface = item.interface
         new_zone.interface.extend(other_interface)
 
-    # Perform the requeseted action.
+    # Perform the requested action.
     changed, diff = helper.apply_state(new_zone, zones, module)
 
     # Done!
