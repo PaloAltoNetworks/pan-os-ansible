@@ -60,7 +60,7 @@ options:
         default: "layer3"
     interface:
         description:
-            - List of member interfaces.
+            - List of member interfaces.  Interfaces can be added to a zone but not removed with this module.
         type: list
         elements: str
     zone_profile:
@@ -198,16 +198,14 @@ def main():
     parent.add(new_zone)
 
     # Account for interfaces configured outside this module
+    if not new_zone.interface:
+        new_zone.interface = []
     for item in zones:
         if item.name != new_zone.name:
             continue
         other_interface = []
         if new_zone.interface and item.interface:
-            other_interface = [
-                x for x in item.interface if x not in new_zone.interface
-            ]
-            for x in other_interface:
-                item.interface.remove(x)
+            other_interface = [x for x in item.interface if x not in new_zone.interface]
         elif not new_zone.interface and item.interface:
             other_interface = item.interface
         new_zone.interface.extend(other_interface)
