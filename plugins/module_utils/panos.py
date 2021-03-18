@@ -398,12 +398,12 @@ class ConnectionHelper(object):
                     continue
                 diff = dict(before=eltostr(item))
                 obj_child_types = [x.__class__ for x in obj.children]
-                other_children = []
-                for x in item.children:
-                    if x.__class__ in obj_child_types:
-                        continue
-                    other_children.append(x)
-                    item.remove(x)
+                other_children = [
+                    x for x in item.children if x.__class__ not in obj_child_types
+                ]
+                for x in other_children:
+                    if x in item.children:
+                        item.children.remove(x)
                 if not item.equal(obj, compare_children=True):
                     changed = True
                     obj.extend(other_children)
