@@ -207,23 +207,9 @@ def main():
             for x in other_children:
                 if x in item.children:
                     item.children.remove(x)
-            other_interface = []
-            if virtual_router.interface and item.interface:
-                other_interface = [
-                    x for x in item.interface if x not in virtual_router.interface
-                ]
-                for x in other_interface:
-                    item.interface.remove(x)
-            elif virtual_router.interface and not item.interface:
-                other_interface = virtual_router.interface
-            elif not virtual_router.interface and not item.interface:
-                # ensure both values are Null
-                other_interface = None
-                item.interface = None
             if not item.equal(virtual_router, compare_children=True):
                 changed = True
                 virtual_router.extend(other_children)
-                virtual_router.interface.extend(other_interface)
                 if not module.check_mode:
                     try:
                         virtual_router.apply()
