@@ -62,6 +62,7 @@ options:
             - global-protect-portal-custom-login-page
             - global-protect-portal-custom-welcome-page
             - high-availability-key
+            - idp-metadata
             - keypair
             - license
             - logdb
@@ -112,6 +113,10 @@ options:
         aliases:
             - file
         required: false
+    profile_name:
+        description:
+            - When I(category=idp-metadata), the name of the SAML profile to create.
+        type: str
     url:
         description:
             - URL of the file that will be imported to device.
@@ -158,6 +163,13 @@ EXAMPLES = """
     category: 'custom-logo'
     custom_logo_location: 'login-screen'
     filename: '/tmp/logo.jpg'
+
+- name: Import SAML metadata profile
+  panos_import:
+    provider: '{{ device }}'
+    category: 'idp-metadata'
+    filename: '/tmp/saml_metadata.xml'
+    profile_name: 'saml-profile'
 """
 
 RETURN = """
@@ -179,7 +191,6 @@ try:
     import pan.xapi
     import requests
     import requests_toolbelt
-
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
@@ -238,6 +249,7 @@ def main():
                     "global-protect-portal-custom-login-page",
                     "global-protect-portal-custom-welcome-page",
                     "high-availability-key",
+                    "idp-metadata",
                     "keypair",
                     "license",
                     "logdb",
@@ -270,6 +282,7 @@ def main():
                     "pdf-report-header",
                 ],
             ),
+            profile_name=dict(type="str"),
             filename=dict(type="str", aliases=["file"]),
             url=dict(),
         ),
@@ -308,6 +321,9 @@ def main():
 
     elif category == "custom-logo":
         params["where"] = module.params["custom_logo_location"]
+
+    elif category == "idp-metadata":
+        params["profile-name"] = module.params["profile_name"]
 
     try:
         if not module.check_mode:
