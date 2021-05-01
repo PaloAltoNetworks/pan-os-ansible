@@ -3,18 +3,10 @@ name: CI/CD
 on:
   push:
     branches:
-      - master
-      - develop
-      - beta
-      - alpha
-      - '[0-9]+.x'
-      - '[0-9]+.[0-9]+.x'
   pull_request:
-  schedule:
-    - cron: "0 0 * * 5"
 
 jobs:
-  sanity:
+  test:
     runs-on: ubuntu-latest
 
     defaults:
@@ -31,47 +23,40 @@ jobs:
         with:
           python-version: 3.6.8
 
-      - name: Install dev dependencies
+      - name: Install pipenv
         run: |
-          python -m pip install --upgrade pip
           pip install pipenv
-          python -m pipenv install --dev --system
+
+      - name: Check pipenv cache
+        id: cache-pipenv
+        uses: actions/cache@v2
+        with:
+          path: ~/.local/share/virtualenvs
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-
+
+      - name: Install dependencies
+        if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        run: |
+          pipenv install --dev
 
       - name: Check format
         run: |
-          make check-format
+          pipenv run make check-format
 
       - name: ansible-test sanity
         run: |
-          make sanity
+          pipenv run make sanity
 
-  build:
-    name: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Build collection
+      - name: ansible-galaxy collection build
         run: |
-          ansible-galaxy collection build
-          
-  automerge:
-    name: auto-merge
-    needs: [sanity, build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Auto-merge pull requests from dependabot (patches only)
-        uses: ridedott/merge-me-action@master
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_LOGIN: dependabot[bot]
-          PRESET: DEPENDABOT_PATCH
+          pipenv run make build
 
   release:
     name: release
-    if: github.event_name == 'push' && github.ref != 'refs/heads/develop'
-    needs: [sanity, build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: [test]
     runs-on: ubuntu-latest
 
     steps:
@@ -107,7 +92,7 @@ jobs:
 
   docs:
     name: docs
-    if: github.event_name == 'push' && github.ref != 'refs/heads/develop'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: [release]
     runs-on: ubuntu-latest
 
@@ -120,11 +105,19 @@ jobs:
         with:
           python-version: 3.6.8
 
-      - name: Install dev dependencies
+      - name: Check pipenv cache
+        id: cache-pipenv
+        uses: actions/cache@v2
+        with:
+          path: ~/.local/share/virtualenvs
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-
+
+      - name: Install dependencies
+        if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
-          python -m pip install --upgrade pip
-          pip install pipenv
-          python -m pipenv install --dev --system
+          pipenv install --dev
 
       - name: Download built collection
         uses: actions/download-artifact@v2
