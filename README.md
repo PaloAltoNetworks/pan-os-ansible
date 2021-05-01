@@ -67,12 +67,6 @@ role, then you can safely use this instead with no change in functionality.  Jus
 specify the `collections` spec (as mentioned above in the Usage section), remove
 `PaloAltoNetworks.paloaltonetworks` from the `roles` spec, and you're done!
 
-Python Compatibility
---------------------
-
-As Ansible still wants to support python2, this collection will still work
-under python2.
-
 Support
 -------
 
