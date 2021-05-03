@@ -191,6 +191,7 @@ try:
     import pan.xapi
     import requests
     import requests_toolbelt
+
     HAS_LIB = True
 except ImportError:
     HAS_LIB = False
