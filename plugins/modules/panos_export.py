@@ -223,16 +223,16 @@ def export_text(module, xapi, category, filename):
     f = None
 
     try:
-        f = open(filename, "w")
-    except IOError as msg:
-        module.fail_json(msg=msg)
-    else:
-        if category == "configuration":
-            f.write(xapi.xml_root())
-        elif category in HTML_EXPORTS:
-            f.write(xapi.text_document)
+        with open(filename, "w") as f:
+            if category == "configuration":
+                f.write(xapi.xml_root())
+            elif category in HTML_EXPORTS:
+                f.write(xapi.text_document)
 
         f.close()
+
+    except IOError as msg:
+        module.fail_json(msg=msg)
 
 
 def export_binary(module, xapi, category, filename):
@@ -241,16 +241,15 @@ def export_binary(module, xapi, category, filename):
     xapi.export(category=category)
 
     try:
-        f = open(filename, "wb")
+        with open(filename, "wb") as f:
+            content = xapi.export_result["content"]
+
+            if content is not None:
+                f.write(content)
+
+            f.close()
     except IOError as msg:
         module.fail_json(msg=msg)
-    else:
-        content = xapi.export_result["content"]
-
-        if content is not None:
-            f.write(content)
-
-        f.close()
 
 
 def export_async(module, xapi, category, filename, interval=60, timeout=600):

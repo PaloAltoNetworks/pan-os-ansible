@@ -69,9 +69,8 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
-
     from panos import PanOSVersion
+    from panos.errors import PanDeviceError
 except ImportError:
     pass
 

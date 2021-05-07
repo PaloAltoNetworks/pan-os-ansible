@@ -1,0 +1,216 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: test_panos_config_element - Simple Set
+  vars:
+    banner_text: new banner
+  panos_config_element:
+    provider: '{{ device }}'
+    xpath: '/config/devices/entry[@name="localhost.localdomain"]/deviceconfig/system'
+    element: '<login-banner>{{ banner_text }}</login-banner>'
+  register: result
+
+- name: test_panos_config_element - Assert Simple Set was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_config_element - Simple Create (idempotence)
+  vars:
+    banner_text: new banner
+  panos_config_element:
+    provider: '{{ device }}'
+    xpath: '/config/devices/entry[@name="localhost.localdomain"]/deviceconfig/system'
+    element: '<login-banner>{{ banner_text }}</login-banner>'
+  register: result
+
+- name: test_panos_config_element - Assert Simple Set (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: test_panos_config_element - Modify
+  vars:
+    banner_text: another banner
+  panos_config_element:
+    provider: '{{ device }}'
+    xpath: '/config/devices/entry[@name="localhost.localdomain"]/deviceconfig/system'
+    element: '<login-banner>{{ banner_text }}</login-banner>'
+  register: result
+
+- name: test_panos_config_element - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_config_element - Delete
+  panos_config_element:
+    provider: '{{ device }}'
+    xpath: '/config/devices/entry[@name="localhost.localdomain"]/deviceconfig/system/login-banner'
+    state: absent
+  register: result
+
+- name: test_panos_config_element - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_config_element - Complex object entry
+  vars:
+    DNS_1: 1.1.1.1
+    DNS_2: 2.2.1.1
+    NTP_1: 1.ntp.org
+    NTP_2: 2.ntp.org
+  panos_config_element:
+    provider: '{{ device }}'
+    xpath: /config/devices/entry[@name='localhost.localdomain']/deviceconfig/system
+    element: |
+      <update-schedule>
+        <statistics-service>
+          <application-reports>yes</application-reports>
+          <threat-prevention-reports>yes</threat-prevention-reports>
+          <threat-prevention-pcap>yes</threat-prevention-pcap>
+          <threat-prevention-information>yes</threat-prevention-information>
+          <passive-dns-monitoring>yes</passive-dns-monitoring>
+          <url-reports>yes</url-reports>
+          <health-performance-reports>yes</health-performance-reports>
+          <file-identification-reports>yes</file-identification-reports>
+        </statistics-service>
+        <threats>
+          <recurring>
+            <every-30-mins>
+              <at>2</at>
+              <action>download-and-install</action>
+            </every-30-mins>
+            <threshold>48</threshold>
+          </recurring>
+        </threats>
+        <anti-virus>
+          <recurring>
+            <hourly>
+              <at>4</at>
+              <action>download-and-install</action>
+            </hourly>
+          </recurring>
+        </anti-virus>
+        <wildfire>
+          <recurring>
+            <every-min>
+              <action>download-and-install</action>
+            </every-min>
+          </recurring>
+        </wildfire>
+      </update-schedule>
+      <snmp-setting>
+        <access-setting>
+          <version>
+            <v3/>
+          </version>
+        </access-setting>
+      </snmp-setting>
+      <dns-setting>
+        <servers>
+          <primary>{{ DNS_1 }}</primary>
+          <secondary>{{ DNS_2 }}</secondary>
+        </servers>
+      </dns-setting>
+      <ntp-servers>
+        <primary-ntp-server>
+          <ntp-server-address>{{ NTP_1 }}</ntp-server-address>
+        </primary-ntp-server>
+        <secondary-ntp-server>
+          <ntp-server-address>{{ NTP_2 }}</ntp-server-address>
+        </secondary-ntp-server>
+      </ntp-servers>
+      <login-banner>You have accessed a protected system.
+      Log off immediately if you are not an authorized user.</login-banner>
+      <timezone>UTC</timezone>
+  register: result
+
+- name: test_panos_config_element - Assert Complex object entry Create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_config_element - Complex object entry (idempotence)
+  vars:
+    DNS_1: 1.1.1.1
+    DNS_2: 2.2.1.1
+    NTP_1: 1.ntp.org
+    NTP_2: 2.ntp.org
+  panos_config_element:
+    provider: '{{ device }}'
+    xpath: /config/devices/entry[@name='localhost.localdomain']/deviceconfig/system
+    element: |
+      <update-schedule>
+        <statistics-service>
+          <application-reports>yes</application-reports>
+          <threat-prevention-reports>yes</threat-prevention-reports>
+          <threat-prevention-pcap>yes</threat-prevention-pcap>
+          <threat-prevention-information>yes</threat-prevention-information>
+          <passive-dns-monitoring>yes</passive-dns-monitoring>
+          <url-reports>yes</url-reports>
+          <health-performance-reports>yes</health-performance-reports>
+          <file-identification-reports>yes</file-identification-reports>
+        </statistics-service>
+        <threats>
+          <recurring>
+            <every-30-mins>
+              <at>2</at>
+              <action>download-and-install</action>
+            </every-30-mins>
+            <threshold>48</threshold>
+          </recurring>
+        </threats>
+        <anti-virus>
+          <recurring>
+            <hourly>
+              <at>4</at>
+              <action>download-and-install</action>
+            </hourly>
+          </recurring>
+        </anti-virus>
+        <wildfire>
+          <recurring>
+            <every-min>
+              <action>download-and-install</action>
+            </every-min>
+          </recurring>
+        </wildfire>
+      </update-schedule>
+      <snmp-setting>
+        <access-setting>
+          <version>
+            <v3/>
+          </version>
+        </access-setting>
+      </snmp-setting>
+      <dns-setting>
+        <servers>
+          <primary>{{ DNS_1 }}</primary>
+          <secondary>{{ DNS_2 }}</secondary>
+        </servers>
+      </dns-setting>
+      <ntp-servers>
+        <primary-ntp-server>
+          <ntp-server-address>{{ NTP_1 }}</ntp-server-address>
+        </primary-ntp-server>
+        <secondary-ntp-server>
+          <ntp-server-address>{{ NTP_2 }}</ntp-server-address>
+        </secondary-ntp-server>
+      </ntp-servers>
+      <login-banner>You have accessed a protected system.
+      Log off immediately if you are not an authorized user.</login-banner>
+      <timezone>UTC</timezone>
+  register: result
+
+- name: test_panos_config_element - Assert Complex object entry Create was successful (idempotence)
+  assert:
+    that:
+      - result is success
+      - result is not changed
