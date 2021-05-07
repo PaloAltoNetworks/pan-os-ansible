@@ -212,9 +212,9 @@ def import_file(module, xapi, filename, params):
 
 def download_file(url):
     r = requests.get(url, stream=True)
-    fo = tempfile.NamedTemporaryFile(prefix="ai", delete=False)
-    shutil.copyfileobj(r.raw, fo)
-    fo.close()
+
+    with tempfile.NamedTemporaryFile(prefix="ai", delete=False) as fo:
+        shutil.copyfileobj(r.raw, fo)
 
     return fo.name
 
