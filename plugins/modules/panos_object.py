@@ -228,11 +228,10 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from panos.base import PanDevice
-    from panos.errors import PanDeviceError
-
     import panos
     from panos import objects, panorama
+    from panos.base import PanDevice
+    from panos.errors import PanDeviceError
 except ImportError:
     try:
         import pandevice

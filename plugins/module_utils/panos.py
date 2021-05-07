@@ -35,14 +35,13 @@ import time
 _MIN_VERSION_ERROR = "{0} version ({1}) < minimum version ({2})"
 HAS_PANDEVICE = True
 try:
+    import panos
     from panos.base import PanDevice
     from panos.device import Vsys
     from panos.errors import PanCommitNotNeeded, PanDeviceError
     from panos.firewall import Firewall
     from panos.panorama import DeviceGroup, Template, TemplateStack
     from panos.policies import PostRulebase, PreRulebase, Rulebase
-
-    import panos
 except ImportError:
     try:
         import pandevice as panos

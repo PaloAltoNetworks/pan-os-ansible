@@ -149,6 +149,7 @@ try:
     from xml.parsers.expat import ExpatError
 
     import xmltodict
+
     from panos.errors import PanDeviceError
 except ImportError:
     try:
