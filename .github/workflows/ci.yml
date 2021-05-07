@@ -130,10 +130,7 @@ jobs:
 
       - name: Generate documentation
         run: |
-          cd docs
-          mkdir -p source/modules
-          ansible-doc-extractor --template templates/module.rst.j2 source/modules ~/.ansible/collections/ansible_collections/paloaltonetworks/panos/plugins/modules/panos*.py
-          sphinx-build source html
+          pipenv run make docs
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.1
