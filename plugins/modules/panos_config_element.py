@@ -64,11 +64,13 @@ EXAMPLES = """
   vars:
     banner_text: 'Authorized Personnel Only!'
   panos_config_element:
+    provider: '{{ provider }}'
     xpath: '/config/devices/entry[@name="localhost.localdomain"]/deviceconfig/system'
     element: '<login-banner>{{ banner_text }}</login-banner>'
 
 - name: Create address object
   panos_config_element:
+    provider: '{{ provider }}'
     xpath: "/config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name='vsys1']/address"
     element: |
       <entry name="Test-One">
@@ -77,6 +79,7 @@ EXAMPLES = """
 
 - name: Delete address object 'Test-One'
   panos_config_element:
+    provider: '{{ provider }}'
     xpath: "/config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name='vsys1']/address/entry[@name='Test-One']"
     state: 'absent'
 """
