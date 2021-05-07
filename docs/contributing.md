@@ -119,25 +119,25 @@ semantic-release --dry-run --no-ci --branches=develop
 
 Verify in the output that the next version is set correctly, and the release notes are generated correctly.
 
-### Merge develop to master and push
+### Merge develop to main and push
 
 ```
-git checkout master
+git checkout main
 git merge develop
-git push origin master
+git push origin main
 ```
 
 At this point, GitHub Actions builds the final release, and uploads it to Ansible Galaxy.
 
-### Merge master to develop and push
+### Merge main to develop and push
 
-Now, sync develop to master to add the new commits made by the release bot.
+Now, sync develop to main to add the new commits made by the release bot.
 
 ```
 git fetch --all --tags
-git pull origin master
+git pull origin main
 git checkout develop
-git merge master
+git merge main
 git push origin develop
 ```
 
