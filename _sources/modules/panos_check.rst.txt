@@ -1,8 +1,8 @@
 .. _panos_check_module:
 
 
-panos_check -- check if PAN-OS device is ready for configuration
-================================================================
+panos_check -- Checks is a PAN-OS device is ready for configuration.
+====================================================================
 
 .. contents::
    :local:
@@ -12,9 +12,7 @@ panos_check -- check if PAN-OS device is ready for configuration
 Synopsis
 --------
 
-Check if PAN-OS device is ready for being configured (no pending jobs).
-
-The check could be done once or multiple times until the device is ready.
+Checks to see if the autocommit job has succeeded on a PAN-OS device.
 
 
 
@@ -173,4 +171,5 @@ Authors
 - Luigi Mori (@jtschichold)
 - Ivan Bojer (@ivanbojer)
 - Garfield Lee Freeman (@shinmog)
+- Michael Richardson (@mrichardson03)
 

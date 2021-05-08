@@ -56,6 +56,10 @@ Parameters
     Location of the file to import into device.
 
 
+  profile_name (type: str)
+    When *category=idp-metadata*, the name of the SAML profile to create.
+
+
   url (type: str)
     URL of the file that will be imported to device.
 
@@ -195,6 +199,13 @@ Examples
         category: 'custom-logo'
         custom_logo_location: 'login-screen'
         filename: '/tmp/logo.jpg'
+
+    - name: Import SAML metadata profile
+      panos_import:
+        provider: '{{ device }}'
+        category: 'idp-metadata'
+        filename: '/tmp/saml_metadata.xml'
+        profile_name: 'saml-profile'
 
 
 
