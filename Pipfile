@@ -5,15 +5,14 @@ name = "pypi"
 
 [packages]
 pan-os-python = "*"
+pan-python = "*"
 xmltodict = "==0.12.0"
 requests = "==2.22.0"
-pytest-xdist = "*"
-pytest-mock = "*"
 
 [dev-packages]
 ansible = "*"
-black = "*"
-isort = "*"
+black = "==21.5b0"
+isort = "==5.8.0"
 pytest = "*"
 coverage = "==4.5.4"
 pycodestyle = "*"
@@ -26,6 +25,7 @@ sphinx = "*"
 sphinx-rtd-theme = "*"
 ansible-doc-extractor = "*"
 rstcheck = "*"
+six = "*"
 
 [requires]
 python_version = "3.6"
