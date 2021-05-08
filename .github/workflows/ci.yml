@@ -45,10 +45,6 @@ jobs:
         run: |
           pipenv run make check-format
 
-      - name: ansible-test units
-        run: |
-          pipenv run make units
-
       - name: ansible-test sanity
         run: |
           pipenv run make sanity
