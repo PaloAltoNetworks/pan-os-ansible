@@ -61,9 +61,9 @@ ansible-galaxy collection install paloaltonetworks.panos
     
   vars:
     device:
-      ip_address: ‘192.168.1.1’
-      username: ‘admin’
-      password: ‘password’
+      ip_address: '192.168.1.1'
+      username: 'admin'
+      password: 'password'
 
   tasks:
     - name: Run show system info
@@ -74,7 +74,7 @@ ansible-galaxy collection install paloaltonetworks.panos
 
     - name: Display the result
       debug:
-        msg: '{{ result.stdout }}’
+        msg: '{{ result.stdout }}'
       
 ```
 
