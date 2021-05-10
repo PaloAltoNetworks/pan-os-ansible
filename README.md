@@ -1,74 +1,91 @@
-PAN-OS Ansible Collection
-=========================
+# pan-os-ansible - paloaltonetworks.panos Ansible Collection
 
 ![CI](https://github.com/PaloAltoNetworks/pan-os-ansible/workflows/CI/badge.svg?branch=develop)
 ![Version on Galaxy](https://img.shields.io/badge/dynamic/json?style=flat&label=Ansible+Galaxy&prefix=v&url=https://galaxy.ansible.com/api/v2/collections/paloaltonetworks/panos/&query=latest_version.version)
 
-Ansible collection that automates the configuration and operational tasks on
-Palo Alto Networks Next Generation Firewalls, both physical and virtualized form
-factors, using the PAN-OS API.
+Ansible collection for easy automation of Palo Alto Networks next generation firewalls and Panorama, in both physical and virtual form factors.
 
--   Free software: Apache 2.0 License
--   Documentation:
-    <https://paloaltonetworks.github.io/pan-os-ansible/>
--   PANW community supported live page:
-    <http://live.paloaltonetworks.com/ansible>
--   Repo:
-    <https://github.com/PaloAltoNetworks/pan-os-ansible>
--   Example Playbooks:
-    <https://github.com/PaloAltoNetworks/ansible-playbooks>
+Documentation: [https://paloaltonetworks.github.io/pan-os-ansible/](https://paloaltonetworks.github.io/pan-os-ansible/)
 
-Tested Ansible Versions
------------------------
+## About this project
 
-This collection is tested with the most current Ansible 2.9 and 2.10 releases.  Ansible versions
-before 2.9.10 are **not supported**.
+- `paloaltonetworks.panos` is an open source project, maintained by the Palo Alto Networks Automation Consulting Engineering team and volunteers from Palo Alto Networks and the community.  We hope you will find it useful for daily automation needs and as the basis for projects of your own.
+- There is **no support** through Palo Alto Networks TAC for these modules.  If you require a supported automation solution, please use the [official APIs](https://docs.paloaltonetworks.com/pan-os/10-0/pan-os-panorama-api.html).
+- We are always interested in hearing how these modules are being used, and ways we can make them better.  Let us hear from you the the [GitHub Discussions forum](https://github.com/PaloAltoNetworks/pan-os-ansible/discussions)!
+- We welcome contributions from the community!  [Here is how](https://github.com/PaloAltoNetworks/pan-os-ansible/wiki/Contributing) you can get started.
 
-Installation
-------------
+## Features
 
-Install this collection using the Ansible Galaxy CLI:
+- Modify PAN-OS configuration: [interfaces](https://paloaltonetworks.github.io/pan-os-ansible/modules/panos_interface.html), [zones](https://paloaltonetworks.github.io/pan-os-ansible/modules/panos_zone.html#), [address objects](https://paloaltonetworks.github.io/pan-os-ansible/modules/panos_address_object.html), [service objects](https://paloaltonetworks.github.io/pan-os-ansible/modules/panos_service_object.html), [security rules](https://paloaltonetworks.github.io/pan-os-ansible/modules/panos_security_rule.html), [NAT rules](https://paloaltonetworks.github.io/pan-os-ansible/modules/panos_nat_rule.html).
+- Perform operational commands: [check device status](https://paloaltonetworks.github.io/pan-os-ansible/modules/panos_check.html), [show interface statistics](https://paloaltonetworks.github.io/pan-os-ansible/modules/panos_op.html), [upgrade software](https://paloaltonetworks.github.io/pan-os-ansible/modules/panos_software.html), [perform dynamic updates](https://paloaltonetworks.github.io/pan-os-ansible/modules/panos_dynamic_updates.html).
+- [Import](https://paloaltonetworks.github.io/pan-os-ansible/modules/panos_import.html) and [export](https://paloaltonetworks.github.io/pan-os-ansible/modules/panos_export.html): configuration, certificates, packet captures, response pages.
+
+## Using this collection
+
+### Requirements
+
+The following libraries must be installed in your Python environment:
+
+- [pan-os-python](https://github.com/PaloAltoNetworks/pan-os-python)
+- [requests](https://docs.python-requests.org/en/master/)
+- [xmltodict](https://github.com/martinblech/xmltodict)
+
+Download the supplied [requirements.txt](https://github.com/PaloAltoNetworks/pan-os-ansible/blob/develop/requirements.txt) file and install using `pip`:
+
+```
+pip3 install —user -r requirements.txt
+```
+
+`pip` can also pull the requirements file directly from this repository:
+
+`pip3 install —user https://github.com/PaloAltoNetworks/pan-os-ansible/blob/develop/requirements.txt`
+
+### Installation
+
+Use Ansible Galaxy to install this collection:
 
 ```bash
 ansible-galaxy collection install paloaltonetworks.panos
 ```
 
-Usage
------
+## Sample Playbook
 
-Either refer to modules by their full FQCN or use the `collections`
-specification in your playbooks:
 
 ```yaml
+—-
+- hosts: fw
+  connection: local
+  
   collections:
     - paloaltonetworks.panos
+    
+  vars:
+    device:
+      ip_address: ‘192.168.1.1’
+      username: ‘admin’
+      password: ‘password’
 
   tasks:
-  - name: Get the system info
-    panos_op:
-      provider: '{{ provider }}'
-      cmd: 'show system info'
-    register: res
+    - name: Run show system info
+      panos_op:
+        provider: '{{ device }}'
+        cmd: 'show system info'
+      register: result
 
-  - debug:
-      msg: '{{ res.stdout }}'
+    - name: Display the result
+      debug:
+        msg: '{{ result.stdout }}’
+      
 ```
 
-Support
--------
+For more examples, see the [ansible-playbooks](https://github.com/PaloAltoNetworks/ansible-playbooks) repository.
 
-This template/solution is released under an as-is, best effort, support
-policy. These scripts should be seen as community supported and Palo
-Alto Networks will contribute our expertise as and when possible. We do
-not provide technical support or help in using or troubleshooting the
-components of the project through our normal support options such as
-Palo Alto Networks support teams, or ASC (Authorized Support Centers)
-partners and backline support options. The underlying product used (the
-VM-Series firewall) by the scripts or templates are still supported, but
-the support is only for the product functionality and not for help in
-deploying or using the template or script itself.
+## Maintainers
 
-Unless explicitly tagged, all projects or work posted in our GitHub
-repository (at <https://github.com/PaloAltoNetworks>) or sites other
-than our official Downloads page on <https://support.paloaltonetworks.com>
-are provided under the best effort policy.
+- Michael Richardson ([@mrichardson03](https://github.com/mrichardson03))
+- James Holland ([@jamesholland-uk](https://github.com/jamesholland-uk))
+
+## Contributors
+
+- Garfield Freeman ([@shinmog](https://github.com/shinmog))
+- Nathan Embrey ([@nembery](https://github.com/nembery))
