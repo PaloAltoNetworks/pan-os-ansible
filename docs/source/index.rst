@@ -2,8 +2,6 @@
 Palo Alto Networks Ansible Collection
 =====================================
 
-Version: 2.6.0
-
 The Palo Alto Networks Ansible collection is a collection of modules that
 automate configuration and operational tasks on Palo Alto Networks Next
 Generation Firewalls (both physical and virtualized) and Panorama.  The
