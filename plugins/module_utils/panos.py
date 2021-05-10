@@ -29,8 +29,12 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-
+import re
 import time
+from functools import reduce
+
+from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.connection import Connection, ConnectionError
 
 _MIN_VERSION_ERROR = "{0} version ({1}) < minimum version ({2})"
 HAS_PANDEVICE = True
@@ -848,3 +852,79 @@ def get_connection(
     helper.argument_spec = spec
     helper.required_one_of = req
     return helper
+
+
+class PanOSAnsibleModule(AnsibleModule):
+    def __init__(
+        self,
+        argument_spec,
+        api_endpoint=None,
+        with_state=False,
+        with_enabled_state=False,
+        *args,
+        **kwargs
+    ):
+        spec = {}
+
+        self.api_endpoint = api_endpoint
+
+        if with_state:
+            spec["state"] = {"default": "present", "choices": ["present", "absent"]}
+
+        if with_enabled_state:
+            spec["state"] = {
+                "default": "present",
+                "choices": ["present", "absent", "enabled", "disabled"],
+            }
+
+        argument_spec.update(spec)
+
+        super().__init__(argument_spec, *args, **kwargs)
+
+        self.connection = Connection(self._socket_path)
+
+
+def cmd_xml(cmd):
+    def _cmd_xml(args, obj):
+        if not args:
+            return
+        arg = args.pop(0)
+        if args:
+            result = re.search(r'^"(.*)"$', args[0])
+            if result:
+                obj.append("<%s>" % arg)
+                obj.append(result.group(1))
+                obj.append("</%s>" % arg)
+                args.pop(0)
+                _cmd_xml(args, obj)
+            else:
+                obj.append("<%s>" % arg)
+                _cmd_xml(args, obj)
+                obj.append("</%s>" % arg)
+        else:
+            obj.append("<%s>" % arg)
+            _cmd_xml(args, obj)
+            obj.append("</%s>" % arg)
+
+    args = cmd.split()
+    obj = []
+    _cmd_xml(args, obj)
+    xml = "".join(obj)
+
+    return xml
+
+
+def get_nested_key(d, key_list):
+    """
+    Access a nested key within a dictionary safely.
+
+    Example:
+
+    For the dictionary d = {'one': {'two': {'three': 'four'}}},
+    get_nested_key(d, ['one', 'two', 'three']) will return 'four'.
+
+    :param d: Dictionary
+    :param key_list: List of keys, in decending order.
+    """
+
+    return reduce(lambda val, key: val.get(key) if val else None, key_list, d)

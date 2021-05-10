@@ -1,19 +1,19 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
-#  Copyright 2019 Palo Alto Networks, Inc
+# Copyright 2020 Palo Alto Networks, Inc
 #
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
 
 from __future__ import absolute_import, division, print_function
 
@@ -27,16 +27,15 @@ description:
     - This module allows the user to modify an element in the PAN-OS configuration
       by specifying an element and its location in the configuration (xpath).
 author:
-    - 'Nathan Embery (@nembery)'
     - 'Michael Richardson (@mrichardson03)'
+    - 'Nathan Embery (@nembery)'
 version_added: '2.7.0'
-requirements:
-    - pan-os-python
+requirements: []
 notes:
+    - This module only supports the httpapi connection plugin.
     - Checkmode is supported.
     - Panorama is supported.
 extends_documentation_fragment:
-    - paloaltonetworks.panos.fragments.provider
     - paloaltonetworks.panos.fragments.state
 options:
     xpath:
@@ -64,13 +63,11 @@ EXAMPLES = """
   vars:
     banner_text: 'Authorized Personnel Only!'
   panos_config_element:
-    provider: '{{ provider }}'
     xpath: '/config/devices/entry[@name="localhost.localdomain"]/deviceconfig/system'
     element: '<login-banner>{{ banner_text }}</login-banner>'
 
 - name: Create address object
   panos_config_element:
-    provider: '{{ provider }}'
     xpath: "/config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name='vsys1']/address"
     element: |
       <entry name="Test-One">
@@ -79,7 +76,6 @@ EXAMPLES = """
 
 - name: Delete address object 'Test-One'
   panos_config_element:
-    provider: '{{ provider }}'
     xpath: "/config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name='vsys1']/address/entry[@name='Test-One']"
     state: 'absent'
 """
@@ -105,18 +101,10 @@ diff:
 
 import xml.etree.ElementTree
 
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.connection import ConnectionError
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    get_connection,
+    PanOSAnsibleModule,
 )
-
-try:
-    from panos.errors import PanDeviceError
-except ImportError:
-    try:
-        from pandevice.errors import PanDeviceError
-    except ImportError:
-        pass
 
 
 def xml_compare(one, two, excludes=None):
@@ -219,9 +207,6 @@ def xml_contained(big, small):
 
     for element, path in iterpath(small):
 
-        if element.tag == "wrapped":
-            continue
-
         # Elements with "member" children must have all their children be equal.
         if element.find("*/member/..") is not None:
             big_element = big.find(path)
@@ -232,11 +217,7 @@ def xml_contained(big, small):
         # Elements with no children at the same point in the tree must match
         # exactly.
         elif len(element) == 0 and (element.tag != "member"):
-            if path != ".":
-                big_element = big.find(path)
-            else:
-                # handle case where small is only a single tag, thus the path ends up as '.'
-                big_element = big.find("./{0}".format(element.tag))
+            big_element = big.find(path)
 
             if not xml_compare(big_element, element):
                 return False
@@ -245,23 +226,15 @@ def xml_contained(big, small):
 
 
 def main():
-    helper = get_connection(
-        with_classic_provider_spec=False,
+    module = PanOSAnsibleModule(
         argument_spec=dict(
             xpath=dict(required=True),
             element=dict(required=False),
             edit=dict(type="bool", default=False, required=False),
         ),
+        supports_check_mode=True,
         with_state=True,
     )
-
-    module = AnsibleModule(
-        argument_spec=helper.argument_spec,
-        supports_check_mode=True,
-        required_one_of=helper.required_one_of,
-    )
-
-    parent = helper.get_pandevice_parent(module)
 
     xpath = module.params["xpath"]
     element_xml = module.params["element"]
@@ -269,9 +242,8 @@ def main():
     state = module.params["state"]
 
     try:
-        existing_element = parent.xapi.get(xpath)
-        existing_xml = parent.xapi.xml_document
-        existing = existing_element.find("./result/")
+        existing_xml = module.connection.get(xpath)
+        existing = xml.etree.ElementTree.fromstring(existing_xml).find("./result/")
 
         changed = False
         diff = {}
@@ -289,23 +261,21 @@ def main():
                     changed = True
 
                     if not module.check_mode:  # pragma: no cover
-                        parent.xapi.edit(xpath, element_xml)
+                        module.connection.edit(xpath, element_xml)
 
             else:
-                # When using set action, element can be an invalid XML document.
-                # Wrap it in a dummy tag if so.
-                try:
-                    element = xml.etree.ElementTree.fromstring(element_xml)
-                except xml.etree.ElementTree.ParseError:
-                    element = xml.etree.ElementTree.fromstring(
-                        "<wrapped>" + element_xml + "</wrapped>"
-                    )
+                # When using set action, element needs to be wrapped in the
+                # last tag in the xpath.
+                outer = xpath.split("/")[-1]
+                element = xml.etree.ElementTree.fromstring(
+                    f"<{outer}>" + element_xml + f"</{outer}>"
+                )
 
                 if not xml_contained(existing, element):
                     changed = True
 
                     if not module.check_mode:  # pragma: no cover
-                        parent.xapi.set(xpath, element_xml)
+                        module.connection.set(xpath, element_xml)
 
             diff = {
                 "before": existing_xml,
@@ -319,7 +289,7 @@ def main():
                 changed = True
 
                 if not module.check_mode:  # pragma: no cover
-                    parent.xapi.delete(xpath)
+                    module.connection.delete(xpath)
 
                 diff = {"before": existing_xml, "after": ""}
 
@@ -329,9 +299,9 @@ def main():
 
         module.exit_json(changed=changed, diff=diff)
 
-    except PanDeviceError as e:  # pragma: no cover
+    except ConnectionError as e:  # pragma: no cover
         module.fail_json(msg="{0}".format(e))
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()
