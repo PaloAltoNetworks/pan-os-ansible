@@ -1,9 +1,15 @@
 [firewalls]
-panos-10        ip_address=192.168.55.10
+panos-10        ansible_host=192.168.55.10
 
 [panoramas]
 panorama-10     ip_address=192.168.55.5
 
 [all:vars]
-username=admin
-password=P4loalto!
+ansible_user=admin
+ansible_password=P4loalto!
+
+ansible_network_os=mrichardson03.panos.panos
+ansible_connection=httpapi
+ansible_httpapi_port=443
+ansible_httpapi_use_ssl=True
+ansible_httpapi_validate_certs=False

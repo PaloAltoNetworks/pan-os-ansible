@@ -1,11 +1,10 @@
 ---
-- import_tasks: 'reset.yml'
+# - import_tasks: 'reset.yml'
 
 - name: test_panos_config_element - Simple Set
   vars:
     banner_text: new banner
   panos_config_element:
-    provider: '{{ device }}'
     xpath: '/config/devices/entry[@name="localhost.localdomain"]/deviceconfig/system'
     element: '<login-banner>{{ banner_text }}</login-banner>'
   register: result
@@ -16,11 +15,10 @@
       - result is success
       - result is changed
 
-- name: test_panos_config_element - Simple Create (idempotence)
+- name: test_panos_config_element - Simple Set (idempotence)
   vars:
     banner_text: new banner
   panos_config_element:
-    provider: '{{ device }}'
     xpath: '/config/devices/entry[@name="localhost.localdomain"]/deviceconfig/system'
     element: '<login-banner>{{ banner_text }}</login-banner>'
   register: result
@@ -35,7 +33,6 @@
   vars:
     banner_text: another banner
   panos_config_element:
-    provider: '{{ device }}'
     xpath: '/config/devices/entry[@name="localhost.localdomain"]/deviceconfig/system'
     element: '<login-banner>{{ banner_text }}</login-banner>'
   register: result
@@ -48,7 +45,6 @@
 
 - name: test_panos_config_element - Delete
   panos_config_element:
-    provider: '{{ device }}'
     xpath: '/config/devices/entry[@name="localhost.localdomain"]/deviceconfig/system/login-banner'
     state: absent
   register: result
@@ -66,7 +62,6 @@
     NTP_1: 1.ntp.org
     NTP_2: 2.ntp.org
   panos_config_element:
-    provider: '{{ device }}'
     xpath: /config/devices/entry[@name='localhost.localdomain']/deviceconfig/system
     element: |
       <update-schedule>
@@ -144,7 +139,6 @@
     NTP_1: 1.ntp.org
     NTP_2: 2.ntp.org
   panos_config_element:
-    provider: '{{ device }}'
     xpath: /config/devices/entry[@name='localhost.localdomain']/deviceconfig/system
     element: |
       <update-schedule>

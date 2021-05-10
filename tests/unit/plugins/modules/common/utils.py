@@ -51,7 +51,7 @@ class ModuleTestCase:
     @pytest.fixture
     def connection_mock(self, mocker):
         connection_class_mock = mocker.patch(
-            "ansible_collections.mrichardson03.panos.plugins.module_utils.panos.Connection"
+            "ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos.Connection"
         )
 
         connection_class_mock.return_value.api_key.return_value = "foo"

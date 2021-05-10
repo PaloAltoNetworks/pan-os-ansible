@@ -19,8 +19,10 @@ __metaclass__ = type
 import xml.etree.ElementTree
 
 import pytest
-from ansible_collections.mrichardson03.panos.plugins.modules import panos_config_element
-from ansible_collections.mrichardson03.panos.plugins.modules.panos_config_element import (
+from ansible_collections.paloaltonetworks.panos.plugins.modules import (
+    panos_config_element,
+)
+from ansible_collections.paloaltonetworks.panos.plugins.modules.panos_config_element import (
     xml_compare,
     xml_contained,
 )
@@ -302,6 +304,19 @@ class TestPanosConfigElement(ModuleTestCase):
 
         assert result["changed"] is True
         assert connection_mock.set.call_count == 1
+
+    def test_set_idempotent(self, connection_mock):
+        connection_mock.get.return_value = GET_SYSTEM
+
+        args = {
+            "xpath": XPATH_SYSTEM,
+            "element": "<login-banner>Help!  I'm trapped in a firewall factory!</login-banner>",
+        }
+
+        result = self._run_module(args)
+
+        assert result["changed"] is False
+        assert connection_mock.set.call_count == 0
 
     def test_set_modify(self, connection_mock):
         connection_mock.get.return_value = GET_SYSTEM
