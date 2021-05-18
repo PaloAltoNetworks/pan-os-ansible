@@ -117,6 +117,16 @@ options:
         description:
             - When I(category=idp-metadata), the name of the SAML profile to create.
         type: str
+    template:
+        description:
+            - (Panorama only) The template this operation should target.
+              Mutually exclusive with I(template_stack).
+        type: str
+    template_stack:
+        description:
+            - (Panorama only) The template stack this operation should target.
+              Mutually exclusive with I(template).
+        type: str
     url:
         description:
             - URL of the file that will be imported to device.
@@ -170,6 +180,14 @@ EXAMPLES = """
     category: 'idp-metadata'
     filename: '/tmp/saml_metadata.xml'
     profile_name: 'saml-profile'
+
+- name: Import SAML metadata profile to template
+  panos_import:
+    provider: '{{ device }}'
+    category: 'idp-metadata'
+    filename: '/tmp/saml_metadata.xml'
+    profile_name: 'saml-profile'
+    template: firewall-template
 """
 
 RETURN = """
@@ -227,6 +245,8 @@ def main():
     helper = get_connection(
         with_classic_provider_spec=True,
         argument_spec=dict(
+            template=dict(type="str"),
+            template_stack=dict(type="str"),
             category=dict(
                 type="str",
                 choices=[
@@ -325,6 +345,12 @@ def main():
 
     elif category == "idp-metadata":
         params["profile-name"] = module.params["profile_name"]
+
+    if module.params["template_stack"] is not None:
+        params["target-tpl"] = module.params["template_stack"]
+
+    elif module.params["template"] is not None:
+        params["target-tpl"] = module.params["template"]
 
     try:
         if not module.check_mode:
