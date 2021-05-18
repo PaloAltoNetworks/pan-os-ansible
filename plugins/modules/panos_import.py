@@ -324,8 +324,11 @@ def main():
 
     url = module.params["url"]
 
+    # get_pandevice_parent will validate templates. The returned value, if a template, is not useable.
     parent = helper.get_pandevice_parent(module)
-    xapi = parent.xapi
+    xapi = (
+        helper.device.xapi
+    )  # This is why we get the xapi info from helper.device instead
 
     changed = False
 
