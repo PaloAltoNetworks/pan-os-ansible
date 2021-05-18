@@ -243,10 +243,11 @@ def delete_file(path):
 
 def main():
     helper = get_connection(
+        template=True,
+        template_stack=True,
+        template_is_optional=True,
         with_classic_provider_spec=True,
         argument_spec=dict(
-            template=dict(type="str"),
-            template_stack=dict(type="str"),
             category=dict(
                 type="str",
                 choices=[
