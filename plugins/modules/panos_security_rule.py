@@ -16,10 +16,11 @@
 #  limitations under the License.
 
 from __future__ import absolute_import, division, print_function
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
 )
-from ansible.module_utils.basic import AnsibleModule
 
 __metaclass__ = type
 
@@ -505,24 +506,14 @@ def main():
     # Which action shall we take on the rule object?
     changed, diff = helper.apply_state(new_rule, rules, module)
 
-    # Add the audit comment, if applicable.
-    if audit_comment:
-        rule_audit_comment = RuleAuditComment(parent)
-        rule_audit_comment.update(audit_comment)
-
     # Move the rule to the correct spot, if applicable.
     if module.params["state"] == "present":
         changed |= helper.apply_position(
             new_rule, location, existing_rule, module)
 
-
-<< << << < HEAD
-
     # Add the audit comment, if applicable.
     if changed and audit_comment and not module.check_mode:
         new_rule.opstate.audit_comment.update(audit_comment)
-== == == =
->>>>>> > 0bfb61c(Adding rule audit comment -  # 228)
 
     # Optional commit.
     if changed and commit:
