@@ -2,7 +2,7 @@
 certifi==2020.12.5
 chardet==3.0.4
 idna==2.8
-pan-os-python==1.0.2
+pan-os-python>=1.1.0
 pan-python==0.16.0
 requests==2.22.0
 urllib3==1.25.11
