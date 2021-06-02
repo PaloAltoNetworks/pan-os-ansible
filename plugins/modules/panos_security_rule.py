@@ -485,6 +485,7 @@ def main():
         "data_filtering": module.params["data_filtering"],
         "target": module.params["target"],
         "negate_target": module.params["negate_target"],
+
     }
 
     # Other module info.
@@ -506,15 +507,14 @@ def main():
     # Which action shall we take on the rule object?
     changed, diff = helper.apply_state(new_rule, rules, module)
 
-    # Add the audit comment, if applicable.
-    if audit_comment:
-        rule_audit_comment = RuleAuditComment(parent)
-        rule_audit_comment.update(audit_comment)
-
     # Move the rule to the correct spot, if applicable.
     if module.params["state"] == "present":
         changed |= helper.apply_position(
             new_rule, location, existing_rule, module)
+
+    # Add the audit comment, if applicable.
+    if changed and audit_comment and not module.check_mode:
+        new_rule.opstate.audit_comment.update(audit_comment)
 
     # Optional commit.
     if changed and commit:
