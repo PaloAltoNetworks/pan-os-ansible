@@ -45,7 +45,7 @@ try:
     from panos.errors import PanCommitNotNeeded, PanDeviceError
     from panos.firewall import Firewall
     from panos.panorama import DeviceGroup, Template, TemplateStack
-    from panos.policies import PostRulebase, PreRulebase, RuleAuditComment, Rulebase
+    from panos.policies import PostRulebase, PreRulebase, Rulebase
 except ImportError:
     try:
         import pandevice as panos
