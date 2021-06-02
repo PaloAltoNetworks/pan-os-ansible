@@ -508,7 +508,7 @@ def main():
 
     # Add the audit comment, if applicable.
     if audit_comment:
-        RuleAuditComment.update(audit_comment)
+        RuleAuditComment.update(module, audit_comment)
 
     # Move the rule to the correct spot, if applicable.
     if module.params["state"] == "present":
