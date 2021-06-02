@@ -45,7 +45,7 @@ try:
     from panos.errors import PanCommitNotNeeded, PanDeviceError
     from panos.firewall import Firewall
     from panos.panorama import DeviceGroup, Template, TemplateStack
-    from panos.policies import PostRulebase, PreRulebase, Rulebase
+    from panos.policies import PostRulebase, PreRulebase, RuleAuditComment, Rulebase
 except ImportError:
     try:
         import pandevice as panos
@@ -141,7 +141,8 @@ class ConnectionHelper(object):
             if pdv < self.min_pandevice_version:
                 module.fail_json(
                     msg=_MIN_VERSION_ERROR.format(
-                        "panos", panos.__version__, _vstr(self.min_pandevice_version)
+                        "panos", panos.__version__, _vstr(
+                            self.min_pandevice_version)
                     )
                 )
 
@@ -240,7 +241,8 @@ class ConnectionHelper(object):
                 elif self.template is not None:
                     tmpl_required = True
                 elif not self.template_is_optional:
-                    module.fail_json(msg=pano_mia_param.format(self.template_stack))
+                    module.fail_json(
+                        msg=pano_mia_param.format(self.template_stack))
 
             # Spec: template.
             if self.template is not None:
@@ -311,7 +313,8 @@ class ConnectionHelper(object):
                     parent = rb
                 else:
                     module.fail_json(
-                        msg=not_found.format("Rulebase", module.params[self.rulebase])
+                        msg=not_found.format(
+                            "Rulebase", module.params[self.rulebase])
                     )
         else:
             # Firewall connection.
@@ -456,7 +459,8 @@ class ConnectionHelper(object):
                         try:
                             item.update(enabled_disabled_param)
                         except PanDeviceError as e:
-                            module.fail_json(msg="Failed toggle: {0}".format(e))
+                            module.fail_json(
+                                msg="Failed toggle: {0}".format(e))
                 break
             else:
                 module.fail_json(msg="Cannot enable/disable non-existing obj")
@@ -493,8 +497,10 @@ class ConnectionHelper(object):
         # Sanity check the location / existing_rule params.
         improper_combo = False
         improper_combo |= location is None and existing_rule is not None
-        improper_combo |= location in ("before", "after") and existing_rule is None
-        improper_combo |= location in ("top", "bottom") and existing_rule is not None
+        improper_combo |= location in (
+            "before", "after") and existing_rule is None
+        improper_combo |= location in (
+            "top", "bottom") and existing_rule is not None
         if improper_combo:
             module.fail_json(
                 msg='Improper combination of "location" / "existing_rule".'
@@ -513,7 +519,8 @@ class ConnectionHelper(object):
             obj_index = listing.index(uid)
             rule = rules[obj_index]
         except ValueError:
-            module.fail_json(msg="Object {0} isn't present for move".format(uid))
+            module.fail_json(
+                msg="Object {0} isn't present for move".format(uid))
 
         if location == "top":
             if listing[0] != uid:
@@ -804,7 +811,8 @@ def get_connection(
             if vsys is not None:
                 raise KeyError('Define "vsys" or "vsys_shared", not both.')
             elif vsys_importable is not None:
-                raise KeyError('Define "vsys_importable" or "vsys_shared", not both.')
+                raise KeyError(
+                    'Define "vsys_importable" or "vsys_shared", not both.')
             if isinstance(vsys_shared, bool):
                 param = "vsys"
             else:
@@ -869,7 +877,8 @@ class PanOSAnsibleModule(AnsibleModule):
         self.api_endpoint = api_endpoint
 
         if with_state:
-            spec["state"] = {"default": "present", "choices": ["present", "absent"]}
+            spec["state"] = {"default": "present",
+                             "choices": ["present", "absent"]}
 
         if with_enabled_state:
             spec["state"] = {
