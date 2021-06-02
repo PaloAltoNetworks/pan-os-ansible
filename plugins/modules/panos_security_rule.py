@@ -507,6 +507,10 @@ def main():
     # Which action shall we take on the rule object?
     changed, diff = helper.apply_state(new_rule, rules, module)
 
+    # Add the audit comment, if applicable.
+    if audit_comment:
+        RuleAuditComment.update(audit_comment)
+
     # Move the rule to the correct spot, if applicable.
     if module.params["state"] == "present":
         changed |= helper.apply_position(
