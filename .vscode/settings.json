@@ -1,0 +1,9 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "python.linting.enabled": false,
+    "python.formatting.provider": "autopep8",
+    "editor.formatOnSave": true,
+    "python.pythonPath": "/usr/local/bin/python3",
+}
