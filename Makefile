@@ -18,7 +18,7 @@ else ifneq (ansible_collections,$(toplevel))
 endif
 
 python_version := $(shell \
-  python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))' \
+  python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))' \
 )
 
 

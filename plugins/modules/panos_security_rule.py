@@ -22,6 +22,8 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
+from panos.policies import RuleAuditComment
+
 __metaclass__ = type
 
 DOCUMENTATION = """
@@ -372,12 +374,10 @@ def main():
             source_ip=dict(type="list", elements="str", default=["any"]),
             source_user=dict(type="list", elements="str", default=["any"]),
             hip_profiles=dict(type="list", elements="str", default=["any"]),
-            destination_zone=dict(
-                type="list", elements="str", default=["any"]),
+            destination_zone=dict(type="list", elements="str", default=["any"]),
             destination_ip=dict(type="list", elements="str", default=["any"]),
             application=dict(type="list", elements="str", default=["any"]),
-            service=dict(type="list", elements="str",
-                         default=["application-default"]),
+            service=dict(type="list", elements="str", default=["application-default"]),
             category=dict(type="list", elements="str", default=["any"]),
             action=dict(
                 default="allow",
@@ -403,8 +403,7 @@ def main():
             disabled=dict(type="bool", default=False),
             schedule=dict(),
             icmp_unreachable=dict(type="bool"),
-            disable_server_response_inspection=dict(
-                type="bool", default=False),
+            disable_server_response_inspection=dict(type="bool", default=False),
             group_profile=dict(),
             antivirus=dict(),
             spyware=dict(),
@@ -484,7 +483,6 @@ def main():
         "data_filtering": module.params["data_filtering"],
         "target": module.params["target"],
         "negate_target": module.params["negate_target"],
-
     }
 
     # Other module info.
@@ -508,8 +506,7 @@ def main():
 
     # Move the rule to the correct spot, if applicable.
     if module.params["state"] == "present":
-        changed |= helper.apply_position(
-            new_rule, location, existing_rule, module)
+        changed |= helper.apply_position(new_rule, location, existing_rule, module)
 
     # Add the audit comment, if applicable.
     if changed and audit_comment and not module.check_mode:
