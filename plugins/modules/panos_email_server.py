@@ -127,7 +127,7 @@ def main():
             to_email=dict(),
             also_to_email=dict(),
             email_gateway=dict(),
-            protocol=dict(choices=['SMTP', 'TLS'], default='SMTP'),
+            protocol=dict(choices=["SMTP", "TLS"], default="SMTP"),
         ),
     )
     module = AnsibleModule(
