@@ -268,7 +268,7 @@ def main():
                 default=None,
                 choices=["md5", "sha1", "sha256", "sha384", "sha512"],
             ),
-            mk_auth_key=dict(type="str", default=None),
+            mk_auth_key=dict(type="str", default=None, no_log=True),
             mk_esp_encryption=dict(
                 type="str",
                 default=None,
@@ -281,7 +281,7 @@ def main():
                     "null",
                 ],
             ),
-            mk_esp_encryption_key=dict(type="str", default=None),
+            mk_esp_encryption_key=dict(type="str", default=None, no_log=True),
             gps_portal_address=dict(type="str", default=None),
             gps_prefer_ipv6=dict(type="bool", default=False),
             gps_interface=dict(type="str", default=None),

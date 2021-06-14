@@ -27,7 +27,7 @@ description:
     - This module will ask Panorama to create a VM auth key for VM-Series bootstrapping.
 author:
     - Garfield Lee Freeman (@shinmog)
-version_added: '1.0.3'
+version_added: '1.1.0'
 requirements:
     - pan-python
     - pandevice
