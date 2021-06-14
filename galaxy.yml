@@ -9,11 +9,7 @@ namespace: 'paloaltonetworks'
 name: 'panos'
 
 # The version of the collection. Must be compatible with semantic versioning
-<<<<<<< HEAD
-version: 2.6.2
-=======
-version: 2.6.0
->>>>>>> ddc080f123cd0c8b66f40e32a4e433911e399b5a
+version: '2.6.0'
 
 # The path to the Markdown (.md) readme file. This path is relative to the root of the collection
 readme: 'README.md'
