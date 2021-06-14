@@ -66,6 +66,31 @@ options:
             - black
             - gold
             - brown
+            - olive
+            - maroon
+            - red-orange
+            - yellow-orange
+            - forest green
+            - turquoise blue
+            - azure blue
+            - cerulean blue
+            - midnight blue
+            - medium blue
+            - cobalt blue
+            - violet blue
+            - blue violet
+            - medium violet
+            - medium rose
+            - lavender
+            - orchid
+            - thistle
+            - peach
+            - salmon
+            - magenta
+            - red violet
+            - mahogany
+            - burnt sienna
+            - chestnut
     comments:
         description:
             - Comments for the tag.
@@ -123,6 +148,31 @@ COLOR_NAMES = [
     "black",
     "gold",
     "brown",
+    "olive",
+    "maroon",
+    "red-orange",
+    "yellow-orange",
+    "forest green",
+    "turquoise blue",
+    "azure blue",
+    "cerulean blue",
+    "midnight blue",
+    "medium blue",
+    "cobalt blue",
+    "violet blue",
+    "blue violet",
+    "medium violet",
+    "medium rose",
+    "lavender",
+    "orchid",
+    "thistle",
+    "peach",
+    "salmon",
+    "magenta",
+    "red violet",
+    "mahogany",
+    "burnt sienna",
+    "chestnut",
 ]
 
 
