@@ -47,7 +47,7 @@ jobs:
 
       - name: ansible-test sanity
         run: |
-          pipenv run make sanity
+          pipenv run ansible-test sanity --python 3.6
 
       - name: ansible-galaxy collection build
         run: |
