@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d37ea48af0c0ded5424ff3d36e2e3208bbd6d5917207f2255c6c6acf34a311fd"
+            "sha256": "19c82651b2164ad7ec0ca621d68ecae9d852eef15b447daa245d065a69338085"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -89,10 +89,13 @@
         "ansible-core": {
             "hashes": [
 <<<<<<< HEAD
+<<<<<<< HEAD
                 "sha256:7e75827a94d47d1c3e1930d708f0ef637a3ab9a21f757aaf55deab6e9f47c682"
             ],
             "index": "pypi",
 =======
+=======
+>>>>>>> 055aed4effd40296bb8c84fed97dac15cd6e8ad6
                 "sha256:6f67ca5c634e4721d1f8e206dc71d60d1a114d147945355bfc902bd37eb07080"
             ],
             "index": "pypi",
@@ -103,7 +106,10 @@
                 "sha256:7e75827a94d47d1c3e1930d708f0ef637a3ab9a21f757aaf55deab6e9f47c682"
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
+<<<<<<< HEAD
 >>>>>>> 2888656 (228 formatted per lint test results)
+=======
+>>>>>>> 055aed4effd40296bb8c84fed97dac15cd6e8ad6
             "version": "==2.11.1"
         },
         "ansible-doc-extractor": {
@@ -114,7 +120,10 @@
             "index": "pypi",
             "version": "==0.1.7"
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 055aed4effd40296bb8c84fed97dac15cd6e8ad6
         },
         "apipkg": {
             "hashes": [
@@ -315,6 +324,7 @@
         "execnet": {
             "hashes": [
 <<<<<<< HEAD
+<<<<<<< HEAD
                 "sha256:8f694f3ba9cc92cab508b152dcfe322153975c29bda272e2fd7f3f00f36e47c5",
                 "sha256:a295f7cc774947aac58dde7fdc85f4aa00c42adf5d8f5468fc630c1acf30a142"
             ],
@@ -327,6 +337,13 @@
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
             "version": "==1.8.1"
 >>>>>>> 2888656 (228 formatted per lint test results)
+=======
+                "sha256:7e3c2cdb6389542a91e9855a9cc7545fbed679e96f8808bcbb1beb325345b189",
+                "sha256:e840ce25562e414ee5684864d510dbeeb0bce016bc89b22a6e5ce323b5e6552f"
+            ],
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
+            "version": "==1.8.1"
+>>>>>>> 055aed4effd40296bb8c84fed97dac15cd6e8ad6
         },
         "idna": {
             "hashes": [
@@ -352,7 +369,10 @@
             "markers": "python_version < '3.8' and python_version < '3.8'",
 =======
             "markers": "python_version < '3.8'",
+<<<<<<< HEAD
 >>>>>>> 2888656 (228 formatted per lint test results)
+=======
+>>>>>>> 055aed4effd40296bb8c84fed97dac15cd6e8ad6
             "version": "==4.5.0"
         },
         "iniconfig": {
@@ -518,18 +538,24 @@
         "pylint": {
             "hashes": [
 <<<<<<< HEAD
+<<<<<<< HEAD
                 "sha256:0a049c5d47b629d9070c3932d13bff482b12119b6a241a93bc460b0be16953c8",
                 "sha256:792b38ff30903884e4a9eab814ee3523731abd3c463f3ba48d7b627e87013484"
             ],
             "index": "pypi",
             "version": "==2.8.3"
 =======
+=======
+>>>>>>> 055aed4effd40296bb8c84fed97dac15cd6e8ad6
                 "sha256:2b422dd6f251a1caea5532cbb5a7d0cbf66b1ee6a36b50c53e32fa7a8272cc55",
                 "sha256:49b58c3ab27ea78cdcbd2d85b21f8e939bb179301f1cde1bd3f65168d9cbf25a"
             ],
             "index": "pypi",
             "version": "==3.0.0a3"
+<<<<<<< HEAD
 >>>>>>> 2888656 (228 formatted per lint test results)
+=======
+>>>>>>> 055aed4effd40296bb8c84fed97dac15cd6e8ad6
         },
         "pyparsing": {
             "hashes": [
@@ -537,12 +563,17 @@
                 "sha256:f4896b4cc085a1f8f8ae53a1a90db5a86b3825ff73eb974dffee3d9e701007f4"
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2'",
             "version": "==2.4.7"
 =======
             "markers": "python_version >= '3.5'",
             "version": "==3.0.0b2"
 >>>>>>> 2888656 (228 formatted per lint test results)
+=======
+            "markers": "python_version >= '3.5'",
+            "version": "==3.0.0b2"
+>>>>>>> 055aed4effd40296bb8c84fed97dac15cd6e8ad6
         },
         "pytest": {
             "hashes": [
