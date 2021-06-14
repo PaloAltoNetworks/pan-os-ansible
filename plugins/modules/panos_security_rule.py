@@ -244,6 +244,10 @@ options:
         description:
             - Exclude this rule from the listed firewalls in Panorama.
         type: bool
+    audit_comment:
+        description:
+            - Add an audit comment to the rule being defined.
+        type: str
 """
 
 EXAMPLES = """
@@ -338,7 +342,7 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 try:
     from panos.errors import PanDeviceError
-    from panos.policies import SecurityRule
+    from panos.policies import RuleAuditComment, SecurityRule
 except ImportError:
     try:
         from pandevice.errors import PanDeviceError
@@ -410,6 +414,7 @@ def main():
             location=dict(choices=["top", "bottom", "before", "after"]),
             existing_rule=dict(),
             commit=dict(type="bool", default=False),
+            audit_comment=dict(type="str"),
             # TODO(gfreeman) - remove this in the next role release.
             devicegroup=dict(),
         ),
@@ -481,6 +486,7 @@ def main():
     location = module.params["location"]
     existing_rule = module.params["existing_rule"]
     commit = module.params["commit"]
+    audit_comment = module.params["audit_comment"]
 
     # Retrieve the current rules.
     try:
@@ -498,6 +504,10 @@ def main():
     # Move the rule to the correct spot, if applicable.
     if module.params["state"] == "present":
         changed |= helper.apply_position(new_rule, location, existing_rule, module)
+
+    # Add the audit comment, if applicable.
+    if changed and audit_comment and not module.check_mode:
+        new_rule.opstate.audit_comment.update(audit_comment)
 
     # Optional commit.
     if changed and commit:
