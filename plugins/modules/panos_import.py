@@ -36,6 +36,7 @@ requirements:
     - requests_toolbelt
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.full_template_support
 options:
     category:
         description:
@@ -116,16 +117,6 @@ options:
     profile_name:
         description:
             - When I(category=idp-metadata), the name of the SAML profile to create.
-        type: str
-    template:
-        description:
-            - (Panorama only) The template this operation should target.
-              Mutually exclusive with I(template_stack).
-        type: str
-    template_stack:
-        description:
-            - (Panorama only) The template stack this operation should target.
-              Mutually exclusive with I(template).
         type: str
     url:
         description:
