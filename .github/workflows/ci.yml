@@ -105,6 +105,10 @@ jobs:
         with:
           python-version: 3.6.8
 
+      - name: Install pipenv
+        run: |
+          pip install pipenv
+
       # - name: Check pipenv cache
       #   id: cache-pipenv
       #   uses: actions/cache@v2
