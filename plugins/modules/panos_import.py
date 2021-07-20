@@ -36,6 +36,7 @@ requirements:
     - requests_toolbelt
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.full_template_support
 options:
     category:
         description:
@@ -170,6 +171,14 @@ EXAMPLES = """
     category: 'idp-metadata'
     filename: '/tmp/saml_metadata.xml'
     profile_name: 'saml-profile'
+
+- name: Import SAML metadata profile to template
+  panos_import:
+    provider: '{{ device }}'
+    category: 'idp-metadata'
+    filename: '/tmp/saml_metadata.xml'
+    profile_name: 'saml-profile'
+    template: firewall-template
 """
 
 RETURN = """
@@ -225,6 +234,9 @@ def delete_file(path):
 
 def main():
     helper = get_connection(
+        template=True,
+        template_stack=True,
+        template_is_optional=True,
         with_classic_provider_spec=True,
         argument_spec=dict(
             category=dict(
@@ -304,8 +316,11 @@ def main():
 
     url = module.params["url"]
 
+    # get_pandevice_parent will validate templates. The returned value, if a template, is not useable.
     parent = helper.get_pandevice_parent(module)
-    xapi = parent.xapi
+    xapi = (
+        helper.device.xapi
+    )  # This is why we get the xapi info from helper.device instead
 
     changed = False
 
@@ -325,6 +340,12 @@ def main():
 
     elif category == "idp-metadata":
         params["profile-name"] = module.params["profile_name"]
+
+    if module.params["template_stack"] is not None:
+        params["target-tpl"] = module.params["template_stack"]
+
+    elif module.params["template"] is not None:
+        params["target-tpl"] = module.params["template"]
 
     try:
         if not module.check_mode:
