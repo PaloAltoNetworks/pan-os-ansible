@@ -444,7 +444,6 @@ def main():
                 "mahogany",
                 "burnt sienna",
                 "chestnut",
-
             ],
         ),
         vsys=dict(default="vsys1"),
