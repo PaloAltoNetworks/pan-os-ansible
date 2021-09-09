@@ -209,6 +209,10 @@ options:
         description:
             - The group tag.
         type: str
+    audit_comment:
+        description:
+            - Add an audit comment to the rule being defined.
+        type: str
 """
 
 EXAMPLES = """
@@ -363,6 +367,7 @@ def main():
             target=dict(type="list", elements="str"),
             negate_target=dict(type="bool"),
             commit=dict(type="bool", default=False),
+            audit_comment=dict(),
             # TODO(gfreeman) - remove later.
             tag_name=dict(),
             devicegroup=dict(),
@@ -496,6 +501,10 @@ def main():
         changed, diff = helper.apply_state(new_rule, rules, module)
         if state == "present":
             changed |= helper.apply_position(new_rule, location, existing_rule, module)
+
+    # Audit comment.
+    if changed and module.params["audit_comment"] and not module.check_mode:
+        new_rule.opstate.audit_comment.update(module.params["audit_comment"])
 
     if changed and module.params["commit"]:
         helper.commit(module)
