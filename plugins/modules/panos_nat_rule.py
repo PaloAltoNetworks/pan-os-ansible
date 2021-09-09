@@ -205,6 +205,10 @@ options:
         description:
             - Exclude this rule from the listed firewalls in Panorama.
         type: bool
+    group_tag:
+        description:
+            - The group tag.
+        type: str
 """
 
 EXAMPLES = """
@@ -262,6 +266,7 @@ def create_nat_rule(**kwargs):
         service=kwargs["service"],
         to_interface=kwargs["to_interface"],
         nat_type=kwargs["nat_type"],
+        group_tag=kwargs["group_tag"],
     )
 
     # Source translation: Static IP
@@ -326,6 +331,7 @@ def main():
         device_group=True,
         rulebase=True,
         error_on_firewall_shared=True,
+        min_pandevice_version=(1, 5, 0),
         argument_spec=dict(
             rule_name=dict(required=True),
             description=dict(),
@@ -361,6 +367,7 @@ def main():
             tag_name=dict(),
             devicegroup=dict(),
             operation=dict(),
+            group_tag=dict(),
         ),
     )
 
@@ -456,6 +463,7 @@ def main():
         dnat_port=dnat_port,
         target=target,
         negate_target=negate_target,
+        group_tag=module.params["group_tag"],
     )
 
     if not new_rule:
