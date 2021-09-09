@@ -196,6 +196,10 @@ options:
         description:
             - The group tag.
         type: str
+    audit_comment:
+        description:
+            - Add an audit comment to the rule being defined.
+        type: str
 """
 
 EXAMPLES = """
@@ -270,6 +274,7 @@ def main():
             location=dict(choices=["top", "bottom", "before", "after"]),
             existing_rule=dict(),
             group_tag=dict(),
+            audit_comment=dict(),
         ),
     )
 
@@ -337,6 +342,10 @@ def main():
     # Move the rule to the correct spot, if applicable.
     if module.params["state"] == "present":
         changed |= helper.apply_position(new_rule, location, existing_rule, module)
+
+    # Audit comment.
+    if changed and module.params["audit_comment"] and not module.check_mode:
+        new_rule.opstate.audit_comment.update(module.params["audit_comment"])
 
     # Done.
     module.exit_json(changed=changed, diff=diff)
