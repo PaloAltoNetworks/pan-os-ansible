@@ -192,6 +192,10 @@ options:
             - For Panorama devices only.
             - Exclude this rule from the listed firewalls in Panorama.
         type: bool
+    group_tag:
+        description:
+            - The group tag.
+        type: str
 """
 
 EXAMPLES = """
@@ -232,7 +236,7 @@ def main():
         with_state=True,
         with_classic_provider_spec=True,
         error_on_firewall_shared=True,
-        min_pandevice_version=(0, 13, 0),
+        min_pandevice_version=(1, 5, 0),
         argument_spec=dict(
             name=dict(required=True),
             description=dict(),
@@ -265,6 +269,7 @@ def main():
             negate_target=dict(type="bool"),
             location=dict(choices=["top", "bottom", "before", "after"]),
             existing_rule=dict(),
+            group_tag=dict(),
         ),
     )
 
@@ -309,6 +314,7 @@ def main():
         "symmetric_return_addresses": module.params["symmetric_return_addresses"],
         "target": module.params["target"],
         "negate_target": module.params["negate_target"],
+        "group_tag": module.params["group_tag"],
     }
 
     # Other module info.
