@@ -248,6 +248,10 @@ options:
         description:
             - Add an audit comment to the rule being defined.
         type: str
+    group_tag:
+        description:
+            - The group tag.
+        type: str
 """
 
 EXAMPLES = """
@@ -365,6 +369,7 @@ def main():
         with_state=True,
         with_classic_provider_spec=True,
         error_on_firewall_shared=True,
+        min_pandevice_version=(1, 5, 0),
         argument_spec=dict(
             rule_name=dict(required=True),
             source_zone=dict(type="list", elements="str", default=["any"]),
@@ -415,6 +420,7 @@ def main():
             existing_rule=dict(),
             commit=dict(type="bool", default=False),
             audit_comment=dict(type="str"),
+            group_tag=dict(),
             # TODO(gfreeman) - remove this in the next role release.
             devicegroup=dict(),
         ),
@@ -480,6 +486,7 @@ def main():
         "data_filtering": module.params["data_filtering"],
         "target": module.params["target"],
         "negate_target": module.params["negate_target"],
+        "group_tag": module.params["group_tag"],
     }
 
     # Other module info.
