@@ -71,7 +71,7 @@ options:
         description:
             - Type of object to retrieve.
         type: str
-        choices: ['address', 'address-group', 'application', 'application-group', 'service', 'service-group', 'tag']
+        choices: ['address', 'address-group', 'application', 'application-group', 'custom-url-category', 'service', 'service-group', 'tag']
         default: 'address'
 """
 
@@ -241,6 +241,7 @@ def main():
                     "address-group",
                     "application",
                     "application-group",
+                    "custom-url-category",
                     "service",
                     "service-group",
                     "tag",
@@ -265,6 +266,7 @@ def main():
         "address-group": objects.AddressGroup,
         "application": objects.ApplicationObject,
         "application-group": objects.ApplicationGroup,
+        "custom-url-category": objects.CustomUrlCategory,
         "service": objects.ServiceObject,
         "service-group": objects.ServiceGroup,
         "tag": objects.Tag,
