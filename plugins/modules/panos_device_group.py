@@ -17,11 +17,6 @@
 
 from __future__ import absolute_import, division, print_function
 
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    get_connection,
-)
-
 __metaclass__ = type
 
 DOCUMENTATION = """
@@ -87,6 +82,10 @@ RETURN = """
 # Default return values
 """
 
+from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    get_connection,
+)
 
 try:
     from panos.errors import PanDeviceError
