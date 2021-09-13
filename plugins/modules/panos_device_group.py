@@ -88,13 +88,11 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
-    from panos.errors import PanObjectMissing
+    from panos.errors import PanDeviceError, PanObjectMissing
     from panos.panorama import DeviceGroup
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
-        from pandevice.errors import PanObjectMissing
+        from pandevice.errors import PanDeviceError, PanObjectMissing
         from pandevice.panorama import DeviceGroup
     except ImportError:
         pass
