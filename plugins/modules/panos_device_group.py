@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-#  Copyright 2017 Palo Alto Networks, Inc
+#  Copyright 2021 Palo Alto Networks, Inc
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ version_added: '2.8.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
-    - pandevice >= 1.5.0
+    - pandevice >= 1.5.1
 notes:
     - Panorama is supported.
     - This is a Panorama only module.
