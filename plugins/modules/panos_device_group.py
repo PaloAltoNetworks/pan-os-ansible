@@ -38,6 +38,7 @@ notes:
     - Check mode is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.provider
 options:
     name:
         description:
