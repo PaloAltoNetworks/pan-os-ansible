@@ -66,6 +66,7 @@ format:		## Format with black, isort
 
 check-format:	## Check with black, isort
 	black --check .
+	isort --diff .
 	isort --check .
 
 sync-deps:	## Sync Pipfile.lock to requirements.txt
