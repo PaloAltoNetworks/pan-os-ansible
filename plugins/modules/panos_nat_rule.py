@@ -174,11 +174,13 @@ options:
         type: bool
     dnat_address:
         description:
-            - dnat translated address
+            - Static dnat translated address
+            - Mutually exclusive with I(dnat_dynamic_address), I(dnat_dynamic_port), and I(dnat_dynamic_distribution).
         type: str
     dnat_port:
         description:
-            - dnat translated port
+            - Static dnat translated port
+            - Mutually exclusive with I(dnat_dynamic_address), I(dnat_dynamic_port), and I(dnat_dynamic_distribution).
         type: str
     location:
         description:
@@ -208,6 +210,21 @@ options:
     group_tag:
         description:
             - The group tag.
+        type: str
+    dnat_dynamic_address:
+        description:
+            - Dynamic destination translated address.
+            - Mutually exclusive with I(dnat_address) and I(dnat_port).
+        type: str
+    dnat_dynamic_port:
+        description:
+            - Dynamic destination translated port.
+            - Mutually exclusive with I(dnat_address) and I(dnat_port).
+        type: int
+    dnat_dynamic_distribution:
+        description:
+            - Dynamic destination translated distribution.
+            - Mutually exclusive with I(dnat_address) and I(dnat_port).
         type: str
     audit_comment:
         description:
@@ -318,6 +335,14 @@ def create_nat_rule(**kwargs):
         if kwargs["dnat_port"]:
             nat_rule.destination_translated_port = kwargs["dnat_port"]
 
+    # Dynamic destination translation
+    if kwargs["dnat_dynamic_address"]:
+        nat_rule.destination_dynamic_translated_address = kwargs["dnat_dynamic_address"]
+    if kwargs["dnat_dynamic_port"]:
+        nat_rule.destination_dynamic_translated_port = kwargs["dnat_dynamic_port"]
+    if kwargs["dnat_dynamic_distribution"]:
+        nat_rule.destination_dynamic_translated_distribution = kwargs["dnat_dynamic_distribution"]
+
     # Any tags?
     if "tag_val" in kwargs:
         nat_rule.tag = kwargs["tag_val"]
@@ -358,6 +383,9 @@ def main():
             snat_bidirectional=dict(type="bool"),
             dnat_address=dict(),
             dnat_port=dict(),
+            dnat_dynamic_address=dict(),
+            dnat_dynamic_port=dict(type="int"),
+            dnat_dynamic_distribution=dict(),
             tag=dict(type="list", elements="str"),
             state=dict(
                 default="present", choices=["present", "absent", "enable", "disable"]
