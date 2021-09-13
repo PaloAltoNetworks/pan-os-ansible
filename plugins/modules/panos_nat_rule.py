@@ -341,7 +341,9 @@ def create_nat_rule(**kwargs):
     if kwargs["dnat_dynamic_port"]:
         nat_rule.destination_dynamic_translated_port = kwargs["dnat_dynamic_port"]
     if kwargs["dnat_dynamic_distribution"]:
-        nat_rule.destination_dynamic_translated_distribution = kwargs["dnat_dynamic_distribution"]
+        nat_rule.destination_dynamic_translated_distribution = kwargs[
+            "dnat_dynamic_distribution"
+        ]
 
     # Any tags?
     if "tag_val" in kwargs:
