@@ -64,6 +64,9 @@ def _vstr(val):
 
 
 def eltostr(obj):
+    if obj is None:
+        return ""
+
     try:
         # Try pretty print first if pandevice supports it
         return obj.element_str(pretty_print=True)
@@ -344,6 +347,71 @@ class ConnectionHelper(object):
 
         # Done.
         return parent
+
+    def apply_state_using_update(self, obj, live_obj, module):
+        """Apply state using `update()`.
+
+        This function is primarily for when the object has sub-objects
+        that pan-os-python does not support.  Using this function will only
+        do `update()` to change the param values, so config that is unknown
+        to pan-os-python will not be truncated.
+
+        Returns:
+            tuple: Two element tuple; bool for changed and a diff dict.
+        """
+        if "state" not in module.params:
+            module.fail_json(msg='No "state" present')
+        elif module.params["state"] not in ("absent", "present"):
+            module.fail_json(
+                msg="Unsupported state: {0}".format(module.params["state"])
+            )
+        elif live_obj is not None and obj.__class__ != live_obj.__class__:
+            module.fail_json(msg="Mismatched objects sent to apply_state_with_updates")
+
+        changed = False
+        diff = {}
+        if module.params["state"] == "present":
+            if live_obj is None:
+                changed = True
+                diff = {
+                    "before": "",
+                    "after": eltostr(obj),
+                }
+                if not module.check_mode:
+                    try:
+                        obj.create()
+                    except PanDeviceError as e:
+                        module.fail_json(msg="Failed create: {0}".format(e))
+            else:
+                for param, value in obj.about().items():
+                    if getattr(live_obj, param) != value:
+                        changed = True
+                        if diff is None:
+                            diff = {
+                                "before": eltostr(live_obj),
+                                "after": eltostr(obj),
+                            }
+                        if not module.check_mode:
+                            try:
+                                obj.update(param)
+                            except PanDeviceError as e:
+                                module.fail_json(
+                                    msg="Failed to update {0}: {1}".format(param, e)
+                                )
+        elif module.params["state"] == "absent":
+            if live_obj is not None:
+                changed = True
+                diff = {
+                    "before": eltostr(live_obj),
+                    "after": "",
+                }
+                if not module.check_mode:
+                    try:
+                        obj.delete()
+                    except PanDeviceError as e:
+                        module.fail_json(msg="Failed delete: {0}".format(e))
+
+        return changed, diff
 
     def apply_state(
         self,
