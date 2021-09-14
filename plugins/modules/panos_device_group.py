@@ -126,13 +126,12 @@ def main():
     }
 
     # Check for current object.
-    listing = []
     live_obj = DeviceGroup(spec["name"])
     parent.add(live_obj)
     try:
         live_obj.refresh()
     except PanObjectMissing:
-        pass
+        live_obj = None
     except PanDeviceError as e:
         module.fail_json(msg="Failed refresh: {0}".format(e))
     else:
@@ -149,26 +148,23 @@ def main():
         module.fail_json(msg="Failed dg hierarchy refresh: {0}".format(e))
 
     # Perform the requeseted action.
-    changed, diff = helper.apply_state(obj, listing, module)
-
-    # TODO(shinmog): perhaps this should be moved into the helper..?
-    if diff is None:
-        diff = {}
+    changed, diff = helper.apply_state_using_update(obj, live_obj, module)
 
     # Opstate handling: device group parent.
     diff["before_parent"] = obj.opstate.dg_hierarchy.parent
     parent = module.params["parent"] or None
     if module.params["state"] == "absent":
         diff["after_parent"] = None
-    elif obj.opstate.dg_hierarchy.parent != parent:
+    else:
         diff["after_parent"] = parent
-        obj.opstate.dg_hierarchy.parent = parent
-        changed = True
-        if not module.check_mode:
-            try:
-                obj.opstate.dg_hierarchy.update()
-            except PanDeviceError as e:
-                module.fail_json(msg="Failed to set dg parent: {0}".format(e))
+        if obj.opstate.dg_hierarchy.parent != parent:
+            obj.opstate.dg_hierarchy.parent = parent
+            changed = True
+            if not module.check_mode:
+                try:
+                    obj.opstate.dg_hierarchy.update()
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed to set dg parent: {0}".format(e))
 
     # Done!
     module.exit_json(changed=changed, diff=diff, msg="Done!")
