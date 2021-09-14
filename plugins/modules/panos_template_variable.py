@@ -21,10 +21,10 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 ---
-module: panos_zone
-short_description: configure security zone
+module: panos_template_variable
+short_description: configure template or template stack variable
 description:
-    - Configure security zones on PAN-OS firewall or in Panorama template.
+    - Configure a template or template stack variable on Panorama.
 author:
     - Garfield Lee Freeman (@shinmog)
 version_added: '2.8.0'
@@ -109,6 +109,7 @@ def main():
         template=True,
         template_stack=True,
         with_state=True,
+        firewall_error="This is a Panorama module",
         argument_spec=dict(
             name=dict(required=True),
             value=dict(),
