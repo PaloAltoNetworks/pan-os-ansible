@@ -91,8 +91,8 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError, PanObjectMissing
     from panos.device import Vsys
+    from panos.errors import PanDeviceError, PanObjectMissing
     from panos.panorama import Template
 except ImportError:
     try:
