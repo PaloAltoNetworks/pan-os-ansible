@@ -96,8 +96,8 @@ try:
     from panos.panorama import Template
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError, PanObjectMissing
         from pandevice.device import Vsys
+        from pandevice.errors import PanDeviceError, PanObjectMissing
         from pandevice.panorama import Template
     except ImportError:
         pass
