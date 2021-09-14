@@ -103,6 +103,7 @@ plugins/modules/panos_static_route.py validate-modules:missing-gplv3-license
 plugins/modules/panos_syslog_profile.py validate-modules:missing-gplv3-license
 plugins/modules/panos_syslog_server.py validate-modules:missing-gplv3-license
 plugins/modules/panos_tag_object.py validate-modules:missing-gplv3-license
+plugins/modules/panos_template.py validate-modules:missing-gplv3-license
 plugins/modules/panos_tunnel.py validate-modules:missing-gplv3-license
 plugins/modules/panos_type_cmd.py validate-modules:missing-gplv3-license
 plugins/modules/panos_userid.py validate-modules:missing-gplv3-license
