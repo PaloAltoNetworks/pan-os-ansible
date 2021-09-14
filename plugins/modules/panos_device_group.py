@@ -134,8 +134,6 @@ def main():
         live_obj = None
     except PanDeviceError as e:
         module.fail_json(msg="Failed refresh: {0}".format(e))
-    else:
-        listing.append(live_obj)
 
     # Build the object and attach to the parent.
     obj = DeviceGroup(**spec)
