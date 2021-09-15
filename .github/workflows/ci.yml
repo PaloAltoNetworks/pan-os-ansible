@@ -93,12 +93,18 @@ jobs:
   docs:
     name: docs
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [release]
+    needs: [test]
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./ansible_collections/paloaltonetworks/panos
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          path: ./ansible_collections/paloaltonetworks/panos
 
       - name: Set up Python 3.6.8
         uses: actions/setup-python@v2.2.2
