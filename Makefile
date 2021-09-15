@@ -51,7 +51,6 @@ docs:		## Build collection documentation
 	mkdir -p docs/source/modules
 	cd docs && ansible-doc-extractor --template templates/module.rst.j2 source/modules ~/.ansible/collections/ansible_collections/paloaltonetworks/panos/plugins/modules/panos*.py
 	cd docs && sphinx-build source html
-	echo $(pwd)
 
 .PHONY: clean
 clean:		## Remove all auto-generated files

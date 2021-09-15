@@ -101,10 +101,18 @@ jobs:
         working-directory: ./ansible_collections/paloaltonetworks/panos
 
     steps:
+      - name: Check cwd
+        run: |
+          echo $(pwd)
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
           path: ./ansible_collections/paloaltonetworks/panos
+
+      - name: Check cwd
+        run: |
+          echo $(pwd)
 
       - name: Set up Python 3.6.8
         uses: actions/setup-python@v2.2.2
