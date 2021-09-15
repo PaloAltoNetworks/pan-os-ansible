@@ -93,7 +93,7 @@ jobs:
   docs:
     name: docs
     #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [test]
+    #needs: [test]
     runs-on: ubuntu-latest
 
     defaults:
@@ -158,9 +158,9 @@ jobs:
         run: |
           echo $(pwd)
 
-      - name: Check home
+      - name: Find html dir
         run: |
-          echo $HOME
+          find . -name html
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
