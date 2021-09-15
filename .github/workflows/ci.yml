@@ -129,10 +129,14 @@ jobs:
         run: |
           pipenv install --dev
 
-      - name: Download built collection
-        uses: actions/download-artifact@v2
-        with:
-          name: collection
+      - name: Build the collection
+        run:
+          ansible-galaxy collection build
+
+      # - name: Download built collection
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: collection
 
       - name: Install built collection
         run:
