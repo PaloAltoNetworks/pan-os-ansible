@@ -151,7 +151,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
-          folder: ./docs/html
+          folder: ansible_collections/paloaltonetworks/panos/docs/html
           clean: true
           #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           #BRANCH: gh-pages # The branch the action should deploy to.
