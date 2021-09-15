@@ -101,10 +101,6 @@ jobs:
         working-directory: ./ansible_collections/paloaltonetworks/panos
 
     steps:
-      - name: Check cwd
-        run: |
-          echo $(pwd)
-
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -149,6 +145,10 @@ jobs:
       - name: Install built collection
         run:
           ansible-galaxy collection install *.tar.gz
+
+      - name: Check cwd
+        run: |
+          echo $(pwd)
 
       - name: Generate documentation
         run: |
