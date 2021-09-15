@@ -162,9 +162,13 @@ jobs:
         run: |
           find ~ -name html
 
-      #- name: Move docs into place
-      #  run: |
-      #    cp -r docs/html ../../../..
+      - name: Move docs into place
+        run: |
+          mv docs ../../..
+
+      - name: Find html dir
+        run: |
+          find ~ -name html
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
