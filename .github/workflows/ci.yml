@@ -172,12 +172,12 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
+        #working-directory: ./ansible_collections/paloaltonetworks/panos
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           folder: docs/html
           clean: true
-          workspace: ./ansible_collections/paloaltonetworks/panos
           #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           #BRANCH: gh-pages # The branch the action should deploy to.
           #FOLDER: docs/html # The folder the action should deploy.
