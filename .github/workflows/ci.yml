@@ -240,12 +240,21 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pwd
           cd ~/ansible_collections/paloaltonetworks/panos
-          pwd
           pipenv install --dev
         env:
           ANSIBLE_COLLECTIONS_PATHS: ${{ env.ac_path }}
+
+      - name: Get pyversion
+        run: |
+          python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))'
+
+      - name: Try to run sanity tests
+        run: |
+          #cd ~/ansible_collections/paloaltonetworks/panos
+          pipenv run black --check .
+          pipenv run isort --diff .
+          pipenv run isort --check .
 
       - name: Generate documentation
         run: |
