@@ -225,8 +225,14 @@ jobs:
       - name: Setup env for ansible collection
         run: |
           mkdir -p ~/ansible_collections/paloaltonetworks
-          ln -s ~/pan-os-ansible ~/ansible_collections/paloaltonetworks/panos
-          ls -lF ~/ansible_collections/paloaltonetworks/panos
+          cd ~/ansible_collections/paloaltonetworks
+          ln -s ~/pan-os-ansible panos
+          cd panos
+          ls -lF
+
+      - name: Check cwd
+        run: |
+          pwd
 
       - name: Install pipenv
         run: |
