@@ -175,8 +175,8 @@ jobs:
       #    find ~ -name html
 
       - name: Deploy to GitHub Pages
+        working-directory: ansible_collections/paloaltonetworks/panos
         uses: JamesIves/github-pages-deploy-action@4.1.5
-        working-directory: ./ansible_collections/paloaltonetworks/panos
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
