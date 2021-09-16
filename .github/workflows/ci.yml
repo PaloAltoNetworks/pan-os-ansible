@@ -377,7 +377,11 @@ jobs:
 
       - name: Move dir into place for the pages deploy
         run: |
+          pwd
+          echo "moving everything..."
           mv * ../..
+          cd ../..
+          ls -laF
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
