@@ -166,6 +166,11 @@ jobs:
         run: |
           ansible --version
 
+      - name: Output env
+        run: |
+          echo $ANSIBLE_COLLECTIONS_PATHS
+          echo $GITHUB_WORKSPACE
+
       #- name: Move docs into place
       #  run: |
       #    mv docs ../../..
@@ -185,4 +190,3 @@ jobs:
           #BRANCH: gh-pages # The branch the action should deploy to.
           #FOLDER: docs/html # The folder the action should deploy.
           #CLEAN: true # Automatically remove deleted files from the deploy branch
-        working-directory: ansible_collections/paloaltonetworks/panos
