@@ -287,3 +287,106 @@ jobs:
           #BRANCH: gh-pages # The branch the action should deploy to.
           #FOLDER: docs/html # The folder the action should deploy.
           #CLEAN: true # Automatically remove deleted files from the deploy branch
+
+  docs3:
+    name: docs3
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./ansible_collections/paloaltonetworks/panos
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: ./ansible_collections/paloaltonetworks/panos
+
+      - name: Check cwd
+        run: |
+          echo $(pwd)
+
+      - name: Set up Python 3.6.8
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: 3.6.8
+
+      - name: Install pipenv
+        run: |
+          pip install pipenv
+
+      # - name: Check pipenv cache
+      #   id: cache-pipenv
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ~/.local/share/virtualenvs
+      #     key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pipenv-
+
+      - name: Install dependencies
+        # if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        run: |
+          pipenv install --dev
+
+      - name: Build the collection
+        run:
+          ansible-galaxy collection build
+
+      # - name: Download built collection
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: collection
+
+      - name: Install built collection
+        run:
+          ansible-galaxy collection install *.tar.gz
+
+      - name: Check cwd
+        run: |
+          echo $(pwd)
+
+      - name: Generate documentation
+        run: |
+          pipenv run make docs
+
+      - name: Check cwd
+        run: |
+          echo $(pwd)
+
+      - name: Find html dir
+        run: |
+          find ~ -name html
+
+      - name: Check Ansible version
+        run: |
+          ansible --version
+
+      - name: Output env
+        run: |
+          echo $ANSIBLE_COLLECTIONS_PATHS
+          echo $GITHUB_WORKSPACE
+
+      #- name: Move docs into place
+      #  run: |
+      #    mv docs ../../..
+
+      #- name: Find html dir
+      #  run: |
+      #    find ~ -name html
+
+      - name: Move dir into place for the pages deploy
+        run: |
+          mv * ../..
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: docs/html
+          clean: true
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #BRANCH: gh-pages # The branch the action should deploy to.
+          #FOLDER: docs/html # The folder the action should deploy.
+          #CLEAN: true # Automatically remove deleted files from the deploy branch
