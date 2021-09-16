@@ -197,10 +197,10 @@ jobs:
     #needs: [test]
     runs-on: ubuntu-latest
     env:
-      ANSIBLE_COLLECTIONS_PATHS=~
-      AC_PREFIX_PATH=~/ansible_collections/paloaltonetworks
-      AC_NAME=panos
-      MAKE_PATH=~/ansible_collections/paloaltonetworks/panos
+      ANSIBLE_COLLECTIONS_PATHS: ~
+      AC_PREFIX_PATH: ~/ansible_collections/paloaltonetworks
+      AC_NAME: panos
+      MAKE_PATH: ~/ansible_collections/paloaltonetworks/panos
 
     steps:
       - name: Checkout
