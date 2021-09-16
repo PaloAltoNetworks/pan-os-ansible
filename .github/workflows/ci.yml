@@ -162,6 +162,10 @@ jobs:
         run: |
           find ~ -name html
 
+      - name: Check Ansible version
+        run: |
+          ansible --version
+
       #- name: Move docs into place
       #  run: |
       #    mv docs ../../..
