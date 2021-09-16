@@ -247,14 +247,17 @@ jobs:
 
       - name: Get pyversion
         run: |
-          python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))'
+          python3 -c 'import sys; print("pyver={0}".format(".".join(map(str, sys.version_info[:2]))))' >> $GITHUB_ENV
 
       - name: Try to run sanity tests
         run: |
-          #cd ~/ansible_collections/paloaltonetworks/panos
+          cd ~/ansible_collections/paloaltonetworks/panos
           pipenv run black --check .
           pipenv run isort --diff .
           pipenv run isort --check .
+          pipenv run ansible-test sanity --python ${{ env.pyver }} --skip-test import
+        env:
+          ANSIBLE_COLLECTIONS_PATHS: ${{ env.ac_path }}
 
       - name: Generate documentation
         run: |
