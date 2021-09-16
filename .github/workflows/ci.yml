@@ -375,6 +375,10 @@ jobs:
       #  run: |
       #    find ~ -name html
 
+      - name: Check for git
+        run: |
+          find ~ -name .git
+
       - name: Move dir into place for the pages deploy
         run: |
           pwd
