@@ -196,11 +196,6 @@ jobs:
     #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     #needs: [test]
     runs-on: ubuntu-latest
-    env:
-      ANSIBLE_COLLECTIONS_PATHS: ~
-      AC_PREFIX_PATH: ~/ansible_collections/paloaltonetworks
-      AC_NAME: panos
-      MAKE_PATH: ./ansible_collections/paloaltonetworks/panos
 
     steps:
       - name: Checkout
@@ -211,31 +206,26 @@ jobs:
         with:
           python-version: 3.6.8
 
-      - name: Setup env
+      - name: Save installed path for later
         run: |
-          echo "acp=$(pwd)" >> $GITHUB_ENV
+          echo "ac_path=$(pwd)" >> $GITHUB_ENV
 
       - name: Output env
         run: |
-          echo ${{ env.acp }}
+          echo ${{ env.ac_path }}
           echo $ANSIBLE_COLLECTIONS_PATHS
           echo $GITHUB_WORKSPACE
-
-      - name: Output env ref
         env:
-          MY_REF: ${{ env.GITHUB_WORKSPACE }}
-        run: |
-          echo $MY_REF
+          ANSIBLE_COLLECTIONS_PATHS: ${{ env.ac_path }}
 
       - name: Setup env for ansible collection
         run: |
-          
           ls -lF
           pwd
           echo 'doing mkdir'
           mkdir -p ~/ansible_collections/paloaltonetworks
           cd ~/ansible_collections/paloaltonetworks
-          ln -s ~/pan-os-ansible panos
+          ln -s ${{ env.ac_path }} panos
           ls -lF
           cd panos
           ls -lF
@@ -253,14 +243,18 @@ jobs:
           pwd
           cd ~/ansible_collections/paloaltonetworks/panos
           pwd
-          ANSIBLE_COLLECTIONS_PATHS=~ pipenv install --dev
+          pipenv install --dev
+        env:
+          ANSIBLE_COLLECTIONS_PATHS: ${{ env.ac_path }}
 
       - name: Generate documentation
         run: |
           pwd
           cd ~/ansible_collections/paloaltonetworks/panos
           pwd
-          ANSIBLE_COLLECTIONS_PATHS=~ pipenv run make docs
+          pipenv run make docs
+        env:
+          ANSIBLE_COLLECTIONS_PATHS: ${{ env.ac_path }}
 
       - name: Find html dir
         run: |
