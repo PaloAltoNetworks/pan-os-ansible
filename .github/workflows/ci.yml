@@ -211,8 +211,13 @@ jobs:
         with:
           python-version: 3.6.8
 
+      - name: Setup env
+        run: |
+          echo "acp=$(pwd)" >> $GITHUB_ENV
+
       - name: Output env
         run: |
+          echo ${{ env.acp }}
           echo $ANSIBLE_COLLECTIONS_PATHS
           echo $GITHUB_WORKSPACE
 
@@ -224,6 +229,7 @@ jobs:
 
       - name: Setup env for ansible collection
         run: |
+          
           ls -lF
           pwd
           echo 'doing mkdir'
