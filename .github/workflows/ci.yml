@@ -224,8 +224,9 @@ jobs:
 
       - name: Setup env for ansible collection
         run: |
-          mkdir -p $AC_PREFIX_PATH
-          ln -s $GITHUB_WORKSPACE $MAKE_PATH
+          mkdir -p ~/ansible_collections/paloaltonetworks
+          ln -s ~/pan-os-ansible ~/ansible_collections/paloaltonetworks/panos
+          ls -lF ~/ansible_collections/paloaltonetworks/panos
 
       - name: Install pipenv
         run: |
@@ -233,18 +234,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd $MAKE_PATH
-          pipenv install --dev
+          pwd
+          cd ~/ansible_collections/paloaltonetworks/panos
+          pwd
+          ANSIBLE_COLLECTIONS_PATHS=~ pipenv install --dev
 
       - name: Generate documentation
         run: |
-          cd $MAKE_PATH
           pwd
-          pipenv run make docs
-
-      - name: Check cwd
-        run: |
-          echo $(pwd)
+          cd ~/ansible_collections/paloaltonetworks/panos
+          pwd
+          ANSIBLE_COLLECTIONS_PATHS=~ pipenv run make docs
 
       - name: Find html dir
         run: |
@@ -253,14 +253,6 @@ jobs:
       - name: Check Ansible version
         run: |
           ansible --version
-
-      #- name: Move docs into place
-      #  run: |
-      #    mv docs ../../..
-
-      #- name: Find html dir
-      #  run: |
-      #    find ~ -name html
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
