@@ -190,3 +190,79 @@ jobs:
           #BRANCH: gh-pages # The branch the action should deploy to.
           #FOLDER: docs/html # The folder the action should deploy.
           #CLEAN: true # Automatically remove deleted files from the deploy branch
+
+  docs2:
+    name: docs
+    #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    #needs: [test]
+    runs-on: ubuntu-latest
+    env:
+      ANSIBLE_COLLECTIONS_PATHS=~
+      AC_PREFIX_PATH=~/ansible_collections/paloaltonetworks
+      AC_NAME=panos
+      MAKE_PATH=~/ansible_collections/paloaltonetworks/panos
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.6.8
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: 3.6.8
+
+      - name: Setup env for ansible collection
+        run: |
+          mkdir -p $(AC_PATH_PREFIX)
+          ln -s $(GITHUB_WORKSPACE) $(MAKE_PATH)
+
+      - name: Install pipenv
+        run: |
+          pip install pipenv
+
+      - name: Install dependencies
+        run: |
+          cd $(MAKE_PATH)
+          pipenv install --dev
+
+      - name: Generate documentation
+        run: |
+          cd $(MAKE_PATH)
+          pipenv run make docs
+
+      - name: Check cwd
+        run: |
+          echo $(pwd)
+
+      - name: Find html dir
+        run: |
+          find ~ -name html
+
+      - name: Check Ansible version
+        run: |
+          ansible --version
+
+      - name: Output env
+        run: |
+          echo $ANSIBLE_COLLECTIONS_PATHS
+          echo $GITHUB_WORKSPACE
+
+      #- name: Move docs into place
+      #  run: |
+      #    mv docs ../../..
+
+      #- name: Find html dir
+      #  run: |
+      #    find ~ -name html
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: docs/html
+          clean: true
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #BRANCH: gh-pages # The branch the action should deploy to.
+          #FOLDER: docs/html # The folder the action should deploy.
+          #CLEAN: true # Automatically remove deleted files from the deploy branch
