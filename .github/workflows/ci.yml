@@ -213,7 +213,7 @@ jobs:
 
       - name: Setup env for ansible collection
         run: |
-          mkdir -p $(AC_PATH_PREFIX)
+          mkdir -p $(AC_PREFIX_PATH)
           ln -s $(GITHUB_WORKSPACE) $(MAKE_PATH)
 
       - name: Install pipenv
