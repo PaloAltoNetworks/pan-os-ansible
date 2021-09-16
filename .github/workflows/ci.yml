@@ -175,7 +175,6 @@ jobs:
       #    find ~ -name html
 
       - name: Deploy to GitHub Pages
-        working-directory: ansible_collections/paloaltonetworks/panos
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -186,3 +185,4 @@ jobs:
           #BRANCH: gh-pages # The branch the action should deploy to.
           #FOLDER: docs/html # The folder the action should deploy.
           #CLEAN: true # Automatically remove deleted files from the deploy branch
+        working-directory: ansible_collections/paloaltonetworks/panos
