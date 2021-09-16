@@ -200,7 +200,7 @@ jobs:
       ANSIBLE_COLLECTIONS_PATHS: ~
       AC_PREFIX_PATH: ~/ansible_collections/paloaltonetworks
       AC_NAME: panos
-      MAKE_PATH: ~/ansible_collections/paloaltonetworks/panos
+      MAKE_PATH: ./ansible_collections/paloaltonetworks/panos
 
     steps:
       - name: Checkout
@@ -215,6 +215,12 @@ jobs:
         run: |
           echo $ANSIBLE_COLLECTIONS_PATHS
           echo $GITHUB_WORKSPACE
+
+      - name: Output env ref
+        env:
+          MY_REF: ${{ env.GITHUB_WORKSPACE }}
+        run: |
+          echo $MY_REF
 
       - name: Setup env for ansible collection
         run: |
@@ -233,6 +239,7 @@ jobs:
       - name: Generate documentation
         run: |
           cd $MAKE_PATH
+          pwd
           pipenv run make docs
 
       - name: Check cwd
