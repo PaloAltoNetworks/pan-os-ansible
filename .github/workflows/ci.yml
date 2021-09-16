@@ -211,10 +211,15 @@ jobs:
         with:
           python-version: 3.6.8
 
+      - name: Output env
+        run: |
+          echo $ANSIBLE_COLLECTIONS_PATHS
+          echo $GITHUB_WORKSPACE
+
       - name: Setup env for ansible collection
         run: |
-          mkdir -p $(AC_PREFIX_PATH)
-          ln -s $(GITHUB_WORKSPACE) $(MAKE_PATH)
+          mkdir -p $AC_PREFIX_PATH
+          ln -s $GITHUB_WORKSPACE $MAKE_PATH
 
       - name: Install pipenv
         run: |
@@ -222,12 +227,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd $(MAKE_PATH)
+          cd $MAKE_PATH
           pipenv install --dev
 
       - name: Generate documentation
         run: |
-          cd $(MAKE_PATH)
+          cd $MAKE_PATH
           pipenv run make docs
 
       - name: Check cwd
@@ -241,11 +246,6 @@ jobs:
       - name: Check Ansible version
         run: |
           ansible --version
-
-      - name: Output env
-        run: |
-          echo $ANSIBLE_COLLECTIONS_PATHS
-          echo $GITHUB_WORKSPACE
 
       #- name: Move docs into place
       #  run: |
