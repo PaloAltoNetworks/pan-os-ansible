@@ -224,13 +224,17 @@ jobs:
 
       - name: Setup env for ansible collection
         run: |
+          ls -lF
+          pwd
+          echo 'doing mkdir'
           mkdir -p ~/ansible_collections/paloaltonetworks
           cd ~/ansible_collections/paloaltonetworks
           ln -s ~/pan-os-ansible panos
+          ls -lF
           cd panos
           ls -lF
 
-      - name: Check cwd
+      - name: Check cwd after env setup
         run: |
           pwd
 
