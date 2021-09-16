@@ -254,7 +254,7 @@ jobs:
           cd ~/ansible_collections/paloaltonetworks/panos
           pipenv run black --check .
           pipenv run isort --diff .
-          pipenv run isort --check .
+          #pipenv run isort --check .
           pipenv run ansible-test sanity --python ${{ env.pyver }} --skip-test import
         env:
           ANSIBLE_COLLECTIONS_PATHS: ${{ env.ac_path }}
