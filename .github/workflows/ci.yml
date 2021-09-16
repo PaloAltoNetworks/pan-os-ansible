@@ -192,7 +192,7 @@ jobs:
           #CLEAN: true # Automatically remove deleted files from the deploy branch
 
   docs2:
-    name: docs
+    name: docs2
     #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     #needs: [test]
     runs-on: ubuntu-latest
