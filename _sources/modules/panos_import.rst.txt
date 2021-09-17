@@ -143,6 +143,14 @@ Parameters
     The port number to connect to the PAN-OS device on.
 
 
+  template (type: str)
+    (Panorama only) The template this operation should target. Mutually exclusive with *template_stack*.
+
+
+  template_stack (type: str)
+    (Panorama only) The template stack this operation should target. Mutually exclusive with *template*.
+
+
 
 
 
@@ -151,6 +159,7 @@ Notes
 
 .. note::
    - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+   - If the PAN-OS to be configured is Panorama, either *template* or *template_stack* must be specified.
 
 
 
@@ -206,6 +215,14 @@ Examples
         category: 'idp-metadata'
         filename: '/tmp/saml_metadata.xml'
         profile_name: 'saml-profile'
+
+    - name: Import SAML metadata profile to template
+      panos_import:
+        provider: '{{ device }}'
+        category: 'idp-metadata'
+        filename: '/tmp/saml_metadata.xml'
+        profile_name: 'saml-profile'
+        template: firewall-template
 
 
 

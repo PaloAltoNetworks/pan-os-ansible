@@ -134,11 +134,15 @@ Parameters
 
 
   dnat_address (type: str)
-    dnat translated address
+    Static dnat translated address
+
+    Mutually exclusive with *dnat_dynamic_address*, *dnat_dynamic_port*, and *dnat_dynamic_distribution*.
 
 
   dnat_port (type: str)
-    dnat translated port
+    Static dnat translated port
+
+    Mutually exclusive with *dnat_dynamic_address*, *dnat_dynamic_port*, and *dnat_dynamic_distribution*.
 
 
   location (type: str)
@@ -157,6 +161,32 @@ Parameters
 
   negate_target (type: bool)
     Exclude this rule from the listed firewalls in Panorama.
+
+
+  group_tag (type: str)
+    The group tag.
+
+
+  dnat_dynamic_address (type: str)
+    Dynamic destination translated address.
+
+    Mutually exclusive with *dnat_address* and *dnat_port*.
+
+
+  dnat_dynamic_port (type: int)
+    Dynamic destination translated port.
+
+    Mutually exclusive with *dnat_address* and *dnat_port*.
+
+
+  dnat_dynamic_distribution (type: str)
+    Dynamic destination translated distribution.
+
+    Mutually exclusive with *dnat_address* and *dnat_port*.
+
+
+  audit_comment (type: str)
+    Add an audit comment to the rule being defined.
 
 
   provider (type: dict)

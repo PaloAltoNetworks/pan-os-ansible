@@ -149,6 +149,6 @@ Status
 Authors
 ~~~~~~~
 
-- Nathan Embery (@nembery)
 - Michael Richardson (@mrichardson03)
+- Nathan Embery (@nembery)
 

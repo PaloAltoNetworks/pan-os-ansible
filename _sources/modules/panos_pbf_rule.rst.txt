@@ -147,6 +147,14 @@ Parameters
     Exclude this rule from the listed firewalls in Panorama.
 
 
+  group_tag (type: str)
+    The group tag.
+
+
+  audit_comment (type: str)
+    Add an audit comment to the rule being defined.
+
+
   provider (type: dict)
     A dict object containing connection details.
 

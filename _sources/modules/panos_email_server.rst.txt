@@ -57,6 +57,10 @@ Parameters
     IP address or FQDN of email gateway to use.
 
 
+  protocol (type: str, default: SMTP)
+    Specify whether to use clear-text or encrypted SMTP.
+
+
   provider (type: dict)
     A dict object containing connection details.
 
