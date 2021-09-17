@@ -92,8 +92,8 @@ jobs:
 
   docs:
     name: docs
-    #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    #needs: [test]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [test]
     runs-on: ubuntu-latest
 
     defaults:
@@ -101,14 +101,14 @@ jobs:
         working-directory: ./ansible_collections/paloaltonetworks/panos
 
     steps:
+      # Just a note here:  The Ansible stuff is apparently doing realpath
+      # checks, so trying to simlink stuff and then run Ansible commends
+      # such as ansible-test in the symlink directory fails.  Thus we need
+      # to have the real path contain ansible_collections/paloaltonetworks/panos.
       - name: Checkout
         uses: actions/checkout@v2
         with:
           path: ./ansible_collections/paloaltonetworks/panos
-
-      - name: Check cwd
-        run: |
-          echo $(pwd)
 
       - name: Set up Python 3.6.8
         uses: actions/setup-python@v2.2.2
@@ -146,31 +146,13 @@ jobs:
         run:
           ansible-galaxy collection install *.tar.gz
 
-      - name: Check cwd
-        run: |
-          echo $(pwd)
-
       - name: Generate documentation
         run: |
           pipenv run make docs
 
-      - name: Check cwd
-        run: |
-          echo $(pwd)
-
-      - name: Find html dir
-        run: |
-          find ~ -name html
-
-      - name: Check Ansible version
-        run: |
-          ansible --version
-
-      - name: Output env
-        run: |
-          echo $ANSIBLE_COLLECTIONS_PATHS
-          echo $GITHUB_WORKSPACE
-
+      # This is here for right now because the action to deploy seems to assume
+      # (and not have a configuration option to) mirror the actions/checkout@v2
+      # the with.path spec.
       - name: Move the repo to where the deploy action is looking for it
         run: |
           cd ../../../..
@@ -178,14 +160,6 @@ jobs:
           mv the_repo/ansible_collections/paloaltonetworks/panos pan-os-ansible
           mkdir -p pan-os-ansible/ansible_collections/paloaltonetworks/panos
 
-      #- name: Move docs into place
-      #  run: |
-      #    mv docs ../../..
-
-      #- name: Find html dir
-      #  run: |
-      #    find ~ -name html
-
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
@@ -193,104 +167,3 @@ jobs:
           branch: gh-pages
           folder: docs/html
           clean: true
-          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          #BRANCH: gh-pages # The branch the action should deploy to.
-          #FOLDER: docs/html # The folder the action should deploy.
-          #CLEAN: true # Automatically remove deleted files from the deploy branch
-
-  docs2:
-    name: docs2
-    #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    #needs: [test]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up Python 3.6.8
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: 3.6.8
-
-      - name: Save installed path for later
-        run: |
-          echo "ac_path=$(pwd)" >> $GITHUB_ENV
-
-      - name: Output env
-        run: |
-          echo ${{ env.ac_path }}
-          echo $ANSIBLE_COLLECTIONS_PATHS
-          echo $GITHUB_WORKSPACE
-        env:
-          ANSIBLE_COLLECTIONS_PATHS: ${{ env.ac_path }}
-
-      - name: Setup env for ansible collection
-        run: |
-          ls -lF
-          pwd
-          echo 'doing mkdir'
-          mkdir -p ~/ansible_collections/paloaltonetworks
-          cd ~/ansible_collections/paloaltonetworks
-          ln -s ${{ env.ac_path }} panos
-          ls -lF
-          cd panos
-          ls -lF
-
-      - name: Check cwd after env setup
-        run: |
-          pwd
-
-      - name: Install pipenv
-        run: |
-          pip install pipenv
-
-      - name: Install dependencies
-        run: |
-          cd ~/ansible_collections/paloaltonetworks/panos
-          pipenv install --dev
-        env:
-          ANSIBLE_COLLECTIONS_PATHS: ${{ env.ac_path }}
-
-      - name: Get pyversion
-        run: |
-          python3 -c 'import sys; print("pyver={0}".format(".".join(map(str, sys.version_info[:2]))))' >> $GITHUB_ENV
-
-      - name: Try to run sanity tests
-        run: |
-          cd ~/ansible_collections/paloaltonetworks/panos
-          pipenv run black --check .
-          pipenv run isort --diff .
-          #pipenv run isort --check .
-          pipenv run ansible-test sanity --python ${{ env.pyver }} --skip-test import
-        env:
-          ANSIBLE_COLLECTIONS_PATHS: ${{ env.ac_path }}
-
-      - name: Generate documentation
-        run: |
-          pwd
-          cd ~/ansible_collections/paloaltonetworks/panos
-          pwd
-          pipenv run make docs
-        env:
-          ANSIBLE_COLLECTIONS_PATHS: ${{ env.ac_path }}
-
-      - name: Find html dir
-        run: |
-          find ~ -name html
-
-      - name: Check Ansible version
-        run: |
-          ansible --version
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          folder: docs/html
-          clean: true
-          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          #BRANCH: gh-pages # The branch the action should deploy to.
-          #FOLDER: docs/html # The folder the action should deploy.
-          #CLEAN: true # Automatically remove deleted files from the deploy branch
