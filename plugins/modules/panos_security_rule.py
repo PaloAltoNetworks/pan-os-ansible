@@ -60,6 +60,7 @@ options:
     source_ip:
         description:
             - List of source addresses.
+            - This can be an IP address, an address object/group, etc.
         default: ["any"]
         type: list
         elements: str
@@ -86,6 +87,7 @@ options:
     destination_ip:
         description:
             - List of destination addresses.
+            - This can be an IP address, an address object/group, etc.
         default: ["any"]
         type: list
         elements: str
