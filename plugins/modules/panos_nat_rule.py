@@ -456,8 +456,8 @@ def main():
     dnat_address = module.params["dnat_address"]
     dnat_port = module.params["dnat_port"]
     dnat_dynamic_address = module.params["dnat_dynamic_address"]
-    dnat_dynamic_port=module.params["dnat_dynamic_port"]
-    dnat_dynamic_distribution=module.params["dnat_dynamic_distribution"]
+    dnat_dynamic_port = module.params["dnat_dynamic_port"]
+    dnat_dynamic_distribution = module.params["dnat_dynamic_distribution"]
 
     # Get other info.
     state = module.params["state"]
