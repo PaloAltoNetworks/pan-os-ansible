@@ -436,8 +436,10 @@ def main():
 
     # HighAvailability.refreshall() is not working for these in pandevice.ha
     # removing until this is fixed to prevent changed from always equal to True
-    listing[0].session_owner_selection = obj.session_owner_selection
-    listing[0].session_setup = obj.session_setup
+    if listing:
+        # TODO(shinmog): Not sure if this is still needed or not
+        listing[0].session_owner_selection = obj.session_owner_selection
+        listing[0].session_setup = obj.session_setup
 
     # Apply the state.
     changed, diff = helper.apply_state(obj, listing, module)

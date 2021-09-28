@@ -71,7 +71,7 @@ options:
         description:
             - Type of object to retrieve.
         type: str
-        choices: ['address', 'address-group', 'application', 'application-group', 'service', 'service-group', 'tag']
+        choices: ['address', 'address-group', 'application', 'application-group', 'custom-url-category', 'service', 'service-group', 'tag']
         default: 'address'
 """
 
@@ -153,6 +153,31 @@ COLORS = {
     "color14": "black",
     "color15": "gold",
     "color16": "brown",
+    "color17": "olive",
+    "color19": "maroon",
+    "color20": "red-orange",
+    "color21": "yellow-orange",
+    "color22": "forest green",
+    "color23": "turquoise blue",
+    "color24": "azure blue",
+    "color25": "cerulean blue",
+    "color26": "midnight blue",
+    "color27": "medium blue",
+    "color28": "cobalt blue",
+    "color29": "violet blue",
+    "color30": "blue violet",
+    "color31": "medium violet",
+    "color32": "medium rose",
+    "color33": "lavender",
+    "color34": "orchid",
+    "color35": "thistle",
+    "color36": "peach",
+    "color37": "salmon",
+    "color38": "magenta",
+    "color39": "red violet",
+    "color40": "mahogany",
+    "color41": "burnt sienna",
+    "color42": "chestnut",
 }
 
 
@@ -216,6 +241,7 @@ def main():
                     "address-group",
                     "application",
                     "application-group",
+                    "custom-url-category",
                     "service",
                     "service-group",
                     "tag",
@@ -240,6 +266,7 @@ def main():
         "address-group": objects.AddressGroup,
         "application": objects.ApplicationObject,
         "application-group": objects.ApplicationGroup,
+        "custom-url-category": objects.CustomUrlCategory,
         "service": objects.ServiceObject,
         "service-group": objects.ServiceGroup,
         "tag": objects.Tag,

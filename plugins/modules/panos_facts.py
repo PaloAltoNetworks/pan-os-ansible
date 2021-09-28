@@ -380,8 +380,8 @@ class Interfaces(Factbase):
                             "ipv6": [],
                         }
                         for sub_child in child.children:
-                            if isinstance(child, IPv6Address):
-                                child_info["ipv6"].append(sub_child.name)
+                            if isinstance(sub_child, IPv6Address):
+                                child_info["ipv6"].append(sub_child.uid)
                         interfaces.append(child_info)
                 interfaces.append(iface_info)
 

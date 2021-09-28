@@ -10,7 +10,6 @@ xmltodict = "==0.12.0"
 requests = "==2.22.0"
 
 [dev-packages]
-ansible = "*"
 black = "==21.5b0"
 isort = "==5.8.0"
 pytest = "*"
@@ -26,9 +25,7 @@ sphinx-rtd-theme = "*"
 ansible-doc-extractor = "*"
 rstcheck = "*"
 six = "*"
+ansible-core = "*"
 
 [requires]
 python_version = "3.6"
-
-[pipenv]
-allow_prereleases = true

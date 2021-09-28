@@ -174,11 +174,13 @@ options:
         type: bool
     dnat_address:
         description:
-            - dnat translated address
+            - Static dnat translated address
+            - Mutually exclusive with I(dnat_dynamic_address), I(dnat_dynamic_port), and I(dnat_dynamic_distribution).
         type: str
     dnat_port:
         description:
-            - dnat translated port
+            - Static dnat translated port
+            - Mutually exclusive with I(dnat_dynamic_address), I(dnat_dynamic_port), and I(dnat_dynamic_distribution).
         type: str
     location:
         description:
@@ -205,6 +207,29 @@ options:
         description:
             - Exclude this rule from the listed firewalls in Panorama.
         type: bool
+    group_tag:
+        description:
+            - The group tag.
+        type: str
+    dnat_dynamic_address:
+        description:
+            - Dynamic destination translated address.
+            - Mutually exclusive with I(dnat_address) and I(dnat_port).
+        type: str
+    dnat_dynamic_port:
+        description:
+            - Dynamic destination translated port.
+            - Mutually exclusive with I(dnat_address) and I(dnat_port).
+        type: int
+    dnat_dynamic_distribution:
+        description:
+            - Dynamic destination translated distribution.
+            - Mutually exclusive with I(dnat_address) and I(dnat_port).
+        type: str
+    audit_comment:
+        description:
+            - Add an audit comment to the rule being defined.
+        type: str
 """
 
 EXAMPLES = """
@@ -262,6 +287,7 @@ def create_nat_rule(**kwargs):
         service=kwargs["service"],
         to_interface=kwargs["to_interface"],
         nat_type=kwargs["nat_type"],
+        group_tag=kwargs["group_tag"],
     )
 
     # Source translation: Static IP
@@ -309,6 +335,16 @@ def create_nat_rule(**kwargs):
         if kwargs["dnat_port"]:
             nat_rule.destination_translated_port = kwargs["dnat_port"]
 
+    # Dynamic destination translation
+    if kwargs["dnat_dynamic_address"]:
+        nat_rule.destination_dynamic_translated_address = kwargs["dnat_dynamic_address"]
+    if kwargs["dnat_dynamic_port"]:
+        nat_rule.destination_dynamic_translated_port = kwargs["dnat_dynamic_port"]
+    if kwargs["dnat_dynamic_distribution"]:
+        nat_rule.destination_dynamic_translated_distribution = kwargs[
+            "dnat_dynamic_distribution"
+        ]
+
     # Any tags?
     if "tag_val" in kwargs:
         nat_rule.tag = kwargs["tag_val"]
@@ -326,6 +362,7 @@ def main():
         device_group=True,
         rulebase=True,
         error_on_firewall_shared=True,
+        min_pandevice_version=(1, 5, 0),
         argument_spec=dict(
             rule_name=dict(required=True),
             description=dict(),
@@ -348,6 +385,9 @@ def main():
             snat_bidirectional=dict(type="bool"),
             dnat_address=dict(),
             dnat_port=dict(),
+            dnat_dynamic_address=dict(),
+            dnat_dynamic_port=dict(type="int"),
+            dnat_dynamic_distribution=dict(),
             tag=dict(type="list", elements="str"),
             state=dict(
                 default="present", choices=["present", "absent", "enable", "disable"]
@@ -357,10 +397,12 @@ def main():
             target=dict(type="list", elements="str"),
             negate_target=dict(type="bool"),
             commit=dict(type="bool", default=False),
+            audit_comment=dict(),
             # TODO(gfreeman) - remove later.
             tag_name=dict(),
             devicegroup=dict(),
             operation=dict(),
+            group_tag=dict(),
         ),
     )
 
@@ -456,6 +498,7 @@ def main():
         dnat_port=dnat_port,
         target=target,
         negate_target=negate_target,
+        group_tag=module.params["group_tag"],
     )
 
     if not new_rule:
@@ -488,6 +531,10 @@ def main():
         changed, diff = helper.apply_state(new_rule, rules, module)
         if state == "present":
             changed |= helper.apply_position(new_rule, location, existing_rule, module)
+
+    # Audit comment.
+    if changed and module.params["audit_comment"] and not module.check_mode:
+        new_rule.opstate.audit_comment.update(module.params["audit_comment"])
 
     if changed and module.params["commit"]:
         helper.commit(module)

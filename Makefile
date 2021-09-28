@@ -18,7 +18,7 @@ else ifneq (ansible_collections,$(toplevel))
 endif
 
 python_version := $(shell \
-  python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))' \
+  python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))' \
 )
 
 
@@ -32,7 +32,8 @@ tests:	check-format sanity
 
 .PHONY: sanity
 sanity:		## Run sanity tests
-	ansible-test sanity --python $(python_version)
+	# import is broken on macOS.
+	ansible-test sanity --python $(python_version) --skip-test import
 
 .PHONY: units
 units:		## Run unit tests
@@ -65,6 +66,7 @@ format:		## Format with black, isort
 
 check-format:	## Check with black, isort
 	black --check .
+	isort --diff .
 	isort --check .
 
 sync-deps:	## Sync Pipfile.lock to requirements.txt

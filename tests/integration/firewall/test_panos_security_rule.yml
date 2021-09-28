@@ -13,6 +13,7 @@
     application: ['ssh']
     action: 'allow'
     device_group: '{{ device_group | default(omit) }}'
+    audit_comment: 'Test audit comment'
   register: result
 
 - name: test_panos_security_rule - Assert create was successful
@@ -33,6 +34,7 @@
     application: ['ssh']
     action: 'allow'
     device_group: '{{ device_group | default(omit) }}'
+    audit_comment: 'Testing audit_comment'
   register: result
 
 - name: test_panos_security_rule - Assert create (idempotence) was successful

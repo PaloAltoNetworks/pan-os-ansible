@@ -140,7 +140,10 @@ options:
     color:
         description: >
             - The color of the tag object.  Valid values are I(red, green, blue, yellow, copper, orange, purple, gray,
-            light green, cyan, light gray, blue gray, lime, black, gold, and brown).
+            light green, cyan, light gray, blue gray, lime, black, gold, brown, olive, maroon, red-orange,
+            yellow-orange, forest green, turquoise blue, azure blue, cerulean blue, midnight blue, medium blue,
+            cobalt blue, violet blue, blue violet, medium violet, medium rose, lavender, orchid, thistle, peach,
+            salmon, magenta, reggd violet, mahogany, burnt sienna and chestnut).
         type: str
         choices:
             - red
@@ -159,6 +162,31 @@ options:
             - black
             - gold
             - brown
+            - olive
+            - maroon
+            - red-orange
+            - yellow-orange
+            - forest green
+            - turquoise blue
+            - azure blue
+            - cerulean blue
+            - midnight blue
+            - medium blue
+            - cobalt blue
+            - violet blue
+            - blue violet
+            - medium violet
+            - medium rose
+            - lavender
+            - orchid
+            - thistle
+            - peach
+            - salmon
+            - magenta
+            - red violet
+            - mahogany
+            - burnt sienna
+            - chestnut
     vsys:
         description:
             - The vsys to put the object into.
@@ -391,6 +419,31 @@ def main():
                 "black",
                 "gold",
                 "brown",
+                "olive",
+                "maroon",
+                "red-orange",
+                "yellow-orange",
+                "forest green",
+                "turquoise blue",
+                "azure blue",
+                "cerulean blue",
+                "midnight blue",
+                "medium blue",
+                "cobalt blue",
+                "violet blue",
+                "blue violet",
+                "medium violet",
+                "medium rose",
+                "lavender",
+                "orchid",
+                "thistle",
+                "peach",
+                "salmon",
+                "magenta",
+                "red violet",
+                "mahogany",
+                "burnt sienna",
+                "chestnut",
             ],
         ),
         vsys=dict(default="vsys1"),

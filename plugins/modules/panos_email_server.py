@@ -69,6 +69,14 @@ options:
         description:
             - IP address or FQDN of email gateway to use.
         type: str
+    protocol:
+        description:
+            - Specify whether to use clear-text or encrypted SMTP.
+        type: str
+        choices:
+            - SMTP
+            - TLS
+        default: SMTP
 """
 
 EXAMPLES = """
@@ -119,6 +127,7 @@ def main():
             to_email=dict(),
             also_to_email=dict(),
             email_gateway=dict(),
+            protocol=dict(choices=["SMTP", "TLS"], default="SMTP"),
         ),
     )
     module = AnsibleModule(
@@ -146,6 +155,7 @@ def main():
         "to": module.params["to_email"],
         "also_to": module.params["also_to_email"],
         "email_gateway": module.params["email_gateway"],
+        "protocol": module.params["protocol"],
     }
     obj = EmailServer(**spec)
     sp.add(obj)

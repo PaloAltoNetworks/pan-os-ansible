@@ -60,6 +60,7 @@ options:
     source_ip:
         description:
             - List of source addresses.
+            - This can be an IP address, an address object/group, etc.
         default: ["any"]
         type: list
         elements: str
@@ -86,6 +87,7 @@ options:
     destination_ip:
         description:
             - List of destination addresses.
+            - This can be an IP address, an address object/group, etc.
         default: ["any"]
         type: list
         elements: str
@@ -244,6 +246,14 @@ options:
         description:
             - Exclude this rule from the listed firewalls in Panorama.
         type: bool
+    audit_comment:
+        description:
+            - Add an audit comment to the rule being defined.
+        type: str
+    group_tag:
+        description:
+            - The group tag.
+        type: str
 """
 
 EXAMPLES = """
@@ -338,7 +348,7 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 try:
     from panos.errors import PanDeviceError
-    from panos.policies import SecurityRule
+    from panos.policies import RuleAuditComment, SecurityRule
 except ImportError:
     try:
         from pandevice.errors import PanDeviceError
@@ -361,6 +371,7 @@ def main():
         with_state=True,
         with_classic_provider_spec=True,
         error_on_firewall_shared=True,
+        min_pandevice_version=(1, 5, 0),
         argument_spec=dict(
             rule_name=dict(required=True),
             source_zone=dict(type="list", elements="str", default=["any"]),
@@ -410,6 +421,8 @@ def main():
             location=dict(choices=["top", "bottom", "before", "after"]),
             existing_rule=dict(),
             commit=dict(type="bool", default=False),
+            audit_comment=dict(type="str"),
+            group_tag=dict(),
             # TODO(gfreeman) - remove this in the next role release.
             devicegroup=dict(),
         ),
@@ -475,12 +488,14 @@ def main():
         "data_filtering": module.params["data_filtering"],
         "target": module.params["target"],
         "negate_target": module.params["negate_target"],
+        "group_tag": module.params["group_tag"],
     }
 
     # Other module info.
     location = module.params["location"]
     existing_rule = module.params["existing_rule"]
     commit = module.params["commit"]
+    audit_comment = module.params["audit_comment"]
 
     # Retrieve the current rules.
     try:
@@ -498,6 +513,10 @@ def main():
     # Move the rule to the correct spot, if applicable.
     if module.params["state"] == "present":
         changed |= helper.apply_position(new_rule, location, existing_rule, module)
+
+    # Add the audit comment, if applicable.
+    if changed and audit_comment and not module.check_mode:
+        new_rule.opstate.audit_comment.update(audit_comment)
 
     # Optional commit.
     if changed and commit:

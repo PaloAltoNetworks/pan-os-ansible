@@ -192,6 +192,14 @@ options:
             - For Panorama devices only.
             - Exclude this rule from the listed firewalls in Panorama.
         type: bool
+    group_tag:
+        description:
+            - The group tag.
+        type: str
+    audit_comment:
+        description:
+            - Add an audit comment to the rule being defined.
+        type: str
 """
 
 EXAMPLES = """
@@ -232,7 +240,7 @@ def main():
         with_state=True,
         with_classic_provider_spec=True,
         error_on_firewall_shared=True,
-        min_pandevice_version=(0, 13, 0),
+        min_pandevice_version=(1, 5, 0),
         argument_spec=dict(
             name=dict(required=True),
             description=dict(),
@@ -265,6 +273,8 @@ def main():
             negate_target=dict(type="bool"),
             location=dict(choices=["top", "bottom", "before", "after"]),
             existing_rule=dict(),
+            group_tag=dict(),
+            audit_comment=dict(),
         ),
     )
 
@@ -309,6 +319,7 @@ def main():
         "symmetric_return_addresses": module.params["symmetric_return_addresses"],
         "target": module.params["target"],
         "negate_target": module.params["negate_target"],
+        "group_tag": module.params["group_tag"],
     }
 
     # Other module info.
@@ -331,6 +342,10 @@ def main():
     # Move the rule to the correct spot, if applicable.
     if module.params["state"] == "present":
         changed |= helper.apply_position(new_rule, location, existing_rule, module)
+
+    # Audit comment.
+    if changed and module.params["audit_comment"] and not module.check_mode:
+        new_rule.opstate.audit_comment.update(module.params["audit_comment"])
 
     # Done.
     module.exit_json(changed=changed, diff=diff)

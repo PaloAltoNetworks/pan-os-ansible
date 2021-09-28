@@ -27,17 +27,17 @@ jobs:
         run: |
           pip install pipenv
 
-      - name: Check pipenv cache
-        id: cache-pipenv
-        uses: actions/cache@v2
-        with:
-          path: ~/.local/share/virtualenvs
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pipenv-
+      # - name: Check pipenv cache
+      #   id: cache-pipenv
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ~/.local/share/virtualenvs
+      #     key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pipenv-
 
       - name: Install dependencies
-        if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        # if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
           pipenv install --dev
 
@@ -47,7 +47,7 @@ jobs:
 
       - name: ansible-test sanity
         run: |
-          pipenv run make sanity
+          pipenv run ansible-test sanity --python 3.6
 
       - name: ansible-galaxy collection build
         run: |
@@ -93,36 +93,54 @@ jobs:
   docs:
     name: docs
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [release]
+    needs: [test]
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./ansible_collections/paloaltonetworks/panos
+
     steps:
+      # Just a note here:  The Ansible stuff is apparently doing realpath
+      # checks, so trying to simlink stuff and then run Ansible commends
+      # such as ansible-test in the symlink directory fails.  Thus we need
+      # to have the real path contain ansible_collections/paloaltonetworks/panos.
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          path: ./ansible_collections/paloaltonetworks/panos
 
       - name: Set up Python 3.6.8
         uses: actions/setup-python@v2.2.2
         with:
           python-version: 3.6.8
 
-      - name: Check pipenv cache
-        id: cache-pipenv
-        uses: actions/cache@v2
-        with:
-          path: ~/.local/share/virtualenvs
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pipenv-
+      - name: Install pipenv
+        run: |
+          pip install pipenv
+
+      # - name: Check pipenv cache
+      #   id: cache-pipenv
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ~/.local/share/virtualenvs
+      #     key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pipenv-
 
       - name: Install dependencies
-        if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        # if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
           pipenv install --dev
 
-      - name: Download built collection
-        uses: actions/download-artifact@v2
-        with:
-          name: collection
+      - name: Build the collection
+        run:
+          ansible-galaxy collection build
+
+      # - name: Download built collection
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: collection
 
       - name: Install built collection
         run:
@@ -132,10 +150,20 @@ jobs:
         run: |
           pipenv run make docs
 
+      # This is here for right now because the action to deploy seems to assume
+      # (and not have a configuration option to) mirror the actions/checkout@v2
+      # the with.path spec.
+      - name: Move the repo to where the deploy action is looking for it
+        run: |
+          cd ../../../..
+          mv pan-os-ansible the_repo
+          mv the_repo/ansible_collections/paloaltonetworks/panos pan-os-ansible
+          mkdir -p pan-os-ansible/ansible_collections/paloaltonetworks/panos
+
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.1
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: docs/html # The folder the action should deploy.
-          CLEAN: true # Automatically remove deleted files from the deploy branch
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: docs/html
+          clean: true
