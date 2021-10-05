@@ -139,12 +139,14 @@ class ConnectionHelper(object):
                 " ".join(lum), version="3.0.0", collection_name="paloaltonetworks.panos"
             )
 
-        # Verify pandevice minimum version.
+        # Verify pan-os-python (formerly pandevice) minimum version.
         if self.min_pandevice_version is not None:
             if pdv < self.min_pandevice_version:
                 module.fail_json(
                     msg=_MIN_VERSION_ERROR.format(
-                        "panos", panos.__version__, _vstr(self.min_pandevice_version)
+                        "pan-os-python",
+                        panos.__version__,
+                        _vstr(self.min_pandevice_version),
                     )
                 )
 
