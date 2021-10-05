@@ -43,6 +43,8 @@ Parameters
   source_ip (type: list, default: ['any'])
     List of source addresses.
 
+    This can be an IP address, an address object/group, etc.
+
 
   source_user (type: list, default: ['any'])
     Use users to enforce policy for individual users or a group of users.
@@ -59,6 +61,8 @@ Parameters
 
   destination_ip (type: list, default: ['any'])
     List of destination addresses.
+
+    This can be an IP address, an address object/group, etc.
 
 
   application (type: list, default: ['any'])
