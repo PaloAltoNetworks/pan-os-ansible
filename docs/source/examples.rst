@@ -139,7 +139,7 @@ used in particular when NGFW is deployed in the cloud (such as AWS).
   - name: Change user password using ssh protocol
     panos_admpwd:
       ip_address: '{{ ip_address }}'
-      password: '{{ password }}'
+      username: '{{ username }}'
       newpassword: '{{ new_password }}'
       key_filename: '{{ key_filename }}'
 
