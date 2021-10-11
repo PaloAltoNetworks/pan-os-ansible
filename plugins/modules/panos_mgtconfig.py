@@ -128,6 +128,7 @@ def main():
     helper = get_connection(
         template=True,
         template_stack=True,
+        template_is_optional=True,
         with_classic_provider_spec=True,
         argument_spec=dict(
             hostname=dict(),
