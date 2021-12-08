@@ -84,6 +84,7 @@ def main():
         argument_spec=dict(
             userid=dict(required=True),
             register_ip=dict(required=True),
+            timeout=dict(required=True),
         ),
     )
 
@@ -106,7 +107,7 @@ def main():
     # Apply the state.
     try:
         getattr(parent.userid, func)(
-            module.params["userid"], module.params["register_ip"]
+            module.params["userid"], module.params["register_ip"], module.params["timeout"]
         )
     except PanDeviceError as e:
         module.fail_json(
