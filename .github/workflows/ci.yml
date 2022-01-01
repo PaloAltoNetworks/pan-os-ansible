@@ -161,7 +161,7 @@ jobs:
           mkdir -p pan-os-ansible/ansible_collections/paloaltonetworks/panos
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.5
+        uses: JamesIves/github-pages-deploy-action@4.1.8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
