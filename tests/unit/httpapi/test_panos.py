@@ -92,8 +92,8 @@ class TestPanosHttpApi:
         assert ret_value["sw-version"] == "10.0.2"
 
     @pytest.mark.parametrize(
-        "xpath", [None, "/config/devices/entry[@name='localhost.localdomain']"]
-    )
+        "xpath",
+        [None, "/config/devices/entry[@name='localhost.localdomain']"])
     @patch.object(HttpApi, "api_key")
     @patch.object(HttpApi, "send_request")
     def test_get(self, mock_send_request, mock_api_key, xpath):
@@ -116,12 +116,10 @@ class TestPanosHttpApi:
 
     @pytest.mark.parametrize(
         "xpath,element",
-        [
-            (
-                "/config/devices/entry[@name='localhost.localdomain']/deviceconfig/system",
-                "<login-banner>foo</login-banner>",
-            )
-        ],
+        [(
+            "/config/devices/entry[@name='localhost.localdomain']/deviceconfig/system",
+            "<login-banner>foo</login-banner>",
+        )],
     )
     @patch.object(HttpApi, "api_key")
     @patch.object(HttpApi, "send_request")
@@ -148,12 +146,10 @@ class TestPanosHttpApi:
 
     @pytest.mark.parametrize(
         "xpath,element",
-        [
-            (
-                "/config/devices/entry[@name='localhost.localdomain']/deviceconfig/system",
-                "<login-banner>foo</login-banner>",
-            )
-        ],
+        [(
+            "/config/devices/entry[@name='localhost.localdomain']/deviceconfig/system",
+            "<login-banner>foo</login-banner>",
+        )],
     )
     @patch.object(HttpApi, "api_key")
     @patch.object(HttpApi, "send_request")
@@ -193,7 +189,12 @@ class TestPanosHttpApi:
         )
         mock_api_key.return_value = "foo"
 
-        params = {"type": "config", "key": "foo", "action": "delete", "xpath": xpath}
+        params = {
+            "type": "config",
+            "key": "foo",
+            "action": "delete",
+            "xpath": xpath
+        }
 
         data = urllib.parse.urlencode(params)
 
@@ -205,32 +206,45 @@ class TestPanosHttpApi:
         "commit_args,expected",
         [
             ({}, "<commit />"),
-            ({"force": True}, "<commit><force /></commit>"),
+            ({
+                "force": True
+            }, "<commit><force /></commit>"),
             (
-                {"description": "test description"},
+                {
+                    "description": "test description"
+                },
                 "<commit><description>test description</description></commit>",
             ),
             (
-                {"exclude_device_and_network": True},
+                {
+                    "exclude_device_and_network": True
+                },
                 "<commit><partial><device-and-network>excluded</device-and-network></partial></commit>",
             ),
             (
-                {"exclude_policy_and_objects": True},
+                {
+                    "exclude_policy_and_objects": True
+                },
                 "<commit><partial><policy-and-objects>excluded</policy-and-objects></partial></commit>",
             ),
             (
-                {"exclude_shared_objects": True},
+                {
+                    "exclude_shared_objects": True
+                },
                 "<commit><partial><shared-object>excluded</shared-object></partial></commit>",
             ),
             (
-                {"admins": ["admin1", "admin2"]},
+                {
+                    "admins": ["admin1", "admin2"]
+                },
                 "<commit><partial><admin><member>admin1</member><member>admin2</member></admin></partial></commit>",
             ),
         ],
     )
     @patch.object(HttpApi, "api_key")
     @patch.object(HttpApi, "send_request")
-    def test_commit(self, mock_send_request, mock_api_key, commit_args, expected):
+    def test_commit(self, mock_send_request, mock_api_key, commit_args,
+                    expected):
         mock_send_request.return_value = (
             200,
             "<request status='success'><result/></request>",
@@ -302,7 +316,8 @@ class TestPanosHttpApi:
 
     @patch.object(HttpApi, "api_key")
     @patch.object(HttpApi, "send_request")
-    def test_poll_for_job_connection_error(self, mock_send_request, mock_api_key):
+    def test_poll_for_job_connection_error(self, mock_send_request,
+                                           mock_api_key):
         mock_send_request.return_value = (
             200,
             "<response status='success'><result/></response>",
@@ -322,39 +337,36 @@ class TestPanosHttpApi:
         assert response == http_response
 
     @pytest.mark.parametrize("http_status,http_response", [(401, None)])
-    def test_validate_response_connection_error(self, http_status, http_response):
+    def test_validate_response_connection_error(self, http_status,
+                                                http_response):
         with pytest.raises(ConnectionError):
             self.plugin._validate_response(http_status, http_response)
 
     @pytest.mark.parametrize(
         "http_status,http_response,api_code,msg",
         [
-            (200, "<response status='error' code='1'/>", "1", "Unknown Command (1)"),
+            (200, "<response status='error' code='1'/>", "1",
+             "Unknown Command (1)"),
             (
                 200,
-                (
-                    "<response status='error'>"
-                    "<msg><line>first line</line><line>second line</line></msg>"
-                    "</response>"
-                ),
+                ("<response status='error'>"
+                 "<msg><line>first line</line><line>second line</line></msg>"
+                 "</response>"),
                 "-1",
                 "Unspecified API Error: first line, second line",
             ),
             (
                 403,
-                (
-                    "<response status='error' code='403'>"
-                    "<result><msg>Invalid Credential</msg></result>"
-                    "</response>"
-                ),
+                ("<response status='error' code='403'>"
+                 "<result><msg>Invalid Credential</msg></result>"
+                 "</response>"),
                 "403",
                 "Forbidden (403): Invalid Credential",
             ),
         ],
     )
-    def test_validate_response_api_exception(
-        self, http_status, http_response, api_code, msg
-    ):
+    def test_validate_response_api_exception(self, http_status, http_response,
+                                             api_code, msg):
         with pytest.raises(PanOSAPIError) as e:
             self.plugin._validate_response(http_status, http_response)
 
@@ -363,7 +375,12 @@ class TestPanosHttpApi:
 
     @pytest.mark.parametrize(
         "params,headers,data",
-        [(None, None, None), ({"type": "config"}, {"X-PAN-KEY": "foo"}, "some data")],
+        [(None, None, None),
+         ({
+             "type": "config"
+         }, {
+             "X-PAN-KEY": "foo"
+         }, "some data")],
     )
     def test_send_request(self, params, headers, data):
         self.connection_mock.send.return_value = self._send_response(
@@ -371,9 +388,9 @@ class TestPanosHttpApi:
             "<request status='success'></request>",
         )
 
-        (code, response) = self.plugin.send_request(
-            data=data, params=params, headers=headers
-        )
+        (code, response) = self.plugin.send_request(data=data,
+                                                    params=params,
+                                                    headers=headers)
 
         assert code == 200
         assert "success" in to_text(response)
@@ -392,6 +409,5 @@ class TestPanosHttpApi:
         response_mock.getcode.return_value = status_code
         response_text = response
         response_data = BytesIO(
-            response_text.encode() if response_text else "".encode()
-        )
+            response_text.encode() if response_text else "".encode())
         return response_mock, response_data
