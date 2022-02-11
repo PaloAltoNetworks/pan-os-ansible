@@ -144,7 +144,9 @@ class ConnectionHelper(object):
             if pdv < self.min_pandevice_version:
                 module.fail_json(
                     msg=_MIN_VERSION_ERROR.format(
-                        "pan-os-python", panos.__version__, _vstr(self.min_pandevice_version)
+                        "pan-os-python",
+                        panos.__version__,
+                        _vstr(self.min_pandevice_version),
                     )
                 )
 
