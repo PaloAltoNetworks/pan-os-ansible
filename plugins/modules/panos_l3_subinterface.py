@@ -35,6 +35,8 @@ notes:
     - Checkmode is supported.
     - If the PAN-OS device is a firewall and I(vsys) is not specified, then
       the vsys will default to I(vsys=vsys1).
+    - If the PAN-OS device is a Panorama, I(vsys) should be specified,
+      otherwise the default is I(null), and I(zone-name) assignment will fail.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.state
