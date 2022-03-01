@@ -19,7 +19,7 @@ jobs:
           path: ./ansible_collections/paloaltonetworks/panos
 
       - name: Set up Python 3.6.8
-        uses: actions/setup-python@v2.2.2
+        uses: actions/setup-python@v3
         with:
           python-version: 3.6.8
 
@@ -111,7 +111,7 @@ jobs:
           path: ./ansible_collections/paloaltonetworks/panos
 
       - name: Set up Python 3.6.8
-        uses: actions/setup-python@v2.2.2
+        uses: actions/setup-python@v3
         with:
           python-version: 3.6.8
 
