@@ -34,6 +34,8 @@ requirements:
 notes:
     - Checkmode is supported.
     - Panorama is supported.
+    - If the PAN-OS device is a Panorama, I(vsys) should be specified,
+      otherwise the default is I(null), and I(zone-name) assignment will fail.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys_import
