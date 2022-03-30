@@ -42,7 +42,7 @@ try:
     import panos
     from panos.base import PanDevice
     from panos.device import Vsys
-    from panos.errors import PanCommitNotNeeded, PanDeviceError
+    from panos.errors import PanCommitNotNeeded, PanDeviceError, PanObjectMissing
     from panos.firewall import Firewall
     from panos.panorama import DeviceGroup, Template, TemplateStack
     from panos.policies import PostRulebase, PreRulebase, Rulebase
@@ -418,8 +418,8 @@ class ConnectionHelper(object):
     def apply_state(
         self,
         obj,
-        listing,
-        module,
+        listing=None,
+        module=None,
         enabled_disabled_param=None,
         invert_enabled_disabled=False,
     ):
@@ -430,7 +430,9 @@ class ConnectionHelper(object):
 
         Args:
             obj: The pandevice object to be applied.
-            listing(list): List of objects currently configured.
+            listing(list): List of objects currently configured.  If this param
+                is `None`, then this function will try to do a targetted refresh
+                of the object based on the type of the `obj` parameter.
             module: The Ansible module.
             enabled_disabled_param: If this is set, then this function also
                 supports a state of "enabled" or "disabled", and the pandevice
@@ -447,7 +449,9 @@ class ConnectionHelper(object):
             supported_states.extend(["enabled", "disabled"])
 
         # Sanity check.
-        if "state" not in module.params:
+        if module is None:
+            raise Exception("No module passed in to apply_state()")
+        elif "state" not in module.params:
             module.fail_json(msg='No "state" present')
         elif module.params["state"] not in supported_states:
             module.fail_json(
@@ -461,6 +465,24 @@ class ConnectionHelper(object):
                     enabled_disabled_param
                 )
             )
+
+        # Do a targetted refresh if the listing is None.
+        if listing is None:
+            cls = obj.__class__
+            if getattr(cls, "NAME", None) is not None:
+                x = cls(obj.uid)
+            else:
+                x = cls()
+            x.parent = obj.parent
+            try:
+                x.refresh()
+                listing = [x,]
+            except PanObjectMissing:
+                listing = []
+            except PanDeviceError as e:
+                module.fail_json(
+                    msg="Failed refresh: {0}".format(e),
+                )
 
         # Apply the state.
         changed = False
