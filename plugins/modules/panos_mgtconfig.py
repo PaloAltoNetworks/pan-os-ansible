@@ -36,6 +36,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.deprecated_commit
+    - paloaltonetworks.panos.fragments.full_template_support
 options:
     dns_server_primary:
         description:
@@ -125,6 +126,9 @@ except ImportError:
 
 def main():
     helper = get_connection(
+        template=True,
+        template_stack=True,
+        template_is_optional=True,
         with_classic_provider_spec=True,
         argument_spec=dict(
             hostname=dict(),
