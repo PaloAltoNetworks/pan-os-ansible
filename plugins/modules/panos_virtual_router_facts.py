@@ -124,9 +124,7 @@ def main():
         template=True,
         template_stack=True,
         with_classic_provider_spec=True,
-        argument_spec=dict(
-            name=dict(),
-        ),
+        argument_spec=dict(name=dict(),),
     )
     module = AnsibleModule(
         argument_spec=helper.argument_spec,

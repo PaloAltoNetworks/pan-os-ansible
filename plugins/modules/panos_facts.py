@@ -507,11 +507,7 @@ FIREWALL_SUBSETS = dict(
     routing=Routing,
 )
 
-PANORAMA_SUBSETS = dict(
-    system=System,
-    ha=PanoramaHa,
-    config=Config,
-)
+PANORAMA_SUBSETS = dict(system=System, ha=PanoramaHa, config=Config,)
 
 
 def main():

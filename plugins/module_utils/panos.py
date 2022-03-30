@@ -236,12 +236,7 @@ class ConnectionHelper(object):
                             added_template = True
                             break
                     else:
-                        module.fail_json(
-                            msg=not_found.format(
-                                "Template stack",
-                                name,
-                            )
-                        )
+                        module.fail_json(msg=not_found.format("Template stack", name,))
                 elif self.template is not None:
                     tmpl_required = True
                 elif not self.template_is_optional:
@@ -260,12 +255,7 @@ class ConnectionHelper(object):
                             parent = t
                             break
                     else:
-                        module.fail_json(
-                            msg=not_found.format(
-                                "Template",
-                                name,
-                            )
-                        )
+                        module.fail_json(msg=not_found.format("Template", name,))
                 elif self.template_is_optional:
                     pass
                 elif tmpl_required:
@@ -284,12 +274,7 @@ class ConnectionHelper(object):
                             parent = dg
                             break
                     else:
-                        module.fail_json(
-                            msg=not_found.format(
-                                "Device group",
-                                name,
-                            )
-                        )
+                        module.fail_json(msg=not_found.format("Device group", name,))
 
             # Spec: vsys importable.
             vsys_name = self.vsys_importable or self.vsys or self.vsys_shared
@@ -476,13 +461,13 @@ class ConnectionHelper(object):
             x.parent = obj.parent
             try:
                 x.refresh()
-                listing = [x,]
+                listing = [
+                    x,
+                ]
             except PanObjectMissing:
                 listing = []
             except PanDeviceError as e:
-                module.fail_json(
-                    msg="Failed refresh: {0}".format(e),
-                )
+                module.fail_json(msg="Failed refresh: {0}".format(e),)
 
         # Apply the state.
         changed = False
@@ -815,9 +800,7 @@ def get_connection(
         "provider": {
             "required": True,
             "type": "dict",
-            "required_one_of": [
-                ["password", "api_key"],
-            ],
+            "required_one_of": [["password", "api_key"],],
             "options": {
                 "ip_address": {"required": True},
                 "username": {"default": "admin"},
@@ -843,10 +826,7 @@ def get_connection(
             }
         )
         req.extend(
-            [
-                ["provider", "ip_address"],
-                ["provider", "password", "api_key"],
-            ]
+            [["provider", "ip_address"], ["provider", "password", "api_key"],]
         )
 
     if with_state:

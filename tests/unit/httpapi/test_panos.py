@@ -180,9 +180,7 @@ class TestPanosHttpApi:
 
     @pytest.mark.parametrize(
         "xpath",
-        [
-            "/config/devices/entry[@name='localhost.localdomain']/deviceconfig/system",
-        ],
+        ["/config/devices/entry[@name='localhost.localdomain']/deviceconfig/system",],
     )
     @patch.object(HttpApi, "api_key")
     @patch.object(HttpApi, "send_request")
@@ -313,8 +311,7 @@ class TestPanosHttpApi:
             self.plugin.poll_for_job(1)
 
     @pytest.mark.parametrize(
-        "http_status,http_response",
-        [(200, "<request status='success'></request>")],
+        "http_status,http_response", [(200, "<request status='success'></request>")],
     )
     def test_validate_response(self, http_status, http_response):
         response = self.plugin._validate_response(http_status, http_response)
@@ -367,8 +364,7 @@ class TestPanosHttpApi:
     )
     def test_send_request(self, params, headers, data):
         self.connection_mock.send.return_value = self._send_response(
-            200,
-            "<request status='success'></request>",
+            200, "<request status='success'></request>",
         )
 
         (code, response) = self.plugin.send_request(

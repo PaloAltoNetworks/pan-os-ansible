@@ -122,9 +122,7 @@ def test_get_connection(module_mock):
     False,
 )
 def test_missing_pandevice(module_mock):
-    helper = get_connection(
-        argument_spec=dict(),
-    )
+    helper = get_connection(argument_spec=dict(),)
 
     with pytest.raises(AnsibleFailJson) as e:
         parent = helper.get_pandevice_parent(module_mock)
@@ -136,9 +134,7 @@ def test_missing_pandevice(module_mock):
 # than 1.0.0.
 @patch("panos.__version__", "0.0.1")
 def test_old_pandevice(module_mock):
-    helper = get_connection(
-        argument_spec=dict(),
-    )
+    helper = get_connection(argument_spec=dict(),)
     parent = helper.get_pandevice_parent(module_mock)
 
     assert module_mock.deprecate.call_count == 1
@@ -146,10 +142,7 @@ def test_old_pandevice(module_mock):
 
 # Error if installed version of pan-os-python is too low to run the module.
 def test_min_pandevice_version(module_mock):
-    helper = get_connection(
-        min_pandevice_version=(9999, 0, 0),
-        argument_spec=dict(),
-    )
+    helper = get_connection(min_pandevice_version=(9999, 0, 0), argument_spec=dict(),)
 
     with pytest.raises(AnsibleFailJson) as e:
         parent = helper.get_pandevice_parent(module_mock)
@@ -242,9 +235,7 @@ def test_panorama_error(module_mock, panorama_mock):
 @pytest.mark.parametrize("template_is_optional", [True, False, None])
 def test_template(module_mock, panorama_mock, template_stack, template_is_optional):
     helper = get_connection(
-        argument_spec=dict(),
-        template=True,
-        template_is_optional=template_is_optional,
+        argument_spec=dict(), template=True, template_is_optional=template_is_optional,
     )
     module_mock.params.update({"template": "the_template", "template_stack": None})
 
@@ -348,10 +339,7 @@ def test_both_template_and_template_stack(module_mock, panorama_mock):
 # Test that specifying 'device_group' will return that device group, if it
 # exists.
 def test_device_group(module_mock, panorama_mock):
-    helper = get_connection(
-        device_group=True,
-        argument_spec=dict(),
-    )
+    helper = get_connection(device_group=True, argument_spec=dict(),)
     module_mock.params.update({"device_group": "the_dg"})
 
     parent = helper.get_pandevice_parent(module_mock)
@@ -362,10 +350,7 @@ def test_device_group(module_mock, panorama_mock):
 # Error if the device group specified by 'device_group' is not found.
 @patch("panos.panorama.DeviceGroup.refreshall", return_value=[])
 def test_device_group_not_found(device_group_mock, module_mock, panorama_mock):
-    helper = get_connection(
-        device_group=True,
-        argument_spec=dict(),
-    )
+    helper = get_connection(device_group=True, argument_spec=dict(),)
     module_mock.params.update({"device_group": "the_dg"})
 
     with pytest.raises(AnsibleFailJson) as e:
@@ -419,8 +404,7 @@ def test_panorama_rulebase_error(module_mock, panorama_mock):
 # Specifying a rulebase using the 'rulebase' parameter should only ever get
 # the main rulebase when connecting to a firewall.
 @pytest.mark.parametrize(
-    "rulebase_name",
-    ["pre-rulebase", "rulebase", "post-rulebase", "doesnt-exist"],
+    "rulebase_name", ["pre-rulebase", "rulebase", "post-rulebase", "doesnt-exist"],
 )
 def test_firewall_rulebase(module_mock, rulebase_name):
     helper = get_connection(rulebase=True, argument_spec=dict())

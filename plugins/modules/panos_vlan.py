@@ -92,9 +92,7 @@ def main():
         with_state=True,
         with_classic_provider_spec=True,
         argument_spec=dict(
-            name=dict(
-                required=True,
-            ),
+            name=dict(required=True,),
             interface=dict(type="list", elements="str"),
             virtual_interface=dict(),
         ),

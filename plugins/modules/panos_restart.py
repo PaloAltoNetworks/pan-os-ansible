@@ -65,10 +65,7 @@ except ImportError:
 
 
 def main():
-    helper = get_connection(
-        with_classic_provider_spec=True,
-        argument_spec=dict(),
-    )
+    helper = get_connection(with_classic_provider_spec=True, argument_spec=dict(),)
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,

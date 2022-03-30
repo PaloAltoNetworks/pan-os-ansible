@@ -82,8 +82,7 @@ def main():
         with_classic_provider_spec=True,
         panorama_error="The user-id API is not supported on Panorama",
         argument_spec=dict(
-            userid=dict(required=True),
-            register_ip=dict(required=True),
+            userid=dict(required=True), register_ip=dict(required=True),
         ),
     )
 

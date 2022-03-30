@@ -184,8 +184,7 @@ def main():
         argument_spec=dict(
             if_name=dict(required=True),
             mode=dict(
-                default="layer3",
-                choices=["layer3", "layer2", "virtual-wire", "ha"],
+                default="layer3", choices=["layer3", "layer2", "virtual-wire", "ha"],
             ),
             ip=dict(type="list", elements="str"),
             ipv6_enabled=dict(type="bool"),

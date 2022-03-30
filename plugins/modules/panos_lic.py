@@ -93,10 +93,7 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 9, 1),
         argument_spec=dict(
-            auth_code=dict(
-                no_log=True,
-            ),
-            force=dict(type="bool", default=False),
+            auth_code=dict(no_log=True,), force=dict(type="bool", default=False),
         ),
     )
 

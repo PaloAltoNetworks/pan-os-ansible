@@ -117,8 +117,7 @@ def main():
         vsys=True,
         with_classic_provider_spec=True,
         argument_spec=dict(
-            cmd=dict(required=True),
-            cmd_is_xml=dict(default=False, type="bool"),
+            cmd=dict(required=True), cmd_is_xml=dict(default=False, type="bool"),
         ),
     )
 

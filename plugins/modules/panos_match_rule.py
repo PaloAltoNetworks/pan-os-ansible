@@ -257,40 +257,16 @@ def main():
     parent = helper.get_pandevice_parent(module)
 
     params = (
-        (
-            "application",
-            "application",
-            [
-                "security",
-            ],
-        ),
-        (
-            "category",
-            "category",
-            [
-                "security",
-            ],
-        ),
+        ("application", "application", ["security",],),
+        ("category", "category", ["security",],),
         ("destination_ip", "destination", ["security", "nat"]),
         ("destination_port", "destination-port", ["security", "nat"]),
         ("source_zone", "from", ["security", "nat"]),
         ("protocol", "protocol", ["security", "nat"]),
         ("source_ip", "source", ["security", "nat"]),
-        (
-            "source_user",
-            "source-user",
-            [
-                "security",
-            ],
-        ),
+        ("source_user", "source-user", ["security",],),
         ("destination_zone", "to", ["security", "nat"]),
-        (
-            "to_interface",
-            "to-interface",
-            [
-                "nat",
-            ],
-        ),
+        ("to_interface", "to-interface", ["nat",],),
     )
 
     cmd = []
@@ -371,8 +347,7 @@ def main():
         rule_name = elm2.text.split(";")[0].split('"')[1].strip()
     else:
         msg = "No matching {0} rule; resp = {1}".format(
-            rtype,
-            ET.tostring(response, encoding="utf-8"),
+            rtype, ET.tostring(response, encoding="utf-8"),
         )
         module.exit_json(msg=msg, rule=[])
 

@@ -225,9 +225,7 @@ def main():
         vsys=True,
         device_group=True,
         with_classic_provider_spec=True,
-        required_one_of=[
-            name_params,
-        ],
+        required_one_of=[name_params,],
         argument_spec=dict(
             name=dict(),
             name_regex=dict(),
@@ -254,9 +252,7 @@ def main():
         argument_spec=helper.argument_spec,
         supports_check_mode=False,
         required_one_of=helper.required_one_of,
-        mutually_exclusive=[
-            name_params,
-        ],
+        mutually_exclusive=[name_params,],
     )
 
     parent = helper.get_pandevice_parent(module)
