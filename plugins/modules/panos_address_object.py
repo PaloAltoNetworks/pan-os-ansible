@@ -160,18 +160,12 @@ def main():
     # Other info.
     commit = module.params["commit"]
 
-    # Retrieve current info.
-    try:
-        listing = AddressObject.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
     # Build the object based on the user spec.
     obj = AddressObject(**spec)
     parent.add(obj)
 
     # Apply the state.
-    changed, diff = helper.apply_state(obj, listing, module)
+    changed, diff = helper.apply_state(obj, module=module)
 
     # Commit.
     if commit and changed:
