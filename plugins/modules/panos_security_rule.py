@@ -250,7 +250,7 @@ options:
         description:
             - Add an audit comment to the rule being defined.
         type: str
-   uuid:
+    uuid:
         description:
             - The UUID for this rule.     
     group_tag:
