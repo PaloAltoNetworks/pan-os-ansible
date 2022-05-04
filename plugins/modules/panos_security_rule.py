@@ -250,6 +250,9 @@ options:
         description:
             - Add an audit comment to the rule being defined.
         type: str
+   uuid:
+        description:
+            - The UUID for this rule.     
     group_tag:
         description:
             - The group tag.
@@ -423,6 +426,7 @@ def main():
             commit=dict(type="bool", default=False),
             audit_comment=dict(type="str"),
             group_tag=dict(),
+            uuid=dict(),
             # TODO(gfreeman) - remove this in the next role release.
             devicegroup=dict(),
         ),
@@ -489,6 +493,7 @@ def main():
         "target": module.params["target"],
         "negate_target": module.params["negate_target"],
         "group_tag": module.params["group_tag"],
+        "uuid": module.params["uuid"],
     }
 
     # Other module info.
