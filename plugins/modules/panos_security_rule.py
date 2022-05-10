@@ -508,7 +508,7 @@ def main():
     parent.add(new_rule)
 
     # Which action shall we take on the rule object?
-    changed, diff = helper.apply_state(new_rule, rules, module)
+    changed, diff = helper.apply_state(new_rule, rules, module, ignore_uuid=True)
 
     # Move the rule to the correct spot, if applicable.
     if module.params["state"] == "present":

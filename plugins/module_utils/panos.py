@@ -407,6 +407,7 @@ class ConnectionHelper(object):
         module=None,
         enabled_disabled_param=None,
         invert_enabled_disabled=False,
+        ignore_uuid=False,
     ):
         """Generic state handling.
 
@@ -425,6 +426,8 @@ class ConnectionHelper(object):
             invert_enabled_disabled (bool): Set this to True if the param
                 specified in "enabled_disabled_param" is a disabled flag
                 instead of an enabled flag.
+            ignore_uuid (bool): Set this to False if we should ignore
+                the uuid field when comparing the old and new objects
 
         Returns:
             bool: If a change was made or not.
@@ -476,6 +479,9 @@ class ConnectionHelper(object):
             for item in listing:
                 if item.uid != obj.uid:
                     continue
+                temp_uuid = None
+                if ignore_uuid:
+                    temp_uuid, item.uuid = item.uuid, None
                 diff = dict(before=eltostr(item))
                 obj_child_types = [x.__class__ for x in obj.children]
                 other_children = []
@@ -493,6 +499,8 @@ class ConnectionHelper(object):
                             obj.apply()
                         except PanDeviceError as e:
                             module.fail_json(msg="Failed apply: {0}".format(e))
+                if ignore_uuid:
+                    item.uuid = temp_uuid
                 break
             else:
                 changed = True
