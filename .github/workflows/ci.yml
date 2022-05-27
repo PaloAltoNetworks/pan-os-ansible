@@ -18,10 +18,10 @@ jobs:
         with:
           path: ./ansible_collections/paloaltonetworks/panos
 
-      - name: Set up Python 3.6.8
+      - name: Set up Python 3.7
         uses: actions/setup-python@v3
         with:
-          python-version: 3.6.8
+          python-version: 3.7
 
       - name: Install pipenv
         run: |
@@ -47,7 +47,7 @@ jobs:
 
       - name: ansible-test sanity
         run: |
-          pipenv run ansible-test sanity --python 3.6
+          pipenv run ansible-test sanity --python 3.7
 
       - name: ansible-galaxy collection build
         run: |
@@ -110,10 +110,10 @@ jobs:
         with:
           path: ./ansible_collections/paloaltonetworks/panos
 
-      - name: Set up Python 3.6.8
+      - name: Set up Python 3.7
         uses: actions/setup-python@v3
         with:
-          python-version: 3.6.8
+          python-version: 3.7
 
       - name: Install pipenv
         run: |
