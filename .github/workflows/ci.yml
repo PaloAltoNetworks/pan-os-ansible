@@ -27,8 +27,8 @@ jobs:
       - name: Get poetry cache directory
         id: poetry-cache
         run: |
-            cd ansible_collections/paloaltonetworks/panos
-            echo "::set-output name=dir::$(poetry config cache-dir)"
+          cd ansible_collections/paloaltonetworks/panos
+          echo "::set-output name=dir::$(poetry config cache-dir)"
 
       - name: Cache poetry dependencies
         uses: actions/cache@v2
@@ -39,10 +39,14 @@ jobs:
           #  ${{ runner.os }}-poetry-${{ matrix.python-version }}-
 
       - name: Install dependencies
-        run: poetry install
+        run: |
+          cd ansible_collections/paloaltonetworks/panos
+          poetry install
 
       - name: Test with pytest
-        run: poetry run make sanity
+        run: |
+          cd ansible_collections/paloaltonetworks/panos
+          poetry run make sanity
 
   test:
     runs-on: ubuntu-latest
