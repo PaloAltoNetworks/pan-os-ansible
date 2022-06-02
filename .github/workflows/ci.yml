@@ -32,7 +32,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.poetry-cache.outputs.dir }}
-          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock'}}
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
           #restore-keys: |
           #  ${{ runner.os }}-poetry-${{ matrix.python-version }}-
 
