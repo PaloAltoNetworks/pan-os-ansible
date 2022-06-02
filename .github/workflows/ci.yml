@@ -26,7 +26,9 @@ jobs:
 
       - name: Get poetry cache directory
         id: poetry-cache
-        run: echo "::set-output name=dir::$(poetry config cache-dir)"
+        run: |
+            cd ansible_collections/paloaltonetworks/panos
+            echo "::set-output name=dir::$(poetry config cache-dir)"
 
       - name: Cache poetry dependencies
         uses: actions/cache@v2
