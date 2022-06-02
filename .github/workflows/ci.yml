@@ -6,6 +6,42 @@ on:
   pull_request:
 
 jobs:
+  test2:
+    name: Poetry Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: ./ansible_collections/paloaltonetworks/panos
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.7
+
+      - name: Install Poetry
+        uses: Gr1N/setup-poetry@v4
+        with:
+          poetry-version: 1.0.10
+
+      - name: Get poetry cache directory
+        id: poetry-cache
+        run: echo "::set-output name=dir::$(poetry config cache-dir)"
+
+      - name: Cache poetry dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.poetry-cache.outputs.dir }}
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock'}}
+          #restore-keys: |
+          #  ${{ runner.os }}-poetry-${{ matrix.python-version }}-
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Test with pytest
+        poetry run make sanity
+
   test:
     runs-on: ubuntu-latest
 
