@@ -40,7 +40,7 @@ jobs:
         run: poetry install
 
       - name: Test with pytest
-        poetry run make sanity
+        run: poetry run make sanity
 
   test:
     runs-on: ubuntu-latest
