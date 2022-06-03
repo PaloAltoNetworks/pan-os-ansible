@@ -4,20 +4,48 @@ on:
   push:
     branches:
   pull_request:
+  #schedule:
+  #  - cron: '0 6 * * *'
+
+env:
+  NAMESPACE: paloaltonetworks
+  COLLECTION_NAME: panos
+  COLLECTION_PATH: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
 jobs:
-  test2:
-    name: Poetry Test
+
+  ## Sanity is required:
+  #
+  # https://docs.ansible.com/ansible/latest/dev_guide/testing_sanity.html
+  sanity:
+    name: Sanity (Ⓐ${{ matrix.ansible }})
+    strategy:
+      matrix:
+        ansible:
+          - stable-2.9
+          - stable-2.10
+          #- stable-2.11
+          #- stable-2.12
+          #- devel
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        #working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+        working-directory: ${{ env.COLLECTION_PATH }}
     steps:
       - uses: actions/checkout@v3
         with:
-          path: ./ansible_collections/paloaltonetworks/panos
+          #path: ./ansible_collections/paloaltonetworks/panos
+          path: ${{ env.COLLECTION_PATH }}
 
       - name: Setup Python
         uses: actions/setup-python@v3
         with:
           python-version: 3.7
+
+      # Install the head of the given branch (devel, stable-2.10)
+      - name: Install ansible-base (${{ matrix.ansible }})
+        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v4
@@ -26,9 +54,7 @@ jobs:
 
       - name: Get poetry cache directory
         id: poetry-cache
-        run: |
-          cd ansible_collections/paloaltonetworks/panos
-          echo "::set-output name=dir::$(poetry config cache-dir)"
+        run: echo "::set-output name=dir::$(poetry config cache-dir)"
 
       - name: Cache poetry dependencies
         uses: actions/cache@v2
@@ -39,14 +65,10 @@ jobs:
           #  ${{ runner.os }}-poetry-${{ matrix.python-version }}-
 
       - name: Install dependencies
-        run: |
-          cd ansible_collections/paloaltonetworks/panos
-          poetry install
+        run: poetry install
 
       - name: Test with pytest
-        run: |
-          cd ansible_collections/paloaltonetworks/panos
-          poetry run make sanity
+        run: poetry run make sanity
 
   test:
     runs-on: ubuntu-latest
