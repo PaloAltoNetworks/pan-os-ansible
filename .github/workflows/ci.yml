@@ -11,9 +11,6 @@ env:
   NAMESPACE: paloaltonetworks
   COLLECTION_NAME: panos
 
-env:
-  COLLECTION_PATH: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
-
 jobs:
 
   ## Sanity is required:
@@ -32,13 +29,11 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        #working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
-        working-directory: ${{ env.COLLECTION_PATH }}
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
     steps:
       - uses: actions/checkout@v3
         with:
-          #path: ./ansible_collections/paloaltonetworks/panos
-          path: ${{ env.COLLECTION_PATH }}
+          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Setup Python
         uses: actions/setup-python@v3
