@@ -10,6 +10,8 @@ on:
 env:
   NAMESPACE: paloaltonetworks
   COLLECTION_NAME: panos
+
+env:
   COLLECTION_PATH: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
 jobs:
