@@ -31,6 +31,7 @@ sphinx-rtd-theme = "*"
 ansible-doc-extractor = "*"
 rstcheck = "*"
 six = "*"
+pycodestyle = "*"
 #ansible-core = "~2"
 # from requirements.txt
 certifi = "2021.5.30"
