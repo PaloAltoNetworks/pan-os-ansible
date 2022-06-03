@@ -45,9 +45,9 @@ jobs:
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
       - name: Install Poetry
-        uses: Gr1N/setup-poetry@v4
-        with:
-          poetry-version: 1.0.10
+        uses: Gr1N/setup-poetry@v7
+        #with:
+        #  poetry-version: 1.0.10
 
       - name: Get poetry cache directory
         id: poetry-cache
@@ -56,7 +56,7 @@ jobs:
       - name: Cache poetry dependencies
         uses: actions/cache@v2
         with:
-          path: ${{ steps.poetry-cache.outputs.dir }}
+          path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
           #restore-keys: |
           #  ${{ runner.os }}-poetry-${{ matrix.python-version }}-
