@@ -21,11 +21,13 @@ jobs:
     strategy:
       matrix:
         ansible:
-          - stable-2.9
-          #- stable-2.10
-          - stable-2.11
-          #- stable-2.12
-          #- devel
+          #- stable-2.9
+          ##- stable-2.10
+          #- stable-2.11
+          ##- stable-2.12
+          ##- devel
+          - 2.9
+          - 2.11
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -42,12 +44,18 @@ jobs:
 
       # Install the head of the given branch (devel, stable-2.10)
       - name: Install ansible-base (${{ matrix.ansible }})
-        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+        run: pip install https://github.com/ansible/ansible/archive/stable-${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v7
         #with:
         #  poetry-version: 1.0.10
+
+      - name: Install version specific ansible-core
+        run: poetry add "ansible-core@~${{ matrix.ansible }}"
+
+      - name: Create lock file
+        run: poetry lock
 
       - name: Get poetry cache directory
         id: poetry-cache
