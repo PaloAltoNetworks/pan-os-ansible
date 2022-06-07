@@ -51,9 +51,6 @@ jobs:
         #with:
         #  poetry-version: 1.0.10
 
-      - name: Install version specific ansible-core
-        run: poetry add "ansible-core@~${{ matrix.ansible }}"
-
       - name: Create lock file
         run: poetry lock
 
