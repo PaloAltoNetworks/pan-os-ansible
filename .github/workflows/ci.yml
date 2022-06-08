@@ -71,7 +71,7 @@ jobs:
 
       - name: Check if pycodestyle exists
         continue-on-error: true
-        run: poetry which pycodestyle
+        run: poetry run which pycodestyle
 
       - name: Test with pytest
         run: poetry run make sanity
