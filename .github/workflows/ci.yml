@@ -69,6 +69,10 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
+      - name: Check if pycodestyle exists
+        continue-on-error: true
+        run: which pycodestyle
+
       - name: Test with pytest
         run: poetry run make sanity
 
