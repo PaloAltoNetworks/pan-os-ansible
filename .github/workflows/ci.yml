@@ -73,6 +73,10 @@ jobs:
         continue-on-error: true
         run: poetry run which pycodestyle
 
+      - name: Second pycodestyle check
+        continue-on-error: true
+        run: poetry run python -m pycodestyle --max-line-length 160 --config /dev/null --ignore E402,E741,W503,W504 plugins/module_utils/panos.py
+
       - name: Test with pytest
         run: poetry run make sanity
 
