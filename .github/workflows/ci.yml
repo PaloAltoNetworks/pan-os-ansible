@@ -61,10 +61,12 @@ jobs:
       - name: Cache poetry dependencies
         uses: actions/cache@v2
         with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
-          #restore-keys: |
-          #  ${{ runner.os }}-poetry-${{ matrix.python-version }}-
+          #path: ~/.cache/pypoetry/virtualenvs
+          #key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+          ##restore-keys: |
+          ##  ${{ runner.os }}-poetry-${{ matrix.python-version }}-
+          path: ${{ steps.poetry-cache.outputs.dir }}
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
         run: poetry install
