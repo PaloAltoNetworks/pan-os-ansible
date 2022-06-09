@@ -44,7 +44,7 @@ jobs:
 
       # Install the head of the given branch (devel, stable-2.10)
       - name: Install ansible-base (${{ matrix.ansible }})
-        run: pip install https://github.com/ansible/ansible/archive/stable-${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+        run: poetry run pip install https://github.com/ansible/ansible/archive/stable-${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v7
