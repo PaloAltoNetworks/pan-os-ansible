@@ -86,6 +86,7 @@ jobs:
       #  run: poetry run make sanity
 
       - name: Run sanity tests
+        timeout-minutes: 5
         run: poetry run ansible-test sanity -v --skip-test import --python ${{ env.PYTHON_VERSION }}
 
   format:
