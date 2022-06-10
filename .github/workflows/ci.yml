@@ -10,6 +10,7 @@ on:
 env:
   NAMESPACE: paloaltonetworks
   COLLECTION_NAME: panos
+  PYTHON_VERSION: 3.8
 
 jobs:
 
@@ -40,7 +41,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v3
         with:
-          python-version: 3.8
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v7
@@ -85,7 +86,7 @@ jobs:
       #  run: poetry run make sanity
 
       - name: Run sanity tests
-        run: poetry run ansible-test sanity -v --skip-test import
+        run: poetry run ansible-test sanity -v --skip-test import --python ${{ env.PYTHON_VERSION }}
 
   format:
     name: Code Format Check
@@ -101,7 +102,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v3
         with:
-          python-version: 3.8
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v7
