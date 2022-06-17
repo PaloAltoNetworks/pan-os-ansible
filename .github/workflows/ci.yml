@@ -27,10 +27,9 @@ jobs:
           #- stable-2.11
           ##- stable-2.12
           ##- devel
-          #- 2.9
+          - "2.9"
           - "2.10"
-          - 2.11
-          #- 2.11
+          - "2.11"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -89,7 +88,7 @@ jobs:
 
       - name: Run sanity tests
         timeout-minutes: 5
-        run: poetry run ansible-test sanity -v --skip-test import --python ${{ env.PYTHON_VERSION }}
+        run: poetry run ansible-test sanity -v --skip-test pylint --skip-test import --python ${{ env.PYTHON_VERSION }}
 
   format:
     name: Code Format Check
