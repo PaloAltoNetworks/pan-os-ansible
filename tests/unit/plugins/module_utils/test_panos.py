@@ -242,7 +242,7 @@ def test_template(module_mock, panorama_mock, template_stack, template_is_option
     parent = helper.get_pandevice_parent(module_mock)
 
     assert isinstance(parent, Template)
-    assert parent.name is "the_template"
+    assert parent.name == "the_template"
 
 
 # Error if the template specified by 'template' is not found.
@@ -271,7 +271,7 @@ def test_template_stack(module_mock, panorama_mock):
     parent = helper.get_pandevice_parent(module_mock)
 
     assert isinstance(parent, TemplateStack)
-    assert parent.name is "the_stack"
+    assert parent.name == "the_stack"
 
 
 # Error if the template stack specified by 'template_stack' is not found.
