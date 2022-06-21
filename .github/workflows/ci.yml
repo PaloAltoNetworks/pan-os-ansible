@@ -28,7 +28,7 @@ jobs:
           ##- stable-2.12
           ##- devel
           #- "2.9"
-          #- "2.10"
+          - "2.10"
           #- "2.11"
           - "2.12"
     runs-on: ubuntu-latest
