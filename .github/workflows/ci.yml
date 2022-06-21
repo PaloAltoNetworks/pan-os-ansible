@@ -27,9 +27,10 @@ jobs:
           #- stable-2.11
           ##- stable-2.12
           ##- devel
-          - "2.9"
-          - "2.10"
-          - "2.11"
+          #- "2.9"
+          #- "2.10"
+          #- "2.11"
+          - "2.12"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -87,8 +88,9 @@ jobs:
       #  run: poetry run make sanity
 
       - name: Run sanity tests
-        timeout-minutes: 5
-        run: poetry run ansible-test sanity -v --skip-test pylint --skip-test import --python ${{ env.PYTHON_VERSION }}
+        timeout-minutes: 8
+        #run: poetry run ansible-test sanity -v --skip-test pylint --skip-test rstcheck --skip-test import --python ${{ env.PYTHON_VERSION }}
+        run: poetry run ansible-test sanity -v --skip-test import --python ${{ env.PYTHON_VERSION }}
 
   format:
     name: Code Format Check
