@@ -87,7 +87,9 @@ def main():
         with_classic_provider_spec=True,
         firewall_error="This is a Panorama only module",
         min_pandevice_version=(0, 14, 0),
-        argument_spec=dict(hours=dict(default=24, type="int"),),
+        argument_spec=dict(
+            hours=dict(default=24, type="int"),
+        ),
     )
 
     module = AnsibleModule(
