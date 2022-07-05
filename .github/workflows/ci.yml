@@ -87,10 +87,20 @@ jobs:
       #- name: Test with pytest
       #  run: poetry run make sanity
 
-      - name: Run sanity tests
+      - name: Run old sanity tests
+        if: matrix.ansible == "2.9" || matrix.ansible == "2.10"
         timeout-minutes: 8
-        #run: poetry run ansible-test sanity -v --skip-test pylint --skip-test rstcheck --skip-test import --python ${{ env.PYTHON_VERSION }}
-        run: poetry run ansible-test sanity -v --skip-test import --python ${{ env.PYTHON_VERSION }}
+        run: poetry run ansible-test sanity -v --skip-test rstcheck --python ${{ env.PYTHON_VERSION }}
+
+      - name: Run current sanity tests
+        if: matrix.ansible != "2.9" && matrix.ansible != "2.10"
+        timeout-minutes: 8
+        run: poetry run ansible-test sanity -v --python ${{ env.PYTHON_VERSION }}
+
+      #- name: Run sanity tests
+      #  timeout-minutes: 8
+      #  #run: poetry run ansible-test sanity -v --skip-test pylint --skip-test rstcheck --skip-test import --python ${{ env.PYTHON_VERSION }}
+      #  run: poetry run ansible-test sanity -v --skip-test import --python ${{ env.PYTHON_VERSION }}
 
   format:
     name: Code Format Check
