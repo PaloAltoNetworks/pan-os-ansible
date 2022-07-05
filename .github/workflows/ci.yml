@@ -31,6 +31,12 @@ jobs:
           - "2.10"
           - "2.11"
           - "2.12"
+        include:
+          - sanity: "new-sanity"
+          - ansible: "2.9"
+            sanity: "old-sanity"
+          - ansible: "2.10"
+            sanity: "old-sanity"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -76,26 +82,30 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
-      - name: Check if pycodestyle exists
-        continue-on-error: true
-        run: poetry run which pycodestyle
+      #- name: Check if pycodestyle exists
+      #  continue-on-error: true
+      #  run: poetry run which pycodestyle
 
-      - name: Second pycodestyle check
-        continue-on-error: true
-        run: poetry run python -m pycodestyle --max-line-length 160 --config /dev/null --ignore E402,E741,W503,W504 plugins/module_utils/panos.py
+      #- name: Second pycodestyle check
+      #  continue-on-error: true
+      #  run: poetry run python -m pycodestyle --max-line-length 160 --config /dev/null --ignore E402,E741,W503,W504 plugins/module_utils/panos.py
 
       #- name: Test with pytest
       #  run: poetry run make sanity
 
-      - name: Run old sanity tests
-        if: ${{ matrix.ansible == '2.9' || matrix.ansible == '2.10' }}
+      - name: Run sanity tests
         timeout-minutes: 8
-        run: poetry run ansible-test sanity -v --skip-test pylint --skip-test rstcheck --python ${{ env.PYTHON_VERSION }}
+        run: poetry run make ${{ matrix.sanity }}
 
-      - name: Run current sanity tests
-        if: ${{ matrix.ansible != '2.9' && matrix.ansible != '2.10' }}
-        timeout-minutes: 8
-        run: poetry run ansible-test sanity -v --skip-test pylint --python ${{ env.PYTHON_VERSION }}
+      #- name: Run old sanity tests
+      #  if: ${{ matrix.ansible == '2.9' || matrix.ansible == '2.10' }}
+      #  timeout-minutes: 8
+      #  run: poetry run ansible-test sanity -v --skip-test pylint --skip-test rstcheck --python ${{ env.PYTHON_VERSION }}
+
+      #- name: Run current sanity tests
+      #  if: ${{ matrix.ansible != '2.9' && matrix.ansible != '2.10' }}
+      #  timeout-minutes: 8
+      #  run: poetry run ansible-test sanity -v --skip-test pylint --python ${{ env.PYTHON_VERSION }}
 
       #- name: Run sanity tests
       #  timeout-minutes: 8

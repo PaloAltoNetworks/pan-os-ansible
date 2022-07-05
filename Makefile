@@ -74,3 +74,9 @@ sync-deps:	## Sync Pipfile.lock to requirements.txt
 
 test-release:	## Semantic release dry run
 	semantic-release --dry-run --no-ci --branches=develop
+
+old-sanity:		## Sanity tests for Ansible v2.9 and Ansible v2.10
+	ansible-test sanity -v --skip-test pylint --skip-test rstcheck --python $(python_version)
+
+new-sanity:		## Sanity tests for Ansible v2.11 and above
+	ansible-test sanity -v --skip-test pylint --python $(python_version)
