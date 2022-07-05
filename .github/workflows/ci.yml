@@ -88,12 +88,12 @@ jobs:
       #  run: poetry run make sanity
 
       - name: Run old sanity tests
-        if: ${{ matrix.ansible == "2.9" || matrix.ansible == "2.10" }}
+        if: ${{ matrix.ansible == '2.9' || matrix.ansible == '2.10' }}
         timeout-minutes: 8
         run: poetry run ansible-test sanity -v --skip-test rstcheck --python ${{ env.PYTHON_VERSION }}
 
       - name: Run current sanity tests
-        if: ${{ matrix.ansible != "2.9" && matrix.ansible != "2.10" }}
+        if: ${{ matrix.ansible != '2.9' && matrix.ansible != '2.10' }}
         timeout-minutes: 8
         run: poetry run ansible-test sanity -v --python ${{ env.PYTHON_VERSION }}
 
