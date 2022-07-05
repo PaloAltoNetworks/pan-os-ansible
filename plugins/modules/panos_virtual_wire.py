@@ -109,7 +109,10 @@ def main():
         with_state=True,
         with_classic_provider_spec=True,
         argument_spec=dict(
-            name=dict(type="str", required=True,),
+            name=dict(
+                type="str",
+                required=True,
+            ),
             interface1=dict(type="str", required=True),
             interface2=dict(type="str", required=True),
             tag=dict(type="int"),

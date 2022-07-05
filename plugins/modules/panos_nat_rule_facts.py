@@ -179,15 +179,20 @@ def main():
         rulebase=True,
         with_classic_provider_spec=True,
         error_on_firewall_shared=True,
-        required_one_of=[["listing", "rule_name", "rule_regex", "uuid"],],
+        required_one_of=[
+            ["listing", "rule_name", "rule_regex", "uuid"],
+        ],
         argument_spec=dict(
-            listing=dict(type="bool"), rule_name=dict(), rule_regex=dict(), uuid=dict(),
+            listing=dict(type="bool"),
+            rule_name=dict(),
+            rule_regex=dict(),
+            uuid=dict(),
         ),
     )
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
-        supports_check_mode=False,
+        supports_check_mode=True,
         required_one_of=helper.required_one_of,
     )
 
@@ -220,7 +225,8 @@ def main():
             module.fail_json(msg="Failed refresh: {0}".format(e))
 
         module.exit_json(
-            changed=False, object=helper.to_module_dict(obj, renames),
+            changed=False,
+            object=helper.to_module_dict(obj, renames),
         )
 
     try:
@@ -232,7 +238,8 @@ def main():
         for x in listing:
             if x.uuid == module.params["uuid"]:
                 module.exit_json(
-                    changed=False, object=helper.to_module_dict(x, renames),
+                    changed=False,
+                    object=helper.to_module_dict(x, renames),
                 )
         module.fail_json(msg='No rule with uuid "{0}"'.format(module.params["uuid"]))
 

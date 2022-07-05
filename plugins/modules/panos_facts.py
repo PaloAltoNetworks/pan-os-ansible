@@ -507,7 +507,11 @@ FIREWALL_SUBSETS = dict(
     routing=Routing,
 )
 
-PANORAMA_SUBSETS = dict(system=System, ha=PanoramaHa, config=Config,)
+PANORAMA_SUBSETS = dict(
+    system=System,
+    ha=PanoramaHa,
+    config=Config,
+)
 
 
 def main():
@@ -520,7 +524,7 @@ def main():
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
-        supports_check_mode=False,
+        supports_check_mode=True,
         required_one_of=helper.required_one_of,
     )
 

@@ -117,11 +117,13 @@ def main():
         template=True,
         template_stack=True,
         with_classic_provider_spec=True,
-        argument_spec=dict(name=dict(),),
+        argument_spec=dict(
+            name=dict(),
+        ),
     )
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
-        supports_check_mode=False,
+        supports_check_mode=True,
         required_one_of=helper.required_one_of,
     )
 

@@ -101,7 +101,9 @@ def main():
     )
 
     module = AnsibleModule(
-        argument_spec=helper.argument_spec, required_one_of=helper.required_one_of
+        argument_spec=helper.argument_spec,
+        supports_check_mode=True,
+        required_one_of=helper.required_one_of,
     )
 
     tags = module.params["tags"]

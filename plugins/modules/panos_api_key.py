@@ -66,7 +66,10 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 
 def main():
-    helper = get_connection(with_classic_provider_spec=True, argument_spec={},)
+    helper = get_connection(
+        with_classic_provider_spec=True,
+        argument_spec={},
+    )
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         supports_check_mode=False,
