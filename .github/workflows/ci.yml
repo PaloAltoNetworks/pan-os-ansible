@@ -22,11 +22,6 @@ jobs:
     strategy:
       matrix:
         ansible:
-          #- stable-2.9
-          ##- stable-2.10
-          #- stable-2.11
-          ##- stable-2.12
-          ##- devel
           - "2.9"
           - "2.10"
           - "2.11"
@@ -63,10 +58,6 @@ jobs:
       - name: Create lock file
         run: poetry lock
 
-      #- name: Get poetry cache directory
-      #  id: poetry-cache
-      #  run: echo "::set-output name=dir::$(poetry config cache-dir)"
-
       #- name: Cache poetry dependencies
       #  uses: actions/cache@v2
       #  with:
@@ -82,35 +73,9 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
-      #- name: Check if pycodestyle exists
-      #  continue-on-error: true
-      #  run: poetry run which pycodestyle
-
-      #- name: Second pycodestyle check
-      #  continue-on-error: true
-      #  run: poetry run python -m pycodestyle --max-line-length 160 --config /dev/null --ignore E402,E741,W503,W504 plugins/module_utils/panos.py
-
-      #- name: Test with pytest
-      #  run: poetry run make sanity
-
       - name: Run sanity tests
         timeout-minutes: 8
         run: poetry run make ${{ matrix.sanity }}
-
-      #- name: Run old sanity tests
-      #  if: ${{ matrix.ansible == '2.9' || matrix.ansible == '2.10' }}
-      #  timeout-minutes: 8
-      #  run: poetry run ansible-test sanity -v --skip-test pylint --skip-test rstcheck --python ${{ env.PYTHON_VERSION }}
-
-      #- name: Run current sanity tests
-      #  if: ${{ matrix.ansible != '2.9' && matrix.ansible != '2.10' }}
-      #  timeout-minutes: 8
-      #  run: poetry run ansible-test sanity -v --skip-test pylint --python ${{ env.PYTHON_VERSION }}
-
-      #- name: Run sanity tests
-      #  timeout-minutes: 8
-      #  #run: poetry run ansible-test sanity -v --skip-test pylint --skip-test rstcheck --skip-test import --python ${{ env.PYTHON_VERSION }}
-      #  run: poetry run ansible-test sanity -v --skip-test import --python ${{ env.PYTHON_VERSION }}
 
   format:
     name: Code Format Check
@@ -131,14 +96,11 @@ jobs:
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v7
 
-      - name: Create lock file
-        run: poetry lock
-
       - name: Install dependencies
         run: poetry install
 
       - name: Do black code format check
-        run: poetry run black --check --diff .
+        run: poetry run make check-format
 
   test:
     runs-on: ubuntu-latest

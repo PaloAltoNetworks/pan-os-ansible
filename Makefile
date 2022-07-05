@@ -65,7 +65,7 @@ format:		## Format with black, isort
 	isort .
 
 check-format:	## Check with black, isort
-	black --check .
+	black --check --diff .
 	isort --diff .
 	isort --check .
 
