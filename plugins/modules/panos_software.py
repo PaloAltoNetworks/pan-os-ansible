@@ -176,7 +176,6 @@ def main():
 
     try:
         device.timeout = timeout
-        device.software.check()
 
         if target != current:
 
