@@ -1,6 +1,17 @@
 ---
 - include_tasks: 'reset.yml'
 
+- name: Create interface
+  panos_interface:
+    provider: '{{ device }}'
+    if_name: 'ethernet1/3'
+    mode: 'layer3'
+    zone_name: 'trust'
+    ip:
+      - '192.168.255.1'
+    ipv6_enabled: true
+    enable_dhcp: false
+
 - name: panos_dhcp_relay - Ipv4 Create 
   panos_dhcp_relay:
     provider: '{{ device }}'
@@ -62,6 +73,12 @@
     that:
       - result is success
       - result is changed
+
+- name: Delete test interface
+  panos_interface:
+    provider: '{{ device }}'
+    if_name: 'ethernet1/3'
+    state: 'absent'
 
 - name: panos_dhcp_relay - Make sure changes commit cleanly
   panos_commit_firewall:

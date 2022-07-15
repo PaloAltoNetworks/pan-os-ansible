@@ -33,12 +33,11 @@ requirements:
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
     - pandevice >= 0.8.0
 notes:
-    - Panorama is supported.
+    - Panorama is not supported.
     - Check mode is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.state
-    - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.vsys
 options:
     interface:
@@ -50,7 +49,6 @@ options:
             - List of IPv6 DHCP Servers
         type: list
         elements: str
-        required: true
     ipv4_enabled:
         description:
             - Enabled IPv4 on DHCP Relay
@@ -120,11 +118,8 @@ except ImportError:
 def main():
     helper = get_connection(
         vsys=True,
-        template=True,
-        template_stack=True,
         with_state=True,
         with_classic_provider_spec=True,
-        min_pandevice_version=(0, 8, 0),
         argument_spec=dict(
             interface=dict(type="str", required=True),
             ipv4_servers=dict(type="list", elements="str"),
@@ -163,10 +158,10 @@ def main():
 
     if state == "present":
         relay_object = DhcpRelay(
-            name = interface, 
-            servers = ipv4_servers, 
-            enabled = ipv4_enabled,
-            ipv6_enabled = ipv6_enabled
+            name=interface,
+            servers=ipv4_servers,
+            enabled=ipv4_enabled,
+            ipv6_enabled=ipv6_enabled
         )
 
         if ipv6_servers:
