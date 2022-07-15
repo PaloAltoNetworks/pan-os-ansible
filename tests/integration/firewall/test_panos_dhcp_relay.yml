@@ -1,0 +1,74 @@
+---
+- include_tasks: 'reset.yml'
+
+- name: panos_dhcp_relay - Ipv4 Create 
+  panos_dhcp_relay:
+    provider: '{{ device }}'
+    interface: 'ethernet1/3'
+    ipv4_servers: 
+      - '1.1.1.1'
+      - '2.2.2.2'
+  register: result
+
+- name: panos_dhcp_relay - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: panos_dhcp_relay - Ipv4 Create (idempotence)
+  panos_dhcp_relay:
+    provider: '{{ device }}'
+    interface: 'ethernet1/3'
+    ipv4_servers: 
+      - '1.1.1.1'
+      - '2.2.2.2'
+  register: result
+
+- name: panos_dhcp_relay - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: panos_dhcp_relay - Ipv6 Modify
+  panos_dhcp_relay:
+    provider: '{{ device }}'
+    interface: 'ethernet1/3'
+    ipv4_servers: 
+      - '1.1.1.1'
+      - '2.2.2.2'
+    ipv6_enabled: 'yes'
+    ipv6_servers:
+      - 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+      - 2001:0db8:85a3:0000:0000:8a2e:0370:7335
+  register: result
+
+- name: panos_dhcp_relay - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: panos_dhcp_relay - Ipv4 Delete
+  panos_dhcp_relay:
+    provider: '{{ device }}'
+    interface: 'ethernet1/3'
+    state: absent
+  register: result
+
+- name: panos_dhcp_relay - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: panos_dhcp_relay - Make sure changes commit cleanly
+  panos_commit_firewall:
+    provider: '{{ device }}'
+  register: result
+
+- name: panos_dhcp_relay - Assert commit was successful
+  assert:
+    that:
+      - result is success
