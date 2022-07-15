@@ -75,7 +75,6 @@ EXAMPLES = """
     ipv4_servers:
       - '1.1.1.1'
       - '2.2.2.2'
-    state: present
 
 # Create IPv6 DHCP Relay
 - panos_dhcp_relay:
@@ -86,7 +85,6 @@ EXAMPLES = """
     ipv6_servers:
       - 2001:0db8:85a3:0000:0000:8a2e:0370:7334
       - 2001:0db8:85a3:0000:0000:8a2e:0370:7331
-    state: present
 
 # Delete DHCP Relay
 - panos_dhcp_relay:
