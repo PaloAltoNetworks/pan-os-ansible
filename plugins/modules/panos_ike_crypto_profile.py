@@ -36,7 +36,7 @@ notes:
     - Check mode is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
@@ -80,8 +80,9 @@ options:
         type: int
     lifetime_hours:
         description:
-            - IKE phase 1 key lifetime in hours.  If no key lifetime is
-              specified, default to 8 hours.
+            - IKE phase 1 key lifetime in hours.
+            - If I(state=present) or I(state=replaced) and no other lifetime is specified,
+              this will default to 8.
         type: int
     lifetime_days:
         description:
@@ -108,26 +109,42 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
+    ConnectionHelper,
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.network import IkeCryptoProfile
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.network import IkeCryptoProfile
     except ImportError:
         pass
 
 
+class Helper(ConnectionHelper):
+    def spec_handling(self, spec, module):
+        if module.params["state"] in ("present", "replaced"):
+            if not any(
+                [
+                    spec["lifetime_seconds"],
+                    spec["lifetime_minutes"],
+                    spec["lifetime_hours"],
+                    spec["lifetime_days"],
+                ]
+            ):
+                spec["lifetime_hours"] = 8
+
+
 def main():
     helper = get_connection(
+        helper_cls=Helper,
         template=True,
         template_stack=True,
         with_classic_provider_spec=True,
-        with_state=True,
-        argument_spec=dict(
+        with_network_resource_module_state=True,
+        with_commit=True,
+        sdk_cls=IkeCryptoProfile,
+        sdk_params=dict(
             name=dict(required=True),
             dh_group=dict(
                 type="list",
@@ -152,7 +169,6 @@ def main():
             lifetime_minutes=dict(type="int"),
             lifetime_hours=dict(type="int"),
             lifetime_days=dict(type="int"),
-            commit=dict(type="bool", default=False),
         ),
     )
 
@@ -160,59 +176,9 @@ def main():
         argument_spec=helper.argument_spec,
         supports_check_mode=True,
         required_one_of=helper.required_one_of,
-        mutually_exclusive=[
-            ["lifetime_seconds", "lifetime_minutes", "lifetime_hours", "lifetime_days"]
-        ],
     )
 
-    # Verify libs are present, get parent object.
-    parent = helper.get_pandevice_parent(module)
-
-    # Object params.
-    spec = {
-        "name": module.params["name"],
-        "dh_group": module.params["dh_group"],
-        "authentication": module.params["authentication"],
-        "encryption": module.params["encryption"],
-        "lifetime_seconds": module.params["lifetime_seconds"],
-        "lifetime_minutes": module.params["lifetime_minutes"],
-        "lifetime_hours": module.params["lifetime_hours"],
-        "lifetime_days": module.params["lifetime_days"],
-    }
-
-    # Other info.
-    commit = module.params["commit"]
-
-    # Reflect GUI behavior.  Default is 8 hour key lifetime if nothing else is
-    # specified.
-    if not any(
-        [
-            spec["lifetime_seconds"],
-            spec["lifetime_minutes"],
-            spec["lifetime_hours"],
-            spec["lifetime_days"],
-        ]
-    ):
-        spec["lifetime_hours"] = 8
-
-    # Retrieve current info.
-    try:
-        listing = IkeCryptoProfile.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    obj = IkeCryptoProfile(**spec)
-    parent.add(obj)
-
-    # Apply the state.
-    changed, diff = helper.apply_state(obj, listing, module)
-
-    # Commit.
-    if commit and changed:
-        helper.commit(module)
-
-    # Done.
-    module.exit_json(changed=changed, diff=diff)
+    helper.process(module)
 
 
 if __name__ == "__main__":
