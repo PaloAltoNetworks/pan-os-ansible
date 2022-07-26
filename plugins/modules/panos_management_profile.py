@@ -36,7 +36,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.full_template_support
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     panorama_template:
@@ -125,6 +125,7 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
+    ConnectionHelper,
 )
 
 try:
@@ -138,14 +139,38 @@ except ImportError:
         pass
 
 
+class Helper(ConnectionHelper):
+    def initial_handling(self, module):
+        if module.params["state"] not in ("present", "replaced"):
+            return
+
+        # TODO(gfreeman) - Removed when "panorama_template" is removed.
+        if module.params["panorama_template"] is not None:
+            module.deprecate(
+                'Param "panorama_template" is deprecated; use "template"',
+                version="3.0.0",
+                collection_name="paloaltonetworks.panos",
+            )
+            if module.params["template"] is not None:
+                msg = [
+                    'Both "template" and "panorama_template" have been given',
+                    "Specify one or the other, not both.",
+                ]
+                module.fail_json(msg=". ".join(msg))
+            module.params["template"] = module.params["panorama_template"]
+
+
 def main():
     helper = get_connection(
+        helper_cls=Helper,
         template=True,
         template_stack=True,
         with_classic_provider_spec=True,
-        with_state=True,
+        with_network_resource_module_state=True,
         min_pandevice_version=(0, 8, 0),
-        argument_spec=dict(
+        with_commit=True,
+        sdk_cls=ManagementProfile,
+        sdk_params=dict(
             name=dict(required=True),
             ping=dict(type="bool"),
             telnet=dict(type="bool"),
@@ -159,71 +184,20 @@ def main():
             userid_syslog_listener_ssl=dict(type="bool"),
             userid_syslog_listener_udp=dict(type="bool"),
             permitted_ip=dict(type="list", elements="str"),
-            commit=dict(type="bool", default=False),
+        ),
+        extra_params=dict(
             # TODO(gfreeman) - Removed in the next role release.
             panorama_template=dict(),
         ),
     )
+
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         supports_check_mode=True,
         required_one_of=helper.required_one_of,
     )
 
-    # TODO(gfreeman) - Removed when "panorama_template" is removed.
-    if module.params["panorama_template"] is not None:
-        module.deprecate(
-            'Param "panorama_template" is deprecated; use "template"',
-            version="3.0.0",
-            collection_name="paloaltonetworks.panos",
-        )
-        if module.params["template"] is not None:
-            msg = [
-                'Both "template" and "panorama_template" have been given',
-                "Specify one or the other, not both.",
-            ]
-            module.fail_json(msg=". ".join(msg))
-        module.params["template"] = module.params["panorama_template"]
-
-    # Verify imports, build pandevice object tree.
-    parent = helper.get_pandevice_parent(module)
-
-    # Build the object based on the spec.
-    obj = ManagementProfile(
-        *[
-            module.params[x]
-            for x in (
-                "name",
-                "ping",
-                "telnet",
-                "ssh",
-                "http",
-                "http_ocsp",
-                "https",
-                "snmp",
-                "response_pages",
-                "userid_service",
-                "userid_syslog_listener_ssl",
-                "userid_syslog_listener_udp",
-                "permitted_ip",
-            )
-        ]
-    )
-    parent.add(obj)
-
-    # Retrieve current config.
-    try:
-        profiles = ManagementProfile.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    # Perform requested action.
-    changed, diff = helper.apply_state(obj, profiles, module)
-    if changed and module.params["commit"]:
-        helper.commit(module)
-
-    # Done.
-    module.exit_json(changed=changed, diff=diff, msg="Done")
+    helper.process(module)
 
 
 if __name__ == "__main__":
