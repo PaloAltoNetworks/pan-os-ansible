@@ -183,7 +183,7 @@ def main():
         admin_username=dict(default="admin"),
         admin_password=dict(no_log=True, required=True),
         role=dict(),
-        commit=dict(type="bool", default=False),
+        commit=dict(type="bool"),
     )
     module = AnsibleModule(
         argument_spec=argument_spec,
