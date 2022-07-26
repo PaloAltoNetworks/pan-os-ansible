@@ -269,7 +269,7 @@ except ImportError:
 
 def setup_args():
     return dict(
-        commit=dict(type="bool", default=False),
+        commit=dict(type="bool"),
         vr_name=dict(default="default"),
         type=dict(type="str", required=True, choices=["import", "export"]),
         name=dict(type="str", required=True),

@@ -265,7 +265,7 @@ except ImportError:
 
 def setup_args():
     return dict(
-        commit=dict(type="bool", default=False),
+        commit=dict(type="bool"),
         ha_enabled=dict(type="bool", default=True),
         ha_group_id=dict(type="int", default=1),
         ha_config_sync=dict(type="bool", default=True),

@@ -186,7 +186,7 @@ def main():
             name=dict(type="str", required=True),
             color=dict(type="str", default=None, choices=COLOR_NAMES),
             comments=dict(type="str"),
-            commit=dict(type="bool", default=False),
+            commit=dict(type="bool"),
         ),
     )
 

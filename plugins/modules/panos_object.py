@@ -448,7 +448,7 @@ def main():
         ),
         vsys=dict(default="vsys1"),
         devicegroup=dict(default=None),
-        commit=dict(type="bool", default=False),
+        commit=dict(type="bool"),
     )
     module = AnsibleModule(
         argument_spec=argument_spec,

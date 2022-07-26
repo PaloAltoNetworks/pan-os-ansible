@@ -104,7 +104,7 @@ def main():
         password=dict(required=True, no_log=True),
         username=dict(default="admin"),
         file=dict(),
-        commit=dict(type="bool", default=False),
+        commit=dict(type="bool"),
     )
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False)
     if not HAS_LIB:

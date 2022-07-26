@@ -212,7 +212,7 @@ def setup_args():
     return dict(
         # TODO(gfreeman) - remove this later on and use the default state.
         state=dict(default="present", choices=["present", "absent", "return-object"]),
-        commit=dict(type="bool", default=False),
+        commit=dict(type="bool"),
         vr_name=dict(default="default"),
         policy_type=dict(
             type="str",

@@ -396,7 +396,7 @@ def main():
             existing_rule=dict(),
             target=dict(type="list", elements="str"),
             negate_target=dict(type="bool"),
-            commit=dict(type="bool", default=False),
+            commit=dict(type="bool"),
             audit_comment=dict(),
             # TODO(gfreeman) - remove later.
             tag_name=dict(),
