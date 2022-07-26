@@ -158,6 +158,22 @@ notes:
       classic params are ignored.
 """
 
+    NETWORK_RESOURCE_MODULE_STATE = r"""
+options:
+    state:
+        description:
+            - The state.
+        type: str
+        default: present
+        choices:
+            - present
+            - absent
+            - replaced
+            - merged
+            - deleted
+            - gathered
+"""
+
     STATE = r"""
 options:
     state:
