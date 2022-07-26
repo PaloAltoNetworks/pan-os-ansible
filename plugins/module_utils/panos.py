@@ -106,6 +106,28 @@ class ConnectionHelper(object):
         self.firewall_error = firewall_error
         self.template_is_optional = template_is_optional
 
+        # Set by the helper's construction.
+        self.sdk_cls = None
+        self.parents = ()
+        self.sdk_params = {}
+        self.extra_params = {}
+        self.reference_operations = ()
+        self.ansible_to_sdk_param_mapping = {}
+        self.with_commit = False
+        self.with_movement = False
+        self.with_audit_comment = False
+        self.with_import_support = False
+        self.with_update_in_apply_state = False
+        self.zone_mode = None
+        self.default_zone_mode = None
+
+        # References.
+        self.with_set_vlan_reference = False
+        self.with_set_vsys_reference = False
+        self.with_set_zone_reference = False
+        self.with_set_virtual_router_reference = False
+        self.with_set_vlan_interface_reference = False
+
         # The PAN-OS device.
         self.device = None
 
@@ -350,70 +372,105 @@ class ConnectionHelper(object):
         # Done.
         return parent
 
-    def apply_state_using_update(self, obj, live_obj, module):
-        """Apply state using `update()`.
+    def process(self, module):
+        result = {}
 
-        This function is primarily for when the object has sub-objects
-        that pan-os-python does not support.  Using this function will only
-        do `update()` to change the param values, so config that is unknown
-        to pan-os-python will not be truncated.
+        # Sanity test the input.
+        if not module:
+            raise Exception("module must be specified")
 
-        Returns:
-            tuple: Two element tuple; bool for changed and a diff dict.
-        """
-        if "state" not in module.params:
-            module.fail_json(msg='No "state" present')
-        elif module.params["state"] not in ("absent", "present"):
-            module.fail_json(
-                msg="Unsupported state: {0}".format(module.params["state"])
+        # Optional: initial handling.
+        self.initial_handling(module)
+
+        # Global deprecation checks.
+        if self.with_commit and module.params["commit"]:
+            module.deprecate(
+                'Param "commit" is deprecated; use the various commit modules',
+                version="3.0.0",
+                collection_name="paloaltonetworks.panos",
             )
-        elif live_obj is not None and obj.__class__ != live_obj.__class__:
-            module.fail_json(msg="Mismatched objects sent to apply_state_with_updates")
 
-        changed = False
-        diff = {}
-        if module.params["state"] == "present":
-            if live_obj is None:
-                changed = True
-                diff = {
-                    "before": "",
-                    "after": eltostr(obj),
-                }
-                if not module.check_mode:
-                    try:
-                        obj.create()
-                    except PanDeviceError as e:
-                        module.fail_json(msg="Failed create: {0}".format(e))
+        # Verify imports, build the initial object hierarchy.
+        parent = self.get_pandevice_parent(module)
+
+        # Build out the final object hierarchy.
+        for p_info in self.parents:
+            p = None
+            parent_class, parent_param_name = p_info[0], p_info[1]
+            if parent_param_name is None:
+                p = parent_class()
             else:
-                for param, value in obj.about().items():
-                    if getattr(live_obj, param) != value:
-                        changed = True
-                        if diff is None:
-                            diff = {
-                                "before": eltostr(live_obj),
-                                "after": eltostr(obj),
-                            }
-                        if not module.check_mode:
-                            try:
-                                obj.update(param)
-                            except PanDeviceError as e:
-                                module.fail_json(
-                                    msg="Failed to update {0}: {1}".format(param, e)
-                                )
-        elif module.params["state"] == "absent":
-            if live_obj is not None:
-                changed = True
-                diff = {
-                    "before": eltostr(live_obj),
-                    "after": "",
-                }
-                if not module.check_mode:
-                    try:
-                        obj.delete()
-                    except PanDeviceError as e:
-                        module.fail_json(msg="Failed delete: {0}".format(e))
+                p = parent_class(module.params.get(parent_param_name))
+            parent.add(p)
+            parent = p
 
-        return changed, diff
+        # Optional: customized parent handling.
+        parent = self.parent_handling(parent, module)
+        if parent is None:
+            raise Exception("parent_handling() must return the parent")
+
+        # Build the object from the spec.
+        spec = {}
+        for ansible_param in self.sdk_params.keys():
+            sdk_param = self.ansible_to_sdk_param_mapping.get(
+                ansible_param, ansible_param
+            )
+            spec[sdk_param] = module.params.get(ansible_param)
+        self.spec_handling(spec, module)
+
+        # Attach the object to the parent.
+        if self.sdk_cls is None:
+            raise Exception("sdk_cls must be specified")
+        obj = self.sdk_cls(**spec)
+        parent.add(obj)
+
+        # Apply the state.
+        self.pre_state_handling(obj, result, module)
+        self.apply_state(obj, result=result, module=module)
+        self.post_state_handling(obj, result, module)
+
+        # Optional: with_movement.
+        if self.with_movement and module.params["state"] in (
+            "present",
+            "merged",
+            "replaced",
+        ):
+            result["changed"] |= self.apply_position(
+                obj, module.params["location"], module.params["existing_rule"], module
+            )
+
+        # Optional: with_audit_comment.
+        if self.with_audit_comment and result["changed"] and not module.check_mode:
+            comment = module.params["audit_comment"]
+            if comment:
+                obj.opstate.audit_comment.update(comment)
+
+        # Optional: with_commit.
+        if self.with_commit and result["changed"] and module.params["commit"]:
+            self.commit(module)
+
+        # Done.
+        module.exit_json(**result)
+
+    def initial_handling(self, module):
+        """Override to implement module specific deprecations or param massaging."""
+        pass
+
+    def parent_handling(self, parent, module):
+        """Override if special parent handling is required."""
+        return parent
+
+    def spec_handling(self, spec, module):
+        """Override to do any custom spec handling before the object is built."""
+        pass
+
+    def pre_state_handling(self, obj, result, module):
+        """Override to provide custom pre-state handling functionality."""
+        pass
+
+    def post_state_handling(self, obj, result, module):
+        """Override to provide custom post-state handling functionality."""
+        pass
 
     def apply_state(
         self,
@@ -422,6 +479,7 @@ class ConnectionHelper(object):
         module=None,
         enabled_disabled_param=None,
         invert_enabled_disabled=False,
+        result=None,
     ):
         """Generic state handling.
 
@@ -440,17 +498,36 @@ class ConnectionHelper(object):
             invert_enabled_disabled (bool): Set this to True if the param
                 specified in "enabled_disabled_param" is a disabled flag
                 instead of an enabled flag.
+            result(dict): Update this dict with the results of this function.
 
         Returns:
-            bool: If a change was made or not.
+            dict: To pass in to module.exit_json().
         """
-        supported_states = ["present", "absent"]
+        ref_spec = {
+            "refresh": True,
+            "update": not module.check_mode,
+            "return_type": "bool",
+        }
+        supported_states = [
+            "present",
+            "absent",
+            "merged",
+            "replaced",
+            "deleted",
+            "gathered",
+        ]
+        if result is None:
+            result = {}
+        result.setdefault("changed", False)
+
         if enabled_disabled_param is not None:
             supported_states.extend(["enabled", "disabled"])
 
-        # Sanity check.
+        # Sanity checks.
         if module is None:
             raise Exception("No module passed in to apply_state()")
+        elif result is not None and not isinstance(result, dict):
+            raise Exception("result should be a dict")
         elif "state" not in module.params:
             module.fail_json(msg='No "state" present')
         elif module.params["state"] not in supported_states:
@@ -464,6 +541,14 @@ class ConnectionHelper(object):
                 msg="enabled/disabled param {0} not present".format(
                     enabled_disabled_param
                 )
+            )
+        elif (
+            self.with_set_zone_reference
+            and not hasattr(obj, "mode")
+            and self.default_zone_mode is None
+        ):
+            raise Exception(
+                "set_zone_ref error: obj doesn't have a mode and there is no default_zone_mode given"
             )
 
         # Do a targetted refresh if the listing is None.
@@ -487,13 +572,15 @@ class ConnectionHelper(object):
                 )
 
         # Apply the state.
-        changed = False
-        diff = None
-        if module.params["state"] == "present":
+        if module.params["state"] in ("present", "replaced"):
+            # Apply the config.
             for item in listing:
                 if item.uid != obj.uid:
                     continue
-                diff = dict(before=eltostr(item))
+                result["before"] = self.describe(item)
+                result["diff"] = {
+                    "before": eltostr(item),
+                }
                 obj_child_types = [x.__class__ for x in obj.children]
                 other_children = []
                 for x in item.children:
@@ -502,50 +589,257 @@ class ConnectionHelper(object):
                     other_children.append(x)
                     item.remove(x)
                 if not item.equal(obj, compare_children=True):
-                    changed = True
+                    result["changed"] = True
                     obj.extend(other_children)
-                    diff["after"] = eltostr(obj)
+                    result["after"] = self.describe(obj)
+                    result["diff"]["after"] = eltostr(obj)
                     if not module.check_mode:
-                        try:
-                            obj.apply()
-                        except PanDeviceError as e:
-                            module.fail_json(msg="Failed apply: {0}".format(e))
+                        if self.with_update_in_apply_state:
+                            for param in obj.about().keys():
+                                if getattr(item, param) != getattr(obj, param):
+                                    try:
+                                        obj.update(param)
+                                    except PanDeviceError as e:
+                                        module.fail_json(
+                                            msg="Failed update {0}: {1}".format(
+                                                param, e
+                                            )
+                                        )
+                        else:
+                            try:
+                                obj.apply()
+                            except PanDeviceError as e:
+                                module.fail_json(msg="Failed apply: {0}".format(e))
                 break
             else:
-                changed = True
-                diff = dict(before="", after=eltostr(obj))
+                result["changed"] = True
+                result["before"] = None
+                result["after"] = self.describe(obj)
+                result["diff"] = {
+                    "before": "",
+                    "after": eltostr(obj),
+                }
                 if not module.check_mode:
                     try:
                         obj.create()
                     except PanDeviceError as e:
                         module.fail_json(msg="Failed create: {0}".format(e))
-        elif module.params["state"] == "absent":
-            if obj.uid in [x.uid for x in listing]:
-                changed = True
-                diff = dict(before=eltostr(obj), after="")
+
+            # Apply references.
+            if self.with_set_vsys_reference:
+                try:
+                    result["changed"] |= obj.set_vsys(
+                        module.params[self.vsys_importable],
+                        **ref_spec,
+                    )
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_vsys: {0}".format(e))
+            if self.with_set_vlan_interface_reference:
+                try:
+                    result["changed"] |= obj.set_vlan_interface(
+                        module.params["vlan_name"],
+                        **ref_spec,
+                    )
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_zone: {0}".format(e))
+            if self.with_set_zone_reference:
+                the_mode = getattr(obj, "mode", self.default_zone_mode)
+                try:
+                    result["changed"] |= obj.set_zone(
+                        module.params["zone_name"],
+                        mode=the_mode,
+                        **ref_spec,
+                    )
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_zone: {0}".format(e))
+            if self.with_set_vlan_reference:
+                try:
+                    result["changed"] |= obj.set_vlan(
+                        module.params["vlan_name"],
+                        **ref_spec,
+                    )
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_zone: {0}".format(e))
+            if self.with_set_virtual_router_reference:
+                try:
+                    result["changed"] |= obj.set_virtual_router(
+                        module.params["vr_name"],
+                        **ref_spec,
+                    )
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_virtual_router: {0}".format(e))
+        elif module.params["state"] in ("absent", "deleted"):
+            # Remove references.
+            if self.with_set_virtual_router_reference:
+                try:
+                    result["changed"] |= obj.set_virtual_router(None, **ref_spec)
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_virtual_router: {0}".format(e))
+            if self.with_set_vlan_reference:
+                try:
+                    result["changed"] |= obj.set_vlan(None, **ref_spec)
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_vlan: {0}".format(e))
+            if self.with_set_zone_reference:
+                the_mode = getattr(obj, "mode", self.default_zone_mode)
+                try:
+                    result["changed"] |= obj.set_zone(None, mode=the_mode, **ref_spec)
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_zone: {0}".format(e))
+            if self.with_set_vlan_interface_reference:
+                try:
+                    result["changed"] |= obj.set_vlan_interface(None, **ref_spec)
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_vlan_interface: {0}".format(e))
+            if self.with_set_vsys_reference:
+                try:
+                    result["changed"] |= obj.set_vsys(None, **ref_spec)
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_vsys: {0}".format(e))
+
+            # Remove the config.
+            for item in listing:
+                if item.uid != obj.uid:
+                    continue
+                result["changed"] = True
+                result["before"] = self.describe(item)
+                result["after"] = None
+                result["diff"] = {
+                    "before": eltostr(item),
+                    "after": "",
+                }
                 if not module.check_mode:
                     try:
                         obj.delete()
                     except PanDeviceError as e:
                         module.fail_json(msg="Failed delete: {0}".format(e))
+                break
+            else:
+                result["before"] = None
+                result["diff"] = {"before": ""}
+        elif module.params["state"] == "merged":
+            for item in listing:
+                if item.uid != obj.uid:
+                    continue
+                result["before"] = self.describe(item)
+                result["diff"] = {"before": eltostr(item)}
+                # Doing item.apply() is faster from an API perspective, but may have
+                # undesired side-effects if the object is a vsys importable and the vsys
+                # has not been specified, so we'll just do item.update() for all changed
+                # params.
+                updated_params = set([])
+                for key, obj_value in obj.about().items():
+                    item_value = getattr(item, key, None)
+                    if obj_value is not None:
+                        if isinstance(obj_value, list) or isinstance(item_value, list):
+                            if not item_value:
+                                item_value = []
+                            for elm in obj_value:
+                                if elm not in item_value:
+                                    updated_params.add(key)
+                                    item_value.append(elm)
+                                    setattr(item, key, item_value)
+                        elif item_value != obj_value:
+                            updated_params.add(key)
+                            setattr(item, key, obj_value)
+                if updated_params:
+                    result["changed"] = True
+                    result["after"] = self.describe(item)
+                    result["diff"]["after"] = eltostr(item)
+                    if not module.check_mode:
+                        for param in updated_params:
+                            try:
+                                item.update(param)
+                            except PanDeviceError as e:
+                                module.fail_json(
+                                    msg="Failed update {0}: {1}".format(param, e)
+                                )
+                break
+            else:
+                result["before"] = None
+                result["after"] = self.describe(obj)
+                result["diff"] = {
+                    "before": "",
+                    "after": eltostr(obj),
+                }
+                result["changed"] = True
+                if not module.check_mode:
+                    try:
+                        obj.create()
+                    except PanDeviceError as e:
+                        module.fail_json(msg="Failed create: {0}".format(e))
+
+            # Apply references.
+            if self.with_set_vsys_reference and module.params[self.vsys_importable]:
+                try:
+                    result["changed"] |= obj.set_vsys(
+                        module.params[self.vsys_importable],
+                        **ref_spec,
+                    )
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_vsys: {0}".format(e))
+            if self.with_set_vlan_interface_reference and module.params["vlan_name"]:
+                try:
+                    result["changed"] |= obj.set_vlan_interface(
+                        module.params["vlan_name"],
+                        **ref_spec,
+                    )
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_zone: {0}".format(e))
+            if self.with_set_zone_reference and module.params["zone_name"]:
+                the_mode = getattr(obj, "mode", self.default_zone_mode)
+                try:
+                    result["changed"] |= obj.set_zone(
+                        module.params["zone_name"],
+                        mode=the_mode,
+                        **ref_spec,
+                    )
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_zone: {0}".format(e))
+            if self.with_set_vlan_reference and module.params["vlan_name"]:
+                try:
+                    result["changed"] |= obj.set_vlan(
+                        module.params["vlan_name"],
+                        **ref_spec,
+                    )
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_zone: {0}".format(e))
+            if self.with_set_virtual_router_reference and module.params["vr_name"]:
+                try:
+                    result["changed"] |= obj.set_virtual_router(
+                        module.params["vr_name"],
+                        **ref_spec,
+                    )
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_virtual_router: {0}".format(e))
+        elif module.params["state"] == "gathered":
+            for item in listing:
+                if item.uid != obj.uid:
+                    continue
+                result["gathered"] = self.describe(item)
+                break
+            else:
+                module.fail_json(msg="Object '{0}' not found".format(obj.uid))
         else:
             for item in listing:
                 if item.uid != obj.uid:
                     continue
 
+                result["before"] = self.describe(item)
+                result["diff"] = {"before": eltostr(item)}
                 val = getattr(item, enabled_disabled_param)
                 if invert_enabled_disabled:
                     val = not val
 
                 if module.params["state"] == "enabled" and not val:
-                    changed = True
+                    result["changed"] = True
                 elif module.params["state"] == "disabled" and val:
-                    changed = True
+                    result["changed"] = True
 
-                if changed:
-                    diff = dict(before=eltostr(item))
+                if result["changed"]:
                     setattr(item, enabled_disabled_param, not val)
-                    diff["after"] = eltostr(item)
+                    result["after"] = self.describe(item)
+                    result["diff"]["after"] = eltostr(item)
                     if not module.check_mode:
                         try:
                             item.update(enabled_disabled_param)
@@ -555,7 +849,7 @@ class ConnectionHelper(object):
             else:
                 module.fail_json(msg="Cannot enable/disable non-existing obj")
 
-        return changed, diff
+        return result
 
     def apply_position(self, obj, location, existing_rule, module):
         """Moves an object into the given location.
@@ -701,7 +995,7 @@ class ConnectionHelper(object):
 
         return committed
 
-    def to_module_dict(self, element, renames=None):
+    def describe(self, element, renames=None):
         """Changes a pandevice object or list of objects into a dict / list of dicts.
 
         Args:
@@ -717,18 +1011,17 @@ class ConnectionHelper(object):
 
         """
         if isinstance(element, list):
-            ans = []
-            for elm in element:
-                spec = elm.about()
-                if renames is not None:
-                    for pandevice_param, ansible_param in renames:
-                        spec[ansible_param] = spec.pop(pandevice_param)
-                ans.append(spec)
-        else:
-            ans = element.about()
-            if renames is not None:
-                for pandevice_param, ansible_param in renames:
-                    ans[ansible_param] = ans.pop(pandevice_param)
+            return [self._describe(x) for x in element]
+
+        return self._describe(element)
+
+    def _describe(self, elm):
+        ans = elm.about()
+
+        for module_name, sdk_name in self.ansible_to_sdk_param_mapping.items():
+            if module_name == sdk_name:
+                continue
+            ans[module_name] = ans.pop(sdk_name)
 
         return ans
 
@@ -746,6 +1039,8 @@ def get_connection(
     with_state=False,
     with_enabled_state=False,
     argument_spec=None,
+    with_network_resource_module_state=False,
+    with_network_resource_module_enabled_state=False,
     required_one_of=None,
     min_pandevice_version=None,
     min_panos_version=None,
@@ -753,6 +1048,24 @@ def get_connection(
     panorama_error=None,
     firewall_error=None,
     template_is_optional=False,
+    helper_cls=None,
+    sdk_cls=None,
+    parents=None,
+    sdk_params=None,
+    extra_params=None,
+    reference_operations=None,
+    ansible_to_sdk_param_mapping=None,
+    with_commit=False,
+    with_movement=False,
+    with_audit_comment=False,
+    with_update_in_apply_state=False,
+    with_set_vlan_reference=False,
+    with_set_vsys_reference=False,
+    with_set_zone_reference=False,
+    with_set_virtual_router_reference=False,
+    with_set_vlan_interface_reference=False,
+    virtual_router_reference_default="default",
+    default_zone_mode=None,
 ):
     """Returns a helper object that handles pandevice object tree init.
 
@@ -790,8 +1103,14 @@ def get_connection(
         with_state(bool): Include the standard 'state' param.
         with_enabled_state(bool): Include 'state', but also support "enabled"
             and "disabled" as valid states.
-        argument_spec(dict): The argument spec to mixin with the
-            generated spec based on the given parameters.
+        argument_spec(dict): The argument spec to mixin with the generated spec based
+            on the given parameters.  This cannot be specified if sdk_params is specified.
+        with_network_resource_module_state(bool): Include 'state',
+            but also the network resource module
+            states of "merged", "replaced", "deleted", and "gathered".
+        with_network_resource_module_enabled_state(bool): Includes
+            the `with_network_resource_module_state` values, but also
+            support "enabled" and "disabled" as valid states.
         required_one_of(list): List of lists to extend into required_one_of.
         min_pandevice_version(tuple): Minimum pandevice version allowed.
         min_panos_version(tuple): Minimum PAN-OS version allowed.
@@ -800,11 +1119,47 @@ def get_connection(
         firewall_error(str): The error message if the device is a firewall.
         template_is_optional(bool): Set this to True if the config object could
             be local on Panorama and not just in a template or template stack.
+        helper_cls: The helper class to instantiate, when a module requires overridden
+            functionality.
+        sdk_cls(obj): The SDK class that this module will manipulate.
+        parents(tuple): Tuple of length 2 tuples, where the first element is the parent
+            class and the second element is the ansible argument name.  If the class is
+            a singleton that does not have a NAME defined (such as panos.policies.Rulebase),
+            then the 2nd param in the tuple should be `None`.  If the tuple is length 3,
+            then the 2nd param is optional with a default of the 3rd item in the tuple.
+        sdk_params(dict): List of params that exist in the sdk_cls that should be present
+            in the argument_spec of the module.
+        extra_params(dict): List of params that should be present in the argument_spec,
+            but aren't params in the specified sdk_cls object.
+        reference_operations(tuple): Listing of reference operations to run before / after
+            apply_state().
+        ansible_to_sdk_param_mapping(dict): A dict where the key is the ansible param
+            name and the value is the class' param name.  Used both for CRUD operations
+            as well as for `state=gathered`.
+        with_commit(bool): Include the commit boolean, which is deprecated.
+        with_movement(bool): This is a rule module, so move the rule into place.
+        with_audit_comment(bool): This is a rule module, so perform audit comment
+            operations.
+        with_update_in_apply_state(bool): `apply_state()` should do `.update(param)` on
+            changes instead of `obj.apply()`.
+        with_set_vlan_reference(bool): Module should do `set_vlan()` in apply_state().
+        with_set_vsys_reference(bool): Module should do `set_vsys()` in apply_state().
+        with_set_zone_reference(bool): Module should do `set_zone()` in apply_state().
+        with_set_virtual_router_reference(bool): Module should do `set_virtual_router()`
+            in apply_state().
+        with_set_vlan_interface_reference(bool): Module should do `set_vlan_interface()`
+            in apply_state().
+        virtual_router_reference_default(str): The default value for the virtual router
+            reference.
+        default_zone_mode(str): The default zone mode when with_set_zone_reference=True.
 
     Returns:
         ConnectionHelper
     """
-    helper = ConnectionHelper(
+    if helper_cls is None:
+        helper_cls = ConnectionHelper
+
+    helper = helper_cls(
         min_pandevice_version,
         min_panos_version,
         error_on_firewall_shared,
@@ -813,6 +1168,7 @@ def get_connection(
         template_is_optional,
     )
     req = []
+    renames = {}
     spec = {
         "provider": {
             "required": True,
@@ -863,6 +1219,55 @@ def get_connection(
             "choices": ["present", "absent", "enabled", "disabled"],
         }
 
+    if with_network_resource_module_state:
+        spec["state"] = {
+            "default": "present",
+            "choices": [
+                "present",
+                "absent",
+                "merged",
+                "replaced",
+                "deleted",
+                "gathered",
+            ],
+        }
+
+    if with_network_resource_module_enabled_state:
+        spec["state"] = {
+            "default": "present",
+            "choices": [
+                "present",
+                "absent",
+                "merged",
+                "replaced",
+                "deleted",
+                "gathered",
+                "enabled",
+                "disabled",
+            ],
+        }
+
+    if with_commit:
+        helper.with_commit = True
+        spec["commit"] = {
+            "type": "bool",
+        }
+
+    if with_movement:
+        helper.with_movement = True
+        if "location" in spec or "existing_rule" in spec:
+            raise KeyError("cannot add 'location' or 'existing_rule' for with_movement")
+        spec["location"] = {
+            "choices": ["top", "bottom", "before", "after"],
+        }
+        spec["existing_rule"] = {}
+
+    if with_audit_comment:
+        if "audit_comment" in spec:
+            raise KeyError("audit_comment is already in the spec")
+        helper.with_audit_comment = True
+        spec["audit_comment"] = {}
+
     if vsys_dg is not None:
         if isinstance(vsys_dg, bool):
             param = "vsys_dg"
@@ -893,6 +1298,7 @@ def get_connection(
             else:
                 param = vsys_importable
             spec[param] = {}
+            helper.with_import_support = True
             helper.vsys_importable = param
         if vsys_shared is not None:
             if vsys is not None:
@@ -911,6 +1317,8 @@ def get_connection(
             param = "rulebase"
         else:
             param = rulebase
+        if param in spec:
+            raise KeyError("rulebase param {0} already in spec".format(param))
         spec[param] = {
             "default": None,
             "choices": ["pre-rulebase", "rulebase", "post-rulebase"],
@@ -933,18 +1341,120 @@ def get_connection(
         spec[param] = {}
         helper.template_stack = param
 
+    if parents is not None:
+        if not isinstance(parents, tuple):
+            raise Exception("parents should be a tuple")
+        for num, x in enumerate(parents):
+            if not isinstance(x, tuple):
+                raise Exception("index {0}: is not a tuple".format(num))
+            elif len(x) != 2 and len(x) != 3:
+                raise Exception("index {0}: must be len-2 or len-3".format(num))
+            elif len(x) == 3 and x[1] is None:
+                raise Exception("index {0}: no name but has a default".format(num))
+            parent_param_name = x[1]
+            if parent_param_name is not None:
+                if parent_param_name in spec:
+                    raise KeyError(
+                        "parent param {0}: already in spec".format(parent_param_name)
+                    )
+                ps = {}
+                if len(x) == 2:
+                    ps = {"required": True}
+                else:
+                    ps = {"default": x[2]}
+                spec[parent_param_name] = ps
+        helper.parents = parents
+
+    if ansible_to_sdk_param_mapping is not None:
+        if not isinstance(ansible_to_sdk_param_mapping, dict):
+            raise Exception("ansible_to_sdk_param_mapping should be a dict")
+        for ansible_param, sdk_param in ansible_to_sdk_param_mapping.items():
+            if ansible_param in renames:
+                raise KeyError(
+                    "param mapping {0} already present".format(ansible_param)
+                )
+            renames[ansible_param] = sdk_param
+
+    if argument_spec is not None and sdk_params is not None:
+        raise Exception("either specify argument_spec or sdk_params, not both")
+
     if argument_spec is not None:
         for k in argument_spec.keys():
             if k in spec:
-                raise KeyError("{0}: key used by connection helper.".format(k))
+                raise KeyError("{0} is already present in argument_spec".format(k))
             spec[k] = argument_spec[k]
+
+    if sdk_params is not None:
+        if not isinstance(sdk_params, dict):
+            raise Exception("sdk_params should be a dict")
+        for k in sdk_params.keys():
+            if k in spec:
+                raise KeyError("sdk_param {0}: already in spec".format(k))
+            try:
+                sdk_name = sdk_params[k].pop("sdk_param")
+            except KeyError:
+                pass
+            else:
+                if k in renames and renames[k] != sdk_name:
+                    raise Exception(
+                        "param mapping {0} already present and different".format(k)
+                    )
+                renames[k] = sdk_name
+            spec[k] = sdk_params[k]
+        helper.sdk_params = sdk_params
+
+    if extra_params is not None:
+        if not isinstance(extra_params, dict):
+            raise Exception("extra_params should be a dict")
+        for k in extra_params.keys():
+            if k in spec:
+                raise KeyError("extra param {0}: already in spec".format(k))
+            spec[k] = extra_params[k]
+        helper.extra_params = extra_params
+
+    if with_set_zone_reference:
+        if "zone_name" in spec:
+            raise Exception("setref: spec already contains 'zone_name'")
+        spec["zone_name"] = {}
+        helper.with_set_zone_reference = True
+        helper.default_zone_mode = default_zone_mode
+
+    if with_set_vlan_reference:
+        if "vlan_name" in spec:
+            raise Exception("setref: spec already contains 'vlan_name'")
+        spec["vlan_name"] = {}
+        helper.with_set_vlan_reference = True
+
+    if with_set_vsys_reference:
+        if not helper.vsys_importable:
+            raise Exception(
+                "setref: with_set_vsys_reference requires vsys_importable=True"
+            )
+        helper.with_set_vsys_reference = True
+
+    if with_set_virtual_router_reference:
+        if "vr_name" in spec:
+            raise Exception("setref: spec already contains 'vr_name'")
+        spec["vr_name"] = {}
+        if virtual_router_reference_default is not None:
+            spec["vr_name"]["default"] = virtual_router_reference_default
+        helper.with_set_virtual_router_reference = True
+
+    if with_set_vlan_interface_reference:
+        if "vlan_name" in spec:
+            raise Exception("setref: spec already contains 'vlan_name'")
+        spec["vlan_name"] = {}
+        helper.with_set_vlan_interface_reference = True
 
     if required_one_of is not None:
         req.extend(required_one_of)
 
     # Done.
+    helper.with_update_in_apply_state = with_update_in_apply_state
+    helper.sdk_cls = sdk_cls
     helper.argument_spec = spec
     helper.required_one_of = req
+    helper.ansible_to_sdk_param_mapping = renames
     return helper
 
 
