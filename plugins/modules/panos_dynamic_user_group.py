@@ -43,7 +43,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
 options:
     name:
         description:
@@ -84,11 +84,9 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.objects import DynamicUserGroup
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.objects import DynamicUserGroup
     except ImportError:
         pass
@@ -100,11 +98,12 @@ def main():
         device_group=True,
         min_panos_version=(9, 1, 0),
         with_classic_provider_spec=True,
-        with_state=True,
-        argument_spec=dict(
-            name=dict(type="str", required=True),
-            description=dict(type="str"),
-            filter=dict(type="str"),
+        with_network_resource_module_state=True,
+        sdk_cls=DynamicUserGroup,
+        sdk_params=dict(
+            name=dict(required=True),
+            description=dict(),
+            filter=dict(),
             tag=dict(type="list", elements="str"),
         ),
     )
@@ -115,25 +114,7 @@ def main():
         supports_check_mode=True,
     )
 
-    parent = helper.get_pandevice_parent(module)
-
-    spec = {
-        "name": module.params["name"],
-        "description": module.params["description"],
-        "filter": module.params["filter"],
-        "tag": module.params["tag"],
-    }
-
-    try:
-        listing = DynamicUserGroup.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    obj = DynamicUserGroup(**spec)
-    parent.add(obj)
-
-    changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff)
+    helper.process(module)
 
 
 if __name__ == "__main__":
