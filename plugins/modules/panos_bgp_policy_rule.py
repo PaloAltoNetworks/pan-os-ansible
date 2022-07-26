@@ -390,13 +390,14 @@ def main():
     bgp.add(obj)
 
     # Apply the state.
-    changed, diff = helper.apply_state(obj, listing, module)
+    resp = helper.apply_state(obj, listing, module)
 
     # Optional commit.
-    if changed and module.params["commit"]:
+    if resp["changed"] and module.params["commit"]:
         helper.commit(module)
 
-    module.exit_json(changed=changed, diff=diff, msg="done")
+    resp["msg"] = "done"
+    module.exit_json(**resp)
 
 
 if __name__ == "__main__":
