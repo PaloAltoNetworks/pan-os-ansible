@@ -117,5 +117,5 @@ plugins/modules/panos_vlan_interface.py validate-modules:missing-gplv3-license
 plugins/modules/panos_vm_auth_key.py validate-modules:missing-gplv3-license
 plugins/modules/panos_zone.py validate-modules:missing-gplv3-license
 plugins/modules/panos_zone_facts.py validate-modules:missing-gplv3-license
-plugins/modules/panos_address_group.py import-error
-plugins/modules/panos_address_object.py import-error
+plugins/modules/panos_address_group.py validate-modules:import-error
+plugins/modules/panos_address_object.py validate-modules:import-error
