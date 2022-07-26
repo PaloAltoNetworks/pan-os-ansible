@@ -35,7 +35,7 @@ notes:
     - Panorama is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.vsys_import
     - paloaltonetworks.panos.fragments.template_only
     - paloaltonetworks.panos.fragments.deprecated_commit
@@ -111,39 +111,74 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    eltostr,
     get_connection,
+    ConnectionHelper,
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.network import TunnelInterface
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.network import TunnelInterface
     except ImportError:
         pass
 
 
+class Helper(ConnectionHelper):
+    def initial_handling(self, module):
+        if module.params["state"] not in ("present", "replaced"):
+            return
+
+        vsys = module.params["vsys"]
+        vsys_dg = module.params["vsys_dg"]
+
+        # TODO(gfreeman) - Remove vsys_dg in 2.12, as well as this code chunk.
+        # In the mean time, we'll need to do this special handling.
+        if vsys_dg is not None:
+            module.deprecate(
+                'Param "vsys_dg" is deprecated, use "vsys"',
+                version="3.0.0",
+                collection_name="paloaltonetworks.panos",
+            )
+
+            if vsys is None:
+                vsys = vsys_dg
+            else:
+                msg = [
+                    'Params "vsys" and "vsys_dg" both given',
+                    "Specify one or the other, not both.",
+                ]
+                module.fail_json(msg=".  ".join(msg))
+        elif vsys is None:
+            # TODO(gfreeman) - v2.12, just set the default for vsys to 'vsys1'.
+            vsys = "vsys1"
+
+
 def main():
     helper = get_connection(
+        helper_cls=Helper,
         vsys_importable=True,
         template=True,
         with_classic_provider_spec=True,
-        with_state=True,
+        with_network_resource_module_state=True,
         min_pandevice_version=(0, 8, 0),
-        argument_spec=dict(
-            if_name=dict(required=True),
+        with_commit=True,
+        with_set_vsys_reference=True,
+        with_set_zone_reference=True,
+        with_set_virtual_router_reference=True,
+        virtual_router_reference_default=None,
+        default_zone_mode="layer3",
+        sdk_cls=TunnelInterface,
+        sdk_params=dict(
+            if_name=dict(required=True, sdk_param="name"),
             ip=dict(type="list", elements="str"),
             ipv6_enabled=dict(type="bool"),
             management_profile=dict(),
             mtu=dict(type="int"),
             netflow_profile=dict(),
             comment=dict(),
-            zone_name=dict(),
-            vr_name=dict(),
-            commit=dict(type="bool", default=False),
+        ),
+        extra_params=dict(
             # TODO(gfreeman) - remove this in 2.12
             vsys_dg=dict(),
         ),
@@ -155,127 +190,7 @@ def main():
         required_one_of=helper.required_one_of,
     )
 
-    # Get the object params.
-    spec = {
-        "name": module.params["if_name"],
-        "ip": module.params["ip"],
-        "ipv6_enabled": module.params["ipv6_enabled"],
-        "management_profile": module.params["management_profile"],
-        "mtu": module.params["mtu"],
-        "netflow_profile": module.params["netflow_profile"],
-        "comment": module.params["comment"],
-    }
-
-    # Get other info.
-    state = module.params["state"]
-    zone_name = module.params["zone_name"]
-    vr_name = module.params["vr_name"]
-    vsys = module.params["vsys"]
-    vsys_dg = module.params["vsys_dg"]
-    commit = module.params["commit"]
-
-    # TODO(gfreeman) - Remove vsys_dg in 2.12, as well as this code chunk.
-    # In the mean time, we'll need to do this special handling.
-    if vsys_dg is not None:
-        module.deprecate(
-            'Param "vsys_dg" is deprecated, use "vsys"',
-            version="3.0.0",
-            collection_name="paloaltonetworks.panos",
-        )
-
-        if vsys is None:
-            vsys = vsys_dg
-        else:
-            msg = [
-                'Params "vsys" and "vsys_dg" both given',
-                "Specify one or the other, not both.",
-            ]
-            module.fail_json(msg=".  ".join(msg))
-    elif vsys is None:
-        # TODO(gfreeman) - v2.12, just set the default for vsys to 'vsys1'.
-        vsys = "vsys1"
-
-    # Make sure 'vsys' is set appropriately.
-    module.params["vsys"] = vsys
-
-    # Verify libs are present, get the parent object.
-    parent = helper.get_pandevice_parent(module)
-
-    # Retrieve the current config.
-    try:
-        interfaces = TunnelInterface.refreshall(parent, add=False, matching_vsys=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    # Build the object based on the user spec.
-    obj = TunnelInterface(**spec)
-    parent.add(obj)
-
-    # Which action should we take on the interface?
-    changed = False
-    diff = None
-    reference_params = {
-        "refresh": True,
-        "update": not module.check_mode,
-        "return_type": "bool",
-    }
-    if state == "present":
-        for item in interfaces:
-            if item.name != obj.name:
-                continue
-            diff = dict(before=eltostr(item))
-            # Interfaces have children, so don't compare them.
-            if not item.equal(obj, compare_children=False):
-                changed = True
-                obj.extend(item.children)
-                diff["after"] = eltostr(obj)
-                if not module.check_mode:
-                    try:
-                        obj.apply()
-                    except PanDeviceError as e:
-                        module.fail_json(msg="Failed apply: {0}".format(e))
-            break
-        else:
-            changed = True
-            diff = dict(before="", after=eltostr(obj))
-            if not module.check_mode:
-                try:
-                    obj.create()
-                except PanDeviceError as e:
-                    module.fail_json(msg="Failed create: {0}".format(e))
-
-        # Set references.
-        try:
-            changed |= obj.set_vsys(vsys, **reference_params)
-            changed |= obj.set_zone(zone_name, mode="layer3", **reference_params)
-            changed |= obj.set_virtual_router(vr_name, **reference_params)
-        except PanDeviceError as e:
-            module.fail_json(msg="Failed setref: {0}".format(e))
-    elif state == "absent":
-        # Remove references.
-        try:
-            changed |= obj.set_virtual_router(None, **reference_params)
-            changed |= obj.set_zone(None, mode="layer3", **reference_params)
-            changed |= obj.set_vsys(None, **reference_params)
-        except PanDeviceError as e:
-            module.fail_json(msg="Failed setref: {0}".format(e))
-
-        # Remove the interface.
-        if obj.name in [x.name for x in interfaces]:
-            changed = True
-            diff = dict(before=eltostr(obj), after="")
-            if not module.check_mode:
-                try:
-                    obj.delete()
-                except PanDeviceError as e:
-                    module.fail_json(msg="Failed delete: {0}".format(e))
-
-    # Commit if we were asked to do so.
-    if changed and commit:
-        helper.commit(module)
-
-    # Done!
-    module.exit_json(changed=changed, diff=diff, msg="Done")
+    helper.process(module)
 
 
 if __name__ == "__main__":
