@@ -43,7 +43,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
 options:
     name:
         description:
@@ -86,11 +86,9 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.objects import Region
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.objects import Region
     except ImportError:
         pass
@@ -102,8 +100,9 @@ def main():
         device_group=True,
         min_panos_version=(9, 1, 0),
         with_classic_provider_spec=True,
-        with_state=True,
-        argument_spec=dict(
+        with_network_resource_module_state=True,
+        sdk_cls=Region,
+        sdk_params=dict(
             name=dict(type="str", required=True),
             address=dict(type="list", elements="str"),
             latitude=dict(type="float"),
@@ -117,25 +116,7 @@ def main():
         supports_check_mode=True,
     )
 
-    parent = helper.get_pandevice_parent(module)
-
-    spec = {
-        "name": module.params["name"],
-        "address": module.params["address"],
-        "latitude": module.params["latitude"],
-        "longitude": module.params["longitude"],
-    }
-
-    try:
-        listing = Region.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    obj = Region(**spec)
-    parent.add(obj)
-
-    changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff)
+    helper.process(module)
 
 
 if __name__ == "__main__":
