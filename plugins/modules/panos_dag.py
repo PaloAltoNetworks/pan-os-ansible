@@ -92,8 +92,6 @@ options:
         description:
             - commit if changed
         type: bool
-        required: false
-        default: false
     description:
         description:
             - The description of the object.

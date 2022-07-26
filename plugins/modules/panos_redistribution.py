@@ -169,7 +169,7 @@ def main():
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         with_commit=True,
-        parents=((VirtualRouter, "vr_name"),),
+        parents=((VirtualRouter, "vr_name", "default"),),
         sdk_params=dict(
             name=dict(type="str", required=True),
             priority=dict(type="int"),

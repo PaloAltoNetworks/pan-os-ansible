@@ -147,6 +147,7 @@ def main():
             interface=dict(),
             local_address_type=dict(default="ip", choices=["ip", "floating-ip"]),
             local_address_value=dict(),
+            peer_address=dict(),
             tunnel_interface=dict(),
             ttl=dict(type="int", default=64),
             copy_tos=dict(type="bool"),

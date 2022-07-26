@@ -185,7 +185,7 @@ def main():
         min_pandevice_version=(0, 13, 0),
         sdk_cls=AggregateInterface,
         sdk_params=dict(
-            if_name=dict(required=True, sdk_name="name"),
+            if_name=dict(required=True, sdk_param="name"),
             mode=dict(
                 default="layer3",
                 choices=["layer3", "layer2", "virtual-wire", "ha"],

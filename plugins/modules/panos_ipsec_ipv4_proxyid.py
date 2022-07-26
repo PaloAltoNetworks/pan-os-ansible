@@ -121,7 +121,7 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
-        parents=((IpsecTunnel, "tunnel_name"),),
+        parents=((IpsecTunnel, "tunnel_name", "default"),),
         sdk_cls=IpsecTunnelIpv4ProxyId,
         sdk_params=dict(
             name=dict(type="str", required=True),

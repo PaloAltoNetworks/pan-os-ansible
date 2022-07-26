@@ -55,8 +55,6 @@ options:
         description:
             - commit if changed
         type: bool
-        required: false
-        default: false
 """
 
 EXAMPLES = """
