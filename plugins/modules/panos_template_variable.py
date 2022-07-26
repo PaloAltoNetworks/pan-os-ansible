@@ -38,7 +38,7 @@ notes:
     - Check mode is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.provider
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.full_template_support
 options:
     name:
@@ -94,11 +94,9 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError, PanObjectMissing
     from panos.panorama import TemplateVariable
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError, PanObjectMissing
         from pandevice.panorama import TemplateVariable
     except ImportError:
         pass
@@ -108,9 +106,10 @@ def main():
     helper = get_connection(
         template=True,
         template_stack=True,
-        with_state=True,
+        with_network_resource_module_state=True,
         firewall_error="This is a Panorama module",
-        argument_spec=dict(
+        sdk_cls=TemplateVariable,
+        sdk_params=dict(
             name=dict(required=True),
             value=dict(),
             variable_type=dict(
@@ -128,44 +127,14 @@ def main():
             ),
         ),
     )
+
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         supports_check_mode=True,
         required_one_of=helper.required_one_of,
     )
 
-    # Verify imports, build pandevice object tree.
-    parent = helper.get_pandevice_parent(module)
-
-    # Object params.
-    spec = {
-        "name": module.params["name"],
-        "value": module.params["value"],
-        "variable_type": module.params["variable_type"],
-    }
-
-    # Check for current object.
-    listing = []
-    live_obj = TemplateVariable(spec["name"])
-    parent.add(live_obj)
-    try:
-        live_obj.refresh()
-    except PanObjectMissing:
-        live_obj = None
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-    else:
-        listing.append(live_obj)
-
-    # Build the object and attach to the parent.
-    obj = TemplateVariable(**spec)
-    parent.add(obj)
-
-    # Perform the requested action.
-    changed, diff = helper.apply_state(obj, listing, module)
-
-    # Done!
-    module.exit_json(changed=changed, diff=diff, msg="Done!")
+    helper.process(module)
 
 
 if __name__ == "__main__":
