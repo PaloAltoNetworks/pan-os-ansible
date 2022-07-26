@@ -36,7 +36,7 @@ notes:
     - Check mode is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
@@ -228,11 +228,9 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.network import IpsecTunnel
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.network import IpsecTunnel
     except ImportError:
         pass
@@ -243,8 +241,10 @@ def main():
         template=True,
         template_stack=True,
         with_classic_provider_spec=True,
-        with_state=True,
-        argument_spec=dict(
+        with_network_resource_module_state=True,
+        with_commit=True,
+        sdk_cls=IpsecTunnel,
+        sdk_params=dict(
             name=dict(required=True),
             tunnel_interface=dict(default="tunnel.1"),
             anti_replay=dict(type="bool", default=True),
@@ -300,7 +300,6 @@ def main():
             tunnel_monitor_proxy_id=dict(type="str", default=None),
             tunnel_monitor_profile=dict(type="str", default=None),
             disabled=dict(type="bool", default=False),
-            commit=dict(type="bool", default=False),
         ),
     )
 
@@ -310,69 +309,7 @@ def main():
         required_one_of=helper.required_one_of,
     )
 
-    # Verify libs are present, get parent object.
-    parent = helper.get_pandevice_parent(module)
-
-    # Object params.
-    spec = {
-        "name": module.params["name"],
-        "tunnel_interface": module.params["tunnel_interface"],
-        "anti_replay": module.params["anti_replay"],
-        "ipv6": module.params["ipv6"],
-        "ak_ike_gateway": module.params["ak_ike_gateway"],
-        "ak_ipsec_crypto_profile": module.params["ak_ipsec_crypto_profile"],
-        "mk_local_spi": module.params["mk_local_spi"],
-        "mk_interface": module.params["mk_interface"],
-        "mk_remote_spi": module.params["mk_remote_spi"],
-        "mk_remote_address": module.params["mk_remote_address"],
-        "mk_local_address_ip": module.params["mk_local_address_ip"],
-        "mk_local_address_floating_ip": module.params["mk_local_address_floating_ip"],
-        "mk_protocol": module.params["mk_protocol"],
-        "mk_auth_type": module.params["mk_auth_type"],
-        "mk_auth_key": module.params["mk_auth_key"],
-        "mk_esp_encryption": module.params["mk_esp_encryption"],
-        "mk_esp_encryption_key": module.params["mk_esp_encryption_key"],
-        "gps_portal_address": module.params["gps_portal_address"],
-        "gps_prefer_ipv6": module.params["gps_prefer_ipv6"],
-        "gps_interface": module.params["gps_interface"],
-        "gps_interface_ipv6_ip": module.params["gps_interface_ipv6_ip"],
-        "gps_interface_ipv4_floating_ip": module.params[
-            "gps_interface_ipv4_floating_ip"
-        ],
-        "gps_publish_connected_routes": module.params["gps_publish_connected_routes"],
-        "gps_publish_routes": module.params["gps_publish_routes"],
-        "gps_local_certificate": module.params["gps_local_certificate"],
-        "gps_certificate_profile": module.params["gps_certificate_profile"],
-        "copy_tos": module.params["copy_tos"],
-        "copy_flow_label": module.params["copy_flow_label"],
-        "enable_tunnel_monitor": module.params["enable_tunnel_monitor"],
-        "tunnel_monitor_dest_ip": module.params["tunnel_monitor_dest_ip"],
-        "tunnel_monitor_proxy_id": module.params["tunnel_monitor_proxy_id"],
-        "tunnel_monitor_profile": module.params["tunnel_monitor_profile"],
-        "disabled": module.params["disabled"],
-    }
-
-    # Other info.
-    commit = module.params["commit"]
-
-    # Retrieve current info.
-    try:
-        listing = IpsecTunnel.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    obj = IpsecTunnel(**spec)
-    parent.add(obj)
-
-    # Apply the state.
-    changed, diff = helper.apply_state(obj, listing, module)
-
-    # Commit.
-    if commit and changed:
-        helper.commit(module)
-
-    # Done.
-    module.exit_json(changed=changed, diff=diff)
+    helper.process(module)
 
 
 if __name__ == "__main__":
