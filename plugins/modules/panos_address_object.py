@@ -132,7 +132,7 @@ def main():
             value=dict(),
             address_type=dict(
                 default="ip-netmask",
-                choices=["ip-netmask", "ip-range", "fqdn"],
+                choices=["ip-netmask", "ip-range", "fqdn", "ip-wildcard"],
                 sdk_param="type",
             ),
             description=dict(),
