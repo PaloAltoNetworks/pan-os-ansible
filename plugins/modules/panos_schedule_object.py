@@ -43,7 +43,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
 options:
     name:
         description:
@@ -143,11 +143,9 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.objects import ScheduleObject
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.objects import ScheduleObject
     except ImportError:
         pass
@@ -158,8 +156,9 @@ def main():
         vsys=True,
         device_group=True,
         with_classic_provider_spec=True,
-        with_state=True,
-        argument_spec=dict(
+        with_network_resource_module_state=True,
+        sdk_cls=ScheduleObject,
+        sdk_params=dict(
             name=dict(type="str", required=True),
             disable_override=dict(type="bool"),
             type=dict(type="str", choices=["recurring", "non-recurring"]),
@@ -182,34 +181,7 @@ def main():
         supports_check_mode=True,
     )
 
-    parent = helper.get_pandevice_parent(module)
-
-    spec = {
-        "name": module.params["name"],
-        "disable_override": module.params["disable_override"],
-        "type": module.params["type"],
-        "non_recurring_date_time": module.params["non_recurring_date_time"],
-        "recurrence": module.params["recurrence"],
-        "daily_time": module.params["daily_time"],
-        "weekly_sunday_time": module.params["weekly_sunday_time"],
-        "weekly_monday_time": module.params["weekly_monday_time"],
-        "weekly_tuesday_time": module.params["weekly_tuesday_time"],
-        "weekly_wednesday_time": module.params["weekly_wednesday_time"],
-        "weekly_thursday_time": module.params["weekly_thursday_time"],
-        "weekly_friday_time": module.params["weekly_friday_time"],
-        "weekly_saturday_time": module.params["weekly_saturday_time"],
-    }
-
-    try:
-        listing = ScheduleObject.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    obj = ScheduleObject(**spec)
-    parent.add(obj)
-
-    changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff)
+    helper.process(module)
 
 
 if __name__ == "__main__":
