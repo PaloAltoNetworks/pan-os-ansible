@@ -39,7 +39,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     name:
@@ -99,11 +99,9 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.objects import AddressGroup
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.objects import AddressGroup
     except ImportError:
         pass
@@ -114,69 +112,25 @@ def main():
         vsys=True,
         device_group=True,
         with_classic_provider_spec=True,
-        with_state=True,
-        argument_spec=dict(
+        with_network_resource_module_state=True,
+        with_commit=True,
+        sdk_cls=AddressGroup,
+        sdk_params=dict(
             name=dict(type="str", required=True),
             static_value=dict(type="list", elements="str"),
             dynamic_value=dict(),
             description=dict(),
             tag=dict(type="list", elements="str"),
-            commit=dict(type="bool", default=False),
         ),
     )
-    mutually_exclusive = [["static_value", "dynamic_value"]]
 
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         required_one_of=helper.required_one_of,
-        mutually_exclusive=mutually_exclusive,
         supports_check_mode=True,
     )
 
-    # Verify libs are present, get parent object.
-    parent = helper.get_pandevice_parent(module)
-
-    if module.params["state"] == "present":
-        if (
-            module.params["static_value"] is None
-            and module.params["dynamic_value"] is None
-        ):
-            module.fail_json(
-                msg="One of 'static_value' or 'dynamic_value' is required when "
-                "state' is 'present'"
-            )
-
-    # Object params.
-    spec = {
-        "name": module.params["name"],
-        "static_value": module.params["static_value"],
-        "dynamic_value": module.params["dynamic_value"],
-        "description": module.params["description"],
-        "tag": module.params["tag"],
-    }
-
-    # Other info.
-    commit = module.params["commit"]
-
-    # Retrieve current info.
-    try:
-        listing = AddressGroup.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    # Build the object based on the user spec.
-    obj = AddressGroup(**spec)
-    parent.add(obj)
-
-    # Apply the state.
-    changed, diff = helper.apply_state(obj, listing, module)
-
-    # Commit.
-    if commit and changed:
-        helper.commit(module)
-
-    # Done.
-    module.exit_json(changed=changed, diff=diff)
+    helper.process(module)
 
 
 if __name__ == "__main__":
