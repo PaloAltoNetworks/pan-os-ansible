@@ -38,7 +38,7 @@ notes:
     - IPv6 is not supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.full_template_support
 options:
     name:
@@ -82,6 +82,21 @@ options:
         description:
             - The Interface to use.
         type: str
+    enable_path_monitor:
+        description:
+            - Enable path monitor.
+        type: bool
+    failure_condition:
+        description:
+            - Path monitor failure condition.
+        type: str
+        choices:
+            - any
+            - all
+    preemptive_hold_time:
+        description:
+            - Path monitor preemptive hold time in minutes.
+        type: int
 """
 
 EXAMPLES = """
@@ -136,26 +151,41 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
+    ConnectionHelper,
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.network import StaticRoute, VirtualRouter
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.network import StaticRoute, VirtualRouter
     except ImportError:
         pass
 
 
+class Helper(ConnectionHelper):
+    def spec_handling(self, spec, module):
+        if module.params["state"] == "merged" and spec["nexthop_type"] == "none":
+            msg = [
+                "Nexthop cannot be set to None with state='merged'.",
+                "You will need to use either state='present' or state='replaced'.",
+            ]
+            module.fail_json(msg=" ".join(msg))
+
+        if spec["nexthop_type"] == "none":
+            spec["nexthop_type"] = None
+
+
 def main():
     helper = get_connection(
+        helper_cls=Helper,
         template=True,
         template_stack=True,
-        with_state=True,
+        with_network_resource_module_state=True,
         with_classic_provider_spec=True,
-        argument_spec=dict(
+        parents=((VirtualRouter, "virtual_router"),),
+        sdk_cls=StaticRoute,
+        sdk_params=dict(
             name=dict(required=True),
             destination=dict(),
             nexthop_type=dict(
@@ -165,8 +195,10 @@ def main():
             nexthop=dict(),
             admin_dist=dict(),
             metric=dict(type="int", default=10),
-            virtual_router=dict(default="default"),
             interface=dict(),
+            enable_path_monitor=dict(type="bool"),
+            failure_condition=dict(choices=["any", "all"]),
+            preemptive_hold_time=dict(type="int"),
         ),
     )
 
@@ -176,52 +208,7 @@ def main():
         required_one_of=helper.required_one_of,
     )
 
-    spec = {
-        "name": module.params["name"],
-        "destination": module.params["destination"],
-        "nexthop_type": module.params["nexthop_type"],
-        "nexthop": module.params["nexthop"],
-        "interface": module.params["interface"],
-        "admin_dist": module.params["admin_dist"],
-        "metric": module.params["metric"],
-    }
-
-    parent = helper.get_pandevice_parent(module)
-    virtual_router = module.params["virtual_router"]
-
-    # Allow None for nexthop_type.
-    if spec["nexthop_type"] == "none":
-        spec["nexthop_type"] = None
-
-    try:
-        vr_list = VirtualRouter.refreshall(parent, add=False, name_only=True)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed vr refresh: {0}".format(e))
-
-    # Find the virtual router.
-    for vr in vr_list:
-        if vr.name == virtual_router:
-            parent.add(vr)
-            break
-    else:
-        module.fail_json(
-            msg='Virtual router "{0}" does not exist'.format(virtual_router)
-        )
-
-    # Get the listing.
-    try:
-        listing = StaticRoute.refreshall(vr, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    # Create the object and attach it to the object tree.
-    obj = StaticRoute(**spec)
-    vr.add(obj)
-
-    # Apply the state.
-    changed, diff = helper.apply_state(obj, listing, module)
-
-    module.exit_json(changed=changed, diff=diff)
+    helper.process(module)
 
 
 if __name__ == "__main__":
