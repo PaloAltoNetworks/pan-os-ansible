@@ -265,12 +265,13 @@ def main():
     parent.add(bgp)
 
     # Apply the state.
-    changed, diff = helper.apply_state(bgp, listing, module, "enable")
+    resp = helper.apply_state(bgp, listing, module, "enable")
 
-    if commit and changed:
+    if commit and resp["changed"]:
         helper.commit(module)
 
-    module.exit_json(msg="BGP configuration successful.", changed=changed, diff=diff)
+    resp["msg"] = "BGP configuration successful."
+    module.exit_json(**resp)
 
 
 if __name__ == "__main__":
