@@ -35,7 +35,7 @@ notes:
     - Checkmode is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.template_only
 options:
     iface_name:
@@ -103,25 +103,26 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
+    ConnectionHelper,
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.network import (
         AggregateInterface,
         EthernetInterface,
         IPv6Address,
+        Layer3Subinterface,
         LoopbackInterface,
         TunnelInterface,
         VlanInterface,
     )
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.network import (
             AggregateInterface,
             EthernetInterface,
             IPv6Address,
+            Layer3Subinterface,
             LoopbackInterface,
             TunnelInterface,
             VlanInterface,
@@ -130,14 +131,42 @@ except ImportError:
         pass
 
 
+class Helper(ConnectionHelper):
+    def parent_handling(self, parent, module):
+        iname = module.params["iface_name"]
+        part = iname.split(".")[0]
+
+        checks = (
+            (EthernetInterface, "ethernet", True),
+            (AggregateInterface, "ae", True),
+            (LoopbackInterface, "loopback", False),
+            (TunnelInterface, "tunnel", False),
+            (VlanInterface, "vlan", False),
+        )
+
+        for cls, prefix, should_check_name in checks:
+            if part.startswith(prefix):
+                eth = cls(part)
+                parent.add(eth)
+                if not should_check_name or "." not in iname:
+                    return eth
+
+                sub = Layer3Subinterface(iname)
+                eth.add(sub)
+                return sub
+
+        module.fail_json(msg="Unknown interface style: {0}".format(iname))
+
+
 def main():
     helper = get_connection(
+        helper_cls=Helper,
         template=True,
         with_classic_provider_spec=True,
-        with_state=True,
+        with_network_resource_module_state=True,
         min_pandevice_version=(0, 14, 0),
-        argument_spec=dict(
-            iface_name=dict(required=True),
+        sdk_cls=IPv6Address,
+        sdk_params=dict(
             address=dict(required=True),
             enable_on_interface=dict(type="bool", default=True),
             prefix=dict(type="bool"),
@@ -148,75 +177,18 @@ def main():
             onlink_flag=dict(type="bool", default=True),
             auto_config_flag=dict(type="bool", default=True),
         ),
+        extra_params=dict(
+            iface_name=dict(required=True),
+        ),
     )
+
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         supports_check_mode=True,
         required_one_of=helper.required_one_of,
     )
 
-    # Verify libs are present, get the parent object.
-    parent = helper.get_pandevice_parent(module)
-
-    # Get the object params.
-    spec = {
-        "address": module.params["address"],
-        "enable_on_interface": module.params["enable_on_interface"],
-        "prefix": module.params["prefix"],
-        "anycast": module.params["anycast"],
-        "advertise_enabled": module.params["advertise_enabled"],
-        "valid_lifetime": module.params["valid_lifetime"],
-        "preferred_lifetime": module.params["preferred_lifetime"],
-        "onlink_flag": module.params["onlink_flag"],
-        "auto_config_flag": module.params["auto_config_flag"],
-    }
-
-    # Get other info.
-    iname = module.params["iface_name"]
-
-    # Determine parent interface.
-    eth = None
-    part = iname
-    if iname.startswith("ethernet") or iname.startswith("ae"):
-        part = iname.split(".")[0]
-        if iname.startswith("ethernet"):
-            eth = EthernetInterface(part)
-        else:
-            eth = AggregateInterface(part)
-    else:
-        if iname.startswith("loopback"):
-            eth = LoopbackInterface(iname)
-        elif iname.startswith("tunnel"):
-            eth = TunnelInterface(iname)
-        elif iname.startswith("vlan"):
-            eth = VlanInterface(iname)
-        else:
-            module.fail_json(msg="Unknown interface style: {0}".format(iname))
-
-    parent.add(eth)
-    try:
-        eth.refresh()
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-    if iname != part:
-        for child in eth.children:
-            if child.uid == iname:
-                eth = child
-                break
-        else:
-            module.fail_json(msg="Could not find parent interface")
-
-    listing = eth.findall(IPv6Address)
-
-    # Build the object based on the user spec.
-    obj = IPv6Address(**spec)
-    eth.add(obj)
-
-    # Apply the state
-    changed, diff = helper.apply_state(obj, listing, module)
-
-    # Done.
-    module.exit_json(changed=changed, diff=diff)
+    helper.process(module)
 
 
 if __name__ == "__main__":
