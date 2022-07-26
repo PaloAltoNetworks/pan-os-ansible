@@ -43,15 +43,13 @@ format:		## Format with black
 	black .
 
 .PHONY: check-format
-check-format:	## Check with black, isort
+check-format:	## Check with black
 	black --check --diff .
-	isort --diff .
-	isort --check .
 
 .PHONY: old-sanity
 old-sanity:		## Sanity tests for Ansible v2.9 and Ansible v2.10
-	ansible-test sanity -v --skip-test pylint --skip-test rstcheck --python $(python_version)
+	ansible-test sanity -v --skip-test pylint --skip-test rstcheck --skip-test import --python $(python_version)
 
 .PHONY: new-sanity
 new-sanity:		## Sanity tests for Ansible v2.11 and above
-	ansible-test sanity -v --skip-test pylint --python $(python_version)
+	ansible-test sanity -v --skip-test pylint --skip-test import --python $(python_version)
