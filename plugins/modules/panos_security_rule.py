@@ -40,7 +40,7 @@ notes:
     - Panorama is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.rulebase
@@ -344,42 +344,69 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
+    ConnectionHelper,
 )
 
 try:
-    from panos.errors import PanDeviceError
-    from panos.policies import RuleAuditComment, SecurityRule
+    from panos.policies import SecurityRule
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.policies import SecurityRule
     except ImportError:
         pass
 
 
-ACCEPTABLE_MOVE_ERRORS = (
-    "already at the top",
-    "already at the bottom",
-)
+class Helper(ConnectionHelper):
+    def initial_handling(self, module):
+        if module.params["state"] not in ("present", "replaced"):
+            return
+
+        # TODO(gfreeman) - remove when devicegroup is removed.
+        if module.params["devicegroup"] is not None:
+            module.deprecate(
+                'Param "devicegroup" is deprecated; use "device_group"',
+                version="3.0.0",
+                collection_name="paloaltonetworks.panos",
+            )
+            if module.params["device_group"] is not None:
+                msg = [
+                    'Both "devicegroup" and "device_group" are specified',
+                    "Specify one or the other, not both.",
+                ]
+                module.fail_json(msg=". ".join(msg))
+            module.params["device_group"] = module.params["devicegroup"]
 
 
 def main():
     helper = get_connection(
+        helper_cls=Helper,
         vsys=True,
         device_group=True,
         rulebase=True,
-        with_state=True,
+        with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         error_on_firewall_shared=True,
         min_pandevice_version=(1, 5, 0),
-        argument_spec=dict(
-            rule_name=dict(required=True),
-            source_zone=dict(type="list", elements="str", default=["any"]),
-            source_ip=dict(type="list", elements="str", default=["any"]),
+        with_commit=True,
+        with_movement=True,
+        with_audit_comment=True,
+        sdk_cls=SecurityRule,
+        sdk_params=dict(
+            rule_name=dict(required=True, sdk_param="name"),
+            source_zone=dict(
+                type="list", elements="str", default=["any"], sdk_param="fromzone"
+            ),
+            source_ip=dict(
+                type="list", elements="str", default=["any"], sdk_param="source"
+            ),
             source_user=dict(type="list", elements="str", default=["any"]),
             hip_profiles=dict(type="list", elements="str", default=["any"]),
-            destination_zone=dict(type="list", elements="str", default=["any"]),
-            destination_ip=dict(type="list", elements="str", default=["any"]),
+            destination_zone=dict(
+                type="list", elements="str", default=["any"], sdk_param="tozone"
+            ),
+            destination_ip=dict(
+                type="list", elements="str", default=["any"], sdk_param="destination"
+            ),
             application=dict(type="list", elements="str", default=["any"]),
             service=dict(type="list", elements="str", default=["application-default"]),
             category=dict(type="list", elements="str", default=["any"]),
@@ -399,17 +426,19 @@ def main():
             log_end=dict(type="bool", default=True),
             description=dict(),
             rule_type=dict(
-                default="universal", choices=["universal", "intrazone", "interzone"]
+                default="universal",
+                choices=["universal", "intrazone", "interzone"],
+                sdk_param="type",
             ),
-            tag_name=dict(type="list", elements="str"),
+            tag_name=dict(type="list", elements="str", sdk_param="tag"),
             negate_source=dict(type="bool", default=False),
             negate_destination=dict(type="bool", default=False),
             disabled=dict(type="bool", default=False),
             schedule=dict(),
             icmp_unreachable=dict(type="bool"),
             disable_server_response_inspection=dict(type="bool", default=False),
-            group_profile=dict(),
-            antivirus=dict(),
+            group_profile=dict(sdk_param="group"),
+            antivirus=dict(sdk_param="virus"),
             spyware=dict(),
             vulnerability=dict(),
             url_filtering=dict(),
@@ -418,112 +447,21 @@ def main():
             data_filtering=dict(),
             target=dict(type="list", elements="str"),
             negate_target=dict(type="bool"),
-            location=dict(choices=["top", "bottom", "before", "after"]),
-            existing_rule=dict(),
-            commit=dict(type="bool", default=False),
-            audit_comment=dict(type="str"),
             group_tag=dict(),
+        ),
+        extra_params=dict(
             # TODO(gfreeman) - remove this in the next role release.
             devicegroup=dict(),
         ),
     )
+
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         supports_check_mode=True,
         required_one_of=helper.required_one_of,
     )
 
-    # TODO(gfreeman) - remove when devicegroup is removed.
-    if module.params["devicegroup"] is not None:
-        module.deprecate(
-            'Param "devicegroup" is deprecated; use "device_group"',
-            version="3.0.0",
-            collection_name="paloaltonetworks.panos",
-        )
-        if module.params["device_group"] is not None:
-            msg = [
-                'Both "devicegroup" and "device_group" are specified',
-                "Specify one or the other, not both.",
-            ]
-            module.fail_json(msg=". ".join(msg))
-        module.params["device_group"] = module.params["devicegroup"]
-
-    # Verify imports, build pandevice object tree.
-    parent = helper.get_pandevice_parent(module)
-
-    # Set the SecurityRule object params.
-    rule_spec = {
-        "name": module.params["rule_name"],
-        "fromzone": module.params["source_zone"],
-        "tozone": module.params["destination_zone"],
-        "source": module.params["source_ip"],
-        "source_user": module.params["source_user"],
-        "hip_profiles": module.params["hip_profiles"],
-        "destination": module.params["destination_ip"],
-        "application": module.params["application"],
-        "service": module.params["service"],
-        "category": module.params["category"],
-        "action": module.params["action"],
-        "log_setting": module.params["log_setting"],
-        "log_start": module.params["log_start"],
-        "log_end": module.params["log_end"],
-        "description": module.params["description"],
-        "type": module.params["rule_type"],
-        "tag": module.params["tag_name"],
-        "negate_source": module.params["negate_source"],
-        "negate_destination": module.params["negate_destination"],
-        "disabled": module.params["disabled"],
-        "schedule": module.params["schedule"],
-        "icmp_unreachable": module.params["icmp_unreachable"],
-        "disable_server_response_inspection": module.params[
-            "disable_server_response_inspection"
-        ],
-        "group": module.params["group_profile"],
-        "virus": module.params["antivirus"],
-        "spyware": module.params["spyware"],
-        "vulnerability": module.params["vulnerability"],
-        "url_filtering": module.params["url_filtering"],
-        "file_blocking": module.params["file_blocking"],
-        "wildfire_analysis": module.params["wildfire_analysis"],
-        "data_filtering": module.params["data_filtering"],
-        "target": module.params["target"],
-        "negate_target": module.params["negate_target"],
-        "group_tag": module.params["group_tag"],
-    }
-
-    # Other module info.
-    location = module.params["location"]
-    existing_rule = module.params["existing_rule"]
-    commit = module.params["commit"]
-    audit_comment = module.params["audit_comment"]
-
-    # Retrieve the current rules.
-    try:
-        rules = SecurityRule.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    # Create new rule object from the params.
-    new_rule = SecurityRule(**rule_spec)
-    parent.add(new_rule)
-
-    # Which action shall we take on the rule object?
-    changed, diff = helper.apply_state(new_rule, rules, module)
-
-    # Move the rule to the correct spot, if applicable.
-    if module.params["state"] == "present":
-        changed |= helper.apply_position(new_rule, location, existing_rule, module)
-
-    # Add the audit comment, if applicable.
-    if changed and audit_comment and not module.check_mode:
-        new_rule.opstate.audit_comment.update(audit_comment)
-
-    # Optional commit.
-    if changed and commit:
-        helper.commit(module)
-
-    # Done.
-    module.exit_json(changed=changed, diff=diff, msg="Done")
+    helper.process(module)
 
 
 if __name__ == "__main__":
