@@ -38,7 +38,7 @@ notes:
     - This is a Panorama only module.
     - Check mode is supported.
 extends_documentation_fragment:
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.provider
 options:
     name:
@@ -94,11 +94,9 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError, PanObjectMissing
     from panos.panorama import TemplateStack
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError, PanObjectMissing
         from pandevice.panorama import TemplateStack
     except ImportError:
         pass
@@ -106,53 +104,27 @@ except ImportError:
 
 def main():
     helper = get_connection(
-        with_state=True,
+        with_network_resource_module_state=True,
         firewall_error="This is a Panorama only module",
         min_panos_version=(7, 0, 0),
         min_pandevice_version=(1, 5, 1),
-        argument_spec=dict(
+        with_update_in_apply_state=True,
+        sdk_cls=TemplateStack,
+        sdk_params=dict(
             name=dict(required=True),
             description=dict(),
             templates=dict(type="list", elements="str"),
             devices=dict(type="list", elements="str"),
         ),
     )
+
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         supports_check_mode=True,
         required_one_of=helper.required_one_of,
     )
 
-    # Verify imports, build pandevice object tree.
-    parent = helper.get_pandevice_parent(module)
-
-    # Object params.
-    spec = {
-        "name": module.params["name"],
-        "description": module.params["description"],
-        "templates": module.params["templates"],
-        "devices": module.params["devices"],
-    }
-
-    # Check for current object.
-    live_obj = TemplateStack(spec["name"])
-    parent.add(live_obj)
-    try:
-        live_obj.refresh()
-    except PanObjectMissing:
-        live_obj = None
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    # Build the object and attach to the parent.
-    obj = TemplateStack(**spec)
-    parent.add(obj)
-
-    # Perform the requeseted action.
-    changed, diff = helper.apply_state_using_update(obj, live_obj, module)
-
-    # Done!
-    module.exit_json(changed=changed, diff=diff, msg="Done!")
+    helper.process(module)
 
 
 if __name__ == "__main__":
