@@ -40,7 +40,7 @@ notes:
       I(changed=True) in the return value.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
@@ -136,6 +136,7 @@ status:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
+    ConnectionHelper,
 )
 
 try:
@@ -149,16 +150,58 @@ except ImportError:
         pass
 
 
+class Helper(ConnectionHelper):
+    def pre_state_handling(self, obj, result, module):
+        password = module.params["admin_password"]
+        if password is not None:
+            try:
+                obj.password_hash = self.device.request_password_hash(password)
+            except PanDeviceError as e:
+                module.fail_json(msg="Failed to get phash: {0}".format(e))
+        elif obj.password_hash is None:
+            o2 = Administrator(obj.name)
+            o2.parent = obj.parent
+            try:
+                o2.refresh()
+            except PanDeviceError:
+                pass
+            else:
+                obj.password_hash = o2.password_hash
+
+    def post_state_handling(self, obj, result, module):
+        password = module.params["admin_password"]
+        phash = module.params["admin_phash"]
+
+        if self.device._api_username == obj.name:
+            if password is not None:
+                self.device._api_key = None
+                self.device._api_password = password
+                try:
+                    self.device.refresh_system_info()
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed API key refresh: {0}".format(e))
+            elif phash is not None:
+                msg = [
+                    "Password of current user was changed by hash.",
+                    "Exiting module as API key cannot be determined.",
+                ]
+                module.warn(" ".join(msg))
+                module.exit_json(**result)
+
+
 def main():
     helper = get_connection(
+        helper_cls=Helper,
         template=True,
         template_stack=True,
         template_is_optional=True,
-        with_state=True,
+        with_network_resource_module_state=True,
+        with_commit=True,
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 8, 0),
-        argument_spec=dict(
-            admin_username=dict(default="admin"),
+        sdk_cls=Administrator,
+        sdk_params=dict(
+            admin_username=dict(default="admin", sdk_param="name"),
             authentication_profile=dict(),
             web_client_cert_only=dict(type="bool"),
             superuser=dict(type="bool"),
@@ -170,124 +213,21 @@ def main():
             vsys_read_only=dict(type="list", elements="str"),
             ssh_public_key=dict(),
             role_profile=dict(),
-            admin_password=dict(no_log=True),
-            admin_phash=dict(no_log=True),
+            admin_phash=dict(no_log=True, sdk_param="password_hash"),
             password_profile=dict(no_log=False),
-            commit=dict(type="bool", default=False),
+        ),
+        extra_params=dict(
+            admin_password=dict(no_log=True),
         ),
     )
+
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         supports_check_mode=True,
         required_one_of=helper.required_one_of,
     )
 
-    # Verify imports, build pandevice object tree.
-    parent = helper.get_pandevice_parent(module)
-
-    # Get administrator object spec.
-    spec_params = [
-        "authentication_profile",
-        "web_client_cert_only",
-        "superuser",
-        "superuser_read_only",
-        "panorama_admin",
-        "device_admin",
-        "device_admin_read_only",
-        "vsys",
-        "vsys_read_only",
-        "ssh_public_key",
-        "role_profile",
-        "password_profile",
-    ]
-    params = dict((k, module.params[k]) for k in spec_params)
-    params["name"] = module.params["admin_username"]
-    password = module.params["admin_password"]
-    phash = module.params["admin_phash"]
-
-    # Get other params.
-    state = module.params["state"]
-    commit = module.params["commit"]
-
-    # Get the current administrators.
-    try:
-        admins = Administrator.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".foramt(e))
-    obj = Administrator(**params)
-    parent.add(obj)
-
-    # Set "password_hash" by requesting a password hash.
-    if password is not None:
-        try:
-            obj.password_hash = helper.device.request_password_hash(password)
-        except PanDeviceError as e:
-            module.fail_json(msg="Failed to get phash: {0}".format(e))
-    elif phash is not None:
-        obj.password_hash = phash
-    # Perform the requested action.
-    changed = False
-    if state == "present":
-        for item in admins:
-            if item.name != obj.name:
-                continue
-            # If user did not specify a password, keep the current one.
-            if obj.password_hash is None and item.password_hash:
-                obj.password_hash = item.password_hash
-            # Don't use .equal() here because we don't want pandevice to
-            # try and do smart things with the password_hash field.
-            if obj.element_str() != item.element_str():
-                changed = True
-                if not module.check_mode:
-                    try:
-                        obj.apply()
-                    except PanDeviceError as e:
-                        module.fail_json(msg="Failed apply: {0}".format(e))
-
-                    # If changing the current user's password, we have to
-                    # fetch the new API key before any subsequent API commands
-                    # (aka - commit) will work.
-                    if helper.device._api_username == obj.name and (
-                        password is not None or phash is not None
-                    ):
-                        if phash is not None:
-                            msg = [
-                                "Password of current user was changed by hash.",
-                                "Exiting module as API key cannot be determined.",
-                            ]
-                            module.warn(" ".join(msg))
-                            module.exit_json(changed=changed)
-                        helper.device._api_key = None
-                        helper.device._api_password = password
-                        try:
-                            helper.device.xapi.api_key = helper.device.api_key
-                        except PanDeviceError as e:
-                            module.fail_json(
-                                msg="Failed API key refresh: {0}".format(e)
-                            )
-            break
-        else:
-            changed = True
-            if not module.check_mode:
-                try:
-                    obj.create()
-                except PanDeviceError as e:
-                    module.fail_json(msg="Failed create: {0}".format(e))
-    elif state == "absent":
-        if obj.name in [x.name for x in admins]:
-            changed = True
-            if not module.check_mode:
-                try:
-                    obj.delete()
-                except PanDeviceError as e:
-                    module.fail_json(msg="Failed delete: {0}".format(e))
-
-    # Commit if appropriate.
-    if changed and commit:
-        helper.commit(module)
-
-    # Done.
-    module.exit_json(changed=changed, msg="done")
+    helper.process(module)
 
 
 if __name__ == "__main__":
