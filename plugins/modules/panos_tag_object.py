@@ -198,7 +198,10 @@ def main():
 
     parent = helper.get_pandevice_parent(module)
 
-    spec = {"name": module.params["name"], "comments": module.params["comments"]}
+    spec = {
+        "name": module.params["name"],
+        "comments": module.params["comments"],
+    }
 
     if module.params["color"]:
         spec["color"] = Tag.color_code(module.params["color"])
@@ -213,12 +216,12 @@ def main():
     obj = Tag(**spec)
     parent.add(obj)
 
-    changed, diff = helper.apply_state(obj, listing, module)
+    resp = helper.apply_state(obj, listing, module)
 
-    if commit and changed:
+    if commit and resp["changed"]:
         helper.commit(module)
 
-    module.exit_json(changed=changed, diff=diff)
+    module.exit_json(**resp)
 
 
 if __name__ == "__main__":
