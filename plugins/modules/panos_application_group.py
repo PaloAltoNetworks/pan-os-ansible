@@ -43,7 +43,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
 options:
     name:
         description:
@@ -85,11 +85,9 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.objects import ApplicationGroup
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.objects import ApplicationGroup
     except ImportError:
         pass
@@ -100,41 +98,22 @@ def main():
         vsys=True,
         device_group=True,
         with_classic_provider_spec=True,
-        with_state=True,
-        argument_spec=dict(
-            name=dict(type="str", required=True),
+        with_network_resource_module_state=True,
+        sdk_cls=ApplicationGroup,
+        sdk_params=dict(
+            name=dict(required=True),
             value=dict(type="list", elements="str"),
             tag=dict(type="list", elements="str"),
         ),
     )
 
-    required_if = [["state", "present", ["value"]]]
-
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         required_one_of=helper.required_one_of,
-        required_if=required_if,
         supports_check_mode=True,
     )
 
-    parent = helper.get_pandevice_parent(module)
-
-    spec = {
-        "name": module.params["name"],
-        "value": module.params["value"],
-        "tag": module.params["tag"],
-    }
-
-    try:
-        listing = ApplicationGroup.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    obj = ApplicationGroup(**spec)
-    parent.add(obj)
-
-    changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff)
+    helper.process(module)
 
 
 if __name__ == "__main__":
