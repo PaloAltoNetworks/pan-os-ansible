@@ -38,7 +38,7 @@ notes:
     - Panorama is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
@@ -117,46 +117,38 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.network import Bgp, BgpPeerGroup, VirtualRouter
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.network import Bgp, BgpPeerGroup, VirtualRouter
     except ImportError:
         pass
-
-
-def setup_args():
-    return dict(
-        name=dict(type="str", required=True),
-        enable=dict(default=True, type="bool"),
-        aggregated_confed_as_path=dict(type="bool"),
-        soft_reset_with_stored_info=dict(type="bool"),
-        type=dict(
-            type="str",
-            default="ebgp",
-            choices=["ebgp", "ibgp", "ebgp-confed", "ibgp-confed"],
-        ),
-        export_nexthop=dict(
-            type="str", default="resolve", choices=["resolve", "use-self"]
-        ),
-        import_nexthop=dict(
-            type="str", default="original", choices=["original", "use-peer"]
-        ),
-        remove_private_as=dict(type="bool"),
-        vr_name=dict(default="default"),
-        commit=dict(type="bool", default=False),
-    )
 
 
 def main():
     helper = get_connection(
         template=True,
         template_stack=True,
-        with_state=True,
+        with_network_resource_module_state=True,
         with_classic_provider_spec=True,
-        argument_spec=setup_args(),
+        with_commit=True,
+        parents=(
+            (VirtualRouter, "vr_name", "default"),
+            (Bgp, None),
+        ),
+        sdk_cls=BgpPeerGroup,
+        sdk_params=dict(
+            name=dict(required=True),
+            enable=dict(default=True, type="bool"),
+            aggregated_confed_as_path=dict(type="bool"),
+            soft_reset_with_stored_info=dict(type="bool"),
+            type=dict(
+                default="ebgp", choices=["ebgp", "ibgp", "ebgp-confed", "ibgp-confed"]
+            ),
+            export_nexthop=dict(default="resolve", choices=["resolve", "use-self"]),
+            import_nexthop=dict(default="original", choices=["original", "use-peer"]),
+            remove_private_as=dict(type="bool"),
+        ),
     )
 
     module = AnsibleModule(
@@ -165,43 +157,7 @@ def main():
         required_one_of=helper.required_one_of,
     )
 
-    # Verify libs are present, get pandevice parent.
-    parent = helper.get_pandevice_parent(module)
-
-    # Verify the virtual router is present.
-    vr = VirtualRouter(module.params["vr_name"])
-    parent.add(vr)
-    try:
-        vr.refresh()
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    bgp = vr.find("", Bgp)
-    if bgp is None:
-        module.fail_json(msg='BGP is not configured for "{0}"'.format(vr.name))
-
-    listing = bgp.findall(BgpPeerGroup)
-    spec = {
-        "name": module.params["name"],
-        "enable": module.params["enable"],
-        "aggregated_confed_as_path": module.params["aggregated_confed_as_path"],
-        "soft_reset_with_stored_info": module.params["soft_reset_with_stored_info"],
-        "type": module.params["type"],
-        "export_nexthop": module.params["export_nexthop"],
-        "import_nexthop": module.params["import_nexthop"],
-        "remove_private_as": module.params["remove_private_as"],
-    }
-    obj = BgpPeerGroup(**spec)
-    bgp.add(obj)
-
-    # Apply the state.
-    changed, diff = helper.apply_state(obj, listing, module)
-
-    # Optional commit.
-    if changed and module.params["commit"]:
-        helper.commit(module)
-
-    module.exit_json(changed=changed, diff=diff, msg="done")
+    helper.process(module)
 
 
 if __name__ == "__main__":
