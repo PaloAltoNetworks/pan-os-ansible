@@ -92,8 +92,8 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    get_connection,
     ConnectionHelper,
+    get_connection,
 )
 
 try:
