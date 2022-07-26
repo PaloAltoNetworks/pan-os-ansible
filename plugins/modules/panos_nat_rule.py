@@ -511,22 +511,22 @@ def main():
         module.fail_json(msg="Incorrect NAT rule params specified; quitting")
 
     # Perform the desired operation.
-    changed = False
-    diff = None
+    resp = {}
     if state in ("enable", "disable"):
+        resp = {"changed": False, "diff": None}
         for rule in rules:
             if rule.name == new_rule.name:
                 break
         else:
             module.fail_json(msg='Rule "{0}" not present'.format(new_rule.name))
         if state == "enable" and rule.disabled:
-            changed = True
+            resp["changed"] = True
         elif state == "disable" and not rule.disabled:
-            changed = True
-        if changed:
-            diff = dict(before=eltostr(rule))
+            resp["changed"] = True
+        if resp["changed"]:
+            resp["diff"] = dict(before=eltostr(rule))
             rule.disabled = not rule.disabled
-            diff["after"] = eltostr(rule)
+            resp["diff"]["after"] = eltostr(rule)
             if not module.check_mode:
                 try:
                     rule.update("disabled")
@@ -534,18 +534,21 @@ def main():
                     module.fail_json(msg="Failed enable: {0}".format(e))
     else:
         parent.add(new_rule)
-        changed, diff = helper.apply_state(new_rule, rules, module)
+        resp = helper.apply_state(new_rule, rules, module)
         if state == "present":
-            changed |= helper.apply_position(new_rule, location, existing_rule, module)
+            resp["changed"] |= helper.apply_position(
+                new_rule, location, existing_rule, module
+            )
 
     # Audit comment.
-    if changed and module.params["audit_comment"] and not module.check_mode:
+    if resp["changed"] and module.params["audit_comment"] and not module.check_mode:
         new_rule.opstate.audit_comment.update(module.params["audit_comment"])
 
-    if changed and module.params["commit"]:
+    if resp["changed"] and module.params["commit"]:
         helper.commit(module)
 
-    module.exit_json(changed=changed, diff=diff, msg="Done")
+    resp["msg"] = "Done"
+    module.exit_json(**resp)
 
 
 if __name__ == "__main__":
