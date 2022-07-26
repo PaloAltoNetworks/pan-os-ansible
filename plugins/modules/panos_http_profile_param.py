@@ -38,7 +38,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
 options:
     http_profile:
         description:
@@ -93,6 +93,7 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
+    ConnectionHelper,
 )
 
 try:
@@ -113,7 +114,6 @@ try:
         HttpUserIdParam,
         HttpWildfireParam,
     )
-    from panos.errors import PanDeviceError
 except ImportError:
     try:
         from pandevice.device import (
@@ -133,21 +133,47 @@ except ImportError:
             HttpUserIdParam,
             HttpWildfireParam,
         )
-        from pandevice.errors import PanDeviceError
     except ImportError:
         pass
 
 
+class Helper(ConnectionHelper):
+    def spec_handling(self, spec, module):
+        cls_map = {
+            "config": HttpConfigParam,
+            "system": HttpSystemParam,
+            "threat": HttpThreatParam,
+            "traffic": HttpTrafficParam,
+            "hip match": HttpHipMatchParam,
+            "url": HttpUrlParam,
+            "data": HttpDataParam,
+            "wildfire": HttpWildfireParam,
+            "tunnel": HttpTunnelParam,
+            "user id": HttpUserIdParam,
+            "gtp": HttpGtpParam,
+            "auth": HttpAuthParam,
+            "sctp": HttpSctpParam,
+            "iptag": HttpIpTagParam,
+        }
+
+        self.sdk_cls = cls_map[module.params["log_type"]]
+
+
 def main():
     helper = get_connection(
+        helper_cls=Helper,
         vsys_shared=True,
         device_group=True,
-        with_state=True,
+        with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(8, 0, 0),
-        argument_spec=dict(
-            http_profile=dict(required=True),
+        parents=((HttpServerProfile, "http_profile"),),
+        sdk_params=dict(
+            param=dict(required=True, sdk_param="name"),
+            value=dict(),
+        ),
+        extra_params=dict(
             log_type=dict(
                 required=True,
                 choices=[
@@ -167,56 +193,16 @@ def main():
                     "iptag",
                 ],
             ),
-            param=dict(required=True),
-            value=dict(),
         ),
     )
+
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         supports_check_mode=True,
         required_one_of=helper.required_one_of,
     )
 
-    # Verify imports, build pandevice object tree.
-    parent = helper.get_pandevice_parent(module)
-
-    sp = HttpServerProfile(module.params["http_profile"])
-    parent.add(sp)
-    try:
-        sp.refresh()
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    cls_map = {
-        "config": HttpConfigParam,
-        "system": HttpSystemParam,
-        "threat": HttpThreatParam,
-        "traffic": HttpTrafficParam,
-        "hip match": HttpHipMatchParam,
-        "url": HttpUrlParam,
-        "data": HttpDataParam,
-        "wildfire": HttpWildfireParam,
-        "tunnel": HttpTunnelParam,
-        "user id": HttpUserIdParam,
-        "gtp": HttpGtpParam,
-        "auth": HttpAuthParam,
-        "sctp": HttpSctpParam,
-        "iptag": HttpIpTagParam,
-    }
-
-    cls = cls_map[module.params["log_type"]]
-
-    listing = sp.findall(cls)
-
-    spec = {
-        "name": module.params["param"],
-        "value": module.params["value"],
-    }
-    obj = cls(**spec)
-    sp.add(obj)
-
-    changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff, msg="Done")
+    helper.process(module)
 
 
 if __name__ == "__main__":
