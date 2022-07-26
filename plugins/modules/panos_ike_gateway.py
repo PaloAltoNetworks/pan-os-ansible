@@ -37,7 +37,7 @@ notes:
     - Check mode is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
@@ -235,26 +235,41 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
+    ConnectionHelper,
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.network import IkeGateway
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.network import IkeGateway
     except ImportError:
         pass
 
 
+class Helper(ConnectionHelper):
+    def spec_handling(self, spec, module):
+        spec["auth_type"] = "pre-shared-key"
+
+        # Remove the IKEv1 crypto profile if we're doing IKEv2.
+        if spec["version"] == "ikev2":
+            spec["ikev1_crypto_profile"] = None
+
+        # Remove the IKEv2 crypto profile if we're doing IKEv1.
+        if spec["version"] == "ikev1":
+            spec["ikev2_crypto_profile"] = None
+
+
 def main():
     helper = get_connection(
+        helper_cls=Helper,
         template=True,
         template_stack=True,
         with_classic_provider_spec=True,
-        with_state=True,
-        argument_spec=dict(
+        with_network_resource_module_state=True,
+        with_commit=True,
+        sdk_cls=IkeGateway,
+        sdk_params=dict(
             name=dict(required=True),
             version=dict(
                 default="ikev2",
@@ -303,7 +318,6 @@ def main():
             ikev2_crypto_profile=dict(
                 default="default", aliases=["crypto_profile_name"]
             ),
-            commit=dict(type="bool", default=False),
         ),
     )
 
@@ -311,74 +325,9 @@ def main():
         argument_spec=helper.argument_spec,
         supports_check_mode=True,
         required_one_of=helper.required_one_of,
-        required_together=[
-            ["peer_id_value", "peer_id_type"],
-            ["local_id_value", "local_id_type"],
-            ["local_ip_address", "local_ip_address_type"],
-        ],
     )
 
-    # Verify libs are present, get parent object.
-    parent = helper.get_pandevice_parent(module)
-
-    # Object params.
-    spec = {
-        "name": module.params["name"],
-        "version": module.params["version"],
-        "interface": module.params["interface"],
-        "local_ip_address_type": module.params["local_ip_address_type"],
-        "local_ip_address": module.params["local_ip_address"],
-        "auth_type": "pre-shared-key",
-        "enable_passive_mode": module.params["enable_passive_mode"],
-        "enable_nat_traversal": module.params["enable_nat_traversal"],
-        "enable_fragmentation": module.params["enable_fragmentation"],
-        "enable_liveness_check": module.params["enable_liveness_check"],
-        "liveness_check_interval": module.params["liveness_check_interval"],
-        "peer_ip_type": module.params["peer_ip_type"],
-        "peer_ip_value": module.params["peer_ip_value"],
-        "enable_dead_peer_detection": module.params["enable_dead_peer_detection"],
-        "dead_peer_detection_interval": module.params["dead_peer_detection_interval"],
-        "dead_peer_detection_retry": module.params["dead_peer_detection_retry"],
-        "pre_shared_key": module.params["pre_shared_key"],
-        "local_id_type": module.params["local_id_type"],
-        "local_id_value": module.params["local_id_value"],
-        "peer_id_type": module.params["peer_id_type"],
-        "peer_id_value": module.params["peer_id_value"],
-        "peer_id_check": module.params["peer_id_check"],
-        "ikev1_crypto_profile": module.params["ikev1_crypto_profile"],
-        "ikev1_exchange_mode": module.params["ikev1_exchange_mode"],
-        "ikev2_crypto_profile": module.params["ikev2_crypto_profile"],
-    }
-
-    # Remove the IKEv1 crypto profile if we're doing IKEv2.
-    if spec["version"] == "ikev2":
-        spec["ikev1_crypto_profile"] = None
-
-    # Remove the IKEv2 crypto profile if we're doing IKEv1.
-    if spec["version"] == "ikev1":
-        spec["ikev2_crypto_profile"] = None
-
-    # Other info.
-    commit = module.params["commit"]
-
-    # Retrieve current info.
-    try:
-        listing = IkeGateway.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    obj = IkeGateway(**spec)
-    parent.add(obj)
-
-    # Apply the state.
-    changed, diff = helper.apply_state(obj, listing, module)
-
-    # Commit.
-    if commit and changed:
-        helper.commit(module)
-
-    # Done.
-    module.exit_json(changed=changed, diff=diff)
+    helper.process(module)
 
 
 if __name__ == "__main__":
