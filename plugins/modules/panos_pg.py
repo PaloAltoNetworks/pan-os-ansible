@@ -37,7 +37,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     pg_name:
@@ -95,11 +95,9 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.objects import SecurityProfileGroup
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.objects import SecurityProfileGroup
     except ImportError:
         pass
@@ -109,18 +107,19 @@ def main():
     helper = get_connection(
         vsys=True,
         device_group=True,
-        with_state=True,
+        with_network_resource_module_state=True,
         with_classic_provider_spec=True,
-        argument_spec=dict(
-            pg_name=dict(required=True),
+        with_commit=True,
+        sdk_cls=SecurityProfileGroup,
+        sdk_params=dict(
+            pg_name=dict(required=True, sdk_param="name"),
             data_filtering=dict(),
             file_blocking=dict(),
             spyware=dict(),
             url_filtering=dict(),
             virus=dict(),
             vulnerability=dict(),
-            wildfire=dict(),
-            commit=dict(type="bool", default=False),
+            wildfire=dict(sdk_param="wildfire_analysis"),
         ),
     )
 
@@ -130,39 +129,7 @@ def main():
         required_one_of=helper.required_one_of,
     )
 
-    # Verify libs are present, build the pandevice object tree.
-    parent = helper.get_pandevice_parent(module)
-
-    # Other info.
-    commit = module.params["commit"]
-
-    # Retrieve current profiles.
-    try:
-        listing = SecurityProfileGroup.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    spec = {
-        "name": module.params["pg_name"],
-        "virus": module.params["virus"],
-        "spyware": module.params["spyware"],
-        "vulnerability": module.params["vulnerability"],
-        "url_filtering": module.params["url_filtering"],
-        "file_blocking": module.params["file_blocking"],
-        "data_filtering": module.params["data_filtering"],
-        "wildfire_analysis": module.params["wildfire"],
-    }
-    obj = SecurityProfileGroup(**spec)
-    parent.add(obj)
-
-    # Apply the state.
-    changed, diff = helper.apply_state(obj, listing, module)
-
-    # Optional commit.
-    if changed and commit:
-        helper.commit(module)
-
-    module.exit_json(changed=changed, diff=diff, msg="done")
+    helper.process(module)
 
 
 if __name__ == "__main__":
