@@ -188,11 +188,12 @@ def main():
             filter_obj = pickle.loads(b64decode(val))
             obj.add(filter_obj)
 
-    changed, diff = helper.apply_state(obj, listing, module)
-    if changed and module.params["commit"]:
+    resp = helper.apply_state(obj, listing, module)
+    if resp["changed"] and module.params["commit"]:
         helper.commit(module)
 
-    module.exit_json(changed=changed, diff=diff, msg="done")
+    resp["msg"] = "done"
+    module.exit_json(**resp)
 
 
 if __name__ == "__main__":
