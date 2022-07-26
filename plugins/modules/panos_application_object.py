@@ -37,7 +37,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
 options:
     name:
         description:
@@ -59,8 +59,34 @@ options:
     risk:
         description:
             - Risk (1-5) of the application
+        type: int
+        choices: [1, 2, 3, 4, 5]
+    default_type:
+        description:
+            - Default identification type of the application.
         type: str
-        choices: ['1', '2', '3', '4', '5']
+        choices:
+            - port
+            - ident-by-ip-protocol
+            - ident-by-icmp-type
+            - ident-by-icmp6-type
+    default_port:
+        description:
+            - Default ports.
+        type: list
+        elements: str
+    default_ip_protocol:
+        description:
+            - Default IP protocol.
+        type: str
+    default_icmp_type:
+        description:
+            - Default ICMP type.
+        type: int
+    default_icmp_code:
+        description:
+            - Default ICMP code.
+        type: int
     parent_app:
         description:
             - Parent Application for which this app falls under
@@ -153,7 +179,7 @@ EXAMPLES = """
     category: 'business-systems'
     subcategory: 'auth-service'
     technology: 'client-server'
-    risk: '1'
+    risk: 1
 
 - name: Remove custom application
   panos_application_object:
@@ -172,11 +198,9 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.objects import ApplicationObject
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.objects import ApplicationObject
     except ImportError:
         pass
@@ -187,14 +211,27 @@ def main():
         vsys=True,
         device_group=True,
         with_classic_provider_spec=True,
-        with_state=True,
-        argument_spec=dict(
-            name=dict(type="str", required=True),
-            category=dict(type="str"),
-            subcategory=dict(type="str"),
-            technology=dict(type="str"),
-            risk=dict(choices=["1", "2", "3", "4", "5"]),
-            parent_app=dict(type="str"),
+        with_network_resource_module_state=True,
+        sdk_cls=ApplicationObject,
+        sdk_params=dict(
+            name=dict(required=True),
+            category=dict(),
+            subcategory=dict(),
+            technology=dict(),
+            risk=dict(type="int", choices=[1, 2, 3, 4, 5]),
+            default_type=dict(
+                choices=[
+                    "port",
+                    "ident-by-ip-protocol",
+                    "ident-by-icmp-type",
+                    "ident-by-icmp6-type",
+                ],
+            ),
+            default_port=dict(type="list", elements="str"),
+            default_ip_protocol=dict(),
+            default_icmp_type=dict(type="int"),
+            default_icmp_code=dict(type="int"),
+            parent_app=dict(),
             timeout=dict(type="int"),
             tcp_timeout=dict(type="int"),
             udp_timeout=dict(type="int"),
@@ -212,60 +249,18 @@ def main():
             file_type_ident=dict(type="bool"),
             virus_ident=dict(type="bool"),
             data_ident=dict(type="bool"),
-            description=dict(type="str"),
+            description=dict(),
             tag=dict(type="list", elements="str"),
         ),
     )
 
-    required_if = [["state", "present", ["category", "subcategory", "technology"]]]
-
     module = AnsibleModule(
         argument_spec=helper.argument_spec,
         required_one_of=helper.required_one_of,
-        required_if=required_if,
         supports_check_mode=True,
     )
 
-    parent = helper.get_pandevice_parent(module)
-
-    spec = {
-        "name": module.params["name"],
-        "category": module.params["category"],
-        "subcategory": module.params["subcategory"],
-        "technology": module.params["technology"],
-        "risk": module.params["risk"],
-        "parent_app": module.params["parent_app"],
-        "timeout": module.params["timeout"],
-        "tcp_timeout": module.params["tcp_timeout"],
-        "udp_timeout": module.params["udp_timeout"],
-        "tcp_half_closed_timeout": module.params["tcp_half_closed_timeout"],
-        "tcp_time_wait_timeout": module.params["tcp_time_wait_timeout"],
-        "evasive_behavior": module.params["evasive_behavior"],
-        "consume_big_bandwidth": module.params["consume_big_bandwidth"],
-        "used_by_malware": module.params["used_by_malware"],
-        "able_to_transfer_file": module.params["able_to_transfer_file"],
-        "has_known_vulnerability": module.params["has_known_vulnerability"],
-        "tunnel_other_application": module.params["tunnel_other_application"],
-        "tunnel_applications": module.params["tunnel_applications"],
-        "prone_to_misuse": module.params["prone_to_misuse"],
-        "pervasive_use": module.params["pervasive_use"],
-        "file_type_ident": module.params["file_type_ident"],
-        "virus_ident": module.params["virus_ident"],
-        "data_ident": module.params["data_ident"],
-        "description": module.params["description"],
-        "tag": module.params["tag"],
-    }
-
-    try:
-        listing = ApplicationObject.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    obj = ApplicationObject(**spec)
-    parent.add(obj)
-
-    changed, diff = helper.apply_state(obj, listing, module)
-    module.exit_json(changed=changed, diff=diff)
+    helper.process(module)
 
 
 if __name__ == "__main__":
