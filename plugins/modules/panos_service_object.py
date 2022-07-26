@@ -37,7 +37,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     name:
@@ -103,11 +103,9 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.objects import ServiceObject
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.objects import ServiceObject
     except ImportError:
         pass
@@ -118,15 +116,16 @@ def main():
         vsys=True,
         device_group=True,
         with_classic_provider_spec=True,
-        with_state=True,
-        argument_spec=dict(
+        with_network_resource_module_state=True,
+        with_commit=True,
+        sdk_cls=ServiceObject,
+        sdk_params=dict(
             name=dict(type="str", required=True),
             protocol=dict(default="tcp", choices=["tcp", "udp"]),
             source_port=dict(type="str"),
             destination_port=dict(type="str"),
             description=dict(type="str"),
             tag=dict(type="list", elements="str"),
-            commit=dict(type="bool", default=False),
         ),
     )
 
@@ -136,41 +135,7 @@ def main():
         supports_check_mode=True,
     )
 
-    # Verify libs are present, get parent object.
-    parent = helper.get_pandevice_parent(module)
-
-    # Object params.
-    spec = {
-        "name": module.params["name"],
-        "protocol": module.params["protocol"],
-        "source_port": module.params["source_port"],
-        "destination_port": module.params["destination_port"],
-        "description": module.params["description"],
-        "tag": module.params["tag"],
-    }
-
-    # Other info.
-    commit = module.params["commit"]
-
-    # Retrieve current info.
-    try:
-        listing = ServiceObject.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    # Build the object based on the user spec.
-    obj = ServiceObject(**spec)
-    parent.add(obj)
-
-    # Apply the state.
-    changed, diff = helper.apply_state(obj, listing, module)
-
-    # Commit.
-    if commit and changed:
-        helper.commit(module)
-
-    # Done.
-    module.exit_json(changed=changed, diff=diff)
+    helper.process(module)
 
 
 if __name__ == "__main__":
