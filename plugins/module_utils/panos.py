@@ -619,7 +619,7 @@ class ConnectionHelper(object):
                 }
                 obj_child_types = [x.__class__ for x in obj.children]
                 other_children = []
-                for x in item.children:
+                for x in reversed(item.children):
                     if x.__class__ in obj_child_types:
                         continue
                     other_children.append(x)
