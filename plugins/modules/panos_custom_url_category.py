@@ -92,6 +92,7 @@ def main():
     helper = get_connection(
         vsys=True,
         device_group=True,
+        min_pandevice_version=(1, 5, 0),
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         sdk_cls=("objects", "CustomUrlCategory"),
