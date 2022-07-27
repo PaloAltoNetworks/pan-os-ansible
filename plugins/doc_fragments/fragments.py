@@ -300,3 +300,12 @@ options:
               I(template) are also set, perform a commit to Panorama and a commit-all to the device group/template.
         type: bool
 """
+
+    UUID = r"""
+options:
+    uuid:
+        description:
+            - The rule UUID.
+            - Note that this is currently more of a read-only field; usage of the UUID
+              cannot take the place of using the rule name as the primary identifier.
+"""
