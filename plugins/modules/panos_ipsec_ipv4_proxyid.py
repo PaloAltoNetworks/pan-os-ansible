@@ -105,14 +105,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.network import IpsecTunnel, IpsecTunnelIpv4ProxyId
-except ImportError:
-    try:
-        from pandevice.network import IpsecTunnel, IpsecTunnelIpv4ProxyId
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -121,8 +113,8 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
-        parents=((IpsecTunnel, "tunnel_name"),),
-        sdk_cls=IpsecTunnelIpv4ProxyId,
+        parents=(("network", "IpsecTunnel", "tunnel_name", "default"),),
+        sdk_cls=("network", "IpsecTunnelIpv4ProxyId"),
         sdk_params=dict(
             name=dict(type="str", required=True),
             local=dict(default="192.168.2.0/24"),

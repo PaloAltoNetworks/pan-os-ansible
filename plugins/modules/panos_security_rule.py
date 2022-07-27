@@ -343,17 +343,9 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    get_connection,
     ConnectionHelper,
+    get_connection,
 )
-
-try:
-    from panos.policies import SecurityRule
-except ImportError:
-    try:
-        from pandevice.policies import SecurityRule
-    except ImportError:
-        pass
 
 
 class Helper(ConnectionHelper):
@@ -390,7 +382,7 @@ def main():
         with_commit=True,
         with_movement=True,
         with_audit_comment=True,
-        sdk_cls=SecurityRule,
+        sdk_cls=("policies", "SecurityRule"),
         sdk_params=dict(
             rule_name=dict(required=True, sdk_param="name"),
             source_zone=dict(

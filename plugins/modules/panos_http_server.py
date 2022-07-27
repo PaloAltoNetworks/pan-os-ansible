@@ -118,14 +118,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.device import HttpServer, HttpServerProfile
-except ImportError:
-    try:
-        from pandevice.device import HttpServer, HttpServerProfile
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -135,8 +127,8 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(8, 0, 0),
-        parents=((HttpServerProfile, "http_profile"),),
-        sdk_cls=HttpServer,
+        parents=(("device", "HttpServerProfile", "http_profile"),),
+        sdk_cls=("device", "HttpServer"),
         sdk_params=dict(
             name=dict(required=True),
             address=dict(required=True),

@@ -90,14 +90,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.network import VirtualWire
-except ImportError:
-    try:
-        from pandevice.network import VirtualWire
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -107,7 +99,7 @@ def main():
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         with_set_vsys_reference=True,
-        sdk_cls=VirtualWire,
+        sdk_cls=("network", "VirtualWire"),
         sdk_params=dict(
             name=dict(
                 type="str",

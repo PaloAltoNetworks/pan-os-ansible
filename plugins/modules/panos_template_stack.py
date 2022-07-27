@@ -93,14 +93,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.panorama import TemplateStack
-except ImportError:
-    try:
-        from pandevice.panorama import TemplateStack
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -109,7 +101,7 @@ def main():
         min_panos_version=(7, 0, 0),
         min_pandevice_version=(1, 5, 1),
         with_update_in_apply_state=True,
-        sdk_cls=TemplateStack,
+        sdk_cls=("panorama", "TemplateStack"),
         sdk_params=dict(
             name=dict(required=True),
             description=dict(),

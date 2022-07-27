@@ -207,17 +207,9 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    get_connection,
     ConnectionHelper,
+    get_connection,
 )
-
-try:
-    from panos.network import EthernetInterface
-except ImportError:
-    try:
-        from pandevice.network import EthernetInterface
-    except ImportError:
-        pass
 
 
 class Helper(ConnectionHelper):
@@ -274,7 +266,7 @@ def main():
         with_set_vsys_reference=True,
         with_set_zone_reference=True,
         with_set_virtual_router_reference=True,
-        sdk_cls=EthernetInterface,
+        sdk_cls=("network", "EthernetInterface"),
         sdk_params=dict(
             if_name=dict(required=True, sdk_param="name"),
             mode=dict(

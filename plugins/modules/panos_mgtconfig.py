@@ -143,7 +143,7 @@ def main():
             verify_update_server=dict(type="bool"),
             ntp_server_primary=dict(),
             ntp_server_secondary=dict(),
-            commit=dict(type="bool", default=False),
+            commit=dict(type="bool"),
         ),
     )
 

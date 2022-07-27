@@ -98,14 +98,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.objects import AddressGroup
-except ImportError:
-    try:
-        from pandevice.objects import AddressGroup
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -114,7 +106,7 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
-        sdk_cls=AddressGroup,
+        sdk_cls=("objects", "AddressGroup"),
         sdk_params=dict(
             name=dict(type="str", required=True),
             static_value=dict(type="list", elements="str"),

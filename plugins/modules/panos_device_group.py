@@ -85,23 +85,16 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    get_connection,
     ConnectionHelper,
+    get_connection,
+    to_sdk_cls,
 )
-
-try:
-    from panos.errors import PanDeviceError
-    from panos.panorama import DeviceGroup
-except ImportError:
-    try:
-        from pandevice.errors import PanDeviceError
-        from pandevice.panorama import DeviceGroup
-    except ImportError:
-        pass
 
 
 class Helper(ConnectionHelper):
     def pre_state_handling(self, obj, result, module):
+        PanDeviceError = to_sdk_cls("errors", "PanDeviceError")
+
         # Opstate: get the current device group parent.
         try:
             obj.opstate.dg_hierarchy.refresh()
@@ -109,6 +102,8 @@ class Helper(ConnectionHelper):
             module.fail_json(msg="Failed dg hierarchy refresh: {0}".format(e))
 
     def post_state_handling(self, obj, result, module):
+        PanDeviceError = to_sdk_cls("errors", "PanDeviceError")
+
         result.setdefault("diff", {})
         result["diff"]["before_parent"] = obj.opstate.dg_hierarchy.parent
 
@@ -134,7 +129,7 @@ def main():
         firewall_error="This is a Panorama only module",
         min_pandevice_version=(1, 5, 1),
         with_update_in_apply_state=True,
-        sdk_cls=DeviceGroup,
+        sdk_cls=("panorama", "DeviceGroup"),
         sdk_params=dict(
             name=dict(required=True),
             tag=dict(type="list", elements="str"),

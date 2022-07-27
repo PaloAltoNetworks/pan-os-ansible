@@ -66,7 +66,6 @@ options:
         description:
             - commit if changed
         type: bool
-        default: false
     devicegroup:
         description: >
             - Device groups are used for the Panorama interaction with Firewall(s). The group must exists on Panorama.
@@ -202,7 +201,7 @@ def main():
         description=dict(default=None),
         ip_to_register=dict(type="str", required=False),
         tag_names=dict(type="list", elements="str", required=True),
-        commit=dict(type="bool", default=False),
+        commit=dict(type="bool"),
         operation=dict(
             type="str", choices=["add", "update", "find", "delete"], required=True
         ),

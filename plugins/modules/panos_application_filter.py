@@ -140,14 +140,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.objects import ApplicationFilter
-except ImportError:
-    try:
-        from pandevice.objects import ApplicationFilter
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -155,7 +147,7 @@ def main():
         device_group=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
-        sdk_cls=ApplicationFilter,
+        sdk_cls=("objects", "ApplicationFilter"),
         sdk_params=dict(
             name=dict(type="str", required=True),
             category=dict(type="list", elements="str"),

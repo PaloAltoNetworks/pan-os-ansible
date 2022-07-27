@@ -83,17 +83,9 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    get_connection,
     ConnectionHelper,
+    get_connection,
 )
-
-try:
-    from panos.network import Bgp, BgpAuthProfile, VirtualRouter
-except ImportError:
-    try:
-        from pandevice.network import Bgp, BgpAuthProfile, VirtualRouter
-    except ImportError:
-        pass
 
 
 class Helper(ConnectionHelper):
@@ -115,10 +107,10 @@ def main():
         with_classic_provider_spec=True,
         with_commit=True,
         parents=(
-            (VirtualRouter, "vr_name", "default"),
-            (Bgp, None),
+            ("network", "VirtualRouter", "vr_name", "default"),
+            ("network", "Bgp", None),
         ),
-        sdk_cls=BgpAuthProfile,
+        sdk_cls=("network", "BgpAuthProfile"),
         sdk_params=dict(
             name=dict(required=True),
             secret=dict(no_log=True),

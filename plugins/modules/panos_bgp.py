@@ -192,7 +192,7 @@ def setup_args():
         confederation_member_as=dict(type="str"),
         aggregate_med=dict(type="bool", default=True),
         vr_name=dict(default="default"),
-        commit=dict(type="bool", default=False),
+        commit=dict(type="bool"),
     )
 
 

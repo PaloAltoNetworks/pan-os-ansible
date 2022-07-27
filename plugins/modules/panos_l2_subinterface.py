@@ -96,21 +96,10 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    get_connection,
     ConnectionHelper,
+    get_connection,
+    to_sdk_cls,
 )
-
-try:
-    from panos.network import AggregateInterface, EthernetInterface, Layer2Subinterface
-except ImportError:
-    try:
-        from pandevice.network import (
-            AggregateInterface,
-            EthernetInterface,
-            Layer2Subinterface,
-        )
-    except ImportError:
-        pass
 
 
 class Helper(ConnectionHelper):
@@ -122,9 +111,9 @@ class Helper(ConnectionHelper):
         iname = module.params["name"].split(".")[0]
 
         if iname.startswith("ae"):
-            eth = AggregateInterface(iname)
+            eth = to_sdk_cls("network", "AggregateInterface")(iname)
         else:
-            eth = EthernetInterface(iname)
+            eth = to_sdk_cls("network", "EthernetInterface")(iname)
 
         eth.mode = "layer2"
         parent.add(eth)
@@ -143,7 +132,7 @@ def main():
         with_set_zone_reference=True,
         with_set_vsys_reference=True,
         default_zone_mode="layer2",
-        sdk_cls=Layer2Subinterface,
+        sdk_cls=("network", "Layer2Subinterface"),
         sdk_params=dict(
             name=dict(required=True),
             tag=dict(required=True, type="int"),

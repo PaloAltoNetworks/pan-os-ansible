@@ -107,14 +107,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.network import VirtualRouter
-except ImportError:
-    try:
-        from pandevice.network import VirtualRouter
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -125,7 +117,7 @@ def main():
         with_classic_provider_spec=True,
         with_commit=True,
         with_set_vsys_reference=True,
-        sdk_cls=VirtualRouter,
+        sdk_cls=("network", "VirtualRouter"),
         sdk_params=dict(
             name=dict(type="str", default="default"),
             interface=dict(type="list", elements="str"),

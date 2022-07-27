@@ -93,14 +93,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.panorama import TemplateVariable
-except ImportError:
-    try:
-        from pandevice.panorama import TemplateVariable
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -108,7 +100,7 @@ def main():
         template_stack=True,
         with_network_resource_module_state=True,
         firewall_error="This is a Panorama module",
-        sdk_cls=TemplateVariable,
+        sdk_cls=("panorama", "TemplateVariable"),
         sdk_params=dict(
             name=dict(required=True),
             value=dict(),

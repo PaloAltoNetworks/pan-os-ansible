@@ -92,8 +92,6 @@ options:
         description:
             - commit if changed
         type: bool
-        required: false
-        default: false
     description:
         description:
             - The description of the object.
@@ -222,7 +220,7 @@ def main():
         dag_match_filter=dict(type="str", default=None),
         dag_name=dict(required=True),
         tag_name=dict(type="list", elements="str", required=False),
-        commit=dict(type="bool", default=False),
+        commit=dict(type="bool"),
         devicegroup=dict(default=None),
         description=dict(default=None),
         operation=dict(type="str", required=True, choices=["add", "list", "delete"]),

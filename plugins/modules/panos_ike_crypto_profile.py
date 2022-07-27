@@ -108,17 +108,9 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    get_connection,
     ConnectionHelper,
+    get_connection,
 )
-
-try:
-    from panos.network import IkeCryptoProfile
-except ImportError:
-    try:
-        from pandevice.network import IkeCryptoProfile
-    except ImportError:
-        pass
 
 
 class Helper(ConnectionHelper):
@@ -143,7 +135,7 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
-        sdk_cls=IkeCryptoProfile,
+        sdk_cls=("network", "IkeCryptoProfile"),
         sdk_params=dict(
             name=dict(required=True),
             dh_group=dict(

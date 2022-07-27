@@ -73,14 +73,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.network import Vlan
-except ImportError:
-    try:
-        from pandevice.network import Vlan
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -90,7 +82,7 @@ def main():
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         with_set_vsys_reference=True,
-        sdk_cls=Vlan,
+        sdk_cls=("network", "Vlan"),
         sdk_params=dict(
             name=dict(required=True),
             interface=dict(type="list", elements="str"),

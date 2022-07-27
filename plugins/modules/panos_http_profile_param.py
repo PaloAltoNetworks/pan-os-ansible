@@ -92,71 +92,31 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    get_connection,
     ConnectionHelper,
+    get_connection,
 )
-
-try:
-    from panos.device import (
-        HttpAuthParam,
-        HttpConfigParam,
-        HttpDataParam,
-        HttpGtpParam,
-        HttpHipMatchParam,
-        HttpIpTagParam,
-        HttpSctpParam,
-        HttpServerProfile,
-        HttpSystemParam,
-        HttpThreatParam,
-        HttpTrafficParam,
-        HttpTunnelParam,
-        HttpUrlParam,
-        HttpUserIdParam,
-        HttpWildfireParam,
-    )
-except ImportError:
-    try:
-        from pandevice.device import (
-            HttpAuthParam,
-            HttpConfigParam,
-            HttpDataParam,
-            HttpGtpParam,
-            HttpHipMatchParam,
-            HttpIpTagParam,
-            HttpSctpParam,
-            HttpServerProfile,
-            HttpSystemParam,
-            HttpThreatParam,
-            HttpTrafficParam,
-            HttpTunnelParam,
-            HttpUrlParam,
-            HttpUserIdParam,
-            HttpWildfireParam,
-        )
-    except ImportError:
-        pass
 
 
 class Helper(ConnectionHelper):
     def spec_handling(self, spec, module):
         cls_map = {
-            "config": HttpConfigParam,
-            "system": HttpSystemParam,
-            "threat": HttpThreatParam,
-            "traffic": HttpTrafficParam,
-            "hip match": HttpHipMatchParam,
-            "url": HttpUrlParam,
-            "data": HttpDataParam,
-            "wildfire": HttpWildfireParam,
-            "tunnel": HttpTunnelParam,
-            "user id": HttpUserIdParam,
-            "gtp": HttpGtpParam,
-            "auth": HttpAuthParam,
-            "sctp": HttpSctpParam,
-            "iptag": HttpIpTagParam,
+            "config": "HttpConfigParam",
+            "system": "HttpSystemParam",
+            "threat": "HttpThreatParam",
+            "traffic": "HttpTrafficParam",
+            "hip match": "HttpHipMatchParam",
+            "url": "HttpUrlParam",
+            "data": "HttpDataParam",
+            "wildfire": "HttpWildfireParam",
+            "tunnel": "HttpTunnelParam",
+            "user id": "HttpUserIdParam",
+            "gtp": "HttpGtpParam",
+            "auth": "HttpAuthParam",
+            "sctp": "HttpSctpParam",
+            "iptag": "HttpIpTagParam",
         }
 
-        self.sdk_cls = cls_map[module.params["log_type"]]
+        self.sdk_cls = ("device", cls_map[module.params["log_type"]])
 
 
 def main():
@@ -168,7 +128,7 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(8, 0, 0),
-        parents=((HttpServerProfile, "http_profile"),),
+        parents=(("device", "HttpServerProfile", "http_profile"),),
         sdk_params=dict(
             param=dict(required=True, sdk_param="name"),
             value=dict(),

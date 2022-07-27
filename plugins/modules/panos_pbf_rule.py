@@ -221,14 +221,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.policies import PolicyBasedForwarding
-except ImportError:
-    try:
-        from pandevice.policies import PolicyBasedForwarding
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -241,7 +233,7 @@ def main():
         min_pandevice_version=(1, 5, 0),
         with_movement=True,
         with_audit_comment=True,
-        sdk_cls=PolicyBasedForwarding,
+        sdk_cls=("policies", "PolicyBasedForwarding"),
         sdk_params=dict(
             name=dict(required=True),
             description=dict(),

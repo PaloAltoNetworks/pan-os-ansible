@@ -32,6 +32,7 @@ __metaclass__ = type
 import re
 import time
 from functools import reduce
+import importlib
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection, ConnectionError
@@ -51,7 +52,11 @@ except ImportError:
         import pandevice as panos
         from pandevice.base import PanDevice
         from pandevice.device import Vsys
-        from pandevice.errors import PanCommitNotNeeded, PanDeviceError
+        from pandevice.errors import (
+            PanCommitNotNeeded,
+            PanDeviceError,
+            PanObjectMissing,
+        )
         from pandevice.firewall import Firewall
         from pandevice.panorama import DeviceGroup, Template, TemplateStack
         from pandevice.policies import PostRulebase, PreRulebase, Rulebase
@@ -73,6 +78,25 @@ def eltostr(obj):
     except TypeError:
         # Fall back to normal
         return obj.element_str()
+
+
+def to_sdk_cls(pkg_name, cls_name):
+    sdk_names = ("panos", "pandevice")
+
+    for sdk_name in ("panos", "pandevice"):
+        try:
+            mod = importlib.import_module("{0}.{1}".format(sdk_name, pkg_name))
+        except ModuleNotFoundError:
+            continue
+        else:
+            try:
+                return getattr(mod, cls_name)
+            except AttributeError:
+                raise Exception(
+                    "{0}.{1}.{2} does not exist".format(sdk_name, pkg_name, cls_name)
+                )
+    else:
+        raise Exception("Couldn't find any sdk package named {0}".format(pkg_name))
 
 
 class ConnectionHelper(object):
@@ -396,11 +420,17 @@ class ConnectionHelper(object):
         # Build out the final object hierarchy.
         for p_info in self.parents:
             p = None
-            parent_class, parent_param_name = p_info[0], p_info[1]
+            parent_pkg, parent_class, parent_param_name = (
+                p_info[0],
+                p_info[1],
+                p_info[2],
+            )
             if parent_param_name is None:
-                p = parent_class()
+                p = to_sdk_cls(parent_pkg, parent_class)
             else:
-                p = parent_class(module.params.get(parent_param_name))
+                p = to_sdk_cls(parent_pkg, parent_class)(
+                    module.params[parent_param_name]
+                )
             parent.add(p)
             parent = p
 
@@ -421,7 +451,9 @@ class ConnectionHelper(object):
         # Attach the object to the parent.
         if self.sdk_cls is None:
             raise Exception("sdk_cls must be specified")
-        obj = self.sdk_cls(**spec)
+        elif not isinstance(self.sdk_cls, tuple) or len(self.sdk_cls) != 2:
+            raise Exception("helper.sdk_cls must be tuple of len()=2")
+        obj = to_sdk_cls(*self.sdk_cls)(**spec)
         parent.add(obj)
 
         # Apply the state.
@@ -1121,12 +1153,18 @@ def get_connection(
             be local on Panorama and not just in a template or template stack.
         helper_cls: The helper class to instantiate, when a module requires overridden
             functionality.
-        sdk_cls(obj): The SDK class that this module will manipulate.
-        parents(tuple): Tuple of length 2 tuples, where the first element is the parent
-            class and the second element is the ansible argument name.  If the class is
-            a singleton that does not have a NAME defined (such as panos.policies.Rulebase),
-            then the 2nd param in the tuple should be `None`.  If the tuple is length 3,
-            then the 2nd param is optional with a default of the 3rd item in the tuple.
+        sdk_cls(tuple): The SDK class that this module will manipulate, where the
+            first element is the package name (e.g. - "objects") and the second element
+            is the class name (e.g. - "AddressObject").
+        parents(tuple): Tuple of length 3 or 4.  First element is a string of the
+            SDK package name (e.g. - "network").  Second element is a string of the
+            class in the package (e.g. - "VirtualRouter").  If the class is a singleton
+            that does not have a NAME defined (such as panos.policies.Rulebase), then
+            the 3rd param in the tuple should be `None`.  If the class is not a singleton,
+            then the 3rd param should be a string which should be added into the final
+            argument spec as a required param.  If a fourth element is present, then
+            instead of the 3rd param being required, it will be optional and have a
+            default value of the fourth element.
         sdk_params(dict): List of params that exist in the sdk_cls that should be present
             in the argument_spec of the module.
         extra_params(dict): List of params that should be present in the argument_spec,
@@ -1347,21 +1385,21 @@ def get_connection(
         for num, x in enumerate(parents):
             if not isinstance(x, tuple):
                 raise Exception("index {0}: is not a tuple".format(num))
-            elif len(x) != 2 and len(x) != 3:
-                raise Exception("index {0}: must be len-2 or len-3".format(num))
-            elif len(x) == 3 and x[1] is None:
+            elif len(x) != 3 and len(x) != 4:
+                raise Exception("index {0}: must be len-3 or len-4".format(num))
+            elif len(x) == 4 and x[2] is None:
                 raise Exception("index {0}: no name but has a default".format(num))
-            parent_param_name = x[1]
+            parent_param_name = x[2]
             if parent_param_name is not None:
                 if parent_param_name in spec:
                     raise KeyError(
                         "parent param {0}: already in spec".format(parent_param_name)
                     )
                 ps = {}
-                if len(x) == 2:
+                if len(x) == 3:
                     ps = {"required": True}
                 else:
-                    ps = {"default": x[2]}
+                    ps = {"default": x[3]}
                 spec[parent_param_name] = ps
         helper.parents = parents
 

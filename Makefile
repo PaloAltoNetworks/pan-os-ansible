@@ -43,10 +43,8 @@ format:		## Format with black
 	black .
 
 .PHONY: check-format
-check-format:	## Check with black, isort
+check-format:	## Check with black
 	black --check --diff .
-	isort --diff .
-	isort --check .
 
 .PHONY: old-sanity
 old-sanity:		## Sanity tests for Ansible v2.9 and Ansible v2.10

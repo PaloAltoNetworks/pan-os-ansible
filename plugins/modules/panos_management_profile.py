@@ -124,19 +124,9 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    get_connection,
     ConnectionHelper,
+    get_connection,
 )
-
-try:
-    from panos.errors import PanDeviceError
-    from panos.network import ManagementProfile
-except ImportError:
-    try:
-        from pandevice.errors import PanDeviceError
-        from pandevice.network import ManagementProfile
-    except ImportError:
-        pass
 
 
 class Helper(ConnectionHelper):
@@ -169,7 +159,7 @@ def main():
         with_network_resource_module_state=True,
         min_pandevice_version=(0, 8, 0),
         with_commit=True,
-        sdk_cls=ManagementProfile,
+        sdk_cls=("network", "ManagementProfile"),
         sdk_params=dict(
             name=dict(required=True),
             ping=dict(type="bool"),

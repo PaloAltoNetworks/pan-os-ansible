@@ -134,14 +134,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.network import Zone
-except ImportError:
-    try:
-        from pandevice.network import Zone
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -150,7 +142,7 @@ def main():
         template_stack=True,
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
-        sdk_cls=Zone,
+        sdk_cls=("network", "Zone"),
         sdk_params=dict(
             zone=dict(required=True, sdk_param="name"),
             mode=dict(

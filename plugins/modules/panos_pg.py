@@ -94,14 +94,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.objects import SecurityProfileGroup
-except ImportError:
-    try:
-        from pandevice.objects import SecurityProfileGroup
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -110,7 +102,7 @@ def main():
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         with_commit=True,
-        sdk_cls=SecurityProfileGroup,
+        sdk_cls=("objects", "SecurityProfileGroup"),
         sdk_params=dict(
             pg_name=dict(required=True, sdk_param="name"),
             data_filtering=dict(),

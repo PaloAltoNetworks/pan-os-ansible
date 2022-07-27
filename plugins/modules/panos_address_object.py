@@ -110,14 +110,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.objects import AddressObject
-except ImportError:
-    try:
-        from pandevice.objects import AddressObject
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -126,13 +118,13 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
-        sdk_cls=AddressObject,
+        sdk_cls=("objects", "AddressObject"),
         sdk_params=dict(
             name=dict(required=True),
             value=dict(),
             address_type=dict(
                 default="ip-netmask",
-                choices=["ip-netmask", "ip-range", "fqdn"],
+                choices=["ip-netmask", "ip-range", "fqdn", "ip-wildcard"],
                 sdk_param="type",
             ),
             description=dict(),

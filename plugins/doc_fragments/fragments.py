@@ -298,6 +298,5 @@ options:
             - HORIZONTALLINE
             - Commit changes after creating object.  If I(ip_address) is a Panorama device, and I(device_group) or
               I(template) are also set, perform a commit to Panorama and a commit-all to the device group/template.
-        default: false
         type: bool
 """

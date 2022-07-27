@@ -126,17 +126,9 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    get_connection,
     ConnectionHelper,
+    get_connection,
 )
-
-try:
-    from panos.network import LoopbackInterface
-except ImportError:
-    try:
-        from pandevice.network import LoopbackInterface
-    except ImportError:
-        pass
 
 
 class Helper(ConnectionHelper):
@@ -183,7 +175,7 @@ def main():
         with_set_zone_reference=True,
         with_set_virtual_router_reference=True,
         default_zone_mode="layer3",
-        sdk_cls=LoopbackInterface,
+        sdk_cls=("network", "LoopbackInterface"),
         sdk_params=dict(
             if_name=dict(required=True, sdk_param="name"),
             ip=dict(type="list", elements="str"),

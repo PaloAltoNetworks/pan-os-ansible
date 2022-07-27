@@ -131,14 +131,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.network import Bgp, BgpRedistributionRule, VirtualRouter
-except ImportError:
-    try:
-        from pandevice.network import Bgp, BgpRedistributionRule, VirtualRouter
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -148,19 +140,21 @@ def main():
         with_classic_provider_spec=True,
         with_commit=True,
         parents=(
-            (VirtualRouter, "vr_name", "default"),
-            (Bgp, None),
+            ("network", "VirtualRouter", "vr_name", "default"),
+            ("network", "Bgp", None),
         ),
-        sdk_cls=BgpRedistributionRule,
+        sdk_cls=("network", "BgpRedistributionRule"),
         sdk_params=dict(
             name=dict(required=True),
             enable=dict(default=True, type="bool"),
             address_family_identifier=dict(default="ipv4", choices=["ipv4", "ipv6"]),
             route_table=dict(
-                default="unicast", choices=["unicast", "multicast", "both"]
+                default="unicast",
+                choices=["unicast", "multicast", "both"],
             ),
             set_origin=dict(
-                default="incomplete", choices=["unicast", "multicast", "both"]
+                default="incomplete",
+                choices=["igp", "egp", "incomplete"],
             ),
             set_med=dict(type="int"),
             set_local_preference=dict(type="int"),

@@ -243,7 +243,7 @@ def main():
         api_key=dict(no_log=True),
         sag_match_filter=dict(type="list", elements="str", required=False),
         sag_name=dict(required=True),
-        commit=dict(type="bool", default=False),
+        commit=dict(type="bool"),
         devicegroup=dict(default=None),
         description=dict(default=None),
         tags=dict(type="list", elements="str", default=[]),

@@ -126,7 +126,7 @@ from base64 import b64decode
 
 def setup_args():
     return dict(
-        commit=dict(type="bool", default=False),
+        commit=dict(type="bool"),
         vr_name=dict(default="default"),
         non_exist_filter=dict(type="str"),
         advertise_filter=dict(type="str"),

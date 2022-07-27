@@ -85,14 +85,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.objects import Region
-except ImportError:
-    try:
-        from pandevice.objects import Region
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -101,7 +93,7 @@ def main():
         min_panos_version=(9, 1, 0),
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
-        sdk_cls=Region,
+        sdk_cls=("objects", "Region"),
         sdk_params=dict(
             name=dict(type="str", required=True),
             address=dict(type="list", elements="str"),
