@@ -156,9 +156,9 @@ except ImportError:
 class Helper(ConnectionHelper):
     def spec_handling(self, spec, module):
         if module.params["type"] == "ipv4":
-            self.sdk_cls = RedistributionProfile
+            self.sdk_cls = ('network', 'RedistributionProfile')
         else:
-            self.sdk_cls = RedistributionProfileIPv6
+            self.sdk_cls = ('network', 'RedistributionProfileIPv6')
 
 
 def main():
@@ -169,7 +169,9 @@ def main():
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         with_commit=True,
-        parents=((VirtualRouter, "vr_name", "default"),),
+        parents=(
+            ('network', 'VirtualRouter', "vr_name", "default"),
+        ),
         sdk_params=dict(
             name=dict(type="str", required=True),
             priority=dict(type="int"),

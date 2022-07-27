@@ -154,14 +154,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.network import StaticRoute, VirtualRouter
-except ImportError:
-    try:
-        from pandevice.network import StaticRoute, VirtualRouter
-    except ImportError:
-        pass
-
 
 class Helper(ConnectionHelper):
     def spec_handling(self, spec, module):
@@ -183,8 +175,10 @@ def main():
         template_stack=True,
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
-        parents=((VirtualRouter, "virtual_router", "default"),),
-        sdk_cls=StaticRoute,
+        parents=(
+            ('network', 'VirtualRouter', "virtual_router", "default"),
+        ),
+        sdk_cls=('network', 'StaticRoute'),
         sdk_params=dict(
             name=dict(required=True),
             destination=dict(),

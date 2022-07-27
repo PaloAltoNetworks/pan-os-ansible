@@ -144,14 +144,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.network import VlanInterface
-except ImportError:
-    try:
-        from pandevice.network import VlanInterface
-    except ImportError:
-        pass
-
 
 class Helper(ConnectionHelper):
     def initial_handling(self, module):
@@ -184,7 +176,7 @@ def main():
         with_set_virtual_router_reference=True,
         virtual_router_reference_default=None,
         default_zone_mode="layer3",
-        sdk_cls=VlanInterface,
+        sdk_cls=('network', 'VlanInterface'),
         sdk_params=dict(
             name=dict(required=True),
             ip=dict(type="list", elements="str"),

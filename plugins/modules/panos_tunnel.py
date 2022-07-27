@@ -115,14 +115,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.network import TunnelInterface
-except ImportError:
-    try:
-        from pandevice.network import TunnelInterface
-    except ImportError:
-        pass
-
 
 class Helper(ConnectionHelper):
     def initial_handling(self, module):
@@ -168,7 +160,7 @@ def main():
         with_set_virtual_router_reference=True,
         virtual_router_reference_default=None,
         default_zone_mode="layer3",
-        sdk_cls=TunnelInterface,
+        sdk_cls=('network', 'TunnelInterface'),
         sdk_params=dict(
             if_name=dict(required=True, sdk_param="name"),
             ip=dict(type="list", elements="str"),

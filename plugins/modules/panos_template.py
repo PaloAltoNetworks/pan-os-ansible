@@ -89,17 +89,8 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     ConnectionHelper,
     get_connection,
+    to_sdk_cls,
 )
-
-try:
-    from panos.device import Vsys
-    from panos.panorama import Template
-except ImportError:
-    try:
-        from pandevice.device import Vsys
-        from pandevice.panorama import Template
-    except ImportError:
-        pass
 
 
 class Helper(ConnectionHelper):
@@ -107,7 +98,7 @@ class Helper(ConnectionHelper):
         # Templates need a vsys child, this only matters if we're creating the
         # template, otherwise this should work because the sub-config should already
         # exist.
-        vsys = Vsys(module.params["default_vsys"])
+        vsys = to_sdk_cls('device', 'Vsys')(module.params["default_vsys"])
         obj.add(vsys)
 
 
@@ -119,7 +110,7 @@ def main():
         min_panos_version=(7, 0, 0),
         min_pandevice_version=(1, 5, 1),
         with_update_in_apply_state=True,
-        sdk_cls=Template,
+        sdk_cls=('panorama', 'Template'),
         sdk_params=dict(
             name=dict(required=True),
             description=dict(),

@@ -102,14 +102,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.objects import ServiceObject
-except ImportError:
-    try:
-        from pandevice.objects import ServiceObject
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -118,7 +110,7 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
-        sdk_cls=ServiceObject,
+        sdk_cls=('objects', 'ServiceObject'),
         sdk_params=dict(
             name=dict(type="str", required=True),
             protocol=dict(default="tcp", choices=["tcp", "udp"]),

@@ -142,14 +142,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.objects import ScheduleObject
-except ImportError:
-    try:
-        from pandevice.objects import ScheduleObject
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -157,7 +149,7 @@ def main():
         device_group=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
-        sdk_cls=ScheduleObject,
+        sdk_cls=('objects', 'ScheduleObject'),
         sdk_params=dict(
             name=dict(type="str", required=True),
             disable_override=dict(type="bool"),

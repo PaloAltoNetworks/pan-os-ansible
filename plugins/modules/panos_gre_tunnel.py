@@ -124,14 +124,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.network import GreTunnel
-except ImportError:
-    try:
-        from pandevice.network import GreTunnel
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -141,7 +133,7 @@ def main():
         with_network_resource_module_state=True,
         min_pandevice_version=(0, 13, 0),
         min_panos_version=(9, 0, 0),
-        sdk_cls=GreTunnel,
+        sdk_cls=('network', 'GreTunnel'),
         sdk_params=dict(
             name=dict(required=True),
             interface=dict(),

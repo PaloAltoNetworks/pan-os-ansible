@@ -137,22 +137,16 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     ConnectionHelper,
     get_connection,
+    to_sdk_cls,
 )
-
-try:
-    from panos.device import Administrator
-    from panos.errors import PanDeviceError
-except ImportError:
-    try:
-        from pandevice.device import Administrator
-        from pandevice.errors import PanDeviceError
-    except ImportError:
-        pass
 
 
 class Helper(ConnectionHelper):
     def pre_state_handling(self, obj, result, module):
+        Administrator = to_sdk_cls('device', 'Administrator')
+        PanDeviceError = to_sdk_cls('errors', 'PanDeviceError')
         password = module.params["admin_password"]
+
         if password is not None:
             try:
                 obj.password_hash = self.device.request_password_hash(password)
@@ -169,6 +163,7 @@ class Helper(ConnectionHelper):
                 obj.password_hash = o2.password_hash
 
     def post_state_handling(self, obj, result, module):
+        PanDeviceError = to_sdk_cls('errors', 'PanDeviceError')
         password = module.params["admin_password"]
         phash = module.params["admin_phash"]
 
@@ -199,7 +194,7 @@ def main():
         with_commit=True,
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 8, 0),
-        sdk_cls=Administrator,
+        sdk_cls=('device', 'Administrator'),
         sdk_params=dict(
             admin_username=dict(default="admin", sdk_param="name"),
             authentication_profile=dict(),

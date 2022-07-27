@@ -125,22 +125,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.objects import (
-        LogForwardingProfile,
-        LogForwardingProfileMatchList,
-        LogForwardingProfileMatchListAction,
-    )
-except ImportError:
-    try:
-        from pandevice.objects import (
-            LogForwardingProfile,
-            LogForwardingProfileMatchList,
-            LogForwardingProfileMatchListAction,
-        )
-    except ImportError:
-        pass
-
 
 def main():
     helper = get_connection(
@@ -151,10 +135,10 @@ def main():
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(8, 0, 0),
         parents=(
-            (LogForwardingProfile, "log_forwarding_profile"),
-            (LogForwardingProfileMatchList, "log_forwarding_profile_match_list"),
+            ('objects', 'LogForwardingProfile', "log_forwarding_profile"),
+            ('objects', 'LogForwardingProfileMatchList', "log_forwarding_profile_match_list"),
         ),
-        sdk_cls=LogForwardingProfileMatchListAction,
+        sdk_cls=('objects', 'LogForwardingProfileMatchListAction'),
         sdk_params=dict(
             name=dict(required=True),
             action_type=dict(default="tagging", choices=["tagging", "integration"]),
