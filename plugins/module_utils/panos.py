@@ -32,6 +32,7 @@ __metaclass__ = type
 import re
 import time
 from functools import reduce
+import importlib
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection, ConnectionError
@@ -51,7 +52,7 @@ except ImportError:
         import pandevice as panos
         from pandevice.base import PanDevice
         from pandevice.device import Vsys
-        from pandevice.errors import PanCommitNotNeeded, PanDeviceError
+        from pandevice.errors import PanCommitNotNeeded, PanDeviceError, PanObjectMissing
         from pandevice.firewall import Firewall
         from pandevice.panorama import DeviceGroup, Template, TemplateStack
         from pandevice.policies import PostRulebase, PreRulebase, Rulebase
@@ -73,6 +74,23 @@ def eltostr(obj):
     except TypeError:
         # Fall back to normal
         return obj.element_str()
+
+
+def to_sdk_cls(pkg_name, cls_name):
+    sdk_names = ("panos", "pandevice")
+
+    for sdk_name in ("panos", "pandevice"):
+        try:
+            mod = importlib.import_module("{0}.{1}".format(sdk_name, pkg_name))
+        except ModuleNotFoundError:
+            continue
+        else:
+            try:
+                return getattr(mod, cls_name)
+            except AttributeError:
+                raise Exception("{0}.{1}.{2} does not exist".format(sdk_name, pkg_name, cls_name))
+    else:
+        raise Exception("Couldn't find any sdk package named {0}".format(pkg_name))
 
 
 class ConnectionHelper(object):

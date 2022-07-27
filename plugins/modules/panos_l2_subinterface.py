@@ -98,6 +98,7 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     ConnectionHelper,
     get_connection,
+    to_sdk_cls,
 )
 
 try:
@@ -122,13 +123,18 @@ class Helper(ConnectionHelper):
         iname = module.params["name"].split(".")[0]
 
         if iname.startswith("ae"):
-            eth = AggregateInterface(iname)
+            eth = to_sdk_cls('network', 'AggregateInterface')(iname)
+            #eth = AggregateInterface(iname)
         else:
-            eth = EthernetInterface(iname)
+            eth = to_sdk_cls('network', 'EthernetInterface')(iname)
+            #eth = EthernetInterface(iname)
 
         eth.mode = "layer2"
         parent.add(eth)
         return eth
+
+    def spec_handling(self, spec, module):
+        self.sdk_cls = to_sdk_cls('network', 'Layer2Subinterface')
 
 
 def main():
@@ -143,7 +149,7 @@ def main():
         with_set_zone_reference=True,
         with_set_vsys_reference=True,
         default_zone_mode="layer2",
-        sdk_cls=Layer2Subinterface,
+        #sdk_cls=Layer2Subinterface,
         sdk_params=dict(
             name=dict(required=True),
             tag=dict(required=True, type="int"),
