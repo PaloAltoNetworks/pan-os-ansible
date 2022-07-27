@@ -69,6 +69,11 @@ options:
             - Timeout value in seconds to wait for the device operation to complete
         type: int
         default: 1200
+    perform_software_check:
+        description:
+            - Do a software check before doing the upgrade.
+        type: bool
+        default: True
 """
 
 EXAMPLES = """
@@ -150,6 +155,7 @@ def main():
             install=dict(type="bool", default=True),
             restart=dict(type="bool", default=False),
             timeout=dict(type="int", default=1200),
+            perform_software_check=dict(type="bool", default=True),
         ),
     )
 
@@ -176,7 +182,8 @@ def main():
 
     try:
         device.timeout = timeout
-        device.software.check()
+        if module.params["perform_software_check"]:
+            device.software.check()
 
         if target != current:
 
