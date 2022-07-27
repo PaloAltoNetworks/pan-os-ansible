@@ -40,6 +40,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.rulebase
+    - paloaltonetworks.panos.fragments.uuid
 options:
     name:
         description:
@@ -236,6 +237,7 @@ def main():
         sdk_cls=("policies", "PolicyBasedForwarding"),
         sdk_params=dict(
             name=dict(required=True),
+            uuid=dict(),
             description=dict(),
             tags=dict(type="list", elements="str"),
             from_type=dict(choices=["zone", "interface"], default="zone"),

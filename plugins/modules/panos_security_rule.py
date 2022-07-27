@@ -45,6 +45,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.rulebase
     - paloaltonetworks.panos.fragments.deprecated_commit
+    - paloaltonetworks.panos.fragments.uuid
 options:
     rule_name:
         description:
@@ -385,6 +386,7 @@ def main():
         sdk_cls=("policies", "SecurityRule"),
         sdk_params=dict(
             rule_name=dict(required=True, sdk_param="name"),
+            uuid=dict(),
             source_zone=dict(
                 type="list", elements="str", default=["any"], sdk_param="fromzone"
             ),

@@ -47,6 +47,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.rulebase
     - paloaltonetworks.panos.fragments.deprecated_commit
+    - paloaltonetworks.panos.fragments.uuid
 options:
     state:
         description:
@@ -279,6 +280,7 @@ except ImportError:
 def create_nat_rule(**kwargs):
     nat_rule = NatRule(
         name=kwargs["rule_name"],
+        uuid=kwargs["uuid"],
         description=kwargs["description"],
         fromzone=kwargs["source_zone"],
         source=kwargs["source_ip"],
@@ -365,6 +367,7 @@ def main():
         min_pandevice_version=(1, 5, 0),
         argument_spec=dict(
             rule_name=dict(required=True),
+            uuid=dict(),
             description=dict(),
             nat_type=dict(default="ipv4", choices=["ipv4", "nat64", "nptv6"]),
             source_zone=dict(type="list", elements="str"),
@@ -472,15 +475,10 @@ def main():
             msg="'existing_rule' must be specified if location is 'before' or 'after'."
         )
 
-    # Get the current NAT rules.
-    try:
-        rules = NatRule.refreshall(parent)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed NAT refreshall: {0}".format(e))
-
     # Create the desired rule.
     new_rule = create_nat_rule(
         rule_name=rule_name,
+        uuid=module.params["uuid"],
         description=description,
         tag_val=tag_val,
         source_zone=source_zone,
@@ -513,6 +511,12 @@ def main():
     # Perform the desired operation.
     resp = {}
     if state in ("enable", "disable"):
+        # Get the current NAT rules.
+        try:
+            rules = NatRule.refreshall(parent)
+        except PanDeviceError as e:
+            module.fail_json(msg="Failed NAT refreshall: {0}".format(e))
+
         resp = {"changed": False, "diff": None}
         for rule in rules:
             if rule.name == new_rule.name:
@@ -534,7 +538,7 @@ def main():
                     module.fail_json(msg="Failed enable: {0}".format(e))
     else:
         parent.add(new_rule)
-        resp = helper.apply_state(new_rule, rules, module)
+        resp = helper.apply_state(new_rule, module)
         if state == "present":
             resp["changed"] |= helper.apply_position(
                 new_rule, location, existing_rule, module
