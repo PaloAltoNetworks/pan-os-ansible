@@ -89,7 +89,7 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
-        sdk_cls=('objects', 'ServiceGroup'),
+        sdk_cls=("objects", "ServiceGroup"),
         sdk_params=dict(
             name=dict(type="str", required=True),
             value=dict(type="list", elements="str"),

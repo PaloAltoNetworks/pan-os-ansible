@@ -113,10 +113,8 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
-        parents=(
-            ('network', 'IpsecTunnel', "tunnel_name", "default"),
-        ),
-        sdk_cls=('network', 'IpsecTunnelIpv4ProxyId'),
+        parents=(("network", "IpsecTunnel", "tunnel_name", "default"),),
+        sdk_cls=("network", "IpsecTunnelIpv4ProxyId"),
         sdk_params=dict(
             name=dict(type="str", required=True),
             local=dict(default="192.168.2.0/24"),

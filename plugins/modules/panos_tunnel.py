@@ -160,7 +160,7 @@ def main():
         with_set_virtual_router_reference=True,
         virtual_router_reference_default=None,
         default_zone_mode="layer3",
-        sdk_cls=('network', 'TunnelInterface'),
+        sdk_cls=("network", "TunnelInterface"),
         sdk_params=dict(
             if_name=dict(required=True, sdk_param="name"),
             ip=dict(type="list", elements="str"),

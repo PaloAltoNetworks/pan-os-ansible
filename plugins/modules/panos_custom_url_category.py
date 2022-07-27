@@ -94,7 +94,7 @@ def main():
         device_group=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
-        sdk_cls=('objects', 'CustomUrlCategory'),
+        sdk_cls=("objects", "CustomUrlCategory"),
         sdk_params=dict(
             name=dict(required=True),
             description=dict(),

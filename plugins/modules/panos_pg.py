@@ -102,7 +102,7 @@ def main():
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         with_commit=True,
-        sdk_cls=('objects', 'SecurityProfileGroup'),
+        sdk_cls=("objects", "SecurityProfileGroup"),
         sdk_params=dict(
             pg_name=dict(required=True, sdk_param="name"),
             data_filtering=dict(),

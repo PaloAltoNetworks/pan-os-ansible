@@ -176,7 +176,7 @@ def main():
         with_set_virtual_router_reference=True,
         virtual_router_reference_default=None,
         default_zone_mode="layer3",
-        sdk_cls=('network', 'VlanInterface'),
+        sdk_cls=("network", "VlanInterface"),
         sdk_params=dict(
             name=dict(required=True),
             ip=dict(type="list", elements="str"),

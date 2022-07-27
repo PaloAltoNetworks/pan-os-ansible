@@ -117,7 +117,7 @@ def main():
         with_classic_provider_spec=True,
         with_commit=True,
         with_set_vsys_reference=True,
-        sdk_cls=('network', 'VirtualRouter'),
+        sdk_cls=("network", "VirtualRouter"),
         sdk_params=dict(
             name=dict(type="str", default="default"),
             interface=dict(type="list", elements="str"),

@@ -175,7 +175,7 @@ def main():
         with_set_zone_reference=True,
         with_set_virtual_router_reference=True,
         min_pandevice_version=(0, 13, 0),
-        sdk_cls=('network', 'AggregateInterface'),
+        sdk_cls=("network", "AggregateInterface"),
         sdk_params=dict(
             if_name=dict(required=True, sdk_param="name"),
             mode=dict(

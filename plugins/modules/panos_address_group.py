@@ -106,7 +106,7 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
-        sdk_cls=('objects', 'AddressGroup'),
+        sdk_cls=("objects", "AddressGroup"),
         sdk_params=dict(
             name=dict(type="str", required=True),
             static_value=dict(type="list", elements="str"),

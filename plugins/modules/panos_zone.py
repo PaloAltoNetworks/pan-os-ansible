@@ -142,7 +142,7 @@ def main():
         template_stack=True,
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
-        sdk_cls=('network', 'Zone'),
+        sdk_cls=("network", "Zone"),
         sdk_params=dict(
             zone=dict(required=True, sdk_param="name"),
             mode=dict(

@@ -133,7 +133,7 @@ def main():
         with_network_resource_module_state=True,
         min_pandevice_version=(0, 13, 0),
         min_panos_version=(9, 0, 0),
-        sdk_cls=('network', 'GreTunnel'),
+        sdk_cls=("network", "GreTunnel"),
         sdk_params=dict(
             name=dict(required=True),
             interface=dict(),

@@ -82,7 +82,7 @@ def main():
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         with_set_vsys_reference=True,
-        sdk_cls=('network', 'Vlan'),
+        sdk_cls=("network", "Vlan"),
         sdk_params=dict(
             name=dict(required=True),
             interface=dict(type="list", elements="str"),

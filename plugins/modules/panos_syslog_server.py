@@ -120,10 +120,8 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(7, 1, 0),
-        parents=(
-            ('device', 'SyslogServerProfile', "syslog_profile"),
-        ),
-        sdk_cls=('device', 'SyslogServer'),
+        parents=(("device", "SyslogServerProfile", "syslog_profile"),),
+        sdk_cls=("device", "SyslogServer"),
         sdk_params=dict(
             name=dict(required=True),
             server=dict(required=True),

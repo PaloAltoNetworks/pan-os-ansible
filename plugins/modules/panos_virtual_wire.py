@@ -99,7 +99,7 @@ def main():
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         with_set_vsys_reference=True,
-        sdk_cls=('network', 'VirtualWire'),
+        sdk_cls=("network", "VirtualWire"),
         sdk_params=dict(
             name=dict(
                 type="str",

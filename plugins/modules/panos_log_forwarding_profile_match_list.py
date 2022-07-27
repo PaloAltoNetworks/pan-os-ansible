@@ -129,10 +129,8 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(8, 0, 0),
-        parents=(
-            ('objects', 'LogForwardingProfile', "log_forwarding_profile"),
-        ),
-        sdk_cls=('objects', 'LogForwardingProfileMatchList'),
+        parents=(("objects", "LogForwardingProfile", "log_forwarding_profile"),),
+        sdk_cls=("objects", "LogForwardingProfileMatchList"),
         sdk_params=dict(
             name=dict(required=True),
             description=dict(),

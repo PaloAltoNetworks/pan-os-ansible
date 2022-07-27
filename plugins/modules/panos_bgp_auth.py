@@ -107,10 +107,10 @@ def main():
         with_classic_provider_spec=True,
         with_commit=True,
         parents=(
-            ('network', 'VirtualRouter', "vr_name", "default"),
-            ('network', 'Bgp', None),
+            ("network", "VirtualRouter", "vr_name", "default"),
+            ("network", "Bgp", None),
         ),
-        sdk_cls=('network', 'BgpAuthProfile'),
+        sdk_cls=("network", "BgpAuthProfile"),
         sdk_params=dict(
             name=dict(required=True),
             secret=dict(no_log=True),

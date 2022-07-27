@@ -160,9 +160,9 @@ class Helper(ConnectionHelper):
 
         eth = None
         if iname.startswith("ae"):
-            eth = to_sdk_cls('network', 'AggregateInterface')(iname)
+            eth = to_sdk_cls("network", "AggregateInterface")(iname)
         else:
-            eth = to_sdk_cls('network', 'EthernetInterface')(iname)
+            eth = to_sdk_cls("network", "EthernetInterface")(iname)
 
         eth.mode = "layer3"
         parent.add(eth)
@@ -192,7 +192,7 @@ def main():
         with_set_zone_reference=True,
         with_set_virtual_router_reference=True,
         default_zone_mode="layer3",
-        sdk_cls=('network', 'Layer3Subinterface'),
+        sdk_cls=("network", "Layer3Subinterface"),
         sdk_params=dict(
             name=dict(required=True),
             tag=dict(required=True, type="int"),

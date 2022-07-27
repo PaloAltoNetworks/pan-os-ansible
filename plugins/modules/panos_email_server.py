@@ -109,10 +109,8 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(7, 1, 0),
-        parents=(
-            ('device', 'EmailServerProfile', "email_profile"),
-        ),
-        sdk_cls=('device', 'EmailServer'),
+        parents=(("device", "EmailServerProfile", "email_profile"),),
+        sdk_cls=("device", "EmailServer"),
         sdk_params=dict(
             name=dict(required=True),
             display_name=dict(),

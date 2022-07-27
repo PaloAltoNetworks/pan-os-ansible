@@ -98,7 +98,7 @@ class Helper(ConnectionHelper):
         # Templates need a vsys child, this only matters if we're creating the
         # template, otherwise this should work because the sub-config should already
         # exist.
-        vsys = to_sdk_cls('device', 'Vsys')(module.params["default_vsys"])
+        vsys = to_sdk_cls("device", "Vsys")(module.params["default_vsys"])
         obj.add(vsys)
 
 
@@ -110,7 +110,7 @@ def main():
         min_panos_version=(7, 0, 0),
         min_pandevice_version=(1, 5, 1),
         with_update_in_apply_state=True,
-        sdk_cls=('panorama', 'Template'),
+        sdk_cls=("panorama", "Template"),
         sdk_params=dict(
             name=dict(required=True),
             description=dict(),

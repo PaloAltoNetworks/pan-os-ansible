@@ -147,7 +147,7 @@ def main():
         device_group=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
-        sdk_cls=('objects', 'ApplicationFilter'),
+        sdk_cls=("objects", "ApplicationFilter"),
         sdk_params=dict(
             name=dict(type="str", required=True),
             category=dict(type="list", elements="str"),

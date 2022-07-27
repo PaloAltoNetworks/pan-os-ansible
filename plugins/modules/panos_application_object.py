@@ -204,7 +204,7 @@ def main():
         device_group=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
-        sdk_cls=('objects', 'ApplicationObject'),
+        sdk_cls=("objects", "ApplicationObject"),
         sdk_params=dict(
             name=dict(required=True),
             category=dict(),

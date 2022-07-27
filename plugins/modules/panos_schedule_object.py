@@ -149,7 +149,7 @@ def main():
         device_group=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
-        sdk_cls=('objects', 'ScheduleObject'),
+        sdk_cls=("objects", "ScheduleObject"),
         sdk_params=dict(
             name=dict(type="str", required=True),
             disable_override=dict(type="bool"),

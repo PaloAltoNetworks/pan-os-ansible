@@ -91,7 +91,7 @@ def main():
         device_group=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
-        sdk_cls=('objects', 'ApplicationGroup'),
+        sdk_cls=("objects", "ApplicationGroup"),
         sdk_params=dict(
             name=dict(required=True),
             value=dict(type="list", elements="str"),

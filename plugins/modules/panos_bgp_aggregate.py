@@ -182,10 +182,10 @@ def main():
         with_classic_provider_spec=True,
         with_commit=True,
         parents=(
-            ('network', 'VirtualRouter', "vr_name", "default"),
-            ('network', 'Bgp', None),
+            ("network", "VirtualRouter", "vr_name", "default"),
+            ("network", "Bgp", None),
         ),
-        sdk_cls=('network', 'BgpPolicyAggregationAddress'),
+        sdk_cls=("network", "BgpPolicyAggregationAddress"),
         sdk_params=dict(
             name=dict(required=True),
             enable=dict(type="bool", default=True),

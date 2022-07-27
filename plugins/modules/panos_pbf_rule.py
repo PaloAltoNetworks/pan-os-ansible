@@ -233,7 +233,7 @@ def main():
         min_pandevice_version=(1, 5, 0),
         with_movement=True,
         with_audit_comment=True,
-        sdk_cls=('policies', 'PolicyBasedForwarding'),
+        sdk_cls=("policies", "PolicyBasedForwarding"),
         sdk_params=dict(
             name=dict(required=True),
             description=dict(),

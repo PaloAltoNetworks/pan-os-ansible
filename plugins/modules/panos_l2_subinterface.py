@@ -111,9 +111,9 @@ class Helper(ConnectionHelper):
         iname = module.params["name"].split(".")[0]
 
         if iname.startswith("ae"):
-            eth = to_sdk_cls('network', 'AggregateInterface')(iname)
+            eth = to_sdk_cls("network", "AggregateInterface")(iname)
         else:
-            eth = to_sdk_cls('network', 'EthernetInterface')(iname)
+            eth = to_sdk_cls("network", "EthernetInterface")(iname)
 
         eth.mode = "layer2"
         parent.add(eth)
@@ -132,7 +132,7 @@ def main():
         with_set_zone_reference=True,
         with_set_vsys_reference=True,
         default_zone_mode="layer2",
-        sdk_cls=('network', 'Layer2Subinterface'),
+        sdk_cls=("network", "Layer2Subinterface"),
         sdk_params=dict(
             name=dict(required=True),
             tag=dict(required=True, type="int"),

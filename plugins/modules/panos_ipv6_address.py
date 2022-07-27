@@ -114,21 +114,21 @@ class Helper(ConnectionHelper):
         part = iname.split(".")[0]
 
         checks = (
-            ('EthernetInterface', "ethernet", True),
-            ('AggregateInterface', "ae", True),
-            ('LoopbackInterface', "loopback", False),
-            ('TunnelInterface', "tunnel", False),
-            ('VlanInterface', "vlan", False),
+            ("EthernetInterface", "ethernet", True),
+            ("AggregateInterface", "ae", True),
+            ("LoopbackInterface", "loopback", False),
+            ("TunnelInterface", "tunnel", False),
+            ("VlanInterface", "vlan", False),
         )
 
         for cls_name, prefix, should_check_name in checks:
             if part.startswith(prefix):
-                eth = to_sdk_cls('network', cls_name)(part)
+                eth = to_sdk_cls("network", cls_name)(part)
                 parent.add(eth)
                 if not should_check_name or "." not in iname:
                     return eth
 
-                sub = to_sdk_cls('network', 'Layer3Subinterface')(iname)
+                sub = to_sdk_cls("network", "Layer3Subinterface")(iname)
                 eth.add(sub)
                 return sub
 
@@ -142,7 +142,7 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         min_pandevice_version=(0, 14, 0),
-        sdk_cls=('network', 'IPv6Address'),
+        sdk_cls=("network", "IPv6Address"),
         sdk_params=dict(
             address=dict(required=True),
             enable_on_interface=dict(type="bool", default=True),

@@ -145,7 +145,7 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(7, 1, 0),
-        sdk_cls=('device', 'SyslogServerProfile'),
+        sdk_cls=("device", "SyslogServerProfile"),
         sdk_params=dict(
             name=dict(required=True),
             config=dict(),

@@ -52,7 +52,11 @@ except ImportError:
         import pandevice as panos
         from pandevice.base import PanDevice
         from pandevice.device import Vsys
-        from pandevice.errors import PanCommitNotNeeded, PanDeviceError, PanObjectMissing
+        from pandevice.errors import (
+            PanCommitNotNeeded,
+            PanDeviceError,
+            PanObjectMissing,
+        )
         from pandevice.firewall import Firewall
         from pandevice.panorama import DeviceGroup, Template, TemplateStack
         from pandevice.policies import PostRulebase, PreRulebase, Rulebase
@@ -88,7 +92,9 @@ def to_sdk_cls(pkg_name, cls_name):
             try:
                 return getattr(mod, cls_name)
             except AttributeError:
-                raise Exception("{0}.{1}.{2} does not exist".format(sdk_name, pkg_name, cls_name))
+                raise Exception(
+                    "{0}.{1}.{2} does not exist".format(sdk_name, pkg_name, cls_name)
+                )
     else:
         raise Exception("Couldn't find any sdk package named {0}".format(pkg_name))
 
@@ -414,11 +420,17 @@ class ConnectionHelper(object):
         # Build out the final object hierarchy.
         for p_info in self.parents:
             p = None
-            parent_pkg, parent_class, parent_param_name = p_info[0], p_info[1], p_info[2]
+            parent_pkg, parent_class, parent_param_name = (
+                p_info[0],
+                p_info[1],
+                p_info[2],
+            )
             if parent_param_name is None:
                 p = to_sdk_cls(parent_pkg, parent_class)
             else:
-                p = to_sdk_cls(parent_pkg, parent_class)(module.params[parent_param_name])
+                p = to_sdk_cls(parent_pkg, parent_class)(
+                    module.params[parent_param_name]
+                )
             parent.add(p)
             parent = p
 

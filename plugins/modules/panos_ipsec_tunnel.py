@@ -235,7 +235,7 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
-        sdk_cls=('network', 'IpsecTunnel'),
+        sdk_cls=("network", "IpsecTunnel"),
         sdk_params=dict(
             name=dict(required=True),
             tunnel_interface=dict(default="tunnel.1"),

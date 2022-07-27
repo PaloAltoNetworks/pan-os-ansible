@@ -100,23 +100,23 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 class Helper(ConnectionHelper):
     def spec_handling(self, spec, module):
         cls_map = {
-            "config": 'HttpConfigHeader',
-            "system": 'HttpSystemHeader',
-            "threat": 'HttpThreatHeader',
-            "traffic": 'HttpTrafficHeader',
-            "hip match": 'HttpHipMatchHeader',
-            "url": 'HttpUrlHeader',
-            "data": 'HttpDataHeader',
-            "wildfire": 'HttpWildfireHeader',
-            "tunnel": 'HttpTunnelHeader',
-            "user id": 'HttpUserIdHeader',
-            "gtp": 'HttpGtpHeader',
-            "auth": 'HttpAuthHeader',
-            "sctp": 'HttpSctpHeader',
-            "iptag": 'HttpIpTagHeader',
+            "config": "HttpConfigHeader",
+            "system": "HttpSystemHeader",
+            "threat": "HttpThreatHeader",
+            "traffic": "HttpTrafficHeader",
+            "hip match": "HttpHipMatchHeader",
+            "url": "HttpUrlHeader",
+            "data": "HttpDataHeader",
+            "wildfire": "HttpWildfireHeader",
+            "tunnel": "HttpTunnelHeader",
+            "user id": "HttpUserIdHeader",
+            "gtp": "HttpGtpHeader",
+            "auth": "HttpAuthHeader",
+            "sctp": "HttpSctpHeader",
+            "iptag": "HttpIpTagHeader",
         }
 
-        self.sdk_cls = ('device', cls_map[module.params['log_type']])
+        self.sdk_cls = ("device", cls_map[module.params["log_type"]])
 
 
 def main():
@@ -128,9 +128,7 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(8, 0, 0),
-        parents=(
-            ('device', 'HttpServerProfile', "http_profile"),
-        ),
+        parents=(("device", "HttpServerProfile", "http_profile"),),
         sdk_params=dict(
             header=dict(required=True, sdk_param="name"),
             value=dict(),

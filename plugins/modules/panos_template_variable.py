@@ -100,7 +100,7 @@ def main():
         template_stack=True,
         with_network_resource_module_state=True,
         firewall_error="This is a Panorama module",
-        sdk_cls=('panorama', 'TemplateVariable'),
+        sdk_cls=("panorama", "TemplateVariable"),
         sdk_params=dict(
             name=dict(required=True),
             value=dict(),

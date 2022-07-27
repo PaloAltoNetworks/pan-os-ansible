@@ -127,10 +127,8 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(8, 0, 0),
-        parents=(
-            ('device', 'HttpServerProfile', "http_profile"),
-        ),
-        sdk_cls=('device', 'HttpServer'),
+        parents=(("device", "HttpServerProfile", "http_profile"),),
+        sdk_cls=("device", "HttpServer"),
         sdk_params=dict(
             name=dict(required=True),
             address=dict(required=True),

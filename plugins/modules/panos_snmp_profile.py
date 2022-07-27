@@ -80,7 +80,7 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(7, 1, 0),
-        sdk_cls=('device', 'SnmpServerProfile'),
+        sdk_cls=("device", "SnmpServerProfile"),
         sdk_params=dict(
             name=dict(required=True),
             version=dict(default="v2c", choices=["v2c", "v3"]),

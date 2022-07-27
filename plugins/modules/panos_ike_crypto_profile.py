@@ -135,7 +135,7 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
-        sdk_cls=('network', 'IkeCryptoProfile'),
+        sdk_cls=("network", "IkeCryptoProfile"),
         sdk_params=dict(
             name=dict(required=True),
             dh_group=dict(

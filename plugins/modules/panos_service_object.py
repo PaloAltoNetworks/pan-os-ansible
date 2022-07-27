@@ -110,7 +110,7 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
-        sdk_cls=('objects', 'ServiceObject'),
+        sdk_cls=("objects", "ServiceObject"),
         sdk_params=dict(
             name=dict(type="str", required=True),
             protocol=dict(default="tcp", choices=["tcp", "udp"]),

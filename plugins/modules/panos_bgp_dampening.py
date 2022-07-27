@@ -106,10 +106,10 @@ def main():
         with_classic_provider_spec=True,
         with_commit=True,
         parents=(
-            ('network', 'VirtualRouter', "vr_name", "default"),
-            ('network', 'Bgp', None),
+            ("network", "VirtualRouter", "vr_name", "default"),
+            ("network", "Bgp", None),
         ),
-        sdk_cls=('network', 'BgpDampeningProfile'),
+        sdk_cls=("network", "BgpDampeningProfile"),
         sdk_params=dict(
             name=dict(type="str", required=True),
             enable=dict(default=True, type="bool"),

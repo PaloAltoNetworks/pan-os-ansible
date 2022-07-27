@@ -135,10 +135,14 @@ def main():
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(8, 0, 0),
         parents=(
-            ('objects', 'LogForwardingProfile', "log_forwarding_profile"),
-            ('objects', 'LogForwardingProfileMatchList', "log_forwarding_profile_match_list"),
+            ("objects", "LogForwardingProfile", "log_forwarding_profile"),
+            (
+                "objects",
+                "LogForwardingProfileMatchList",
+                "log_forwarding_profile_match_list",
+            ),
         ),
-        sdk_cls=('objects', 'LogForwardingProfileMatchListAction'),
+        sdk_cls=("objects", "LogForwardingProfileMatchListAction"),
         sdk_params=dict(
             name=dict(required=True),
             action_type=dict(default="tagging", choices=["tagging", "integration"]),

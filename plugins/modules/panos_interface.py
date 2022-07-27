@@ -266,7 +266,7 @@ def main():
         with_set_vsys_reference=True,
         with_set_zone_reference=True,
         with_set_virtual_router_reference=True,
-        sdk_cls=('network', 'EthernetInterface'),
+        sdk_cls=("network", "EthernetInterface"),
         sdk_params=dict(
             if_name=dict(required=True, sdk_param="name"),
             mode=dict(

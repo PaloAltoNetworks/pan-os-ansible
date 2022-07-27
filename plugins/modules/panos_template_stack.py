@@ -101,7 +101,7 @@ def main():
         min_panos_version=(7, 0, 0),
         min_pandevice_version=(1, 5, 1),
         with_update_in_apply_state=True,
-        sdk_cls=('panorama', 'TemplateStack'),
+        sdk_cls=("panorama", "TemplateStack"),
         sdk_params=dict(
             name=dict(required=True),
             description=dict(),

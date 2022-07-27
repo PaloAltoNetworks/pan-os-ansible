@@ -88,10 +88,8 @@ def main():
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(7, 1, 0),
-        parents=(
-            ('device', 'SnmpServerProfile', "snmp_profile"),
-        ),
-        sdk_cls=('device', 'SnmpV2cServer'),
+        parents=(("device", "SnmpServerProfile", "snmp_profile"),),
+        sdk_cls=("device", "SnmpV2cServer"),
         sdk_params=dict(
             name=dict(required=True),
             manager=dict(),

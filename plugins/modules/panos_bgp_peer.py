@@ -201,11 +201,11 @@ def main():
         with_classic_provider_spec=True,
         with_commit=True,
         parents=(
-            ('network', 'VirtualRouter', "vr_name", "default"),
-            ('network', 'Bgp', None),
-            ('network', 'BgpPeerGroup', "peer_group"),
+            ("network", "VirtualRouter", "vr_name", "default"),
+            ("network", "Bgp", None),
+            ("network", "BgpPeerGroup", "peer_group"),
         ),
-        sdk_cls=('network', 'BgpPeer'),
+        sdk_cls=("network", "BgpPeer"),
         sdk_params=dict(
             name=dict(required=True),
             enable=dict(default=True, type="bool"),

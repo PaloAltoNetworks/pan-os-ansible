@@ -91,7 +91,7 @@ def main():
         min_panos_version=(9, 1, 0),
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
-        sdk_cls=('objects', 'DynamicUserGroup'),
+        sdk_cls=("objects", "DynamicUserGroup"),
         sdk_params=dict(
             name=dict(required=True),
             description=dict(),

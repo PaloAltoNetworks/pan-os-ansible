@@ -159,7 +159,7 @@ def main():
         with_network_resource_module_state=True,
         min_pandevice_version=(0, 8, 0),
         with_commit=True,
-        sdk_cls=('network', 'ManagementProfile'),
+        sdk_cls=("network", "ManagementProfile"),
         sdk_params=dict(
             name=dict(required=True),
             ping=dict(type="bool"),
