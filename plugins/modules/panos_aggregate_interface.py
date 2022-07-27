@@ -160,12 +160,23 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    ConnectionHelper,
     get_connection,
 )
 
 
+class Helper(ConnectionHelper):
+    def initial_handling(self, module):
+        if module.params['state'] not in ('present', 'replaced'):
+            return
+
+        if module.params['vsys'] is None:
+            module.params['vsys'] = 'vsys1'
+
+
 def main():
     helper = get_connection(
+        helper_cls=Helper,
         vsys_importable=True,
         template=True,
         with_classic_provider_spec=True,

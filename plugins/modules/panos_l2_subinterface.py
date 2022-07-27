@@ -107,6 +107,12 @@ class Helper(ConnectionHelper):
         if "." not in module.params["name"]:
             module.fail_json(msg='interface name does not have "." in it')
 
+        if module.params['state'] not in ('present', 'replaced'):
+            return
+
+        if module.params['vsys'] is None:
+            module.params['vsys'] = 'vsys1'
+
     def parent_handling(self, parent, module):
         iname = module.params["name"].split(".")[0]
 
