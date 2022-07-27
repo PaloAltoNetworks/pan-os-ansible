@@ -167,11 +167,11 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 class Helper(ConnectionHelper):
     def initial_handling(self, module):
-        if module.params['state'] not in ('present', 'replaced'):
+        if module.params["state"] not in ("present", "replaced"):
             return
 
-        if module.params['vsys'] is None:
-            module.params['vsys'] = 'vsys1'
+        if module.params["vsys"] is None:
+            module.params["vsys"] = "vsys1"
 
 
 def main():

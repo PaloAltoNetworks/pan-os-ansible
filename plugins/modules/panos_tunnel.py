@@ -145,7 +145,7 @@ class Helper(ConnectionHelper):
             # TODO(gfreeman) - v2.12, just set the default for vsys to 'vsys1'.
             vsys = "vsys1"
 
-        module.params['vsys'] = vsys
+        module.params["vsys"] = vsys
 
 
 def main():
