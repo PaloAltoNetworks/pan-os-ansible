@@ -593,15 +593,19 @@ class ConnectionHelper(object):
             x.parent = obj.parent
             try:
                 x.refresh()
-                listing = [
-                    x,
-                ]
             except PanObjectMissing:
                 listing = []
             except PanDeviceError as e:
                 module.fail_json(
                     msg="Failed refresh: {0}".format(e),
                 )
+            else:
+                listing = [
+                    x,
+                ]
+                # Copy the uuid, if it's present and unspecified.
+                if hasattr(x, "uuid") and obj.uuid is None:
+                    obj.uuid = x.uuid
 
         # Apply the state.
         if module.params["state"] in ("present", "replaced"):
