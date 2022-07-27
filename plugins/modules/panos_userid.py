@@ -48,6 +48,11 @@ options:
             - IP of the user's machine that needs to be registered with userid.
         type: str
         required: true
+    timeout:
+        description:
+            - The timeout in minutes to remove this mapping.
+            - This is used only for I(state=present).
+        type: int
 """
 
 EXAMPLES = """
@@ -84,6 +89,7 @@ def main():
         argument_spec=dict(
             userid=dict(required=True),
             register_ip=dict(required=True),
+            timeout=dict(type="int"),
         ),
     )
 
@@ -97,8 +103,10 @@ def main():
 
     func = None
     prefix = ""
+    extras = {}
     if module.params["state"] == "present":
         func = "login"
+        extras["timeout"] = module.params["timeout"]
     else:
         func = "logout"
         prefix = "un"
@@ -106,7 +114,7 @@ def main():
     # Apply the state.
     try:
         getattr(parent.userid, func)(
-            module.params["userid"], module.params["register_ip"]
+            module.params["userid"], module.params["register_ip"], **extras,
         )
     except PanDeviceError as e:
         module.fail_json(
@@ -114,9 +122,10 @@ def main():
         )
 
     module.exit_json(
+        changed=True,
         msg="User '{0}' successfully {1}registered".format(
             module.params["userid"], prefix
-        )
+        ),
     )
 
 
