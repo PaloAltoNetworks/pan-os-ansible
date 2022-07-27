@@ -308,4 +308,5 @@ options:
             - The rule UUID.
             - Note that this is currently more of a read-only field; usage of the UUID
               cannot take the place of using the rule name as the primary identifier.
+        type: str
 """
