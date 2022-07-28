@@ -44,7 +44,7 @@ options:
             - This is probably the same as I(name).
         type: str
         required: true
-    name:
+    interface:
         description:
             - The interface name for the DHCP relay.
             - This is probably the same as the I(dhcp_interface).
@@ -70,7 +70,7 @@ EXAMPLES = """
 - panos_dhcp_relay:
     provider: '{{ provider }}'
     dhcp_interface: 'ethernet1/1'
-    name: 'ethernet1/1'
+    interface: 'ethernet1/1'
     ipv4_enabled: True
     ipv4_servers:
       - '1.1.1.1'
@@ -80,7 +80,7 @@ EXAMPLES = """
 - panos_dhcp_relay:
     provider: '{{ provider }}'
     dhcp_interface: 'ethernet1/1'
-    name: 'ethernet1/1'
+    interface: 'ethernet1/1'
     state: absent
 """
 
@@ -103,7 +103,7 @@ def main():
         parents=(("network", "Dhcp", "dhcp_interface"),),
         sdk_cls=("network", "DhcpRelay"),
         sdk_params=dict(
-            name=dict(required=True),
+            interface=dict(required=True, sdk_param="name"),
             ipv4_enabled=dict(type="bool", sdk_param="enabled"),
             ipv4_servers=dict(type="list", elements="str", sdk_param="servers"),
             ipv6_enabled=dict(type="bool"),
