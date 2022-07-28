@@ -23,8 +23,15 @@ DOCUMENTATION = """
 ---
 module: panos_dhcp_relay
 short_description: Configure dhcp relay.
-description:
-    - Configure dhcp relay on PAN-OS firewall or in Panorama template.
+description: >
+    - Configure dhcp relay on PAN-OS firewall.
+    - Due to the implementation details of PAN-OS itself, you can use this
+      module to create a DHCP config without ever having to use M(panos_dhcp)
+      first.
+    - However, if you intend to delete an interface that was ever reference by
+      this module, you will need to use M(panos_dhcp) to delete the parent reference
+      or PAN-OS's internal validation checks will prevent the deletion, seeing that
+      a DHCP config is referring to the interface.
 author:
     - Sean O'Brien (@undodelete)
 version_added: '2.10.0'
