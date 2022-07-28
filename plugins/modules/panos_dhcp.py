@@ -41,7 +41,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
 options:
-    name:
+    interface:
         description:
             - The interface name.
         type: str
@@ -52,13 +52,13 @@ EXAMPLES = """
 # Gather all DHCP configuration for an interface
 - panos_dhcp:
     provider: '{{ provider }}'
-    name: 'ethernet1/1'
+    interface: 'ethernet1/1'
     state: 'gathered'
 
 # Delete any and all DHCP configuration
 - panos_dhcp:
     provider: '{{ provider }}'
-    name: 'ethernet1/1'
+    interface: 'ethernet1/1'
     state: absent
 """
 
@@ -80,7 +80,7 @@ def main():
         min_pandevice_version=(1, 7, 3),
         sdk_cls=("network", "Dhcp"),
         sdk_params=dict(
-            name=dict(required=True),
+            interface=dict(required=True, sdk_param="name"),
         ),
     )
 
