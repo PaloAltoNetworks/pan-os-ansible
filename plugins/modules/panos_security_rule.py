@@ -73,10 +73,12 @@ options:
         elements: str
     hip_profiles:
         description: >
-            - If you are using GlobalProtect with host information profile (HIP) enabled, you can also base the policy
-            on information collected by GlobalProtect. For example, the user access level can be determined HIP that
-            notifies the firewall about the user's local configuration.
-        default: ["any"]
+            - If you are using GlobalProtect with host information profile (HIP)
+              enabled, you can also base the policy on information collected by
+              GlobalProtect. For example, the user access level can be determined
+              HIP that notifies the firewall about the user's local configuration.
+            - NOTE: If I(state=present) or I(state=replaced), and you're running
+              PAN-OS < 10.0.0, then this will have a default of I(["any"]).
         type: list
         elements: str
     destination_zone:
@@ -368,6 +370,20 @@ class Helper(ConnectionHelper):
                 ]
                 module.fail_json(msg=". ".join(msg))
             module.params["device_group"] = module.params["devicegroup"]
+
+        # The hip-profiles was removed somewhere in PAN-OS v10, either
+        # v10.1.5 or before (one user says it's gone for them in v10.0.0),
+        # and it is gone in pan-os-python, but the Ansible collection needs
+        # to have some extra code so as to maintain functionality (read:
+        # default values) for uses who are running older PAN-OS versions so
+        # as to not create regressions in their automation.
+        if (
+            self.device._version_info < (10, 0, 0)
+            and module.params["hip_profiles"] is None
+        ):
+            module.params["hip_profiles"] = [
+                "any",
+            ]
 
 
 def main():
