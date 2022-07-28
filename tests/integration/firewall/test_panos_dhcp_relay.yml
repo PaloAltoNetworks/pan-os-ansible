@@ -136,7 +136,7 @@
       - result is success
       - result is not changed
 
-- name: panos_dhcp: Delete interface
+- name: panos_dhcp - Delete interface
   panos_dhcp:
     provider: '{{ device }}'
     interface: 'ethernet1/3'
