@@ -30,6 +30,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 import re
+import sys
 import time
 from functools import reduce
 import importlib
@@ -170,8 +171,20 @@ class ConnectionHelper(object):
               get_connection().
         """
         # Sanity check.
+        try:
+            importlib.import_module("pan.xapi")
+        except ModuleNotFoundError:
+            module.fail_json(
+                msg='Missing required library "pan-python".',
+                pypi="https://pypi.org/project/pan-python",
+                syspath=sys.path,
+            )
         if not HAS_PANDEVICE:
-            module.fail_json(msg='Missing required library "pan-os-python".')
+            module.fail_json(
+                msg='Missing required library "pan-os-python".',
+                pypi="https://pypi.org/project/pan-os-python",
+                syspath=sys.path,
+            )
 
         pdv = tuple(int(x) for x in panos.__version__.split("."))
 
