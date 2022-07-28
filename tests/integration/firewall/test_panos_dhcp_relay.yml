@@ -143,7 +143,7 @@
     state: 'absent'
   register: result
 
-- name: panos_dhcp: Assert delete was ok
+- name: panos_dhcp - Assert delete was ok
   assert:
     that:
       - result was success
