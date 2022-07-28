@@ -41,7 +41,7 @@ options:
     dhcp_interface:
         description:
             - The interface name.
-            - This is probably the same as I(name).
+            - This is probably the same as I(interface).
         type: str
         required: true
     interface:
