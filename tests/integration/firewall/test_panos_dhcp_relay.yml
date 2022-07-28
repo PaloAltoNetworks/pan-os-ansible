@@ -15,13 +15,15 @@
 - name: panos_dhcp_relay - Ipv4 Create 
   panos_dhcp_relay:
     provider: '{{ device }}'
-    interface: 'ethernet1/3'
-    ipv4_servers: 
+    dhcp_interface: 'ethernet1/3'
+    name: 'ethernet1/3'
+    ipv4_enabled: True
+    ipv4_servers:
       - '1.1.1.1'
       - '2.2.2.2'
   register: result
 
-- name: panos_dhcp_relay - Assert create (idempotence) was successful
+- name: panos_dhcp_relay - Assert create was successful
   assert:
     that:
       - result is success
@@ -30,8 +32,10 @@
 - name: panos_dhcp_relay - Ipv4 Create (idempotence)
   panos_dhcp_relay:
     provider: '{{ device }}'
-    interface: 'ethernet1/3'
-    ipv4_servers: 
+    dhcp_interface: 'ethernet1/3'
+    name: 'ethernet1/3'
+    ipv4_enabled: True
+    ipv4_servers:
       - '1.1.1.1'
       - '2.2.2.2'
   register: result
@@ -42,30 +46,74 @@
       - result is success
       - result is not changed
 
-- name: panos_dhcp_relay - Ipv6 Modify
-  panos_dhcp_relay:
+- name: panos_dhcp_relay_ipv6_address - Ipv6 Create
+  panos_dhcp_relay_ipv6_address:
     provider: '{{ device }}'
+    dhcp_interface: 'ethernet1/3'
+    dhcp_relay_interface: 'ethernet1/3'
     interface: 'ethernet1/3'
-    ipv4_servers: 
-      - '1.1.1.1'
-      - '2.2.2.2'
-    ipv6_enabled: 'yes'
-    ipv6_servers:
-      - 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-      - 2001:0db8:85a3:0000:0000:8a2e:0370:7335
+    ipv6_address: '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
   register: result
 
-- name: panos_dhcp_relay - Assert modify was successful
+- name: panos_dhcp_relay_ipv6_address - Assert create was successful
   assert:
     that:
       - result is success
       - result is changed
 
+- name: panos_dhcp_relay_ipv6_address - Ipv6 Create (idempotence)
+  panos_dhcp_relay_ipv6_address:
+    provider: '{{ device }}'
+    dhcp_interface: 'ethernet1/3'
+    dhcp_relay_interface: 'ethernet1/3'
+    interface: 'ethernet1/3'
+    ipv6_address: '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
+  register: result
+
+- name: panos_dhcp_relay_ipv6_address - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: panos_dhcp_relay - Targetted modify
+  panos_dhcp_relay:
+    provider: '{{ device }}'
+    dhcp_interface: 'ethernet1/3'
+    name: 'ethernet1/3'
+    ipv4_servers:
+      - '3.3.3.3'
+    state: 'merged'
+  register: result
+
+- name: panos_dhcp_relay - Merge check
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: panos_dhcp_relay - Targetted modify (idempotence)
+  panos_dhcp_relay:
+    provider: '{{ device }}'
+    dhcp_interface: 'ethernet1/3'
+    name: 'ethernet1/3'
+    ipv4_servers:
+      - '3.3.3.3'
+    state: 'merged'
+  register: result
+
+- name: panos_dhcp_relay - Merge check (idempotence)
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
 - name: panos_dhcp_relay - Ipv4 Delete
   panos_dhcp_relay:
     provider: '{{ device }}'
-    interface: 'ethernet1/3'
-    state: absent
+    dhcp_interface: 'ethernet1/3'
+    name: 'ethernet1/3'
+    state: 'absent'
   register: result
 
 - name: panos_dhcp_relay - Assert delete was successful
@@ -73,6 +121,33 @@
     that:
       - result is success
       - result is changed
+
+- name: panos_dhcp_relay - Ipv4 Delete (idempotence)
+  panos_dhcp_relay:
+    provider: '{{ device }}'
+    dhcp_interface: 'ethernet1/3'
+    name: 'ethernet1/3'
+    state: 'absent'
+  register: result
+
+- name: panos_dhcp_relay - Assert delete was successful (idempotence)
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: panos_dhcp: Delete interface
+  panos_dhcp:
+    provider: '{{ device }}'
+    interface: 'ethernet1/3'
+    state: 'absent'
+  register: result
+
+- name: panos_dhcp: Assert delete was ok
+  assert:
+    that:
+      - result was success
+      - result was changed
 
 - name: Delete test interface
   panos_interface:
