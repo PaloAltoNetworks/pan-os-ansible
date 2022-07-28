@@ -72,7 +72,7 @@ options:
         type: list
         elements: str
     hip_profiles:
-        description: >
+        description:
             - If you are using GlobalProtect with host information profile (HIP)
               enabled, you can also base the policy on information collected by
               GlobalProtect. For example, the user access level can be determined
@@ -410,7 +410,7 @@ def main():
                 type="list", elements="str", default=["any"], sdk_param="source"
             ),
             source_user=dict(type="list", elements="str", default=["any"]),
-            hip_profiles=dict(type="list", elements="str", default=["any"]),
+            hip_profiles=dict(type="list", elements="str"),
             destination_zone=dict(
                 type="list", elements="str", default=["any"], sdk_param="tozone"
             ),
