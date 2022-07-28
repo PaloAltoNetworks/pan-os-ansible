@@ -114,7 +114,9 @@ def main():
     # Apply the state.
     try:
         getattr(parent.userid, func)(
-            module.params["userid"], module.params["register_ip"], **extras,
+            module.params["userid"],
+            module.params["register_ip"],
+            **extras,
         )
     except PanDeviceError as e:
         module.fail_json(
