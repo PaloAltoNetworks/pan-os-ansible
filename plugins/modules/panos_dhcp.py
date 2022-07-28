@@ -23,11 +23,12 @@ DOCUMENTATION = """
 ---
 module: panos_dhcp
 short_description: Configure DHCP for an interface.
-description:
+description: >
     - Configure DHCP on PAN-OS firewall.
-    - This module is really only useful if you intend to gather or delete any
-      and all DHCP configuration for a given interface.  Otherwise, you can use
-      M(panos_dhcp_relay) without ever having to use this module.
+    - Besides I(state=gathered) to see the the entire DHCP config related to a
+      specific interface, you will need to use this module to delete the interface
+      reference from the PAN-OS config if you intent to delete the interface being
+      refered to.
 author:
     - Garfield Lee Freeman (@shinmog)
 version_added: '2.10.0'
