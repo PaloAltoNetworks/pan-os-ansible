@@ -853,6 +853,10 @@ class ConnectionHelper(object):
                 if item.uid != obj.uid:
                     continue
                 result["gathered"] = self.describe(item)
+                try:
+                    result["gathered_xml"] = eltostr(item)
+                except Exception as e:
+                    result["gathered_xml"] = "Failed to gather XML: {0}".format(e)
                 break
             else:
                 module.fail_json(msg="Object '{0}' not found".format(obj.uid))
