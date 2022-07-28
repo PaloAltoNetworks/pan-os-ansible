@@ -52,7 +52,7 @@ options:
               I(interface).
         type: str
         required: true
-    name:
+    ipv6_address:
         description:
             - The DHCP server IPv6 address.
         type: str
@@ -72,7 +72,7 @@ EXAMPLES = """
     provider: '{{ provider }}'
     dhcp_interface: 'ethernet1/1'
     dhcp_relay_interface: 'ethernet1/1'
-    name: '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
+    ipv6_address: '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
     interface: 'ethernet1/1'
 
 # Delete DHCP Relay ipv6 address
@@ -80,7 +80,7 @@ EXAMPLES = """
     provider: '{{ provider }}'
     dhcp_interface: 'ethernet1/1'
     dhcp_relay_interface: 'ethernet1/1'
-    name: '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
+    ipv6_address: '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
     state: absent
 """
 
@@ -106,7 +106,7 @@ def main():
         ),
         sdk_cls=("network", "DhcpRelayIpv6Address"),
         sdk_params=dict(
-            name=dict(required=True),
+            ipv6_address=dict(required=True, sdk_param="name"),
             interface=dict(),
         ),
     )
