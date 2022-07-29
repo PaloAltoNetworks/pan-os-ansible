@@ -23,9 +23,9 @@ DOCUMENTATION = """
 ---
 module: panos_ike_crypto_profile
 short_description: Configures IKE Crypto profile on the firewall with subset of settings
-description:
-    - Use the IKE Crypto Profiles page to specify protocols and algorithms for identification, authentication, and
-    - encryption (IKEv1 or IKEv2, Phase 1).
+description: >
+    - Use the IKE Crypto Profiles page to specify protocols and algorithms for
+      identification, authentication, and encryption (IKEv1 or IKEv2, Phase 1).
 author: "Ivan Bojer (@ivanbojer)"
 version_added: '1.0.0'
 requirements:
@@ -59,14 +59,24 @@ options:
             - Authentication hashes used for IKE phase 1 proposal.
         type: list
         elements: str
-        choices: ['md5', 'sha1', 'sha256', 'sha384', 'sha512']
-        default: sha1
+        choices: ['none', 'md5', 'sha1', 'sha256', 'sha384', 'sha512']
+        default: ['sha1']
     encryption:
         description:
             - Encryption algorithms used for IKE phase 1 proposal.
         type: list
         elements: str
-        choices: ['des', '3des', 'aes-128-cbc', 'aes-192-cbc', 'aes-256-cbc']
+        choices:
+            - 'des'
+            - '3des'
+            - 'aes128'
+            - 'aes-128-cbc'
+            - 'aes192'
+            - 'aes-192-cbc'
+            - 'aes256'
+            - 'aes-256-cbc'
+            - 'aes-128-gcm'
+            - 'aes-256-gcm'
         default: ['aes-256-cbc', '3des']
     lifetime_seconds:
         description:
@@ -81,12 +91,17 @@ options:
     lifetime_hours:
         description:
             - IKE phase 1 key lifetime in hours.
-            - If I(state=present) or I(state=replaced) and no other lifetime is specified,
-              this will default to 8.
+            - If I(state=present) or I(state=replaced) and no other lifetime is specified, this will default to 8.
         type: int
     lifetime_days:
         description:
             - IKE phase 1 key lifetime in days.
+        type: int
+    authentication_multiple:
+        description: >
+            - PAN-OS 7.0 and above.
+            - IKEv2 SA reauthentication interval equals I(authentication_multiple)
+              times lifetime; 0 means reauthentication is disabled.
         type: int
 """
 
@@ -115,16 +130,18 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 class Helper(ConnectionHelper):
     def spec_handling(self, spec, module):
-        if module.params["state"] in ("present", "replaced"):
-            if not any(
-                [
-                    spec["lifetime_seconds"],
-                    spec["lifetime_minutes"],
-                    spec["lifetime_hours"],
-                    spec["lifetime_days"],
-                ]
-            ):
-                spec["lifetime_hours"] = 8
+        if module.params["state"] not in ("present", "replaced"):
+            return
+
+        if not any(
+            [
+                spec["lifetime_seconds"],
+                spec["lifetime_minutes"],
+                spec["lifetime_hours"],
+                spec["lifetime_days"],
+            ]
+        ):
+            spec["lifetime_hours"] = 8
 
 
 def main():
@@ -148,19 +165,31 @@ def main():
             authentication=dict(
                 type="list",
                 elements="str",
-                choices=["md5", "sha1", "sha256", "sha384", "sha512"],
+                choices=["none", "md5", "sha1", "sha256", "sha384", "sha512"],
                 default=["sha1"],
             ),
             encryption=dict(
                 type="list",
                 elements="str",
-                choices=["des", "3des", "aes-128-cbc", "aes-192-cbc", "aes-256-cbc"],
+                choices=[
+                    "des",
+                    "3des",
+                    "aes128",
+                    "aes-128-cbc",
+                    "aes192",
+                    "aes-192-cbc",
+                    "aes256",
+                    "aes-256-cbc",
+                    "aes-128-gcm",
+                    "aes-256-gcm",
+                ],
                 default=["aes-256-cbc", "3des"],
             ),
             lifetime_seconds=dict(type="int", aliases=["lifetime_sec"]),
             lifetime_minutes=dict(type="int"),
             lifetime_hours=dict(type="int"),
             lifetime_days=dict(type="int"),
+            authentication_multiple=dict(type="int"),
         ),
     )
 
