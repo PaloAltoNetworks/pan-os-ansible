@@ -41,6 +41,9 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.rulebase
     - paloaltonetworks.panos.fragments.uuid
+    - paloaltonetworks.panos.fragments.target
+    - paloaltonetworks.panos.fragments.movement
+    - paloaltonetworks.panos.fragments.audit_comment
 options:
     name:
         description:
@@ -167,39 +170,9 @@ options:
             - List of symmetric return addresses.
         type: list
         elements: str
-    location:
-        description:
-            - Position to place the created rule in the rule base.
-        type: str
-        choices:
-            - top
-            - bottom
-            - before
-            - after
-    existing_rule:
-        description:
-            - If 'location' is set to 'before' or 'after', this option specifies an existing
-              rule name.  The new rule will be created in the specified position relative to this
-              rule.  If 'location' is set to 'before' or 'after', this option is required.
-        type: str
-    target:
-        description:
-            - For Panorama devices only.
-            - Apply this rule exclusively to the listed firewalls in Panorama.
-        type: list
-        elements: str
-    negate_target:
-        description:
-            - For Panorama devices only.
-            - Exclude this rule from the listed firewalls in Panorama.
-        type: bool
     group_tag:
         description:
             - The group tag.
-        type: str
-    audit_comment:
-        description:
-            - Add an audit comment to the rule being defined.
         type: str
 """
 
@@ -232,12 +205,13 @@ def main():
         with_classic_provider_spec=True,
         error_on_firewall_shared=True,
         min_pandevice_version=(1, 5, 0),
+        with_uuid=True,
+        with_target=True,
         with_movement=True,
         with_audit_comment=True,
         sdk_cls=("policies", "PolicyBasedForwarding"),
         sdk_params=dict(
             name=dict(required=True),
-            uuid=dict(),
             description=dict(),
             tags=dict(type="list", elements="str"),
             from_type=dict(choices=["zone", "interface"], default="zone"),
@@ -264,8 +238,6 @@ def main():
             forward_monitor_disable_if_unreachable=dict(type="bool"),
             enable_enforce_symmetric_return=dict(type="bool"),
             symmetric_return_addresses=dict(type="list", elements="str"),
-            target=dict(type="list", elements="str"),
-            negate_target=dict(type="bool"),
             group_tag=dict(),
         ),
     )
