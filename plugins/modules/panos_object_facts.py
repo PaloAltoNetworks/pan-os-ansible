@@ -29,6 +29,10 @@ author:
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
 version_added: '1.0.0'
+deprecated:
+    alternative: Use various specific modules such as M(panos_address_object) instead.
+    removed_in: '3.0.0'
+    why: Updating module design  to network resource modules.
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -257,6 +261,12 @@ def main():
         mutually_exclusive=[
             name_params,
         ],
+    )
+
+    module.deprecate(
+        "Deprecated; use object specific modules instead",
+        version="3.0.0",
+        collection_name="paloaltonetworks.panos",
     )
 
     parent = helper.get_pandevice_parent(module)
