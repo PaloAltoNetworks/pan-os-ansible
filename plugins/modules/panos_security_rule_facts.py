@@ -327,6 +327,17 @@ def main():
         rulebase=True,
         with_classic_provider_spec=True,
         error_on_firewall_shared=True,
+        ansible_to_sdk_param_mapping={
+            "rule_name": "name",
+            "source_zone": "fromzone",
+            "source_ip": "source",
+            "destintaion_zone": "tozone",
+            "destination_ip": "destination",
+            "rule_type": "type",
+            "tag_name": "tag",
+            "group_profile": "group",
+            "antivirus": "virus",
+        },
         argument_spec=dict(
             rule_name=dict(),
             names=dict(type="list", elements="str"),
@@ -358,18 +369,6 @@ def main():
     )
 
     parent = helper.get_pandevice_parent(module)
-
-    renames = (
-        ("name", "rule_name"),
-        ("fromzone", "source_zone"),
-        ("tozone", "destination_zone"),
-        ("source", "source_ip"),
-        ("destination", "destination_ip"),
-        ("type", "rule_type"),
-        ("tag", "tag_name"),
-        ("group", "group_profile"),
-        ("virus", "antivirus"),
-    )
 
     names = module.params["names"]
     details = module.params["details"]
@@ -403,14 +402,14 @@ def main():
         module.exit_json(changed=False, rule_names=names)
 
     else:
+        rules = []
+
         # Return full policy details.  Will return full policy details even if
         # details is False if specific rules are given, because returning the
         # user's list of rules back to them is pointless.
         if names is None:
-            listing = SecurityRule.refreshall(parent)
-            rules = [rule.about() for rule in listing]
+            rules = SecurityRule.refreshall(parent)
         else:
-            rules = []
             for name in names:
                 rule = SecurityRule(name)
                 parent.add(rule)
@@ -420,15 +419,9 @@ def main():
                 except PanDeviceError as e:
                     module.fail_json(msg="Failed refresh: {0}".format(e))
 
-                rules.append(rule.about())
+                rules.append(rule)
 
-        # Fix up names in returned dict.
-        for rule in rules:
-            for p, a in renames:
-                rule[a] = rule[p]
-                del rule[p]
-
-        module.exit_json(changed=False, rule_details=rules)
+        module.exit_json(changed=False, rule_details=helper.describe(rules))
 
 
 if __name__ == "__main__":
