@@ -329,9 +329,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 class Helper(ConnectionHelper):
     def initial_handling(self, module):
-        if module.params["state"] not in ("present", "replaced"):
-            return
-
         # TODO(gfreeman) - remove when devicegroup is removed.
         if module.params["devicegroup"] is not None:
             module.deprecate(
@@ -347,17 +344,18 @@ class Helper(ConnectionHelper):
                 module.fail_json(msg=". ".join(msg))
             module.params["device_group"] = module.params["devicegroup"]
 
+    def spec_handling(self, spec, module):
+        if module.params["state"] not in ("present", "replaced"):
+            return
+
         # The hip-profiles was removed somewhere in PAN-OS v10, either
         # v10.1.5 or before (one user says it's gone for them in v10.0.0),
         # and it is gone in pan-os-python, but the Ansible collection needs
         # to have some extra code so as to maintain functionality (read:
         # default values) for uses who are running older PAN-OS versions so
         # as to not create regressions in their automation.
-        if (
-            self.device._version_info < (10, 0, 0)
-            and module.params["hip_profiles"] is None
-        ):
-            module.params["hip_profiles"] = [
+        if self.device._version_info < (10, 0, 0) and spec["hip_profiles"] is None:
+            spec["hip_profiles"] = [
                 "any",
             ]
 
