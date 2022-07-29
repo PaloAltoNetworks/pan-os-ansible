@@ -77,6 +77,8 @@ plugins/modules/panos_nat_rule.py validate-modules:deprecation-mismatch
 plugins/modules/panos_nat_rule.py validate-modules:invalid-documentation
 plugins/modules/panos_nat_rule.py validate-modules:missing-gplv3-license
 plugins/modules/panos_nat_rule2.py validate-modules:missing-gplv3-license
+plugins/modules/panos_nat_rule_facts.py validate-modules:deprecation-mismatch
+plugins/modules/panos_nat_rule_facts.py validate-modules:invalid-documentation
 plugins/modules/panos_nat_rule_facts.py validate-modules:missing-gplv3-license
 plugins/modules/panos_object.py validate-modules:deprecation-mismatch
 plugins/modules/panos_object.py validate-modules:invalid-documentation
