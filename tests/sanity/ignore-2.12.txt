@@ -103,6 +103,8 @@ plugins/modules/panos_sag.py validate-modules:invalid-documentation
 plugins/modules/panos_sag.py validate-modules:missing-gplv3-license
 plugins/modules/panos_schedule_object.py validate-modules:missing-gplv3-license
 plugins/modules/panos_security_rule.py validate-modules:missing-gplv3-license
+plugins/modules/panos_security_rule_facts.py validate-modules:deprecation-mismatch
+plugins/modules/panos_security_rule_facts.py validate-modules:invalid-documentation
 plugins/modules/panos_security_rule_facts.py validate-modules:missing-gplv3-license
 plugins/modules/panos_service_group.py validate-modules:missing-gplv3-license
 plugins/modules/panos_service_object.py validate-modules:missing-gplv3-license

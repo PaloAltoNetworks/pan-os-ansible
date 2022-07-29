@@ -29,6 +29,10 @@ author:
     - 'Garfield Lee Freeman (@shinmog)'
     - 'Michael Richardson (@mrichardson03)'
 version_added: '1.0.0'
+deprecated:
+    alternative: Use M(panos_security_rule) with I(state=gathered).
+    removed_in: '3.0.0'
+    why: Updating module design to network resource modules.
 requirements:
     - pan-python
     - pandevice
@@ -366,6 +370,12 @@ def main():
         argument_spec=helper.argument_spec,
         supports_check_mode=True,
         required_one_of=helper.required_one_of,
+    )
+
+    module.deprecate(
+        "Deprecated; use panos_security_rule with state=gathered instead",
+        version="3.0.0",
+        collection_name="paloaltonetworks.panos",
     )
 
     parent = helper.get_pandevice_parent(module)
