@@ -144,8 +144,7 @@ def main():
         except PanDeviceError as e:
             module.fail_json(msg="Failed refreshall: {0}".format(e))
 
-        vrlist = helper.to_module_dict(listing)
-        module.exit_json(changed=False, vrlist=vrlist)
+        module.exit_json(changed=False, vrlist=helper.describe(listing))
 
     vr = VirtualRouter(name)
     parent.add(vr)
@@ -154,8 +153,7 @@ def main():
     except PanDeviceError as e:
         module.fail_json(msg="Failed refresh: {0}".format(e))
 
-    spec = helper.to_module_dict(vr)
-    module.exit_json(changed=False, spec=spec)
+    module.exit_json(changed=False, spec=helper.describe(vr))
 
 
 if __name__ == "__main__":
