@@ -34,24 +34,30 @@ author:
     - Garfield Lee Freeman (@shinmog)
     - Ken Celenza (@itdependsnetworks)
 version_added: '1.0.0'
+deprecated:
+    alternative: Use M(panos_nat_rule2) instead.
+    removed_in: '3.0.0'
+    why: The design of this module is not consistent with current design.
 requirements:
-    - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
-    - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
+    - pan-python >= 0.16
+    - pan-os-python >= 1.7.3
 notes:
     - Checkmode is supported.
     - Panorama is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
-    - paloaltonetworks.panos.fragments.state
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.rulebase
     - paloaltonetworks.panos.fragments.deprecated_commit
     - paloaltonetworks.panos.fragments.uuid
+    - paloaltonetworks.panos.fragments.target
+    - paloaltonetworks.panos.fragments.movement
+    - paloaltonetworks.panos.fragments.audit_comment
 options:
     state:
         description:
-            - The state of the NAT rule.
+            - The state of this object.
         type: str
         choices:
             - present
@@ -183,31 +189,6 @@ options:
             - Static dnat translated port
             - Mutually exclusive with I(dnat_dynamic_address), I(dnat_dynamic_port), and I(dnat_dynamic_distribution).
         type: str
-    location:
-        description:
-            - Position to place the created rule in the rule base.
-        type: str
-        choices:
-            - top
-            - bottom
-            - before
-            - after
-    existing_rule:
-        description:
-            - If I(location=before) or I(location=after), this option specifies an existing
-              rule name.  The new rule will be created in the specified position relative to this
-              rule.
-            - If I(location=before) or I(location=after), I(existing_rule) is required.
-        type: str
-    target:
-        description:
-            - Apply this rule exclusively to the listed firewalls in Panorama.
-        type: list
-        elements: str
-    negate_target:
-        description:
-            - Exclude this rule from the listed firewalls in Panorama.
-        type: bool
     group_tag:
         description:
             - The group tag.
@@ -226,10 +207,6 @@ options:
         description:
             - Dynamic destination translated distribution.
             - Mutually exclusive with I(dnat_address) and I(dnat_port).
-        type: str
-    audit_comment:
-        description:
-            - Add an audit comment to the rule being defined.
         type: str
 """
 
@@ -365,9 +342,13 @@ def main():
         rulebase=True,
         error_on_firewall_shared=True,
         min_pandevice_version=(1, 5, 0),
+        with_uuid=True,
+        with_commit=True,
+        with_target=True,
+        with_movement=True,
+        with_audit_comment=True,
         argument_spec=dict(
             rule_name=dict(required=True),
-            uuid=dict(),
             description=dict(),
             nat_type=dict(default="ipv4", choices=["ipv4", "nat64", "nptv6"]),
             source_zone=dict(type="list", elements="str"),
@@ -393,14 +374,10 @@ def main():
             dnat_dynamic_distribution=dict(),
             tag=dict(type="list", elements="str"),
             state=dict(
-                default="present", choices=["present", "absent", "enable", "disable"]
+                type="str",
+                default="present",
+                choices=["present", "absent", "enable", "disable"],
             ),
-            location=dict(choices=["top", "bottom", "before", "after"]),
-            existing_rule=dict(),
-            target=dict(type="list", elements="str"),
-            negate_target=dict(type="bool"),
-            commit=dict(type="bool"),
-            audit_comment=dict(),
             # TODO(gfreeman) - remove later.
             tag_name=dict(),
             devicegroup=dict(),
@@ -413,6 +390,12 @@ def main():
         argument_spec=helper.argument_spec,
         supports_check_mode=True,
         required_one_of=helper.required_one_of,
+    )
+
+    module.deprecate(
+        "This module has been deprecated; use panos_nat_rule2 instead",
+        version="3.0.0",
+        collection_name="paloaltonetworks.panos",
     )
 
     # TODO(gfreeman) - remove later.
