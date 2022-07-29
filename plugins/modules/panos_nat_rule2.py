@@ -23,8 +23,13 @@ DOCUMENTATION = """
 ---
 module: panos_nat_rule2
 short_description: Manage a NAT rule
-description:
+description: >
     - Manage a policy NAT rule.
+    - NOTE:  Even though this module supports I(state=merged), due to the
+      complexity of the XML schema for NAT rules, changing a NAT rule's types
+      using I(state=merged) will likely result in an error.  Using I(state=merged)
+      will work as normal for simple operations, such as adding additional IP addresses
+      to any of the listings or changing simple variable types.
 author:
     - Garfield Lee Freeman (@shinmog)
 version_added: '2.10.0'
@@ -68,7 +73,6 @@ options:
             - From zones.
         type: list
         elements: str
-        default: ['any']
     to_zones:
         description:
             - To zones.
@@ -169,11 +173,11 @@ options:
         type: bool
     destination_translated_address:
         description:
-            - Translated destination IP address.
+            - Static translated destination IP address.
         type: str
     destination_translated_port:
         description:
-            - Translated destination port number.
+            - Static translated destination port number.
         type: int
     ha_binding:
         description:
@@ -188,7 +192,7 @@ options:
         description:
             - Rule is disabled or not.
         type: bool
-    tag:
+    tags:
         description:
             - Administrative tags.
         type: list
@@ -260,7 +264,7 @@ def main():
         sdk_params=dict(
             name=dict(required=True),
             description=dict(),
-            nat_type=dict(choices=['ipv4', 'nat64', 'nptv6']),
+            nat_type=dict(default='ipv4', choices=['ipv4', 'nat64', 'nptv6']),
             from_zones=dict(type="list", elements="str", sdk_param="fromzone"),
             to_zones=dict(type="list", elements="str", sdk_param="tozone"),
             to_interface=dict(),
