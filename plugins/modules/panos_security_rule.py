@@ -432,8 +432,6 @@ def main():
             file_blocking=dict(),
             wildfire_analysis=dict(),
             data_filtering=dict(),
-            target=dict(type="list", elements="str"),
-            negate_target=dict(type="bool"),
             group_tag=dict(),
         ),
         extra_params=dict(
