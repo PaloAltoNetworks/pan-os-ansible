@@ -264,32 +264,42 @@ def main():
         sdk_params=dict(
             name=dict(required=True),
             description=dict(),
-            nat_type=dict(default='ipv4', choices=['ipv4', 'nat64', 'nptv6']),
+            nat_type=dict(default="ipv4", choices=["ipv4", "nat64", "nptv6"]),
             from_zones=dict(type="list", elements="str", sdk_param="fromzone"),
             to_zones=dict(type="list", elements="str", sdk_param="tozone"),
             to_interface=dict(),
             service=dict(),
             source_addresses=dict(type="list", elements="str", sdk_param="source"),
-            destination_addresses=dict(type="list", elements="str", sdk_param="destination"),
-            source_translation_type=dict(choices=['dynamic-ip-and-port', 'dynamic-ip', 'static-ip']),
-            source_translation_address_type=dict(choices=['interface-address', 'translated-address']),
+            destination_addresses=dict(
+                type="list", elements="str", sdk_param="destination"
+            ),
+            source_translation_type=dict(
+                choices=["dynamic-ip-and-port", "dynamic-ip", "static-ip"]
+            ),
+            source_translation_address_type=dict(
+                choices=["interface-address", "translated-address"]
+            ),
             source_translation_interface=dict(),
             source_translation_ip_address=dict(),
             source_translation_translated_addresses=dict(type="list", elements="str"),
-            source_translation_fallback_type=dict(choices=['translated-address', 'interface-address']),
-            source_translation_fallback_translated_addresses=dict(type="list", elements='str'),
+            source_translation_fallback_type=dict(
+                choices=["translated-address", "interface-address"]
+            ),
+            source_translation_fallback_translated_addresses=dict(
+                type="list", elements="str"
+            ),
             source_translation_fallback_interface=dict(),
-            source_translation_fallback_ip_type=dict(choices=['ip', 'floating-ip']),
+            source_translation_fallback_ip_type=dict(choices=["ip", "floating-ip"]),
             source_translation_fallback_ip_address=dict(),
             source_translation_static_translated_address=dict(),
             source_translation_static_bi_directional=dict(type="bool"),
             destination_translated_address=dict(),
             destination_translated_port=dict(type="int"),
-            ha_binding=dict(type="str", choices=['primary', 'both', '0', '1']),
+            ha_binding=dict(type="str", choices=["primary", "both", "0", "1"]),
             disabled=dict(type="bool"),
-            tags=dict(type='list', elements='str', sdk_param='tag'),
+            tags=dict(type="list", elements="str", sdk_param="tag"),
             destination_dynamic_translated_address=dict(),
-            destination_dynamic_translated_port=dict(type='int'),
+            destination_dynamic_translated_port=dict(type="int"),
             destination_dynamic_translated_distribution=dict(),
             group_tag=dict(),
         ),
