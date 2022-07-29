@@ -117,6 +117,10 @@ def main():
         template=True,
         template_stack=True,
         with_classic_provider_spec=True,
+        ansible_to_sdk_param_mapping={
+            "zone": "name",
+            "enable_userid": "enable_user_identification",
+        },
         argument_spec=dict(
             name=dict(),
         ),
@@ -142,8 +146,7 @@ def main():
         except PanDeviceError as e:
             module.fail_json(msg="Failed refreshall: {0}".format(e))
 
-        zones = helper.to_module_dict(listing, renames)
-        module.exit_json(changed=False, zones=zones)
+        module.exit_json(changed=False, zones=helper.describe(listing))
 
     zone = Zone(name)
     parent.add(zone)
@@ -152,8 +155,7 @@ def main():
     except PanDeviceError as e:
         module.fail_json(msg="Failed refresh: {0}".format(e))
 
-    spec = helper.to_module_dict(zone, renames)
-    module.exit_json(changed=False, spec=spec)
+    module.exit_json(changed=False, spec=helper.describe(zone))
 
 
 if __name__ == "__main__":
