@@ -1337,7 +1337,7 @@ def get_connection(
 
     if with_target:
         helper.with_target = True
-        if "target" or "negate_target" in spec:
+        if "target" in spec or "negate_target" in spec:
             raise KeyError("target and/or negate_target already in the spec")
         spec["target"] = {"type": "list", "elements": "str"}
         spec["negate_target"] = {"type": "bool"}
