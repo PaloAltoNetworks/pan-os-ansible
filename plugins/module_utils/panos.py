@@ -138,7 +138,9 @@ class ConnectionHelper(object):
         self.extra_params = {}
         self.reference_operations = ()
         self.ansible_to_sdk_param_mapping = {}
+        self.with_uuid = False
         self.with_commit = False
+        self.with_target = False
         self.with_movement = False
         self.with_audit_comment = False
         self.with_import_support = False
@@ -206,7 +208,8 @@ class ConnectionHelper(object):
                         "pan-os-python",
                         panos.__version__,
                         _vstr(self.min_pandevice_version),
-                    )
+                    ),
+                    sdk_package_path=panos.__file__.rsplit("/", 1)[0],
                 )
 
         pan_device_auth, serial_number = None, None
@@ -459,6 +462,11 @@ class ConnectionHelper(object):
                 ansible_param, ansible_param
             )
             spec[sdk_param] = module.params.get(ansible_param)
+        if self.with_uuid:
+            spec["uuid"] = module.params["uuid"]
+        if self.with_target:
+            spec["target"] = module.params["target"]
+            spec["negate_target"] = module.params["negate_target"]
         self.spec_handling(spec, module)
 
         # Attach the object to the parent.
@@ -506,7 +514,11 @@ class ConnectionHelper(object):
         return parent
 
     def spec_handling(self, spec, module):
-        """Override to do any custom spec handling before the object is built."""
+        """Override to do any custom spec handling before the object is built.
+
+        Note that if the class of a module is dynamically being determined, this
+        function is the last chance to set self.sdk_cls.
+        """
         pass
 
     def pre_state_handling(self, obj, result, module):
@@ -1108,7 +1120,9 @@ def get_connection(
     extra_params=None,
     reference_operations=None,
     ansible_to_sdk_param_mapping=None,
+    with_uuid=False,
     with_commit=False,
+    with_target=False,
     with_movement=False,
     with_audit_comment=False,
     with_update_in_apply_state=False,
@@ -1195,7 +1209,10 @@ def get_connection(
         ansible_to_sdk_param_mapping(dict): A dict where the key is the ansible param
             name and the value is the class' param name.  Used both for CRUD operations
             as well as for `state=gathered`.
+        with_uuid(bool): Include UUID in the spec (for panos.policies objects).
         with_commit(bool): Include the commit boolean, which is deprecated.
+        with_target(bool): Include target and negate_target in the spec (for
+            panos.policies objects).
         with_movement(bool): This is a rule module, so move the rule into place.
         with_audit_comment(bool): This is a rule module, so perform audit comment
             operations.
@@ -1306,11 +1323,24 @@ def get_connection(
             ],
         }
 
+    if with_uuid:
+        helper.with_uuid = True
+        if "uuid" in spec:
+            raise KeyError("uuid already in the spec")
+        spec["uuid"] = {}
+
     if with_commit:
         helper.with_commit = True
-        spec["commit"] = {
-            "type": "bool",
-        }
+        if "commit" in spec:
+            raise KeyError("commit already in spec")
+        spec["commit"] = {"type": "bool"}
+
+    if with_target:
+        helper.with_target = True
+        if "target" or "negate_target" in spec:
+            raise KeyError("target and/or negate_target already in the spec")
+        spec["target"] = {"type": "list", "elements": "str"}
+        spec["negate_target"] = {"type": "bool"}
 
     if with_movement:
         helper.with_movement = True
