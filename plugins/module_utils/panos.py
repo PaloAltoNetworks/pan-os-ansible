@@ -1060,20 +1060,15 @@ class ConnectionHelper(object):
 
         return committed
 
-    def describe(self, element, renames=None):
+    def describe(self, element):
         """Changes a pandevice object or list of objects into a dict / list of dicts.
 
         Args:
             element: Either a single pandevice object or a list of pandevice objects
-            renames: If the names of the pandevice object is different from the
-                Ansible param names, this is a iterable of two element tuples where
-                the first element is the pandevice object name, and the second is
-                the Ansible name.
 
         Returns:
             A dict if "element" was a single pandevice object, or a list of dicts
             if "element" was a list of pandevice objects.
-
         """
         if isinstance(element, list):
             return [self._describe(x) for x in element]
