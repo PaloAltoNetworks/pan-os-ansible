@@ -68,6 +68,29 @@ options:
             - List of tags for this service object.
         type: list
         elements: str
+    enable_override_timeout:
+        description:
+            - PAN-OS 8.1 and above.
+            - Override session timeout value.
+        type: str
+        choices: ["no", "yes"]
+    override_timeout:
+        description:
+            - PAN-OS 8.1 and above.
+            - The TCP or UDP session timeout value (in seconds).
+        type: int
+    override_half_close_timeout:
+        description:
+            - PAN-OS 8.1 and above.
+            - Applicable for I(protocol=tcp) only.
+            - TCP session half-close tieout value (in seconds).
+        type: int
+    override_time_wait_timeout:
+        description:
+            - PAN-OS 8.1 and above.
+            - Applicable for I(protocol=tcp) only.
+            - TCP session time-wait timeout value (in seconds).
+        type: int
 """
 
 EXAMPLES = """
@@ -110,6 +133,7 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
+        min_pandevice_version=(1, 7, 3),
         sdk_cls=("objects", "ServiceObject"),
         sdk_params=dict(
             name=dict(type="str", required=True),
@@ -118,6 +142,10 @@ def main():
             destination_port=dict(type="str"),
             description=dict(type="str"),
             tag=dict(type="list", elements="str"),
+            enable_override_timeout=dict(choices=["no", "yes"]),
+            override_timeout=dict(type="int"),
+            override_half_close_timeout=dict(type="int"),
+            override_time_wait_timeout=dict(type="int"),
         ),
     )
 
