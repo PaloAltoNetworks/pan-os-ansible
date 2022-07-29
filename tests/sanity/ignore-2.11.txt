@@ -123,6 +123,8 @@ plugins/modules/panos_tunnel.py validate-modules:missing-gplv3-license
 plugins/modules/panos_type_cmd.py validate-modules:missing-gplv3-license
 plugins/modules/panos_userid.py validate-modules:missing-gplv3-license
 plugins/modules/panos_virtual_router.py validate-modules:missing-gplv3-license
+plugins/modules/panos_virtual_router_facts.py validate-modules:deprecation-mismatch
+plugins/modules/panos_virtual_router_facts.py validate-modules:invalid-documentation
 plugins/modules/panos_virtual_router_facts.py validate-modules:missing-gplv3-license
 plugins/modules/panos_virtual_wire.py validate-modules:missing-gplv3-license
 plugins/modules/panos_vlan.py validate-modules:missing-gplv3-license
