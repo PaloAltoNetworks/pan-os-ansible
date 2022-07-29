@@ -48,6 +48,9 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.rulebase
     - paloaltonetworks.panos.fragments.deprecated_commit
     - paloaltonetworks.panos.fragments.uuid
+    - paloaltonetworks.panos.fragments.target
+    - paloaltonetworks.panos.fragments.movement
+    - paloaltonetworks.panos.fragments.audit_comment
 options:
     rule_name:
         description:
@@ -219,41 +222,12 @@ options:
         description:
             - Name of the already defined wildfire_analysis profile.
         type: str
-    location:
-        description:
-            - Position to place the created rule in the rule base.  Supported values are
-              I(top)/I(bottom)/I(before)/I(after).
-        type: str
-        choices:
-            - top
-            - bottom
-            - before
-            - after
-    existing_rule:
-        description:
-            - If 'location' is set to 'before' or 'after', this option specifies an existing
-              rule name.  The new rule will be created in the specified position relative to this
-              rule.  If 'location' is set to 'before' or 'after', this option is required.
-        type: str
     devicegroup:
         description:
             - B(Deprecated)
             - Use I(device_group) instead.
             - HORIZONTALLINE
             - Device groups are logical groups of firewalls in Panorama.
-        type: str
-    target:
-        description:
-            - Apply this rule exclusively to the listed firewalls in Panorama.
-        type: list
-        elements: str
-    negate_target:
-        description:
-            - Exclude this rule from the listed firewalls in Panorama.
-        type: bool
-    audit_comment:
-        description:
-            - Add an audit comment to the rule being defined.
         type: str
     group_tag:
         description:
@@ -398,13 +372,14 @@ def main():
         with_classic_provider_spec=True,
         error_on_firewall_shared=True,
         min_pandevice_version=(1, 5, 0),
+        with_uuid=True,
         with_commit=True,
+        with_target=True,
         with_movement=True,
         with_audit_comment=True,
         sdk_cls=("policies", "SecurityRule"),
         sdk_params=dict(
             rule_name=dict(required=True, sdk_param="name"),
-            uuid=dict(),
             source_zone=dict(
                 type="list", elements="str", default=["any"], sdk_param="fromzone"
             ),
