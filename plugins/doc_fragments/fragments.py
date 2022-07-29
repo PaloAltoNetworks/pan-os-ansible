@@ -345,3 +345,12 @@ options:
             - Negate the value for I(target).
         type: bool
 """
+
+    AUDIT_COMMENT = r"""
+options:
+    audit_comment:
+        description:
+            - Add an audit comment to the rule being defined.
+            - This is only applied if there was a change to the rule.
+        type: str
+"""
