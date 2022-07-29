@@ -88,7 +88,7 @@ options:
         description:
             - IKE phase 1 key lifetime in minutes.
         type: int
-    lifetime_hours:
+    lifetime_hours: >
         description:
             - IKE phase 1 key lifetime in hours.
             - If I(state=present) or I(state=replaced) and no other lifetime is specified,
@@ -101,8 +101,8 @@ options:
     authentication_multiple:
         description: >
             - PAN-OS 7.0+
-            - IKEv2 SA reauthentication interval equals authentication_multiple times
-              lifetime; 0 means reauthentication is disabled.
+            - IKEv2 SA reauthentication interval equals I(authentication_multiple)
+              times lifetime; 0 means reauthentication is disabled.
         type: int
 """
 
