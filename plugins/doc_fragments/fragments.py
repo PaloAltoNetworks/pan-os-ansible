@@ -306,7 +306,42 @@ options:
     uuid:
         description:
             - The rule UUID.
-            - Note that this is currently more of a read-only field; usage of the UUID
-              cannot take the place of using the rule name as the primary identifier.
+            - Note that this is currently more of a read-only field.
+            - Usage of the UUID cannot currently take the place of using the rule name as the primary identifier.
         type: str
+"""
+
+    MOVEMENT = r"""
+options:
+    location:
+        description:
+            - Position to place the rule in.
+        choices:
+            - top
+            - bottom
+            - before
+            - after
+        type: str
+    existing_rule:
+        description: >
+            - If I(location=before) or I(location=after), this option specifies
+              an existing rule name.  The rule being managed by this module will
+              be positioned relative to the value of this parameter.
+            - Required if I(location=before) or I(location=after).
+        type: str
+"""
+
+    TARGET = r"""
+options:
+    target:
+        description:
+            - Applicable for Panorama only.
+            - Apply this rule exclusively to the listed firewall serial numbers.
+        type: list
+        elements: str
+    negate_target:
+        description:
+            - Applicable for Panorama only.
+            - Negate the value for I(target).
+        type: bool
 """
