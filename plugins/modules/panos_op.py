@@ -50,6 +50,12 @@ options:
             - The cmd is already given in XML format, so don't convert it.
         type: bool
         default: false
+    ignore_disconnect:
+        description:
+            - Some op commands disconnect the client before returning a response.
+            - Enable this to prevent this module from erroring out if the command could cause this.
+            - If running such a command, you can use M(panos_check) to wait for PAN-OS to be accessible.
+        type: bool
     vsys:
         description:
             - The vsys target where the OP command will be performed.
@@ -73,6 +79,12 @@ EXAMPLES = """
     provider: '{{ provider }}'
     cmd: '<show><system><info/></system></show>'
     cmd_is_xml: true
+
+- name: set serial number with error ignore
+  panos_op:
+    provider: '{{ provider }}'
+    cmd: 'set serial-number "123456"'
+    ignore_disconnect: True
 """
 
 RETURN = """
@@ -86,8 +98,14 @@ stdout_xml:
     returned: success
     type: str
     sample: "<response status=success><result><system><hostname>fw2</hostname>"
+disconnected:
+    description: If a disconnect was ignored or not.
+    returned: success
+    type: bool
+    sample: True
 """
 
+from http.client import RemoteDisconnected
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
@@ -119,6 +137,7 @@ def main():
         argument_spec=dict(
             cmd=dict(required=True),
             cmd_is_xml=dict(default=False, type="bool"),
+            ignore_disconnect=dict(type="bool"),
         ),
     )
 
@@ -135,35 +154,53 @@ def main():
 
     cmd = module.params["cmd"]
     cmd_is_xml = module.params["cmd_is_xml"]
+    ignore_disconnect = module.params["ignore_disconnect"]
 
-    changed = True
-    safecmd = ["diff", "show"]
+    resp = {
+        "changed": True,
+        "msg": "Done",
+        "stdout": "",
+        "stdout_xml": "",
+        "disconnected": False,
+    }
 
-    xml_output = ""
+    # Determine safe commands.
+    if cmd_is_xml:
+        if cmd.startswith("<show>") or cmd.startswith("<diff>"):
+            resp["changed"] = False
+    elif cmd.startswith("show ") or cmd.startswith("diff "):
+        resp["changed"] = False
+
+    # Run the command.
     try:
-        xml_output = parent.op(cmd, xml=True, cmd_xml=(not cmd_is_xml))
+        resp["stdout_xml"] = parent.op(cmd, xml=True, cmd_xml=(not cmd_is_xml))
+    except RemoteDisconnected:
+        resp["disconnected"] = True
+        if not ignore_disconnect:
+            raise
     except PanDeviceError as e1:
         if cmd_is_xml:
             module.fail_json(
                 msg="Failed to run XML command : {0} : {1}".format(cmd, e1)
             )
+
         tokens = cmd.split()
         tokens[-1] = '"{0}"'.format(tokens[-1])
         cmd2 = " ".join(tokens)
         try:
-            xml_output = parent.op(cmd2, xml=True)
+            resp["stdout_xml"] = parent.op(cmd2, xml=True)
+        except RemoteDisconnected:
+            resp["disconnected"] = True
+            if not ignore_disconnect:
+                raise
         except PanDeviceError as e2:
             module.fail_json(msg="Failed to run command : {0} : {1}".format(cmd2, e2))
 
-        if tokens[0] in safecmd:
-            changed = False
+    if resp["stdout_xml"]:
+        obj_dict = xmltodict.parse(resp["stdout_xml"])
+        resp["stdout"] = json.dumps(obj_dict)
 
-    obj_dict = xmltodict.parse(xml_output)
-    json_output = json.dumps(obj_dict)
-
-    module.exit_json(
-        changed=changed, msg="Done", stdout=json_output, stdout_xml=xml_output
-    )
+    module.exit_json(**resp)
 
 
 if __name__ == "__main__":
