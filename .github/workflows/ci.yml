@@ -159,10 +159,10 @@ jobs:
         with:
           path: ./ansible_collections/paloaltonetworks/panos
 
-      - name: Set up Python 3.7
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.7
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v7
