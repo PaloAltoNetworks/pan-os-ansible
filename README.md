@@ -21,7 +21,7 @@ factors, using the PAN-OS API.
 Tested Ansible Versions
 -----------------------
 
-This collection is tested with the most current Ansible 2.9 and 2.10 releases.  Ansible versions
+This collection is tested with the most current Ansible releases.  Ansible versions
 before 2.9.10 are **not supported**.
 
 Installation
