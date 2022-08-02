@@ -1,0 +1,2181 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-entry
+.. role:: ansible-option-default
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.paloaltonetworks.panos.panos_ha_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+paloaltonetworks.panos.panos_ha module -- Configures High Availability on PAN-OS
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.0).
+
+    You might already have this collection installed if you are using the ``ansible`` package.
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+
+    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+
+    To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_ha`.
+
+.. version_added
+
+.. versionadded:: 1.0.0 of paloaltonetworks.panos
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Configures High Availability on PAN-OS in A/S and A/A modes including all HA interface configuration.  Assumes physical interfaces are of type HA already using panos_interface.
+  This module has the following limitations due to no support in pandevice - * No peer_backup_ip, this prevents full configuration of ha1_backup links * Speed and Duplex of ports was intentially skipped
+
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI \ https://pypi.python.org/pypi/pan-python\ 
+- pandevice can be obtained from PyPI \ https://pypi.python.org/pypi/pandevice\ 
+- currently requires specific pandevice release 0.13
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-api_key"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-api_key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \ :strong:`Deprecated`\ 
+
+      Use \ :emphasis:`provider`\  to specify PAN-OS connectivity instead.
+
+      
+
+      .. raw:: html
+
+        <hr>
+
+
+
+      The API key to use instead of generating it using \ :emphasis:`username`\  / \ :emphasis:`password`\ .
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-commit"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-commit:
+
+      .. rst-class:: ansible-option-title
+
+      **commit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-commit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \ :strong:`Deprecated`\ 
+
+      Please use M(panos_commit_firewall), M(panos_commit_panorama), M(panos_commit_push) instead.
+
+      
+
+      .. raw:: html
+
+        <hr>
+
+
+
+      Commit changes after creating object.  If \ :emphasis:`ip\_address`\  is a Panorama device, and \ :emphasis:`device\_group`\  or \ :emphasis:`template`\  are also set, perform a commit to Panorama and a commit-all to the device group/template.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha1_gateway"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha1_gateway:
+
+      .. rst-class:: ansible-option-title
+
+      **ha1_gateway**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha1_gateway" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Default gateway of the HA1 interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha1_ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha1_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ha1_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha1_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IP of the HA1 interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha1_netmask"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha1_netmask:
+
+      .. rst-class:: ansible-option-title
+
+      **ha1_netmask**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha1_netmask" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Netmask of the HA1 interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha1_port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha1_port:
+
+      .. rst-class:: ansible-option-title
+
+      **ha1_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha1_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Interface to use for this HA1 interface (eg. ethernet1/5)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha1b_gateway"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha1b_gateway:
+
+      .. rst-class:: ansible-option-title
+
+      **ha1b_gateway**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha1b_gateway" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Default gateway of the HA1Backup interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha1b_ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha1b_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ha1b_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha1b_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IP of the HA1Backup interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha1b_netmask"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha1b_netmask:
+
+      .. rst-class:: ansible-option-title
+
+      **ha1b_netmask**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha1b_netmask" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Netmask of the HA1Backup interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha1b_port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha1b_port:
+
+      .. rst-class:: ansible-option-title
+
+      **ha1b_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha1b_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Interface to use for this HA1Backup interface (eg. ethernet1/5)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha2_gateway"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha2_gateway:
+
+      .. rst-class:: ansible-option-title
+
+      **ha2_gateway**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha2_gateway" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Default gateway of the HA2 interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha2_ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha2_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ha2_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha2_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IP of the HA2 interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha2_netmask"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha2_netmask:
+
+      .. rst-class:: ansible-option-title
+
+      **ha2_netmask**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha2_netmask" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Netmask of the HA2 interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha2_port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha2_port:
+
+      .. rst-class:: ansible-option-title
+
+      **ha2_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha2_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Interface to use for this HA2 interface (eg. ethernet1/5)
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"ha2-a"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha2b_gateway"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha2b_gateway:
+
+      .. rst-class:: ansible-option-title
+
+      **ha2b_gateway**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha2b_gateway" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Default gateway of the HA2Backup interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha2b_ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha2b_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ha2b_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha2b_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IP of the HA2Backup interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha2b_netmask"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha2b_netmask:
+
+      .. rst-class:: ansible-option-title
+
+      **ha2b_netmask**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha2b_netmask" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Netmask of the HA2Backup interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha2b_port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha2b_port:
+
+      .. rst-class:: ansible-option-title
+
+      **ha2b_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha2b_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Interface to use for this HA2Backup interface (eg. ethernet1/5)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha3_port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha3_port:
+
+      .. rst-class:: ansible-option-title
+
+      **ha3_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha3_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Interface to use for this HA3 interface (eg. ethernet1/5, ae1)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_config_sync"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_config_sync:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_config_sync**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_config_sync" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enabled configuration synchronization
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_device_id"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_device_id:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_device_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_device_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      HA3 device id (0 or 1)
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`0`
+      - :ansible-option-choices-entry:`1`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_enabled"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_enabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable HA
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_group_id"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_group_id:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_group_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_group_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The group identifier
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_ha2_keepalive"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_ha2_keepalive:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_ha2_keepalive**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_ha2_keepalive" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable HA2 keepalives
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_ha2_keepalive_action"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_ha2_keepalive_action:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_ha2_keepalive_action**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_ha2_keepalive_action" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      HA2 keepalive action
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_ha2_keepalive_threshold"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_ha2_keepalive_threshold:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_ha2_keepalive_threshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_ha2_keepalive_threshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      HA2 keepalive threshold
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_ip_hash_key"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_ip_hash_key:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_ip_hash_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_ip_hash_key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      active-active hash key used by ip-hash algorithm
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`source`
+      - :ansible-option-choices-entry:`source-and-destination`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_mode"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Mode of HA
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-default-bold:`active-passive` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`active-active`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_passive_link_state"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_passive_link_state:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_passive_link_state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_passive_link_state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Passive link state
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`shutdown`
+      - :ansible-option-default-bold:`auto` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_peer_ip"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_peer_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_peer_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_peer_ip" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      HA Peer HA1 IP address
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_peer_ip_backup"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_peer_ip_backup:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_peer_ip_backup**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_peer_ip_backup" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      HA Peer HA1 Backup IP address
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_session_owner_selection"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_session_owner_selection:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_session_owner_selection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_session_owner_selection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      active-active session owner mode
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`primary-device`
+      - :ansible-option-choices-entry:`first-packet`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_session_setup"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_session_setup:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_session_setup**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_session_setup" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      active-active session setup mode
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`primary-device`
+      - :ansible-option-choices-entry:`first-packet`
+      - :ansible-option-choices-entry:`ip-modulo`
+      - :ansible-option-choices-entry:`ip-hash`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_state_sync"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_state_sync:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_state_sync**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_state_sync" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enabled state synchronization
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_sync_qos"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_sync_qos:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_sync_qos**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_sync_qos" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      active-active network sync qos
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_sync_virtual_router"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_sync_virtual_router:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_sync_virtual_router**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_sync_virtual_router" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      active-active network sync virtual router
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ha_tentative_hold_time"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ha_tentative_hold_time:
+
+      .. rst-class:: ansible-option-title
+
+      **ha_tentative_hold_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ha_tentative_hold_time" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      active-active tentative hold timer
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \ :strong:`Deprecated`\ 
+
+      Use \ :emphasis:`provider`\  to specify PAN-OS connectivity instead.
+
+      
+
+      .. raw:: html
+
+        <hr>
+
+
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-password"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \ :strong:`Deprecated`\ 
+
+      Use \ :emphasis:`provider`\  to specify PAN-OS connectivity instead.
+
+      
+
+      .. raw:: html
+
+        <hr>
+
+
+
+      The password to use for authentication.  This is ignored if \ :emphasis:`api\_key`\  is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \ :strong:`Deprecated`\ 
+
+      Use \ :emphasis:`provider`\  to specify PAN-OS connectivity instead.
+
+      
+
+      .. raw:: html
+
+        <hr>
+
+
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in 1.0.0 of paloaltonetworks.panos`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dict object containing connection details.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/api_key"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-provider/api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/api_key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The API key to use instead of generating it using \ :emphasis:`username`\  / \ :emphasis:`password`\ .
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-provider/ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/password"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-provider/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The password to use for authentication.  This is ignored if \ :emphasis:`api\_key`\  is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-provider/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/serial_number"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-provider/serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/serial_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The serial number of a firewall to use for targeted commands. If \ :emphasis:`ip\_address`\  is not a Panorama PAN-OS device, then this param is ignored.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/username"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-provider/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The username to use for authentication.  This is ignored if \ :emphasis:`api\_key`\  is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The state.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`absent`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-template"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-template:
+
+      .. rst-class:: ansible-option-title
+
+      **template**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-template" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      (Panorama only) The template this operation should target. Mutually exclusive with \ :emphasis:`template\_stack`\ .
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-template_stack"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-template_stack:
+
+      .. rst-class:: ansible-option-title
+
+      **template_stack**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-template_stack" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      (Panorama only) The template stack this operation should target. Mutually exclusive with \ :emphasis:`template`\ .
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-username"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \ :strong:`Deprecated`\ 
+
+      Use \ :emphasis:`provider`\  to specify PAN-OS connectivity instead.
+
+      
+
+      .. raw:: html
+
+        <hr>
+
+
+
+      The username to use for authentication.  This is ignored if \ :emphasis:`api\_key`\  is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-vsys"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_ha_module__parameter-vsys:
+
+      .. rst-class:: ansible-option-title
+
+      **vsys**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-vsys" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The vsys this object should be imported into.  Objects that are imported include interfaces, virtual routers, virtual wires, and VLANs.  Interfaces are typically imported into vsys1 if no vsys is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Checkmode is supported.
+   - Panorama is supported.
+   - PAN-OS connectivity should be specified using \ :emphasis:`provider`\  or the classic PAN-OS connectivity params (\ :emphasis:`ip\_address`\ , \ :emphasis:`username`\ , \ :emphasis:`password`\ , \ :emphasis:`api\_key`\ , and \ :emphasis:`port`\ ).  If both are present, then the classic params are ignored.
+   - If the PAN-OS to be configured is Panorama, either \ :emphasis:`template`\  or \ :emphasis:`template\_stack`\  must be specified.
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+      - name: set ports to HA mode
+        panos_interface:
+          provider: '{{ provider }}'
+          if_name: "{{ item }}"
+          mode: "ha"
+          enable_dhcp: false
+        with_items:
+          - ethernet1/1
+          - ethernet1/2
+          - ethernet1/3
+          - ethernet1/4
+          - ethernet1/5
+
+      - name: Configure Active/Standby HA
+        panos_ha:
+          provider: '{{ provider }}'
+          state: present
+          ha_peer_ip: "192.168.50.1"
+          ha1_ip_address: "192.168.50.2"
+          ha1_netmask: "255.255.255.252"
+          ha1_port: "ethernet1/1"
+          ha2_port: "ethernet1/3"
+
+      - name: Configure Active/Active HA
+        panos_ha:
+          provider: "{{ provider }}"
+          state: present
+          ha_mode: "active-active"
+          ha_device_id: 0
+          ha_session_owner_selection: "first-packet"
+          ha_session_setup: "first-packet"
+          ha_peer_ip: "192.168.50.1"
+          ha_peer_ip_backup: "192.168.50.5"
+          ha1_port: "ethernet1/1"
+          ha1_ip_address: "192.168.50.2"
+          ha1_netmask: "255.255.255.252"
+          ha1b_port: "ethernet1/2"
+          ha1b_ip_address: "192.168.50.6"
+          ha1b_netmask: "255.255.255.252"
+          ha2_port: "ethernet1/3"
+          ha2b_port: "ethernet1/4"
+          ha3_port: "ethernet1/5"
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Patrick Avery (@unknown)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

@@ -1,0 +1,2668 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-entry
+.. role:: ansible-option-default
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+paloaltonetworks.panos.panos_security_rule_facts module -- Retrieve information about security rules.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.0).
+
+    You might already have this collection installed if you are using the ``ansible`` package.
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+
+    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+
+    To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_security_rule_facts`.
+
+.. version_added
+
+.. versionadded:: 1.0.0 of paloaltonetworks.panos
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+DEPRECATED
+----------
+:Removed in: version 3.0.0
+:Why: Updating module design to network resource modules.
+:Alternative: Use M(panos_security_rule) with \ :emphasis:`state=gathered`\ .
+
+Synopsis
+--------
+
+.. Description
+
+- Retrieve information about security rules.
+
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python
+- pandevice
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-api_key"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-api_key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \ :strong:`Deprecated`\ 
+
+      Use \ :emphasis:`provider`\  to specify PAN-OS connectivity instead.
+
+      
+
+      .. raw:: html
+
+        <hr>
+
+
+
+      The API key to use instead of generating it using \ :emphasis:`username`\  / \ :emphasis:`password`\ .
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-details"></div>
+        <div class="ansibleOptionAnchor" id="parameter-all_details"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-all_details:
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-details:
+
+      .. rst-class:: ansible-option-title
+
+      **details**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-details" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: all_details`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Retrieve full details instead of just rule names.
+
+      Implied when \ :emphasis:`names`\  is set and not using \ :emphasis:`match\_rules`\ .
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-device_group"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-device_group:
+
+      .. rst-class:: ansible-option-title
+
+      **device_group**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-device_group" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      (Panorama only) The device group the operation should target.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"shared"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \ :strong:`Deprecated`\ 
+
+      Use \ :emphasis:`provider`\  to specify PAN-OS connectivity instead.
+
+      
+
+      .. raw:: html
+
+        <hr>
+
+
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_rules"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-match_rules:
+
+      .. rst-class:: ansible-option-title
+
+      **match_rules**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_rules" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Returns security rule(s) in the policy that will match the specified traffic using the 'test security-policy-match' API command.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_rules/application"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-match_rules/application:
+
+      .. rst-class:: ansible-option-title
+
+      **application**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_rules/application" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Application name
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_rules/category"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-match_rules/category:
+
+      .. rst-class:: ansible-option-title
+
+      **category**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_rules/category" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      URL filtering category
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_rules/destination_ip"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-match_rules/destination_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **destination_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_rules/destination_ip" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Destination IP address
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_rules/destination_port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-match_rules/destination_port:
+
+      .. rst-class:: ansible-option-title
+
+      **destination_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_rules/destination_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Destination port
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_rules/destination_zone"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-match_rules/destination_zone:
+
+      .. rst-class:: ansible-option-title
+
+      **destination_zone**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_rules/destination_zone" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Destination zone
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_rules/protocol"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-match_rules/protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_rules/protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP protocol type
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`tcp`
+      - :ansible-option-choices-entry:`udp`
+      - :ansible-option-choices-entry:`icmp`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_rules/show_all"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-match_rules/show_all:
+
+      .. rst-class:: ansible-option-title
+
+      **show_all**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_rules/show_all" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Show all potential matches until first allow rule
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_rules/source_ip"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-match_rules/source_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **source_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_rules/source_ip" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Source IP address
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_rules/source_user"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-match_rules/source_user:
+
+      .. rst-class:: ansible-option-title
+
+      **source_user**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_rules/source_user" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Source user
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_rules/source_zone"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-match_rules/source_zone:
+
+      .. rst-class:: ansible-option-title
+
+      **source_zone**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_rules/source_zone" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Source zone
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-names"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-names:
+
+      .. rst-class:: ansible-option-title
+
+      **names**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-names" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of security rule names to return data for.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-password"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \ :strong:`Deprecated`\ 
+
+      Use \ :emphasis:`provider`\  to specify PAN-OS connectivity instead.
+
+      
+
+      .. raw:: html
+
+        <hr>
+
+
+
+      The password to use for authentication.  This is ignored if \ :emphasis:`api\_key`\  is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \ :strong:`Deprecated`\ 
+
+      Use \ :emphasis:`provider`\  to specify PAN-OS connectivity instead.
+
+      
+
+      .. raw:: html
+
+        <hr>
+
+
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in 1.0.0 of paloaltonetworks.panos`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dict object containing connection details.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/api_key"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-provider/api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/api_key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The API key to use instead of generating it using \ :emphasis:`username`\  / \ :emphasis:`password`\ .
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-provider/ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/password"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-provider/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The password to use for authentication.  This is ignored if \ :emphasis:`api\_key`\  is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-provider/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/serial_number"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-provider/serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/serial_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The serial number of a firewall to use for targeted commands. If \ :emphasis:`ip\_address`\  is not a Panorama PAN-OS device, then this param is ignored.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/username"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-provider/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The username to use for authentication.  This is ignored if \ :emphasis:`api\_key`\  is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rule_name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-rule_name:
+
+      .. rst-class:: ansible-option-title
+
+      **rule_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rule_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name of the security rule.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rulebase"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-rulebase:
+
+      .. rst-class:: ansible-option-title
+
+      **rulebase**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rulebase" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The rulebase in which the rule is to exist.  If left unspecified, this defaults to \ :emphasis:`rulebase=pre-rulebase`\  for Panorama.  For NGFW, this is always set to be \ :emphasis:`rulebase=rulebase`\ .
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`pre-rulebase`
+      - :ansible-option-choices-entry:`rulebase`
+      - :ansible-option-choices-entry:`post-rulebase`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-username"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \ :strong:`Deprecated`\ 
+
+      Use \ :emphasis:`provider`\  to specify PAN-OS connectivity instead.
+
+      
+
+      .. raw:: html
+
+        <hr>
+
+
+
+      The username to use for authentication.  This is ignored if \ :emphasis:`api\_key`\  is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-vsys"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__parameter-vsys:
+
+      .. rst-class:: ansible-option-title
+
+      **vsys**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-vsys" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The vsys this object belongs to.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"vsys1"`
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Checkmode is not supported.
+   - Panorama is supported.
+   - PAN-OS connectivity should be specified using \ :emphasis:`provider`\  or the classic PAN-OS connectivity params (\ :emphasis:`ip\_address`\ , \ :emphasis:`username`\ , \ :emphasis:`password`\ , \ :emphasis:`api\_key`\ , and \ :emphasis:`port`\ ).  If both are present, then the classic params are ignored.
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get a list of all security rules
+      panos_security_rule_facts:
+        provider: '{{ provider }}'
+      register: sec_rules
+
+    - debug:
+        msg: '{{ sec_rules.rule_names }}'
+
+    - name: Get the definition for rule 'HTTP Multimedia'
+      panos_security_rule_facts:
+        provider: '{{ provider }}'
+        names:
+            - 'HTTP Multimedia'
+      register: rule1
+
+    - debug:
+        msg: '{{ rule1.spec }}'
+
+    - name: Get rule names matching DNS traffic
+      panos_security_rule_facts:
+        provider: '{{ provider }}'
+        match_rules:
+          source_zone: 'trust'
+          source_ip: '192.168.1.10'
+          destination_zone: 'untrust'
+          destination_ip: '8.8.8.8'
+          destination_port: '53'
+          protocol: 'udp'
+      register: dns_rule
+
+    - debug:
+        msg: '{{ dns_rule.spec }}'
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details:
+
+      .. rst-class:: ansible-option-title
+
+      **rule_details**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Full details of requested security rules, or matching traffic as specified in \ :emphasis:`match\_rules`\ .
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` When \ :emphasis:`details=True`\ 
+
+
+      .. raw:: html
+
+        </div>
+
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/action"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/action:
+
+      .. rst-class:: ansible-option-title
+
+      **action**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/action" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The rule action.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/antivirus"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/antivirus:
+
+      .. rst-class:: ansible-option-title
+
+      **antivirus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/antivirus" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the already defined antivirus profile.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/application"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/application:
+
+      .. rst-class:: ansible-option-title
+
+      **application**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/application" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of applications, application groups, and/or application filters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/category"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/category:
+
+      .. rst-class:: ansible-option-title
+
+      **category**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/category" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of destination URL categories.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/data_filtering"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/data_filtering:
+
+      .. rst-class:: ansible-option-title
+
+      **data_filtering**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/data_filtering" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the already defined data_filtering profile.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/description"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/description" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of the security rule.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/destination_ip"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/destination_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **destination_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/destination_ip" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of destination addresses.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/destination_zone"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/destination_zone:
+
+      .. rst-class:: ansible-option-title
+
+      **destination_zone**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/destination_zone" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of destination zones.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/disable_server_response_inspection"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/disable_server_response_inspection:
+
+      .. rst-class:: ansible-option-title
+
+      **disable_server_response_inspection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/disable_server_response_inspection" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Disables packet inspection from the server to the client.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/disabled"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/disabled:
+
+      .. rst-class:: ansible-option-title
+
+      **disabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/disabled" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Disable this rule.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/file_blocking"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/file_blocking:
+
+      .. rst-class:: ansible-option-title
+
+      **file_blocking**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/file_blocking" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the already defined file_blocking profile.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/group_profile"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/group_profile:
+
+      .. rst-class:: ansible-option-title
+
+      **group_profile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/group_profile" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Security profile group setting.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/hip_profiles"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/hip_profiles:
+
+      .. rst-class:: ansible-option-title
+
+      **hip_profiles**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/hip_profiles" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      GlobalProtect host information profile list.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/icmp_unreachable"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/icmp_unreachable:
+
+      .. rst-class:: ansible-option-title
+
+      **icmp_unreachable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/icmp_unreachable" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Send 'ICMP Unreachable'.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/log_end"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/log_end:
+
+      .. rst-class:: ansible-option-title
+
+      **log_end**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/log_end" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Whether to log at session end.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/log_setting"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/log_setting:
+
+      .. rst-class:: ansible-option-title
+
+      **log_setting**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/log_setting" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Log forwarding profile.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/log_start"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/log_start:
+
+      .. rst-class:: ansible-option-title
+
+      **log_start**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/log_start" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Whether to log at session start.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/negate_destination"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/negate_destination:
+
+      .. rst-class:: ansible-option-title
+
+      **negate_destination**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/negate_destination" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Match on the reverse of the 'destination_ip' attribute
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/negate_source"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/negate_source:
+
+      .. rst-class:: ansible-option-title
+
+      **negate_source**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/negate_source" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Match on the reverse of the 'source_ip' attribute
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/rule_name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/rule_name:
+
+      .. rst-class:: ansible-option-title
+
+      **rule_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/rule_name" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the security rule.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/rule_type"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/rule_type:
+
+      .. rst-class:: ansible-option-title
+
+      **rule_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/rule_type" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of security rule (version 6.1 of PanOS and above).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/schedule"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/schedule:
+
+      .. rst-class:: ansible-option-title
+
+      **schedule**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/schedule" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Schedule in which this rule is active.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/service"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/service:
+
+      .. rst-class:: ansible-option-title
+
+      **service**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/service" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of services and/or service groups.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/source_ip"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/source_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **source_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/source_ip" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of source addresses.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/source_user"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/source_user:
+
+      .. rst-class:: ansible-option-title
+
+      **source_user**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/source_user" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of source users.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/source_zone"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/source_zone:
+
+      .. rst-class:: ansible-option-title
+
+      **source_zone**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/source_zone" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of source zones.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/spyware"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/spyware:
+
+      .. rst-class:: ansible-option-title
+
+      **spyware**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/spyware" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the already defined spyware profile.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/tag_name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/tag_name:
+
+      .. rst-class:: ansible-option-title
+
+      **tag_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/tag_name" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of tags associated with the rule.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/url_filtering"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/url_filtering:
+
+      .. rst-class:: ansible-option-title
+
+      **url_filtering**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/url_filtering" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the already defined url_filtering profile.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/vulnerability"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/vulnerability:
+
+      .. rst-class:: ansible-option-title
+
+      **vulnerability**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/vulnerability" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the already defined vulnerability profile.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_details/wildfire_analysis"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_details/wildfire_analysis:
+
+      .. rst-class:: ansible-option-title
+
+      **wildfire_analysis**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_details/wildfire_analysis" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the already defined wildfire_analysis profile.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-rule_names"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module__return-rule_names:
+
+      .. rst-class:: ansible-option-title
+
+      **rule_names**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-rule_names" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of security rules present, or matching traffic as specified in \ :emphasis:`match\_rules`\ .
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` When \ :emphasis:`details=False`\ 
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` ["rule1", "rule2", "rule3"]
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+Status
+------
+
+.. Deprecated note
+
+- This module will be removed in version 3.0.0.
+  *[deprecated]*
+- For more information see `DEPRECATED`_.
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Garfield Lee Freeman (@shinmog)
+- Michael Richardson (@mrichardson03)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+
