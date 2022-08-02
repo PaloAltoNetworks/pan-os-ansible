@@ -170,9 +170,6 @@ jobs:
       - name: Add ansible-core
         run: poetry add ansible-core
 
-      - name: Add Ansible doc extractor
-        run: poetry add ansible-doc-extractor
-
       - name: Add antsibull-docs
         run: poetry add antsibull-docs
 
@@ -191,7 +188,7 @@ jobs:
         run: poetry run ansible-galaxy collection install *.tar.gz
 
       - name: Generate documentation
-        run: poetry run make docs2
+        run: poetry run make docs
 
       # This is here for right now because the action to deploy seems to assume
       # (and not have a configuration option to) mirror the actions/checkout@v3
