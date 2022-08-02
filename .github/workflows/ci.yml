@@ -170,6 +170,9 @@ jobs:
       - name: Add ansible-core
         run: poetry add ansible-core
 
+      - name: Add Ansible doc extractor
+        run: poetry add ansible-doc-extractor
+
       - name: Install dependencies
         run: poetry install
 
