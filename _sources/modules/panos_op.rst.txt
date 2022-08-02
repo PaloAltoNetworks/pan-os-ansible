@@ -38,6 +38,14 @@ Parameters
     The cmd is already given in XML format, so don't convert it.
 
 
+  ignore_disconnect (type: bool)
+    Some op commands disconnect the client before returning a response.
+
+    Enable this to prevent this module from erroring out if the command could cause this.
+
+    If running such a command, you can use :ref:`panos_check <panos_check_module>` to wait for PAN-OS to be accessible.
+
+
   vsys (type: str, default: vsys1)
     The vsys target where the OP command will be performed.
 
@@ -157,6 +165,12 @@ Examples
         cmd: '<show><system><info/></system></show>'
         cmd_is_xml: true
 
+    - name: set serial number with error ignore
+      panos_op:
+        provider: '{{ provider }}'
+        cmd: 'set serial-number "123456"'
+        ignore_disconnect: True
+
 
 
 Return Values
@@ -168,6 +182,10 @@ stdout (success, str, {system: {app-release-date: 2017/05/01  15:09:12}})
 
 stdout_xml (success, str, <response status=success><result><system><hostname>fw2</hostname>)
   output of the given OP command as an XML formatted string
+
+
+disconnected (success, bool, True)
+  If a disconnect was ignored or not.
 
 
 

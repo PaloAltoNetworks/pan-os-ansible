@@ -15,6 +15,14 @@ Synopsis
 Retrieves information on virtual routers from a firewall or Panorama.
 
 
+.. WARNING::
+   This module is **deprecated**, and will be removed in version 3.0.0
+   of the collection.
+
+   Updating module design to network resource modules.
+
+   Use M(panos_virtual_router) with I(state=gathered)
+
 
 
 Requirements
@@ -219,7 +227,9 @@ Status
 ------
 
 
-
+- This module will be removed in version
+  3.0.0.
+  *[deprecated]*
 
 
 Authors

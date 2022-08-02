@@ -12,9 +12,9 @@ panos_ike_crypto_profile -- Configures IKE Crypto profile on the firewall with s
 Synopsis
 --------
 
-Use the IKE Crypto Profiles page to specify protocols and algorithms for identification, authentication, and
+- Use the IKE Crypto Profiles page to specify protocols and algorithms for
+  identification, authentication, and encryption (IKEv1 or IKEv2, Phase 1).
 
-encryption (IKEv1 or IKEv2, Phase 1).
 
 
 
@@ -39,7 +39,7 @@ Parameters
     Specify the priority for Diffie-Hellman (DH) groups.
 
 
-  authentication (type: list, default: sha1)
+  authentication (type: list, default: ['sha1'])
     Authentication hashes used for IKE phase 1 proposal.
 
 
@@ -56,11 +56,19 @@ Parameters
 
 
   lifetime_hours (type: int)
-    IKE phase 1 key lifetime in hours.  If no key lifetime is specified, default to 8 hours.
+    IKE phase 1 key lifetime in hours.
+
+    If *state=present* or *state=replaced* and no other lifetime is specified, this will default to 8.
 
 
   lifetime_days (type: int)
     IKE phase 1 key lifetime in days.
+
+
+  authentication_multiple (type: int)
+    - PAN-OS 7.0 and above. - IKEv2 SA reauthentication interval equals *authentication_multiple*
+  times lifetime; 0 means reauthentication is disabled.
+
 
 
   provider (type: dict)

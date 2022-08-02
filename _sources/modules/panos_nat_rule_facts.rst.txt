@@ -15,6 +15,14 @@ Synopsis
 Get information about one or more NAT rules.
 
 
+.. WARNING::
+   This module is **deprecated**, and will be removed in version 3.0.0
+   of the collection.
+
+   Updating module design to network resource modules.
+
+   Use M(panos_nat_rule2) with I(state=gathered).
+
 
 
 Requirements
@@ -283,7 +291,9 @@ Status
 ------
 
 
-
+- This module will be removed in version
+  3.0.0.
+  *[deprecated]*
 
 
 Authors

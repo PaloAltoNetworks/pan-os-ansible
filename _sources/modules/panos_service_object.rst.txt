@@ -53,6 +53,34 @@ Parameters
     List of tags for this service object.
 
 
+  enable_override_timeout (type: str)
+    PAN-OS 8.1 and above.
+
+    Override session timeout value.
+
+
+  override_timeout (type: int)
+    PAN-OS 8.1 and above.
+
+    The TCP or UDP session timeout value (in seconds).
+
+
+  override_half_close_timeout (type: int)
+    PAN-OS 8.1 and above.
+
+    Applicable for *protocol=tcp* only.
+
+    TCP session half-close tieout value (in seconds).
+
+
+  override_time_wait_timeout (type: int)
+    PAN-OS 8.1 and above.
+
+    Applicable for *protocol=tcp* only.
+
+    TCP session time-wait timeout value (in seconds).
+
+
   provider (type: dict)
     A dict object containing connection details.
 

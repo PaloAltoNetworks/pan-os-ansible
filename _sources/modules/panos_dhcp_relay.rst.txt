@@ -1,0 +1,198 @@
+.. _panos_dhcp_relay_module:
+
+
+panos_dhcp_relay -- Configure dhcp relay.
+=========================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+- Configure dhcp relay on PAN-OS firewall. - Due to the implementation details of PAN-OS itself, you can use this
+  module to create a DHCP config without ever having to use :ref:`panos_dhcp <panos_dhcp_module>`
+  first.
+- However, if you intend to delete an interface that was ever reference by
+  this module, you will need to use :ref:`panos_dhcp <panos_dhcp_module>` to delete the parent reference
+  or PAN-OS's internal validation checks will prevent the deletion, seeing that
+  a DHCP config is referring to the interface.
+
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python >= 0.17
+- pan-os-python >= 1.7.3
+
+
+
+Parameters
+----------
+
+  dhcp_interface (required, type: str)
+    The interface name.
+
+    This is probably the same as *interface*.
+
+
+  interface (required, type: str)
+    The interface name for the DHCP relay.
+
+    This is probably the same as the *dhcp_interface*.
+
+
+  ipv4_enabled (type: bool)
+    Enable IPv4 on DHCP Relay
+
+
+  ipv4_servers (type: list)
+    Relay server IP addresses.
+
+
+  ipv6_enabled (type: bool)
+    Enable DHCPv6 relay.
+
+
+  provider (type: dict)
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Check mode is supported.
+   - Panorama is not supported.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    # Create IPv4 DHCP Relay
+    - panos_dhcp_relay:
+        provider: '{{ provider }}'
+        dhcp_interface: 'ethernet1/1'
+        interface: 'ethernet1/1'
+        ipv4_enabled: True
+        ipv4_servers:
+          - '1.1.1.1'
+          - '2.2.2.2'
+
+    # Delete DHCP Relay
+    - panos_dhcp_relay:
+        provider: '{{ provider }}'
+        dhcp_interface: 'ethernet1/1'
+        interface: 'ethernet1/1'
+        state: absent
+
+
+
+
+
+Status
+------
+
+
+
+
+
+Authors
+~~~~~~~
+
+- Sean O'Brien (@undodelete)
+

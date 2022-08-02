@@ -33,19 +33,19 @@ Parameters
     Name of the object.
 
 
-  category (type: str)
+  category (type: list)
     Application category
 
 
-  subcategory (type: str)
+  subcategory (type: list)
     Application subcategory
 
 
-  technology (type: str)
+  technology (type: list)
     Application technology
 
 
-  risk (type: str)
+  risk (type: list)
     Risk (1-5) of the application
 
 
@@ -204,10 +204,10 @@ Examples
       panos_application_filter:
         provider: '{{ provider }}'
         name: 'custom-apps'
-        category: 'business-systems'
-        subcategory: 'auth-service'
-        technology: 'client-server'
-        risk: '1'
+        category: ['business-systems']
+        subcategory: ['auth-service']
+        technology: ['client-server']
+        risk: ['1']
 
     - name: Remove custom application
       panos_application_filter:

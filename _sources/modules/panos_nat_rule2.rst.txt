@@ -1,0 +1,373 @@
+.. _panos_nat_rule2_module:
+
+
+panos_nat_rule2 -- Manage a NAT rule
+====================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+- Manage a policy NAT rule. - NOTE:  Even though this module supports *state=merged*, due to the
+  complexity of the XML schema for NAT rules, changing a NAT rule's types
+  using *state=merged* will likely result in an error.  Using *state=merged*
+  will work as normal for simple operations, such as adding additional IP addresses
+  to any of the listings or changing simple variable types.
+
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python >= 0.16
+- pan-os-python >= 1.7.3
+
+
+
+Parameters
+----------
+
+  name (required, type: str)
+    Name of the rule.
+
+
+  description (type: str)
+    The description.
+
+
+  nat_type (type: str, default: ipv4)
+    Type of NAT.
+
+
+  from_zones (type: list)
+    From zones.
+
+
+  to_zones (type: list)
+    To zones.
+
+    Note that there should only be one element in this list.
+
+
+  to_interface (type: str)
+    Egress interface from route lookup.
+
+
+  service (type: str)
+    The service.
+
+
+  source_addresses (type: list)
+    Source addresses.
+
+
+  destination_addresses (type: list)
+    Destination addresses.
+
+
+  source_translation_type (type: str)
+    Type of source address translation.
+
+
+  source_translation_address_type (type: str)
+    For *source_translation_type=dynamic-ip-and-port* or or *source_translation_type=dynamic-ip*.
+
+    Address type.
+
+
+  source_translation_interface (type: str)
+    For *source_translation_address_type=interface-address*.
+
+    Interface of the source address.
+
+
+  source_translation_ip_address (type: str)
+    For *source_translation_address_type=interface-address*.
+
+    IP address of the source address translation.
+
+
+  source_translation_translated_addresses (type: list)
+    For *source_translation_address_type=translated-address*.
+
+    Translated addresses of the source address translation.
+
+
+  source_translation_fallback_type (type: str)
+    For *source_translation_type=dynamic-ip*.
+
+    Type of fallback for dynamic IP source translation.
+
+
+  source_translation_fallback_translated_addresses (type: list)
+    For *source_translation_fallback_type=translated-address*.
+
+    Addresses for translated address types of fallback source translation.
+
+
+  source_translation_fallback_interface (type: str)
+    For *source_translation_fallback_type=interface-address*.
+
+    The interface for the fallback source translation.
+
+
+  source_translation_fallback_ip_type (type: str)
+    For *source_translation_fallback_type=interface-address*.
+
+    The type of the IP address for the fallback source translation IP address.
+
+
+  source_translation_fallback_ip_address (type: str)
+    For *source_translation_fallback_type=interface-address*.
+
+    The IP address of the fallback source translation.
+
+
+  source_translation_static_translated_address (type: str)
+    For *source_translation_type=static-ip*.
+
+    The IP address for the static source translation.
+
+
+  source_translation_static_bi_directional (type: bool)
+    For *source_translation_type=static-ip*.
+
+    Allow reverse translation from translated address to original address.
+
+
+  destination_translated_address (type: str)
+    Static translated destination IP address.
+
+
+  destination_translated_port (type: int)
+    Static translated destination port number.
+
+
+  ha_binding (type: str)
+    Device binding configuration in HA Active-Active mode.
+
+
+  disabled (type: bool)
+    Rule is disabled or not.
+
+
+  tags (type: list)
+    Administrative tags.
+
+
+  destination_dynamic_translated_address (type: str)
+    For PAN-OS 8.1 and above.
+
+    Dynamic destination translated address.
+
+
+  destination_dynamic_translated_port (type: int)
+    For PAN-OS 8.1 and above.
+
+    Dynamic destination translated port.
+
+
+  destination_dynamic_translated_distribution (type: str)
+    For PAN-OS 8.1 and above.
+
+    Dynamic destination translated distribution.
+
+
+  group_tag (type: str)
+    For PAN-OS 9.0 and above.
+
+    The group tag.
+
+
+  provider (type: dict)
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+  device_group (type: str, default: shared)
+    (Panorama only) The device group the operation should target.
+
+
+  vsys (type: str, default: vsys1)
+    The vsys this object belongs to.
+
+
+  rulebase (type: str)
+    The rulebase in which the rule is to exist.  If left unspecified, this defaults to *rulebase=pre-rulebase* for Panorama.  For NGFW, this is always set to be *rulebase=rulebase*.
+
+
+  uuid (type: str)
+    The rule UUID.
+
+    Note that this is currently more of a read-only field.
+
+    Usage of the UUID cannot currently take the place of using the rule name as the primary identifier.
+
+
+  target (type: list)
+    Applicable for Panorama only.
+
+    Apply this rule exclusively to the listed firewall serial numbers.
+
+
+  negate_target (type: bool)
+    Applicable for Panorama only.
+
+    Negate the value for *target*.
+
+
+  location (type: str)
+    Position to place the rule in.
+
+
+  existing_rule (type: str)
+    - If *location=before* or *location=after*, this option specifies
+  an existing rule name.  The rule being managed by this module will
+  be positioned relative to the value of this parameter.
+- Required if *location=before* or *location=after*.
+
+
+
+  audit_comment (type: str)
+    Add an audit comment to the rule being defined.
+
+    This is only applied if there was a change to the rule.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Checkmode is supported.
+   - Panorama is supported.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: add a nat rule
+      panos_nat_rule2:
+        provider: '{{ provider }}'
+        name: 'myRule'
+        description: 'Made by Ansible'
+        nat_type: 'ipv4'
+        from_zones: ['Trust-L3']
+        to_zones: ['Untrusted-L3']
+        to_interface: 'ethernet1/1'
+        service: 'any'
+        source_addresses: ['any']
+        destination_addresses: ['any']
+        source_translation_type: 'dynamic-ip-and-port'
+        source_translation_address_type: 'interface-address'
+        source_translation_interface: 'ethernet1/1'
+
+
+
+
+
+Status
+------
+
+
+
+
+
+Authors
+~~~~~~~
+
+- Garfield Lee Freeman (@shinmog)
+

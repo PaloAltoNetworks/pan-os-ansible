@@ -37,6 +37,12 @@ Parameters
     IP of the user's machine that needs to be registered with userid.
 
 
+  timeout (type: int)
+    The timeout in minutes to remove this mapping.
+
+    This is used only for *state=present*.
+
+
   provider (type: dict)
     A dict object containing connection details.
 

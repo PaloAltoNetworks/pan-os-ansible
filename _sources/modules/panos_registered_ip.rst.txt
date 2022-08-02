@@ -184,7 +184,7 @@ Examples
 Return Values
 -------------
 
-results (always, dict, AnsibleMapping([('1.1.1.1', ['First_Tag', 'Second_Tag'])]))
+results (always, dict, {'1.1.1.1': ['First_Tag', 'Second_Tag']})
   After performing action, returns tags for given IPs.  IP addresses as keys, tags as values.
 
 

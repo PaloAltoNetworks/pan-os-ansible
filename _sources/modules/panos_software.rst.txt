@@ -53,6 +53,10 @@ Parameters
     Timeout value in seconds to wait for the device operation to complete
 
 
+  perform_software_check (type: bool, default: True)
+    Do a software check before doing the upgrade.
+
+
   provider (type: dict)
     A dict object containing connection details.
 

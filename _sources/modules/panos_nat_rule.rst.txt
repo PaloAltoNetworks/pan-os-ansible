@@ -17,14 +17,22 @@ Create a policy nat rule. Keep in mind that we can either end up configuring sou
 Instead of splitting it into two we will make a fair attempt to determine which one the user wants.
 
 
+.. WARNING::
+   This module is **deprecated**, and will be removed in version 3.0.0
+   of the collection.
+
+   The design of this module is not consistent with current design.
+
+   Use M(panos_nat_rule2) instead.
+
 
 
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- pan-python can be obtained from PyPI https://pypi.python.org/pypi/pan-python
-- pandevice can be obtained from PyPI https://pypi.python.org/pypi/pandevice
+- pan-python >= 0.16
+- pan-os-python >= 1.7.3
 
 
 
@@ -32,7 +40,7 @@ Parameters
 ----------
 
   state (type: str, default: present)
-    The state of the NAT rule.
+    The state of this object.
 
 
   operation (type: str)
@@ -145,24 +153,6 @@ Parameters
     Mutually exclusive with *dnat_dynamic_address*, *dnat_dynamic_port*, and *dnat_dynamic_distribution*.
 
 
-  location (type: str)
-    Position to place the created rule in the rule base.
-
-
-  existing_rule (type: str)
-    If *location=before* or *location=after*, this option specifies an existing rule name.  The new rule will be created in the specified position relative to this rule.
-
-    If *location=before* or *location=after*, *existing_rule* is required.
-
-
-  target (type: list)
-    Apply this rule exclusively to the listed firewalls in Panorama.
-
-
-  negate_target (type: bool)
-    Exclude this rule from the listed firewalls in Panorama.
-
-
   group_tag (type: str)
     The group tag.
 
@@ -183,10 +173,6 @@ Parameters
     Dynamic destination translated distribution.
 
     Mutually exclusive with *dnat_address* and *dnat_port*.
-
-
-  audit_comment (type: str)
-    Add an audit comment to the rule being defined.
 
 
   provider (type: dict)
@@ -290,6 +276,44 @@ Parameters
     Commit changes after creating object.  If *ip_address* is a Panorama device, and *device_group* or *template* are also set, perform a commit to Panorama and a commit-all to the device group/template.
 
 
+  uuid (type: str)
+    The rule UUID.
+
+    Note that this is currently more of a read-only field.
+
+    Usage of the UUID cannot currently take the place of using the rule name as the primary identifier.
+
+
+  target (type: list)
+    Applicable for Panorama only.
+
+    Apply this rule exclusively to the listed firewall serial numbers.
+
+
+  negate_target (type: bool)
+    Applicable for Panorama only.
+
+    Negate the value for *target*.
+
+
+  location (type: str)
+    Position to place the rule in.
+
+
+  existing_rule (type: str)
+    - If *location=before* or *location=after*, this option specifies
+  an existing rule name.  The rule being managed by this module will
+  be positioned relative to the value of this parameter.
+- Required if *location=before* or *location=after*.
+
+
+
+  audit_comment (type: str)
+    Add an audit comment to the rule being defined.
+
+    This is only applied if there was a change to the rule.
+
+
 
 
 
@@ -339,7 +363,9 @@ Status
 ------
 
 
-
+- This module will be removed in version
+  3.0.0.
+  *[deprecated]*
 
 
 Authors

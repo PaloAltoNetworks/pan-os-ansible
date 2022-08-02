@@ -196,6 +196,7 @@ Notes
    - Panorama is supported.
    - Checkmode is supported.
    - If the PAN-OS device is a firewall and *vsys* is not specified, then the vsys will default to *vsys=vsys1*.
+   - If the PAN-OS device is a Panorama, *vsys* should be specified, otherwise the default is *null*, and *zone-name* assignment will fail.
    - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
 
 

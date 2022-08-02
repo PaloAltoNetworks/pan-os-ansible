@@ -1,0 +1,170 @@
+.. _panos_dhcp_module:
+
+
+panos_dhcp -- Configure DHCP for an interface.
+==============================================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+- Configure DHCP on PAN-OS firewall. - Besides *state=gathered* to see the the entire DHCP config related to a
+  specific interface, you will need to use this module to delete the interface
+  reference from the PAN-OS config if you intent to delete the interface being
+  refered to.
+
+
+
+
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python >= 0.17
+- pan-os-python >= 1.7.3
+
+
+
+Parameters
+----------
+
+  interface (required, type: str)
+    The interface name.
+
+
+  provider (type: dict)
+    A dict object containing connection details.
+
+
+    ip_address (type: str)
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+    username (type: str, default: admin)
+      The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    password (type: str)
+      The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+    api_key (type: str)
+      The API key to use instead of generating it using *username* / *password*.
+
+
+    port (type: int, default: 443)
+      The port number to connect to the PAN-OS device on.
+
+
+    serial_number (type: str)
+      The serial number of a firewall to use for targeted commands. If *ip_address* is not a Panorama PAN-OS device, then this param is ignored.
+
+
+
+  ip_address (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The IP address or hostname of the PAN-OS device being configured.
+
+
+  username (type: str, default: admin)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The username to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  password (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The password to use for authentication.  This is ignored if *api_key* is specified.
+
+
+  api_key (type: str)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The API key to use instead of generating it using *username* / *password*.
+
+
+  port (type: int, default: 443)
+    **Deprecated**
+
+    Use *provider* to specify PAN-OS connectivity instead.
+
+    ------------
+
+    The port number to connect to the PAN-OS device on.
+
+
+  state (type: str, default: present)
+    The state.
+
+
+
+
+
+Notes
+-----
+
+.. note::
+   - Check mode is supported.
+   - Panorama is not supported.
+   - PAN-OS connectivity should be specified using *provider* or the classic PAN-OS connectivity params (*ip_address*, *username*, *password*, *api_key*, and *port*).  If both are present, then the classic params are ignored.
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    # Gather all DHCP configuration for an interface
+    - panos_dhcp:
+        provider: '{{ provider }}'
+        interface: 'ethernet1/1'
+        state: 'gathered'
+
+    # Delete any and all DHCP configuration
+    - panos_dhcp:
+        provider: '{{ provider }}'
+        interface: 'ethernet1/1'
+        state: absent
+
+
+
+
+
+Status
+------
+
+
+
+
+
+Authors
+~~~~~~~
+
+- Garfield Lee Freeman (@shinmog)
+

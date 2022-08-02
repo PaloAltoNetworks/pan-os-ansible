@@ -45,8 +45,28 @@ Parameters
     Application technology
 
 
-  risk (type: str)
+  risk (type: int)
     Risk (1-5) of the application
+
+
+  default_type (type: str)
+    Default identification type of the application.
+
+
+  default_port (type: list)
+    Default ports.
+
+
+  default_ip_protocol (type: str)
+    Default IP protocol.
+
+
+  default_icmp_type (type: int)
+    Default ICMP type.
+
+
+  default_icmp_code (type: int)
+    Default ICMP code.
 
 
   parent_app (type: str)
@@ -247,7 +267,7 @@ Examples
         category: 'business-systems'
         subcategory: 'auth-service'
         technology: 'client-server'
-        risk: '1'
+        risk: 1
 
     - name: Remove custom application
       panos_application_object:

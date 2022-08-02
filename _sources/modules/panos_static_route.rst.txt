@@ -61,6 +61,18 @@ Parameters
     The Interface to use.
 
 
+  enable_path_monitor (type: bool)
+    Enable path monitor.
+
+
+  failure_condition (type: str)
+    Path monitor failure condition.
+
+
+  preemptive_hold_time (type: int)
+    Path monitor preemptive hold time in minutes.
+
+
   provider (type: dict)
     A dict object containing connection details.
 

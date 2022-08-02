@@ -15,6 +15,14 @@ Synopsis
 Retrieves tag information objects on PAN-OS devices.
 
 
+.. WARNING::
+   This module is **deprecated**, and will be removed in version 3.0.0
+   of the collection.
+
+   Updating module design  to network resource modules.
+
+   Use various specific modules such as M(panos_address_object) instead.
+
 
 
 Requirements
@@ -216,7 +224,9 @@ Status
 ------
 
 
-
+- This module will be removed in version
+  3.0.0.
+  *[deprecated]*
 
 
 Authors

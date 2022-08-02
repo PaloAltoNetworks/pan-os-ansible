@@ -127,32 +127,8 @@ Parameters
     List of symmetric return addresses.
 
 
-  location (type: str)
-    Position to place the created rule in the rule base.
-
-
-  existing_rule (type: str)
-    If 'location' is set to 'before' or 'after', this option specifies an existing rule name.  The new rule will be created in the specified position relative to this rule.  If 'location' is set to 'before' or 'after', this option is required.
-
-
-  target (type: list)
-    For Panorama devices only.
-
-    Apply this rule exclusively to the listed firewalls in Panorama.
-
-
-  negate_target (type: bool)
-    For Panorama devices only.
-
-    Exclude this rule from the listed firewalls in Panorama.
-
-
   group_tag (type: str)
     The group tag.
-
-
-  audit_comment (type: str)
-    Add an audit comment to the rule being defined.
 
 
   provider (type: dict)
@@ -248,6 +224,44 @@ Parameters
 
   rulebase (type: str)
     The rulebase in which the rule is to exist.  If left unspecified, this defaults to *rulebase=pre-rulebase* for Panorama.  For NGFW, this is always set to be *rulebase=rulebase*.
+
+
+  uuid (type: str)
+    The rule UUID.
+
+    Note that this is currently more of a read-only field.
+
+    Usage of the UUID cannot currently take the place of using the rule name as the primary identifier.
+
+
+  target (type: list)
+    Applicable for Panorama only.
+
+    Apply this rule exclusively to the listed firewall serial numbers.
+
+
+  negate_target (type: bool)
+    Applicable for Panorama only.
+
+    Negate the value for *target*.
+
+
+  location (type: str)
+    Position to place the rule in.
+
+
+  existing_rule (type: str)
+    - If *location=before* or *location=after*, this option specifies
+  an existing rule name.  The rule being managed by this module will
+  be positioned relative to the value of this parameter.
+- Required if *location=before* or *location=after*.
+
+
+
+  audit_comment (type: str)
+    Add an audit comment to the rule being defined.
+
+    This is only applied if there was a change to the rule.
 
 
 
