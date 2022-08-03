@@ -245,12 +245,11 @@ class Helper(ConnectionHelper):
 
         spec["enable_dhcp"] = True if module.params["enable_dhcp"] else None
 
-        if module.params["create_default_route"]:
-            spec["create_dhcp_default_route"] = True
-        elif spec["enable_dhcp"]:
-            spec["create_dhcp_default_route"] = False
-        else:
+        if spec["enable_dhcp"] is None:
             spec["create_dhcp_default_route"] = None
+            spec["dhcp_default_route_metric"] = None
+        else:
+            spec["create_dhcp_default_route"] = bool(spec["create_dhcp_default_route"])
 
 
 def main():
