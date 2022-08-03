@@ -142,7 +142,7 @@ jobs:
   docs:
     name: docs
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [sanity]
+    needs: [release]
     runs-on: ubuntu-latest
 
     defaults:
