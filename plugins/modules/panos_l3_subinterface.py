@@ -178,11 +178,9 @@ class Helper(ConnectionHelper):
         if module.params["state"] not in ("present", "replaced"):
             return
 
-        if module.params["create_default_route"]:
-            spec["create_dhcp_default_route"] = True
-        elif spec["enable_dhcp"]:
-            spec["create_dhcp_default_route"] = False
-        else:
+        spec["enable_dhcp"] = True if module.params["enable_dhcp"] else None
+
+        if not spec["create_dhcp_default_route"] and spec["enable_dhcp"] is None:
             spec["create_dhcp_default_route"] = None
 
 
