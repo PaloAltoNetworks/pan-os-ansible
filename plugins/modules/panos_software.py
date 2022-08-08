@@ -144,11 +144,11 @@ def is_valid_sequence(current, target):
     # Downgrade minor version (9.1.0 -> 9.0.0)
     elif (current.major == target.major) and (current.minor - 1 == target.minor):
         return True
-    
+
     # Downgrade major version (10.2.0 -> 10.1.0)
     elif (current.major - 1 == target.major) and (target.minor == 0):
         return True
-    
+
     else:
         return False
 
@@ -197,7 +197,9 @@ def main():
 
             if not is_valid_sequence(current, target):
                 module.fail_json(
-                    msg="Version Sequence is invalid: {0} -> {1}".format(current, target)
+                    msg="Version Sequence is invalid: {0} -> {1}".format(
+                        current, target
+                    )
                 )
 
             # Download new base version if needed.
