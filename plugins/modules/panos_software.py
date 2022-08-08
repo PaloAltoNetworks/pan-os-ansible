@@ -145,8 +145,8 @@ def is_valid_sequence(current, target):
     elif (current.major == target.major) and (current.minor - 1 == target.minor):
         return True
 
-    # Downgrade major version (10.2.0 -> 10.1.0)
-    elif (current.major - 1 == target.major) and (target.minor == 0):
+    # Downgrade major version (10.0.3 -> 9.1.6)
+    elif current.major - 1 == target.major:
         return True
 
     else:
