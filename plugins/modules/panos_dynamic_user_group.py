@@ -44,12 +44,12 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     name:
         description:
             - Name of the object.
         type: str
-        required: true
     description:
         description:
             - Description of this object
@@ -91,6 +91,7 @@ def main():
         min_panos_version=(9, 1, 0),
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         sdk_cls=("objects", "DynamicUserGroup"),
         sdk_params=dict(
             name=dict(required=True),
