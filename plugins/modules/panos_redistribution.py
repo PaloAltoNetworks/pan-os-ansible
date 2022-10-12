@@ -38,6 +38,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
@@ -45,7 +46,6 @@ options:
         description:
             - Name of rule.
         type: str
-        required: True
     priority:
         description:
             - Priority ID.
@@ -167,6 +167,7 @@ def main():
         template=True,
         template_stack=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_classic_provider_spec=True,
         with_commit=True,
         parents=(("network", "VirtualRouter", "vr_name", "default"),),
