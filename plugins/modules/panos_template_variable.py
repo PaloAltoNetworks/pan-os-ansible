@@ -39,6 +39,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.full_template_support
 options:
     name:
@@ -46,7 +47,6 @@ options:
             - Name of the variable.
             - Variable names should start with the dollar sign.
         type: str
-        required: true
     value:
         description:
             - The variable value.
@@ -99,6 +99,7 @@ def main():
         template=True,
         template_stack=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         firewall_error="This is a Panorama module",
         sdk_cls=("panorama", "TemplateVariable"),
         sdk_params=dict(
