@@ -38,13 +38,13 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     pg_name:
         description:
             - name of the security profile group
         type: str
-        required: true
     data_filtering:
         description:
             - name of the data filtering profile
@@ -100,6 +100,7 @@ def main():
         vsys=True,
         device_group=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_classic_provider_spec=True,
         with_commit=True,
         sdk_cls=("objects", "SecurityProfileGroup"),
