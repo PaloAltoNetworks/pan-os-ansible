@@ -38,6 +38,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
@@ -62,7 +63,6 @@ options:
         description:
             - An IPv4 subnet or a defined Redistribution Profile in the virtual router.
         type: str
-        required: True
     route_table:
         description:
             - Summarize route.
@@ -139,6 +139,7 @@ def main():
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         with_commit=True,
+        with_gathered_filter=True,
         parents=(
             ("network", "VirtualRouter", "vr_name", "default"),
             ("network", "Bgp", None),
