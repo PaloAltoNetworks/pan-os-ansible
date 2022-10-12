@@ -42,11 +42,11 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.template_only
     - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.deprecated_commit
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     if_name:
         description:
             - Name of the interface to configure.
-        required: true
         type: str
     mode:
         description:
@@ -185,6 +185,7 @@ def main():
         with_set_vsys_reference=True,
         with_set_zone_reference=True,
         with_set_virtual_router_reference=True,
+        with_gathered_filter=True,
         min_pandevice_version=(0, 13, 0),
         sdk_cls=("network", "AggregateInterface"),
         sdk_params=dict(
