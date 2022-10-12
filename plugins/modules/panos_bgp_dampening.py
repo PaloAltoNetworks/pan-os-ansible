@@ -41,6 +41,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.deprecated_commit
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     vr_name:
         description:
@@ -73,7 +74,6 @@ options:
         description:
             - Name of Dampening Profile.
         type: str
-        required: True
     reuse:
         description:
             - Reuse threshold value.
@@ -105,6 +105,7 @@ def main():
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         with_commit=True,
+        with_gathered_filter=True,
         parents=(
             ("network", "VirtualRouter", "vr_name", "default"),
             ("network", "Bgp", None),
