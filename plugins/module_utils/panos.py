@@ -30,6 +30,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 import re
+import shlex
 import sys
 import time
 from functools import reduce
@@ -144,6 +145,7 @@ class ConnectionHelper(object):
         self.with_movement = False
         self.with_audit_comment = False
         self.with_import_support = False
+        self.with_gathered_filter = False
         self.with_update_in_apply_state = False
         self.zone_mode = None
         self.default_zone_mode = None
@@ -608,29 +610,40 @@ class ConnectionHelper(object):
                 "set_zone_ref error: obj doesn't have a mode and there is no default_zone_mode given"
             )
 
-        # Do a targetted refresh if the listing is None.
         if listing is None:
-            cls = obj.__class__
-            if getattr(cls, "NAME", None) is not None:
-                x = cls(obj.uid)
+            if module.params.get("state", None) == "gathered" and module.params.get(
+                "gathered_filter", None
+            ):
+                # Refresh everything as the user is doing a gathered_filter retrieval.
+                try:
+                    listing = obj.__class__.refreshall(obj.parent, add=False)
+                except PanDeviceError as e:
+                    module.fail_json(
+                        msg="Failed gathered_filter refresh: {0}".format(e),
+                    )
             else:
-                x = cls()
-            x.parent = obj.parent
-            try:
-                x.refresh()
-            except PanObjectMissing:
-                listing = []
-            except PanDeviceError as e:
-                module.fail_json(
-                    msg="Failed refresh: {0}".format(e),
-                )
-            else:
-                listing = [
-                    x,
-                ]
-                # Copy the uuid, if it's present and unspecified.
-                if hasattr(x, "uuid") and obj.uuid is None:
-                    obj.uuid = x.uuid
+                # Do a targetted refresh if the listing is None.
+                cls = obj.__class__
+                if getattr(cls, "NAME", None) is not None:
+                    x = cls(obj.uid)
+                else:
+                    x = cls()
+                x.parent = obj.parent
+                try:
+                    x.refresh()
+                except PanObjectMissing:
+                    listing = []
+                except PanDeviceError as e:
+                    module.fail_json(
+                        msg="Failed refresh: {0}".format(e),
+                    )
+                else:
+                    listing = [
+                        x,
+                    ]
+                    # Copy the uuid, if it's present and unspecified.
+                    if hasattr(x, "uuid") and obj.uuid is None:
+                        obj.uuid = x.uuid
 
         # Apply the state.
         if module.params["state"] in ("present", "replaced"):
@@ -874,17 +887,32 @@ class ConnectionHelper(object):
                 except PanDeviceError as e:
                     module.fail_json(msg="Failed set_virtual_router: {0}".format(e))
         elif module.params["state"] == "gathered":
-            for item in listing:
-                if item.uid != obj.uid:
-                    continue
-                result["gathered"] = self.describe(item)
-                try:
-                    result["gathered_xml"] = eltostr(item)
-                except Exception as e:
-                    result["gathered_xml"] = "Failed to gather XML: {0}".format(e)
-                break
+            if module.params.get("gathered_filter", None):
+                result["gathered"] = []
+                result["gathered_xml"] = []
+                for item in listing:
+                    if self.matches_gathered_filter(
+                        item, module.params["gathered_filter"]
+                    ):
+                        result["gathered"].append(self.describe(item))
+                        try:
+                            item_xml = eltostr(item)
+                        except Exception as e:
+                            item_xml = "Failed to gather XML: {0}".format(e)
+                        finally:
+                            result["gathered_xml"].append(item_xml)
             else:
-                module.fail_json(msg="Object '{0}' not found".format(obj.uid))
+                for item in listing:
+                    if item.uid != obj.uid:
+                        continue
+                    result["gathered"] = self.describe(item)
+                    try:
+                        result["gathered_xml"] = eltostr(item)
+                    except Exception as e:
+                        result["gathered_xml"] = "Failed to gather XML: {0}".format(e)
+                    break
+                else:
+                    module.fail_json(msg="Object '{0}' not found".format(obj.uid))
         else:
             for item in listing:
                 if item.uid != obj.uid:
@@ -1085,6 +1113,168 @@ class ConnectionHelper(object):
 
         return ans
 
+    def matches_gathered_filter(self, item, logic):
+        """Returns True if the item and its contents matches the logic given.
+
+        Args:
+            item: A pan-os-python instance.
+            logic (str): The logic to apply to the item.
+
+        Returns:
+            bool: True if the item matches the logic.
+        """
+        err_msg = "Improperly formatted logic string"
+        logic = logic.strip()
+        item_config = self._describe(item)
+
+        if not logic:
+            raise Exception("no logic given")
+
+        if logic == "*":
+            return True
+
+        evaler = []
+
+        pdepth = 0
+        logic_tokens = shlex.split(logic)
+        token_iter = iter(logic_tokens)
+        while True:
+            end_parens = 0
+            try:
+                field = next(token_iter)
+            except StopIteration:
+                break
+
+            while True:
+                if field.startswith("not("):
+                    evaler.append("not")
+                    field = field[3:]
+
+                if field.startswith("!("):
+                    evaler.extend(["not", "("])
+                    field = field[2:]
+                    pdepth += 1
+                elif field.startswith("("):
+                    evaler.append("(")
+                    field = field[1:]
+                    pdepth += 1
+                else:
+                    break
+
+            if not field:
+                continue
+            elif field in ("&&", "and"):
+                evaler.append("and")
+                continue
+            elif field in ("||", "or"):
+                evaler.append("or")
+                continue
+            elif field == "not":
+                evaler.append("not")
+                continue
+
+            while field.endswith(")"):
+                end_parens += 1
+                pdepth -= 1
+                if pdepth < 0:
+                    raise Exception(err_msg)
+                field = field[:-1]
+
+            if field.lower() == "true":
+                evaler.append("True")
+                field = ""
+            elif field.lower() == "false":
+                evaler.append("False")
+                field = ""
+
+            if not field:
+                evaler.extend(")" * end_parens)
+                continue
+            elif end_parens:
+                raise Exception(err_msg)
+            elif field not in item_config:
+                raise Exception("No field named {0}".format(field))
+
+            try:
+                operator = next(token_iter)
+            except StopIteration:
+                raise Exception(err_msg)
+
+            if operator == "is-none":
+                evaler.append("{0}".format(item_config[field] is None))
+            elif operator == "is-not-none":
+                evaler.append("{0}".format(item_config[field] is not None))
+            elif operator == "is-true":
+                evaler.append("{0}".format(bool(item_config[field])))
+            elif operator == "is-false":
+                evaler.append("{0}".format(bool(not item_config[field])))
+
+            try:
+                value = next(token_iter)
+            except StopIteration:
+                raise Exception(err_msg)
+
+            while value.endswith(")"):
+                end_parens += 1
+                pdepth -= 1
+                if pdepth < 0:
+                    raise Exception(err_msg)
+                value = value[:-1]
+                if not value:
+                    raise Exception(err_msg)
+
+            if operator == "==":
+                evaler.append("{0}".format("{0}".format(item_config[field]) == value))
+            elif operator == "!=":
+                evaler.append("{0}".format("{0}".format(item_config[field]) != value))
+            elif operator == "<":
+                evaler.append("{0}".format(item_config[field] < float(value)))
+            elif operator == "<=":
+                evaler.append("{0}".format(item_config[field] <= float(value)))
+            elif operator == ">":
+                evaler.append("{0}".format(item_config[field] > float(value)))
+            elif operator == ">=":
+                evaler.append("{0}".format(item_config[field] >= float(value)))
+            elif operator == "contains":
+                evaler.append("{0}".format(value in item_config[field]))
+            elif operator == "does-not-contain":
+                evaler.append("{0}".format(value in item_config[field]))
+            elif operator == "starts-with":
+                evaler.append("{0}".format(item_config[field].startswith(value)))
+            elif operator == "does-not-start-with":
+                evaler.append("{0}".format(not item_config[field].startswith(value)))
+            elif operator == "ends-with":
+                evaler.append("{0}".format(item_config[field].endswith(value)))
+            elif operator == "does-not-end-with":
+                evaler.append("{0}".format(not item_config[field].endswith(value)))
+            elif operator == "matches-regex":
+                evaler.append(
+                    "{0}".format(re.search(value, item_config[field]) is not None)
+                )
+            elif operator == "does-not-match-regex":
+                evaler.append(
+                    "{0}".format(re.search(value, item_config[field]) is None)
+                )
+            elif operator == "contains-regex":
+                prog = re.compile(value)
+                evaler.append(
+                    "{0}".format(any(prog.search(x) for x in item_config[field]))
+                )
+            elif operator == "does-not-contain-regex":
+                prog = re.compile(value)
+                evaler.append(
+                    "{0}".format(not any(prog.search(x) for x in item_config[field]))
+                )
+            else:
+                raise Exception("Unknown operator: {0}".format(operator))
+
+            evaler.extend(")" * end_parens)
+
+        if pdepth != 0:
+            raise Exception("Parenthesis depth is inequal: {0}".format(pdepth))
+
+        return bool(eval(" ".join(evaler)))
+
 
 def get_connection(
     vsys=None,
@@ -1120,6 +1310,7 @@ def get_connection(
     with_target=False,
     with_movement=False,
     with_audit_comment=False,
+    with_gathered_filter=False,
     with_update_in_apply_state=False,
     with_set_vlan_reference=False,
     with_set_vsys_reference=False,
@@ -1211,6 +1402,7 @@ def get_connection(
         with_movement(bool): This is a rule module, so move the rule into place.
         with_audit_comment(bool): This is a rule module, so perform audit comment
             operations.
+        with_gathered_filter(bool): Include `gathered_filter` param for network resource modules.
         with_update_in_apply_state(bool): `apply_state()` should do `.update(param)` on
             changes instead of `obj.apply()`.
         with_set_vlan_reference(bool): Module should do `set_vlan()` in apply_state().
@@ -1486,6 +1678,18 @@ def get_connection(
                 renames[k] = sdk_name
             spec[k] = sdk_params[k]
         helper.sdk_params = sdk_params
+
+    if with_gathered_filter:
+        if "gathered_filter" in spec:
+            raise KeyError("cannot add 'gathered_filter' for with_gathered_filter")
+        if sdk_params is None:
+            raise Exception("with_gathered_filter requires sdk_params to be specified")
+        helper.with_gathered_filter = True
+        spec["gathered_filter"] = {}
+        for k in sdk_params.keys():
+            if spec[k].get("required", False):
+                req.append(["gathered_filter", k])
+                spec[k]["required"] = False
 
     if extra_params is not None:
         if not isinstance(extra_params, dict):
