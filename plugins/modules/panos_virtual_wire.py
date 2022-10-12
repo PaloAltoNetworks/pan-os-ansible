@@ -33,6 +33,7 @@ requirements:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.vsys_import
     - paloaltonetworks.panos.fragments.full_template_support
 notes:
@@ -43,17 +44,14 @@ options:
         description:
             -  Name of the Virtual Wire
         type: str
-        required: True
     interface1:
         description:
             - First interface of Virtual Wire
         type: str
-        required: True
     interface2:
         description:
             - Second interface of Virtual Wire
         type: str
-        required: True
     tag:
         description:
             - Set tag that is allowed over Virtual Wire.  Currently
@@ -97,6 +95,7 @@ def main():
         template=True,
         template_stack=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_classic_provider_spec=True,
         with_set_vsys_reference=True,
         sdk_cls=("network", "VirtualWire"),
@@ -105,8 +104,8 @@ def main():
                 type="str",
                 required=True,
             ),
-            interface1=dict(type="str", required=True),
-            interface2=dict(type="str", required=True),
+            interface1=dict(),
+            interface2=dict(),
             tag=dict(type="int"),
             multicast=dict(type="bool"),
             pass_through=dict(type="bool"),
