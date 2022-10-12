@@ -39,6 +39,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.vsys
 options:
@@ -46,7 +47,6 @@ options:
         description:
             - Name of the security zone to configure.
         type: str
-        required: true
     mode:
         description:
             - The mode of the security zone. Must match the mode of the interface.
@@ -141,6 +141,7 @@ def main():
         template=True,
         template_stack=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_classic_provider_spec=True,
         sdk_cls=("network", "Zone"),
         sdk_params=dict(
