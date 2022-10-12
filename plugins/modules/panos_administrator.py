@@ -43,6 +43,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     admin_username:
         description:
@@ -193,6 +194,7 @@ def main():
         with_network_resource_module_state=True,
         with_commit=True,
         with_classic_provider_spec=True,
+        with_gathered_filter=True,
         min_pandevice_version=(0, 8, 0),
         sdk_cls=("device", "Administrator"),
         sdk_params=dict(
