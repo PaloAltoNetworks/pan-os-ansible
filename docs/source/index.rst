@@ -41,6 +41,7 @@ Then in your playbooks you can specify that you want to use the
    :maxdepth: 2
    :caption: Contents:
 
+   gatheredfilter
    examples
    modules
    history
