@@ -444,7 +444,7 @@ class ConnectionHelper(object):
                 p_info[2],
             )
             if parent_param_name is None:
-                p = to_sdk_cls(parent_pkg, parent_class)
+                p = to_sdk_cls(parent_pkg, parent_class)()
             else:
                 p = to_sdk_cls(parent_pkg, parent_class)(
                     module.params[parent_param_name]
