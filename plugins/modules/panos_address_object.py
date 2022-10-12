@@ -41,11 +41,11 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.deprecated_commit
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     name:
         description:
             - Name of object to create.
-        required: true
         type: str
     value:
         description:
@@ -118,6 +118,7 @@ def main():
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
         with_commit=True,
+        with_gathered_filter=True,
         sdk_cls=("objects", "AddressObject"),
         sdk_params=dict(
             name=dict(required=True),
