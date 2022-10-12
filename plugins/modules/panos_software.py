@@ -128,7 +128,7 @@ def needs_download(device, version):
     return not device.software.versions[str(version)]["downloaded"]
 
 
-def is_valid_upgrade(current, target):
+def is_valid_sequence(current, target):
     # Patch version upgrade (major and minor versions match)
     if (current.major == target.major) and (current.minor == target.minor):
         return True
@@ -139,6 +139,14 @@ def is_valid_upgrade(current, target):
 
     # Upgrade major version (9.1.0 -> 10.0.0)
     elif (current.major + 1 == target.major) and (target.minor == 0):
+        return True
+
+    # Downgrade minor version (9.1.0 -> 9.0.0)
+    elif (current.major == target.major) and (current.minor - 1 == target.minor):
+        return True
+
+    # Downgrade major version (10.0.3 -> 9.1.6)
+    elif current.major - 1 == target.major:
         return True
 
     else:
@@ -187,9 +195,11 @@ def main():
 
         if target != current:
 
-            if not is_valid_upgrade(current, target):
+            if not is_valid_sequence(current, target):
                 module.fail_json(
-                    msg="Upgrade is invalid: {0} -> {1}".format(current, target)
+                    msg="Version Sequence is invalid: {0} -> {1}".format(
+                        current, target
+                    )
                 )
 
             # Download new base version if needed.
