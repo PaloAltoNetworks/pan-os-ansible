@@ -375,16 +375,20 @@ def main():
     else:
         obj = BgpPolicyExportRule(**spec)
 
-    # Handle address prefixes.
-    for x in module.params["address_prefix"]:
-        if "name" not in x:
-            module.fail_json(msg='Address prefix dict requires "name": {0}'.format(x))
-        obj.add(
-            BgpPolicyAddressPrefix(
-                to_text(x["name"], encoding="utf-8", errors="surrogate_or_strict"),
-                None if x.get("exact") is None else module.boolean(x["exact"]),
+    # Since address_prefix can legitimately be empty, only process it if non-empty
+    if module.params["address_prefix"] is not None:
+        # Handle address prefixes.
+        for x in module.params["address_prefix"]:
+            if "name" not in x:
+                module.fail_json(
+                    msg='Address prefix dict requires "name": {0}'.format(x)
+                )
+            obj.add(
+                BgpPolicyAddressPrefix(
+                    to_text(x["name"], encoding="utf-8", errors="surrogate_or_strict"),
+                    None if x.get("exact") is None else module.boolean(x["exact"]),
+                )
             )
-        )
 
     listing = bgp.findall(obj.__class__)
     bgp.add(obj)
