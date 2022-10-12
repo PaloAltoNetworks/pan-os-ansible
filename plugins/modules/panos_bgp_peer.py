@@ -40,6 +40,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.deprecated_commit
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     address_family_identifier:
         description:
@@ -125,7 +126,6 @@ options:
         description:
             - Name of BGP Peer.
         type: str
-        required: True
     peer_address_ip:
         description:
             - IP address of peer.
@@ -138,7 +138,6 @@ options:
         description:
             - Name of the peer group; it must already exist; see M(panos_bgp_peer_group).
         type: str
-        required: True
     peering_type:
         description:
             - Peering type.
@@ -200,6 +199,7 @@ def main():
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         with_commit=True,
+        with_gathered_filter=True,
         parents=(
             ("network", "VirtualRouter", "vr_name", "default"),
             ("network", "Bgp", None),
