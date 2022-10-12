@@ -37,6 +37,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     panorama_template:
@@ -50,7 +51,6 @@ options:
         description:
             - The management profile name.
         type: str
-        required: true
     ping:
         description:
             - Enable ping
@@ -157,6 +157,7 @@ def main():
         template_stack=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         min_pandevice_version=(0, 8, 0),
         with_commit=True,
         sdk_cls=("network", "ManagementProfile"),
