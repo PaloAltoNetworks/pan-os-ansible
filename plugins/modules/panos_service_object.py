@@ -38,13 +38,13 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     name:
         description:
             - Name of service object.
         type: str
-        required: true
     protocol:
         description:
             - Protocol of the service.
@@ -132,6 +132,7 @@ def main():
         device_group=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_commit=True,
         min_pandevice_version=(1, 7, 3),
         sdk_cls=("objects", "ServiceObject"),
