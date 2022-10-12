@@ -39,6 +39,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     http_profile:
         description:
@@ -49,12 +50,10 @@ options:
         description:
             - Server name.
         type: str
-        required: True
     address:
         description:
             - IP address or FQDN of the HTTP server
         type: str
-        required: True
     protocol:
         description:
             - The protocol.
@@ -124,6 +123,7 @@ def main():
         vsys_shared=True,
         device_group=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(8, 0, 0),
