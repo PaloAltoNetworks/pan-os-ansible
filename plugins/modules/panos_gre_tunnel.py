@@ -39,12 +39,12 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     name:
         description:
             - Name of object to create.
         type: str
-        required: true
     interface:
         description:
             - Interface to terminate the tunnel.
@@ -131,6 +131,7 @@ def main():
         template_stack=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         min_pandevice_version=(0, 13, 0),
         min_panos_version=(9, 0, 0),
         sdk_cls=("network", "GreTunnel"),
