@@ -38,12 +38,12 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     name:
         description:
             - Name of the tag.
         type: str
-        required: true
     description:
         description:
             - Descriptive name for this custom url category.
@@ -95,6 +95,7 @@ def main():
         min_pandevice_version=(1, 5, 0),
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         sdk_cls=("objects", "CustomUrlCategory"),
         sdk_params=dict(
             name=dict(required=True),
