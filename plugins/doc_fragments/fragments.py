@@ -354,3 +354,13 @@ options:
             - This is only applied if there was a change to the rule.
         type: str
 """
+
+    GATHERED_FILTER = r"""
+options:
+    gathered_filter:
+        description:
+            - When I(state=gathered).
+            - An advanced filtering option to filter results returned from PAN-OS.
+            - Refer to the guide discussing I(gathered_filter) for more information.
+        type: str
+"""
