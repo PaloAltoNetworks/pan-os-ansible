@@ -44,12 +44,12 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     name:
         description:
             - Name of the object.
         type: str
-        required: true
     category:
         description:
             - Application category
@@ -147,6 +147,7 @@ def main():
         device_group=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         sdk_cls=("objects", "ApplicationFilter"),
         sdk_params=dict(
             name=dict(type="str", required=True),
