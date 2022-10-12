@@ -137,6 +137,7 @@ class Helper(ConnectionHelper):
             return
 
         vsys = module.params["vsys"]
+        vsys_dg = module.params["vsys_dg"]
 
         # TODO(gfreeman) - Remove vsys_dg in 2.12, as well as this code chunk.
         # In the mean time, we'll need to do this special handling.
