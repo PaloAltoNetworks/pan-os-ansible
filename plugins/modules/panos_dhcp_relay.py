@@ -44,6 +44,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     dhcp_interface:
         description:
@@ -56,7 +57,6 @@ options:
             - The interface name for the DHCP relay.
             - This is probably the same as the I(dhcp_interface).
         type: str
-        required: true
     ipv4_enabled:
         description:
             - Enable IPv4 on DHCP Relay
@@ -104,6 +104,7 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 def main():
     helper = get_connection(
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_classic_provider_spec=True,
         panorama_error="This is a firewall only module",
         min_pandevice_version=(1, 7, 3),
