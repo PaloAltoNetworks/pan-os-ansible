@@ -37,6 +37,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
@@ -44,7 +45,6 @@ options:
         description:
             - Name for the profile.
         type: str
-        required: true
     esp_encryption:
         description: Encryption algorithms for ESP mode.
         type: list
@@ -163,6 +163,7 @@ def main():
         template_stack=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_commit=True,
         sdk_cls=("network", "IpsecCryptoProfile"),
         sdk_params=dict(
