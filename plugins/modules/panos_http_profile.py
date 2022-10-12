@@ -39,12 +39,12 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     name:
         description:
             - Name of the profile.
         type: str
-        required: true
     tag_registration:
         description:
             - The server should have user-ID agent running in order for tag
@@ -250,6 +250,7 @@ def main():
         vsys_shared=True,
         device_group=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(8, 0, 0),
