@@ -38,6 +38,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
@@ -45,7 +46,6 @@ options:
         description:
             - Name for the profile.
         type: str
-        required: true
     version:
         description:
             - Specify the priority for Diffie-Hellman (DH) groups.
@@ -259,6 +259,7 @@ def main():
         template_stack=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_commit=True,
         sdk_cls=("network", "IkeGateway"),
         sdk_params=dict(
