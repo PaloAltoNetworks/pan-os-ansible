@@ -39,6 +39,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
@@ -71,7 +72,6 @@ options:
         description:
             - Name of the BGP peer group.
         type: str
-        required: True
     remove_private_as:
         description:
             - I(type=ebgp) only; remove private AS when exporting route.
@@ -124,6 +124,7 @@ def main():
         with_network_resource_module_state=True,
         with_classic_provider_spec=True,
         with_commit=True,
+        with_gathered_filter=True,
         parents=(
             ("network", "VirtualRouter", "vr_name", "default"),
             ("network", "Bgp", None),
