@@ -39,13 +39,13 @@ notes:
     - Check mode is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.provider
 options:
     name:
         description:
             - Name of the template.
         type: str
-        required: true
     description:
         description:
             - The description.
@@ -106,6 +106,7 @@ def main():
     helper = get_connection(
         helper_cls=Helper,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         firewall_error="This is a Panorama only module",
         min_panos_version=(7, 0, 0),
         min_pandevice_version=(1, 5, 1),
