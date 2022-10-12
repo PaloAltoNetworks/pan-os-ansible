@@ -43,6 +43,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.rulebase
@@ -56,7 +57,6 @@ options:
         description:
             - Name of the security rule.
         type: str
-        required: true
     source_zone:
         description:
             - List of source zones.
@@ -367,6 +367,7 @@ def main():
         device_group=True,
         rulebase=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_classic_provider_spec=True,
         error_on_firewall_shared=True,
         min_pandevice_version=(1, 5, 0),
