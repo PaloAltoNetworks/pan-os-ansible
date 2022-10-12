@@ -36,6 +36,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.template_only
 options:
     iface_name:
@@ -47,7 +48,6 @@ options:
         description:
             - IPv6 address.
         type: str
-        required: true
     enable_on_interface:
         description:
             - Enable address on interface.
@@ -141,6 +141,7 @@ def main():
         template=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         min_pandevice_version=(0, 14, 0),
         sdk_cls=("network", "IPv6Address"),
         sdk_params=dict(
