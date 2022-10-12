@@ -38,6 +38,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.rulebase
@@ -50,7 +51,6 @@ options:
         description:
             - Name of the rule.
         type: str
-        required: true
     description:
         description:
             - The rule description.
@@ -217,6 +217,7 @@ def main():
         with_target=True,
         with_movement=True,
         with_audit_comment=True,
+        with_gathered_filter=True,
         sdk_cls=("policies", "DecryptionRule"),
         sdk_params=dict(
             name=dict(required=True),
