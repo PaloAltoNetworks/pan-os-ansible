@@ -38,13 +38,13 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
     name:
         description:
             - Name of service group.
         type: str
-        required: true
     value:
         description:
             - List of service objects to be included in the group.  Must specify if state is
@@ -88,6 +88,7 @@ def main():
         device_group=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_commit=True,
         sdk_cls=("objects", "ServiceGroup"),
         sdk_params=dict(
