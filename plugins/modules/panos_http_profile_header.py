@@ -45,6 +45,7 @@ options:
         description:
             - Name of the http server profile.
         type: str
+        required: true
     log_type:
         description:
             - The log type for this header.
@@ -69,7 +70,6 @@ options:
         description:
             - The header name.
         type: str
-        required: True
     value:
         description:
             - The value to assign the header.
