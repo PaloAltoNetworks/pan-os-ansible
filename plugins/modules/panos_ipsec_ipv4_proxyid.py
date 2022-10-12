@@ -36,6 +36,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
 options:
@@ -43,7 +44,6 @@ options:
         description:
             - The Proxy ID
         type: str
-        required: true
     tunnel_name:
         description:
             - IPSec Tunnel Name
@@ -112,6 +112,7 @@ def main():
         template_stack=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_commit=True,
         parents=(("network", "IpsecTunnel", "tunnel_name", "default"),),
         sdk_cls=("network", "IpsecTunnelIpv4ProxyId"),
