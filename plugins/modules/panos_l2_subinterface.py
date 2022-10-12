@@ -38,6 +38,7 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.vsys_import
     - paloaltonetworks.panos.fragments.template_only
 options:
@@ -45,12 +46,10 @@ options:
         description:
             - Name of the interface to configure.
         type: str
-        required: true
     tag:
         description:
             - Tag (vlan id) for the interface
         type: int
-        required: true
     lldp_enabled:
         description:
             - Enable LLDP
@@ -133,6 +132,7 @@ def main():
         template=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         min_pandevice_version=(0, 8, 0),
         with_set_vlan_reference=True,
         with_set_zone_reference=True,
