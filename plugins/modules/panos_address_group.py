@@ -41,11 +41,11 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.deprecated_commit
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     name:
         description:
             - Name of address group to create.
-        required: true
         type: str
     static_value:
         description:
@@ -105,6 +105,7 @@ def main():
         device_group=True,
         with_classic_provider_spec=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_commit=True,
         sdk_cls=("objects", "AddressGroup"),
         sdk_params=dict(
