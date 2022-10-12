@@ -38,6 +38,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys_shared
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     syslog_profile:
         description:
@@ -48,12 +49,10 @@ options:
         description:
             - Server name.
         type: str
-        required: True
     server:
         description:
             - IP address or FQDN of the syslog server
         type: str
-        required: True
     transport:
         description:
             - Syslog transport.
@@ -117,6 +116,7 @@ def main():
         vsys_shared=True,
         device_group=True,
         with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_classic_provider_spec=True,
         min_pandevice_version=(0, 11, 1),
         min_panos_version=(7, 1, 0),
@@ -124,7 +124,7 @@ def main():
         sdk_cls=("device", "SyslogServer"),
         sdk_params=dict(
             name=dict(required=True),
-            server=dict(required=True),
+            server=dict(),
             transport=dict(default="UDP", choices=["UDP", "TCP", "SSL"]),
             syslog_port=dict(type="int", sdk_param="port"),
             format=dict(default="BSD", choices=["BSD", "IETF"]),
