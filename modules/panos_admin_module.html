@@ -16,6 +16,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -40,6 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../gatheredfilter.html">Gathered Filter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="panos_address_group_module.html">paloaltonetworks.panos.panos_address_group module – Create address group objects on PAN-OS devices.</a></li>
@@ -201,57 +203,54 @@
 <h1>paloaltonetworks.panos.panos_admin module – Add or modify PAN-OS user accounts password.<a class="headerlink" href="#paloaltonetworks-panos-panos-admin-module-add-or-modify-pan-os-user-accounts-password" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.10.1).</p>
-<p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
-It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
-To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
-<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.10.2).</p>
+<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
+You need further requirements to be able to use this module,
+see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-admin-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
 <p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">paloaltonetworks.panos.panos_admin</span></code>.</p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.0: </span>of paloaltonetworks.panos</p>
-</div>
+<p class="ansible-version-added">New in paloaltonetworks.panos 1.0.0</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#deprecated" id="id1">DEPRECATED</a></p></li>
-<li><p><a class="reference internal" href="#synopsis" id="id2">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id3">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id4">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id5">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id6">Examples</a></p></li>
-<li><p><a class="reference internal" href="#return-values" id="id7">Return Values</a></p></li>
-<li><p><a class="reference internal" href="#status" id="id8">Status</a></p></li>
+<li><p><a class="reference internal" href="#deprecated" id="id13">DEPRECATED</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id14">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id15">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id16">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id17">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id18">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id19">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#status" id="id20">Status</a></p></li>
 </ul>
 </div>
 <section id="deprecated">
-<h2><a class="toc-backref" href="#id1">DEPRECATED</a><a class="headerlink" href="#deprecated" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id13">DEPRECATED</a><a class="headerlink" href="#deprecated" title="Permalink to this heading"></a></h2>
 <dl class="field-list simple">
 <dt class="field-odd">Removed in</dt>
 <dd class="field-odd"><p>version 3.0.0</p>
 </dd>
 <dt class="field-even">Why</dt>
-<dd class="field-even"><p>This module is a subset of M(panos_administrator)’s functionality.</p>
+<dd class="field-even"><p>This module is a subset of <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_administrator')</span></code>: <strong>parameter ‘panos_administrator’ is not a FQCN</strong>‘s functionality.</p>
 </dd>
 <dt class="field-odd">Alternative</dt>
-<dd class="field-odd"><p>Use M(panos_administrator) instead.</p>
+<dd class="field-odd"><p>Use <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_administrator')</span></code>: <strong>parameter ‘panos_administrator’ is not a FQCN</strong> instead.</p>
 </dd>
 </dl>
 </section>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id2">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id14">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>PanOS module that allows changes to the user account passwords by doing API calls to the Firewall using pan-api as the protocol.</p></li>
 </ul>
 </section>
 <section id="requirements">
-<h2><a class="toc-backref" href="#id3">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-paloaltonetworks-panos-panos-admin-module-requirements"></span><h2><a class="toc-backref" href="#id15">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>pan-python can be obtained from PyPI <a class="reference external" href="https://pypi.python.org/pypi/pan-python">https://pypi.python.org/pypi/pan-python</a></p></li>
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id4">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id16">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -271,7 +270,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-admin_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Username that needs password change.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id1"><span class="problematic" id="id2">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -286,12 +285,12 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-commit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
-<p>Please use M(panos_commit_firewall), M(panos_commit_panorama), M(panos_commit_push) instead.</p>
+<p>Please use <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_commit_firewall')</span></code>: <strong>parameter ‘panos_commit_firewall’ is not a FQCN</strong>, <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_commit_panorama')</span></code>: <strong>parameter ‘panos_commit_panorama’ is not a FQCN</strong>, <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_commit_push')</span></code>: <strong>parameter ‘panos_commit_push’ is not a FQCN</strong> instead.</p>
 <hr><p>Commit changes after creating object.  If <em>ip_address</em> is a Panorama device, and <em>device_group</em> or <em>template</em> are also set, perform a commit to Panorama and a commit-all to the device group/template.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -314,7 +313,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Port used to connect to the PAN-OS device being configured.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id7"><span class="problematic" id="id8">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -329,14 +328,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Username credentials to use for auth unless <em>api_key</em> is set.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id9"><span class="problematic" id="id10">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id5">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id17">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -345,7 +344,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id6">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id18">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the password of user admin to &quot;badpassword&quot;</span><span class="w"></span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">set admin password</span><span class="w"></span>
 <span class="w">    </span><span class="nt">panos_admin</span><span class="p">:</span><span class="w"></span>
@@ -357,7 +356,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div>
 </section>
 <section id="return-values">
-<h2><a class="toc-backref" href="#id7">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id19">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
 <p>Common return values are documented <span class="xref std std-ref">here</span>, the following are the fields unique to this module:</p>
 <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
 <thead>
@@ -372,14 +371,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 <td><div class="ansible-option-cell"><p>success status</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> success</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> “okey dokey”</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id11"><span class="problematic" id="id12">:ansible-rv-sample-value:`&quot;okey dokey&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="status">
-<h2><a class="toc-backref" href="#id8">Status</a><a class="headerlink" href="#status" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id20">Status</a><a class="headerlink" href="#status" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>This module will be removed in version 3.0.0.
 <em>[deprecated]</em></p></li>

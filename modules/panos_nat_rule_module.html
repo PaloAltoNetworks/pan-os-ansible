@@ -16,6 +16,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -40,6 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../gatheredfilter.html">Gathered Filter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="panos_address_group_module.html">paloaltonetworks.panos.panos_address_group module – Create address group objects on PAN-OS devices.</a></li>
@@ -200,29 +202,26 @@
 <h1>paloaltonetworks.panos.panos_nat_rule module – create a policy NAT rule<a class="headerlink" href="#paloaltonetworks-panos-panos-nat-rule-module-create-a-policy-nat-rule" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.10.1).</p>
-<p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
-It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
-To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
-<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.10.2).</p>
+<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
+You need further requirements to be able to use this module,
+see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
 <p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">paloaltonetworks.panos.panos_nat_rule</span></code>.</p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.0: </span>of paloaltonetworks.panos</p>
-</div>
+<p class="ansible-version-added">New in paloaltonetworks.panos 1.0.0</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#deprecated" id="id1">DEPRECATED</a></p></li>
-<li><p><a class="reference internal" href="#synopsis" id="id2">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id3">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id4">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id5">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id6">Examples</a></p></li>
-<li><p><a class="reference internal" href="#status" id="id7">Status</a></p></li>
+<li><p><a class="reference internal" href="#deprecated" id="id71">DEPRECATED</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id72">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id73">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id74">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id75">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id76">Examples</a></p></li>
+<li><p><a class="reference internal" href="#status" id="id77">Status</a></p></li>
 </ul>
 </div>
 <section id="deprecated">
-<h2><a class="toc-backref" href="#id1">DEPRECATED</a><a class="headerlink" href="#deprecated" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id71">DEPRECATED</a><a class="headerlink" href="#deprecated" title="Permalink to this heading"></a></h2>
 <dl class="field-list simple">
 <dt class="field-odd">Removed in</dt>
 <dd class="field-odd"><p>version 3.0.0</p>
@@ -231,19 +230,19 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <dd class="field-even"><p>The design of this module is not consistent with current design.</p>
 </dd>
 <dt class="field-odd">Alternative</dt>
-<dd class="field-odd"><p>Use M(panos_nat_rule2) instead.</p>
+<dd class="field-odd"><p>Use <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_nat_rule2')</span></code>: <strong>parameter ‘panos_nat_rule2’ is not a FQCN</strong> instead.</p>
 </dd>
 </dl>
 </section>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id2">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id72">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Create a policy nat rule. Keep in mind that we can either end up configuring source NAT, destination NAT, or both.</p></li>
 <li><p>Instead of splitting it into two we will make a fair attempt to determine which one the user wants.</p></li>
 </ul>
 </section>
 <section id="requirements">
-<h2><a class="toc-backref" href="#id3">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-requirements"></span><h2><a class="toc-backref" href="#id73">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>pan-python &gt;= 0.16</p></li>
@@ -251,7 +250,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id4">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id74">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -281,12 +280,12 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-commit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
-<p>Please use M(panos_commit_firewall), M(panos_commit_panorama), M(panos_commit_push) instead.</p>
+<p>Please use <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_commit_firewall')</span></code>: <strong>parameter ‘panos_commit_firewall’ is not a FQCN</strong>, <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_commit_panorama')</span></code>: <strong>parameter ‘panos_commit_panorama’ is not a FQCN</strong>, <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_commit_push')</span></code>: <strong>parameter ‘panos_commit_push’ is not a FQCN</strong> instead.</p>
 <hr><p>Commit changes after creating object.  If <em>ip_address</em> is a Panorama device, and <em>device_group</em> or <em>template</em> are also set, perform a commit to Panorama and a commit-all to the device group/template.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -302,7 +301,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-destination_ip" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>list of destination addresses</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">[“any”]</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id5"><span class="problematic" id="id6">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -317,7 +316,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-device_group" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>(Panorama only) The device group the operation should target.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“shared”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id7"><span class="problematic" id="id8">:ansible-option-default:`&quot;shared&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -412,10 +411,10 @@ be positioned relative to the value of this parameter.</p>
 <td><div class="ansible-option-cell"><p>Position to place the rule in.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">top</span></p></li>
-<li><p><span class="ansible-option-choices-entry">bottom</span></p></li>
-<li><p><span class="ansible-option-choices-entry">before</span></p></li>
-<li><p><span class="ansible-option-choices-entry">after</span></p></li>
+<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`&quot;top&quot;`</span></a></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`&quot;bottom&quot;`</span></a></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`&quot;before&quot;`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`&quot;after&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -426,9 +425,9 @@ be positioned relative to the value of this parameter.</p>
 <td><div class="ansible-option-cell"><p>Type of NAT.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">ipv4</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">nat64</span></p></li>
-<li><p><span class="ansible-option-choices-entry">nptv6</span></p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry-default:`&quot;ipv4&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`&quot;nat64&quot;`</span></a></p></li>
+<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`&quot;nptv6&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -440,8 +439,8 @@ be positioned relative to the value of this parameter.</p>
 <p>Negate the value for <em>target</em>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -469,13 +468,13 @@ be positioned relative to the value of this parameter.</p>
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-provider"><strong>provider</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-<p><span class="ansible-option-versionadded">added in 1.0.0 of paloaltonetworks.panos</span></p>
+<p><span class="ansible-option-versionadded">added in paloaltonetworks.panos 1.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dict object containing connection details.</p>
 </div></td>
@@ -506,7 +505,7 @@ be positioned relative to the value of this parameter.</p>
 <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -521,7 +520,7 @@ be positioned relative to the value of this parameter.</p>
 <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id31"><span class="problematic" id="id32">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -538,9 +537,9 @@ be positioned relative to the value of this parameter.</p>
 <td><div class="ansible-option-cell"><p>The rulebase in which the rule is to exist.  If left unspecified, this defaults to <em>rulebase=pre-rulebase</em> for Panorama.  For NGFW, this is always set to be <em>rulebase=rulebase</em>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">pre-rulebase</span></p></li>
-<li><p><span class="ansible-option-choices-entry">rulebase</span></p></li>
-<li><p><span class="ansible-option-choices-entry">post-rulebase</span></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`&quot;pre-rulebase&quot;`</span></a></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`&quot;rulebase&quot;`</span></a></p></li>
+<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`&quot;post-rulebase&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -549,7 +548,7 @@ be positioned relative to the value of this parameter.</p>
 <a class="ansibleOptionLink" href="#parameter-service" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>service</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“any”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id39"><span class="problematic" id="id40">:ansible-option-default:`&quot;any&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -559,8 +558,8 @@ be positioned relative to the value of this parameter.</p>
 <td><div class="ansible-option-cell"><p>type of source translation.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">interface-address</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">translated-address</span></p></li>
+<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry-default:`&quot;interface-address&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`&quot;translated-address&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -571,8 +570,8 @@ be positioned relative to the value of this parameter.</p>
 <td><div class="ansible-option-cell"><p>bidirectional flag</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -612,9 +611,9 @@ be positioned relative to the value of this parameter.</p>
 <td><div class="ansible-option-cell"><p>type of source translation</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">static-ip</span></p></li>
-<li><p><span class="ansible-option-choices-entry">dynamic-ip</span></p></li>
-<li><p><span class="ansible-option-choices-entry">dynamic-ip-and-port</span></p></li>
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`&quot;static-ip&quot;`</span></a></p></li>
+<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`&quot;dynamic-ip&quot;`</span></a></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`&quot;dynamic-ip-and-port&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -623,7 +622,7 @@ be positioned relative to the value of this parameter.</p>
 <a class="ansibleOptionLink" href="#parameter-source_ip" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>list of source addresses</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">[“any”]</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id55"><span class="problematic" id="id56">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -640,10 +639,10 @@ be positioned relative to the value of this parameter.</p>
 <td><div class="ansible-option-cell"><p>The state of this object.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">present</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">absent</span></p></li>
-<li><p><span class="ansible-option-choices-entry">enable</span></p></li>
-<li><p><span class="ansible-option-choices-entry">disable</span></p></li>
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry-default:`&quot;present&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry:`&quot;absent&quot;`</span></a></p></li>
+<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`&quot;enable&quot;`</span></a></p></li>
+<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry:`&quot;disable&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -676,7 +675,7 @@ be positioned relative to the value of this parameter.</p>
 <a class="ansibleOptionLink" href="#parameter-to_interface" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Original packet’s destination interface.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“any”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id65"><span class="problematic" id="id66">:ansible-option-default:`&quot;any&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -686,7 +685,7 @@ be positioned relative to the value of this parameter.</p>
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id67"><span class="problematic" id="id68">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -703,14 +702,14 @@ be positioned relative to the value of this parameter.</p>
 <a class="ansibleOptionLink" href="#parameter-vsys" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The vsys this object belongs to.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“vsys1”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id69"><span class="problematic" id="id70">:ansible-option-default:`&quot;vsys1&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id5">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id75">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -721,7 +720,7 @@ be positioned relative to the value of this parameter.</p>
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id6">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id76">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a source and destination nat rule</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create NAT SSH rule for 10.0.1.101</span><span class="w"></span>
 <span class="w">  </span><span class="nt">panos_nat_rule</span><span class="p">:</span><span class="w"></span>
@@ -746,7 +745,7 @@ be positioned relative to the value of this parameter.</p>
 </div>
 </section>
 <section id="status">
-<h2><a class="toc-backref" href="#id7">Status</a><a class="headerlink" href="#status" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id77">Status</a><a class="headerlink" href="#status" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>This module will be removed in version 3.0.0.
 <em>[deprecated]</em></p></li>

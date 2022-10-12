@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,19 +42,19 @@ paloaltonetworks.panos.panos_nat_rule2 module -- Manage a NAT rule
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.2).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_nat_rule2_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_nat_rule2`.
 
 .. version_added
 
-.. versionadded:: 2.10.0 of paloaltonetworks.panos
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 2.10.0
 
 .. contents::
    :local:
@@ -82,12 +81,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.paloaltonetworks.panos.panos_nat_rule2_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- pan-python >= 0.16
-- pan-os-python >= 1.7.3
+- pan-python \>= 0.16
+- pan-os-python \>= 1.7.3
 
 
 
@@ -508,8 +509,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -590,6 +592,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-gathered_filter"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule2_module__parameter-gathered_filter:
+
+      .. rst-class:: ansible-option-title
+
+      **gathered_filter**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-gathered_filter" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When \ :emphasis:`state=gathered`\ .
+
+      An advanced filtering option to filter results returned from PAN-OS.
+
+      Refer to the guide discussing \ :emphasis:`gathered\_filter`\  for more information.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-group_tag"></div>
 
       .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule2_module__parameter-group_tag:
@@ -657,10 +697,11 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`primary`
-      - :ansible-option-choices-entry:`both`
-      - :ansible-option-choices-entry:`0`
-      - :ansible-option-choices-entry:`1`
+      - :ansible-option-choices-entry:`"primary"`
+      - :ansible-option-choices-entry:`"both"`
+      - :ansible-option-choices-entry:`"0"`
+      - :ansible-option-choices-entry:`"1"`
+
 
       .. raw:: html
 
@@ -746,10 +787,11 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`top`
-      - :ansible-option-choices-entry:`bottom`
-      - :ansible-option-choices-entry:`before`
-      - :ansible-option-choices-entry:`after`
+      - :ansible-option-choices-entry:`"top"`
+      - :ansible-option-choices-entry:`"bottom"`
+      - :ansible-option-choices-entry:`"before"`
+      - :ansible-option-choices-entry:`"after"`
+
 
       .. raw:: html
 
@@ -772,7 +814,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -823,9 +865,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`ipv4` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`nat64`
-      - :ansible-option-choices-entry:`nptv6`
+      - :ansible-option-choices-entry-default:`"ipv4"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"nat64"`
+      - :ansible-option-choices-entry:`"nptv6"`
+
 
       .. raw:: html
 
@@ -867,8 +910,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -989,7 +1033,7 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in 1.0.0 of paloaltonetworks.panos`
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
 
 
       .. raw:: html
@@ -1254,9 +1298,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`pre-rulebase`
-      - :ansible-option-choices-entry:`rulebase`
-      - :ansible-option-choices-entry:`post-rulebase`
+      - :ansible-option-choices-entry:`"pre-rulebase"`
+      - :ansible-option-choices-entry:`"rulebase"`
+      - :ansible-option-choices-entry:`"post-rulebase"`
+
 
       .. raw:: html
 
@@ -1366,8 +1411,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`interface-address`
-      - :ansible-option-choices-entry:`translated-address`
+      - :ansible-option-choices-entry:`"interface-address"`
+      - :ansible-option-choices-entry:`"translated-address"`
+
 
       .. raw:: html
 
@@ -1481,8 +1527,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`ip`
-      - :ansible-option-choices-entry:`floating-ip`
+      - :ansible-option-choices-entry:`"ip"`
+      - :ansible-option-choices-entry:`"floating-ip"`
+
 
       .. raw:: html
 
@@ -1560,8 +1607,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`translated-address`
-      - :ansible-option-choices-entry:`interface-address`
+      - :ansible-option-choices-entry:`"translated-address"`
+      - :ansible-option-choices-entry:`"interface-address"`
+
 
       .. raw:: html
 
@@ -1675,8 +1723,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -1788,9 +1837,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`dynamic-ip-and-port`
-      - :ansible-option-choices-entry:`dynamic-ip`
-      - :ansible-option-choices-entry:`static-ip`
+      - :ansible-option-choices-entry:`"dynamic-ip-and-port"`
+      - :ansible-option-choices-entry:`"dynamic-ip"`
+      - :ansible-option-choices-entry:`"static-ip"`
+
 
       .. raw:: html
 
@@ -1830,12 +1880,13 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
-      - :ansible-option-choices-entry:`replaced`
-      - :ansible-option-choices-entry:`merged`
-      - :ansible-option-choices-entry:`deleted`
-      - :ansible-option-choices-entry:`gathered`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+      - :ansible-option-choices-entry:`"replaced"`
+      - :ansible-option-choices-entry:`"merged"`
+      - :ansible-option-choices-entry:`"deleted"`
+      - :ansible-option-choices-entry:`"gathered"`
+
 
       .. raw:: html
 

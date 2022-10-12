@@ -16,6 +16,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -40,6 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../gatheredfilter.html">Gathered Filter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="panos_address_group_module.html">paloaltonetworks.panos.panos_address_group module – Create address group objects on PAN-OS devices.</a></li>
@@ -198,33 +200,30 @@
 <h1>paloaltonetworks.panos.panos_syslog_profile module – Manage syslog server profiles.<a class="headerlink" href="#paloaltonetworks-panos-panos-syslog-profile-module-manage-syslog-server-profiles" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.10.1).</p>
-<p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
-It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
-To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
-<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.10.2).</p>
+<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
+You need further requirements to be able to use this module,
+see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
 <p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">paloaltonetworks.panos.panos_syslog_profile</span></code>.</p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.0: </span>of paloaltonetworks.panos</p>
-</div>
+<p class="ansible-version-added">New in paloaltonetworks.panos 1.0.0</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id2">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id3">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id4">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id5">Examples</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id25">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id26">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id27">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id28">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id29">Examples</a></p></li>
 </ul>
 </div>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id1">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id25">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Manages syslog server profiles.</p></li>
 </ul>
 </section>
 <section id="requirements">
-<h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-requirements"></span><h2><a class="toc-backref" href="#id26">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>pan-python</p></li>
@@ -232,7 +231,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id3">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id27">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -277,7 +276,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-device_group" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>(Panorama only) The device group the operation should target.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“shared”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id1"><span class="problematic" id="id2">:ansible-option-default:`&quot;shared&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -295,6 +294,15 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-gathered_filter"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-gathered-filter"><strong>gathered_filter</strong></p>
+<a class="ansibleOptionLink" href="#parameter-gathered_filter" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>When <em>state=gathered</em>.</p>
+<p>An advanced filtering option to filter results returned from PAN-OS.</p>
+<p>Refer to the guide discussing <em>gathered_filter</em> for more information.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-gtp"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-gtp"><strong>gtp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-gtp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -302,14 +310,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Custom GTP log format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-hip_match"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-hip-match"><strong>hip_match</strong></p>
 <a class="ansibleOptionLink" href="#parameter-hip_match" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Custom HIP match log format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-ip_address"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-ip-address"><strong>ip_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -318,7 +326,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <hr><p>The IP address or hostname of the PAN-OS device being configured.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-iptag"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-iptag"><strong>iptag</strong></p>
 <a class="ansibleOptionLink" href="#parameter-iptag" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -326,14 +334,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Custom Iptag log format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-name"><strong>name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name of the profile.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-password"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-password"><strong>password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -342,69 +350,69 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <hr><p>The password to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-port"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-port"><strong>port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id3"><span class="problematic" id="id4">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-provider"><strong>provider</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-<p><span class="ansible-option-versionadded">added in 1.0.0 of paloaltonetworks.panos</span></p>
+<p><span class="ansible-option-versionadded">added in paloaltonetworks.panos 1.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dict object containing connection details.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/api_key"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-provider-api-key"><strong>api_key</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/api_key" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The API key to use instead of generating it using <em>username</em> / <em>password</em>.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/ip_address"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-provider-ip-address"><strong>ip_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The IP address or hostname of the PAN-OS device being configured.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/password"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-provider-password"><strong>password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The password to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/port"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-provider-port"><strong>port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id5"><span class="problematic" id="id6">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/serial_number"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-provider-serial-number"><strong>serial_number</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/serial_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The serial number of a firewall to use for targeted commands. If <em>ip_address</em> is not a Panorama PAN-OS device, then this param is ignored.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/username"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-provider-username"><strong>username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id7"><span class="problematic" id="id8">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-sctp"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-sctp"><strong>sctp</strong></p>
 <a class="ansibleOptionLink" href="#parameter-sctp" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -412,44 +420,44 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Custom SCTP log format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The state.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">present</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">absent</span></p></li>
-<li><p><span class="ansible-option-choices-entry">replaced</span></p></li>
-<li><p><span class="ansible-option-choices-entry">merged</span></p></li>
-<li><p><span class="ansible-option-choices-entry">deleted</span></p></li>
-<li><p><span class="ansible-option-choices-entry">gathered</span></p></li>
+<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry-default:`&quot;present&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`&quot;absent&quot;`</span></a></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`&quot;replaced&quot;`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`&quot;merged&quot;`</span></a></p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
+<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`&quot;gathered&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-system"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-system"><strong>system</strong></p>
 <a class="ansibleOptionLink" href="#parameter-system" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Custom system log format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-threat"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-threat"><strong>threat</strong></p>
 <a class="ansibleOptionLink" href="#parameter-threat" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Custom threat log format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-traffic"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-traffic"><strong>traffic</strong></p>
 <a class="ansibleOptionLink" href="#parameter-traffic" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Custom traffic log format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-tunnel"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-tunnel"><strong>tunnel</strong></p>
 <a class="ansibleOptionLink" href="#parameter-tunnel" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -457,7 +465,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Custom tunnel log format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-url"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-url"><strong>url</strong></p>
 <a class="ansibleOptionLink" href="#parameter-url" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -465,7 +473,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Custom url log format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-user_id"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-user-id"><strong>user_id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-user_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -473,25 +481,25 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Custom user-ID log format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-username"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-username"><strong>username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id21"><span class="problematic" id="id22">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-vsys"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-vsys"><strong>vsys</strong></p>
 <a class="ansibleOptionLink" href="#parameter-vsys" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The vsys this object belongs to.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“shared”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id23"><span class="problematic" id="id24">:ansible-option-default:`&quot;shared&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-wildfire"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-syslog-profile-module-parameter-wildfire"><strong>wildfire</strong></p>
 <a class="ansibleOptionLink" href="#parameter-wildfire" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -503,7 +511,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id4">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id28">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -514,7 +522,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id5">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id29">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a profile</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create syslog profile</span><span class="w"></span>
 <span class="w">  </span><span class="nt">panos_syslog_profile</span><span class="p">:</span><span class="w"></span>

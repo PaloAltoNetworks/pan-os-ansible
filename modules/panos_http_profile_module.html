@@ -16,6 +16,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -40,6 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../gatheredfilter.html">Gathered Filter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="panos_address_group_module.html">paloaltonetworks.panos.panos_address_group module – Create address group objects on PAN-OS devices.</a></li>
@@ -198,33 +200,30 @@
 <h1>paloaltonetworks.panos.panos_http_profile module – Manage http server profiles.<a class="headerlink" href="#paloaltonetworks-panos-panos-http-profile-module-manage-http-server-profiles" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.10.1).</p>
-<p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
-It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
-To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
-<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.10.2).</p>
+<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
+You need further requirements to be able to use this module,
+see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-http-profile-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
 <p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">paloaltonetworks.panos.panos_http_profile</span></code>.</p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.0: </span>of paloaltonetworks.panos</p>
-</div>
+<p class="ansible-version-added">New in paloaltonetworks.panos 1.0.0</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id2">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id3">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id4">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id5">Examples</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id29">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id30">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id31">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id32">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id33">Examples</a></p></li>
 </ul>
 </div>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id1">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id29">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Manages http server profiles.</p></li>
 </ul>
 </section>
 <section id="requirements">
-<h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-requirements"></span><h2><a class="toc-backref" href="#id30">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>pan-python</p></li>
@@ -233,7 +232,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id3">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id31">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -318,52 +317,61 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-device_group" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>(Panorama only) The device group the operation should target.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“shared”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id1"><span class="problematic" id="id2">:ansible-option-default:`&quot;shared&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-gathered_filter"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-gathered-filter"><strong>gathered_filter</strong></p>
+<a class="ansibleOptionLink" href="#parameter-gathered_filter" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>When <em>state=gathered</em>.</p>
+<p>An advanced filtering option to filter results returned from PAN-OS.</p>
+<p>Refer to the guide discussing <em>gathered_filter</em> for more information.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-gtp_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-gtp-name"><strong>gtp_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-gtp_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-gtp_payload"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-gtp-payload"><strong>gtp_payload</strong></p>
 <a class="ansibleOptionLink" href="#parameter-gtp_payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Payload for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-gtp_uri_format"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-gtp-uri-format"><strong>gtp_uri_format</strong></p>
 <a class="ansibleOptionLink" href="#parameter-gtp_uri_format" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>URI format for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-hip_match_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-hip-match-name"><strong>hip_match_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-hip_match_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-hip_match_payload"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-hip-match-payload"><strong>hip_match_payload</strong></p>
 <a class="ansibleOptionLink" href="#parameter-hip_match_payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Payload for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-hip_match_uri_format"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-hip-match-uri-format"><strong>hip_match_uri_format</strong></p>
 <a class="ansibleOptionLink" href="#parameter-hip_match_uri_format" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>URI format for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-ip_address"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-ip-address"><strong>ip_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -372,7 +380,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <hr><p>The IP address or hostname of the PAN-OS device being configured.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-iptag_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-iptag-name"><strong>iptag_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-iptag_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -380,7 +388,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Name for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-iptag_payload"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-iptag-payload"><strong>iptag_payload</strong></p>
 <a class="ansibleOptionLink" href="#parameter-iptag_payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -388,7 +396,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Payload for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-iptag_uri_format"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-iptag-uri-format"><strong>iptag_uri_format</strong></p>
 <a class="ansibleOptionLink" href="#parameter-iptag_uri_format" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -396,14 +404,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>URI format for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-name"><strong>name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name of the profile.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-password"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-password"><strong>password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -412,69 +420,69 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <hr><p>The password to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-port"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-port"><strong>port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id3"><span class="problematic" id="id4">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-provider"><strong>provider</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-<p><span class="ansible-option-versionadded">added in 1.0.0 of paloaltonetworks.panos</span></p>
+<p><span class="ansible-option-versionadded">added in paloaltonetworks.panos 1.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dict object containing connection details.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/api_key"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-provider-api-key"><strong>api_key</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/api_key" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The API key to use instead of generating it using <em>username</em> / <em>password</em>.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/ip_address"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-provider-ip-address"><strong>ip_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The IP address or hostname of the PAN-OS device being configured.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/password"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-provider-password"><strong>password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The password to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/port"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-provider-port"><strong>port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id5"><span class="problematic" id="id6">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/serial_number"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-provider-serial-number"><strong>serial_number</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/serial_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The serial number of a firewall to use for targeted commands. If <em>ip_address</em> is not a Panorama PAN-OS device, then this param is ignored.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/username"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-provider-username"><strong>username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id7"><span class="problematic" id="id8">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-sctp_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-sctp-name"><strong>sctp_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-sctp_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -482,7 +490,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Name for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-sctp_payload"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-sctp-payload"><strong>sctp_payload</strong></p>
 <a class="ansibleOptionLink" href="#parameter-sctp_payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -490,7 +498,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>Payload for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-sctp_uri_format"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-sctp-uri-format"><strong>sctp_uri_format</strong></p>
 <a class="ansibleOptionLink" href="#parameter-sctp_uri_format" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -498,193 +506,193 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <p>URI format for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The state.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">present</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">absent</span></p></li>
-<li><p><span class="ansible-option-choices-entry">replaced</span></p></li>
-<li><p><span class="ansible-option-choices-entry">merged</span></p></li>
-<li><p><span class="ansible-option-choices-entry">deleted</span></p></li>
-<li><p><span class="ansible-option-choices-entry">gathered</span></p></li>
+<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry-default:`&quot;present&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`&quot;absent&quot;`</span></a></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`&quot;replaced&quot;`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`&quot;merged&quot;`</span></a></p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
+<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`&quot;gathered&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-system_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-system-name"><strong>system_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-system_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-system_payload"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-system-payload"><strong>system_payload</strong></p>
 <a class="ansibleOptionLink" href="#parameter-system_payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Payload for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-system_uri_format"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-system-uri-format"><strong>system_uri_format</strong></p>
 <a class="ansibleOptionLink" href="#parameter-system_uri_format" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>URI format for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-tag_registration"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-tag-registration"><strong>tag_registration</strong></p>
 <a class="ansibleOptionLink" href="#parameter-tag_registration" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The server should have user-ID agent running in order for tag registration to work.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-threat_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-threat-name"><strong>threat_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-threat_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-threat_payload"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-threat-payload"><strong>threat_payload</strong></p>
 <a class="ansibleOptionLink" href="#parameter-threat_payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Payload for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-threat_uri_format"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-threat-uri-format"><strong>threat_uri_format</strong></p>
 <a class="ansibleOptionLink" href="#parameter-threat_uri_format" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>URI format for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-traffic_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-traffic-name"><strong>traffic_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-traffic_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-traffic_payload"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-traffic-payload"><strong>traffic_payload</strong></p>
 <a class="ansibleOptionLink" href="#parameter-traffic_payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Payload for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-traffic_uri_format"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-traffic-uri-format"><strong>traffic_uri_format</strong></p>
 <a class="ansibleOptionLink" href="#parameter-traffic_uri_format" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>URI format for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-tunnel_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-tunnel-name"><strong>tunnel_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-tunnel_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-tunnel_payload"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-tunnel-payload"><strong>tunnel_payload</strong></p>
 <a class="ansibleOptionLink" href="#parameter-tunnel_payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Payload for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-tunnel_uri_format"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-tunnel-uri-format"><strong>tunnel_uri_format</strong></p>
 <a class="ansibleOptionLink" href="#parameter-tunnel_uri_format" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>URI format for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-url_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-url-name"><strong>url_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-url_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-url_payload"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-url-payload"><strong>url_payload</strong></p>
 <a class="ansibleOptionLink" href="#parameter-url_payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Payload for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-url_uri_format"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-url-uri-format"><strong>url_uri_format</strong></p>
 <a class="ansibleOptionLink" href="#parameter-url_uri_format" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>URI format for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-user_id_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-user-id-name"><strong>user_id_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-user_id_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-user_id_payload"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-user-id-payload"><strong>user_id_payload</strong></p>
 <a class="ansibleOptionLink" href="#parameter-user_id_payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Payload for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-user_id_uri_format"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-user-id-uri-format"><strong>user_id_uri_format</strong></p>
 <a class="ansibleOptionLink" href="#parameter-user_id_uri_format" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>URI format for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-username"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-username"><strong>username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id25"><span class="problematic" id="id26">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-vsys"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-vsys"><strong>vsys</strong></p>
 <a class="ansibleOptionLink" href="#parameter-vsys" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The vsys this object belongs to.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“shared”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-option-default:`&quot;shared&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-wildfire_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-wildfire-name"><strong>wildfire_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-wildfire_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-wildfire_payload"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-wildfire-payload"><strong>wildfire_payload</strong></p>
 <a class="ansibleOptionLink" href="#parameter-wildfire_payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Payload for custom config format.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-wildfire_uri_format"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-wildfire-uri-format"><strong>wildfire_uri_format</strong></p>
 <a class="ansibleOptionLink" href="#parameter-wildfire_uri_format" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -695,7 +703,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id4">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id32">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -706,7 +714,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id5">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id33">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a profile</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create http profile</span><span class="w"></span>
 <span class="w">  </span><span class="nt">panos_http_profile</span><span class="p">:</span><span class="w"></span>

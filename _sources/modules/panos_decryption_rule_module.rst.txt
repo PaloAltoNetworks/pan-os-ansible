@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,19 +42,19 @@ paloaltonetworks.panos.panos_decryption_rule module -- Manage a decryption rule 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.2).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_decryption_rule_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_decryption_rule`.
 
 .. version_added
 
-.. versionadded:: 2.10.0 of paloaltonetworks.panos
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 2.10.0
 
 .. contents::
    :local:
@@ -78,12 +77,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.paloaltonetworks.panos.panos_decryption_rule_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- pan-python >= 0.17
-- pan-os-python >= 1.7.3
+- pan-python \>= 0.17
+- pan-os-python \>= 1.7.3
 
 
 
@@ -140,9 +141,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no-decrypt` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`decrypt`
-      - :ansible-option-choices-entry:`decrypt-and-forward`
+      - :ansible-option-choices-entry-default:`"no-decrypt"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"decrypt"`
+      - :ansible-option-choices-entry:`"decrypt-and-forward"`
+
 
       .. raw:: html
 
@@ -298,9 +300,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`ssl-forward-proxy`
-      - :ansible-option-choices-entry:`ssh-proxy`
-      - :ansible-option-choices-entry:`ssl-inbound-inspection`
+      - :ansible-option-choices-entry:`"ssl-forward-proxy"`
+      - :ansible-option-choices-entry:`"ssh-proxy"`
+      - :ansible-option-choices-entry:`"ssl-inbound-inspection"`
+
 
       .. raw:: html
 
@@ -516,8 +519,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -589,6 +593,44 @@ Parameters
         <div class="ansible-option-cell">
 
       The forwarding profile.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-gathered_filter"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_decryption_rule_module__parameter-gathered_filter:
+
+      .. rst-class:: ansible-option-title
+
+      **gathered_filter**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-gathered_filter" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When \ :emphasis:`state=gathered`\ .
+
+      An advanced filtering option to filter results returned from PAN-OS.
+
+      Refer to the guide discussing \ :emphasis:`gathered\_filter`\  for more information.
 
 
       .. raw:: html
@@ -711,10 +753,11 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`top`
-      - :ansible-option-choices-entry:`bottom`
-      - :ansible-option-choices-entry:`before`
-      - :ansible-option-choices-entry:`after`
+      - :ansible-option-choices-entry:`"top"`
+      - :ansible-option-choices-entry:`"bottom"`
+      - :ansible-option-choices-entry:`"before"`
+      - :ansible-option-choices-entry:`"after"`
+
 
       .. raw:: html
 
@@ -756,8 +799,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -835,8 +879,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -859,7 +904,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -910,8 +955,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -951,8 +997,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -994,8 +1041,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -1116,7 +1164,7 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in 1.0.0 of paloaltonetworks.panos`
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
 
 
       .. raw:: html
@@ -1381,9 +1429,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`pre-rulebase`
-      - :ansible-option-choices-entry:`rulebase`
-      - :ansible-option-choices-entry:`post-rulebase`
+      - :ansible-option-choices-entry:`"pre-rulebase"`
+      - :ansible-option-choices-entry:`"rulebase"`
+      - :ansible-option-choices-entry:`"post-rulebase"`
+
 
       .. raw:: html
 
@@ -1629,12 +1678,13 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
-      - :ansible-option-choices-entry:`replaced`
-      - :ansible-option-choices-entry:`merged`
-      - :ansible-option-choices-entry:`deleted`
-      - :ansible-option-choices-entry:`gathered`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+      - :ansible-option-choices-entry:`"replaced"`
+      - :ansible-option-choices-entry:`"merged"`
+      - :ansible-option-choices-entry:`"deleted"`
+      - :ansible-option-choices-entry:`"gathered"`
+
 
       .. raw:: html
 

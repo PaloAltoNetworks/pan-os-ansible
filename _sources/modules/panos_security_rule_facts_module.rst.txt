@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,19 +42,19 @@ paloaltonetworks.panos.panos_security_rule_facts module -- Retrieve information 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.2).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_security_rule_facts`.
 
 .. version_added
 
-.. versionadded:: 1.0.0 of paloaltonetworks.panos
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 1.0.0
 
 .. contents::
    :local:
@@ -67,7 +66,7 @@ DEPRECATED
 ----------
 :Removed in: version 3.0.0
 :Why: Updating module design to network resource modules.
-:Alternative: Use M(panos_security_rule) with \ :emphasis:`state=gathered`\ .
+:Alternative: Use \ :strong:`ERROR while parsing` :literal:`M('panos\_security\_rule')`\ : :strong:`parameter 'panos\_security\_rule' is not a FQCN`\  with \ :emphasis:`state=gathered`\ .
 
 Synopsis
 --------
@@ -81,6 +80,8 @@ Synopsis
 
 
 .. Requirements
+
+.. _ansible_collections.paloaltonetworks.panos.panos_security_rule_facts_module_requirements:
 
 Requirements
 ------------
@@ -198,8 +199,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -527,9 +529,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`tcp`
-      - :ansible-option-choices-entry:`udp`
-      - :ansible-option-choices-entry:`icmp`
+      - :ansible-option-choices-entry:`"tcp"`
+      - :ansible-option-choices-entry:`"udp"`
+      - :ansible-option-choices-entry:`"icmp"`
+
 
       .. raw:: html
 
@@ -569,8 +572,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -828,7 +832,7 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in 1.0.0 of paloaltonetworks.panos`
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
 
 
       .. raw:: html
@@ -1127,9 +1131,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`pre-rulebase`
-      - :ansible-option-choices-entry:`rulebase`
-      - :ansible-option-choices-entry:`post-rulebase`
+      - :ansible-option-choices-entry:`"pre-rulebase"`
+      - :ansible-option-choices-entry:`"rulebase"`
+      - :ansible-option-choices-entry:`"post-rulebase"`
+
 
       .. raw:: html
 
@@ -1530,7 +1535,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the already defined data_filtering profile.
+      Name of the already defined data\_filtering profile.
 
 
       .. rst-class:: ansible-option-line
@@ -1770,7 +1775,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the already defined file_blocking profile.
+      Name of the already defined file\_blocking profile.
 
 
       .. rst-class:: ansible-option-line
@@ -2050,7 +2055,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Match on the reverse of the 'destination_ip' attribute
+      Match on the reverse of the 'destination\_ip' attribute
 
 
       .. rst-class:: ansible-option-line
@@ -2090,7 +2095,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Match on the reverse of the 'source_ip' attribute
+      Match on the reverse of the 'source\_ip' attribute
 
 
       .. rst-class:: ansible-option-line
@@ -2490,7 +2495,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the already defined url_filtering profile.
+      Name of the already defined url\_filtering profile.
 
 
       .. rst-class:: ansible-option-line
@@ -2570,7 +2575,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the already defined wildfire_analysis profile.
+      Name of the already defined wildfire\_analysis profile.
 
 
       .. rst-class:: ansible-option-line
@@ -2621,7 +2626,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` ["rule1", "rule2", "rule3"]
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["rule1", "rule2", "rule3"]`
 
 
       .. raw:: html

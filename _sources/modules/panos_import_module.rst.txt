@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,19 +42,19 @@ paloaltonetworks.panos.panos_import module -- import file on PAN-OS devices
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.2).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_import_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_import`.
 
 .. version_added
 
-.. versionadded:: 1.0.0 of paloaltonetworks.panos
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 1.0.0
 
 .. contents::
    :local:
@@ -77,13 +76,15 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.paloaltonetworks.panos.panos_import_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
 - pan-python
 - requests
-- requests_toolbelt
+- requests\_toolbelt
 
 
 
@@ -186,44 +187,45 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`anti-virus`
-      - :ansible-option-choices-entry:`application-block-page`
-      - :ansible-option-choices-entry:`captive-portal-text`
-      - :ansible-option-choices-entry:`certificate`
-      - :ansible-option-choices-entry:`configuration`
-      - :ansible-option-choices-entry:`content`
-      - :ansible-option-choices-entry:`credential-block-page`
-      - :ansible-option-choices-entry:`credential-coach-text`
-      - :ansible-option-choices-entry:`custom-logo`
-      - :ansible-option-choices-entry:`data-filter-block-page`
-      - :ansible-option-choices-entry:`device-state`
-      - :ansible-option-choices-entry:`file-block-continue-page`
-      - :ansible-option-choices-entry:`file-block-page`
-      - :ansible-option-choices-entry:`global-protect-client`
-      - :ansible-option-choices-entry:`global-protect-clientless-vpn`
-      - :ansible-option-choices-entry:`global-protect-portal-custom-help-page`
-      - :ansible-option-choices-entry:`global-protect-portal-custom-home-page`
-      - :ansible-option-choices-entry:`global-protect-portal-custom-login-page`
-      - :ansible-option-choices-entry:`global-protect-portal-custom-welcome-page`
-      - :ansible-option-choices-entry:`high-availability-key`
-      - :ansible-option-choices-entry:`idp-metadata`
-      - :ansible-option-choices-entry:`keypair`
-      - :ansible-option-choices-entry:`license`
-      - :ansible-option-choices-entry:`logdb`
-      - :ansible-option-choices-entry:`mfa-login-page`
-      - :ansible-option-choices-entry:`pandb-url-database`
-      - :ansible-option-choices-entry:`plugin`
-      - :ansible-option-choices-entry:`safe-search-block-page`
-      - :ansible-option-choices-entry:`saml-auth-internal-error-page`
-      - :ansible-option-choices-entry:`signed-url-database`
-      - :ansible-option-default-bold:`software` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`ssl-cert-status-page`
-      - :ansible-option-choices-entry:`ssl-optout-text`
-      - :ansible-option-choices-entry:`url-block-page`
-      - :ansible-option-choices-entry:`url-coach-text`
-      - :ansible-option-choices-entry:`url-database`
-      - :ansible-option-choices-entry:`virus-block-page`
-      - :ansible-option-choices-entry:`wildfire`
+      - :ansible-option-choices-entry:`"anti-virus"`
+      - :ansible-option-choices-entry:`"application-block-page"`
+      - :ansible-option-choices-entry:`"captive-portal-text"`
+      - :ansible-option-choices-entry:`"certificate"`
+      - :ansible-option-choices-entry:`"configuration"`
+      - :ansible-option-choices-entry:`"content"`
+      - :ansible-option-choices-entry:`"credential-block-page"`
+      - :ansible-option-choices-entry:`"credential-coach-text"`
+      - :ansible-option-choices-entry:`"custom-logo"`
+      - :ansible-option-choices-entry:`"data-filter-block-page"`
+      - :ansible-option-choices-entry:`"device-state"`
+      - :ansible-option-choices-entry:`"file-block-continue-page"`
+      - :ansible-option-choices-entry:`"file-block-page"`
+      - :ansible-option-choices-entry:`"global-protect-client"`
+      - :ansible-option-choices-entry:`"global-protect-clientless-vpn"`
+      - :ansible-option-choices-entry:`"global-protect-portal-custom-help-page"`
+      - :ansible-option-choices-entry:`"global-protect-portal-custom-home-page"`
+      - :ansible-option-choices-entry:`"global-protect-portal-custom-login-page"`
+      - :ansible-option-choices-entry:`"global-protect-portal-custom-welcome-page"`
+      - :ansible-option-choices-entry:`"high-availability-key"`
+      - :ansible-option-choices-entry:`"idp-metadata"`
+      - :ansible-option-choices-entry:`"keypair"`
+      - :ansible-option-choices-entry:`"license"`
+      - :ansible-option-choices-entry:`"logdb"`
+      - :ansible-option-choices-entry:`"mfa-login-page"`
+      - :ansible-option-choices-entry:`"pandb-url-database"`
+      - :ansible-option-choices-entry:`"plugin"`
+      - :ansible-option-choices-entry:`"safe-search-block-page"`
+      - :ansible-option-choices-entry:`"saml-auth-internal-error-page"`
+      - :ansible-option-choices-entry:`"signed-url-database"`
+      - :ansible-option-choices-entry-default:`"software"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"ssl-cert-status-page"`
+      - :ansible-option-choices-entry:`"ssl-optout-text"`
+      - :ansible-option-choices-entry:`"url-block-page"`
+      - :ansible-option-choices-entry:`"url-coach-text"`
+      - :ansible-option-choices-entry:`"url-database"`
+      - :ansible-option-choices-entry:`"virus-block-page"`
+      - :ansible-option-choices-entry:`"wildfire"`
+
 
       .. raw:: html
 
@@ -299,10 +301,11 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`login-screen`
-      - :ansible-option-choices-entry:`main-ui`
-      - :ansible-option-choices-entry:`pdf-report-footer`
-      - :ansible-option-choices-entry:`pdf-report-header`
+      - :ansible-option-choices-entry:`"login-screen"`
+      - :ansible-option-choices-entry:`"main-ui"`
+      - :ansible-option-choices-entry:`"pdf-report-footer"`
+      - :ansible-option-choices-entry:`"pdf-report-header"`
+
 
       .. raw:: html
 
@@ -382,8 +385,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`pem`
-      - :ansible-option-choices-entry:`pkcs12`
+      - :ansible-option-choices-entry:`"pem"`
+      - :ansible-option-choices-entry:`"pkcs12"`
+
 
       .. raw:: html
 
@@ -618,7 +622,7 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in 1.0.0 of paloaltonetworks.panos`
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
 
 
       .. raw:: html

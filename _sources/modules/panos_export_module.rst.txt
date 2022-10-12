@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,19 +42,19 @@ paloaltonetworks.panos.panos_export module -- export file from PAN-OS devices
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.2).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_export_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_export`.
 
 .. version_added
 
-.. versionadded:: 2.0.0 of paloaltonetworks.panos
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 2.0.0
 
 .. contents::
    :local:
@@ -76,6 +75,8 @@ Synopsis
 
 
 .. Requirements
+
+.. _ansible_collections.paloaltonetworks.panos.panos_export_module_requirements:
 
 Requirements
 ------------
@@ -220,33 +221,34 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`application-block-page`
-      - :ansible-option-choices-entry:`application-pcap`
-      - :ansible-option-choices-entry:`captive-portal-text`
-      - :ansible-option-choices-entry:`certificate`
-      - :ansible-option-default-bold:`configuration` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`credential-block-page`
-      - :ansible-option-choices-entry:`credential-coach-text`
-      - :ansible-option-choices-entry:`data-filter-block-page`
-      - :ansible-option-choices-entry:`device-state`
-      - :ansible-option-choices-entry:`dlp-pcap`
-      - :ansible-option-choices-entry:`file-block-continue-page`
-      - :ansible-option-choices-entry:`file-block-page`
-      - :ansible-option-choices-entry:`filter-pcap`
-      - :ansible-option-choices-entry:`global-protect-portal-custom-help-page`
-      - :ansible-option-choices-entry:`global-protect-portal-custom-home-page`
-      - :ansible-option-choices-entry:`global-protect-portal-custom-login-page`
-      - :ansible-option-choices-entry:`global-protect-portal-custom-welcome-page`
-      - :ansible-option-choices-entry:`mfa-login-page`
-      - :ansible-option-choices-entry:`safe-search-block-page`
-      - :ansible-option-choices-entry:`ssl-cert-status-page`
-      - :ansible-option-choices-entry:`ssl-optout-text`
-      - :ansible-option-choices-entry:`stats-dump`
-      - :ansible-option-choices-entry:`tech-support`
-      - :ansible-option-choices-entry:`threat-pcap`
-      - :ansible-option-choices-entry:`url-block-page`
-      - :ansible-option-choices-entry:`url-coach-text`
-      - :ansible-option-choices-entry:`virus-block-page`
+      - :ansible-option-choices-entry:`"application-block-page"`
+      - :ansible-option-choices-entry:`"application-pcap"`
+      - :ansible-option-choices-entry:`"captive-portal-text"`
+      - :ansible-option-choices-entry:`"certificate"`
+      - :ansible-option-choices-entry-default:`"configuration"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"credential-block-page"`
+      - :ansible-option-choices-entry:`"credential-coach-text"`
+      - :ansible-option-choices-entry:`"data-filter-block-page"`
+      - :ansible-option-choices-entry:`"device-state"`
+      - :ansible-option-choices-entry:`"dlp-pcap"`
+      - :ansible-option-choices-entry:`"file-block-continue-page"`
+      - :ansible-option-choices-entry:`"file-block-page"`
+      - :ansible-option-choices-entry:`"filter-pcap"`
+      - :ansible-option-choices-entry:`"global-protect-portal-custom-help-page"`
+      - :ansible-option-choices-entry:`"global-protect-portal-custom-home-page"`
+      - :ansible-option-choices-entry:`"global-protect-portal-custom-login-page"`
+      - :ansible-option-choices-entry:`"global-protect-portal-custom-welcome-page"`
+      - :ansible-option-choices-entry:`"mfa-login-page"`
+      - :ansible-option-choices-entry:`"safe-search-block-page"`
+      - :ansible-option-choices-entry:`"ssl-cert-status-page"`
+      - :ansible-option-choices-entry:`"ssl-optout-text"`
+      - :ansible-option-choices-entry:`"stats-dump"`
+      - :ansible-option-choices-entry:`"tech-support"`
+      - :ansible-option-choices-entry:`"threat-pcap"`
+      - :ansible-option-choices-entry:`"url-block-page"`
+      - :ansible-option-choices-entry:`"url-coach-text"`
+      - :ansible-option-choices-entry:`"virus-block-page"`
+
 
       .. raw:: html
 
@@ -286,9 +288,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`pem`
-      - :ansible-option-choices-entry:`pkcs10`
-      - :ansible-option-choices-entry:`pkcs12`
+      - :ansible-option-choices-entry:`"pem"`
+      - :ansible-option-choices-entry:`"pkcs10"`
+      - :ansible-option-choices-entry:`"pkcs12"`
+
 
       .. raw:: html
 
@@ -328,8 +331,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -700,7 +704,7 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in 1.0.0 of paloaltonetworks.panos`
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
 
 
       .. raw:: html
@@ -958,7 +962,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      When \ :emphasis:`category=threat-pcap`\ , this value is a unique identifier for the packet capture, and can be obtained from the 'pcap_id' field in the THREAT log.
+      When \ :emphasis:`category=threat-pcap`\ , this value is a unique identifier for the packet capture, and can be obtained from the 'pcap\_id' field in the THREAT log.
 
 
       .. raw:: html
@@ -992,7 +996,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      When \ :emphasis:`category=threat-pcap`\ , this value is is used to narrow the search for the 'pcap_id' and is used to set a time window in the range -5 minutes to +2 hours of the time specified. The search time is typically set to the **receive_time** field in the THREAT log. The PAN-OS log time string format is used, for example '2015/01/20 10:51:09'.  If the value is not specified, it will be set to the threat epoch time which is part of the 'pcap_id'.
+      When \ :emphasis:`category=threat-pcap`\ , this value is is used to narrow the search for the 'pcap\_id' and is used to set a time window in the range -5 minutes to +2 hours of the time specified. The search time is typically set to the \*\*receive\_time\*\* field in the THREAT log. The PAN-OS log time string format is used, for example '2015/01/20 10:51:09'.  If the value is not specified, it will be set to the threat epoch time which is part of the 'pcap\_id'.
 
 
       .. raw:: html
@@ -1231,7 +1235,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\u0027dir-listing\\u0027: {\\u0027file\\u0027: [\\u0027/capture-rx\\u0027, \\u0027/capture-tx\\u0027, \\u0027/capture-fw\\u0027]}}"
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{'dir-listing': {'file': ['/capture-rx', '/capture-tx', '/capture-fw']}}"`
 
 
       .. raw:: html
@@ -1276,7 +1280,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "\\u003cdir-listing\\u003e\\u003cfile\\u003e/capture-rx\\u003c/file\\u003e\\u003cfile\\u003e/capture-tx\\u003c/file\\u003e\\u003cfile\\u003e/capture-fw\\u003c/file\\u003e\\u003c/dir-listing\\u003e"
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"\<dir-listing\>\<file\>/capture-rx\</file\>\<file\>/capture-tx\</file\>\<file\>/capture-fw\</file\>\</dir-listing\>"`
 
 
       .. raw:: html

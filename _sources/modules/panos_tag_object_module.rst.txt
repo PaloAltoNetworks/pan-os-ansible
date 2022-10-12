@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,19 +42,19 @@ paloaltonetworks.panos.panos_tag_object module -- Create tag objects on PAN-OS d
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.2).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_tag_object_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_tag_object`.
 
 .. version_added
 
-.. versionadded:: 1.0.0 of paloaltonetworks.panos
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 1.0.0
 
 .. contents::
    :local:
@@ -76,6 +75,8 @@ Synopsis
 
 
 .. Requirements
+
+.. _ansible_collections.paloaltonetworks.panos.panos_tag_object_module_requirements:
 
 Requirements
 ------------
@@ -185,47 +186,48 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`red`
-      - :ansible-option-choices-entry:`green`
-      - :ansible-option-choices-entry:`blue`
-      - :ansible-option-choices-entry:`yellow`
-      - :ansible-option-choices-entry:`copper`
-      - :ansible-option-choices-entry:`orange`
-      - :ansible-option-choices-entry:`purple`
-      - :ansible-option-choices-entry:`gray`
-      - :ansible-option-choices-entry:`light green`
-      - :ansible-option-choices-entry:`cyan`
-      - :ansible-option-choices-entry:`light gray`
-      - :ansible-option-choices-entry:`blue gray`
-      - :ansible-option-choices-entry:`lime`
-      - :ansible-option-choices-entry:`black`
-      - :ansible-option-choices-entry:`gold`
-      - :ansible-option-choices-entry:`brown`
-      - :ansible-option-choices-entry:`olive`
-      - :ansible-option-choices-entry:`maroon`
-      - :ansible-option-choices-entry:`red-orange`
-      - :ansible-option-choices-entry:`yellow-orange`
-      - :ansible-option-choices-entry:`forest green`
-      - :ansible-option-choices-entry:`turquoise blue`
-      - :ansible-option-choices-entry:`azure blue`
-      - :ansible-option-choices-entry:`cerulean blue`
-      - :ansible-option-choices-entry:`midnight blue`
-      - :ansible-option-choices-entry:`medium blue`
-      - :ansible-option-choices-entry:`cobalt blue`
-      - :ansible-option-choices-entry:`violet blue`
-      - :ansible-option-choices-entry:`blue violet`
-      - :ansible-option-choices-entry:`medium violet`
-      - :ansible-option-choices-entry:`medium rose`
-      - :ansible-option-choices-entry:`lavender`
-      - :ansible-option-choices-entry:`orchid`
-      - :ansible-option-choices-entry:`thistle`
-      - :ansible-option-choices-entry:`peach`
-      - :ansible-option-choices-entry:`salmon`
-      - :ansible-option-choices-entry:`magenta`
-      - :ansible-option-choices-entry:`red violet`
-      - :ansible-option-choices-entry:`mahogany`
-      - :ansible-option-choices-entry:`burnt sienna`
-      - :ansible-option-choices-entry:`chestnut`
+      - :ansible-option-choices-entry:`"red"`
+      - :ansible-option-choices-entry:`"green"`
+      - :ansible-option-choices-entry:`"blue"`
+      - :ansible-option-choices-entry:`"yellow"`
+      - :ansible-option-choices-entry:`"copper"`
+      - :ansible-option-choices-entry:`"orange"`
+      - :ansible-option-choices-entry:`"purple"`
+      - :ansible-option-choices-entry:`"gray"`
+      - :ansible-option-choices-entry:`"light green"`
+      - :ansible-option-choices-entry:`"cyan"`
+      - :ansible-option-choices-entry:`"light gray"`
+      - :ansible-option-choices-entry:`"blue gray"`
+      - :ansible-option-choices-entry:`"lime"`
+      - :ansible-option-choices-entry:`"black"`
+      - :ansible-option-choices-entry:`"gold"`
+      - :ansible-option-choices-entry:`"brown"`
+      - :ansible-option-choices-entry:`"olive"`
+      - :ansible-option-choices-entry:`"maroon"`
+      - :ansible-option-choices-entry:`"red-orange"`
+      - :ansible-option-choices-entry:`"yellow-orange"`
+      - :ansible-option-choices-entry:`"forest green"`
+      - :ansible-option-choices-entry:`"turquoise blue"`
+      - :ansible-option-choices-entry:`"azure blue"`
+      - :ansible-option-choices-entry:`"cerulean blue"`
+      - :ansible-option-choices-entry:`"midnight blue"`
+      - :ansible-option-choices-entry:`"medium blue"`
+      - :ansible-option-choices-entry:`"cobalt blue"`
+      - :ansible-option-choices-entry:`"violet blue"`
+      - :ansible-option-choices-entry:`"blue violet"`
+      - :ansible-option-choices-entry:`"medium violet"`
+      - :ansible-option-choices-entry:`"medium rose"`
+      - :ansible-option-choices-entry:`"lavender"`
+      - :ansible-option-choices-entry:`"orchid"`
+      - :ansible-option-choices-entry:`"thistle"`
+      - :ansible-option-choices-entry:`"peach"`
+      - :ansible-option-choices-entry:`"salmon"`
+      - :ansible-option-choices-entry:`"magenta"`
+      - :ansible-option-choices-entry:`"red violet"`
+      - :ansible-option-choices-entry:`"mahogany"`
+      - :ansible-option-choices-entry:`"burnt sienna"`
+      - :ansible-option-choices-entry:`"chestnut"`
+
 
       .. raw:: html
 
@@ -294,7 +296,7 @@ Parameters
 
       \ :strong:`Deprecated`\ 
 
-      Please use M(panos_commit_firewall), M(panos_commit_panorama), M(panos_commit_push) instead.
+      Please use \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_firewall')`\ : :strong:`parameter 'panos\_commit\_firewall' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_panorama')`\ : :strong:`parameter 'panos\_commit\_panorama' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_push')`\ : :strong:`parameter 'panos\_commit\_push' is not a FQCN`\  instead.
 
       
 
@@ -311,8 +313,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -551,7 +554,7 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in 1.0.0 of paloaltonetworks.panos`
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
 
 
       .. raw:: html
@@ -816,8 +819,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
 
       .. raw:: html
 

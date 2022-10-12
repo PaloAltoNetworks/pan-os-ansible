@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,19 +42,19 @@ paloaltonetworks.panos.panos_bgp_aggregate module -- Configures a BGP Aggregatio
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.2).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_bgp_aggregate_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_bgp_aggregate`.
 
 .. version_added
 
-.. versionadded:: 1.0.0 of paloaltonetworks.panos
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 1.0.0
 
 .. contents::
    :local:
@@ -76,6 +75,8 @@ Synopsis
 
 
 .. Requirements
+
+.. _ansible_collections.paloaltonetworks.panos.panos_bgp_aggregate_module_requirements:
 
 Requirements
 ------------
@@ -185,8 +186,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -294,10 +296,11 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`none` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`remove`
-      - :ansible-option-choices-entry:`prepend`
-      - :ansible-option-choices-entry:`remove-and-prepend`
+      - :ansible-option-choices-entry-default:`"none"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"remove"`
+      - :ansible-option-choices-entry:`"prepend"`
+      - :ansible-option-choices-entry:`"remove-and-prepend"`
+
 
       .. raw:: html
 
@@ -371,11 +374,12 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`none` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`remove-all`
-      - :ansible-option-choices-entry:`remove-regex`
-      - :ansible-option-choices-entry:`append`
-      - :ansible-option-choices-entry:`overwrite`
+      - :ansible-option-choices-entry-default:`"none"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"remove-all"`
+      - :ansible-option-choices-entry:`"remove-regex"`
+      - :ansible-option-choices-entry:`"append"`
+      - :ansible-option-choices-entry:`"overwrite"`
+
 
       .. raw:: html
 
@@ -449,11 +453,12 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`none` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`remove-all`
-      - :ansible-option-choices-entry:`remove-regex`
-      - :ansible-option-choices-entry:`append`
-      - :ansible-option-choices-entry:`overwrite`
+      - :ansible-option-choices-entry-default:`"none"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"remove-all"`
+      - :ansible-option-choices-entry:`"remove-regex"`
+      - :ansible-option-choices-entry:`"append"`
+      - :ansible-option-choices-entry:`"overwrite"`
+
 
       .. raw:: html
 
@@ -595,9 +600,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`igp`
-      - :ansible-option-choices-entry:`egp`
-      - :ansible-option-default-bold:`incomplete` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`"igp"`
+      - :ansible-option-choices-entry:`"egp"`
+      - :ansible-option-choices-entry-default:`"incomplete"` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -666,7 +672,7 @@ Parameters
 
       \ :strong:`Deprecated`\ 
 
-      Please use M(panos_commit_firewall), M(panos_commit_panorama), M(panos_commit_push) instead.
+      Please use \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_firewall')`\ : :strong:`parameter 'panos\_commit\_firewall' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_panorama')`\ : :strong:`parameter 'panos\_commit\_panorama' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_push')`\ : :strong:`parameter 'panos\_commit\_push' is not a FQCN`\  instead.
 
       
 
@@ -683,8 +689,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -724,8 +731,47 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-gathered_filter"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_aggregate_module__parameter-gathered_filter:
+
+      .. rst-class:: ansible-option-title
+
+      **gathered_filter**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-gathered_filter" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When \ :emphasis:`state=gathered`\ .
+
+      An advanced filtering option to filter results returned from PAN-OS.
+
+      Refer to the guide discussing \ :emphasis:`gathered\_filter`\  for more information.
+
 
       .. raw:: html
 
@@ -794,7 +840,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -960,7 +1006,7 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in 1.0.0 of paloaltonetworks.panos`
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
 
 
       .. raw:: html
@@ -1225,12 +1271,13 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
-      - :ansible-option-choices-entry:`replaced`
-      - :ansible-option-choices-entry:`merged`
-      - :ansible-option-choices-entry:`deleted`
-      - :ansible-option-choices-entry:`gathered`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+      - :ansible-option-choices-entry:`"replaced"`
+      - :ansible-option-choices-entry:`"merged"`
+      - :ansible-option-choices-entry:`"deleted"`
+      - :ansible-option-choices-entry:`"gathered"`
+
 
       .. raw:: html
 
@@ -1270,8 +1317,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -1422,7 +1470,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Name of the virtual router, it must already exist.  See M(panos_virtual_router).
+      Name of the virtual router, it must already exist.  See \ :strong:`ERROR while parsing` :literal:`M('panos\_virtual\_router')`\ : :strong:`parameter 'panos\_virtual\_router' is not a FQCN`\ .
 
 
       .. rst-class:: ansible-option-line

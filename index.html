@@ -16,10 +16,11 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Examples" href="examples.html" /> 
+    <link rel="next" title="Gathered Filter" href="gatheredfilter.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -39,6 +40,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="gatheredfilter.html">Gathered Filter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Module reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Release History</a></li>
@@ -72,7 +74,7 @@
              
   <section id="palo-alto-networks-ansible-collection">
 <h1>Palo Alto Networks Ansible Collection<a class="headerlink" href="#palo-alto-networks-ansible-collection" title="Permalink to this heading"></a></h1>
-<p>Version: 2.10.1</p>
+<p>Version: 2.10.2</p>
 <p>The Palo Alto Networks Ansible collection is a collection of modules that
 automate configuration and operational tasks on Palo Alto Networks Next
 Generation Firewalls (both physical and virtualized) and Panorama.  The
@@ -100,6 +102,14 @@ supported live page at <a class="reference external" href="https://live.paloalto
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="gatheredfilter.html">Gathered Filter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gatheredfilter.html#the-gathered-filter-option">The <cite>gathered_filter</cite> Option</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatheredfilter.html#fields">Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatheredfilter.html#operators">Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatheredfilter.html#return-values">Return Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatheredfilter.html#examples">Examples</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#add-security-policy-to-firewall-or-panorama">Add security policy to Firewall or Panorama</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#add-nat-policy-to-firewall-or-panorama">Add NAT policy to Firewall or Panorama</a></li>
@@ -248,7 +258,7 @@ supported live page at <a class="reference external" href="https://live.paloalto
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="gatheredfilter.html" class="btn btn-neutral float-right" title="Gathered Filter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,19 +42,19 @@ paloaltonetworks.panos.panos_object_facts module -- Retrieve facts about objects
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.2).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_object_facts_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_object_facts`.
 
 .. version_added
 
-.. versionadded:: 1.0.0 of paloaltonetworks.panos
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 1.0.0
 
 .. contents::
    :local:
@@ -67,7 +66,7 @@ DEPRECATED
 ----------
 :Removed in: version 3.0.0
 :Why: Updating module design  to network resource modules.
-:Alternative: Use various specific modules such as M(panos_address_object) instead.
+:Alternative: Use various specific modules such as \ :strong:`ERROR while parsing` :literal:`M('panos\_address\_object')`\ : :strong:`parameter 'panos\_address\_object' is not a FQCN`\  instead.
 
 Synopsis
 --------
@@ -81,6 +80,8 @@ Synopsis
 
 
 .. Requirements
+
+.. _ansible_collections.paloaltonetworks.panos.panos_object_facts_module_requirements:
 
 Requirements
 ------------
@@ -264,8 +265,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`exact` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`regex`
+      - :ansible-option-choices-entry-default:`"exact"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"regex"`
+
 
       .. raw:: html
 
@@ -457,14 +459,15 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`address` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`address-group`
-      - :ansible-option-choices-entry:`application`
-      - :ansible-option-choices-entry:`application-group`
-      - :ansible-option-choices-entry:`custom-url-category`
-      - :ansible-option-choices-entry:`service`
-      - :ansible-option-choices-entry:`service-group`
-      - :ansible-option-choices-entry:`tag`
+      - :ansible-option-choices-entry-default:`"address"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"address-group"`
+      - :ansible-option-choices-entry:`"application"`
+      - :ansible-option-choices-entry:`"application-group"`
+      - :ansible-option-choices-entry:`"custom-url-category"`
+      - :ansible-option-choices-entry:`"service"`
+      - :ansible-option-choices-entry:`"service-group"`
+      - :ansible-option-choices-entry:`"tag"`
+
 
       .. raw:: html
 
@@ -585,7 +588,7 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in 1.0.0 of paloaltonetworks.panos`
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
 
 
       .. raw:: html

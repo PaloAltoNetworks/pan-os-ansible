@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,19 +42,19 @@ paloaltonetworks.panos.panos_facts module -- Collects facts from PAN-OS devices
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.2).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_facts_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_facts`.
 
 .. version_added
 
-.. versionadded:: 1.0.0 of paloaltonetworks.panos
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 1.0.0
 
 .. contents::
    :local:
@@ -76,6 +75,8 @@ Synopsis
 
 
 .. Requirements
+
+.. _ansible_collections.paloaltonetworks.panos.panos_facts_module_requirements:
 
 Requirements
 ------------
@@ -349,7 +350,7 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in 1.0.0 of paloaltonetworks.panos`
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
 
 
       .. raw:: html
@@ -839,7 +840,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "Active-Passive"
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"Active-Passive"`
 
 
       .. raw:: html
@@ -884,7 +885,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "active"
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"active"`
 
 
       .. raw:: html
@@ -1049,7 +1050,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "192.0.2.1/24"
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["192.0.2.1/24"]`
 
 
       .. raw:: html
@@ -1094,7 +1095,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "2001:db8::0000:1/64"
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["2001:db8::0000:1/64"]`
 
 
       .. raw:: html
@@ -1139,7 +1140,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "ae1.23"
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"ae1.23"`
 
 
       .. raw:: html
@@ -1184,7 +1185,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` 23
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`23`
 
 
       .. raw:: html
@@ -1310,7 +1311,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` true
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"True"`
 
 
       .. raw:: html
@@ -1916,7 +1917,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "469 days, 19:30:16"
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"469 days, 19:30:16"`
 
 
       .. raw:: html
@@ -2041,7 +2042,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` 65001
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`65001`
 
 
       .. raw:: html
@@ -2086,7 +2087,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` ["ae2.12", "ae2.14"]
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["ae2.12", "ae2.14"]`
 
 
       .. raw:: html
@@ -2171,7 +2172,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "192.0.2.1"
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"192.0.2.1"`
 
 
       .. raw:: html
@@ -2417,7 +2418,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "vsys1"
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"vsys1"`
 
 
       .. raw:: html

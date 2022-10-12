@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,19 +42,19 @@ paloaltonetworks.panos.panos_bgp_policy_rule module -- Configures a BGP Policy I
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.10.2).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_bgp_policy_rule`.
 
 .. version_added
 
-.. versionadded:: 1.0.0 of paloaltonetworks.panos
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 1.0.0
 
 .. contents::
    :local:
@@ -76,6 +75,8 @@ Synopsis
 
 
 .. Requirements
+
+.. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module_requirements:
 
 Requirements
 ------------
@@ -139,8 +140,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`allow`
-      - :ansible-option-choices-entry:`deny`
+      - :ansible-option-choices-entry:`"allow"`
+      - :ansible-option-choices-entry:`"deny"`
+
 
       .. raw:: html
 
@@ -248,10 +250,11 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`none`
-      - :ansible-option-choices-entry:`remove`
-      - :ansible-option-choices-entry:`prepend`
-      - :ansible-option-choices-entry:`remove-and-prepend`
+      - :ansible-option-choices-entry:`"none"`
+      - :ansible-option-choices-entry:`"remove"`
+      - :ansible-option-choices-entry:`"prepend"`
+      - :ansible-option-choices-entry:`"remove-and-prepend"`
+
 
       .. raw:: html
 
@@ -325,11 +328,12 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`none`
-      - :ansible-option-choices-entry:`remove-all`
-      - :ansible-option-choices-entry:`remove-regex`
-      - :ansible-option-choices-entry:`append`
-      - :ansible-option-choices-entry:`overwrite`
+      - :ansible-option-choices-entry:`"none"`
+      - :ansible-option-choices-entry:`"remove-all"`
+      - :ansible-option-choices-entry:`"remove-regex"`
+      - :ansible-option-choices-entry:`"append"`
+      - :ansible-option-choices-entry:`"overwrite"`
+
 
       .. raw:: html
 
@@ -573,9 +577,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`igp`
-      - :ansible-option-choices-entry:`egp`
-      - :ansible-option-choices-entry:`incomplete`
+      - :ansible-option-choices-entry:`"igp"`
+      - :ansible-option-choices-entry:`"egp"`
+      - :ansible-option-choices-entry:`"incomplete"`
+
 
       .. raw:: html
 
@@ -724,7 +729,7 @@ Parameters
 
       \ :strong:`Deprecated`\ 
 
-      Please use M(panos_commit_firewall), M(panos_commit_panorama), M(panos_commit_push) instead.
+      Please use \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_firewall')`\ : :strong:`parameter 'panos\_commit\_firewall' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_panorama')`\ : :strong:`parameter 'panos\_commit\_panorama' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_push')`\ : :strong:`parameter 'panos\_commit\_push' is not a FQCN`\  instead.
 
       
 
@@ -741,8 +746,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -782,8 +788,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -869,8 +876,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`ip`
-      - :ansible-option-choices-entry:`ipv6`
+      - :ansible-option-choices-entry:`"ip"`
+      - :ansible-option-choices-entry:`"ipv6"`
+
 
       .. raw:: html
 
@@ -1114,9 +1122,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`unicast`
-      - :ansible-option-choices-entry:`multicast`
-      - :ansible-option-choices-entry:`both`
+      - :ansible-option-choices-entry:`"unicast"`
+      - :ansible-option-choices-entry:`"multicast"`
+      - :ansible-option-choices-entry:`"both"`
+
 
       .. raw:: html
 
@@ -1156,8 +1165,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`ip`
-      - :ansible-option-choices-entry:`ipv6`
+      - :ansible-option-choices-entry:`"ip"`
+      - :ansible-option-choices-entry:`"ipv6"`
+
 
       .. raw:: html
 
@@ -1312,7 +1322,7 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in 1.0.0 of paloaltonetworks.panos`
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
 
 
       .. raw:: html
@@ -1577,8 +1587,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
 
       .. raw:: html
 
@@ -1686,8 +1697,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`import`
-      - :ansible-option-choices-entry:`export`
+      - :ansible-option-choices-entry:`"import"`
+      - :ansible-option-choices-entry:`"export"`
+
 
       .. raw:: html
 
@@ -1804,7 +1816,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Name of the virtual router; it must already exist; see M(panos_virtual_router).
+      Name of the virtual router; it must already exist; see \ :strong:`ERROR while parsing` :literal:`M('panos\_virtual\_router')`\ : :strong:`parameter 'panos\_virtual\_router' is not a FQCN`\ .
 
 
       .. rst-class:: ansible-option-line

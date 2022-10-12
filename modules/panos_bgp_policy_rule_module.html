@@ -16,6 +16,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -40,6 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../gatheredfilter.html">Gathered Filter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="panos_address_group_module.html">paloaltonetworks.panos.panos_address_group module – Create address group objects on PAN-OS devices.</a></li>
@@ -198,33 +200,30 @@
 <h1>paloaltonetworks.panos.panos_bgp_policy_rule module – Configures a BGP Policy Import/Export Rule<a class="headerlink" href="#paloaltonetworks-panos-panos-bgp-policy-rule-module-configures-a-bgp-policy-import-export-rule" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.10.1).</p>
-<p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
-It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
-To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
-<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.10.2).</p>
+<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
+You need further requirements to be able to use this module,
+see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-bgp-policy-rule-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
 <p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">paloaltonetworks.panos.panos_bgp_policy_rule</span></code>.</p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.0: </span>of paloaltonetworks.panos</p>
-</div>
+<p class="ansible-version-added">New in paloaltonetworks.panos 1.0.0</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id2">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id3">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id4">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id5">Examples</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id69">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id70">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id71">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id72">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id73">Examples</a></p></li>
 </ul>
 </div>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id1">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id69">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Use BGP to publish and consume routes from disparate networks.</p></li>
 </ul>
 </section>
 <section id="requirements">
-<h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-paloaltonetworks-panos-panos-bgp-policy-rule-module-requirements"></span><h2><a class="toc-backref" href="#id70">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>pan-python can be obtained from PyPI <a class="reference external" href="https://pypi.python.org/pypi/pan-python">https://pypi.python.org/pypi/pan-python</a></p></li>
@@ -232,7 +231,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id3">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id71">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -247,8 +246,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>Rule action.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">allow</span></p></li>
-<li><p><span class="ansible-option-choices-entry">deny</span></p></li>
+<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`&quot;allow&quot;`</span></a></p></li>
+<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`&quot;deny&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -273,10 +272,10 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>AS path update options.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">none</span></p></li>
-<li><p><span class="ansible-option-choices-entry">remove</span></p></li>
-<li><p><span class="ansible-option-choices-entry">prepend</span></p></li>
-<li><p><span class="ansible-option-choices-entry">remove-and-prepend</span></p></li>
+<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry:`&quot;none&quot;`</span></a></p></li>
+<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`&quot;remove&quot;`</span></a></p></li>
+<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`&quot;prepend&quot;`</span></a></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`&quot;remove-and-prepend&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -294,11 +293,11 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>Community update options.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">none</span></p></li>
-<li><p><span class="ansible-option-choices-entry">remove-all</span></p></li>
-<li><p><span class="ansible-option-choices-entry">remove-regex</span></p></li>
-<li><p><span class="ansible-option-choices-entry">append</span></p></li>
-<li><p><span class="ansible-option-choices-entry">overwrite</span></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`&quot;none&quot;`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`&quot;remove-all&quot;`</span></a></p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`&quot;remove-regex&quot;`</span></a></p></li>
+<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`&quot;append&quot;`</span></a></p></li>
+<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`&quot;overwrite&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -351,9 +350,9 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>New route origin.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">igp</span></p></li>
-<li><p><span class="ansible-option-choices-entry">egp</span></p></li>
-<li><p><span class="ansible-option-choices-entry">incomplete</span></p></li>
+<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`&quot;igp&quot;`</span></a></p></li>
+<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`&quot;egp&quot;`</span></a></p></li>
+<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry:`&quot;incomplete&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -385,12 +384,12 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-commit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
-<p>Please use M(panos_commit_firewall), M(panos_commit_panorama), M(panos_commit_push) instead.</p>
+<p>Please use <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_commit_firewall')</span></code>: <strong>parameter ‘panos_commit_firewall’ is not a FQCN</strong>, <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_commit_panorama')</span></code>: <strong>parameter ‘panos_commit_panorama’ is not a FQCN</strong>, <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_commit_push')</span></code>: <strong>parameter ‘panos_commit_push’ is not a FQCN</strong> instead.</p>
 <hr><p>Commit changes after creating object.  If <em>ip_address</em> is a Panorama device, and <em>device_group</em> or <em>template</em> are also set, perform a commit to Panorama and a commit-all to the device group/template.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -401,8 +400,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>Enable rule.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -422,8 +421,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>Address Family Identifier.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">ip</span></p></li>
-<li><p><span class="ansible-option-choices-entry">ipv6</span></p></li>
+<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`&quot;ip&quot;`</span></a></p></li>
+<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`&quot;ipv6&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -476,9 +475,9 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>Route table to match rule.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">unicast</span></p></li>
-<li><p><span class="ansible-option-choices-entry">multicast</span></p></li>
-<li><p><span class="ansible-option-choices-entry">both</span></p></li>
+<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`&quot;unicast&quot;`</span></a></p></li>
+<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`&quot;multicast&quot;`</span></a></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`&quot;both&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -489,8 +488,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>Subsequent Address Family Identifier.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">ip</span></p></li>
-<li><p><span class="ansible-option-choices-entry">ipv6</span></p></li>
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`&quot;ip&quot;`</span></a></p></li>
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`&quot;ipv6&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -517,13 +516,13 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-bgp-policy-rule-module-parameter-provider"><strong>provider</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-<p><span class="ansible-option-versionadded">added in 1.0.0 of paloaltonetworks.panos</span></p>
+<p><span class="ansible-option-versionadded">added in paloaltonetworks.panos 1.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dict object containing connection details.</p>
 </div></td>
@@ -554,7 +553,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id53"><span class="problematic" id="id54">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -569,7 +568,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id55"><span class="problematic" id="id56">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -579,8 +578,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>The state.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">present</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">absent</span></p></li>
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry-default:`&quot;present&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry:`&quot;absent&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -605,8 +604,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>The type of rule.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">import</span></p></li>
-<li><p><span class="ansible-option-choices-entry">export</span></p></li>
+<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`&quot;import&quot;`</span></a></p></li>
+<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry:`&quot;export&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -624,22 +623,22 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id65"><span class="problematic" id="id66">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-vr_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-bgp-policy-rule-module-parameter-vr-name"><strong>vr_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-vr_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Name of the virtual router; it must already exist; see M(panos_virtual_router).</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“default”</span></p>
+<td><div class="ansible-option-cell"><p>Name of the virtual router; it must already exist; see <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_virtual_router')</span></code>: <strong>parameter ‘panos_virtual_router’ is not a FQCN</strong>.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id67"><span class="problematic" id="id68">:ansible-option-default:`&quot;default&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id4">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id72">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -651,7 +650,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id5">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id73">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add a BGP Policy</span><span class="w"></span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create Policy Import Rule</span><span class="w"></span>
 <span class="w">    </span><span class="nt">panos_bgp_policy_rule</span><span class="p">:</span><span class="w"></span>

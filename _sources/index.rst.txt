@@ -2,7 +2,7 @@
 Palo Alto Networks Ansible Collection
 =====================================
 
-Version: 2.10.1
+Version: 2.10.2
 
 The Palo Alto Networks Ansible collection is a collection of modules that
 automate configuration and operational tasks on Palo Alto Networks Next
@@ -41,6 +41,7 @@ Then in your playbooks you can specify that you want to use the
    :maxdepth: 2
    :caption: Contents:
 
+   gatheredfilter
    examples
    modules
    history

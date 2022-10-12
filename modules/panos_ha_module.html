@@ -16,6 +16,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -40,6 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../gatheredfilter.html">Gathered Filter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="panos_address_group_module.html">paloaltonetworks.panos.panos_address_group module – Create address group objects on PAN-OS devices.</a></li>
@@ -198,34 +200,31 @@
 <h1>paloaltonetworks.panos.panos_ha module – Configures High Availability on PAN-OS<a class="headerlink" href="#paloaltonetworks-panos-panos-ha-module-configures-high-availability-on-pan-os" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.10.1).</p>
-<p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
-It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
-To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
-<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.10.2).</p>
+<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
+You need further requirements to be able to use this module,
+see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-ha-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
 <p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">paloaltonetworks.panos.panos_ha</span></code>.</p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.0: </span>of paloaltonetworks.panos</p>
-</div>
+<p class="ansible-version-added">New in paloaltonetworks.panos 1.0.0</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id2">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id3">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id4">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id5">Examples</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id73">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id74">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id75">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id76">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id77">Examples</a></p></li>
 </ul>
 </div>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id1">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id73">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Configures High Availability on PAN-OS in A/S and A/A modes including all HA interface configuration.  Assumes physical interfaces are of type HA already using panos_interface.
 This module has the following limitations due to no support in pandevice - * No peer_backup_ip, this prevents full configuration of ha1_backup links * Speed and Duplex of ports was intentially skipped</p></li>
 </ul>
 </section>
 <section id="requirements">
-<h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-paloaltonetworks-panos-panos-ha-module-requirements"></span><h2><a class="toc-backref" href="#id74">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>pan-python can be obtained from PyPI <a class="reference external" href="https://pypi.python.org/pypi/pan-python">https://pypi.python.org/pypi/pan-python</a></p></li>
@@ -234,7 +233,7 @@ This module has the following limitations due to no support in pandevice - * No 
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id3">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id75">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -256,12 +255,12 @@ This module has the following limitations due to no support in pandevice - * No 
 <a class="ansibleOptionLink" href="#parameter-commit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
-<p>Please use M(panos_commit_firewall), M(panos_commit_panorama), M(panos_commit_push) instead.</p>
+<p>Please use <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_commit_firewall')</span></code>: <strong>parameter ‘panos_commit_firewall’ is not a FQCN</strong>, <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_commit_panorama')</span></code>: <strong>parameter ‘panos_commit_panorama’ is not a FQCN</strong>, <strong>ERROR while parsing</strong> <code class="docutils literal notranslate"><span class="pre">M('panos_commit_push')</span></code>: <strong>parameter ‘panos_commit_push’ is not a FQCN</strong> instead.</p>
 <hr><p>Commit changes after creating object.  If <em>ip_address</em> is a Panorama device, and <em>device_group</em> or <em>template</em> are also set, perform a commit to Panorama and a commit-all to the device group/template.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -347,7 +346,7 @@ This module has the following limitations due to no support in pandevice - * No 
 <a class="ansibleOptionLink" href="#parameter-ha2_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Interface to use for this HA2 interface (eg. ethernet1/5)</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“ha2-a”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id5"><span class="problematic" id="id6">:ansible-option-default:`&quot;ha2-a&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -392,8 +391,8 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p>Enabled configuration synchronization</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -404,8 +403,8 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p>HA3 device id (0 or 1)</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">0</span></p></li>
-<li><p><span class="ansible-option-choices-entry">1</span></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`0`</span></a></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`1`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -416,8 +415,8 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p>Enable HA</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -426,7 +425,7 @@ This module has the following limitations due to no support in pandevice - * No 
 <a class="ansibleOptionLink" href="#parameter-ha_group_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The group identifier</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">1</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id19"><span class="problematic" id="id20">:ansible-option-default:`1`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -436,8 +435,8 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p>Enable HA2 keepalives</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -462,8 +461,8 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p>active-active hash key used by ip-hash algorithm</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">source</span></p></li>
-<li><p><span class="ansible-option-choices-entry">source-and-destination</span></p></li>
+<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`&quot;source&quot;`</span></a></p></li>
+<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry:`&quot;source-and-destination&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -474,8 +473,8 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p>Mode of HA</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">active-passive</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">active-active</span></p></li>
+<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry-default:`&quot;active-passive&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`&quot;active-active&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -486,8 +485,8 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p>Passive link state</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">shutdown</span></p></li>
-<li><p><span class="ansible-option-default-bold">auto</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`&quot;shutdown&quot;`</span></a></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry-default:`&quot;auto&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -512,8 +511,8 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p>active-active session owner mode</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">primary-device</span></p></li>
-<li><p><span class="ansible-option-choices-entry">first-packet</span></p></li>
+<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`&quot;primary-device&quot;`</span></a></p></li>
+<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`&quot;first-packet&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -524,10 +523,10 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p>active-active session setup mode</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">primary-device</span></p></li>
-<li><p><span class="ansible-option-choices-entry">first-packet</span></p></li>
-<li><p><span class="ansible-option-choices-entry">ip-modulo</span></p></li>
-<li><p><span class="ansible-option-choices-entry">ip-hash</span></p></li>
+<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`&quot;primary-device&quot;`</span></a></p></li>
+<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`&quot;first-packet&quot;`</span></a></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`&quot;ip-modulo&quot;`</span></a></p></li>
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`&quot;ip-hash&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -538,8 +537,8 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p>Enabled state synchronization</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">no</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -550,8 +549,8 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p>active-active network sync qos</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -562,8 +561,8 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p>active-active network sync virtual router</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -599,13 +598,13 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id61"><span class="problematic" id="id62">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-ha-module-parameter-provider"><strong>provider</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-<p><span class="ansible-option-versionadded">added in 1.0.0 of paloaltonetworks.panos</span></p>
+<p><span class="ansible-option-versionadded">added in paloaltonetworks.panos 1.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dict object containing connection details.</p>
 </div></td>
@@ -636,7 +635,7 @@ This module has the following limitations due to no support in pandevice - * No 
 <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id63"><span class="problematic" id="id64">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -651,7 +650,7 @@ This module has the following limitations due to no support in pandevice - * No 
 <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id65"><span class="problematic" id="id66">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -661,8 +660,8 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p>The state.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">present</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">absent</span></p></li>
+<li><p><a href="#id67"><span class="problematic" id="id68">:ansible-option-choices-entry-default:`&quot;present&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id69"><span class="problematic" id="id70">:ansible-option-choices-entry:`&quot;absent&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -687,7 +686,7 @@ This module has the following limitations due to no support in pandevice - * No 
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id71"><span class="problematic" id="id72">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -701,7 +700,7 @@ This module has the following limitations due to no support in pandevice - * No 
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id4">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id76">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -713,7 +712,7 @@ This module has the following limitations due to no support in pandevice - * No 
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id5">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id77">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">set ports to HA mode</span><span class="w"></span>
 <span class="w">  </span><span class="nt">panos_interface</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span><span class="w"></span>
