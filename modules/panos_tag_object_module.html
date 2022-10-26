@@ -200,7 +200,7 @@
 <h1>paloaltonetworks.panos.panos_tag_object module – Create tag objects on PAN-OS devices.<a class="headerlink" href="#paloaltonetworks-panos-panos-tag-object-module-create-tag-objects-on-pan-os-devices" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.10.2).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.11.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-tag-object-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -209,21 +209,21 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <p class="ansible-version-added">New in paloaltonetworks.panos 1.0.0</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id103">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id104">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id105">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id106">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id107">Examples</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id111">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id112">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id113">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id114">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id115">Examples</a></p></li>
 </ul>
 </div>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id103">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id111">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Create tag objects on PAN-OS devices.</p></li>
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-paloaltonetworks-panos-panos-tag-object-module-requirements"></span><h2><a class="toc-backref" href="#id104">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-paloaltonetworks-panos-panos-tag-object-module-requirements"></span><h2><a class="toc-backref" href="#id112">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>pan-python can be obtained from PyPI <a class="reference external" href="https://pypi.python.org/pypi/pan-python">https://pypi.python.org/pypi/pan-python</a></p></li>
@@ -231,7 +231,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id105">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id113">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -253,6 +253,8 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <a class="ansibleOptionLink" href="#parameter-color" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Color for the tag.</p>
+<p>Mutually exclusive with <em>color_value</em>.</p>
+<p>NOTE that this param is not available for <em>gathered_filter</em> as it is a meta-param.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`&quot;red&quot;`</span></a></p></li>
@@ -300,13 +302,21 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-color_value"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-tag-object-module-parameter-color-value"><strong>color_value</strong></p>
+<a class="ansibleOptionLink" href="#parameter-color_value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The XML value of the color for this tag.</p>
+<p>Mutually exclusive with <em>color</em>.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-comments"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-tag-object-module-parameter-comments"><strong>comments</strong></p>
 <a class="ansibleOptionLink" href="#parameter-comments" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Comments for the tag.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-commit"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-tag-object-module-parameter-commit"><strong>commit</strong></p>
 <a class="ansibleOptionLink" href="#parameter-commit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -320,12 +330,21 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-device_group"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-tag-object-module-parameter-device-group"><strong>device_group</strong></p>
 <a class="ansibleOptionLink" href="#parameter-device_group" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>(Panorama only) The device group the operation should target.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id87"><span class="problematic" id="id88">:ansible-option-default:`&quot;shared&quot;`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-gathered_filter"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-tag-object-module-parameter-gathered-filter"><strong>gathered_filter</strong></p>
+<a class="ansibleOptionLink" href="#parameter-gathered_filter" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>When <em>state=gathered</em>.</p>
+<p>An advanced filtering option to filter results returned from PAN-OS.</p>
+<p>Refer to the guide discussing <em>gathered_filter</em> for more information.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -339,7 +358,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-tag-object-module-parameter-name"><strong>name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name of the tag.</p>
 </div></td>
@@ -424,6 +443,10 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <ul class="simple">
 <li><p><a href="#id95"><span class="problematic" id="id96">:ansible-option-choices-entry-default:`&quot;present&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 <li><p><a href="#id97"><span class="problematic" id="id98">:ansible-option-choices-entry:`&quot;absent&quot;`</span></a></p></li>
+<li><p><a href="#id99"><span class="problematic" id="id100">:ansible-option-choices-entry:`&quot;replaced&quot;`</span></a></p></li>
+<li><p><a href="#id101"><span class="problematic" id="id102">:ansible-option-choices-entry:`&quot;merged&quot;`</span></a></p></li>
+<li><p><a href="#id103"><span class="problematic" id="id104">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
+<li><p><a href="#id105"><span class="problematic" id="id106">:ansible-option-choices-entry:`&quot;gathered&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -434,7 +457,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id99"><span class="problematic" id="id100">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id107"><span class="problematic" id="id108">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -442,14 +465,14 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <a class="ansibleOptionLink" href="#parameter-vsys" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The vsys this object belongs to.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id101"><span class="problematic" id="id102">:ansible-option-default:`&quot;vsys1&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id109"><span class="problematic" id="id110">:ansible-option-default:`&quot;vsys1&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id106">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id114">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -460,7 +483,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id107">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id115">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create tag object &#39;Prod&#39;</span><span class="w"></span>
 <span class="w">  </span><span class="nt">panos_tag_object</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span><span class="w"></span>
