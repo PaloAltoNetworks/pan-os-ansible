@@ -37,17 +37,24 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.device_group
-    - paloaltonetworks.panos.fragments.state
+    - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.deprecated_commit
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     name:
         description:
             - Name of the tag.
         type: str
-        required: true
+    color_value:
+        description:
+            - The XML value of the color for this tag.
+            - Mutually exclusive with I(color).
+        type: str
     color:
         description:
             - Color for the tag.
+            - Mutually exclusive with I(color_value).
+            - NOTE that this param is not available for I(gathered_filter) as it is a meta-param.
         type: str
         choices:
             - red
@@ -118,20 +125,13 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
+    ConnectionHelper,
     get_connection,
 )
 
-try:
-    from panos.errors import PanDeviceError
-    from panos.objects import Tag
-except ImportError:
-    try:
-        from pandevice.errors import PanDeviceError
-        from pandevice.objects import Tag
-    except ImportError:
-        pass
 
 COLOR_NAMES = [
+    "",
     "red",
     "green",
     "blue",
@@ -149,6 +149,7 @@ COLOR_NAMES = [
     "gold",
     "brown",
     "olive",
+    "",
     "maroon",
     "red-orange",
     "yellow-orange",
@@ -176,17 +177,71 @@ COLOR_NAMES = [
 ]
 
 
+def to_color(color_value):
+    """Returns the color for the given color_value."""
+    if color_value is None or not color_value.startswith("color"):
+        return None
+    cv = int(color_value[5:])
+    return COLOR_NAMES[cv]
+
+
+class Helper(ConnectionHelper):
+    def initial_handling(self, module):
+        if module.params["color"] and module.params["color_value"]:
+            module.fail_json(msg="Specify either 'color' or 'color_value', not both")
+
+    def spec_handling(self, spec, module):
+        if (
+            module.params["state"] not in ("present", "replaced")
+            or not module.params["color"]
+        ):
+            return
+
+        for num, x in enumerate(COLOR_NAMES):
+            if module.params["color"] == x:
+                spec["color"] = "color{0}".format(num)
+                break
+        else:
+            module.fail_json(
+                msg="Unable to find color_value for color: {0}".format(
+                    module.params["color"]
+                )
+            )
+
+    def post_state_handling(self, obj, result, module):
+        if "before" in result and result["before"] is not None:
+            result["before"]["color"] = to_color(result["before"]["color_value"])
+
+        if "after" in result and result["after"] is not None:
+            result["after"]["color"] = to_color(result["after"]["color_value"])
+
+        if "gathered" in result:
+            if isinstance(result["gathered"], dict):
+                result["gathered"]["color"] = to_color(
+                    result["gathered"]["color_value"]
+                )
+            elif isinstance(result["gathered"], list):
+                for x in result["gathered"]:
+                    x["color"] = to_color(x["color_value"])
+
+
 def main():
     helper = get_connection(
+        helper_cls=Helper,
         vsys=True,
         device_group=True,
+        with_network_resource_module_state=True,
+        with_gathered_filter=True,
         with_classic_provider_spec=True,
-        with_state=True,
-        argument_spec=dict(
-            name=dict(type="str", required=True),
-            color=dict(type="str", default=None, choices=COLOR_NAMES),
-            comments=dict(type="str"),
-            commit=dict(type="bool"),
+        with_commit=True,
+        sdk_cls=("objects", "Tag"),
+        sdk_params=dict(
+            name=dict(required=True),
+            color_value=dict(sdk_param="color"),
+            comments=dict(),
+        ),
+        extra_params=dict(
+            color=dict(choices=[x for x in COLOR_NAMES if x]),
         ),
     )
 
@@ -196,32 +251,7 @@ def main():
         supports_check_mode=True,
     )
 
-    parent = helper.get_pandevice_parent(module)
-
-    spec = {
-        "name": module.params["name"],
-        "comments": module.params["comments"],
-    }
-
-    if module.params["color"]:
-        spec["color"] = Tag.color_code(module.params["color"])
-
-    commit = module.params["commit"]
-
-    try:
-        listing = Tag.refreshall(parent, add=False)
-    except PanDeviceError as e:
-        module.fail_json(msg="Failed refresh: {0}".format(e))
-
-    obj = Tag(**spec)
-    parent.add(obj)
-
-    resp = helper.apply_state(obj, listing, module)
-
-    if commit and resp["changed"]:
-        helper.commit(module)
-
-    module.exit_json(**resp)
+    helper.process(module)
 
 
 if __name__ == "__main__":
