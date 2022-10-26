@@ -115,6 +115,7 @@ plugins/modules/panos_software.py validate-modules:missing-gplv3-license
 plugins/modules/panos_static_route.py validate-modules:missing-gplv3-license
 plugins/modules/panos_syslog_profile.py validate-modules:missing-gplv3-license
 plugins/modules/panos_syslog_server.py validate-modules:missing-gplv3-license
+plugins/modules/panos_tag_object.py pylint:consider-using-f-string
 plugins/modules/panos_tag_object.py validate-modules:missing-gplv3-license
 plugins/modules/panos_template.py validate-modules:missing-gplv3-license
 plugins/modules/panos_template_stack.py validate-modules:missing-gplv3-license
