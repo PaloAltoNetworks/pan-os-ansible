@@ -28,9 +28,9 @@ description:
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer), Vinay Venkataraghavan (@vinayvenkat)"
 version_added: '1.0.0'
 deprecated:
-    alternative: Use M(panos_address_group) instead.
+    alternative: Use M(paloaltonetworks.panos.panos_address_group) instead.
     removed_in: '3.0.0'
-    why: This module's functionality is a subset of M(panos_address_group).
+    why: This module's functionality is a subset of M(paloaltonetworks.panos.panos_address_group).
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)

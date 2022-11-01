@@ -31,7 +31,7 @@ author:
     - Garfield Lee Freeman (@shinmog)
 version_added: '1.0.0'
 deprecated:
-    alternative: 'Use M(panos_commit_firewall), M(panos_commit_panorama), M(panos_commit_push) instead.'
+    alternative: 'Use M(paloaltonetworks.panos.panos_commit_firewall), M(paloaltonetworks.panos.panos_commit_panorama), M(paloaltonetworks.panos.panos_commit_push) instead.'
     removed_in: '3.0.0'
     why: 'This module is a subset of functionality found in other modules.'
 requirements:

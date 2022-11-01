@@ -28,7 +28,7 @@ description:
 author: "Garfield Lee Freeman (@shinmog)"
 version_added: '1.0.0'
 deprecated:
-    alternative: Use M(panos_virtual_router) with I(state=gathered)
+    alternative: Use M(paloaltonetworks.panos.panos_virtual_router) with I(state=gathered)
     removed_in: '3.0.0'
     why: Updating module design to network resource modules.
 requirements:

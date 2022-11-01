@@ -136,7 +136,7 @@ options:
         type: str
     peer_group:
         description:
-            - Name of the peer group; it must already exist; see M(panos_bgp_peer_group).
+            - Name of the peer group; it must already exist; see M(paloaltonetworks.panos.panos_bgp_peer_group).
         type: str
         required: true
     peering_type:

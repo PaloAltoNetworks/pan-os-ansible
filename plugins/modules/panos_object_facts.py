@@ -30,7 +30,7 @@ author:
     - Garfield Lee Freeman (@shinmog)
 version_added: '1.0.0'
 deprecated:
-    alternative: Use various specific modules such as M(panos_address_object) instead.
+    alternative: Use various specific modules such as M(paloaltonetworks.panos.panos_address_object) instead.
     removed_in: '3.0.0'
     why: Updating module design  to network resource modules.
 requirements:

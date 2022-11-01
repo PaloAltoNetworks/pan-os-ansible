@@ -19,7 +19,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-DOCUMENTATION = """
+DOCUMENTATION = r"""
 ---
 module: panos_commit_firewall
 short_description: Commit the firewall's candidate configuration.
@@ -70,7 +70,7 @@ options:
         default: True
 """
 
-EXAMPLES = """
+EXAMPLES = r"""
 - name: commit candidate configs on firewall
   panos_commit_firewall:
     provider: '{{ credentials }}'
@@ -87,7 +87,7 @@ EXAMPLES = """
     exclude_device_and_network: True
 """
 
-RETURN = """
+RETURN = r"""
 jobid:
   description: The ID of the PAN-OS commit job.
   type: int

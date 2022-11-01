@@ -29,9 +29,9 @@ description:
 author: "Luigi Mori (@jtschichold), Ivan Bojer (@ivanbojer)"
 version_added: '1.0.0'
 deprecated:
-    alternative: Use M(panos_administrator) instead.
+    alternative: Use M(paloaltonetworks.panos.panos_administrator) instead.
     removed_in: '3.0.0'
-    why: This module is a subset of M(panos_administrator)'s functionality.
+    why: This module is a subset of M(paloaltonetworks.panos.panos_administrator)'s functionality.
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
 notes:
