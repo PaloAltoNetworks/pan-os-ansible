@@ -534,3 +534,6 @@ plugins/modules/panos_vm_auth_key.py import-3.5
 plugins/modules/panos_zone.py import-3.5
 plugins/modules/panos_zone_facts.py import-3.5
 plugins/httpapi/panos.py import-3.5
+plugins/modules/panos_dag.py no-get-exception
+plugins/modules/panos_dag_tags.py no-get-exception
+plugins/modules/panos_sag.py no-get-exception
