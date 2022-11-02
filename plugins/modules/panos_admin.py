@@ -49,7 +49,7 @@ options:
             - Port used to connect to the PAN-OS device being configured.
         required: false
         type: str
-        default: 443
+        default: '443'
     username:
         description:
             - Username credentials to use for auth unless I(api_key) is set.
