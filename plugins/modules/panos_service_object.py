@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_service_object
-short_description: Create service objects on PAN-OS devices.
+short_description: Manage service objects on PAN-OS devices.
 description:
-    - Create service objects on PAN-OS devices.
+    - Manage service objects on PAN-OS devices.
 author: "Michael Richardson (@mrichardson03)"
 version_added: '1.0.0'
 requirements:

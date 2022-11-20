@@ -28,9 +28,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = """
 ---
 module: panos_application_group
-short_description: Create application groups on PAN-OS devices.
+short_description: Manage application groups on PAN-OS devices.
 description:
-    - Create application groups on PAN-OS devices.
+    - Manage application groups on PAN-OS devices.
 author: "Michael Richardson (@mrichardson03)"
 version_added: '2.1.0'
 requirements:

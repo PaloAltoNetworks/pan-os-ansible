@@ -22,7 +22,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_virtual_router
-short_description: Configures a Virtual Router
+short_description: Manage a Virtual Router
 description:
     - Manage PANOS Virtual Router
 author:

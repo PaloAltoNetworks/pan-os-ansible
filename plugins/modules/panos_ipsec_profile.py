@@ -22,7 +22,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_ipsec_profile
-short_description: Configures IPSec Crypto profile on the firewall with subset of settings.
+short_description: Manage IPSec Crypto profile on the firewall with subset of settings.
 description:
     - IPSec Crypto profiles specify protocols and algorithms for authentication and encryption in VPN tunnels based on
       IPSec SA negotiation (Phase 2).

@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_device_group
-short_description: configure Panorama device group
+short_description: Manage Panorama device group
 description:
-    - Configure Panorama device group.
+    - Manage Panorama device group.
 author:
     - Garfield Lee Freeman (@shinmog)
 version_added: '2.8.0'

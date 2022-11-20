@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_address_group
-short_description: Create address group objects on PAN-OS devices.
+short_description: Manage address group objects on PAN-OS devices.
 description:
-    - Create address group objects on PAN-OS devices.
+    - Manage address group objects on PAN-OS devices.
 author:
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)

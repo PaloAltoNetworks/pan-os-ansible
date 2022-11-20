@@ -22,7 +22,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_security_rule
-short_description: Create security rule policy on PAN-OS devices or Panorama management console.
+short_description: Manage security rule policy on PAN-OS devices or Panorama management console.
 description: >
     - Security policies allow you to enforce rules and take action, and can be as
       general or specific as needed.

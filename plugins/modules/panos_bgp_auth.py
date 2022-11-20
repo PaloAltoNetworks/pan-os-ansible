@@ -22,7 +22,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_bgp_auth
-short_description: Configures a BGP Authentication Profile
+short_description: Manage a BGP Authentication Profile
 description:
     - Use BGP to publish and consume routes from disparate networks.
 author:

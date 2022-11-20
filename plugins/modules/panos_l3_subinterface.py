@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_l3_subinterface
-short_description: configure layer3 subinterface
+short_description: Manage layer3 subinterface
 description:
-    - Configure a layer3 subinterface.
+    - Manage a layer3 subinterface.
 author: "Garfield Lee Freeman (@shinmog)"
 version_added: '1.0.0'
 requirements:

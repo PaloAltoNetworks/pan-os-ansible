@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_redistribution
-short_description: Configures a Redistribution Profile on a virtual router
+short_description: Manage a Redistribution Profile on a virtual router
 description:
-    - Configures a Redistribution Profile on a virtual router
+    - Manage a Redistribution Profile on a virtual router
 author:
     - Joshua Colson (@freakinhippie)
     - Garfield Lee Freeman (@shinmog)

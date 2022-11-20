@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_template_variable
-short_description: configure template or template stack variable
+short_description: Manage template or template stack variable
 description:
-    - Configure a template or template stack variable on Panorama.
+    - Manage a template or template stack variable on Panorama.
 author:
     - Garfield Lee Freeman (@shinmog)
 version_added: '2.8.0'

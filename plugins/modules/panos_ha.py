@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_ha
-short_description: Configures High Availability on PAN-OS
+short_description: Manage High Availability on PAN-OS
 description:
-    - Configures High Availability on PAN-OS in A/S and A/A modes including
+    - Manage High Availability on PAN-OS in A/S and A/A modes including
       all HA interface configuration.  Assumes physical interfaces are of
       type HA already using panos_interface.
 

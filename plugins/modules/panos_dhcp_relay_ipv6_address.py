@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_dhcp_relay_ipv6_address
-short_description: Configure DHCP IPv6 relay addresses.
+short_description: Manage DHCP IPv6 relay addresses.
 description:
-    - Configure DHCP relay IPv6 addresses on PAN-OS firewall.
+    - Manage DHCP relay IPv6 addresses on PAN-OS firewall.
 author:
     - Garfield Lee Freeman (@shinmog)
 version_added: '2.10.0'

@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_dhcp
-short_description: Configure DHCP for an interface.
+short_description: Manage DHCP for an interface.
 description: >
-    - Configure DHCP on PAN-OS firewall.
+    - Manage DHCP on PAN-OS firewall.
     - Besides I(state=gathered) to see the the entire DHCP config related to a
       specific interface, you will need to use this module to delete the interface
       reference from the PAN-OS config if you intent to delete the interface being

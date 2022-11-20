@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_l2_subinterface
-short_description: configure layer2 subinterface
+short_description: Manage layer2 subinterface
 description:
-    - Configure a layer2 subinterface.
+    - Manage a layer2 subinterface.
 author: "Garfield Lee Freeman (@shinmog)"
 version_added: '1.0.0'
 requirements:

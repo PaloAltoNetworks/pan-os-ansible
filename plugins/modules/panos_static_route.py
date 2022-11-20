@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_static_route
-short_description: Create static routes on PAN-OS devices.
+short_description: Manage static routes on PAN-OS devices.
 description:
-    - Create static routes on PAN-OS devices.
+    - Manage static routes on PAN-OS devices.
 author:
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)

@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_template
-short_description: configure Panorama template
+short_description: Manage Panorama template
 description:
-    - Configure Panorama template.
+    - Manage Panorama template.
 author:
     - Garfield Lee Freeman (@shinmog)
 version_added: '2.8.0'

@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_vlan_interface
-short_description: configure VLAN interfaces
+short_description: Manage VLAN interfaces
 description:
-    - Configure VLAN interfaces.
+    - Manage VLAN interfaces.
 author: "Garfield Lee Freeman (@shinmog)"
 version_added: '1.0.0'
 requirements:

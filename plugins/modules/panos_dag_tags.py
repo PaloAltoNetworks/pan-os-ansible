@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_dag_tags
-short_description: Create tags for DAG's on PAN-OS devices.
+short_description: Manage tags for DAG's on PAN-OS devices.
 description:
-    - Create the ip address to tag associations. Tags will in turn be used to create DAG's
+    - Manage the ip address to tag associations. Tags will in turn be used to create DAG's
 author: "Vinay Venkataraghavan (@vinayvenkat)"
 version_added: '1.0.0'
 requirements:

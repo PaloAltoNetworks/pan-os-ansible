@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_ipsec_ipv4_proxyid
-short_description: Configures IPv4 Proxy Id on an IPSec Tunnel
+short_description: Manage IPv4 Proxy Id on an IPSec Tunnel
 description:
-    - Configures IPv4 Proxy Id on an IPSec tunnel
+    - Manage IPv4 Proxy Id on an IPSec tunnel
 author: "Heiko Burghardt (@odysseus107)"
 version_added: '1.0.0'
 requirements:

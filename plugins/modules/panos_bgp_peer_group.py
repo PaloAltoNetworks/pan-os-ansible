@@ -23,7 +23,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_bgp_peer_group
-short_description: Configures a BGP Peer Group
+short_description: Manage a BGP Peer Group
 description:
     - Use BGP to publish and consume routes from disparate networks.
 author:

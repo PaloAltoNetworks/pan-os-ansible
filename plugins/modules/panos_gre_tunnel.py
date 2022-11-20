@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_gre_tunnel
-short_description: Create GRE tunnels on PAN-OS devices.
+short_description: Manage GRE tunnels on PAN-OS devices.
 description:
-    - Create GRE tunnel objects on PAN-OS devices.
+    - Manage GRE tunnel objects on PAN-OS devices.
 author:
     - Garfield Lee Freeman (@shinmog)
 version_added: '1.0.0'

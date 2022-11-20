@@ -22,7 +22,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_virtual_wire
-short_description: Configures Virtual Wires (vwire).
+short_description: Manage Virtual Wires (vwire).
 description:
     - Manage PAN-OS Virtual Wires (vwire).
 author: "Patrick Avery (@unknown)"

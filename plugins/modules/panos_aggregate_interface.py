@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_aggregate_interface
-short_description: configure aggregate network interfaces
+short_description: Manage aggregate network interfaces
 description:
-    - Configure aggregate network interfaces on PanOS
+    - Manage aggregate network interfaces on PanOS
 author:
     - Heiko Burghardt (@odysseus107)
 version_added: '1.0.0'

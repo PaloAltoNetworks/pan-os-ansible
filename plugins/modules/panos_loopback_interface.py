@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_loopback_interface
-short_description: configure network loopback interfaces
+short_description: Manage network loopback interfaces
 description:
-    - Configure loopback interfaces on PanOS
+    - Manage loopback interfaces on PanOS
 author:
     - Geraint Jones (@nexus_moneky_nz)
     - Garfield Lee Freeman (@shinmog)

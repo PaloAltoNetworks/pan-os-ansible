@@ -28,9 +28,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = """
 ---
 module: panos_schedule_object
-short_description: Create schedule objects on PAN-OS devices.
+short_description: Manage schedule objects on PAN-OS devices.
 description:
-    - Create schedule objects on PAN-OS devices.
+    - Manage schedule objects on PAN-OS devices.
 author: "Michael Richardson (@mrichardson03)"
 version_added: '2.1.0'
 requirements:

@@ -23,7 +23,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_bgp_conditional_advertisement
-short_description: Configures a BGP conditional advertisement.
+short_description: Manage a BGP conditional advertisement.
 description:
     - Use BGP to publish and consume routes from disparate networks.
     - In the PAN-OS GUI, this resource cannot be created without also creating at least

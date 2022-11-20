@@ -22,7 +22,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_vlan
-short_description: Configures VLANs.
+short_description: Manage VLANs.
 description:
     - Manage PAN-OS VLANs.
 author: "Garfield Lee Freeman (@shinmog)"

@@ -22,7 +22,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_bgp_policy_rule
-short_description: Configures a BGP Policy Import/Export Rule
+short_description: Manage a BGP Policy Import/Export Rule
 description:
     - Use BGP to publish and consume routes from disparate networks.
 author:

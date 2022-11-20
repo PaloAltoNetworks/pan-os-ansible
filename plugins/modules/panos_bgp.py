@@ -22,7 +22,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_bgp
-short_description: Configures Border Gateway Protocol (BGP)
+short_description: Manage Border Gateway Protocol (BGP)
 description:
     - Use BGP to publish and consume routes from disparate networks.
 author:

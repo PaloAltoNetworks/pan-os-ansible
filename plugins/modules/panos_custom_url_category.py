@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_custom_url_category
-short_description: Create custom url category objects on PAN-OS devices.
+short_description: Manage custom url category objects on PAN-OS devices.
 description:
-    - Create custom url category objects on PAN-OS devices.
+    - Manage custom url category objects on PAN-OS devices.
 author: "Borislav Varadinov (@bvaradinov-c)"
 version_added: '2.0.0'
 requirements:

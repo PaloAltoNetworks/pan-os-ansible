@@ -28,9 +28,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = """
 ---
 module: panos_region
-short_description: Create regions on PAN-OS devices.
+short_description: Manage regions on PAN-OS devices.
 description:
-    - Create regions on PAN-OS devices.
+    - Manage regions on PAN-OS devices.
 author: "Michael Richardson (@mrichardson03)"
 version_added: '2.1.0'
 requirements:

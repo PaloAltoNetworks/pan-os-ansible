@@ -23,7 +23,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_bgp_aggregate
-short_description: Configures a BGP Aggregation Prefix Policy
+short_description: Manage a BGP Aggregation Prefix Policy
 description:
     - Use BGP to publish and consume routes from disparate networks.
 author:

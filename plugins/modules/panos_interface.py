@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_interface
-short_description: configure data-port network interfaces
+short_description: Manage data-port network interfaces
 description:
-    - Configure data-port (DP) network interface. By default DP interfaces are static.
+    - Manage data-port (DP) network interface. By default DP interfaces are static.
 author:
     - Luigi Mori (@jtschichold)
     - Ivan Bojer (@ivanbojer)

@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_nat_rule
-short_description: create a policy NAT rule
+short_description: Manage a policy NAT rule
 description:
-    - Create a policy nat rule. Keep in mind that we can either end up configuring source NAT, destination NAT, or both.
+    - Manage a policy nat rule. Keep in mind that we can either end up configuring source NAT, destination NAT, or both.
     - Instead of splitting it into two we will make a fair attempt to determine which one the user wants.
 author:
     - Luigi Mori (@jtschichold)

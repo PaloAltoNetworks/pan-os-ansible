@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_address_object
-short_description: Create address objects on PAN-OS devices.
+short_description: Manage address objects on PAN-OS devices.
 description:
-    - Create address objects on PAN-OS devices.
+    - Manage address objects on PAN-OS devices.
 author:
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)

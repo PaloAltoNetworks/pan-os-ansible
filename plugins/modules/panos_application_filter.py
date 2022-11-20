@@ -28,9 +28,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = """
 ---
 module: panos_application_filter
-short_description: Create application filters on PAN-OS devices.
+short_description: Manage application filters on PAN-OS devices.
 description:
-    - Create application filters on PAN-OS devices.
+    - Manage application filters on PAN-OS devices.
 author: "Michael Richardson (@mrichardson03)"
 version_added: '2.1.0'
 requirements:

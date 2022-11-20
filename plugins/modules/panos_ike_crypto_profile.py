@@ -22,7 +22,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_ike_crypto_profile
-short_description: Configures IKE Crypto profile on the firewall with subset of settings
+short_description: Manage IKE Crypto profile on the firewall with subset of settings
 description: >
     - Use the IKE Crypto Profiles page to specify protocols and algorithms for
       identification, authentication, and encryption (IKEv1 or IKEv2, Phase 1).

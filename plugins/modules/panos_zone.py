@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_zone
-short_description: configure security zone
+short_description: Manage security zone
 description:
-    - Configure security zones on PAN-OS firewall or in Panorama template.
+    - Manage security zones on PAN-OS firewall or in Panorama template.
 author:
     - Robert Hagen (@stealthllama)
     - Garfield Lee Freeman (@shinmog)

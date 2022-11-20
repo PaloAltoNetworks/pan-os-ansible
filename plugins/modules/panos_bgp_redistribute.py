@@ -22,7 +22,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_bgp_redistribute
-short_description: Configures a BGP Redistribution Rule
+short_description: Manage a BGP Redistribution Rule
 description:
     - Use BGP to publish and consume routes from disparate networks.
 author:

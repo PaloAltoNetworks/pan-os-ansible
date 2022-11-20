@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_dhcp_relay
-short_description: Configure dhcp relay.
+short_description: Manage dhcp relay.
 description: >
-    - Configure dhcp relay on PAN-OS firewall.
+    - Manage dhcp relay on PAN-OS firewall.
     - Due to the implementation details of PAN-OS itself, you can use this
       module to create a DHCP config without ever having to use M(paloaltonetworks.panos.panos_dhcp)
       first.

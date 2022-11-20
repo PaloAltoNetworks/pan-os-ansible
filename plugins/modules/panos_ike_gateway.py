@@ -22,7 +22,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_ike_gateway
-short_description: Configures IKE gateway on the firewall with subset of settings.
+short_description: Manage IKE gateway on the firewall with subset of settings.
 description:
     - Use this to manage or define a gateway, including the configuration information
       necessary to perform Internet Key Exchange (IKE) protocol negotiation with a

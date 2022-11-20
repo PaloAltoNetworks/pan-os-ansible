@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_template_stack
-short_description: configure Panorama template stack
+short_description: Manage Panorama template stack
 description:
-    - Configure Panorama template stack.
+    - Manage Panorama template stack.
 author:
     - Garfield Lee Freeman (@shinmog)
 version_added: '2.8.0'

@@ -23,7 +23,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_bgp_dampening
-short_description: Configures a BGP Dampening Profile
+short_description: Manage a BGP Dampening Profile
 description:
     - Use BGP to publish and consume routes from disparate networks.
 author:

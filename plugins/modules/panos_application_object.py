@@ -22,9 +22,9 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_application_object
-short_description: Create application objects on PAN-OS devices.
+short_description: Manage application objects on PAN-OS devices.
 description:
-    - Create application objects on PAN-OS devices.
+    - Manage application objects on PAN-OS devices.
 author: "Michael Richardson (@mrichardson03)"
 version_added: '2.0.0'
 requirements:

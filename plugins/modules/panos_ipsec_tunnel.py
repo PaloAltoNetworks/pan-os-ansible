@@ -22,7 +22,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_ipsec_tunnel
-short_description: Configures IPSec Tunnels on the firewall with subset of settings.
+short_description: Manage IPSec Tunnels on the firewall with subset of settings.
 description:
     - Use IPSec Tunnels to establish and manage IPSec VPN tunnels between firewalls. This is the Phase 2 portion of the
     - IKE/IPSec VPN setup.
