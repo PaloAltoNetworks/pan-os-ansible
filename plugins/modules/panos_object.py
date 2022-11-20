@@ -35,9 +35,9 @@ deprecated:
   removed_in: '3.0.0'
   why: Updated to idempotent modules
   alternative: >
-                 Use M(panos_address_object), M(panos_address_group),
-                 M(panos_service_object), M(panos_service_group), or
-                 M(panos_tag_object) as appropriate.
+                 Use M(paloaltonetworks.panos.panos_address_object), M(paloaltonetworks.panos.panos_address_group),
+                 M(paloaltonetworks.panos.panos_service_object), M(paloaltonetworks.panos.panos_service_group), or
+                 M(paloaltonetworks.panos.panos_tag_object) as appropriate.
 notes:
     - Checkmode is not supported.
     - Panorama is supported.

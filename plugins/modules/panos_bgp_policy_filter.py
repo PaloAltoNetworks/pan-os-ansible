@@ -140,7 +140,7 @@ options:
     vr_name:
         description:
             - Name of the virtual router; it must already exist and have BGP configured.
-            - See M(panos_virtual_router).
+            - See M(paloaltonetworks.panos.panos_virtual_router).
         type: str
         default: default
 """

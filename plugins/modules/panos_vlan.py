@@ -52,7 +52,7 @@ options:
     virtual_interface:
         description:
             - The VLAN interface
-            - See M(panos_vlan_interface)
+            - See M(paloaltonetworks.panos.panos_vlan_interface)
         type: str
 """
 

@@ -1,2 +1,10 @@
 ---
 requires_ansible: '>=2.9.10'
+plugin_routing:
+  modules:
+    panos_admin:
+      deprecation:
+        removal_version: "3.0.0"
+        warning_text: Use 'paloaltonetworks.panos.panos_administrator' instead.
+      redirect: paloaltonetworks.panos.panos_administrator
+      

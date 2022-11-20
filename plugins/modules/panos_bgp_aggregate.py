@@ -141,7 +141,7 @@ options:
         type: bool
     vr_name:
         description:
-            - Name of the virtual router, it must already exist.  See M(panos_virtual_router).
+            - Name of the virtual router, it must already exist.  See M(paloaltonetworks.panos.panos_virtual_router).
         type: str
         default: default
 """

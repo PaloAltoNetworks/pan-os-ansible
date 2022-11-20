@@ -113,7 +113,7 @@ options:
         default: 'ipv4'
     vr_name:
         description:
-            - Name of the virtual router; it must already exist; see M(panos_virtual_router).
+            - Name of the virtual router; it must already exist; see M(paloaltonetworks.panos.panos_virtual_router).
         type: str
         default: 'default'
 """

@@ -30,9 +30,9 @@ description:
 author: "Bob Hagen (@stealthllama)"
 version_added: '1.0.0'
 deprecated:
-    alternative: Use M(panos_match_rule)
+    alternative: Use M(paloaltonetworks.panos.panos_match_rule)
     removed_in: '3.0.0'
-    why: Querying rules is handled better by M(panos_match_rule).
+    why: Querying rules is handled better by M(paloaltonetworks.panos.panos_match_rule).
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)

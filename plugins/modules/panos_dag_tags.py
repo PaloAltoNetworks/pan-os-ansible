@@ -33,7 +33,7 @@ requirements:
 deprecated:
   removed_in: '3.0.0'
   why: Using new modern API calls in the panos_registered_ip
-  alternative: Use M(panos_registered_ip) instead.
+  alternative: Use M(paloaltonetworks.panos.panos_registered_ip) instead.
 notes:
     - Checkmode is not supported.
     - Panorama is not supported.

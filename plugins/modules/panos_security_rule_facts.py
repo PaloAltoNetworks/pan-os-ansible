@@ -30,7 +30,7 @@ author:
     - 'Michael Richardson (@mrichardson03)'
 version_added: '1.0.0'
 deprecated:
-    alternative: Use M(panos_security_rule) with I(state=gathered).
+    alternative: Use M(paloaltonetworks.panos.panos_security_rule) with I(state=gathered).
     removed_in: '3.0.0'
     why: Updating module design to network resource modules.
 requirements:

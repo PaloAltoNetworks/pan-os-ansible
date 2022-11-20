@@ -21,7 +21,7 @@ DOCUMENTATION = """
 ---
 author:
     - Michael Richardson (@mrichardson03)
-httpapi : panos
+name : panos
 short_description: HttpApi plugin for PAN-OS devices
 description:
     - HttpApi plugin for PAN-OS devices

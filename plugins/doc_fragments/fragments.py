@@ -293,8 +293,8 @@ options:
     commit:
         description:
             - B(Deprecated)
-            - Please use M(panos_commit_firewall), M(panos_commit_panorama),
-              M(panos_commit_push) instead.
+            - Please use M(paloaltonetworks.panos.panos_commit_firewall), M(paloaltonetworks.panos.panos_commit_panorama),
+              M(paloaltonetworks.panos.panos_commit_push) instead.
             - HORIZONTALLINE
             - Commit changes after creating object.  If I(ip_address) is a Panorama device, and I(device_group) or
               I(template) are also set, perform a commit to Panorama and a commit-all to the device group/template.

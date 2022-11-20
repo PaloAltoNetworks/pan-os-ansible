@@ -54,7 +54,7 @@ options:
         description:
             - Some op commands disconnect the client before returning a response.
             - Enable this to prevent this module from erroring out if the command could cause this.
-            - If running such a command, you can use M(panos_check) to wait for PAN-OS to be accessible.
+            - If running such a command, you can use M(paloaltonetworks.panos.panos_check) to wait for PAN-OS to be accessible.
         type: bool
     vsys:
         description:

@@ -35,7 +35,7 @@ author:
     - Ken Celenza (@itdependsnetworks)
 version_added: '1.0.0'
 deprecated:
-    alternative: Use M(panos_nat_rule2) instead.
+    alternative: Use M(paloaltonetworks.panos.panos_nat_rule2) instead.
     removed_in: '3.0.0'
     why: The design of this module is not consistent with current design.
 requirements:
