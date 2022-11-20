@@ -32,7 +32,7 @@ version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
-    - xmltodict
+    - xmltodict (optional)
 notes:
     - Checkmode is NOT supported.
     - Panorama is supported.
@@ -105,6 +105,8 @@ disconnected:
     sample: True
 """
 
+import json
+
 from http.client import RemoteDisconnected
 
 from ansible.module_utils.basic import AnsibleModule
@@ -121,13 +123,9 @@ except ImportError:
         pass
 
 try:
-    import json
-
     import xmltodict
-
-    HAS_LIB = True
 except ImportError:
-    HAS_LIB = False
+    pass
 
 
 def main():
@@ -146,9 +144,6 @@ def main():
         supports_check_mode=False,
         required_one_of=helper.required_one_of,
     )
-
-    if not HAS_LIB:
-        module.fail_json(msg="Missing required libraries.")
 
     parent = helper.get_pandevice_parent(module)
 
@@ -197,8 +192,12 @@ def main():
             module.fail_json(msg="Failed to run command : {0} : {1}".format(cmd2, e2))
 
     if resp["stdout_xml"]:
-        obj_dict = xmltodict.parse(resp["stdout_xml"])
-        resp["stdout"] = json.dumps(obj_dict)
+        try:
+            obj_dict = xmltodict.parse(resp["stdout_xml"])
+        except NameError:
+            resp["stdout"] = "(install xmltodict to get output as JSON)"
+        else:
+            resp["stdout"] = json.dumps(obj_dict)
 
     module.exit_json(**resp)
 
