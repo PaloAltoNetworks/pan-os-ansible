@@ -1,8 +1,6 @@
 plugins/modules/panos_address_group.py validate-modules:missing-gplv3-license
 plugins/modules/panos_address_object.py validate-modules:missing-gplv3-license
 plugins/modules/panos_admin.py validate-modules:missing-gplv3-license
-plugins/modules/panos_admin.py validate-modules:deprecation-mismatch
-plugins/modules/panos_admin.py validate-modules:invalid-documentation
 plugins/modules/panos_administrator.py validate-modules:missing-gplv3-license
 plugins/modules/panos_admpwd.py validate-modules:missing-gplv3-license
 plugins/modules/panos_aggregate_interface.py validate-modules:missing-gplv3-license
