@@ -144,7 +144,7 @@ def main():
             tag=dict(required=True, type="int"),
             lldp_enabled=dict(type="bool"),
             lldp_profile=dict(),
-            netflow_profile=dict(),
+            netflow_profile=dict(sdk_param="netflow_profile_l2"),
             comment=dict(),
         ),
     )
