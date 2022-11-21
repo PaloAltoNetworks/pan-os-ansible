@@ -50,6 +50,24 @@ Then in your playbooks you can specify that you want to use the
    license
 
 
+Collection Requirements
+=======================
+
+* pan-python
+* pan-os-python
+* xmltodict (certain modules only)
+
+If you believe you have installed these dependencies but Ansible is not finding them, it is likely a
+problem with where your local shell is searching for installed dependencies and where Ansible is
+searching for them.  Try running a simple `panos_op` playbook to run the command 'show system info",
+and if that errors out, compare the `sys.path` in the output against where you think Ansible looking
+for dependencies at.
+
+Configuring `ANSIBLE_PYTHON_INTERPRETER` is probably the solution to this issue:
+
+https://docs.ansible.com/ansible/latest/reference_appendices/python_3_support.html#using-python-3-on-the-managed-machines-with-commands-and-playbooks
+
+
 Indices and tables
 ==================
 
