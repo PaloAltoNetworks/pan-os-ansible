@@ -97,8 +97,8 @@ def to_sdk_cls(pkg_name, cls_name):
                 raise Exception(
                     "{0}.{1}.{2} does not exist".format(sdk_name, pkg_name, cls_name)
                 )
-    else:
-        raise Exception("Couldn't find any sdk package named {0}".format(pkg_name))
+
+    raise Exception("Couldn't find any sdk package named {0}".format(pkg_name))
 
 
 class ConnectionHelper(object):
