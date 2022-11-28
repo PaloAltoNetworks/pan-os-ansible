@@ -280,7 +280,20 @@ def export_async(module, xapi, category, filename, interval=60, timeout=600):
 
     # Get completed job
     xapi.export(category=category, extra_qs={"action": "get", "job-id": job_id})
-    export_binary(module, xapi, filename)
+
+    # Use only relevant code from export_binary, instead of calling export_binary (don't use the line: xapi.export(category=category))
+    f = None
+
+    try:
+        with open(filename, "wb") as f:
+            content = xapi.export_result["content"]
+
+            if content is not None:
+                f.write(content)
+
+            f.close()
+    except IOError as msg:
+        module.fail_json(msg=msg)
 
 
 HTML_EXPORTS = [
