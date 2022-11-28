@@ -17,7 +17,10 @@ supported live page at https://live.paloaltonetworks.com/ansible.
 Installation
 ============
 
-Ansible 2.9 is **required** for using collections.
+This collection has the following environment requirements:
+
+* Python 3.8 or higher
+* Ansible 2.9 or higher
 
 Install the collection using `ansible-galaxy`:
 
@@ -50,7 +53,7 @@ Then in your playbooks you can specify that you want to use the
    license
 
 
-Collection Requirements
+Collection Dependencies
 =======================
 
 * pan-python
