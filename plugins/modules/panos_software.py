@@ -184,6 +184,7 @@ def main():
     restart = module.params["restart"]
     timeout = module.params["timeout"]
 
+    device.refresh_version()
     current = PanOSVersion(device.version)
 
     changed = False
