@@ -137,25 +137,8 @@ class Helper(ConnectionHelper):
             return
 
         vsys = module.params["vsys"]
-        vsys_dg = module.params["vsys_dg"]
 
-        # TODO(gfreeman) - Remove vsys_dg in 2.12, as well as this code chunk.
-        # In the mean time, we'll need to do this special handling.
-        if vsys_dg is not None:
-            module.deprecate(
-                'Param "vsys_dg" is deprecated, use "vsys"',
-                version="3.0.0",
-                collection_name="paloaltonetworks.panos",
-            )
-            if vsys is None:
-                vsys = vsys_dg
-            else:
-                msg = [
-                    'Params "vsys" and "vsys_dg" both given',
-                    "Specify one or the other, not both.",
-                ]
-                module.fail_json(msg=".  ".join(msg))
-        elif vsys is None:
+        if vsys is None:
             # TODO(gfreeman) - v2.12, just set the default for vsys to 'vsys1'.
             vsys = "vsys1"
 
@@ -190,10 +173,7 @@ def main():
             ipv4_mss_adjust=dict(type="int"),
             ipv6_mss_adjust=dict(type="int"),
         ),
-        extra_params=dict(
-            # TODO(gfreeman) - remove this in 2.12
-            vsys_dg=dict(),
-        ),
+        extra_params=dict(),
     )
 
     module = AnsibleModule(
