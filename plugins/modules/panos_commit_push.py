@@ -56,7 +56,7 @@ options:
         type: str
     admins:
         description:
-            - Push the configuration made by a specific administrator.
+            - Push the configuration made by a specific administrator. (PAN-OS 10.2+)
         type: list
         elements: str
     include_template:
