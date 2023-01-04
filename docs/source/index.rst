@@ -71,6 +71,31 @@ Configuring `ANSIBLE_PYTHON_INTERPRETER` is probably the solution to this issue:
 https://docs.ansible.com/ansible/latest/reference_appendices/python_3_support.html#using-python-3-on-the-managed-machines-with-commands-and-playbooks
 
 
+Support
+=======
+As of version 2.12.2, this Collection of Ansible Modules for PAN-OS is
+[certified on Ansible Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/paloaltonetworks/panos)
+and officially supported for Ansible subscribers. Ansible subscribers can engage
+for support through their usual route towards Red Hat.
+
+For those who are not Ansible subscribers, this Collection of Ansible Modules is
+also [published on Ansible Galaxy](https://galaxy.ansible.com/paloaltonetworks/panos)
+to be freely used under an as-is, best effort, support
+policy. These scripts should be seen as community supported and Palo
+Alto Networks will contribute our expertise as and when possible. We do
+not provide technical support or help in using or troubleshooting the
+components of the project through our normal support options such as
+Palo Alto Networks support teams, or ASC (Authorized Support Centers)
+partners and backline support options. The underlying product used (the
+VM-Series firewall) by the scripts or templates are still supported, but
+the support is only for the product functionality and not for help in
+deploying or using the template or script itself.
+
+Unless explicitly tagged, all projects or work posted in our GitHub
+repository (at <https://github.com/PaloAltoNetworks>) or sites other
+than our official Downloads page on <https://support.paloaltonetworks.com>
+are provided under the best effort policy.
+
 Indices and tables
 ==================
 
