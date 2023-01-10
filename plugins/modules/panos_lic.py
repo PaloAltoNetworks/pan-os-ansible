@@ -46,7 +46,7 @@ options:
     force:
         description:
             - Whether to apply authcode even if device is already licensed / has a serial number.
-            - For example, use "force: true" when adding extra subscription or features licenses to a device which already has a serial number.
+            - For example, use force: true when adding extra subscription or features licenses to a device which already has a serial number.
         type: bool
         default: False
 """
