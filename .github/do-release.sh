@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 ansible-galaxy collection build
-ansible-galaxy collection publish paloaltonetworks-panos-*
-ansible-galaxy collection publish --server https://console.redhat.com/api/automation-hub/content/inbound-paloaltonetworks/ paloaltonetworks-panos-*
+ansible-galaxy collection publish paloaltonetworks-panos-* --server release_galaxy
+ansible-galaxy collection publish paloaltonetworks-panos-* --server automation_hub
