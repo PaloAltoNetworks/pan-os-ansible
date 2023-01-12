@@ -2,7 +2,7 @@
 
 ## Publishing Process
 
-Publishing to both AutomationHub and Galaxy is done with the same methodology per destination, but with different targets. An ```ansible.cfg``` file is used to define the targets and per-target parameters. Currently, the release process performed by GitHub Actions creates this ```ansible.cfg``` file on the fly, injecting sensitive values from GitHub secrets as required. The sensitive values can be sourced from [the AutomationHub API token page](https://console.redhat.com/ansible/automation-hub/token):
+Publishing to both AutomationHub and Galaxy is done with the same methodology per destination, but with different targets. An ```ansible.cfg``` file is used to define the targets and per-target parameters. Currently, the release process performed by GitHub Actions creates this ```ansible.cfg``` file on the fly, injecting sensitive values from GitHub secrets as required. The current sensitive values are stored in corporate vault, and the values can be sourced/refreshed from [the AutomationHub API token page](https://console.redhat.com/ansible/automation-hub/token):
 - AUTOMATION_HUB_API_TOKEN -> "Load token" button on the page
 - AUTOMATION_HUB_URL -> Server URL value on the page
 - AUTOMATION_HUB_SSO_URL -> SSO URL value on the page
