@@ -62,7 +62,14 @@ specification in your playbooks:
 Support
 -------
 
-This template/solution is released under an as-is, best effort, support
+As of version 2.12.2, this Collection of Ansible Modules for PAN-OS is
+[certified on Ansible Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/paloaltonetworks/panos)
+and officially supported for Ansible subscribers. Ansible subscribers can engage
+for support through their usual route towards Red Hat.
+
+For those who are not Ansible subscribers, this Collection of Ansible Modules is
+also [published on Ansible Galaxy](https://galaxy.ansible.com/paloaltonetworks/panos)
+to be freely used under an as-is, best effort, support
 policy. These scripts should be seen as community supported and Palo
 Alto Networks will contribute our expertise as and when possible. We do
 not provide technical support or help in using or troubleshooting the
