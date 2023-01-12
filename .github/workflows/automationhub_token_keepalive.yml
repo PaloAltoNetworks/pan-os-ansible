@@ -1,0 +1,19 @@
+---
+name: AutomationHub Token Keepalive
+# Inactive tokens expire after 30 days, this will stop the 30 day timer with regular check-ins
+
+"on":
+  schedule:
+    - cron: '0 0 1,15 * *' # Scheduled for 00:00 on day 1 and day 15 of every month
+
+jobs:
+  automationhub_token_keepalive:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Execute keepalive command"
+        run: |
+          curl ${{ secrets.AUTOMATION_HUB_SSO_URL }} \
+            -d grant_type=refresh_token \
+            -d client_id="cloud-services" \
+            -d refresh_token="${{ secrets.AUTOMATION_HUB_API_TOKEN }}" \
+            --fail --silent --show-error --output /dev/null
