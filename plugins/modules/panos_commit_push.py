@@ -153,7 +153,7 @@ except ImportError:
 
 def main():
     helper = get_connection(
-        min_pandevice_version=(1, 8, 0), # 1.8.0 as of adding per-admin push for PAN-OS 10.2+
+        min_pandevice_version=(1, 8, 0),  # 1.8.0 for per-admin push in PAN-OS 10.2+
         min_panos_version=(8, 0, 0),
         argument_spec=dict(
             style=dict(
