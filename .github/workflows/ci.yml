@@ -10,7 +10,7 @@ on:
 env:
   NAMESPACE: paloaltonetworks
   COLLECTION_NAME: panos
-  PYTHON_VERSION: 3.8
+  PYTHON_VERSION: 3.9
 
 jobs:
 
