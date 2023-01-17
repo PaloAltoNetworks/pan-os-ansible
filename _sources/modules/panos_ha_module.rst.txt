@@ -36,13 +36,13 @@
 
 .. Title
 
-paloaltonetworks.panos.panos_ha module -- Configures High Availability on PAN-OS
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+paloaltonetworks.panos.panos_ha module -- Manage High Availability on PAN-OS
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.11.0).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.13.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Configures High Availability on PAN-OS in A/S and A/A modes including all HA interface configuration.  Assumes physical interfaces are of type HA already using panos\_interface.
+- Manage High Availability on PAN-OS in A/S and A/A modes including all HA interface configuration.  Assumes physical interfaces are of type HA already using panos\_interface.
   This module has the following limitations due to no support in pandevice - \* No peer\_backup\_ip, this prevents full configuration of ha1\_backup links \* Speed and Duplex of ports was intentially skipped
 
 
@@ -183,7 +183,7 @@ Parameters
 
       \ :strong:`Deprecated`\ 
 
-      Please use \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_firewall')`\ : :strong:`parameter 'panos\_commit\_firewall' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_panorama')`\ : :strong:`parameter 'panos\_commit\_panorama' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_push')`\ : :strong:`parameter 'panos\_commit\_push' is not a FQCN`\  instead.
+      Please use \ :ref:`paloaltonetworks.panos.panos\_commit\_firewall <ansible_collections.paloaltonetworks.panos.panos_commit_firewall_module>`\ , \ :ref:`paloaltonetworks.panos.panos\_commit\_panorama <ansible_collections.paloaltonetworks.panos.panos_commit_panorama_module>`\ , \ :ref:`paloaltonetworks.panos.panos\_commit\_push <ansible_collections.paloaltonetworks.panos.panos_commit_push_module>`\  instead.
 
       
 

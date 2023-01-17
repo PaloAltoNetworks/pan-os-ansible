@@ -80,8 +80,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Examples</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Examples</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/blob/master/docs/source/examples.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -102,44 +102,44 @@ that matches the traffic is applied, the more specific rules must
 precede the more general ones.</p>
 <section id="firewall">
 <h3>Firewall<a class="headerlink" href="#firewall" title="Permalink to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add test rule 1 to the firewall</span><span class="w"></span>
-<span class="w">  </span><span class="nt">panos_security_rule</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Ansible</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">1&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;An</span><span class="nv"> </span><span class="s">Ansible</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">rule&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">source_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;internal&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">destination_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;external&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">source_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;1.2.3.4&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">source_user</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">destination_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">application</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;service-http&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">hip_profiles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;allow&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;False&#39;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add test rule 1 to the firewall</span>
+<span class="w">  </span><span class="nt">panos_security_rule</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Ansible</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">1&#39;</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;An</span><span class="nv"> </span><span class="s">Ansible</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">rule&#39;</span>
+<span class="w">    </span><span class="nt">source_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;internal&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">destination_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;external&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">source_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;1.2.3.4&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">source_user</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">destination_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">application</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;service-http&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">hip_profiles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;allow&#39;</span>
+<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;False&#39;</span>
 </pre></div>
 </div>
 </section>
 <section id="panorama">
 <h3>Panorama<a class="headerlink" href="#panorama" title="Permalink to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add test pre-rule to Panorama</span><span class="w"></span>
-<span class="w">  </span><span class="nt">panos_security_rule</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Ansible</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">1&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;An</span><span class="nv"> </span><span class="s">Ansible</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">pre-rule&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">source_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;internal&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">destination_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;external&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">source_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;1.2.3.4&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">source_user</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">destination_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">application</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;service-http&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">hip_profiles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;allow&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">device_group</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;DeviceGroupA&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add test pre-rule to Panorama</span>
+<span class="w">  </span><span class="nt">panos_security_rule</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Ansible</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">1&#39;</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;An</span><span class="nv"> </span><span class="s">Ansible</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">pre-rule&#39;</span>
+<span class="w">    </span><span class="nt">source_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;internal&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">destination_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;external&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">source_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;1.2.3.4&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">source_user</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">destination_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">application</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;service-http&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">hip_profiles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;allow&#39;</span>
+<span class="w">    </span><span class="nt">device_group</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;DeviceGroupA&#39;</span>
+<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 </pre></div>
 </div>
 </section>
@@ -155,57 +155,57 @@ be translated to public addresses on traffic sent from an internal
 virtual wire interfaces.</p>
 <section id="id1">
 <h3>Firewall<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add the service object to the firewall first</span><span class="w"></span>
-<span class="w">  </span><span class="nt">panos_service_object</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;service-tcp-221&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;tcp&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">destination_port</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;221&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;SSH</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">221&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add the service object to the firewall first</span>
+<span class="w">  </span><span class="nt">panos_service_object</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;service-tcp-221&#39;</span>
+<span class="w">    </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;tcp&#39;</span>
+<span class="w">    </span><span class="nt">destination_port</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;221&#39;</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;SSH</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">221&#39;</span>
+<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create dynamic NAT rule on the firewall</span><span class="w"></span>
-<span class="w">  </span><span class="nt">panos_nat_rule</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Web</span><span class="nv"> </span><span class="s">SSH</span><span class="nv"> </span><span class="s">inbound&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">source_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;external&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">destination_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;external&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">source_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">destination_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;10.0.0.100&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;service-tcp-221&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">snat_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;dynamic-ip-and-port&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">snat_interface</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;ethernet1/2&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">dnat_address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;10.0.1.101&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">dnat_port</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;22&#39;</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create dynamic NAT rule on the firewall</span>
+<span class="w">  </span><span class="nt">panos_nat_rule</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Web</span><span class="nv"> </span><span class="s">SSH</span><span class="nv"> </span><span class="s">inbound&#39;</span>
+<span class="w">    </span><span class="nt">source_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;external&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">destination_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;external&#39;</span>
+<span class="w">    </span><span class="nt">source_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">destination_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;10.0.0.100&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;service-tcp-221&#39;</span>
+<span class="w">    </span><span class="nt">snat_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;dynamic-ip-and-port&#39;</span>
+<span class="w">    </span><span class="nt">snat_interface</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;ethernet1/2&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">dnat_address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;10.0.1.101&#39;</span>
+<span class="w">    </span><span class="nt">dnat_port</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;22&#39;</span>
 </pre></div>
 </div>
 </section>
 <section id="id2">
 <h3>Panorama<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add the necessary service object to Panorama first</span><span class="w"></span>
-<span class="w">  </span><span class="nt">panos_object</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;service-tcp-221&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;tcp&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">destination_port</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;221&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;SSH</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">221&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
-<span class="w">    </span><span class="nt">device_group</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;shared_services_11022&#39;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add the necessary service object to Panorama first</span>
+<span class="w">  </span><span class="nt">panos_object</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;service-tcp-221&#39;</span>
+<span class="w">    </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;tcp&#39;</span>
+<span class="w">    </span><span class="nt">destination_port</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;221&#39;</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;SSH</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">221&#39;</span>
+<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">device_group</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;shared_services_11022&#39;</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create dynamic NAT rule on Panorama</span><span class="w"></span>
-<span class="w">  </span><span class="nt">panos_nat_rule</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Web</span><span class="nv"> </span><span class="s">SSH</span><span class="nv"> </span><span class="s">inbound&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">source_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;external&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">destination_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;external&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">source_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">destination_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;10.0.0.100&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;service-tcp-221&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">snat_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;dynamic-ip-and-port&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">snat_interface</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;ethernet1/2&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">dnat_address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;10.0.1.101&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">dnat_port</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;22&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">device_group</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;shared_services_11022&#39;</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create dynamic NAT rule on Panorama</span>
+<span class="w">  </span><span class="nt">panos_nat_rule</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Web</span><span class="nv"> </span><span class="s">SSH</span><span class="nv"> </span><span class="s">inbound&#39;</span>
+<span class="w">    </span><span class="nt">source_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;external&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">destination_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;external&#39;</span>
+<span class="w">    </span><span class="nt">source_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;any&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">destination_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;10.0.0.100&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;service-tcp-221&#39;</span>
+<span class="w">    </span><span class="nt">snat_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;dynamic-ip-and-port&#39;</span>
+<span class="w">    </span><span class="nt">snat_interface</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;ethernet1/2&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">dnat_address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;10.0.1.101&#39;</span>
+<span class="w">    </span><span class="nt">dnat_port</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;22&#39;</span>
+<span class="w">    </span><span class="nt">device_group</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;shared_services_11022&#39;</span>
 </pre></div>
 </div>
 </section>
@@ -214,12 +214,12 @@ virtual wire interfaces.</p>
 <h2>Change firewall admin password using SSH<a class="headerlink" href="#change-firewall-admin-password-using-ssh" title="Permalink to this heading"></a></h2>
 <p>Change admin password of PAN-OS device using SSH with SSH key. This is
 used in particular when NGFW is deployed in the cloud (such as AWS).</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Change user password using ssh protocol</span><span class="w"></span>
-<span class="w">  </span><span class="nt">panos_admpwd</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">ip_address</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">username</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">newpassword</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">new_password</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">key_filename</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">key_filename</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Change user password using ssh protocol</span>
+<span class="w">  </span><span class="nt">panos_admpwd</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">ip_address</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">username</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">newpassword</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">new_password</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">key_filename</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">key_filename</span><span class="nv"> </span><span class="s">}}&#39;</span>
 </pre></div>
 </div>
 </section>
@@ -229,14 +229,14 @@ used in particular when NGFW is deployed in the cloud (such as AWS).</p>
 GlobalProtect client, SSL connector, or otherwise. Root certificate
 must be preset on the system first. This module depends on paramiko
 for ssh.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">generate self signed certificate</span><span class="w"></span>
-<span class="w">  </span><span class="nt">panos_cert_gen_ssh</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ip_address</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">username</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">password</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">cert_cn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">cn</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">cert_friendly_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">friendly_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">signed_by</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">signed_by</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">generate self signed certificate</span>
+<span class="w">  </span><span class="nt">panos_cert_gen_ssh</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ip_address</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">username</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">password</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">    </span><span class="nt">cert_cn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">cn</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">    </span><span class="nt">cert_friendly_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">friendly_name</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">    </span><span class="nt">signed_by</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">signed_by</span><span class="nv"> </span><span class="s">}}&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -245,26 +245,26 @@ for ssh.</p>
 <p>Check if PAN-OS device is ready for being configured (no pending
 jobs). The check could be done once or multiple times until the device
 is ready.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Wait for FW reboot</span><span class="w"></span>
-<span class="w">  </span><span class="nt">panos_check</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">  </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span><span class="w"></span>
-<span class="w">  </span><span class="nt">until</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">not result|failed</span><span class="w"></span>
-<span class="w">  </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span><span class="w"></span>
-<span class="w">  </span><span class="nt">delay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Wait for FW reboot</span>
+<span class="w">  </span><span class="nt">panos_check</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">  </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span>
+<span class="w">  </span><span class="nt">until</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">not result|failed</span>
+<span class="w">  </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
+<span class="w">  </span><span class="nt">delay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 </pre></div>
 </div>
 </section>
 <section id="import-configuration">
 <h2>Import configuration<a class="headerlink" href="#import-configuration" title="Permalink to this heading"></a></h2>
 <p>Import file into PAN-OS device.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">import configuration file into PAN-OS</span><span class="w"></span>
-<span class="w">  </span><span class="nt">panos_import</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ip_address</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">username</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">password</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">config_file</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;configuration&quot;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">import configuration file into PAN-OS</span>
+<span class="w">  </span><span class="nt">panos_import</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ip_address</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">username</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">password</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">    </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">config_file</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;configuration&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -272,13 +272,13 @@ is ready.</p>
 <h2>DHCP on data port<a class="headerlink" href="#dhcp-on-data-port" title="Permalink to this heading"></a></h2>
 <p>Configure data-port (DP) network interface for DHCP. By default DP
 interfaces are static.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enable DHCP client on ethernet1/1 in zone external</span><span class="w"></span>
-<span class="w">  </span><span class="nt">panos_interface</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">if_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ethernet1/1&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">zone_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;external&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">create_default_route</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;yes&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enable DHCP client on ethernet1/1 in zone external</span>
+<span class="w">  </span><span class="nt">panos_interface</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">if_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ethernet1/1&quot;</span>
+<span class="w">    </span><span class="nt">zone_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;external&quot;</span>
+<span class="w">    </span><span class="nt">create_default_route</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;yes&quot;</span>
+<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 </pre></div>
 </div>
 </section>
@@ -286,61 +286,61 @@ interfaces are static.</p>
 <h2>Load configuration<a class="headerlink" href="#load-configuration" title="Permalink to this heading"></a></h2>
 <p>This is example playbook that imports and loads firewall
 configuration from a configuration file</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">import config</span><span class="w"></span>
-<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-firewall</span><span class="w"></span>
-<span class="w">  </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span><span class="w"></span>
-<span class="w">  </span><span class="nt">gather_facts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">import config</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-firewall</span>
+<span class="w">  </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+<span class="w">  </span><span class="nt">gather_facts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 
-<span class="w">  </span><span class="nt">vars</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">cfg_file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">candidate-template-empty.xml</span><span class="w"></span>
+<span class="w">  </span><span class="nt">vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cfg_file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">candidate-template-empty.xml</span>
 
-<span class="w">  </span><span class="nt">roles</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PaloAltoNetworks.paloaltonetworks</span><span class="w"></span>
+<span class="w">  </span><span class="nt">roles</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PaloAltoNetworks.paloaltonetworks</span>
 
-<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Grab the credentials from ansible-vault</span><span class="w"></span>
-<span class="w">    </span><span class="nt">include_vars</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;firewall-secrets.yml&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">no_log</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;yes&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Grab the credentials from ansible-vault</span>
+<span class="w">    </span><span class="nt">include_vars</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;firewall-secrets.yml&#39;</span>
+<span class="w">    </span><span class="nt">no_log</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;yes&#39;</span>
 
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wait for SSH (timeout 10min)</span><span class="w"></span>
-<span class="w">    </span><span class="nt">wait_for</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">port=22 host=&#39;{{ provider.ip_address }}&#39; search_regex=SSH timeout=600</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wait for SSH (timeout 10min)</span>
+<span class="w">    </span><span class="nt">wait_for</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">port=22 host=&#39;{{ provider.ip_address }}&#39; search_regex=SSH timeout=600</span>
 
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">checking if device ready</span><span class="w"></span>
-<span class="w">    </span><span class="nt">panos_check</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span><span class="w"></span>
-<span class="w">    </span><span class="nt">until</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">not result|failed</span><span class="w"></span>
-<span class="w">    </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w"></span>
-<span class="w">    </span><span class="nt">delay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">checking if device ready</span>
+<span class="w">    </span><span class="nt">panos_check</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span>
+<span class="w">    </span><span class="nt">until</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">not result|failed</span>
+<span class="w">    </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">    </span><span class="nt">delay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
 
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">import configuration</span><span class="w"></span>
-<span class="w">    </span><span class="nt">panos_import</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.ip_address</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.username</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.password</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{cfg_file}}&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;configuration&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">import configuration</span>
+<span class="w">    </span><span class="nt">panos_import</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.ip_address</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.username</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.password</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{cfg_file}}&#39;</span>
+<span class="w">      </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;configuration&#39;</span>
+<span class="w">    </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span>
 
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">load configuration</span><span class="w"></span>
-<span class="w">    </span><span class="nt">panos_loadcfg</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.ip_address</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.username</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.password</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{result.filename}}&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">load configuration</span>
+<span class="w">    </span><span class="nt">panos_loadcfg</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.ip_address</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.username</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.password</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{result.filename}}&#39;</span>
+<span class="w">      </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">set admin password</span><span class="w"></span>
-<span class="w">    </span><span class="nt">panos_administrator</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">admin_username</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;admin&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">admin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.password</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">superuser</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w"></span>
-<span class="w">      </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">set admin password</span>
+<span class="w">    </span><span class="nt">panos_administrator</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">admin_username</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;admin&#39;</span>
+<span class="w">      </span><span class="nt">admin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.password</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">superuser</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">      </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">commit (blocks until finished)</span><span class="w"></span>
-<span class="w">    </span><span class="nt">panos_commit</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">commit (blocks until finished)</span>
+<span class="w">    </span><span class="nt">panos_commit</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
 </pre></div>
 </div>
 </section>

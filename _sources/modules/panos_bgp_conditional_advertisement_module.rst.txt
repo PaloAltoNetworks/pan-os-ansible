@@ -36,13 +36,13 @@
 
 .. Title
 
-paloaltonetworks.panos.panos_bgp_conditional_advertisement module -- Configures a BGP conditional advertisement.
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+paloaltonetworks.panos.panos_bgp_conditional_advertisement module -- Manage a BGP conditional advertisement.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.11.0).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.13.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -138,7 +138,7 @@ Parameters
 
       \ :strong:`Deprecated`\ 
 
-      Use \ :strong:`ERROR while parsing` :literal:`M('panos\_bgp\_policy\_filter')`\ : :strong:`parameter 'panos\_bgp\_policy\_filter' is not a FQCN`\  to define filters after creation.
+      Use \ :ref:`paloaltonetworks.panos.panos\_bgp\_policy\_filter <ansible_collections.paloaltonetworks.panos.panos_bgp_policy_filter_module>`\  to define filters after creation.
 
       
 
@@ -148,7 +148,7 @@ Parameters
 
 
 
-      Advertisement filter object returned by \ :strong:`ERROR while parsing` :literal:`M('panos\_bgp\_policy\_filter')`\ : :strong:`parameter 'panos\_bgp\_policy\_filter' is not a FQCN`\ .
+      Advertisement filter object returned by \ :ref:`paloaltonetworks.panos.panos\_bgp\_policy\_filter <ansible_collections.paloaltonetworks.panos.panos_bgp_policy_filter_module>`\ .
 
 
       .. raw:: html
@@ -230,7 +230,7 @@ Parameters
 
       \ :strong:`Deprecated`\ 
 
-      Please use \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_firewall')`\ : :strong:`parameter 'panos\_commit\_firewall' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_panorama')`\ : :strong:`parameter 'panos\_commit\_panorama' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_push')`\ : :strong:`parameter 'panos\_commit\_push' is not a FQCN`\  instead.
+      Please use \ :ref:`paloaltonetworks.panos.panos\_commit\_firewall <ansible_collections.paloaltonetworks.panos.panos_commit_firewall_module>`\ , \ :ref:`paloaltonetworks.panos.panos\_commit\_panorama <ansible_collections.paloaltonetworks.panos.panos_commit_panorama_module>`\ , \ :ref:`paloaltonetworks.panos.panos\_commit\_push <ansible_collections.paloaltonetworks.panos.panos_commit_push_module>`\  instead.
 
       
 
@@ -406,7 +406,7 @@ Parameters
 
       \ :strong:`Deprecated`\ 
 
-      Use \ :strong:`ERROR while parsing` :literal:`M('panos\_bgp\_policy\_filter')`\ : :strong:`parameter 'panos\_bgp\_policy\_filter' is not a FQCN`\  to define filters after creation.
+      Use \ :ref:`paloaltonetworks.panos.panos\_bgp\_policy\_filter <ansible_collections.paloaltonetworks.panos.panos_bgp_policy_filter_module>`\  to define filters after creation.
 
       
 
@@ -416,7 +416,7 @@ Parameters
 
 
 
-      Non-Exist filter object returned by \ :strong:`ERROR while parsing` :literal:`M('panos\_bgp\_policy\_filter')`\ : :strong:`parameter 'panos\_bgp\_policy\_filter' is not a FQCN`\ .
+      Non-Exist filter object returned by \ :ref:`paloaltonetworks.panos.panos\_bgp\_policy\_filter <ansible_collections.paloaltonetworks.panos.panos_bgp_policy_filter_module>`\ .
 
 
       .. raw:: html
@@ -992,7 +992,7 @@ Parameters
 
       Name of the virtual router; it must already exist and have BGP configured.
 
-      See \ :strong:`ERROR while parsing` :literal:`M('panos\_virtual\_router')`\ : :strong:`parameter 'panos\_virtual\_router' is not a FQCN`\ .
+      See \ :ref:`paloaltonetworks.panos.panos\_virtual\_router <ansible_collections.paloaltonetworks.panos.panos_virtual_router_module>`\ .
 
 
       .. rst-class:: ansible-option-line

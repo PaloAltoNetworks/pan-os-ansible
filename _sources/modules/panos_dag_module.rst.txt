@@ -36,13 +36,13 @@
 
 .. Title
 
-paloaltonetworks.panos.panos_dag module -- create a dynamic address group
+paloaltonetworks.panos.panos_dag module -- Manage a dynamic address group
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.11.0).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.13.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -65,15 +65,15 @@ New in paloaltonetworks.panos 1.0.0
 DEPRECATED
 ----------
 :Removed in: version 3.0.0
-:Why: This module's functionality is a subset of \ :strong:`ERROR while parsing` :literal:`M('panos\_address\_group')`\ : :strong:`parameter 'panos\_address\_group' is not a FQCN`\ .
-:Alternative: Use \ :strong:`ERROR while parsing` :literal:`M('panos\_address\_group')`\ : :strong:`parameter 'panos\_address\_group' is not a FQCN`\  instead.
+:Why: This module's functionality is a subset of \ :ref:`paloaltonetworks.panos.panos\_address\_group <ansible_collections.paloaltonetworks.panos.panos_address_group_module>`\ .
+:Alternative: Use \ :ref:`paloaltonetworks.panos.panos\_address\_group <ansible_collections.paloaltonetworks.panos.panos_address_group_module>`\  instead.
 
 Synopsis
 --------
 
 .. Description
 
-- Create a dynamic address group object in the firewall used for policy rules
+- Manage a dynamic address group object in the firewall used for policy rules
 
 
 .. Aliases

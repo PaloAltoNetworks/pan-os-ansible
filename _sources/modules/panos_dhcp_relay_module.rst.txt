@@ -36,13 +36,13 @@
 
 .. Title
 
-paloaltonetworks.panos.panos_dhcp_relay module -- Configure dhcp relay.
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+paloaltonetworks.panos.panos_dhcp_relay module -- Manage dhcp relay.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.11.0).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.13.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -68,11 +68,11 @@ Synopsis
 
 .. Description
 
-- - Configure dhcp relay on PAN-OS firewall. - Due to the implementation details of PAN-OS itself, you can use this
-    module to create a DHCP config without ever having to use \ :strong:`ERROR while parsing` :literal:`M('panos\_dhcp')`\ : :strong:`parameter 'panos\_dhcp' is not a FQCN`\ 
+- - Manage dhcp relay on PAN-OS firewall. - Due to the implementation details of PAN-OS itself, you can use this
+    module to create a DHCP config without ever having to use \ :ref:`paloaltonetworks.panos.panos\_dhcp <ansible_collections.paloaltonetworks.panos.panos_dhcp_module>`\ 
     first.
   - However, if you intend to delete an interface that was ever reference by
-    this module, you will need to use \ :strong:`ERROR while parsing` :literal:`M('panos\_dhcp')`\ : :strong:`parameter 'panos\_dhcp' is not a FQCN`\  to delete the parent reference
+    this module, you will need to use \ :ref:`paloaltonetworks.panos.panos\_dhcp <ansible_collections.paloaltonetworks.panos.panos_dhcp_module>`\  to delete the parent reference
     or PAN-OS's internal validation checks will prevent the deletion, seeing that
     a DHCP config is referring to the interface.
 

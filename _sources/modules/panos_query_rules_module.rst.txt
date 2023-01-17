@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_query_rules module -- PANOS module that allows sear
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.11.0).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.13.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -65,8 +65,8 @@ New in paloaltonetworks.panos 1.0.0
 DEPRECATED
 ----------
 :Removed in: version 3.0.0
-:Why: Querying rules is handled better by \ :strong:`ERROR while parsing` :literal:`M('panos\_match\_rule')`\ : :strong:`parameter 'panos\_match\_rule' is not a FQCN`\ .
-:Alternative: Use \ :strong:`ERROR while parsing` :literal:`M('panos\_match\_rule')`\ : :strong:`parameter 'panos\_match\_rule' is not a FQCN`\ 
+:Why: Querying rules is handled better by \ :ref:`paloaltonetworks.panos.panos\_match\_rule <ansible_collections.paloaltonetworks.panos.panos_match_rule_module>`\ .
+:Alternative: Use \ :ref:`paloaltonetworks.panos.panos\_match\_rule <ansible_collections.paloaltonetworks.panos.panos_match_rule_module>`\ 
 
 Synopsis
 --------

@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_object module -- create/read/update/delete object i
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.11.0).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.13.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -66,7 +66,7 @@ DEPRECATED
 ----------
 :Removed in: version 3.0.0
 :Why: Updated to idempotent modules
-:Alternative: Use \ :strong:`ERROR while parsing` :literal:`M('panos\_address\_object')`\ : :strong:`parameter 'panos\_address\_object' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_address\_group')`\ : :strong:`parameter 'panos\_address\_group' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_service\_object')`\ : :strong:`parameter 'panos\_service\_object' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_service\_group')`\ : :strong:`parameter 'panos\_service\_group' is not a FQCN`\ , or \ :strong:`ERROR while parsing` :literal:`M('panos\_tag\_object')`\ : :strong:`parameter 'panos\_tag\_object' is not a FQCN`\  as appropriate.
+:Alternative: Use \ :ref:`paloaltonetworks.panos.panos\_address\_object <ansible_collections.paloaltonetworks.panos.panos_address_object_module>`\ , \ :ref:`paloaltonetworks.panos.panos\_address\_group <ansible_collections.paloaltonetworks.panos.panos_address_group_module>`\ , \ :ref:`paloaltonetworks.panos.panos\_service\_object <ansible_collections.paloaltonetworks.panos.panos_service_object_module>`\ , \ :ref:`paloaltonetworks.panos.panos\_service\_group <ansible_collections.paloaltonetworks.panos.panos_service_group_module>`\ , or \ :ref:`paloaltonetworks.panos.panos\_tag\_object <ansible_collections.paloaltonetworks.panos.panos_tag_object_module>`\  as appropriate.
 
 
 Synopsis
@@ -403,7 +403,7 @@ Parameters
 
       \ :strong:`Deprecated`\ 
 
-      Please use \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_firewall')`\ : :strong:`parameter 'panos\_commit\_firewall' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_panorama')`\ : :strong:`parameter 'panos\_commit\_panorama' is not a FQCN`\ , \ :strong:`ERROR while parsing` :literal:`M('panos\_commit\_push')`\ : :strong:`parameter 'panos\_commit\_push' is not a FQCN`\  instead.
+      Please use \ :ref:`paloaltonetworks.panos.panos\_commit\_firewall <ansible_collections.paloaltonetworks.panos.panos_commit_firewall_module>`\ , \ :ref:`paloaltonetworks.panos.panos\_commit\_panorama <ansible_collections.paloaltonetworks.panos.panos_commit_panorama_module>`\ , \ :ref:`paloaltonetworks.panos.panos\_commit\_push <ansible_collections.paloaltonetworks.panos.panos_commit_push_module>`\  instead.
 
       
 

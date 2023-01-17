@@ -80,8 +80,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Gathered Filter</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Gathered Filter</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/blob/master/docs/source/gatheredfilter.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -104,12 +104,12 @@ specify potentially very complex logic to retrieve information on PAN-OS objects
 present.  Features such as arbitrary field searching and regular expressions are all
 supported.</p>
 <p>The generic syntax for the value of this paramater looks likie this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CONDITION1 <span class="o">[</span>and/or CONDITION2....<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CONDITION1<span class="w"> </span><span class="o">[</span>and/or<span class="w"> </span>CONDITION2....<span class="o">]</span>
 </pre></div>
 </div>
 <p>Parenthesis between conditions are supported.</p>
 <p>Each condition in the logic has the following format:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>not<span class="o">]</span> field <span class="o">[</span>operator <span class="o">[</span>value<span class="o">]]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>not<span class="o">]</span><span class="w"> </span>field<span class="w"> </span><span class="o">[</span>operator<span class="w"> </span><span class="o">[</span>value<span class="o">]]</span>
 </pre></div>
 </div>
 </section>
@@ -180,37 +180,37 @@ module will not return an error.</p>
 <section id="example-match-all">
 <h3>Example - Match All<a class="headerlink" href="#example-match-all" title="Permalink to this heading"></a></h3>
 <p>These all do the same thing, listed from fastest to slowest.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;*&#39;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;*&#39;</span>
 </pre></div>
 </div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
 </pre></div>
 </div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;name</span><span class="nv"> </span><span class="s">matches-regex</span><span class="nv"> </span><span class="s">.*?&#39;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;name</span><span class="nv"> </span><span class="s">matches-regex</span><span class="nv"> </span><span class="s">.*?&#39;</span>
 </pre></div>
 </div>
 </section>
 <section id="example-matching-a-suffix">
 <h3>Example - Matching a Suffix<a class="headerlink" href="#example-matching-a-suffix" title="Permalink to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;description</span><span class="nv"> </span><span class="s">ends-with</span><span class="nv"> </span><span class="s">_sales&#39;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;description</span><span class="nv"> </span><span class="s">ends-with</span><span class="nv"> </span><span class="s">_sales&#39;</span>
 </pre></div>
 </div>
 </section>
 <section id="example-matching-two-things">
 <h3>Example - Matching Two Things<a class="headerlink" href="#example-matching-two-things" title="Permalink to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;description</span><span class="nv"> </span><span class="s">starts-with</span><span class="nv"> </span><span class="s">DMZ</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">description</span><span class="nv"> </span><span class="s">ends-with</span><span class="nv"> </span><span class="s">&quot;</span><span class="nv"> </span><span class="s">New</span><span class="nv"> </span><span class="s">Zealand&quot;&#39;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;description</span><span class="nv"> </span><span class="s">starts-with</span><span class="nv"> </span><span class="s">DMZ</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">description</span><span class="nv"> </span><span class="s">ends-with</span><span class="nv"> </span><span class="s">&quot;</span><span class="nv"> </span><span class="s">New</span><span class="nv"> </span><span class="s">Zealand&quot;&#39;</span>
 </pre></div>
 </div>
 </section>
 <section id="example-searching-within-listings">
 <h3>Example - Searching Within Listings<a class="headerlink" href="#example-searching-within-listings" title="Permalink to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;interfaces</span><span class="nv"> </span><span class="s">contains</span><span class="nv"> </span><span class="s">ethernet1/1&#39;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;interfaces</span><span class="nv"> </span><span class="s">contains</span><span class="nv"> </span><span class="s">ethernet1/1&#39;</span>
 </pre></div>
 </div>
 </section>
 <section id="example-groupings">
 <h3>Example - Groupings<a class="headerlink" href="#example-groupings" title="Permalink to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;name</span><span class="nv"> </span><span class="s">ends-with</span><span class="nv"> </span><span class="s">_dmz</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">(tag</span><span class="nv"> </span><span class="s">is-false</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">description</span><span class="nv"> </span><span class="s">is-false)&#39;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;name</span><span class="nv"> </span><span class="s">ends-with</span><span class="nv"> </span><span class="s">_dmz</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">(tag</span><span class="nv"> </span><span class="s">is-false</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">description</span><span class="nv"> </span><span class="s">is-false)&#39;</span>
 </pre></div>
 </div>
 </section>

@@ -36,13 +36,13 @@
 
 .. Title
 
-paloaltonetworks.panos.panos_l2_subinterface module -- configure layer2 subinterface
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+paloaltonetworks.panos.panos_l2_subinterface module -- Manage layer2 subinterface
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.11.0).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.13.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Configure a layer2 subinterface.
+- Manage a layer2 subinterface.
 
 
 .. Aliases
