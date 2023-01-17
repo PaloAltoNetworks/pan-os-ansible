@@ -185,7 +185,7 @@ jobs:
         uses: Gr1N/setup-poetry@v7
 
       - name: Add ansible-core
-        run: poetry add ansible-core
+        run: poetry add ansible-core^2.13
 
       - name: Add antsibull-docs
         run: poetry add antsibull-docs
