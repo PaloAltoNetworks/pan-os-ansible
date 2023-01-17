@@ -47,7 +47,7 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install Poetry
-        uses: Gr1N/setup-poetry@v7
+        uses: Gr1N/setup-poetry@v8
         #with:
         #  poetry-version: 1.0.10
 
@@ -94,7 +94,7 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install Poetry
-        uses: Gr1N/setup-poetry@v7
+        uses: Gr1N/setup-poetry@v8
 
       - name: Install dependencies
         run: poetry install
@@ -182,7 +182,7 @@ jobs:
           python-version: 3.9
 
       - name: Install Poetry
-        uses: Gr1N/setup-poetry@v7
+        uses: Gr1N/setup-poetry@v8
 
       - name: Add ansible-core
         run: poetry add ansible-core^2.13
