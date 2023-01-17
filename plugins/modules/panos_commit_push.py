@@ -22,7 +22,7 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_commit_push
-short_description: Commit Panorama's candidate configuration.
+short_description: Push running configuration to managed devices.
 description:
     - Module that will push the running Panorama configuration to managed devices.
     - The new configuration will become active immediately.
@@ -54,6 +54,11 @@ options:
         description:
             - A description of the commit.
         type: str
+    admins:
+        description:
+            - Push the configuration made by a specific administrator. (PAN-OS 10.2+)
+        type: list
+        elements: str
     include_template:
         description:
             - Include device group reference templates.
@@ -117,6 +122,14 @@ EXAMPLES = """
     - Production Firewalls
     - Staging Firewalls
     - Development Firewalls
+
+- name: push admin-specific changes to a device group
+  panos_commit_push:
+    provider: "{{ credentials }}"
+    style: 'device group'
+    name: 'EMEA_Device_Group'
+    admins:
+      - 'ansible-admin'
 """
 
 RETURN = """
@@ -140,7 +153,7 @@ except ImportError:
 
 def main():
     helper = get_connection(
-        min_pandevice_version=(1, 0, 0),
+        min_pandevice_version=(1, 8, 0),  # 1.8.0 for per-admin push in PAN-OS 10.2+
         min_panos_version=(8, 0, 0),
         argument_spec=dict(
             style=dict(
@@ -156,6 +169,7 @@ def main():
             ),
             name=dict(type="str"),
             description=dict(type="str"),
+            admins=dict(type="list", elements="str"),
             include_template=dict(type="bool", default=False),
             force_template_values=dict(type="bool", default=False),
             devices=dict(type="list", elements="str"),
@@ -177,6 +191,7 @@ def main():
         style=module.params["style"],
         name=module.params["name"],
         description=module.params["description"],
+        admins=module.params["admins"],
         include_template=module.params["include_template"],
         force_template_values=module.params["force_template_values"],
         devices=module.params["devices"],
