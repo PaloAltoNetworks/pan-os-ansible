@@ -68,8 +68,8 @@ options:
             - List of source addresses.
             - This can be an IP address, an address object/group, etc.
             - When referencing predefined EDLs, use config names of the EDLS not
-              their full names. The config names can be found with the CLI:
-              request system external-list show type predefined-ip name <tab> 
+              their full names. The config names can be found with the CLI...
+              request system external-list show type predefined-ip name <tab>
                 panw-bulletproof-ip-list   panw-bulletproof-ip-list
                 panw-highrisk-ip-list      panw-highrisk-ip-list
                 panw-known-ip-list         panw-known-ip-list
@@ -104,8 +104,8 @@ options:
             - List of destination addresses.
             - This can be an IP address, an address object/group, etc.
             - When referencing predefined EDLs, use config names of the EDLS not
-              their full names. The config names can be found with the CLI:
-              request system external-list show type predefined-ip name <tab> 
+              their full names. The config names can be found with the CLI...
+              request system external-list show type predefined-ip name <tab>
                 panw-bulletproof-ip-list   panw-bulletproof-ip-list
                 panw-highrisk-ip-list      panw-highrisk-ip-list
                 panw-known-ip-list         panw-known-ip-list
@@ -129,7 +129,7 @@ options:
         description:
             - List of destination URL categories.
             - When referencing predefined EDLs, use config names of the EDLS not
-              their full names. The config names can be found with the CLI:
+              their full names. The config names can be found with the CLI...
               request system external-list show type predefined-url name <tab>
                 panw-auth-portal-exclude-list   panw-auth-portal-exclude-list
         default: ["any"]
