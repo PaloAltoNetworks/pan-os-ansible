@@ -64,6 +64,13 @@ options:
         description:
             - List of source addresses.
             - This can be an IP address, an address object/group, etc.
+            - When referencing predefined EDLs, use config names of the EDLS not
+              their full names. The config names can be found with the CLI:
+              request system external-list show type predefined-ip name <tab> 
+                panw-bulletproof-ip-list   panw-bulletproof-ip-list
+                panw-highrisk-ip-list      panw-highrisk-ip-list
+                panw-known-ip-list         panw-known-ip-list
+                panw-torexit-ip-list       panw-torexit-ip-list
         type: list
         elements: str
     negate_source:
@@ -89,6 +96,13 @@ options:
         description:
             - List of destination addresses.
             - This can be an IP address, an address object/group, etc.
+            - When referencing predefined EDLs, use config names of the EDLS not
+              their full names. The config names can be found with the CLI:
+              request system external-list show type predefined-ip name <tab> 
+                panw-bulletproof-ip-list   panw-bulletproof-ip-list
+                panw-highrisk-ip-list      panw-highrisk-ip-list
+                panw-known-ip-list         panw-known-ip-list
+                panw-torexit-ip-list       panw-torexit-ip-list
         type: list
         elements: str
     negate_destination:
@@ -117,6 +131,10 @@ options:
     url_categories:
         description:
             - List of URL categories.
+            - When referencing predefined EDLs, use config names of the EDLS not
+              their full names. The config names can be found with the CLI:
+              request system external-list show type predefined-url name <tab>
+                panw-auth-portal-exclude-list   panw-auth-portal-exclude-list
         type: list
         elements: str
     action:

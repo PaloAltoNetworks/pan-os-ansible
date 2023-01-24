@@ -128,6 +128,10 @@ options:
     category:
         description:
             - List of destination URL categories.
+            - When referencing predefined EDLs, use config names of the EDLS not
+              their full names. The config names can be found with the CLI:
+              request system external-list show type predefined-url name <tab>
+                panw-auth-portal-exclude-list   panw-auth-portal-exclude-list
         default: ["any"]
         type: list
         elements: str
