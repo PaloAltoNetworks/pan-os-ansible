@@ -67,6 +67,13 @@ options:
         description:
             - List of source addresses.
             - This can be an IP address, an address object/group, etc.
+            - When referencing predefined EDLs, use config names of the EDLS not
+              their full names. The config names can be found with the CLI:
+              request system external-list show type predefined-ip name <tab> 
+                panw-bulletproof-ip-list   panw-bulletproof-ip-list
+                panw-highrisk-ip-list      panw-highrisk-ip-list
+                panw-known-ip-list         panw-known-ip-list
+                panw-torexit-ip-list       panw-torexit-ip-list
         default: ["any"]
         type: list
         elements: str
@@ -96,6 +103,13 @@ options:
         description:
             - List of destination addresses.
             - This can be an IP address, an address object/group, etc.
+            - When referencing predefined EDLs, use config names of the EDLS not
+              their full names. The config names can be found with the CLI:
+              request system external-list show type predefined-ip name <tab> 
+                panw-bulletproof-ip-list   panw-bulletproof-ip-list
+                panw-highrisk-ip-list      panw-highrisk-ip-list
+                panw-known-ip-list         panw-known-ip-list
+                panw-torexit-ip-list       panw-torexit-ip-list
         default: ["any"]
         type: list
         elements: str
