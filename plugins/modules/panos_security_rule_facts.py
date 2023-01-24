@@ -335,7 +335,7 @@ def main():
             "rule_name": "name",
             "source_zone": "fromzone",
             "source_ip": "source",
-            "destintaion_zone": "tozone",
+            "destination_zone": "tozone",
             "destination_ip": "destination",
             "rule_type": "type",
             "tag_name": "tag",
