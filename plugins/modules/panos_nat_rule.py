@@ -521,7 +521,7 @@ def main():
                     module.fail_json(msg="Failed enable: {0}".format(e))
     else:
         parent.add(new_rule)
-        resp = helper.apply_state(new_rule, module)
+        resp = helper.apply_state(new_rule, module=module)
         if state == "present":
             resp["changed"] |= helper.apply_position(
                 new_rule, location, existing_rule, module
