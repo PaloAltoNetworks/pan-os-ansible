@@ -61,7 +61,7 @@ options:
         default: '192.168.1.0/24'
     any_protocol:
         description:
-            - Any protocol boolean. If this parameter is set to `true`, explicitly or implicitly by its default value, the `number_proto` parameter must not be specified.
+            - Any protocol boolean. If this parameter is set to `true`, the `number_proto` parameter must not be specified.
         type: bool
         default: True
     number_proto:
