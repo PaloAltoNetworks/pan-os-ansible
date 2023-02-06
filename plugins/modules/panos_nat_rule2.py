@@ -90,11 +90,25 @@ options:
     source_addresses:
         description:
             - Source addresses.
+            - When referencing predefined EDLs, use config names of the EDLS not
+              their full names. The config names can be found with the CLI...
+              request system external-list show type predefined-ip name <tab>
+                panw-bulletproof-ip-list   panw-bulletproof-ip-list
+                panw-highrisk-ip-list      panw-highrisk-ip-list
+                panw-known-ip-list         panw-known-ip-list
+                panw-torexit-ip-list       panw-torexit-ip-list
         type: list
         elements: str
     destination_addresses:
         description:
             - Destination addresses.
+            - When referencing predefined EDLs, use config names of the EDLS not
+              their full names. The config names can be found with the CLI...
+              request system external-list show type predefined-ip name <tab>
+                panw-bulletproof-ip-list   panw-bulletproof-ip-list
+                panw-highrisk-ip-list      panw-highrisk-ip-list
+                panw-known-ip-list         panw-known-ip-list
+                panw-torexit-ip-list       panw-torexit-ip-list
         type: list
         elements: str
     source_translation_type:
