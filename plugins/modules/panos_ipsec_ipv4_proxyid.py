@@ -61,12 +61,12 @@ options:
         default: '192.168.1.0/24'
     any_protocol:
         description:
-            - Any protocol boolean
+            - Any protocol boolean. If this parameter is set to `true`, the `number_proto` parameter must not be specified.
         type: bool
         default: True
     number_proto:
         description:
-            - Numbered Protocol; protocol number (1-254)
+            - Numbered Protocol; protocol number (1-254). This parameter must be specified if `any_protocol` is set to `false`.
         type: int
     tcp_local_port:
         description:
@@ -121,7 +121,7 @@ def main():
             local=dict(default="192.168.2.0/24"),
             remote=dict(default="192.168.1.0/24"),
             any_protocol=dict(type="bool", default=True),
-            number_proto=dict(type="int"),
+            number_proto=dict(type="int", sdk_param="number_protocol"),
             tcp_local_port=dict(type="int"),
             tcp_remote_port=dict(type="int"),
             udp_local_port=dict(type="int"),
