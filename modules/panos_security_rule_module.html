@@ -298,6 +298,7 @@ rules must precede the more general ones.</p></li>
 <a class="ansibleOptionLink" href="#parameter-category" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>List of destination URL categories.</p>
+<p>When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI… request system external-list show type predefined-url name &lt;tab&gt; panw-auth-portal-exclude-list   panw-auth-portal-exclude-list</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id15"><span class="problematic" id="id16">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
 </div></td>
 </tr>
@@ -335,6 +336,7 @@ rules must precede the more general ones.</p></li>
 </div></td>
 <td><div class="ansible-option-cell"><p>List of destination addresses.</p>
 <p>This can be an IP address, an address object/group, etc.</p>
+<p>When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI… request system external-list show type predefined-ip name &lt;tab&gt; panw-bulletproof-ip-list   panw-bulletproof-ip-list panw-highrisk-ip-list      panw-highrisk-ip-list panw-known-ip-list         panw-known-ip-list panw-torexit-ip-list       panw-torexit-ip-list</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id21"><span class="problematic" id="id22">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
 </div></td>
 </tr>
@@ -687,6 +689,7 @@ PAN-OS &lt; 10.0.0, then this will have a default of <em>[“any”]</em>.</p></
 </div></td>
 <td><div class="ansible-option-cell"><p>List of source addresses.</p>
 <p>This can be an IP address, an address object/group, etc.</p>
+<p>When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI… request system external-list show type predefined-ip name &lt;tab&gt; panw-bulletproof-ip-list   panw-bulletproof-ip-list panw-highrisk-ip-list      panw-highrisk-ip-list panw-known-ip-list         panw-known-ip-list panw-torexit-ip-list       panw-torexit-ip-list</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id87"><span class="problematic" id="id88">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
 </div></td>
 </tr>

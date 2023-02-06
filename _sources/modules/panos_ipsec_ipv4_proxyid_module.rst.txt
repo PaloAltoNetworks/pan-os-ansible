@@ -133,7 +133,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Any protocol boolean
+      Any protocol boolean. If this parameter is set to \`true\`, the \`number\_proto\` parameter must not be specified.
 
 
       .. rst-class:: ansible-option-line
@@ -431,7 +431,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Numbered Protocol; protocol number (1-254)
+      Numbered Protocol; protocol number (1-254). This parameter must be specified if \`any\_protocol\` is set to \`false\`.
 
 
       .. raw:: html

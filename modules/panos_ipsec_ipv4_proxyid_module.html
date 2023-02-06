@@ -243,7 +243,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <div class="ansibleOptionAnchor" id="parameter-any_protocol"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-ipsec-ipv4-proxyid-module-parameter-any-protocol"><strong>any_protocol</strong></p>
 <a class="ansibleOptionLink" href="#parameter-any_protocol" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Any protocol boolean</p>
+<td><div class="ansible-option-cell"><p>Any protocol boolean. If this parameter is set to `true`, the `number_proto` parameter must not be specified.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`false`</span></a></p></li>
@@ -311,7 +311,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <div class="ansibleOptionAnchor" id="parameter-number_proto"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-ipsec-ipv4-proxyid-module-parameter-number-proto"><strong>number_proto</strong></p>
 <a class="ansibleOptionLink" href="#parameter-number_proto" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Numbered Protocol; protocol number (1-254)</p>
+<td><div class="ansible-option-cell"><p>Numbered Protocol; protocol number (1-254). This parameter must be specified if `any_protocol` is set to `false`.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">

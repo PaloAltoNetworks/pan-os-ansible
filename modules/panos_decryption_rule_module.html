@@ -303,6 +303,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 </div></td>
 <td><div class="ansible-option-cell"><p>List of destination addresses.</p>
 <p>This can be an IP address, an address object/group, etc.</p>
+<p>When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI… request system external-list show type predefined-ip name &lt;tab&gt; panw-bulletproof-ip-list   panw-bulletproof-ip-list panw-highrisk-ip-list      panw-highrisk-ip-list panw-known-ip-list         panw-known-ip-list panw-torexit-ip-list       panw-torexit-ip-list</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -580,6 +581,7 @@ be positioned relative to the value of this parameter.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>List of source addresses.</p>
 <p>This can be an IP address, an address object/group, etc.</p>
+<p>When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI… request system external-list show type predefined-ip name &lt;tab&gt; panw-bulletproof-ip-list   panw-bulletproof-ip-list panw-highrisk-ip-list      panw-highrisk-ip-list panw-known-ip-list         panw-known-ip-list panw-torexit-ip-list       panw-torexit-ip-list</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -646,6 +648,7 @@ be positioned relative to the value of this parameter.</p>
 <a class="ansibleOptionLink" href="#parameter-url_categories" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>List of URL categories.</p>
+<p>When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI… request system external-list show type predefined-url name &lt;tab&gt; panw-auth-portal-exclude-list   panw-auth-portal-exclude-list</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
