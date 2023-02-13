@@ -251,8 +251,9 @@ def export_binary(module, xapi, category, filename):
     except IOError as msg:
         module.fail_json(msg=msg)
 
+
 def save_binary(module, xapi, category, filename):
- 
+
     # This function is almost the same as export_binary, but omits the line...
     #   xapi.export(category=category)
     # This function is therefore used where the xapi.export operation is already done
@@ -269,6 +270,7 @@ def save_binary(module, xapi, category, filename):
             f.close()
     except IOError as msg:
         module.fail_json(msg=msg)
+
 
 def export_async(module, xapi, category, filename, interval=60, timeout=600):
 
