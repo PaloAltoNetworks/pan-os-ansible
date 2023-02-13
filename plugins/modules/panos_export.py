@@ -251,6 +251,24 @@ def export_binary(module, xapi, category, filename):
     except IOError as msg:
         module.fail_json(msg=msg)
 
+def save_binary(module, xapi, category, filename):
+ 
+    # This function is almost the same as export_binary, but omits the line...
+    #   xapi.export(category=category)
+    # This function is therefore used where the xapi.export operation is already done
+
+    f = None
+
+    try:
+        with open(filename, "wb") as f:
+            content = xapi.export_result["content"]
+
+            if content is not None:
+                f.write(content)
+
+            f.close()
+    except IOError as msg:
+        module.fail_json(msg=msg)
 
 def export_async(module, xapi, category, filename, interval=60, timeout=600):
 
@@ -281,19 +299,7 @@ def export_async(module, xapi, category, filename, interval=60, timeout=600):
     # Get completed job
     xapi.export(category=category, extra_qs={"action": "get", "job-id": job_id})
 
-    # Use only relevant code from export_binary, instead of calling export_binary (don't use the line: xapi.export(category=category))
-    f = None
-
-    try:
-        with open(filename, "wb") as f:
-            content = xapi.export_result["content"]
-
-            if content is not None:
-                f.write(content)
-
-            f.close()
-    except IOError as msg:
-        module.fail_json(msg=msg)
+    save_binary(module, xapi, category, filename)
 
 
 HTML_EXPORTS = [
@@ -417,7 +423,7 @@ def main():
             params["passphrase"] = cert_passphrase
 
         xapi.export(category="certificate", extra_qs=params)
-        export_binary(module, xapi, filename)
+        save_binary(module, xapi, category, filename)
 
     elif category == "application-pcap":
 
@@ -439,7 +445,7 @@ def main():
             if filename is None:
                 module.fail_json(msg="filename is required for export")
 
-            export_binary(module, xapi, filename)
+            save_binary(module, xapi, category, filename)
 
     elif category == "filter-pcap":
 
@@ -460,7 +466,7 @@ def main():
             if filename is None:
                 module.fail_json(msg="filename is required for export")
 
-            export_binary(module, xapi, filename)
+            save_binary(module, xapi, category, filename)
 
     elif category == "dlp-pcap":
         from_name = module.params["dlp_pcap_name"]
@@ -485,7 +491,7 @@ def main():
             if filename is None:
                 module.fail_json(msg="filename is required for export")
 
-            export_binary(module, xapi, filename)
+            save_binary(module, xapi, category, filename)
 
     elif category == "threat-pcap":
         if filename is None:
@@ -508,7 +514,7 @@ def main():
             search_time=search_time,
             serialno=serial,
         )
-        export_binary(module, xapi, filename)
+        save_binary(module, xapi, category, filename)
 
     module.exit_json(changed=False)
 
