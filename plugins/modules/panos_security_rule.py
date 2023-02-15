@@ -398,20 +398,20 @@ def main():
         sdk_params=dict(
             rule_name=dict(required=True, sdk_param="name"),
             source_zone=dict(
-                type="list", elements="str", default=["any"], sdk_param="fromzone"
+                type="list", elements="str", default=[], sdk_param="fromzone"
             ),
             source_ip=dict(
-                type="list", elements="str", default=["any"], sdk_param="source"
+                type="list", elements="str", default=[], sdk_param="source"
             ),
             source_user=dict(type="list", elements="str", default=["any"]),
             hip_profiles=dict(type="list", elements="str"),
             destination_zone=dict(
-                type="list", elements="str", default=["any"], sdk_param="tozone"
+                type="list", elements="str", default=[], sdk_param="tozone"
             ),
             destination_ip=dict(
-                type="list", elements="str", default=["any"], sdk_param="destination"
+                type="list", elements="str", default=[], sdk_param="destination"
             ),
-            application=dict(type="list", elements="str", default=["any"]),
+            application=dict(type="list", elements="str", default=[]),
             service=dict(type="list", elements="str", default=["application-default"]),
             category=dict(type="list", elements="str", default=["any"]),
             action=dict(
