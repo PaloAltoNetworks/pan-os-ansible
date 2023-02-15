@@ -257,12 +257,14 @@ from ansible.module_utils.basic import AnsibleModule
 
 try:
     import panos
+    from panos.panorama import DeviceGroup
     from panos import objects, panorama
     from panos.base import PanDevice
     from panos.errors import PanDeviceError
 except ImportError:
     try:
         import pandevice
+        from pandevice.panorama import DeviceGroup
         from pandevice import objects, panorama
         from pandevice.base import PanDevice
         from pandevice.errors import PanDeviceError
@@ -283,7 +285,7 @@ except ImportError:
 def get_devicegroup(device, devicegroup):
     dg_list = device.refresh_devices()
     for group in dg_list:
-        if isinstance(group, pandevice.panorama.DeviceGroup):
+        if isinstance(group, DeviceGroup):
             if group.name == devicegroup:
                 return group
     return False

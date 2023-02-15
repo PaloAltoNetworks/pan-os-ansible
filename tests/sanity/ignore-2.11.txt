@@ -28,11 +28,11 @@ plugins/modules/panos_commit_firewall.py validate-modules:missing-gplv3-license
 plugins/modules/panos_commit_push.py validate-modules:missing-gplv3-license
 plugins/modules/panos_config_element.py validate-modules:missing-gplv3-license
 plugins/modules/panos_custom_url_category.py validate-modules:missing-gplv3-license
-plugins/modules/panos_dag.py no-get-exception
+plugins/modules/panos_dag.py pylint:consider-using-f-string
 plugins/modules/panos_dag.py validate-modules:deprecation-mismatch
 plugins/modules/panos_dag.py validate-modules:invalid-documentation
 plugins/modules/panos_dag.py validate-modules:missing-gplv3-license
-plugins/modules/panos_dag_tags.py no-get-exception
+plugins/modules/panos_dag_tags.py pylint:consider-using-f-string
 plugins/modules/panos_dag_tags.py validate-modules:deprecation-mismatch
 plugins/modules/panos_dag_tags.py validate-modules:invalid-documentation
 plugins/modules/panos_dag_tags.py validate-modules:missing-gplv3-license
@@ -95,7 +95,7 @@ plugins/modules/panos_region.py validate-modules:missing-gplv3-license
 plugins/modules/panos_registered_ip.py validate-modules:missing-gplv3-license
 plugins/modules/panos_registered_ip_facts.py validate-modules:missing-gplv3-license
 plugins/modules/panos_restart.py validate-modules:missing-gplv3-license
-plugins/modules/panos_sag.py no-get-exception
+plugins/modules/panos_sag.py pylint:consider-using-f-string
 plugins/modules/panos_sag.py validate-modules:deprecation-mismatch
 plugins/modules/panos_sag.py validate-modules:invalid-documentation
 plugins/modules/panos_sag.py validate-modules:missing-gplv3-license

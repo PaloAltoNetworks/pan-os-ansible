@@ -895,6 +895,7 @@ class ConnectionHelper(object):
                         item, module.params["gathered_filter"]
                     ):
                         result["gathered"].append(self.describe(item))
+                        item_xml = ""
                         try:
                             item_xml = eltostr(item)
                         except Exception as e:
