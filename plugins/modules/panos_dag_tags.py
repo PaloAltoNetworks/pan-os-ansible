@@ -73,9 +73,9 @@ options:
         type: str
     operation:
         description:
-            - The action to be taken. Supported values are I(add)/I(update)/I(find)/I(delete).
+            - The action to be taken. Supported values are I(add)/I(list)/I(delete).
         type: str
-        choices: ['add', 'update', 'find', 'delete']
+        choices: ['add', 'list', 'delete']
         required: true
     tag_names:
         description:
@@ -124,7 +124,7 @@ RETURN = """
 # Default return values
 """
 
-from ansible.module_utils.basic import AnsibleModule, get_exception
+from ansible.module_utils.basic import AnsibleModule
 
 try:
     from pan.xapi import PanXapiError
@@ -152,43 +152,21 @@ def get_devicegroup(device, devicegroup):
 
 
 def register_ip_to_tag_map(device, ip_addresses, tag):
-    exc = None
-    try:
-        device.userid.register(ip_addresses, tag)
-    except PanXapiError:
-        exc = get_exception()
+    device.userid.register(ip_addresses, tag)
 
-    if exc:
-        return False, exc
-
-    return True, exc
+    return True
 
 
 def get_all_address_group_mapping(device):
-    exc = None
-    ret = None
-    try:
-        ret = device.userid.get_registered_ip()
-    except PanXapiError:
-        exc = get_exception()
+    ret = device.userid.get_registered_ip()
 
-    if exc:
-        return False, exc
-
-    return ret, exc
+    return ret
 
 
 def delete_address_from_mapping(device, ip_address, tags):
-    exc = None
-    try:
-        device.userid.unregister(ip_address, tags)
-    except PanXapiError:
-        exc = get_exception()
+    device.userid.unregister(ip_address, tags)
 
-    if exc:
-        return False, exc
-
-    return True, exc
+    return True
 
 
 def main():
@@ -202,9 +180,7 @@ def main():
         ip_to_register=dict(type="str", required=False),
         tag_names=dict(type="list", elements="str", required=True),
         commit=dict(type="bool"),
-        operation=dict(
-            type="str", choices=["add", "update", "find", "delete"], required=True
-        ),
+        operation=dict(type="str", choices=["add", "list", "delete"], required=True),
     )
 
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False)
@@ -237,32 +213,29 @@ def main():
             )
 
     result = None
-    if operation == "add":
-        result, exc = register_ip_to_tag_map(
-            device,
-            ip_addresses=module.params.get("ip_to_register", None),
-            tag=module.params.get("tag_names", None),
-        )
-    elif operation == "list":
-        result, exc = get_all_address_group_mapping(device)
-    elif operation == "delete":
-        result, exc = delete_address_from_mapping(
-            device,
-            ip_address=module.params.get("ip_to_register", None),
-            tags=module.params.get("tag_names", []),
-        )
-    else:
-        module.fail_json(msg="Unsupported option")
-
-    if not result:
-        module.fail_json(msg=exc.message)
+    try:
+        if operation == "add":
+            result = register_ip_to_tag_map(
+                device,
+                ip_addresses=module.params.get("ip_to_register", None),
+                tag=module.params.get("tag_names", None),
+            )
+        elif operation == "list":
+            result = get_all_address_group_mapping(device)
+        elif operation == "delete":
+            result = delete_address_from_mapping(
+                device,
+                ip_address=module.params.get("ip_to_register", None),
+                tags=module.params.get("tag_names", []),
+            )
+    except Exception as e:
+        module.fail_json(msg="Failed: {0}".format(e))
 
     if commit:
         try:
             device.commit(sync=True)
-        except PanXapiError:
-            exc = get_exception()
-            module.fail_json(msg=exc)
+        except PanXapiError as e:
+            module.fail_json(msg="Failed commit: {0}".format(e))
 
     module.exit_json(changed=True, msg=result)
 

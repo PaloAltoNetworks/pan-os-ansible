@@ -170,7 +170,7 @@ except ImportError:
 def get_devicegroup(device, devicegroup):
     dg_list = device.refresh_devices()
     for group in dg_list:
-        if isinstance(group, pandevice.panorama.DeviceGroup):
+        if isinstance(group, panorama.DeviceGroup):
             if group.name == devicegroup:
                 return group
     return False

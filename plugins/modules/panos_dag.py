@@ -113,7 +113,7 @@ RETURN = """
 # Default return values
 """
 
-from ansible.module_utils.basic import AnsibleModule, get_exception
+from ansible.module_utils.basic import AnsibleModule
 
 try:
     from pan.xapi import PanXapiError
@@ -170,20 +170,13 @@ def get_all_address_group(device):
     :param device:
     :return:
     """
-    exc = None
-    try:
-        ret = objects.AddressGroup.refreshall(device)
-    except Exception:
-        exc = get_exception()
+    ret = objects.AddressGroup.refreshall(device)
 
-    if exc:
-        return (False, exc)
-    else:
-        sl = []
-        for item in ret:
-            sl.append(item.name)
-        s = ",".join(sl)
-        return (s, exc)
+    sl = []
+    for item in ret:
+        sl.append(item.name)
+    s = ",".join(sl)
+    return s
 
 
 def delete_address_group(device, group_name):
@@ -194,20 +187,13 @@ def delete_address_group(device, group_name):
     :param group_name:
     :return:
     """
+    ret = objects.AddressGroup.refreshall(device)
 
-    exc = None
-    try:
-        ret = objects.AddressGroup.refreshall(device)
-    except Exception:
-        exc = get_exception()
+    for ag in ret:
+        if ag.name == group_name:
+            ag.delete()
 
-    if exc:
-        return (False, exc)
-    else:
-        for ag in ret:
-            if ag.name == group_name:
-                ag.delete()
-        return (True, None)
+    return True
 
 
 def main():
@@ -272,21 +258,23 @@ def main():
     """
 
     result = None
-    if operation == "add":
-        result = add_address_group(device, dev_group, ag_object)
-    elif operation == "list":
-        result, exc = get_all_address_group(device)
-    elif operation == "delete":
-        result, exc = delete_address_group(
-            device, group_name=module.params.get("dag_name", None)
-        )
+    try:
+        if operation == "add":
+            result = add_address_group(device, dev_group, ag_object)
+        elif operation == "list":
+            result = get_all_address_group(device)
+        elif operation == "delete":
+            result = delete_address_group(
+                device, group_name=module.params.get("dag_name", None)
+            )
+    except Exception as e:
+        module.fail_json(msg="Failed: {0}".format(e))
 
     if result and commit:
         try:
             device.commit(sync=True)
-        except PanXapiError:
-            exc = get_exception()
-            module.fail_json(msg=exc.message)
+        except PanXapiError as e:
+            module.fail_json(msg="Failed commit: {0}".format(e))
 
     module.exit_json(changed=True, msg=result)
 
