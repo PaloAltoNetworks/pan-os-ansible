@@ -77,6 +77,20 @@ jobs:
         timeout-minutes: 8
         run: poetry run make ${{ matrix.sanity }}
 
+  lint:
+    name: Ansible Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint-action@main # Config file is .ansible-lint
+
   format:
     name: Code Format Check
     runs-on: ubuntu-latest
