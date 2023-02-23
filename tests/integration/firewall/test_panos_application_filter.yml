@@ -2,7 +2,7 @@
 - import_tasks: 'reset.yml'
 
 - name: test_panos_application_filter - Create
-  panos_application_filter:
+  paloaltonetworks.panos.panos_application_filter:
     provider: '{{ device }}'
     name: 'Test'
     category: 'business-systems'
@@ -19,7 +19,7 @@
       - result is changed
 
 - name: test_panos_application_filter - Create (idempotence)
-  panos_application_filter:
+  paloaltonetworks.panos.panos_application_filter:
     provider: '{{ device }}'
     name: 'Test'
     category: 'business-systems'
@@ -36,7 +36,7 @@
       - result is not changed
 
 - name: test_panos_application_filter - Modify
-  panos_application_filter:
+  paloaltonetworks.panos.panos_application_filter:
     provider: '{{ device }}'
     name: 'Test'
     category: 'business-systems'
@@ -45,6 +45,7 @@
     risk: '5'
     device_group: '{{ device_group | default(omit) }}'
   register: result
+  diff: true
 
 - name: test_panos_application_filter - Assert modify was successful
   assert:
@@ -53,7 +54,7 @@
       - result is changed
 
 - name: test_panos_application_filter - Delete
-  panos_application_filter:
+  paloaltonetworks.panos.panos_application_filter:
     provider: '{{ device }}'
     name: 'Test'
     state: 'absent'
@@ -67,7 +68,7 @@
       - result is changed
 
 - name: test_panos_application_filter - Make sure changes commit cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 

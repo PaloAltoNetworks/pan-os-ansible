@@ -2,7 +2,7 @@
 - import_tasks: 'reset.yml'
 
 - name: test_panos_facts - Gather facts from device
-  panos_facts:
+  paloaltonetworks.panos.panos_facts:
     provider: '{{ device }}'
     gather_subset: ['all']
 

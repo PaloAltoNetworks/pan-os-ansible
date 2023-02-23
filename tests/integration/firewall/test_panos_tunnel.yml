@@ -2,7 +2,7 @@
 - import_tasks: 'reset.yml'
 
 - name: test_panos_tunnel - Create
-  panos_tunnel:
+  paloaltonetworks.panos.panos_tunnel:
     provider: '{{ device }}'
     if_name: "tunnel.1"
     ip: ["10.1.1.1/32"]
@@ -16,7 +16,7 @@
       - result is changed
 
 - name: test_panos_tunnel - Create (idempotence)
-  panos_tunnel:
+  paloaltonetworks.panos.panos_tunnel:
     provider: '{{ device }}'
     if_name: 'tunnel.1'
     ip: ['10.1.1.1/32']
@@ -30,13 +30,14 @@
       - result is not changed
 
 - name: test_panos_tunnel - Modify
-  panos_tunnel:
+  paloaltonetworks.panos.panos_tunnel:
     provider: '{{ device }}'
     if_name: 'tunnel.1'
     ip: ['10.1.1.1/32']
     comment: 'tunnel comment'
     template: '{{ template | default(omit) }}'
   register: result
+  diff: true
 
 - name: test_panos_tunnel - Assert modify was successful
   assert:
@@ -45,7 +46,7 @@
       - result is changed
 
 - name: test_panos_tunnel - Delete
-  panos_tunnel:
+  paloaltonetworks.panos.panos_tunnel:
     provider: '{{ device }}'
     if_name: 'tunnel.1'
     template: '{{ template | default(omit) }}'
@@ -59,7 +60,7 @@
       - result is changed
 
 - name: test_panos_tunnel - Make sure changes commit cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 

@@ -1,5 +1,6 @@
 ---
-- hosts: firewalls
+- name: Run tests with firewalls
+  hosts: firewalls
   connection: local
 
   vars:
@@ -10,16 +11,14 @@
 
     blank_config: blank.xml
 
-  collections:
-    - paloaltonetworks.panos
-
   tasks:
     - name: Run test
-      include_tasks:
+      ansible.builtin.include_tasks:
         file: '{{ item }}'
       loop: "{{ query('fileglob', 'firewall/*') | sort }}"
 
-- hosts: panoramas
+- name: Run tests with Panoramas
+  hosts: panoramas
   connection: local
 
   vars:
@@ -30,11 +29,8 @@
 
     blank_config: blank.xml
 
-  collections:
-    - paloaltonetworks.panos
-
   tasks:
     - name: Run test
-      include_tasks:
+      ansible.builtin.include_tasks:
         file: '{{ item }}'
       loop: "{{ query('fileglob', 'panorama/*') | sort }}"

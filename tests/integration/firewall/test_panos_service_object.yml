@@ -2,7 +2,7 @@
 - import_tasks: 'reset.yml'
 
 - name: test_panos_service_object - Create
-  panos_service_object:
+  paloaltonetworks.panos.panos_service_object:
     provider: '{{ device }}'
     name: 'ssh-tcp-22'
     destination_port: '22'
@@ -17,7 +17,7 @@
       - result is changed
 
 - name: test_panos_service_object - Create (idempotence)
-  panos_service_object:
+  paloaltonetworks.panos.panos_service_object:
     provider: '{{ device }}'
     name: 'ssh-tcp-22'
     destination_port: '22'
@@ -32,13 +32,14 @@
       - result is not changed
 
 - name: test_panos_service_object - Modify
-  panos_service_object:
+  paloaltonetworks.panos.panos_service_object:
     provider: '{{ device }}'
     name: 'ssh-tcp-22'
     destination_port: '23'
     description: 'SSH on tcp/22'
     device_group: '{{ device_group | default(omit) }}'
   register: result
+  diff: true
 
 - name: test_panos_service_object - Assert modify was successful
   assert:
@@ -47,7 +48,7 @@
       - result is changed
 
 - name: test_panos_service_object - Delete
-  panos_service_object:
+  paloaltonetworks.panos.panos_service_object:
     provider: '{{ device }}'
     name: 'ssh-tcp-22'
     state: 'absent'
@@ -61,7 +62,7 @@
       - result is changed
 
 - name: test_panos_service_object - Make sure changes commit cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 

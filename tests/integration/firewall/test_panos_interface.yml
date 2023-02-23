@@ -2,13 +2,13 @@
 - import_tasks: 'reset.yml'
 
 - name: test_panos_interface - Create 'dmz' zone
-  panos_zone:
+  paloaltonetworks.panos.panos_zone:
     provider: '{{ device }}'
     zone: 'dmz'
     template: '{{ template | default(omit) }}'
 
 - name: test_panos_interface - Create
-  panos_interface:
+  paloaltonetworks.panos.panos_interface:
     provider: '{{ device }}'
     if_name: 'ethernet1/3'
     mode: 'layer3'
@@ -24,7 +24,7 @@
       - result is changed
 
 - name: test_panos_interface - Create (idempotence)
-  panos_interface:
+  paloaltonetworks.panos.panos_interface:
     provider: '{{ device }}'
     if_name: 'ethernet1/3'
     mode: 'layer3'
@@ -40,15 +40,16 @@
       - result is not changed
 
 - name: test_panos_interface - Modify
-  panos_interface:
+  paloaltonetworks.panos.panos_interface:
     provider: '{{ device }}'
     if_name: 'ethernet1/3'
     mode: 'layer3'
     zone_name: 'dmz'
     ip: ['10.1.1.1/24']
-    enable_dhcp: False
+    enable_dhcp: false
     template: '{{ template | default(omit) }}'
   register: result
+  diff: true
 
 - name: test_panos_interface - Assert modify was successful
   assert:
@@ -57,7 +58,7 @@
       - result is changed
 
 - name: test_panos_interface - Delete
-  panos_interface:
+  paloaltonetworks.panos.panos_interface:
     provider: '{{ device }}'
     if_name: 'ethernet1/3'
     state: 'absent'
@@ -71,12 +72,12 @@
       - result is changed
 
 - name: test_panos_interface - create-default-route implies dhcp-client
-  panos_interface:
+  paloaltonetworks.panos.panos_interface:
     provider: '{{ device }}'
     if_name: 'ethernet1/3'
-    create_default_route: True
+    create_default_route: true
     template: '{{ template | default(omit) }}'
-  diff: True
+  diff: true
   register: result
 
 - name: test_panos_interface - Assert create-default-route implies dhcp-client
@@ -87,12 +88,12 @@
       - result.diff.after is search("<create-default-route>yes</create-default-route>")
 
 - name: test_panos_interface - Assert dhcp-client does not imply create-default-route
-  panos_interface:
+  paloaltonetworks.panos.panos_interface:
     provider: '{{ device }}'
     if_name: 'ethernet1/3'
-    enable_dhcp: True
+    enable_dhcp: true
     template: '{{ template | default(omit) }}'
-  diff: True
+  diff: true
   register: result
 
 - name: test_panos_interface - Assert dhcp-client does not imply create-default-route
@@ -103,7 +104,7 @@
       - result.diff.after is search("<create-default-route>no</create-default-route>")
 
 - name: test_panos_inteface - Make sure changes commit cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 

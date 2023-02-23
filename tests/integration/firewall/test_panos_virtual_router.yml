@@ -2,7 +2,7 @@
 - import_tasks: 'reset.yml'
 
 - name: test_panos_virtual_router - Create
-  panos_virtual_router:
+  paloaltonetworks.panos.panos_virtual_router:
     provider: '{{ device }}'
     name: 'Test'
     template: '{{ template | default(omit) }}'
@@ -15,7 +15,7 @@
       - result is changed
 
 - name: test_panos_virtual_router - Create (idempotence)
-  panos_virtual_router:
+  paloaltonetworks.panos.panos_virtual_router:
     provider: '{{ device }}'
     name: 'Test'
     template: '{{ template | default(omit) }}'
@@ -28,11 +28,12 @@
       - result is not changed
 
 - name: test_panos_virtual_router - Modify
-  panos_virtual_router:
+  paloaltonetworks.panos.panos_virtual_router:
     provider: '{{ device }}'
     name: 'Test'
     ad_static: '20'
   register: result
+  diff: true
 
 - name: test_panos_virtual_router - Assert modify was successful
   assert:
@@ -41,7 +42,7 @@
       - result is changed
 
 - name: test_panos_virtual_router - Delete
-  panos_virtual_router:
+  paloaltonetworks.panos.panos_virtual_router:
     provider: '{{ device }}'
     name: 'Test'
     state: 'absent'
@@ -54,7 +55,7 @@
       - result is changed
 
 - name: test_panos_virtual_router - Make sure config commits cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 

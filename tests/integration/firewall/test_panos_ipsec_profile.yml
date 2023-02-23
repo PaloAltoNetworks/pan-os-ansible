@@ -2,7 +2,7 @@
 - include_tasks: 'reset.yml'
 
 - name: test_panos_ipsec_profile - Create
-  panos_ipsec_profile:
+  paloaltonetworks.panos.panos_ipsec_profile:
     provider: '{{ device }}'
     name: 'Test'
     esp_authentication: ['sha1']
@@ -18,7 +18,7 @@
       - result is changed
 
 - name: test_panos_ipsec_profile - Create (idempotence)
-  panos_ipsec_profile:
+  paloaltonetworks.panos.panos_ipsec_profile:
     provider: '{{ device }}'
     name: 'Test'
     esp_authentication: ['sha1']
@@ -34,7 +34,7 @@
       - result is not changed
 
 - name: test_panos_ipsec_profile - Modify
-  panos_ipsec_profile:
+  paloaltonetworks.panos.panos_ipsec_profile:
     provider: '{{ device }}'
     name: 'Test'
     esp_authentication: ['sha1']
@@ -42,6 +42,7 @@
     lifetime_hours: '24'
     template: '{{ template | default(omit) }}'
   register: result
+  diff: true
 
 - name: test_panos_ipsec_profile - Assert modify was successful
   assert:
@@ -50,7 +51,7 @@
       - result is changed
 
 - name: test_panos_ipsec_profile -  Deletee
-  panos_ipsec_profile:
+  paloaltonetworks.panos.panos_ipsec_profile:
     provider: '{{ device }}'
     name: 'Test'
     state: 'absent'
@@ -64,11 +65,11 @@
       - result is changed
 
 - name: test_panos_ipsec_profile - Default key lifetime
-  panos_ipsec_profile:
+  paloaltonetworks.panos.panos_ipsec_profile:
     provider: '{{ device }}'
     name: 'Test'
     template: '{{ template | default(omit) }}'
-  diff: yes
+  diff: true
   register: result
 
 - name: test_panos_ipsec_profilile - Assert default key lifetime
@@ -88,7 +89,7 @@
       - result.diff.after is search("<member>sha1</member>")
 
 - name: test_panos_ipsec_profile - Make sure changes commit cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 
