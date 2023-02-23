@@ -2,7 +2,7 @@
 - include_tasks: 'reset.yml'
 
 - name: test_panos_ike_crypto_profile - Create
-  panos_ike_crypto_profile:
+  paloaltonetworks.panos.panos_ike_crypto_profile:
     provider: '{{ device }}'
     name: 'Test'
     dh_group: ['group2']
@@ -19,7 +19,7 @@
       - result is success
 
 - name: test_panos_ike_crypto_profile - Create (idempotence)
-  panos_ike_crypto_profile:
+  paloaltonetworks.panos.panos_ike_crypto_profile:
     provider: '{{ device }}'
     name: 'Test'
     dh_group: ['group2']
@@ -36,7 +36,7 @@
       - result is success
 
 - name: test_panos_ike_crypto_profile - Modify
-  panos_ike_crypto_profile:
+  paloaltonetworks.panos.panos_ike_crypto_profile:
     provider: '{{ device }}'
     name: 'Test'
     dh_group: ['group2']
@@ -44,7 +44,7 @@
     encryption: ['aes-128-cbc']
     lifetime_seconds: '3600'
     template: '{{ template | default(omit) }}'
-  diff: yes
+  diff: true
   register: result
 
 - name: test_panos_ike_crypto_profile - Assert modify was successful
@@ -55,7 +55,7 @@
       - result.diff.after is search("<seconds>3600</seconds>")
 
 - name: test_panos_ike_crypto_profile - Delete
-  panos_ike_crypto_profile:
+  paloaltonetworks.panos.panos_ike_crypto_profile:
     provider: '{{ device }}'
     name: 'Test'
     state: 'absent'
@@ -69,14 +69,14 @@
       - result is success
 
 - name: test_panos_ike_crypto_profile - No lifetime should give 8 hours
-  panos_ike_crypto_profile:
+  paloaltonetworks.panos.panos_ike_crypto_profile:
     provider: '{{ device }}'
     name: 'Test'
     dh_group: ['group2']
     authentication: ['sha1']
     encryption: ['aes-128-cbc']
     template: '{{ template | default(omit) }}'
-  diff: yes
+  diff: true
   register: result
 
 - name: test_panos_ike_crypto_profile - Assert no lifetime should give 8 hours
@@ -86,7 +86,7 @@
       - result.diff.after is search("<hours>8</hours>")
 
 - name: test_panos_ike_crypto_profile - Make sure changes commit cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 

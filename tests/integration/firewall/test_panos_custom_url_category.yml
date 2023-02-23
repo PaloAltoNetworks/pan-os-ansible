@@ -2,15 +2,15 @@
 - include_tasks: 'reset.yml'
 
 - name: test_panos_custom_url_category - Gather PAN-OS facts
-  panos_facts:
+  paloaltonetworks.panos.panos_facts:
     provider: '{{ device }}'
 
 - name: test_panos_custom_url_category - Create
-  panos_custom_url_category:
+  paloaltonetworks.panos.panos_custom_url_category:
     provider: '{{ device }}'
     name: 'Internet Access List'
     url_value:
-        - microsoft.com
+      - microsoft.com
     type: 'URL List'
     device_group: '{{ device_group | default(omit) }}'
   register: result
@@ -22,11 +22,11 @@
       - result is success
 
 - name: test_panos_custom_url_category - Create (idempotence)
-  panos_custom_url_category:
+  paloaltonetworks.panos.panos_custom_url_category:
     provider: '{{ device }}'
     name: 'Internet Access List'
     url_value:
-        - microsoft.com
+      - microsoft.com
     type: 'URL List'
     device_group: '{{ device_group | default(omit) }}'
   register: result
@@ -38,15 +38,16 @@
       - result is success
 
 - name: test_panos_custom_url_category - Modify
-  panos_custom_url_category:
+  paloaltonetworks.panos.panos_custom_url_category:
     provider: '{{ device }}'
     name: 'Internet Access List'
     url_value:
-        - microsoft.com
-        - redhat.com
+      - microsoft.com
+      - redhat.com
     type: 'URL List'
     device_group: '{{ device_group | default(omit) }}'
   register: result
+  diff: true
 
 - name: test_panos_custom_url_category - Assert modify was successful
   assert:
@@ -55,7 +56,7 @@
       - result is success
 
 - name: test_panos_custom_url_category - Delete
-  panos_custom_url_category:
+  paloaltonetworks.panos.panos_custom_url_category:
     provider: '{{ device }}'
     name: 'Internet Access List'
     device_group: '{{ device_group | default(omit) }}'
@@ -68,17 +69,18 @@
       - result is changed
       - result is success
 
-- name: test_panos_custom_url_category - Have to provide 'url_value'
-  panos_custom_url_category:
-    provider: '{{ device }}'
-    name: 'Test'
-    state: 'present'
-    device_group: '{{ device_group | default(omit) }}'
-  register: result
-  failed_when: result.msg is not search("url_value")
+# Removed failure: The pan-os-ansible code which checked for url_value being present was removed in collection v2.10.0
+# - name: test_panos_custom_url_category - Have to provide 'url_value'
+#   paloaltonetworks.panos.panos_custom_url_category:
+#     provider: '{{ device }}'
+#     name: 'Test'
+#     state: 'present'
+#     device_group: '{{ device_group | default(omit) }}'
+#   register: result
+#   failed_when: result.msg is not search("url_value")
 
 - name: test_panos_custom_url_category - Make sure changes commit cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 

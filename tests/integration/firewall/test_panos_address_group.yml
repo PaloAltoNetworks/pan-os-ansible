@@ -2,7 +2,7 @@
 - import_tasks: 'reset.yml'
 
 - name: test_panos_address_group - Create child address object 'Test-One'
-  panos_address_object:
+  paloaltonetworks.panos.panos_address_object:
     provider: '{{ device }}'
     name: 'Test-One'
     value: '1.1.1.1'
@@ -11,7 +11,7 @@
   tags: 'test_panos_address_group'
 
 - name: test_panos_address_group - Create child address object 'Test-Two'
-  panos_address_object:
+  paloaltonetworks.panos.panos_address_object:
     provider: '{{ device }}'
     name: 'Test-Two'
     value: '2.2.2.2'
@@ -19,7 +19,7 @@
     description: 'Description Two'
 
 - name: test_panos_address_group - Create
-  panos_address_group:
+  paloaltonetworks.panos.panos_address_group:
     provider: '{{ device }}'
     name: 'Test'
     static_value: ['Test-One', 'Test-Two']
@@ -33,7 +33,7 @@
       - result is changed
 
 - name: test_panos_address_group - Create (idempotence)
-  panos_address_group:
+  paloaltonetworks.panos.panos_address_group:
     provider: '{{ device }}'
     name: 'Test'
     static_value: ['Test-One', 'Test-Two']
@@ -47,12 +47,13 @@
       - result is not changed
 
 - name: test_panos_address_group - Modify
-  panos_address_group:
+  paloaltonetworks.panos.panos_address_group:
     provider: '{{ device }}'
     name: 'Test'
     static_value: ['Test-One']
     device_group: '{{ device_group | default(omit) }}'
   register: result
+  diff: true
 
 - name: test_panos_address_group - Assert modify was successful
   assert:
@@ -61,7 +62,7 @@
       - result is changed
 
 - name: test_panos_address_group - Delete
-  panos_address_group:
+  paloaltonetworks.panos.panos_address_group:
     provider: '{{ device }}'
     name: 'Test'
     state: 'absent'
@@ -74,25 +75,30 @@
       - result is success
       - result is changed
 
-- name: test_panos_address_group - Have to provide one of 'static_value' or 'dynamic_value'
-  panos_address_group:
-    provider: '{{ device }}'
-    name: 'Test'
-    device_group: '{{ device_group | default(omit) }}'
-  register: result
-  failed_when: result.msg is not match("One of 'static_value' or 'dynamic_value' is required")
+# Removed: The pan-os-ansible code which produced the target msg was removed in collection v2.10.0
+#          At 2.13.1 the result of this task is an empty static group
+# - name: test_panos_address_group - Have to provide one of 'static_value' or 'dynamic_value'
+#   paloaltonetworks.panos.panos_address_group:
+#     provider: '{{ device }}'
+#     name: 'Test'
+#     device_group: '{{ device_group | default(omit) }}'
+#   register: result
+#   failed_when: result.msg is not match("One of 'static_value' or 'dynamic_value' is required")
 
-- name: test_panos_address_group - Can't provide both 'static_value' and 'dynamic_value'
-  panos_address_group:
-    provider: '{{ device }}'
-    name: 'Test'
-    static_value: ['Test-One']
-    dynamic_value: "'Dynamic_Value'"
-  register: result
-  failed_when: result.msg is not search("static_value|dynamic_value")
+# Removed: The pan-os-ansible code which produced the target msg was removed in collection v2.10.0
+#          At 2.13.1 the result of this tasks is live XML for both static and dynamic on the device,
+#          and static overrules dynamic, so the object group is seen as a static group
+# - name: test_panos_address_group - Can't provide both 'static_value' and 'dynamic_value'
+#   paloaltonetworks.panos.panos_address_group:
+#     provider: '{{ device }}'
+#     name: 'Test'
+#     static_value: ['Test-One']
+#     dynamic_value: "'Dynamic_Value'"
+#   register: result
+#   failed_when: result.msg is not search("static_value|dynamic_value")
 
 - name: test_panos_address_group - Make sure changes commit cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 

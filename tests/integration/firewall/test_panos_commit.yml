@@ -1,8 +1,8 @@
 ---
-- include_tasks: 'reset.yml'
+- import_tasks: 'reset.yml'
 
 - name: test_panos_commit - Create address object 'Test-One'
-  panos_address_object:
+  paloaltonetworks.panos.panos_address_object:
     provider: '{{ device }}'
     name: 'Test-One'
     value: '1.1.1.1'
@@ -10,7 +10,7 @@
     description: 'Description One'
 
 - name: test_panos_commit - Commit
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 
@@ -21,7 +21,7 @@
       - result is changed
 
 - name: test_panos_commit - Commit (idempotence)
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 
@@ -31,7 +31,12 @@
       - result is success
       - result is not changed
 
-- name: test_panos_commit - Assert commit has deprecation message
+- name: test_panos_commit - Old commit module
+  paloaltonetworks.panos.panos_commit:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_commit - Assert old commit has deprecation message
   assert:
     that:
       - result.deprecations | select("search", "This module is deprecated") | list | length > 0

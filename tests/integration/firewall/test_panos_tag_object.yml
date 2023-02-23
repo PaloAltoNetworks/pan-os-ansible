@@ -2,7 +2,7 @@
 - import_tasks: 'reset.yml'
 
 - name: test_panos_tag_object - Create
-  panos_tag_object:
+  paloaltonetworks.panos.panos_tag_object:
     provider: '{{ device }}'
     name: 'Test'
     color: 'red'
@@ -16,7 +16,7 @@
       - result is changed
 
 - name: test_panos_tag_object - Create (idempotence)
-  panos_tag_object:
+  paloaltonetworks.panos.panos_tag_object:
     provider: '{{ device }}'
     name: 'Test'
     color: 'red'
@@ -30,12 +30,13 @@
       - result is not changed
 
 - name: test_panos_tag_object - Modify
-  panos_tag_object:
+  paloaltonetworks.panos.panos_tag_object:
     provider: '{{ device }}'
     name: 'Test'
     color: 'blue'
     device_group: '{{ device_group | default(omit) }}'
   register: result
+  diff: true
 
 - name: test_panos_tag_object - Assert modify was successful
   assert:
@@ -44,7 +45,7 @@
       - result is changed
 
 - name: test_panos_tag_object - Delete
-  panos_tag_object:
+  paloaltonetworks.panos.panos_tag_object:
     provider: '{{ device }}'
     name: 'Test'
     state: 'absent'
@@ -58,7 +59,7 @@
       - result is changed
 
 - name: test_panos_tag_object - Make sure changes commit cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 

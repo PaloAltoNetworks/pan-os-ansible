@@ -2,14 +2,14 @@
 - import_tasks: 'reset.yml'
 
 - name: test_panos_zone - Configure ethernet1/3 as layer3
-  panos_interface:
+  paloaltonetworks.panos.panos_interface:
     provider: '{{ device }}'
     if_name: 'ethernet1/3'
     mode: 'layer3'
     template: '{{ template | default(omit) }}'
 
 - name: test_panos_zone - Create
-  panos_zone:
+  paloaltonetworks.panos.panos_zone:
     provider: '{{ device }}'
     zone: 'dmz'
     template: '{{ template | default(omit) }}'
@@ -22,7 +22,7 @@
       - result is changed
 
 - name: test_panos_zone - Create (idempotence)
-  panos_zone:
+  paloaltonetworks.panos.panos_zone:
     provider: '{{ device }}'
     zone: 'dmz'
     template: '{{ template | default(omit) }}'
@@ -35,11 +35,12 @@
       - result is not changed
 
 - name: test_panos_zone - Modify
-  panos_zone:
+  paloaltonetworks.panos.panos_zone:
     provider: '{{ device }}'
     zone: 'dmz'
     interface: ['ethernet1/3']
   register: result
+  diff: true
 
 - name: test_panos_zone - Assert modify was successful
   assert:
@@ -48,7 +49,7 @@
       - result is changed
 
 - name: test_panos_zone - Delete
-  panos_zone:
+  paloaltonetworks.panos.panos_zone:
     provider: '{{ device }}'
     zone: 'dmz'
     state: 'absent'
@@ -61,7 +62,7 @@
       - result is changed
 
 - name: test_panos_zone - Make sure changes commit cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 
