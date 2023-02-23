@@ -2,7 +2,7 @@
 - import_tasks: 'reset.yml'
 
 - name: test_panos_address_object - Create
-  panos_address_object:
+  paloaltonetworks.panos.panos_address_object:
     provider: '{{ device }}'
     name: 'Test-One'
     value: '1.1.1.1'
@@ -17,7 +17,7 @@
       - result is changed
 
 - name: test_panos_address_object - Create (idempotence)
-  panos_address_object:
+  paloaltonetworks.panos.panos_address_object:
     provider: '{{ device }}'
     name: 'Test-One'
     value: '1.1.1.1'
@@ -32,12 +32,13 @@
       - result is not changed
 
 - name: test_panos_address_object - Modify
-  panos_address_object:
+  paloaltonetworks.panos.panos_address_object:
     provider: '{{ device }}'
     name: 'Test-One'
     value: '2.2.2.2'
     device_group: '{{ device_group | default(omit) }}'
   register: result
+  diff: true
 
 - name: test_panos_address_object - Assert modify was successful
   assert:
@@ -46,7 +47,7 @@
       - result is changed
 
 - name: test_panos_address_object - Delete
-  panos_address_object:
+  paloaltonetworks.panos.panos_address_object:
     provider: '{{ device }}'
     name: 'Test-One'
     state: 'absent'
@@ -60,7 +61,7 @@
       - result is changed
 
 - name: test_panos_address_object - Make sure changes commit cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 

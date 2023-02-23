@@ -2,7 +2,7 @@
 - import_tasks: 'reset.yml'
 
 - name: test_panos_administrator - Create
-  panos_administrator:
+  paloaltonetworks.panos.panos_administrator:
     provider: '{{ device }}'
     admin_username: 'foo'
     superuser: true
@@ -16,7 +16,7 @@
       - result is changed
 
 - name: test_panos_administrator - Create (idempotence)
-  panos_administrator:
+  paloaltonetworks.panos.panos_administrator:
     provider: '{{ device }}'
     admin_username: 'foo'
     superuser: true
@@ -30,13 +30,14 @@
       - result is not changed
 
 - name: test_panos_administrator - Modify
-  panos_administrator:
+  paloaltonetworks.panos.panos_administrator:
     provider: '{{ device }}'
     admin_username: 'foo'
     admin_password: 'secret'
     superuser: true
     template: '{{ template | default(omit) }}'
   register: result
+  diff: true
 
 - name: test_panos_administrator - Assert modify was successful
   assert:
@@ -45,13 +46,14 @@
       - result is changed
 
 - name: test_panos_administrator - Modify (password hash with same value should still result in changed)
-  panos_administrator:
+  paloaltonetworks.panos.panos_administrator:
     provider: '{{ device }}'
     admin_username: 'foo'
     admin_password: 'secret'
     superuser: true
     template: '{{ template | default(omit) }}'
   register: result
+  diff: true
 
 - name: test_panos_administrator - Assert modify (password hash) was successful
   assert:
@@ -60,7 +62,7 @@
       - result is changed
 
 - name: test_panos_administrator - Make sure changes commit cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 

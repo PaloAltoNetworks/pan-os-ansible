@@ -1,7 +1,8 @@
 ---
-- name: Setup for testing
+- name: Check device is ready
   hosts: all
   connection: local
+  gather_facts: false
 
   vars:
     device:
@@ -17,11 +18,5 @@
       changed_when: false
       register: result
       until: result is not failed and (result.stdout | from_json).response.result == 'yes'
-      retries: 5
-      delay: 300
-
-    - name: Save copy of blank config
-      paloaltonetworks.panos.panos_op:
-        provider: '{{ device }}'
-        cmd: '<save><config><to>blank.xml</to></config></save>'
-        cmd_is_xml: true
+      retries: 200
+      delay: 6

@@ -1,5 +1,6 @@
 ---
-- hosts: firewalls
+- name: Run test with firewalls
+  hosts: firewalls
   connection: local
 
   vars:
@@ -10,15 +11,13 @@
 
     blank_config: blank.xml
 
-  collections:
-    - paloaltonetworks.panos
-
   tasks:
     - name: Run test
-      include_tasks:
+      ansible.builtin.include_tasks:
         file: 'firewall/{{ test }}.yml'
 
-- hosts: panoramas
+- name: Run test with Panoramas
+  hosts: panoramas
   connection: local
 
   vars:
@@ -31,5 +30,5 @@
 
   tasks:
     - name: Run test
-      include_tasks:
+      ansible.builtin.include_tasks:
         file: 'panorama/{{ test }}.yml'

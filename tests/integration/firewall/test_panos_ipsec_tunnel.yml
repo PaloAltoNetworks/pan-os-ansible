@@ -2,20 +2,20 @@
 - import_tasks: 'reset.yml'
 
 - name: test_panos_ipsec_tunnel - Create tunnel interface
-  panos_tunnel:
+  paloaltonetworks.panos.panos_tunnel:
     provider: '{{ device }}'
     if_name: 'tunnel.1'
     ip: ['10.1.1.1/30']
     template: '{{ template | default(omit) }}'
 
 - name: test_panos_ipsec_tunnel - Create IKE gateway
-  panos_ike_gateway:
+  paloaltonetworks.panos.panos_ike_gateway:
     provider: '{{ device }}'
     name: 'Test-IKE-Gateway'
     version: 'ikev2'
     interface: 'ethernet1/1'
-    enable_passive_mode: True
-    enable_liveness_check: True
+    enable_passive_mode: true
+    enable_liveness_check: true
     liveness_check_interval: '5'
     peer_ip_value: '1.2.3.4'
     pre_shared_key: 'CHANGEME'
@@ -23,7 +23,7 @@
     template: '{{ template | default(omit) }}'
 
 - name: test_panos_ipsec_tunnel - Create
-  panos_ipsec_tunnel:
+  paloaltonetworks.panos.panos_ipsec_tunnel:
     provider: '{{ device }}'
     name: 'Test'
     tunnel_interface: 'tunnel.1'
@@ -38,7 +38,7 @@
       - result is changed
 
 - name: test_panos_ipsec_tunnel - Create (idempotence)
-  panos_ipsec_tunnel:
+  paloaltonetworks.panos.panos_ipsec_tunnel:
     provider: '{{ device }}'
     name: 'Test'
     tunnel_interface: 'tunnel.1'
@@ -53,14 +53,14 @@
       - result is not changed
 
 - name: test_panos_ipsec_tunnel - Modify
-  panos_ipsec_tunnel:
+  paloaltonetworks.panos.panos_ipsec_tunnel:
     provider: '{{ device }}'
     name: 'Test'
     tunnel_interface: 'tunnel.1'
     ak_ike_gateway: 'Test-IKE-Gateway'
     ak_ipsec_crypto_profile: 'Suite-B-GCM-256'
-    anti_replay: False
-  diff: True
+    anti_replay: false
+  diff: true
   register: result
 
 - name: test_panos_ipsec_tunnel - Assert modify was successful
@@ -71,7 +71,7 @@
       # - result.diff.after is search("<anti-replay>no</anti-replay>")
 
 - name: test_panos_ipsec_tunnel - Delete
-  panos_ipsec_tunnel:
+  paloaltonetworks.panos.panos_ipsec_tunnel:
     provider: '{{ device }}'
     name: 'Test'
     state: 'absent'
@@ -84,7 +84,7 @@
       - result is changed
 
 - name: test_panos_ipsec_tunnel - Make sure changes commit cleanly
-  panos_commit:
+  paloaltonetworks.panos.panos_commit_firewall:
     provider: '{{ device }}'
   register: result
 
