@@ -106,7 +106,7 @@ $ git push origin name-of-your-bugfix-or-feature
 This workflow requires node, npm, and semantic-release to be installed locally:
 
 ```
-$ npm install -g semantic-release@^17.1.1 @semantic-release/changelog@^6.0.0 @semantic-release/git@^9.0.0 @semantic-release/exec@^5.0.0 conventional-changelog-conventionalcommits@^4.4.0
+$ npm install -g semantic-release@^17.1.1 @semantic-release/changelog@^5.0.1 @semantic-release/git@^9.0.0 @semantic-release/exec@^5.0.0 conventional-changelog-conventionalcommits@^4.4.0
 ```
 
 ### Test the release process
