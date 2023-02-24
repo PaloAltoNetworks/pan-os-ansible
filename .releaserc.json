@@ -13,11 +13,18 @@
             }
         ],
         [
+            "@semantic-release/changelog",
+            {
+              "changelogFile": "./CHANGELOG.md"
+            }
+        ],
+        [
             "@semantic-release/git",
             {
                 "assets": [
                     "galaxy.yml",
-                    "docs/source/index.rst"
+                    "docs/source/index.rst",
+                    "./CHANGELOG.md"
                 ],
                 "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
             }
