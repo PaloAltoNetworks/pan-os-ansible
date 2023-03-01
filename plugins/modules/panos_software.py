@@ -69,6 +69,12 @@ options:
             - Timeout value in seconds to wait for the device operation to complete
         type: int
         default: 1200
+    named_config:
+        description:
+            - A name of a existing named config to be loaded after restart.
+              If a non-existing file name is given the module will fail.
+        type: str
+        required: False
     perform_software_check:
         description:
             - Do a software check before doing the upgrade.
@@ -83,13 +89,6 @@ EXAMPLES = """
     version: '8.1.6'
     restart: true
 
-- name: Download PAN-OS 9.0.0 base image only
-  panos_software:
-    provider: '{{ provider }}'
-    version: '9.0.0'
-    install: false
-    restart: false
-
 - name: Download PAN-OS 9.0.1 and sync to HA peer
   panos_software:
     provider: '{{ provider }}'
@@ -97,6 +96,14 @@ EXAMPLES = """
     sync_to_peer: true
     install: false
     restart: false
+
+- name: Downgrade to 9.1.10 with named config load
+  panos_software:
+    provider: '{{ device }}'
+    version: 9.1.10
+    named_config: '9.1.10_backup_named_config.xml'
+    install: true
+    restart: true
 """
 
 RETURN = """
@@ -129,8 +136,16 @@ def needs_download(device, version):
 
 
 def is_valid_sequence(current, target):
-    # Patch version upgrade (major and minor versions match)
+    # Patch version change (major and minor versions match)
     if (current.major == target.major) and (current.minor == target.minor):
+        return True
+
+    # Downgrade minor version (9.1.0 -> 9.0.0)
+    elif (current.major == target.major) and (current.minor - 1 == target.minor):
+        return True
+
+    # Downgrade major version (10.0.0 -> 9.1.0)
+    elif (current.major - 1 == target.major) and (current.minor == 0):
         return True
 
     # Upgrade minor version (9.0.0 -> 9.1.0)
@@ -139,14 +154,6 @@ def is_valid_sequence(current, target):
 
     # Upgrade major version (9.1.0 -> 10.0.0)
     elif (current.major + 1 == target.major) and (target.minor == 0):
-        return True
-
-    # Downgrade minor version (9.1.0 -> 9.0.0)
-    elif (current.major == target.major) and (current.minor - 1 == target.minor):
-        return True
-
-    # Downgrade major version (10.0.3 -> 9.1.6)
-    elif current.major - 1 == target.major:
         return True
 
     else:
@@ -159,6 +166,7 @@ def main():
         argument_spec=dict(
             version=dict(type="str", required=True),
             sync_to_peer=dict(type="bool", default=False),
+            named_config=dict(type="str", required=False),
             download=dict(type="bool", default=True),
             install=dict(type="bool", default=True),
             restart=dict(type="bool", default=False),
@@ -179,6 +187,7 @@ def main():
     # Module params.
     target = PanOSVersion(module.params["version"])
     sync_to_peer = module.params["sync_to_peer"]
+    named_config = module.params.get("named_config", None)
     download = module.params["download"]
     install = module.params["install"]
     restart = module.params["restart"]
@@ -195,13 +204,30 @@ def main():
             device.software.check()
 
         if target != current:
-
             if not is_valid_sequence(current, target):
                 module.fail_json(
                     msg="Version Sequence is invalid: {0} -> {1}".format(
                         current, target
                     )
                 )
+
+            # try to check if the config specified in the module invocation actually exists
+            # in case it does not, the module will simply fail
+            if named_config:
+                try:
+                    device.op(
+                        "<show><config><saved>"
+                        + named_config
+                        + "</saved></config></show>",
+                        xml=True,
+                        cmd_xml=False,
+                    )
+                except PanDeviceError as e1:
+                    module.fail_json(
+                        msg="Error fetching specified named configuration, file {0}".format(
+                            e1
+                        )
+                    )
 
             # Download new base version if needed.
             if download and (
@@ -222,7 +248,13 @@ def main():
 
             if install:
                 if not module.check_mode:
-                    device.software.install(target, sync=True)
+                    if named_config:
+                        device.software.install(
+                            version=target, load_config=named_config, sync=True
+                        )
+                    else:
+                        device.software.install(version=target, sync=True)
+
                 changed = True
 
             if restart:
