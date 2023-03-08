@@ -209,11 +209,11 @@ def main():
     elif not result["success"]:
         # The commit failed
         fail_message = "Job ID " + result["jobid"] + ": "
-        
-        for device in result["devices"].items(): # Iterate over all devices that received the commit_push
+
+        for device in result["devices"].items():  # Iterate over all devices that received the commit_push
             # In the tuples being iterated over here, index 0 is the serial number, index 1 is a dict of commit output messaging
-            
-            if not device[1]["success"]: # For any devices where the commit_push was not successful...
+
+            if not device[1]["success"]:  # For any devices where the commit_push was not successful...
                 # Add the name of the device and the commit messages
                 fail_message += device[1]["name"] + ": " + " | ".join(device[1]["messages"]) + "; "
 
