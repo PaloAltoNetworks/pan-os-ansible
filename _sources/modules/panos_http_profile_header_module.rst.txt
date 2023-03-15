@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_http_profile_header module -- Manage HTTP headers f
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.13.1).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.13.2).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -95,7 +95,6 @@ The below requirements are needed on the host that executes this module.
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
