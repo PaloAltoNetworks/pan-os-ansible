@@ -223,6 +223,7 @@ def main():
                     device[1]["name"] + ": " + " | ".join(device[1]["messages"]) + "; "
                 )
 
+        # Send the commit fail messages
         module.fail_json(msg=fail_message)
     else:
         # The commit succeeded
