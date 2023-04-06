@@ -67,7 +67,7 @@ options:
             - tunnel
             - auth
             - sctp
-            - decryption (PAN-OS 10.0+)
+            - decryption
         default: 'traffic'
     filter:
         description:
