@@ -104,8 +104,8 @@ options:
             - If this parameter is left undefined, the effective value with be no.
         type: str
         choices:
-            - no
-            - yes
+            - "no"
+            - "yes"
     custom_logo_location:
         description:
             - When I(category=custom-logo), import this logo file here.
