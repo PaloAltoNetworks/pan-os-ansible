@@ -67,6 +67,7 @@ options:
             - tunnel
             - auth
             - sctp
+            - decryption (PAN-OS 10.0+)
         default: 'traffic'
     filter:
         description:
@@ -147,6 +148,7 @@ def main():
                     "tunnel",
                     "auth",
                     "sctp",
+                    "decryption",
                 ],
             ),
             filter=dict(),
