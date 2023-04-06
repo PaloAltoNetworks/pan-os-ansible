@@ -59,7 +59,7 @@ options:
             - Authentication hashes used for IKE phase 1 proposal.
         type: list
         elements: str
-        choices: ['none', 'md5', 'sha1', 'sha256', 'sha384', 'sha512']
+        choices: ['non-auth', 'md5', 'sha1', 'sha256', 'sha384', 'sha512']
         default: ['sha1']
     encryption:
         description:
@@ -166,7 +166,7 @@ def main():
             authentication=dict(
                 type="list",
                 elements="str",
-                choices=["none", "md5", "sha1", "sha256", "sha384", "sha512"],
+                choices=["non-auth", "md5", "sha1", "sha256", "sha384", "sha512"],
                 default=["sha1"],
             ),
             encryption=dict(
