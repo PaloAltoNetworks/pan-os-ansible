@@ -98,6 +98,14 @@ options:
         description:
             - Passphrase used to decrypt the certificate and/or private key.
         type: str
+    block_private_key_export:
+        description:
+            - When I(category=keypair), controls if the private key is allowed to be exported from PAN-OS in future.
+            - If this parameter is left undefined, the effective value with be no.
+        type: str
+        choices:
+            - no
+            - yes
     custom_logo_location:
         description:
             - When I(category=custom-logo), import this logo file here.
@@ -286,6 +294,7 @@ def main():
             certificate_name=dict(type="str"),
             format=dict(type="str", choices=["pem", "pkcs12"]),
             passphrase=dict(type="str", no_log=True),
+            block_private_key_export=dict(type="str", choices=["yes", "no"]),
             custom_logo_location=dict(
                 type="str",
                 choices=[
@@ -334,6 +343,7 @@ def main():
         params["certificate-name"] = module.params["certificate_name"]
         params["format"] = module.params["format"]
         params["passphrase"] = module.params["passphrase"]
+        params["block-private-key"] = module.params["block_private_key_export"]
 
     elif category == "custom-logo":
         params["where"] = module.params["custom_logo_location"]
