@@ -133,6 +133,10 @@ options:
             - Set LACP mode
         type: str
         choices: ['active', 'passive']
+    lacp_fast_failover:
+        description:
+            - Enable LACP fast failover
+        type: bool
     zone_name:
         description:
             - The zone to put this interface into.
@@ -212,6 +216,7 @@ def main():
             lacp_passive_pre_negotiation=dict(type="bool"),
             lacp_rate=dict(type="str", choices=["fast", "slow"]),
             lacp_mode=dict(type="str", choices=["active", "passive"]),
+            lacp_fast_failover=dict(type="bool"),
         ),
     )
 
