@@ -92,7 +92,7 @@ options:
             - NOTE: If I(state=present) or I(state=replaced), and you're running
               PAN-OS < 10.0.0, then this will have a default of I(["any"]).
             - If you are using PAN-OS >= 10.0.0, please do not use this
-              hip-profile parameter as it was removed from PAN-OS in 10.0.0.
+              parameter as it was removed from PAN-OS in 10.0.0.
         type: list
         elements: str
     destination_zone:
