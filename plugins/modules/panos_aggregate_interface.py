@@ -190,7 +190,7 @@ def main():
         with_set_zone_reference=True,
         with_set_virtual_router_reference=True,
         with_gathered_filter=True,
-        min_pandevice_version=(0, 13, 0),
+        min_pandevice_version=(1, 9, 0),
         sdk_cls=("network", "AggregateInterface"),
         sdk_params=dict(
             if_name=dict(required=True, sdk_param="name"),
