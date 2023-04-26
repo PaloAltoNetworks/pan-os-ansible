@@ -706,6 +706,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lacp_fast_failover"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_aggregate_interface_module__parameter-lacp_fast_failover:
+
+      .. rst-class:: ansible-option-title
+
+      **lacp_fast_failover**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lacp_fast_failover" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable LACP fast failover
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-lacp_mode"></div>
 
       .. _ansible_collections.paloaltonetworks.panos.panos_aggregate_interface_module__parameter-lacp_mode:
