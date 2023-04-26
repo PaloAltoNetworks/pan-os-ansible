@@ -41,23 +41,30 @@ ansible-galaxy collection install paloaltonetworks.panos
 Usage
 -----
 
-Either refer to modules by their full FQCN or use the `collections`
-specification in your playbooks:
+Refer to modules by their full FQCN:
 
 ```yaml
-  collections:
-    - paloaltonetworks.panos
-
   tasks:
   - name: Get the system info
-    panos_op:
+    paloaltonetworks.panos.panos_op:
       provider: '{{ provider }}'
       cmd: 'show system info'
     register: res
 
   - debug:
-      msg: '{{ res.stdout }}'
+      ansible.builtin.msg: '{{ res.stdout }}'
 ```
+(Note that [use of the `collections` key is now discouraged](https://ansible-lint.readthedocs.io/rules/fqcn/))
+
+Releasing, changelogs, versioning and deprecation
+-------------------------------------------------
+There is currently no intended release frequency for major and minor versions. The intended frequency of patch versions is never, they are released for fixing issues or to address security concerns.
+
+Changelog details are created automatically and more recently can be found [here](./CHANGELOG.md), but also the full history is [here](https://github.com/PaloAltoNetworks/pan-os-ansible/releases).
+
+[Semantic versioning](https://semver.org/) is adhered to for this project.
+
+Deprecations are done by version number, not by date or by age of release. Breaking change deprecations will only be made with major versions.
 
 Support
 -------
