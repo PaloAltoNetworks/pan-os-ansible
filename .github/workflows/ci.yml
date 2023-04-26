@@ -144,6 +144,7 @@ jobs:
           semantic_version: 17.1.1
           extra_plugins: |
             conventional-changelog-conventionalcommits@^4.4.0
+            @semantic-release/changelog@^5.0.1
             @semantic-release/git@^9.0.0
             @semantic-release/exec@^5.0.0
         env:
