@@ -45,14 +45,14 @@ Refer to modules by their full FQCN:
 
 ```yaml
   tasks:
-  - name: Get the system info
-    paloaltonetworks.panos.panos_op:
-      provider: '{{ provider }}'
-      cmd: 'show system info'
-    register: res
+    - name: Get the system info
+      paloaltonetworks.panos.panos_op:
+        provider: '{{ provider }}'
+        cmd: 'show system info'
+      register: res
 
-  - debug:
-      ansible.builtin.msg: '{{ res.stdout }}'
+    - ansible.builtin.debug:
+        msg: '{{ res.stdout }}'
 ```
 (Note that [use of the `collections` key is now discouraged](https://ansible-lint.readthedocs.io/rules/fqcn/))
 
