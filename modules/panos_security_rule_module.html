@@ -203,7 +203,7 @@
 <h1>paloaltonetworks.panos.panos_security_rule module – Manage security rule policy on PAN-OS devices or Panorama management console.<a class="headerlink" href="#paloaltonetworks-panos-panos-security-rule-module-manage-security-rule-policy-on-pan-os-devices-or-panorama-management-console" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.13.2).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.13.3).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-security-rule-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -457,6 +457,8 @@ HIP that notifies the firewall about the user’s local configuration.</p>
 <ul class="simple">
 <li><p>NOTE: If <em>state=present</em> or <em>state=replaced</em>, and you’re running
 PAN-OS &lt; 10.0.0, then this will have a default of <em>[“any”]</em>.</p></li>
+<li><p>If you are using PAN-OS &gt;= 10.0.0, please do not use this
+parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 </ul>
 </dd>
 </dl>
