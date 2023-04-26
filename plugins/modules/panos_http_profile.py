@@ -264,8 +264,9 @@ EXAMPLES = """
     name: 'my-profile'
     tag_registration: true
 
+# Create a profile with log forwarding
 - name: Create http profile for traffic log forwarding
-    paloaltonetworks.panos.panos_http_profile:
+  paloaltonetworks.panos.panos_http_profile:
     provider: '{{ provider }}'
     name: 'my-profile'
     traffic_name: 'traffic-logs-exporter'
