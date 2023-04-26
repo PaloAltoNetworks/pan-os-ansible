@@ -224,15 +224,64 @@ options:
             - PAN-OS 9.0+.
             - Payload for custom config format.
         type: str
+    globalprotect_name:
+        description:
+            - PAN-OS 9.1+.
+            - Name for custom GlobalProtect format.
+        type: str
+    globalprotect_uri_format:
+        description:
+            - PAN-OS 9.1+.
+            - URI format for custom GlobalProtect format.
+        type: str
+    globalprotect_payload:
+        description:
+            - PAN-OS 9.1+.
+            - Payload for custom GlobalProtect format.
+        type: str
+    decryption_name:
+        description:
+            - PAN-OS 10.0+.
+            - Name for custom decryption format.
+        type: str
+    decryption_uri_format:
+        description:
+            - PAN-OS 10.0+.
+            - URI format for custom decryption format.
+        type: str
+    decryption_payload:
+        description:
+            - PAN-OS 10.0+.
+            - Payload for custom decryption format.
+        type: str
 """
 
 EXAMPLES = """
 # Create a profile
-- name: Create http profile
-  panos_http_profile:
+- name: Create http profile with tag registration
+  paloaltonetworks.panos.panos_http_profile:
     provider: '{{ provider }}'
     name: 'my-profile'
     tag_registration: true
+
+- name: Create http profile for traffic log forwarding
+    paloaltonetworks.panos.panos_http_profile:
+    provider: '{{ provider }}'
+    name: 'my-profile'
+    traffic_name: 'traffic-logs-exporter'
+    traffic_uri_format: 'https://test.local'
+    traffic_payload: >
+        {
+            "category": "network",
+            "action": "$action",
+            "app": "$app",
+            "dst": "$dst",
+            "src": "$src",
+            "receive_time": "$receive_time",
+            "rule": "$rule",
+            "rule_uuid": "$rule_uuid",
+            "sessionid": "$sessionid",
+        }
 """
 
 RETURN = """
@@ -252,7 +301,7 @@ def main():
         with_network_resource_module_state=True,
         with_gathered_filter=True,
         with_classic_provider_spec=True,
-        min_pandevice_version=(0, 11, 1),
+        min_pandevice_version=(1, 10, 0),
         min_panos_version=(8, 0, 0),
         sdk_cls=("device", "HttpServerProfile"),
         sdk_params=dict(
@@ -300,6 +349,12 @@ def main():
             iptag_name=dict(),
             iptag_uri_format=dict(),
             iptag_payload=dict(),
+            globalprotect_name=dict(),
+            globalprotect_uri_format=dict(),
+            globalprotect_payload=dict(),
+            decryption_name=dict(),
+            decryption_uri_format=dict(),
+            decryption_payload=dict(),
         ),
     )
 
