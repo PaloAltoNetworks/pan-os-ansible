@@ -133,6 +133,10 @@ options:
             - Set LACP mode
         type: str
         choices: ['active', 'passive']
+    lacp_fast_failover:
+        description:
+            - Enable LACP fast failover
+        type: bool
     zone_name:
         description:
             - The zone to put this interface into.
@@ -186,7 +190,7 @@ def main():
         with_set_zone_reference=True,
         with_set_virtual_router_reference=True,
         with_gathered_filter=True,
-        min_pandevice_version=(0, 13, 0),
+        min_pandevice_version=(1, 9, 0),
         sdk_cls=("network", "AggregateInterface"),
         sdk_params=dict(
             if_name=dict(required=True, sdk_param="name"),
@@ -212,6 +216,7 @@ def main():
             lacp_passive_pre_negotiation=dict(type="bool"),
             lacp_rate=dict(type="str", choices=["fast", "slow"]),
             lacp_mode=dict(type="str", choices=["active", "passive"]),
+            lacp_fast_failover=dict(type="bool"),
         ),
     )
 
