@@ -51,20 +51,22 @@ options:
             - The log type for this parameter.
         type: str
         choices:
+            - auth
             - config
+            - data
+            - decryption
+            - globalprotect
+            - gtp
+            - hip match
+            - iptag
+            - sctp
             - system
             - threat
             - traffic
-            - hip match
-            - url
-            - data
-            - wildfire
             - tunnel
+            - url
             - user id
-            - gtp
-            - auth
-            - sctp
-            - iptag
+            - wildfire
         required: True
     param:
         description:
@@ -114,6 +116,8 @@ class Helper(ConnectionHelper):
             "auth": "HttpAuthParam",
             "sctp": "HttpSctpParam",
             "iptag": "HttpIpTagParam",
+            "decryption": "HttpDecryptionParam",
+            "globalprotect": "HttpGlobalProtectParam",
         }
 
         self.sdk_cls = ("device", cls_map[module.params["log_type"]])
@@ -127,7 +131,7 @@ def main():
         with_network_resource_module_state=True,
         with_gathered_filter=True,
         with_classic_provider_spec=True,
-        min_pandevice_version=(0, 11, 1),
+        min_pandevice_version=(1, 10, 0),
         min_panos_version=(8, 0, 0),
         parents=(("device", "HttpServerProfile", "http_profile"),),
         sdk_params=dict(
@@ -152,6 +156,8 @@ def main():
                     "auth",
                     "sctp",
                     "iptag",
+                    "decryption",
+                    "globalprotect",
                 ],
             ),
         ),
