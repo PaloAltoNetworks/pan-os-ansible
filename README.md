@@ -47,11 +47,12 @@ Refer to modules by their full FQCN:
   tasks:
     - name: Get the system info
       paloaltonetworks.panos.panos_op:
-        provider: '{{ provider }}'
+        provider: '{{ device }}'
         cmd: 'show system info'
       register: res
 
-    - ansible.builtin.debug:
+    - name: Show the system info
+      ansible.builtin.debug:
         msg: '{{ res.stdout }}'
 ```
 (Note that [use of the `collections` key is now discouraged](https://ansible-lint.readthedocs.io/rules/fqcn/))
