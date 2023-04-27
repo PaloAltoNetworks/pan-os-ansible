@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_http_profile module -- Manage http server profiles.
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.13.3).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -461,6 +461,114 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-decryption_name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_http_profile_module__parameter-decryption_name:
+
+      .. rst-class:: ansible-option-title
+
+      **decryption_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-decryption_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      PAN-OS 10.0+.
+
+      Name for custom decryption format.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-decryption_payload"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_http_profile_module__parameter-decryption_payload:
+
+      .. rst-class:: ansible-option-title
+
+      **decryption_payload**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-decryption_payload" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      PAN-OS 10.0+.
+
+      Payload for custom decryption format.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-decryption_uri_format"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_http_profile_module__parameter-decryption_uri_format:
+
+      .. rst-class:: ansible-option-title
+
+      **decryption_uri_format**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-decryption_uri_format" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      PAN-OS 10.0+.
+
+      URI format for custom decryption format.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device_group"></div>
 
       .. _ansible_collections.paloaltonetworks.panos.panos_http_profile_module__parameter-device_group:
@@ -528,6 +636,114 @@ Parameters
       An advanced filtering option to filter results returned from PAN-OS.
 
       Refer to the guide discussing \ :emphasis:`gathered\_filter`\  for more information.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-globalprotect_name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_http_profile_module__parameter-globalprotect_name:
+
+      .. rst-class:: ansible-option-title
+
+      **globalprotect_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-globalprotect_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      PAN-OS 9.1+.
+
+      Name for custom GlobalProtect format.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-globalprotect_payload"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_http_profile_module__parameter-globalprotect_payload:
+
+      .. rst-class:: ansible-option-title
+
+      **globalprotect_payload**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-globalprotect_payload" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      PAN-OS 9.1+.
+
+      Payload for custom GlobalProtect format.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-globalprotect_uri_format"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_http_profile_module__parameter-globalprotect_uri_format:
+
+      .. rst-class:: ansible-option-title
+
+      **globalprotect_uri_format**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-globalprotect_uri_format" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      PAN-OS 9.1+.
+
+      URI format for custom GlobalProtect format.
 
 
       .. raw:: html
@@ -2296,11 +2512,31 @@ Examples
 
     
     # Create a profile
-    - name: Create http profile
-      panos_http_profile:
+    - name: Create http profile with tag registration
+      paloaltonetworks.panos.panos_http_profile:
         provider: '{{ provider }}'
         name: 'my-profile'
         tag_registration: true
+
+    # Create a profile with log forwarding
+    - name: Create http profile for traffic log forwarding
+      paloaltonetworks.panos.panos_http_profile:
+        provider: '{{ provider }}'
+        name: 'my-profile'
+        traffic_name: 'traffic-logs-exporter'
+        traffic_uri_format: 'https://test.local'
+        traffic_payload: >
+            {
+                "category": "network",
+                "action": "$action",
+                "app": "$app",
+                "dst": "$dst",
+                "src": "$src",
+                "receive_time": "$receive_time",
+                "rule": "$rule",
+                "rule_uuid": "$rule_uuid",
+                "sessionid": "$sessionid",
+            }
 
 
 

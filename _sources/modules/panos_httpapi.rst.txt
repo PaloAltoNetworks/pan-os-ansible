@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos httpapi -- HttpApi plugin for PAN-OS devices
 .. Collection note
 
 .. note::
-    This httpapi plugin is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.13.3).
+    This httpapi plugin is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
 

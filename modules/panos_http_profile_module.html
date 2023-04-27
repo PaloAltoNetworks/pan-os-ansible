@@ -203,7 +203,7 @@
 <h1>paloaltonetworks.panos.panos_http_profile module – Manage http server profiles.<a class="headerlink" href="#paloaltonetworks-panos-panos-http-profile-module-manage-http-server-profiles" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.13.3).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.14.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-http-profile-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -316,6 +316,30 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-decryption_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-decryption-name"><strong>decryption_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-decryption_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>PAN-OS 10.0+.</p>
+<p>Name for custom decryption format.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-decryption_payload"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-decryption-payload"><strong>decryption_payload</strong></p>
+<a class="ansibleOptionLink" href="#parameter-decryption_payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>PAN-OS 10.0+.</p>
+<p>Payload for custom decryption format.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-decryption_uri_format"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-decryption-uri-format"><strong>decryption_uri_format</strong></p>
+<a class="ansibleOptionLink" href="#parameter-decryption_uri_format" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>PAN-OS 10.0+.</p>
+<p>URI format for custom decryption format.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-device_group"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-device-group"><strong>device_group</strong></p>
 <a class="ansibleOptionLink" href="#parameter-device_group" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -323,13 +347,37 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id1"><span class="problematic" id="id2">:ansible-option-default:`&quot;shared&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-gathered_filter"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-gathered-filter"><strong>gathered_filter</strong></p>
 <a class="ansibleOptionLink" href="#parameter-gathered_filter" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>When <em>state=gathered</em>.</p>
 <p>An advanced filtering option to filter results returned from PAN-OS.</p>
 <p>Refer to the guide discussing <em>gathered_filter</em> for more information.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-globalprotect_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-globalprotect-name"><strong>globalprotect_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-globalprotect_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>PAN-OS 9.1+.</p>
+<p>Name for custom GlobalProtect format.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-globalprotect_payload"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-globalprotect-payload"><strong>globalprotect_payload</strong></p>
+<a class="ansibleOptionLink" href="#parameter-globalprotect_payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>PAN-OS 9.1+.</p>
+<p>Payload for custom GlobalProtect format.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-globalprotect_uri_format"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-http-profile-module-parameter-globalprotect-uri-format"><strong>globalprotect_uri_format</strong></p>
+<a class="ansibleOptionLink" href="#parameter-globalprotect_uri_format" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>PAN-OS 9.1+.</p>
+<p>URI format for custom GlobalProtect format.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -719,11 +767,31 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <section id="examples">
 <h2><a class="toc-backref" href="#id33" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a profile</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create http profile</span>
-<span class="w">  </span><span class="nt">panos_http_profile</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create http profile with tag registration</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_http_profile</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;my-profile&#39;</span>
 <span class="w">    </span><span class="nt">tag_registration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="c1"># Create a profile with log forwarding</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create http profile for traffic log forwarding</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_http_profile</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;my-profile&#39;</span>
+<span class="w">    </span><span class="nt">traffic_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;traffic-logs-exporter&#39;</span>
+<span class="w">    </span><span class="nt">traffic_uri_format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;https://test.local&#39;</span>
+<span class="w">    </span><span class="nt">traffic_payload</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+<span class="w">        </span><span class="no">{</span>
+<span class="w">            </span><span class="no">&quot;category&quot;: &quot;network&quot;,</span>
+<span class="w">            </span><span class="no">&quot;action&quot;: &quot;$action&quot;,</span>
+<span class="w">            </span><span class="no">&quot;app&quot;: &quot;$app&quot;,</span>
+<span class="w">            </span><span class="no">&quot;dst&quot;: &quot;$dst&quot;,</span>
+<span class="w">            </span><span class="no">&quot;src&quot;: &quot;$src&quot;,</span>
+<span class="w">            </span><span class="no">&quot;receive_time&quot;: &quot;$receive_time&quot;,</span>
+<span class="w">            </span><span class="no">&quot;rule&quot;: &quot;$rule&quot;,</span>
+<span class="w">            </span><span class="no">&quot;rule_uuid&quot;: &quot;$rule_uuid&quot;,</span>
+<span class="w">            </span><span class="no">&quot;sessionid&quot;: &quot;$sessionid&quot;,</span>
+<span class="w">        </span><span class="no">}</span>
 </pre></div>
 </div>
 <section id="authors">

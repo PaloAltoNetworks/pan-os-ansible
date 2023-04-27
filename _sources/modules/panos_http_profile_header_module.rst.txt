@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_http_profile_header module -- Manage HTTP headers f
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.13.3).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -376,20 +376,22 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
+      - :ansible-option-choices-entry:`"auth"`
       - :ansible-option-choices-entry:`"config"`
+      - :ansible-option-choices-entry:`"data"`
+      - :ansible-option-choices-entry:`"decryption"`
+      - :ansible-option-choices-entry:`"globalprotect"`
+      - :ansible-option-choices-entry:`"gtp"`
+      - :ansible-option-choices-entry:`"hip match"`
+      - :ansible-option-choices-entry:`"iptag"`
+      - :ansible-option-choices-entry:`"sctp"`
       - :ansible-option-choices-entry:`"system"`
       - :ansible-option-choices-entry:`"threat"`
       - :ansible-option-choices-entry:`"traffic"`
-      - :ansible-option-choices-entry:`"hip match"`
-      - :ansible-option-choices-entry:`"url"`
-      - :ansible-option-choices-entry:`"data"`
-      - :ansible-option-choices-entry:`"wildfire"`
       - :ansible-option-choices-entry:`"tunnel"`
+      - :ansible-option-choices-entry:`"url"`
       - :ansible-option-choices-entry:`"user id"`
-      - :ansible-option-choices-entry:`"gtp"`
-      - :ansible-option-choices-entry:`"auth"`
-      - :ansible-option-choices-entry:`"sctp"`
-      - :ansible-option-choices-entry:`"iptag"`
+      - :ansible-option-choices-entry:`"wildfire"`
 
 
       .. raw:: html
