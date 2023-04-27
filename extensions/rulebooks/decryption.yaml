@@ -3,7 +3,7 @@
 
   ## Define how our plugin should listen for logs from the PAN-OS firewall
   sources:
-  - cdot65.panos.logs:
+  - paloaltonetworks.panos.logs:
       host: 0.0.0.0
       port: 5000
       type: decryption
