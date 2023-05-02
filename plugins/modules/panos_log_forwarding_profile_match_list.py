@@ -67,6 +67,7 @@ options:
             - tunnel
             - auth
             - sctp
+            - decryption
         default: 'traffic'
     filter:
         description:
@@ -128,7 +129,7 @@ def main():
         with_network_resource_module_state=True,
         with_gathered_filter=True,
         with_classic_provider_spec=True,
-        min_pandevice_version=(0, 11, 1),
+        min_pandevice_version=(1, 11, 0),
         min_panos_version=(8, 0, 0),
         parents=(("objects", "LogForwardingProfile", "log_forwarding_profile"),),
         sdk_cls=("objects", "LogForwardingProfileMatchList"),
@@ -147,6 +148,7 @@ def main():
                     "tunnel",
                     "auth",
                     "sctp",
+                    "decryption",
                 ],
             ),
             filter=dict(),
