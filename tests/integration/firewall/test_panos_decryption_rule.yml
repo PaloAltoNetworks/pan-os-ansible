@@ -1,0 +1,442 @@
+---
+# - import_tasks: 'reset.yml'
+
+### Forward Proxy Decryption ###
+
+- name: test_panos_decryption_rule - Create forward proxy rule
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Test'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['1.1.1.1']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-forward-proxy'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    device_group: '{{ device_group | default(omit) }}'
+    audit_comment: 'Test audit comment'
+  register: result
+
+- name: test_panos_decryption_rule - Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_decryption_rule - Create forward proxy rule (idempotence)
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Test'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['1.1.1.1']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-forward-proxy'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    device_group: '{{ device_group | default(omit) }}'
+    audit_comment: 'Testing audit_comment'
+  register: result
+
+- name: test_panos_decryption_rule - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: test_panos_decryption_rule - Modify forward proxy rule
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Test'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['1.1.1.1', '2.2.2.2']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-forward-proxy'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+  diff: true
+
+- name: test_panos_decryption_rule - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_decryption_rule - Delete forward proxy rule
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Test'
+    state: 'absent'
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_decryption_rule - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_decryption_rule - Test forward proxy rule ordering (1)
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Three'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['3.3.3.3']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-forward-proxy'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_decryption_rule - Test forward proxy rule ordering (2)
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Two'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['2.2.2.2']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-forward-proxy'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    location: 'top'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_decryption_rule  - Test forward proxy rule ordering (3)
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'One'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['1.1.1.1']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-forward-proxy'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    location: 'before'
+    existing_rule: 'Two'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_decryption_rule - Test forward proxy rule ordering (4)
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Four'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['4.4.4.4']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-forward-proxy'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    location: 'bottom'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_decryption_rule  - Test forward proxy rule ordering (5)
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Five'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['5.5.5.5']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-forward-proxy'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    location: 'after'
+    existing_rule: 'Four'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_decryption_rule - Retrieve rulebase
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: "{{ device }}"
+    gathered_filter: "*"
+    state: gathered
+  register: security_rules
+
+- name: test_panos_decryption_rule - Gather rule names
+  ansible.builtin.set_fact:
+    names: "{{ item.name }}"
+  with_items: "{{ security_rules.gathered }}"
+  register: security_names
+
+- name: test_panos_decryption_rule - Put rule names in a string
+  ansible.builtin.set_fact:
+    security_names_string: "{% for i in security_names.results %}{{ i.ansible_facts.names }}{% if not loop.last %},{% endif %}{%endfor%}"
+
+- name: test_panos_decryption_rule - Assert rule ordering matches expected
+  assert:
+    that:
+      - security_rules is success
+      - security_names_string == "One,Two,Three,Four,Five"
+
+- name: test_panos_decryption_rule - Make sure changes commit cleanly
+  paloaltonetworks.panos.panos_commit_firewall:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_decryption_rule - Assert commit was successful
+  assert:
+    that:
+      - result is success
+
+### Inbound Inspection Decryption ###
+
+- import_tasks: 'reset.yml'
+
+- name: test_panos_decryption_rule - Create inbound inspection rule
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Test'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['1.1.1.1']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-inbound-inspection'
+    ssl_certificate: 'local-ca'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    device_group: '{{ device_group | default(omit) }}'
+    audit_comment: 'Test audit comment'
+  register: result
+
+- name: test_panos_decryption_rule - Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_decryption_rule - Create inbound inspection rule (idempotence)
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Test'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['1.1.1.1']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-inbound-inspection'
+    ssl_certificate: 'local-ca'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    device_group: '{{ device_group | default(omit) }}'
+    audit_comment: 'Testing audit_comment'
+  register: result
+
+- name: test_panos_decryption_rule - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: test_panos_decryption_rule - Modify inbound inspection rule
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Test'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['1.1.1.1', '2.2.2.2']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-inbound-inspection'
+    ssl_certificate: 'local-ca'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+  diff: true
+
+- name: test_panos_decryption_rule - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_decryption_rule - Delete inbound inspection rule
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Test'
+    state: 'absent'
+    device_group: '{{ device_group | default(omit) }}'
+  register: result
+
+- name: test_panos_decryption_rule - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_decryption_rule - Test inbound inspection rule ordering (1)
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Three'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['3.3.3.3']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-inbound-inspection'
+    ssl_certificate: 'local-ca'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_decryption_rule - Test inbound inspection rule ordering (2)
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Two'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['2.2.2.2']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-inbound-inspection'
+    ssl_certificate: 'local-ca'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    location: 'top'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_decryption_rule  - Test inbound inspection rule ordering (3)
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'One'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['1.1.1.1']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-inbound-inspection'
+    ssl_certificate: 'local-ca'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    location: 'before'
+    existing_rule: 'Two'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_decryption_rule - Test inbound inspection rule ordering (4)
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Four'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['4.4.4.4']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-inbound-inspection'
+    ssl_certificate: 'local-ca'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    location: 'bottom'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_decryption_rule  - Test inbound inspection rule ordering (5)
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: '{{ device }}'
+    name: 'Five'
+    description: 'Test description'
+    source_zones: ['inside']
+    source_addresses: ['any']
+    destination_zones: ['outside']
+    destination_addresses: ['5.5.5.5']
+    services: ['service-https']
+    action: 'decrypt'
+    decryption_type: 'ssl-inbound-inspection'
+    ssl_certificate: 'local-ca'
+    decryption_profile: 'default'
+    log_successful_tls_handshakes: true
+    log_failed_tls_handshakes: true
+    location: 'after'
+    existing_rule: 'Four'
+    device_group: '{{ device_group | default(omit) }}'
+
+- name: test_panos_decryption_rule - Retrieve rulebase
+  paloaltonetworks.panos.panos_decryption_rule:
+    provider: "{{ device }}"
+    gathered_filter: "*"
+    state: gathered
+  register: security_rules
+
+- name: test_panos_decryption_rule - Gather rule names
+  ansible.builtin.set_fact:
+    names: "{{ item.name }}"
+  with_items: "{{ security_rules.gathered }}"
+  register: security_names
+
+- name: test_panos_decryption_rule - Put rule names in a string
+  ansible.builtin.set_fact:
+    security_names_string: "{% for i in security_names.results %}{{ i.ansible_facts.names }}{% if not loop.last %},{% endif %}{%endfor%}"
+
+- name: test_panos_decryption_rule - Assert rule ordering matches expected
+  assert:
+    that:
+      - security_rules is success
+      - security_names_string == "One,Two,Three,Four,Five"
+
+- name: test_panos_decryption_rule - Make sure changes commit cleanly
+  paloaltonetworks.panos.panos_commit_firewall:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_decryption_rule - Assert commit was successful
+  assert:
+    that:
+      - result is success

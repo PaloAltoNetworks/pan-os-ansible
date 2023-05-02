@@ -6,7 +6,7 @@ panorama-10     ip_address=192.168.55.5
 
 [all:vars]
 ansible_user=admin
-ansible_password=P4loalto!
+ansible_password=something
 
 ansible_network_os=mrichardson03.panos.panos
 ansible_connection=httpapi

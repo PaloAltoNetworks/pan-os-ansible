@@ -7,6 +7,7 @@ Test playbooks assume that firewalls have the following initial configuration:
 - `ethernet1/1` in `outside` zone
 - `ethernet1/2` in `inside` zone
 - DHCP management configuration
+- a CA certificate with key named `local-ca` marked as `forward trust`
 
 Add firewalls to `firewall` group in inventory, Panorama instances to
 `panoramas` group (see `inventory.example`):
