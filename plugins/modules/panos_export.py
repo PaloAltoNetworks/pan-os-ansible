@@ -92,6 +92,11 @@ options:
         description:
             - Passphrase used to encrypt the certificate and/or private key.
         type: str
+    create_directory:
+        description:
+            - Whether to create directory when exporting.
+        type: bool
+        default: False
     filename:
         description:
             - Local path to output file (if any).
@@ -213,16 +218,19 @@ except ImportError:
 
 import json
 import os
+import pathlib
 import time
 import xml.etree.ElementTree as ET
 
 
-def export_text(module, xapi, category, filename):
+def export_text(module, xapi, category, filename, create_directory):
     xapi.export(category=category)
 
     f = None
 
     try:
+        if create_directory:
+            pathlib.Path(filename).parent.mkdir(parents=True, exist_ok=True)
         with open(filename, "w") as f:
             if category == "configuration":
                 f.write(xapi.xml_root())
@@ -235,12 +243,14 @@ def export_text(module, xapi, category, filename):
         module.fail_json(msg=msg)
 
 
-def export_binary(module, xapi, category, filename):
+def export_binary(module, xapi, category, filename, create_directory):
     f = None
 
     xapi.export(category=category)
 
     try:
+        if create_directory:
+            pathlib.Path(filename).parent.mkdir(parents=True, exist_ok=True)
         with open(filename, "wb") as f:
             content = xapi.export_result["content"]
 
@@ -252,7 +262,7 @@ def export_binary(module, xapi, category, filename):
         module.fail_json(msg=msg)
 
 
-def save_binary(module, xapi, category, filename):
+def save_binary(module, xapi, category, filename, create_directory):
 
     # This function is almost the same as export_binary, but omits the line...
     #   xapi.export(category=category)
@@ -261,6 +271,8 @@ def save_binary(module, xapi, category, filename):
     f = None
 
     try:
+        if create_directory:
+            pathlib.Path(filename).parent.mkdir(parents=True, exist_ok=True)
         with open(filename, "wb") as f:
             content = xapi.export_result["content"]
 
@@ -347,6 +359,7 @@ def main():
             certificate_format=dict(type="str", choices=["pem", "pkcs10", "pkcs12"]),
             certificate_include_keys=dict(type="bool", default=False),
             certificate_passphrase=dict(type="str", no_log=True),
+            create_directory=dict(type="bool", default=False),
             application_pcap_name=dict(type="str"),
             dlp_pcap_name=dict(type="str"),
             dlp_password=dict(type="str", no_log=True),
@@ -376,6 +389,7 @@ def main():
     category = module.params["category"]
     filename = module.params["filename"]
     timeout = module.params["timeout"]
+    create_directory = module.params["create_directory"]
 
     parent = helper.get_pandevice_parent(module)
     xapi = parent.xapi
@@ -384,7 +398,7 @@ def main():
         if filename is None:
             module.fail_json(msg="filename is required for export")
 
-        export_text(module, xapi, category, filename)
+        export_text(module, xapi, category, filename, create_directory)
 
     elif category in FILE_EXPORTS:
         if filename is None:
@@ -399,7 +413,7 @@ def main():
         if filename is None:
             module.fail_json(msg="filename is required for export")
 
-        export_binary(module, xapi, category, filename)
+        export_binary(module, xapi, category, filename, create_directory)
 
     elif category == "certificate":
         if filename is None:
@@ -425,7 +439,7 @@ def main():
             params["passphrase"] = cert_passphrase
 
         xapi.export(category="certificate", extra_qs=params)
-        save_binary(module, xapi, category, filename)
+        save_binary(module, xapi, category, filename, create_directory)
 
     elif category == "application-pcap":
 
