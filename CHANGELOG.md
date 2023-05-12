@@ -1,3 +1,11 @@
+## [2.16.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.15.0...v2.16.0) (2023-05-12)
+
+
+### Features
+
+* **event_driven_ansible:** New plugin for event-driven ansible ([c4b627d](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/c4b627dac496f7233ca6016aa85f60c8378ada41))
+* **panos_log_forwarding_profile_match_list:** Add decryption log-type to log forwarding ([#429](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/429)) ([a1dab0a](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/a1dab0a2b14f3ba1fa566161ce1a3f28819683cb))
+
 ## [2.15.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.14.0...v2.15.0) (2023-04-27)
 
 
