@@ -278,3 +278,83 @@ configuration from a configuration file
       - name: commit (blocks until finished)
         panos_commit:
           provider: '{{ provider }}'
+
+Event-Driven Ansible (EDA)
+===========================================
+
+Event-Driven Ansible is a responsive automation solution that can
+process events containing discrete, actionable intelligence.
+The `plugins/event_source/logs.py` plugin is capable of receiving
+JSON structured messages from a PAN-OS firewall, restructure the
+payload as a Python dictionary, determine the appropriate response
+to the event and then execute automated actions to address or remediate.
+
+There are four components needed to implement EDA:
+
+- rulebook: A YAML file that defines the conditions and actions to be
+  taken when a condition is met.
+- playbook: A YAML file that defines the Ansible tasks to be executed
+  when a condition is met.
+- inventory: A YAML file that defines the PAN-OS firewall(s) to be
+  executed against.
+- HTTP server profile: A PAN-OS firewall configuration that defines
+  how the PAN-OS firewall(s) should send events to the EDA server.
+
+rulebook.yml
+------------
+
+.. code-block:: yaml
+
+    ---
+    - name: "Receive logs sourced from HTTP Server Profile in PAN-OS"
+      hosts: "localhost"
+
+      ## Define how our plugin should listen for logs from the PAN-OS firewall
+      sources:
+        - paloaltonetworks.panos.logs:
+            host: 0.0.0.0
+            port: 5000
+            type: decryption
+
+      ## Define the conditions we are looking for
+      rules:
+        - name: "Troubleshoot Decryption Failure"
+          condition: event.meta.log_type == "decryption"
+
+          ## Define the action we should take should the condition be met
+          run_playbook:
+            name: playbook.yml
+
+HTTP Server Profile
+-------------------
+
+The following example shows what a Decryption HTTP server profile
+would look like in PAN-OS. The HTTP server profile is configured to
+send logs to the EDA server.
+
+.. code-block:: json
+
+    {
+        "category": "network",
+        "details": {
+            "action": "$action",
+            "app": "$app",
+            "cn": "$cn",
+            "dst": "$dst",
+            "device_name": "$device_name",
+            "error": "$error",
+            "issuer_cn": "$issuer_cn",
+            "root_cn": "$root_cn",
+            "root_status": "$root_status",
+            "sni": "$sni",
+            "src": "$src",
+            "srcuser": "$srcuser"
+        },
+        "receive_time": "$receive_time",
+        "rule": "$rule",
+        "rule_uuid": "$rule_uuid",
+        "serial": "$serial",
+        "sessionid": "$sessionid",
+        "severity": "informational",
+        "type": "decryption"
+    }

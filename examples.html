@@ -62,6 +62,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#import-configuration">Import configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dhcp-on-data-port">DHCP on data port</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#load-configuration">Load configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#event-driven-ansible-eda">Event-Driven Ansible (EDA)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rulebook-yml">rulebook.yml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#http-server-profile">HTTP Server Profile</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Module reference</a></li>
@@ -346,6 +351,82 @@ configuration from a configuration file</p>
 <span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
 </pre></div>
 </div>
+</section>
+<section id="event-driven-ansible-eda">
+<h2>Event-Driven Ansible (EDA)<a class="headerlink" href="#event-driven-ansible-eda" title="Permalink to this heading"></a></h2>
+<p>Event-Driven Ansible is a responsive automation solution that can
+process events containing discrete, actionable intelligence.
+The <cite>plugins/event_source/logs.py</cite> plugin is capable of receiving
+JSON structured messages from a PAN-OS firewall, restructure the
+payload as a Python dictionary, determine the appropriate response
+to the event and then execute automated actions to address or remediate.</p>
+<p>There are four components needed to implement EDA:</p>
+<ul class="simple">
+<li><p>rulebook: A YAML file that defines the conditions and actions to be
+taken when a condition is met.</p></li>
+<li><p>playbook: A YAML file that defines the Ansible tasks to be executed
+when a condition is met.</p></li>
+<li><p>inventory: A YAML file that defines the PAN-OS firewall(s) to be
+executed against.</p></li>
+<li><p>HTTP server profile: A PAN-OS firewall configuration that defines
+how the PAN-OS firewall(s) should send events to the EDA server.</p></li>
+</ul>
+<section id="rulebook-yml">
+<h3>rulebook.yml<a class="headerlink" href="#rulebook-yml" title="Permalink to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Receive</span><span class="nv"> </span><span class="s">logs</span><span class="nv"> </span><span class="s">sourced</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">HTTP</span><span class="nv"> </span><span class="s">Server</span><span class="nv"> </span><span class="s">Profile</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">PAN-OS&quot;</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;localhost&quot;</span>
+
+<span class="w">  </span><span class="c1">## Define how our plugin should listen for logs from the PAN-OS firewall</span>
+<span class="w">  </span><span class="nt">sources</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">paloaltonetworks.panos.logs</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0.0.0</span>
+<span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">decryption</span>
+
+<span class="w">  </span><span class="c1">## Define the conditions we are looking for</span>
+<span class="w">  </span><span class="nt">rules</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Troubleshoot</span><span class="nv"> </span><span class="s">Decryption</span><span class="nv"> </span><span class="s">Failure&quot;</span>
+<span class="w">      </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">event.meta.log_type == &quot;decryption&quot;</span>
+
+<span class="w">      </span><span class="c1">## Define the action we should take should the condition be met</span>
+<span class="w">      </span><span class="nt">run_playbook</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">playbook.yml</span>
+</pre></div>
+</div>
+</section>
+<section id="http-server-profile">
+<h3>HTTP Server Profile<a class="headerlink" href="#http-server-profile" title="Permalink to this heading"></a></h3>
+<p>The following example shows what a Decryption HTTP server profile
+would look like in PAN-OS. The HTTP server profile is configured to
+send logs to the EDA server.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;network&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$action&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;app&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$app&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$cn&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dst&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$dst&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;device_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$device_name&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$error&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;issuer_cn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$issuer_cn&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;root_cn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$root_cn&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;root_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$root_status&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;sni&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$sni&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;src&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$src&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;srcuser&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$srcuser&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;receive_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$receive_time&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;rule&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$rule&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;rule_uuid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$rule_uuid&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;serial&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$serial&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sessionid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$sessionid&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;informational&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;decryption&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 

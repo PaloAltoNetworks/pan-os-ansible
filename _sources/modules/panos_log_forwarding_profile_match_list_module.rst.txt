@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_log_forwarding_profile_match_list module -- Manage 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.14.0).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.15.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -486,6 +486,7 @@ Parameters
       - :ansible-option-choices-entry:`"tunnel"`
       - :ansible-option-choices-entry:`"auth"`
       - :ansible-option-choices-entry:`"sctp"`
+      - :ansible-option-choices-entry:`"decryption"`
 
 
       .. raw:: html
