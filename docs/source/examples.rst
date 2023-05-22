@@ -284,46 +284,22 @@ Event-Driven Ansible (EDA)
 
 Event-Driven Ansible is a responsive automation solution that can
 process events containing discrete, actionable intelligence.
-The `plugins/event_source/logs.py` plugin is capable of receiving
-JSON structured messages from a PAN-OS firewall, restructure the
+The `extensions/plugins/event_source/logs.py` plugin is capable of
+receiving JSON structured messages from a PAN-OS firewall, restructure the
 payload as a Python dictionary, determine the appropriate response
 to the event and then execute automated actions to address or remediate.
 
-There are four components needed to implement EDA:
+There are four components needed to implement EDA with PAN-OS:
 
-- rulebook: A YAML file that defines the conditions and actions to be
-  taken when a condition is met.
-- playbook: A YAML file that defines the Ansible tasks to be executed
-  when a condition is met.
-- inventory: A YAML file that defines the PAN-OS firewall(s) to be
-  executed against.
 - HTTP server profile: A PAN-OS firewall configuration that defines
   how the PAN-OS firewall(s) should send events to the EDA server.
+- rulebook: A YAML file that defines the conditions and actions to be
+  taken when a condition is met.
+- inventory: A YAML file that defines the PAN-OS firewall(s) to be
+  executed against when a condition is met.
+- playbook: A YAML file that defines the Ansible tasks to be executed
+  when a condition is met.
 
-rulebook.yml
-------------
-
-.. code-block:: yaml
-
-    ---
-    - name: "Receive logs sourced from HTTP Server Profile in PAN-OS"
-      hosts: "localhost"
-
-      ## Define how our plugin should listen for logs from the PAN-OS firewall
-      sources:
-        - paloaltonetworks.panos.logs:
-            host: 0.0.0.0
-            port: 5000
-            type: decryption
-
-      ## Define the conditions we are looking for
-      rules:
-        - name: "Troubleshoot Decryption Failure"
-          condition: event.meta.log_type == "decryption"
-
-          ## Define the action we should take should the condition be met
-          run_playbook:
-            name: playbook.yml
 
 HTTP Server Profile
 -------------------
@@ -358,3 +334,112 @@ send logs to the EDA server.
         "severity": "informational",
         "type": "decryption"
     }
+
+
+Rulebook - rulebook.yml
+-----------------------
+
+.. code-block:: yaml
+
+    ---
+    - name: "Receive logs sourced from HTTP Server Profile in PAN-OS"
+      hosts: "localhost"
+
+      ## Define how our plugin should listen for logs from the PAN-OS firewall
+      sources:
+        - cdot65.panos.logs:
+            host: 0.0.0.0
+            port: 5000
+            type: decryption
+
+      ## Define the conditions we are looking for. There are many types of logs
+      ## in PAN-OS; we are looking just for decryption logs
+      rules:
+        - name: "Troubleshoot Decryption Failure"
+          condition: event.meta.log_type == "decryption"
+
+          ## Define the action we should take should the condition be met,
+          ## when we find a decryption log, which is to execute the 
+          ## remediation playbook
+          action:
+            run_playbook:
+              name: "playbooks/decryption_remediation.yml"
+
+
+
+Inventory
+---------
+
+.. code-block:: yaml
+
+    all:
+      hosts:
+        localhost:
+          ansible_connection: local
+
+
+
+Playbook - decryption_remediation.yml
+-------------------------------------
+
+.. code-block:: yaml
+
+    ---
+    - name: Decryption Remediation Playbook
+      hosts: 'all'
+      gather_facts: false
+      connection: local
+
+      vars:
+        device:
+          ip_address: "192.168.1.10"
+          username: "admin"
+          password: "redacted"
+
+        bypass_category_name: 'decyption-bypass'
+
+
+      ## When EDA calls this playbook for execution, it takes the SNI (Server Name Indication)
+      ## from the decryption logs where a site failed to be decrypted properly, and adds the
+      ## SNI to the list of domains in a URL category. This URL category is used as match
+      ## criteria, therefore domains in this URL category will no longer be decrypted by the
+      ## decryption policy rule.
+
+      tasks:
+        ## Gather up the list of domains currently in the URL category
+        - name: Get current decryption bypass domains
+          paloaltonetworks.panos.panos_custom_url_category:
+            provider: "{{ device }}"
+            state: "gathered"
+            gathered_filter: "name == '{{ bypass_category_name }}'"
+          register: bypass_category
+
+        ## If the URL category already has some domains, add this SNI to the list ('url_value')
+        - name: Update decryption bypass category with new domain, if category is currently not empty
+          paloaltonetworks.panos.panos_custom_url_category:
+            provider: '{{ device }}'
+            name: '{{ bypass_category_name }}'
+            url_value: '{{ bypass_category.gathered[0].url_value + [ansible_eda.event.payload.details.sni] }}'
+          when:
+            - bypass_category.gathered[0].url_value != None
+            - ansible_eda.event.payload.details.sni not in bypass_category.gathered[0].url_value
+
+        ## If the URL category is empty, create the list ('url_value') with this SNI
+        - name: Create decryption bypass category with new domain, if category is currently empty
+          paloaltonetworks.panos.panos_custom_url_category:
+            provider: '{{ device }}'
+            name: '{{ bypass_category_name }}'
+            url_value: '{{ [ansible_eda.event.payload.details.sni] }}'
+          when:
+            - bypass_category.gathered[0].url_value == None
+
+        ## Having added the site's SNI to the URL category, make this change live by performing a 'commit'
+        - name: Commit configuration
+          paloaltonetworks.panos.panos_commit_firewall:
+            provider: "{{ device }}"
+          register: results
+
+        ## Output results of the commit
+        - name: Output commit results
+          ansible.builtin.debug:
+            msg: "Commit with Job ID: {{ results.jobid }} had output: {{ results }}"
