@@ -89,6 +89,13 @@ EXAMPLES = """
     version: '8.1.6'
     restart: true
 
+- name: Download PAN-OS 9.0.0 base image only
+  panos_software:
+    provider: '{{ provider }}'
+    version: '9.0.0'
+    install: false
+    restart: false
+
 - name: Download PAN-OS 9.0.1 and sync to HA peer
   panos_software:
     provider: '{{ provider }}'
@@ -140,20 +147,20 @@ def is_valid_sequence(current, target):
     if (current.major == target.major) and (current.minor == target.minor):
         return True
 
-    # Downgrade minor version (9.1.0 -> 9.0.0)
-    elif (current.major == target.major) and (current.minor - 1 == target.minor):
-        return True
-
-    # Downgrade major version (10.0.0 -> 9.1.0)
-    elif (current.major - 1 == target.major) and (current.minor == 0):
-        return True
-
     # Upgrade minor version (9.0.0 -> 9.1.0)
     elif (current.major == target.major) and (current.minor + 1 == target.minor):
         return True
 
     # Upgrade major version (9.1.0 -> 10.0.0)
     elif (current.major + 1 == target.major) and (target.minor == 0):
+        return True
+
+    # Downgrade minor version (9.1.0 -> 9.0.0)
+    elif (current.major == target.major) and (current.minor - 1 == target.minor):
+        return True
+
+    # Downgrade major version (10.0.3 -> 9.1.6)
+    elif current.major - 1 == target.major:
         return True
 
     else:
