@@ -1,3 +1,4 @@
+plugins/modules/panos_active_in_ha.py validate-modules:missing-gplv3-license
 plugins/modules/panos_address_group.py validate-modules:missing-gplv3-license
 plugins/modules/panos_address_object.py validate-modules:missing-gplv3-license
 plugins/modules/panos_admin.py validate-modules:missing-gplv3-license
@@ -90,6 +91,7 @@ plugins/modules/panos_pg.py validate-modules:missing-gplv3-license
 plugins/modules/panos_query_rules.py validate-modules:deprecation-mismatch
 plugins/modules/panos_query_rules.py validate-modules:invalid-documentation
 plugins/modules/panos_query_rules.py validate-modules:missing-gplv3-license
+plugins/modules/panos_readiness_checks.py validate-modules:missing-gplv3-license
 plugins/modules/panos_redistribution.py validate-modules:missing-gplv3-license
 plugins/modules/panos_region.py validate-modules:missing-gplv3-license
 plugins/modules/panos_registered_ip.py validate-modules:missing-gplv3-license
@@ -110,6 +112,8 @@ plugins/modules/panos_snmp_profile.py validate-modules:missing-gplv3-license
 plugins/modules/panos_snmp_v2c_server.py validate-modules:missing-gplv3-license
 plugins/modules/panos_snmp_v3_server.py validate-modules:missing-gplv3-license
 plugins/modules/panos_software.py validate-modules:missing-gplv3-license
+plugins/modules/panos_snapshot_report.py validate-modules:missing-gplv3-license
+plugins/modules/panos_state_snapshot.py validate-modules:missing-gplv3-license
 plugins/modules/panos_static_route.py validate-modules:missing-gplv3-license
 plugins/modules/panos_syslog_profile.py validate-modules:missing-gplv3-license
 plugins/modules/panos_syslog_server.py validate-modules:missing-gplv3-license
