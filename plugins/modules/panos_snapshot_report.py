@@ -25,10 +25,14 @@ module: panos_snapshot_report
 short_description: Generates a report by comparing two snapshot made with the M(panos_state_snapshot) module.
 description:
     - A wrapper around the PAN-OS Upgrade Assurance package.
-    - This is an 'offline' module, meaning it operates only on available facts. It does not need to connect to a device. It's a wrapper around the L(SnapshotCompare class, https://pan.dev/panos/docs/panos-upgrade-assurance/api/snapshot_compare/#class-snapshotcompare).
-    - The module takes two snapshots made with M(panos_state_snapshot) module, compares them and produces a report in a form of a B(dict). Keys in this report match the state areas, values contain comparison details.
-    - You can limit the report to the state area's you're only interested in. You can also adjust the comparison by excluding some or limiting to particular properties.
-    - Please refer to package's documentation for L(syntax,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks) and L(configuration dialect,https://pan.dev/panos/docs/panos-upgrade-assurance/dialect/).
+    - This is an 'offline' module, meaning it operates only on available facts. It does not need to connect to a device.
+      It's a wrapper around the L(SnapshotCompare class, https://pan.dev/panos/docs/panos-upgrade-assurance/api/snapshot_compare/#class-snapshotcompare).
+    - The module takes two snapshots made with M(panos_state_snapshot) module, compares them and produces a report in a form of a B(dict).
+      Keys in this report match the state areas, values contain comparison details.
+    - You can limit the report to the state area's you're only interested in. You can also adjust the comparison by excluding some or
+      limiting to particular properties.
+    - Please refer to package's documentation for L(syntax,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks)
+      and L(configuration dialect,https://pan.dev/panos/docs/panos-upgrade-assurance/dialect/).
 author: "Łukasz Pawlęga (@fosix)"
 version_added: '2.16.0'
 requirements:
@@ -38,42 +42,34 @@ requirements:
 notes:
     - Only Firewalls are supported.
     - Check mode is not supported.
-extends_documentation_fragment:
-    - paloaltonetworks.panos.fragments.provider
-    - paloaltonetworks.panos.fragments.vsys
 options:
     left_snapshot:
-        description: One of the snapshots to compare. It can be any snapshot taken in any time, but normally, in an upgrade scenario, you would think about it as the pre-upgrade snapshot.
+        description: One of the snapshots to compare. It can be any snapshot taken in any time, but normally, in an upgrade scenario,
+                     you would think about it as the pre-upgrade snapshot.
         type: dict
         required: true
     right_snapshot:
-        description: One of the snapshots to compare. It can be any snapshot taken in any time, but normally, in an upgrade scenario, you would think about it as the post-upgrade snapshot.
+        description: One of the snapshots to compare. It can be any snapshot taken in any time, but normally, in an upgrade scenario,
+                     you would think about it as the post-upgrade snapshot.
         type: dict
         required: true
     reports:
         description:
-            - A list of Firewall state areas available in both snapshots: I(left_snapshot) and I(right_snapshot).
-            - To use the default comparison method, this is a list of strings. If you would like to modify the default behavior additional configuration can be specified per state area.
-            - For a list of currently available state areas as well as possible ways of modifying the reports please refer to L(package documentation,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#reports).
+            - 'A list of Firewall state areas available in both snapshots: I(left_snapshot) and I(right_snapshot).'
+            - To use the default comparison method, this is a list of strings.
+              If you would like to modify the default behavior additional configuration can be specified per state area.
+            - For a list of currently available state areas as well as possible ways of modifying the reports please refer to
+              L(package documentation,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#reports).
             - To capture the actual report use a register.
         type: list
         default: ["all"]
-        choices: 
-            - all
-            - nics
-            - routes
-            - license
-            - arp_table
-            - content_version
-            - session_stats
-            - ip_sec_tunnels
         suboptions:
             properties:
                 description:
                     - 'Applicable only to: arp_table, ip_sec_tunnels, license, routes.'
                     - Provides a list of properties to include or skip when comparing two snapshots.
                     - For example, when comparing route tables you might want to skip B(flags) property to avoid false positives.
-                type: list(str)
+                type: list
                 default: ["all"]
             count_change_threshold:
                 description:
@@ -85,7 +81,7 @@ options:
                 description:
                     - 'Applicable only to: session_stats.'
                     - A list of single element dictionaries that specify the session type (key) and the maximum change percentage (value).
-                type: list(dict)
+                type: list
                 default: []
                 required: true
 """
@@ -109,7 +105,9 @@ RETURN = """
 response:
     description:
         - This is a B(dict) where keys are state areas names just as you specify them in the I(reports) property.
-        - Values contain a report generated for particular state area. The structure is the same for each report except for 'session_stats'. For details refer to L(package documentation, For a list of currently available state areas please refer to L(package documentation,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#reports).
+        - Values contain a report generated for particular state area. The structure is the same for each report except for 'session_stats'.
+          For details refer to L(package documentation, For a list of currently available state areas please refer to
+          L(package documentation,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#reports).
     type: dict
     returned: always
     sample:
@@ -182,7 +180,10 @@ response:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from panos_upgrade_assurance.snapshot_compare import SnapshotCompare
+try:
+    from panos_upgrade_assurance.snapshot_compare import SnapshotCompare
+except ImportError:
+    pass
 
 
 def main():
