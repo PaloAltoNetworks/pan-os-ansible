@@ -25,7 +25,11 @@ module: panos_readiness_checks
 short_description: Runs readiness checks (boolean in nature) against a Firewall device.
 description:
     - A wrapper around the PAN-OS Upgrade Assurance package.
-    - The module is meant to run readiness checks available in the package's L(CheckFirewall.run_readiness_checks() method,https://pan.dev/panos/docs/panos-upgrade-assurance/api/check_firewall/#checkfirewallrun_readiness_checks). Since it's just a wrapper, the way you would configure a check is exactly the same as if you would run the class directly. Please refer to package's documentation for L(syntax,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks) and L(configuration dialect,https://pan.dev/panos/docs/panos-upgrade-assurance/dialect/).
+    - The module is meant to run readiness checks available in the package's L(CheckFirewall.run_readiness_checks()
+      method,https://pan.dev/panos/docs/panos-upgrade-assurance/api/check_firewall/#checkfirewallrun_readiness_checks).
+      Since it's just a wrapper, the way you would configure a check is exactly the same as if you would run the class directly.
+      Please refer to package's documentation for L(syntax,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks)
+      and L(configuration dialect,https://pan.dev/panos/docs/panos-upgrade-assurance/dialect/).
 author: "Łukasz Pawlęga (@fosix)"
 version_added: '2.16.0'
 requirements:
@@ -36,40 +40,21 @@ notes:
     - Only Firewalls are supported.
     - Check mode is not supported.
 extends_documentation_fragment:
-    - paloaltonetworks.panos.fragments.provider
+    - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
 options:
     checks:
         description:
-            - A list of checks that should be run against a device. For the details on currently supported checks please refer to L(package's documentation,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks).
-            - In most of the cases it is enough to specify a check name to run it with default settings. In this case the list element is of type B(str). If additional configuration is required the element is a one element B(dict), where key is the check name and value contains the check's configuration. For information which check requires additional configuration please refer to L(package documentation,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks).
+            - A list of checks that should be run against a device. For the details on currently supported checks please refer to
+              L(package's documentation,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks).
+            - In most of the cases it is enough to specify a check name to run it with default settings.
+              In this case the list element is of type B(str). If additional configuration is required the element is a one element B(dict),
+              where key is the check name and value contains the check's configuration. For information which check requires additional configuration
+              please refer to L(package documentation,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks).
         type: list
         default: ["all"]
-        choices: 
-            - all
-            - active_support
-            - candidate_config
-            - expired_licenses
-            - ntp_sync
-            - panorama
-            - arp_entry_exist: 
-                ip: '10.0.1.1'
-            - content_version: 
-                version: '8634-7678'
-            - free_disk_space:
-                image_version: '10.1.6-h6'
-            - ha:
-                skip_config_sync: True
-            - ip_sec_tunnel_status: 
-                tunnel_name: 'ipsec_tun'
-            - planes_clock_sync:
-                diff_threshold: 10 # seconds
-            - session_exist: 
-                source: '134.238.135.137'
-                destination: '10.1.0.4'
-                dest_port: '80'
     force_fail:
-        description: When set to B(true) will make the module fail when at least one of the checks did not pass. 
+        description: When set to B(true) will make the module fail when at least one of the checks did not pass.
         type: bool
         default: false
 """
@@ -139,7 +124,7 @@ response:
             type: bool
             returned: always
         reason:
-            description: 
+            description:
                 - A free text describing the check result.
                 - 'Prefixed with a keyword: SUCCESS, FAIL, ERROR, SKIPPED.'
                 - Meaningful only for failed tests as the ones succeeded are self explanatory.
@@ -151,12 +136,15 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
 )
-from panos_upgrade_assurance.check_firewall import CheckFirewall
-from panos_upgrade_assurance.firewall_proxy import FirewallProxy
-from panos.panorama import Panorama
+try:
+    from panos_upgrade_assurance.check_firewall import CheckFirewall
+    from panos_upgrade_assurance.firewall_proxy import FirewallProxy
+    from panos.panorama import Panorama
+except ImportError:
+    pass
 
 
-def get_firewall_proxy_object(module_params: dict) -> FirewallProxy:
+def get_firewall_proxy_object(module_params: dict):
     provider = module_params["provider"]
     if provider["serial_number"]:
         panorama = Panorama(
