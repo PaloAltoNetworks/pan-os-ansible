@@ -25,7 +25,11 @@ module: panos_state_snapshot
 short_description: Takes a snapshot of a state of a Firewall device.
 description:
     - A wrapper around the PAN-OS Upgrade Assurance package.
-    - The module takes a snapshot of a state of specified areas. It runs the package's L(CheckFirewall.run_snapshots() method, https://pan.dev/panos/docs/panos-upgrade-assurance/api/check_firewall/#checkfirewallrun_snapshots). Since it's just a wrapper, the way you would configure snapshot area is exactly the same as if you would run the class directly. Please refer to package's documentation for L(syntax,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks) and L(configuration dialect,https://pan.dev/panos/docs/panos-upgrade-assurance/dialect/).
+    - The module takes a snapshot of a state of specified areas. It runs the package's
+      L(CheckFirewall.run_snapshots() method, https://pan.dev/panos/docs/panos-upgrade-assurance/api/check_firewall/#checkfirewallrun_snapshots).
+      Since it's just a wrapper, the way you would configure snapshot area is exactly the same as if you would run the class directly.
+      Please refer to package's documentation for L(syntax,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks)
+      and L(configuration dialect,https://pan.dev/panos/docs/panos-upgrade-assurance/dialect/).
 author: "Łukasz Pawlęga (@fosix)"
 version_added: '2.16.0'
 requirements:
@@ -36,24 +40,16 @@ notes:
     - Only Firewalls are supported.
     - Check mode is not supported.
 extends_documentation_fragment:
-    - paloaltonetworks.panos.fragments.provider
+    - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
 options:
     state_areas:
         description:
-            - A list of Firewall state areas that we should take a snapshot of. For the details on currently supported list please refer to L(package documentation, https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#state-snapshots).
+            - A list of Firewall state areas that we should take a snapshot of. For the details on currently supported list please refer to
+              L(package documentation, https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#state-snapshots).
             - To capture the actual snapshot data use a register.
-        type: list(str)
+        type: list
         default: ["all"]
-        choices: 
-            - all
-            - nics
-            - routes
-            - license
-            - arp_table
-            - content_version
-            - session_stats
-            - ip_sec_tunnels
 """
 
 EXAMPLES = """
@@ -69,7 +65,8 @@ RETURN = """
 response:
     description:
         - This is a B(dict) where keys are state areas names just as you specify them in the I(state_areas) property.
-        - Values contain the snapshot data. Type and structure differs per state area. Please refer to L(package documentation, https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#state-snapshots) for details.
+        - Values contain the snapshot data. Type and structure differs per state area. Please refer to
+          L(package documentation, https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#state-snapshots) for details.
     type: dict
     returned: always
     sample:
@@ -117,12 +114,15 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
 )
-from panos_upgrade_assurance.firewall_proxy import FirewallProxy
-from panos_upgrade_assurance.check_firewall import CheckFirewall
-from panos.panorama import Panorama
+try:
+    from panos_upgrade_assurance.firewall_proxy import FirewallProxy
+    from panos_upgrade_assurance.check_firewall import CheckFirewall
+    from panos.panorama import Panorama
+except ImportError:
+    pass
 
 
-def get_firewall_proxy_object(module_params: dict) -> FirewallProxy:
+def get_firewall_proxy_object(module_params: dict):
     provider = module_params["provider"]
     if provider["serial_number"]:
         panorama = Panorama(
