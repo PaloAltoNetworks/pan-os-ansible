@@ -38,17 +38,19 @@ notes:
     - Only Firewalls are supported.
     - Check mode is not supported.
 extends_documentation_fragment:
-    - paloaltonetworks.panos.fragments.provider
+    - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
 options:
     force_fail:
         description:
-            - When set to B(true) will make the module fail also when node is passive. This option is useful when we want to skip using M(ansible.builtin.assert).
+            - When set to B(true) will make the module fail also when node is passive.
+              This option is useful when we want to skip using M(ansible.builtin.assert).
         type: bool
         default: false
     skip_config_sync:
         description:
-            - When set to B(true) will skip configuration synchronization state between nodes before trying to retrieve node's current state in an HA pair. Can be useful when working with partially upgraded nodes. Use with caution.
+            - When set to B(true) will skip configuration synchronization state between nodes before trying to retrieve
+              node's current state in an HA pair. Can be useful when working with partially upgraded nodes. Use with caution.
         type: bool
         default: false
 # """
@@ -66,7 +68,7 @@ EXAMPLES = """
 RETURN = """
 # Default return values
 response:
-    description: 
+    description:
         - Information on test results.
         - This dict is available also when module is failed.
     returned: always
@@ -80,7 +82,7 @@ response:
             returned: always
             type: bool
         reason:
-            description: Meaningful if the device is not active. 
+            description: Meaningful if the device is not active.
             returned: always
             type: str
 """
@@ -89,13 +91,17 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
 )
-from panos_upgrade_assurance.check_firewall import CheckFirewall
-from panos_upgrade_assurance.firewall_proxy import FirewallProxy
-from panos_upgrade_assurance.utils import CheckStatus
-from panos.panorama import Panorama
+
+try:
+    from panos.panorama import Panorama
+    from panos_upgrade_assurance.check_firewall import CheckFirewall
+    from panos_upgrade_assurance.firewall_proxy import FirewallProxy
+    from panos_upgrade_assurance.utils import CheckStatus
+except ImportError:
+    pass
 
 
-def get_firewall_proxy_object(module_params: dict) -> FirewallProxy:
+def get_firewall_proxy_object(module_params: dict):
     provider = module_params["provider"]
     if provider["serial_number"]:
         panorama = Panorama(
