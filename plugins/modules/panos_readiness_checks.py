@@ -52,6 +52,7 @@ options:
               where key is the check name and value contains the check's configuration. For information which check requires additional configuration
               please refer to L(package documentation,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks).
         type: list
+        elements: raw
         default: ["all"]
     force_fail:
         description: When set to B(true) will make the module fail when at least one of the checks did not pass.
@@ -136,6 +137,7 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
 )
+
 try:
     from panos_upgrade_assurance.check_firewall import CheckFirewall
     from panos_upgrade_assurance.firewall_proxy import FirewallProxy
@@ -173,7 +175,7 @@ def main():
         vsys=True,
         with_classic_provider_spec=True,
         argument_spec=dict(
-            checks=dict(type="list", default=["all"]),
+            checks=dict(type="list", default=["all"], elements="raw"),
             force_fail=dict(type="bool", default=False),
         ),
     )

@@ -49,6 +49,7 @@ options:
               L(package documentation, https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#state-snapshots).
             - To capture the actual snapshot data use a register.
         type: list
+        elements: str
         default: ["all"]
 """
 
@@ -114,6 +115,7 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
 )
+
 try:
     from panos_upgrade_assurance.firewall_proxy import FirewallProxy
     from panos_upgrade_assurance.check_firewall import CheckFirewall
@@ -150,7 +152,9 @@ def main():
     helper = get_connection(
         vsys=True,
         with_classic_provider_spec=True,
-        argument_spec=dict(state_areas=dict(type="list", default=["all"])),
+        argument_spec=dict(
+            state_areas=dict(type="list", default=["all"], elements="str")
+        ),
     )
 
     module = AnsibleModule(

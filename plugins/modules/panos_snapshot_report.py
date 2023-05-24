@@ -62,6 +62,7 @@ options:
               L(package documentation,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#reports).
             - To capture the actual report use a register.
         type: list
+        elements: raw
         default: ["all"]
         suboptions:
             properties:
@@ -180,6 +181,7 @@ response:
 """
 
 from ansible.module_utils.basic import AnsibleModule
+
 try:
     from panos_upgrade_assurance.snapshot_compare import SnapshotCompare
 except ImportError:
@@ -192,7 +194,7 @@ def main():
         argument_spec=dict(
             left_snapshot=dict(type="dict", required=True),
             right_snapshot=dict(type="dict", required=True),
-            reports=dict(type="list", default=["all"]),
+            reports=dict(type="list", default=["all"], elements="raw"),
         ),
         supports_check_mode=False,
     )
