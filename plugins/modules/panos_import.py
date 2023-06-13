@@ -344,7 +344,7 @@ def main():
         dst = "block-private-key"
         if module.params[src] is None:
             params[dst] = None
-        elif module.params[src] is True:
+        elif module.params[src]:
             params[dst] = "yes"
         else:
             params[dst] = "no"
