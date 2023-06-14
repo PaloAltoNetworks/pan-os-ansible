@@ -1,3 +1,12 @@
+## [2.17.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.16.0...v2.17.0) (2023-06-14)
+
+
+### Features
+
+* **panos_export:** Create directory if it doesn't exist ([#434](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/434)) ([9422af0](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/9422af0b17d1d534c73391cc95640ad6dea3d824))
+* **panos_import:** Add private key blocking to keypair import ([#417](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/417)) ([3fd5bac](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/3fd5bacdd0324ab636a0456f19993d588f900dcb))
+* **panos_software:** name config load option ([#398](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/398)) ([378d5a6](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/378d5a679463918dd2e635f20ba0b086f50feb97))
+
 ## [2.16.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.15.0...v2.16.0) (2023-05-12)
 
 
