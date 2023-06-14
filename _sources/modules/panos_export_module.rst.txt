@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_export module -- export file from PAN-OS devices
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.15.0).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -400,6 +400,48 @@ Parameters
         <div class="ansible-option-cell">
 
       Passphrase used to encrypt the certificate and/or private key.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-create_directory"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_export_module__parameter-create_directory:
+
+      .. rst-class:: ansible-option-title
+
+      **create_directory**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-create_directory" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Whether to create directory when exporting.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html

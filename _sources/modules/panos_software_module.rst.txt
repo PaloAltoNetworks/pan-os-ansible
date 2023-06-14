@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_software module -- Manage PAN-OS software versions.
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.15.0).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -275,6 +275,40 @@ Parameters
 
 
       The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-named_config"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_software_module__parameter-named_config:
+
+      .. rst-class:: ansible-option-title
+
+      **named_config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-named_config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A name of a existing named config to be loaded after restart. If a non-existing file name is given the module will fail.
 
 
       .. raw:: html
@@ -920,6 +954,14 @@ Examples
         sync_to_peer: true
         install: false
         restart: false
+
+    - name: Downgrade to 9.1.10 with named config load
+      panos_software:
+        provider: '{{ device }}'
+        version: 9.1.10
+        named_config: '9.1.10_backup_named_config.xml'
+        install: true
+        restart: true
 
 
 
