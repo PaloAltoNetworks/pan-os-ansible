@@ -77,6 +77,23 @@ jobs:
         timeout-minutes: 8
         run: poetry run make ${{ matrix.sanity }}
 
+  # Tox is used to execute linters required for Event-Driven Ansible (EDA) code:
+  #   github.com/ansible/eda-partner-testing/blob/main/README.md
+  # Tox should only execute over <root>/extensions/eda/plugins.
+  # Tox utilises the tox.ini file found in the local directory.
+  # This action is taken from Ansible Partner Engineering's example:
+  #   github.com/ansible/eda-partner-testing/blob/main/.github/workflows/tox.yml
+  tox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install deps
+        run: python -m pip install tox
+      - name: Move to tox conf file and run tox
+        run: | 
+          cd .github/workflows
+          python -m tox -- ../..
+
   format:
     name: Code Format Check
     runs-on: ubuntu-latest
@@ -105,7 +122,7 @@ jobs:
   release:
     name: release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [sanity]
+    needs: [sanity, tox]
     runs-on: ubuntu-latest
 
     steps:

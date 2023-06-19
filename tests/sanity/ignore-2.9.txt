@@ -137,3 +137,5 @@ plugins/modules/panos_zone_facts.py validate-modules:invalid-documentation
 plugins/modules/panos_zone_facts.py validate-modules:missing-gplv3-license
 plugins/module_utils/panos.py pylint:consider-using-f-string
 plugins/httpapi/panos.py pylint:consider-using-f-string
+extensions/eda/plugins/event_source/logs.py future-import-boilerplate
+extensions/eda/plugins/event_source/logs.py metaclass-boilerplate
