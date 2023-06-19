@@ -1,3 +1,23 @@
+"""An ansible-rulebook event source module.
+
+An ansible-rulebook event source module for receiving events via a webhook from
+PAN-OS firewall or Panorama appliance.
+
+Arguments:
+---------
+    host: The webserver hostname to listen to. Set to 0.0.0.0 to listen on all
+          interfaces. Defaults to 127.0.0.1
+    port: The TCP port to listen to.  Defaults to 5000
+
+Example:
+-------
+    - paloaltonetworks.panos.logs:
+        host: 0.0.0.0
+        port: 5000
+        type: decryption
+
+"""
+
 #  Copyright 2023 Palo Alto Networks, Inc
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,36 +32,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from __future__ import absolute_import, division, print_function
-
-__metaclass__ = type
-
 import asyncio
 import logging
-from typing import Any, Dict
+from json import JSONDecodeError
+from typing import Any
 
 from aiohttp import web
 from dpath import util
-
-
-DOCUMENTATION = """
-logs.py
-
-An ansible-rulebook event source module for receiving events via a webhook from
-PAN-OS firewall or Panorama appliance.
-
-Arguments:
-    host: The webserver hostname to listen to. Set to 0.0.0.0 to listen on all
-          interfaces. Defaults to 127.0.0.1
-    port: The TCP port to listen to.  Defaults to 5000
-
-Example:
-
-    - paloaltonetworks.panos.logs:
-        host: 0.0.0.0
-        port: 5000
-        type: decryption
-"""
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -50,23 +47,36 @@ routes = web.RouteTableDef()
 
 
 @routes.get("/")
-async def status(request: web.Request):
-    """Return a simple status response."""
+async def status() -> web.Response:
+    """Return a simple status response.
+
+    Returns
+    -------
+    A web.Response object with status 200 and the text "up" returned by the function.
+    """
     return web.Response(status=200, text="up")
 
 
 @routes.post("/{endpoint}")
-async def webhook(request: web.Request):
-    """
-    Handle webhook requests.
+async def webhook(request: web.Request) -> web.Response:
+    """Handle webhook requests.
 
     Process the incoming JSON payload and forward it to the event queue
     if it matches the configured log type.
+
+    Parameters
+    ----------
+    request
+        The incoming webhook request.
+
+    Returns
+    -------
+    A web.Response object with status 200 and the status.
     """
     try:
         payload = await request.json()
-    except Exception as e:
-        logger.error(f"Failed to parse JSON payload: {e}")
+    except JSONDecodeError:
+        logger.exception("Failed to parse JSON payload")
         return web.Response(status=400, text="Invalid JSON payload")
 
     if request.app["type"] == "decryption":
@@ -78,18 +88,31 @@ async def webhook(request: web.Request):
         await request.app["queue"].put(data)
 
     return web.Response(
-        status=202, text=str({"status": "received", "payload": "happy"})
+        status=202,
+        text=str({"status": "received", "payload": "happy"}),
     )
 
 
-def process_payload(request, payload, log_type):
-    """
-    Process the payload and extract the necessary information.
+def process_payload(
+    request: web.Request,
+    payload: dict[str, Any],
+    log_type: str,
+) -> dict[str, Any]:
+    """Process the payload and extract the necessary information.
 
-    :param request: The incoming webhook request.
-    :param payload: The JSON payload from the request.
-    :param log_type: The log type to filter events.
-    :return: A dictionary containing the processed payload and metadata.
+    Parameters
+    ----------
+    request
+        The incoming webhook request.
+    payload
+        The JSON payload from the request.
+    log_type : str
+        The log type to filter events.
+
+    Returns
+    -------
+    A dictionary containing the processed payload and metadata.
+
     """
     try:
         device_name = util.get(payload, "details.device_name", separator=".")
@@ -114,16 +137,21 @@ def process_payload(request, payload, log_type):
     return data
 
 
-async def main(queue: asyncio.Queue, args: Dict[str, Any], logger=None):
-    """
-    Main function to run the plugin as a standalone application.
+async def main(queue: asyncio.Queue, args: dict[str, Any], custom_logger: None) -> None:
+    """Run the plugin as a standalone application.
 
-    :param queue: The event queue to forward incoming events to.
-    :param args: A dictionary containing configuration arguments.
-    :param logger: An optional custom logger.
+    Parameters
+    ----------
+    queue
+        The event queue to forward incoming events to.
+    args
+        A dictionary containing configuration arguments.
+    custom_logger
+        An optional custom logger.
+
     """
-    if logger is None:
-        logger = logging.getLogger(__name__)
+    if custom_logger is None:
+        custom_logger = logging.getLogger(__name__)
 
     app = web.Application()
     app["queue"] = queue
@@ -143,7 +171,7 @@ async def main(queue: asyncio.Queue, args: Dict[str, Any], logger=None):
     try:
         await asyncio.Future()
     except asyncio.CancelledError:
-        logger.info("Plugin Task Cancelled")
+        custom_logger.info("Plugin Task Cancelled")
     finally:
         await runner.cleanup()
 
@@ -151,7 +179,22 @@ async def main(queue: asyncio.Queue, args: Dict[str, Any], logger=None):
 if __name__ == "__main__":
 
     class MockQueue:
-        async def put(self, event):
-            print(event)
+        """A mock queue for handling events asynchronously."""
 
-    asyncio.run(main(MockQueue(), {}))
+        async def put(self: "MockQueue", event: str) -> None:
+            """Put an event into the queue.
+
+            Parameters
+            ----------
+            event: str
+                The event to be added to the queue.
+
+            """
+            the_logger.info(event)
+
+        async def get(self: "MockQueue") -> None:
+            """Get an event from the queue."""
+            the_logger.info("Getting event from the queue.")
+
+    the_logger = logging.getLogger()
+    asyncio.run(main(MockQueue(), {}, the_logger))
