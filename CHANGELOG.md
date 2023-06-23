@@ -1,3 +1,11 @@
+### [2.17.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.0...v2.17.1) (2023-06-23)
+
+
+### Bug Fixes
+
+* Tox-compliant EDA code, and Tox checks in CI ([#453](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/453)) ([9a50c9b](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/9a50c9bb5e841ddfe0eeca7ea9021eb289e0e5db))
+* **eda:** Move EDA plugin to correct path ([#444](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/444)) ([dc524e9](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/dc524e93b87f0163cc3019636617198a59ebf51f))
+
 ## [2.17.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.16.0...v2.17.0) (2023-06-14)
 
 
