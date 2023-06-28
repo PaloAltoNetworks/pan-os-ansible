@@ -1,3 +1,10 @@
+### [2.17.2](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.1...v2.17.2) (2023-06-28)
+
+
+### Bug Fixes
+
+* **panos_ike_crypto_profile:** Fixed auth type `non-auth` for IKE profile ([#418](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/418)) ([0a2abe8](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/0a2abe80055982ddf2035d24f9adde36ce226a55))
+
 ### [2.17.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.0...v2.17.1) (2023-06-23)
 
 
