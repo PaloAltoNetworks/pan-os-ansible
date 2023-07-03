@@ -143,7 +143,11 @@ def process_payload(
     return data
 
 
-async def main(queue: asyncio.Queue, args: dict[str, Any], custom_logger: None) -> None:
+async def main(
+    queue: asyncio.Queue,
+    args: dict[str, Any],
+    custom_logger: None = None,
+) -> None:
     """Run the plugin as a standalone application.
 
     Parameters
