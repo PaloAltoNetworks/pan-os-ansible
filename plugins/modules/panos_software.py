@@ -211,7 +211,7 @@ def main():
             device.software.check()
 
         if target != current:
-            if not is_valid_sequence(current, target):
+            if not is_valid_sequence(current, target) and install:
                 module.fail_json(
                     msg="Version Sequence is invalid: {0} -> {1}".format(
                         current, target
