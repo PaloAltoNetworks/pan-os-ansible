@@ -37,6 +37,9 @@ requirements:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.full_template_support
+notes:
+    - I(category=certificate) is used for importing a certificate on its own from a file.
+    - I(category=keypair) is used for importing a certificate and private key from a single file.
 options:
     category:
         description:
