@@ -33,6 +33,11 @@ requirements:
 notes:
     - Panorama is supported.
     - Check mode is supported.
+    - When installing PAN-OS software, checking is performed by this module to
+      ensure the upgrade/downgrade path is valid. When using this module to only
+      download and not install PAN-OS software, the valid upgrade/downgrade path
+      checking is bypassed (in order to allow pre-downloading of PAN-OS software
+      images ahead of the installation time for multiple stage upgrades/downgrades).
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
 options:
