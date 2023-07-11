@@ -166,7 +166,7 @@ def set_panwfw_password(module, ip_address, key_filename, newpassword, username)
     buff = wait_with_timeout(module, shell, "#", 120)
     stdout += buff
 
-    if "Configuration committed successfully" not in buff:
+    if "successfully" not in buff:
         module.fail_json(msg="Error setting " + username + " password: " + stdout)
 
     # exit
