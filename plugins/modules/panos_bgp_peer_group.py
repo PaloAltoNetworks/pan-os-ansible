@@ -57,6 +57,7 @@ options:
             - Export locally resolved nexthop.
         type: str
         choices:
+            - original
             - resolve
             - use-self
         default: 'resolve'
@@ -138,7 +139,9 @@ def main():
             type=dict(
                 default="ebgp", choices=["ebgp", "ibgp", "ebgp-confed", "ibgp-confed"]
             ),
-            export_nexthop=dict(default="resolve", choices=["resolve", "use-self"]),
+            export_nexthop=dict(
+                default="resolve", choices=["original", "resolve", "use-self"]
+            ),
             import_nexthop=dict(default="original", choices=["original", "use-peer"]),
             remove_private_as=dict(type="bool"),
         ),
