@@ -203,7 +203,7 @@
 <h1>paloaltonetworks.panos.panos_bgp_peer_group module – Manage a BGP Peer Group<a class="headerlink" href="#paloaltonetworks-panos-panos-bgp-peer-group-module-manage-a-bgp-peer-group" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.2).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-bgp-peer-group-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -212,21 +212,21 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <p class="ansible-version-added">New in paloaltonetworks.panos 1.0.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id59">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id60">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id61">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id62">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id63">Examples</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id61">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id62">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id63">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id64">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id65">Examples</a></p></li>
 </ul>
 </nav>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id59" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id61" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Use BGP to publish and consume routes from disparate networks.</p></li>
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-paloaltonetworks-panos-panos-bgp-peer-group-module-requirements"></span><h2><a class="toc-backref" href="#id60" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-paloaltonetworks-panos-panos-bgp-peer-group-module-requirements"></span><h2><a class="toc-backref" href="#id62" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>pan-python can be obtained from PyPI <a class="reference external" href="https://pypi.python.org/pypi/pan-python">https://pypi.python.org/pypi/pan-python</a></p></li>
@@ -234,7 +234,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id61" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id63" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -296,8 +296,9 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <td><div class="ansible-option-cell"><p>Export locally resolved nexthop.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry-default:`&quot;resolve&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`&quot;use-self&quot;`</span></a></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`&quot;original&quot;`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry-default:`&quot;resolve&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`&quot;use-self&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -317,8 +318,8 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <td><div class="ansible-option-cell"><p><em>type=ebgp</em> only; override nexthop with peer address.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry-default:`&quot;original&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`&quot;use-peer&quot;`</span></a></p></li>
+<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry-default:`&quot;original&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`&quot;use-peer&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -354,7 +355,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id21"><span class="problematic" id="id22">:ansible-option-default:`443`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id23"><span class="problematic" id="id24">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -391,7 +392,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id23"><span class="problematic" id="id24">:ansible-option-default:`443`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id25"><span class="problematic" id="id26">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -406,7 +407,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id25"><span class="problematic" id="id26">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -416,8 +417,8 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <td><div class="ansible-option-cell"><p><em>type=ebgp</em> only; remove private AS when exporting route.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -428,8 +429,8 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <td><div class="ansible-option-cell"><p>Enable soft reset with stored info.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -440,12 +441,12 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <td><div class="ansible-option-cell"><p>The state.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry-default:`&quot;present&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`&quot;absent&quot;`</span></a></p></li>
-<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`&quot;replaced&quot;`</span></a></p></li>
-<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`&quot;merged&quot;`</span></a></p></li>
-<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
-<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`&quot;gathered&quot;`</span></a></p></li>
+<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry-default:`&quot;present&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`&quot;absent&quot;`</span></a></p></li>
+<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`&quot;replaced&quot;`</span></a></p></li>
+<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`&quot;merged&quot;`</span></a></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`&quot;gathered&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -470,10 +471,10 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <td><div class="ansible-option-cell"><p>Peer group type.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry-default:`&quot;ebgp&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`&quot;ibgp&quot;`</span></a></p></li>
-<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`&quot;ebgp-confed&quot;`</span></a></p></li>
-<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`&quot;ibgp-confed&quot;`</span></a></p></li>
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry-default:`&quot;ebgp&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`&quot;ibgp&quot;`</span></a></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`&quot;ebgp-confed&quot;`</span></a></p></li>
+<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`&quot;ibgp-confed&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -484,7 +485,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id55"><span class="problematic" id="id56">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id57"><span class="problematic" id="id58">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -492,14 +493,14 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <a class="ansibleOptionLink" href="#parameter-vr_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name of the virtual router, it must already exist.  See <a class="reference internal" href="panos_virtual_router_module.html#ansible-collections-paloaltonetworks-panos-panos-virtual-router-module"><span class="std std-ref">paloaltonetworks.panos.panos_virtual_router</span></a>.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id57"><span class="problematic" id="id58">:ansible-option-default:`&quot;default&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id59"><span class="problematic" id="id60">:ansible-option-default:`&quot;default&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id62" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id64" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -511,7 +512,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id63" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id65" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create BGP Peer Group</span>
 <span class="w">  </span><span class="nt">panos_bgp_peer_group</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>

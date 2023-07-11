@@ -204,7 +204,7 @@
 <h1>paloaltonetworks.panos.panos_software module – Manage PAN-OS software versions.<a class="headerlink" href="#paloaltonetworks-panos-panos-software-module-manage-pan-os-software-versions" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.2).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-software-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -435,6 +435,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <ul class="simple">
 <li><p>Panorama is supported.</p></li>
 <li><p>Check mode is supported.</p></li>
+<li><p>When installing PAN-OS software, checking is performed by this module to ensure the upgrade/downgrade path is valid. When using this module to only download and not install PAN-OS software, the valid upgrade/downgrade path checking is bypassed (in order to allow pre-downloading of PAN-OS software images ahead of the installation time for multiple stage upgrades/downgrades).</p></li>
 <li><p>PAN-OS connectivity should be specified using <em>provider</em> or the classic PAN-OS connectivity params (<em>ip_address</em>, <em>username</em>, <em>password</em>, <em>api_key</em>, and <em>port</em>).  If both are present, then the classic params are ignored.</p></li>
 </ul>
 </div>

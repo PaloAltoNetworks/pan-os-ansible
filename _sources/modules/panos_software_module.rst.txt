@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_software module -- Manage PAN-OS software versions.
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.1).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.2).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -921,6 +921,7 @@ Notes
 .. note::
    - Panorama is supported.
    - Check mode is supported.
+   - When installing PAN-OS software, checking is performed by this module to ensure the upgrade/downgrade path is valid. When using this module to only download and not install PAN-OS software, the valid upgrade/downgrade path checking is bypassed (in order to allow pre-downloading of PAN-OS software images ahead of the installation time for multiple stage upgrades/downgrades).
    - PAN-OS connectivity should be specified using \ :emphasis:`provider`\  or the classic PAN-OS connectivity params (\ :emphasis:`ip\_address`\ , \ :emphasis:`username`\ , \ :emphasis:`password`\ , \ :emphasis:`api\_key`\ , and \ :emphasis:`port`\ ).  If both are present, then the classic params are ignored.
 
 .. Seealso

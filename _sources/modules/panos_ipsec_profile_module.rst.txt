@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_ipsec_profile module -- Manage IPSec Crypto profile
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.1).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.2).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -295,8 +295,11 @@ Parameters
       - :ansible-option-choices-entry-default:`"group2"` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`"group5"`
       - :ansible-option-choices-entry:`"group14"`
+      - :ansible-option-choices-entry:`"group15"`
+      - :ansible-option-choices-entry:`"group16"`
       - :ansible-option-choices-entry:`"group19"`
       - :ansible-option-choices-entry:`"group20"`
+      - :ansible-option-choices-entry:`"group21"`
 
 
       .. raw:: html

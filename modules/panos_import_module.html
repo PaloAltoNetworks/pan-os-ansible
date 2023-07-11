@@ -203,7 +203,7 @@
 <h1>paloaltonetworks.panos.panos_import module – import file on PAN-OS devices<a class="headerlink" href="#paloaltonetworks-panos-panos-import-module-import-file-on-pan-os-devices" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.2).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-import-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -489,6 +489,8 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
+<li><p><em>category=certificate</em> is used for importing a certificate on its own from a file.</p></li>
+<li><p><em>category=keypair</em> is used for importing a certificate and private key from a single file.</p></li>
 <li><p>PAN-OS connectivity should be specified using <em>provider</em> or the classic PAN-OS connectivity params (<em>ip_address</em>, <em>username</em>, <em>password</em>, <em>api_key</em>, and <em>port</em>).  If both are present, then the classic params are ignored.</p></li>
 <li><p>If the PAN-OS to be configured is Panorama, either <em>template</em> or <em>template_stack</em> must be specified.</p></li>
 </ul>
