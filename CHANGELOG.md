@@ -1,3 +1,15 @@
+### [2.17.3](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.2...v2.17.3) (2023-07-11)
+
+
+### Bug Fixes
+
+* **eda:** Make `custom_logger` argument optional ([#456](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/456)) ([49ed307](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/49ed3079e646072401075b68da07bd0799818e42))
+* **panos_admpwd:** Fix success criteria and update example in docs ([#457](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/457)) ([9ecdb65](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/9ecdb65bb88db4528cbae7221f4ea930a62e49c9))
+* **panos_bgp_peer_group:** Fix for IBGP export next-hop options ([#459](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/459)) ([9489fa2](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/9489fa25b6f3f898aa6c080d6f1676c1747e073f))
+* **panos_ike_crypto_profile:** Update DH group choices ([#461](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/461)) ([8194318](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/8194318c496f192e9eb63526cc7a13df4f1ca493))
+* **panos_ipsec_profile:** Update DH group choices ([#462](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/462)) ([1798a3b](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/1798a3b0ab7b4cf415d44df0c13d96cec5111252))
+* **panos_software:** Modify valid sequence for downloads only ([#463](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/463)) ([214c4bb](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/214c4bb9f2c7a9421694f808ba8f0f83e635dca5))
+
 ### [2.17.2](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.1...v2.17.2) (2023-06-28)
 
 
