@@ -50,7 +50,7 @@ options:
             - Specify the priority for Diffie-Hellman (DH) groups.
         type: list
         elements: str
-        choices: ['group1', 'group2', 'group5', 'group14', 'group19', 'group20']
+        choices: ['group1', 'group2', 'group5', 'group14', 'group15', 'group16', 'group19', 'group20', 'group21']
         default: ['group2']
         aliases:
             - dhgroup
@@ -160,7 +160,17 @@ def main():
                 type="list",
                 elements="str",
                 default=["group2"],
-                choices=["group1", "group2", "group5", "group14", "group19", "group20"],
+                choices=[
+                    "group1",
+                    "group2",
+                    "group5",
+                    "group14",
+                    "group15",
+                    "group16",
+                    "group19",
+                    "group20",
+                    "group21",
+                ],
                 aliases=["dhgroup"],
             ),
             authentication=dict(
