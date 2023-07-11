@@ -69,7 +69,7 @@ options:
         description:
             - Diffie-Hellman (DH) groups.
         type: str
-        choices: ['no-pfs', 'group1', 'group2', 'group5', 'group14', 'group19', 'group20']
+        choices: ['no-pfs', 'group1', 'group2', 'group5', 'group14', 'group15', 'group16', 'group19', 'group20', 'group21']
         default: group2
         aliases:
             - dhgroup
@@ -201,8 +201,11 @@ def main():
                     "group2",
                     "group5",
                     "group14",
+                    "group15",
+                    "group16",
                     "group19",
                     "group20",
+                    "group21",
                 ],
                 default="group2",
                 aliases=["dhgroup"],
