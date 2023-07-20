@@ -253,6 +253,24 @@ options:
         description:
             - The group tag.
         type: str
+    source_devices:
+        description:
+            - If you are using GlobalProtect with host information profile (HIP)
+              enabled, you can also base the policy on information collected by
+              GlobalProtect. For example, the user access level can be determined
+              HIP that notifies the firewall about the user's local configuration.
+        default: ["any"]
+        type: list
+        elements: str
+    destination_devices:
+        description:
+            - If you are using GlobalProtect with host information profile (HIP)
+              enabled, you can also base the policy on information collected by
+              GlobalProtect. For example, the user access level can be determined
+              HIP that notifies the firewall about the user's local configuration.
+        default: ["any"]
+        type: list
+        elements: str
 """
 
 EXAMPLES = """
@@ -407,6 +425,8 @@ def main():
             ),
             source_user=dict(type="list", elements="str", default=["any"]),
             hip_profiles=dict(type="list", elements="str"),
+            source_devices=dict(type="list", elements="str"),
+            destination_devices=dict(type="list", elements="str"),
             destination_zone=dict(
                 type="list", elements="str", default=["any"], sdk_param="tozone"
             ),
