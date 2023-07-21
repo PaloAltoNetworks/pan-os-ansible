@@ -58,6 +58,12 @@ options:
         description: When set to B(true) will make the module fail when at least one of the checks did not pass.
         type: bool
         default: false
+    skip_force_locale:
+        description:
+            - When set to B(true) will skip the B(en_US.UTF-8) locales on the checks.
+            - Use with caution only when you actually use different, English based locales but you do not have B(en_US.UTF-8) installed.
+        type: bool
+        default: false
 """
 
 EXAMPLES = """
@@ -177,6 +183,7 @@ def main():
         argument_spec=dict(
             checks=dict(type="list", default=["all"], elements="raw"),
             force_fail=dict(type="bool", default=False),
+            skip_force_locale=dict(type="bool", default=False),
         ),
     )
 
@@ -189,7 +196,9 @@ def main():
 
     firewall = get_firewall_proxy_object(module.params)
 
-    checks = CheckFirewall(firewall)
+    checks = CheckFirewall(
+        node=firewall, skip_force_locale=module.params["skip_force_locale"]
+    )
     results = checks.run_readiness_checks(checks_configuration=module.params["checks"])
 
     if module.params["force_fail"]:
