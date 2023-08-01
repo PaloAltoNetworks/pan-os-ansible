@@ -158,7 +158,7 @@ jobs:
 
       - name: Create release and publish
         id: release
-        uses: cycjimmy/semantic-release-action@v2
+        uses: cycjimmy/semantic-release-action@v3
         with:
           semantic_version: 17.1.1
           extra_plugins: |
