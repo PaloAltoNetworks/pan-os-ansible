@@ -284,46 +284,27 @@ Event-Driven Ansible (EDA)
 
 Event-Driven Ansible is a responsive automation solution that can
 process events containing discrete, actionable intelligence.
-The `plugins/event_source/logs.py` plugin is capable of receiving
-JSON structured messages from a PAN-OS firewall, restructure the
-payload as a Python dictionary, determine the appropriate response
-to the event and then execute automated actions to address or remediate.
+The `extensions/plugins/event_source/logs.py` plugin is capable of
+receiving JSON structured messages from a PAN-OS firewall, restructures
+the payload as a Python dictionary, determines the appropriate response
+to the event, and then executes automated actions to address or remediate
+based on the situation.
 
-There are four components needed to implement EDA:
+There are four components needed to implement this example EDA use case
+with PAN-OS:
 
-- rulebook: A YAML file that defines the conditions and actions to be
-  taken when a condition is met.
-- playbook: A YAML file that defines the Ansible tasks to be executed
-  when a condition is met.
-- inventory: A YAML file that defines the PAN-OS firewall(s) to be
-  executed against.
 - HTTP server profile: A PAN-OS firewall configuration that defines
   how the PAN-OS firewall(s) should send events to the EDA server.
+- EDA rulebook: A YAML file which describes events of interest, and how to
+  EDA respond to them based on conditions.
+- Inventory: A YAML file that defines the PAN-OS firewall(s) to be
+  executed against when a condition is met.
+- Ansible playbook: A YAML file that defines the Ansible tasks to be executed
+  when a condition is met.
 
-rulebook.yml
-------------
-
-.. code-block:: yaml
-
-    ---
-    - name: "Receive logs sourced from HTTP Server Profile in PAN-OS"
-      hosts: "localhost"
-
-      ## Define how our plugin should listen for logs from the PAN-OS firewall
-      sources:
-        - paloaltonetworks.panos.logs:
-            host: 0.0.0.0
-            port: 5000
-            type: decryption
-
-      ## Define the conditions we are looking for
-      rules:
-        - name: "Troubleshoot Decryption Failure"
-          condition: event.meta.log_type == "decryption"
-
-          ## Define the action we should take should the condition be met
-          run_playbook:
-            name: playbook.yml
+The four components are described here in the context of a use case of
+detecting decryption issues based on the Decryption Logs, and responding
+by placing the relevant URLs into a category used for decryption bypass.
 
 HTTP Server Profile
 -------------------
@@ -358,3 +339,243 @@ send logs to the EDA server.
         "severity": "informational",
         "type": "decryption"
     }
+
+This HTTP Server Profile could be configured in its entirety using the
+following tasks in an Ansible playbook:
+
+.. code-block:: yaml
+
+    - name: Create a HTTP Server Profile for Decyption Logs
+      paloaltonetworks.panos.panos_http_profile:
+        provider: '{{ device }}'
+        name: '{{ server_profile_name_decrypt }}'
+        decryption_name: 'decryption-logs-to-eda'
+        decryption_uri_format: 'https://test'
+        decryption_payload: >
+          {
+              "category": "network",
+              "details": {
+                  "action": "$action",
+                  "app": "$app",
+                  "cn": "$cn",
+                  "dst": "$dst",
+                  "device_name": "$device_name",
+                  "error": "$error",
+                  "issuer_cn": "$issuer_cn",
+                  "root_cn": "$root_cn",
+                  "root_status": "$root_status",
+                  "sni": "$sni",
+                  "src": "$src",
+                  "srcuser": "$srcuser"
+              },
+              "receive_time": "$receive_time",
+              "rule": "$rule",
+              "rule_uuid": "$rule_uuid",
+              "serial": "$serial",
+              "sessionid": "$sessionid",
+              "severity": "informational",
+              "type": "decryption"
+          }
+
+    - name: Create http server
+      paloaltonetworks.panos.panos_http_server:
+        provider: '{{ device }}'
+        http_profile: '{{ server_profile_name_decrypt }}'
+        name: 'my-http-server'
+        address: '192.168.1.5'
+        http_method: 'GET'
+
+    - name: Add a HTTP header to HTTP Server Profile
+      paloaltonetworks.panos.panos_http_profile_header:
+        provider: '{{ device }}'
+        http_profile: '{{ server_profile_name_decrypt }}'
+        log_type: 'decryption'
+        header: 'Content-Type'
+        value: 'application/json'
+
+    - name: Add a param to the config log type
+      paloaltonetworks.panos.panos_http_profile_param:
+        provider: '{{ device }}'
+        http_profile: '{{ server_profile_name_decrypt }}'
+        log_type: 'decryption'
+        param: 'serial'
+        value: '$serial'
+
+The HTTP Server Profile would be used in a Log Forwarding Profile
+with a filter for only forwarding Decryption Logs when there has
+been an issue with decryption. Here are example Ansible tasks to
+create a Log Forwarding Profile:
+
+.. code-block:: yaml
+
+    - name: Create log forwarding profile
+      paloaltonetworks.panos.panos_log_forwarding_profile:
+        provider: '{{ provider }}'
+        name: 'default'
+        enhanced_logging: true
+
+    - name: Create log forwarding profile match list
+      paloaltonetworks.panos.panos_log_forwarding_profile_match_list:
+        provider: '{{ provider }}'
+        log_forwarding_profile: 'default'
+        name: 'eda-decryption-forwarding'
+        log_type: 'decryption'
+        filter: '( err_index neq None ) and ( proxy_type eq Forward )'
+
+
+Rulebook - rulebook.yml
+-----------------------
+
+This rulebook shows an example of how to configure EDA to receive
+the decryption logs from PAN-OS, and execute a remediation playbook:
+
+.. code-block:: yaml
+
+    ---
+    - name: "Receive logs sourced from HTTP Server Profile in PAN-OS"
+      hosts: "localhost"
+
+      ## Define how our plugin should listen for logs from the PAN-OS firewall
+      sources:
+        - cdot65.panos.logs:
+            host: 0.0.0.0
+            port: 5000
+            type: decryption
+
+      ## Define the conditions we are looking for. There are many types of logs
+      ## in PAN-OS; we are looking just for decryption logs
+      rules:
+        - name: "Troubleshoot Decryption Failure"
+          condition: event.meta.log_type == "decryption"
+
+          ## Define the action we should take should the condition be met,
+          ## when we find a decryption log, which is to execute the 
+          ## remediation playbook
+          action:
+            run_playbook:
+              name: "playbooks/decryption_remediation.yml"
+
+
+
+Inventory
+---------
+
+The inventory for this example use case is one that defines all hosts
+(firewalls) to be local connectivity, as this is how Ansible communicates
+with PAN-OS:
+
+.. code-block:: yaml
+
+    all:
+      hosts:
+        localhost:
+          ansible_connection: local
+
+
+
+Playbook - decryption_remediation.yml
+-------------------------------------
+
+The playbook executed when the conditions in the rulebook are met, in
+this example use case, performs tasks to add the relevant URL into a
+category used to bypass decryption, thus remediating the problem:
+
+.. code-block:: yaml
+
+    ---
+    - name: Decryption Remediation Playbook
+      hosts: 'all'
+      gather_facts: false
+      connection: local
+
+      vars:
+        device:
+          ip_address: "192.168.1.10"
+          username: "admin"
+          password: "redacted"
+
+        bypass_category_name: 'decyption-bypass'
+
+
+      ## When EDA calls this playbook for execution, it takes the SNI (Server Name Indication)
+      ## from the decryption logs where a site failed to be decrypted properly, and adds the
+      ## SNI to the list of domains in a URL category. This URL category is used as match
+      ## criteria, therefore domains in this URL category will no longer be decrypted by the
+      ## decryption policy rule.
+
+      tasks:
+        ## Gather up the list of domains currently in the URL category
+        - name: Get current decryption bypass domains
+          paloaltonetworks.panos.panos_custom_url_category:
+            provider: "{{ device }}"
+            state: "gathered"
+            gathered_filter: "name == '{{ bypass_category_name }}'"
+          register: bypass_category
+
+        ## If the URL category already has some domains, add this SNI to the list ('url_value')
+        - name: Update decryption bypass category with new domain, if category is currently not empty
+          paloaltonetworks.panos.panos_custom_url_category:
+            provider: '{{ device }}'
+            name: '{{ bypass_category_name }}'
+            url_value: '{{ bypass_category.gathered[0].url_value + [ansible_eda.event.payload.details.sni] }}'
+          when:
+            - bypass_category.gathered[0].url_value != None
+            - ansible_eda.event.payload.details.sni not in bypass_category.gathered[0].url_value
+
+        ## If the URL category is empty, create the list ('url_value') with this SNI
+        - name: Create decryption bypass category with new domain, if category is currently empty
+          paloaltonetworks.panos.panos_custom_url_category:
+            provider: '{{ device }}'
+            name: '{{ bypass_category_name }}'
+            url_value: '{{ [ansible_eda.event.payload.details.sni] }}'
+          when:
+            - bypass_category.gathered[0].url_value == None
+
+        ## Having added the site's SNI to the URL category, make this change live by performing a 'commit'
+        - name: Commit configuration
+          paloaltonetworks.panos.panos_commit_firewall:
+            provider: "{{ device }}"
+          register: results
+
+        ## Output results of the commit
+        - name: Output commit results
+          ansible.builtin.debug:
+            msg: "Commit with Job ID: {{ results.jobid }} had output: {{ results }}"
+
+An alternative remediation if the web server hosting the URL is not presenting
+the relevant intermediate certificate, would be to add the intermediate
+certificate into the PAN-OS certificate store, and not use a bypass (which weakens
+visibility by leaving more traffic encrypted) like the previous example:
+
+.. code-block:: yaml
+
+  tasks:
+    - name: Get intermediate certificate URL
+      ansible.builtin.set_fact:
+        intermediate_cert_url: "{{ ansible_eda.event.payload.details.error | regex_search(regex_query, ignorecase=True) }}"
+      vars:
+        regex_query: '(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)'
+
+    - name: Get intermediate certificate filename
+      ansible.builtin.set_fact:
+        intermediate_cert_name: "{{ intermediate_cert_url | regex_search(regex_query, ignorecase=True) }}"
+      vars:
+        regex_query: '[^\/\\&\?]+\.\w{3,4}(?=([\?&].*$|$))'
+
+    - name: Download intermediate certificate
+      ansible.builtin.get_url:
+        url: '{{ intermediate_cert_url }}'
+        dest: '{{ intermediate_cert_name }}'
+
+    - name: Convert intermediate certificate from DER format to PEM format
+      ansible.builtin.command: openssl x509 -inform DER -outform PEM -in {{ intermediate_cert_name }} -out {{ intermediate_cert_name }}.pem
+      register: output
+      changed_when: output.rc != 0
+
+    - name: Import intermediate certificate to NGFW
+      paloaltonetworks.panos.panos_import:
+        provider: '{{ device }}'
+        category: 'certificate'
+        certificate_name: '{{ intermediate_cert_name }}'
+        format: 'pem'
+        filename: '{{ intermediate_cert_name }}.pem'
