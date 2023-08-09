@@ -17,6 +17,7 @@ Contributors
 -   Vinay Venkataraghavan (@vinayvenkat)
 -   Michael Richardson (@mrichardson03)
 -   Joshua Colson (@freakinhippie)
+-   James Holland (@jamesholland-uk)
 
 
 Credits

@@ -63,8 +63,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#dhcp-on-data-port">DHCP on data port</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#load-configuration">Load configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-driven-ansible-eda">Event-Driven Ansible (EDA)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#rulebook-yml">rulebook.yml</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#http-server-profile">HTTP Server Profile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rulebook-rulebook-yml">Rulebook - rulebook.yml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inventory">Inventory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#playbook-decryption-remediation-yml">Playbook - decryption_remediation.yml</a></li>
 </ul>
 </li>
 </ul>
@@ -356,45 +358,26 @@ configuration from a configuration file</p>
 <h2>Event-Driven Ansible (EDA)<a class="headerlink" href="#event-driven-ansible-eda" title="Permalink to this heading"></a></h2>
 <p>Event-Driven Ansible is a responsive automation solution that can
 process events containing discrete, actionable intelligence.
-The <cite>plugins/event_source/logs.py</cite> plugin is capable of receiving
-JSON structured messages from a PAN-OS firewall, restructure the
-payload as a Python dictionary, determine the appropriate response
-to the event and then execute automated actions to address or remediate.</p>
-<p>There are four components needed to implement EDA:</p>
+The <cite>extensions/plugins/event_source/logs.py</cite> plugin is capable of
+receiving JSON structured messages from a PAN-OS firewall, restructures
+the payload as a Python dictionary, determines the appropriate response
+to the event, and then executes automated actions to address or remediate
+based on the situation.</p>
+<p>There are four components needed to implement this example EDA use case
+with PAN-OS:</p>
 <ul class="simple">
-<li><p>rulebook: A YAML file that defines the conditions and actions to be
-taken when a condition is met.</p></li>
-<li><p>playbook: A YAML file that defines the Ansible tasks to be executed
-when a condition is met.</p></li>
-<li><p>inventory: A YAML file that defines the PAN-OS firewall(s) to be
-executed against.</p></li>
 <li><p>HTTP server profile: A PAN-OS firewall configuration that defines
 how the PAN-OS firewall(s) should send events to the EDA server.</p></li>
+<li><p>EDA rulebook: A YAML file which describes events of interest, and how to
+EDA respond to them based on conditions.</p></li>
+<li><p>Inventory: A YAML file that defines the PAN-OS firewall(s) to be
+executed against when a condition is met.</p></li>
+<li><p>Ansible playbook: A YAML file that defines the Ansible tasks to be executed
+when a condition is met.</p></li>
 </ul>
-<section id="rulebook-yml">
-<h3>rulebook.yml<a class="headerlink" href="#rulebook-yml" title="Permalink to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Receive</span><span class="nv"> </span><span class="s">logs</span><span class="nv"> </span><span class="s">sourced</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">HTTP</span><span class="nv"> </span><span class="s">Server</span><span class="nv"> </span><span class="s">Profile</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">PAN-OS&quot;</span>
-<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;localhost&quot;</span>
-
-<span class="w">  </span><span class="c1">## Define how our plugin should listen for logs from the PAN-OS firewall</span>
-<span class="w">  </span><span class="nt">sources</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">paloaltonetworks.panos.logs</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0.0.0</span>
-<span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">decryption</span>
-
-<span class="w">  </span><span class="c1">## Define the conditions we are looking for</span>
-<span class="w">  </span><span class="nt">rules</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Troubleshoot</span><span class="nv"> </span><span class="s">Decryption</span><span class="nv"> </span><span class="s">Failure&quot;</span>
-<span class="w">      </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">event.meta.log_type == &quot;decryption&quot;</span>
-
-<span class="w">      </span><span class="c1">## Define the action we should take should the condition be met</span>
-<span class="w">      </span><span class="nt">run_playbook</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">playbook.yml</span>
-</pre></div>
-</div>
-</section>
+<p>The four components are described here in the context of a use case of
+detecting decryption issues based on the Decryption Logs, and responding
+by placing the relevant URLs into a category used for decryption bypass.</p>
 <section id="http-server-profile">
 <h3>HTTP Server Profile<a class="headerlink" href="#http-server-profile" title="Permalink to this heading"></a></h3>
 <p>The following example shows what a Decryption HTTP server profile
@@ -424,6 +407,229 @@ send logs to the EDA server.</p>
 <span class="w">    </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;informational&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;decryption&quot;</span>
 <span class="p">}</span>
+</pre></div>
+</div>
+<p>This HTTP Server Profile could be configured in its entirety using the
+following tasks in an Ansible playbook:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create a HTTP Server Profile for Decyption Logs</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_http_profile</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">device</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">server_profile_name_decrypt</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">decryption_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;decryption-logs-to-eda&#39;</span>
+<span class="w">    </span><span class="nt">decryption_uri_format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;https://test&#39;</span>
+<span class="w">    </span><span class="nt">decryption_payload</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+<span class="w">      </span><span class="no">{</span>
+<span class="w">          </span><span class="no">&quot;category&quot;: &quot;network&quot;,</span>
+<span class="w">          </span><span class="no">&quot;details&quot;: {</span>
+<span class="w">              </span><span class="no">&quot;action&quot;: &quot;$action&quot;,</span>
+<span class="w">              </span><span class="no">&quot;app&quot;: &quot;$app&quot;,</span>
+<span class="w">              </span><span class="no">&quot;cn&quot;: &quot;$cn&quot;,</span>
+<span class="w">              </span><span class="no">&quot;dst&quot;: &quot;$dst&quot;,</span>
+<span class="w">              </span><span class="no">&quot;device_name&quot;: &quot;$device_name&quot;,</span>
+<span class="w">              </span><span class="no">&quot;error&quot;: &quot;$error&quot;,</span>
+<span class="w">              </span><span class="no">&quot;issuer_cn&quot;: &quot;$issuer_cn&quot;,</span>
+<span class="w">              </span><span class="no">&quot;root_cn&quot;: &quot;$root_cn&quot;,</span>
+<span class="w">              </span><span class="no">&quot;root_status&quot;: &quot;$root_status&quot;,</span>
+<span class="w">              </span><span class="no">&quot;sni&quot;: &quot;$sni&quot;,</span>
+<span class="w">              </span><span class="no">&quot;src&quot;: &quot;$src&quot;,</span>
+<span class="w">              </span><span class="no">&quot;srcuser&quot;: &quot;$srcuser&quot;</span>
+<span class="w">          </span><span class="no">},</span>
+<span class="w">          </span><span class="no">&quot;receive_time&quot;: &quot;$receive_time&quot;,</span>
+<span class="w">          </span><span class="no">&quot;rule&quot;: &quot;$rule&quot;,</span>
+<span class="w">          </span><span class="no">&quot;rule_uuid&quot;: &quot;$rule_uuid&quot;,</span>
+<span class="w">          </span><span class="no">&quot;serial&quot;: &quot;$serial&quot;,</span>
+<span class="w">          </span><span class="no">&quot;sessionid&quot;: &quot;$sessionid&quot;,</span>
+<span class="w">          </span><span class="no">&quot;severity&quot;: &quot;informational&quot;,</span>
+<span class="w">          </span><span class="no">&quot;type&quot;: &quot;decryption&quot;</span>
+<span class="w">      </span><span class="no">}</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create http server</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_http_server</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">device</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">http_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">server_profile_name_decrypt</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;my-http-server&#39;</span>
+<span class="w">    </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;192.168.1.5&#39;</span>
+<span class="w">    </span><span class="nt">http_method</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;GET&#39;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add a HTTP header to HTTP Server Profile</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_http_profile_header</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">device</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">http_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">server_profile_name_decrypt</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">log_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;decryption&#39;</span>
+<span class="w">    </span><span class="nt">header</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Content-Type&#39;</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;application/json&#39;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add a param to the config log type</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_http_profile_param</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">device</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">http_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">server_profile_name_decrypt</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">log_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;decryption&#39;</span>
+<span class="w">    </span><span class="nt">param</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;serial&#39;</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;$serial&#39;</span>
+</pre></div>
+</div>
+<p>The HTTP Server Profile would be used in a Log Forwarding Profile
+with a filter for only forwarding Decryption Logs when there has
+been an issue with decryption. Here are example Ansible tasks to
+create a Log Forwarding Profile:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create log forwarding profile</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_log_forwarding_profile</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;default&#39;</span>
+<span class="w">    </span><span class="nt">enhanced_logging</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create log forwarding profile match list</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_log_forwarding_profile_match_list</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">    </span><span class="nt">log_forwarding_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;default&#39;</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;eda-decryption-forwarding&#39;</span>
+<span class="w">    </span><span class="nt">log_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;decryption&#39;</span>
+<span class="w">    </span><span class="nt">filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;(</span><span class="nv"> </span><span class="s">err_index</span><span class="nv"> </span><span class="s">neq</span><span class="nv"> </span><span class="s">None</span><span class="nv"> </span><span class="s">)</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">(</span><span class="nv"> </span><span class="s">proxy_type</span><span class="nv"> </span><span class="s">eq</span><span class="nv"> </span><span class="s">Forward</span><span class="nv"> </span><span class="s">)&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="rulebook-rulebook-yml">
+<h3>Rulebook - rulebook.yml<a class="headerlink" href="#rulebook-rulebook-yml" title="Permalink to this heading"></a></h3>
+<p>This rulebook shows an example of how to configure EDA to receive
+the decryption logs from PAN-OS, and execute a remediation playbook:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Receive</span><span class="nv"> </span><span class="s">logs</span><span class="nv"> </span><span class="s">sourced</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">HTTP</span><span class="nv"> </span><span class="s">Server</span><span class="nv"> </span><span class="s">Profile</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">PAN-OS&quot;</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;localhost&quot;</span>
+
+<span class="w">  </span><span class="c1">## Define how our plugin should listen for logs from the PAN-OS firewall</span>
+<span class="w">  </span><span class="nt">sources</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cdot65.panos.logs</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0.0.0</span>
+<span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">decryption</span>
+
+<span class="w">  </span><span class="c1">## Define the conditions we are looking for. There are many types of logs</span>
+<span class="w">  </span><span class="c1">## in PAN-OS; we are looking just for decryption logs</span>
+<span class="w">  </span><span class="nt">rules</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Troubleshoot</span><span class="nv"> </span><span class="s">Decryption</span><span class="nv"> </span><span class="s">Failure&quot;</span>
+<span class="w">      </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">event.meta.log_type == &quot;decryption&quot;</span>
+
+<span class="w">      </span><span class="c1">## Define the action we should take should the condition be met,</span>
+<span class="w">      </span><span class="c1">## when we find a decryption log, which is to execute the</span>
+<span class="w">      </span><span class="c1">## remediation playbook</span>
+<span class="w">      </span><span class="nt">action</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">run_playbook</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;playbooks/decryption_remediation.yml&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="inventory">
+<h3>Inventory<a class="headerlink" href="#inventory" title="Permalink to this heading"></a></h3>
+<p>The inventory for this example use case is one that defines all hosts
+(firewalls) to be local connectivity, as this is how Ansible communicates
+with PAN-OS:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">all</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">localhost</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ansible_connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+</pre></div>
+</div>
+</section>
+<section id="playbook-decryption-remediation-yml">
+<h3>Playbook - decryption_remediation.yml<a class="headerlink" href="#playbook-decryption-remediation-yml" title="Permalink to this heading"></a></h3>
+<p>The playbook executed when the conditions in the rulebook are met, in
+this example use case, performs tasks to add the relevant URL into a
+category used to bypass decryption, thus remediating the problem:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Decryption Remediation Playbook</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;all&#39;</span>
+<span class="w">  </span><span class="nt">gather_facts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+
+<span class="w">  </span><span class="nt">vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">device</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;192.168.1.10&quot;</span>
+<span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;admin&quot;</span>
+<span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;redacted&quot;</span>
+
+<span class="w">    </span><span class="nt">bypass_category_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;decyption-bypass&#39;</span>
+
+
+<span class="w">  </span><span class="c1">## When EDA calls this playbook for execution, it takes the SNI (Server Name Indication)</span>
+<span class="w">  </span><span class="c1">## from the decryption logs where a site failed to be decrypted properly, and adds the</span>
+<span class="w">  </span><span class="c1">## SNI to the list of domains in a URL category. This URL category is used as match</span>
+<span class="w">  </span><span class="c1">## criteria, therefore domains in this URL category will no longer be decrypted by the</span>
+<span class="w">  </span><span class="c1">## decryption policy rule.</span>
+
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="c1">## Gather up the list of domains currently in the URL category</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Get current decryption bypass domains</span>
+<span class="w">      </span><span class="nt">paloaltonetworks.panos.panos_custom_url_category</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">device</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gathered&quot;</span>
+<span class="w">        </span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;name</span><span class="nv"> </span><span class="s">==</span><span class="nv"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">bypass_category_name</span><span class="nv"> </span><span class="s">}}&#39;&quot;</span>
+<span class="w">      </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bypass_category</span>
+
+<span class="w">    </span><span class="c1">## If the URL category already has some domains, add this SNI to the list (&#39;url_value&#39;)</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update decryption bypass category with new domain, if category is currently not empty</span>
+<span class="w">      </span><span class="nt">paloaltonetworks.panos.panos_custom_url_category</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">device</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">bypass_category_name</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">        </span><span class="nt">url_value</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">bypass_category.gathered[0].url_value</span><span class="nv"> </span><span class="s">+</span><span class="nv"> </span><span class="s">[ansible_eda.event.payload.details.sni]</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">when</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bypass_category.gathered[0].url_value != None</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ansible_eda.event.payload.details.sni not in bypass_category.gathered[0].url_value</span>
+
+<span class="w">    </span><span class="c1">## If the URL category is empty, create the list (&#39;url_value&#39;) with this SNI</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create decryption bypass category with new domain, if category is currently empty</span>
+<span class="w">      </span><span class="nt">paloaltonetworks.panos.panos_custom_url_category</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">device</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">bypass_category_name</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">        </span><span class="nt">url_value</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">[ansible_eda.event.payload.details.sni]</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">when</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bypass_category.gathered[0].url_value == None</span>
+
+<span class="w">    </span><span class="c1">## Having added the site&#39;s SNI to the URL category, make this change live by performing a &#39;commit&#39;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Commit configuration</span>
+<span class="w">      </span><span class="nt">paloaltonetworks.panos.panos_commit_firewall</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">device</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">      </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">results</span>
+
+<span class="w">    </span><span class="c1">## Output results of the commit</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Output commit results</span>
+<span class="w">      </span><span class="nt">ansible.builtin.debug</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Commit</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">Job</span><span class="nv"> </span><span class="s">ID:</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">results.jobid</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">had</span><span class="nv"> </span><span class="s">output:</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">results</span><span class="nv"> </span><span class="s">}}&quot;</span>
+</pre></div>
+</div>
+<p>An alternative remediation if the web server hosting the URL is not presenting
+the relevant intermediate certificate, would be to add the intermediate
+certificate into the PAN-OS certificate store, and not use a bypass (which weakens
+visibility by leaving more traffic encrypted) like the previous example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Get intermediate certificate URL</span>
+<span class="w">    </span><span class="nt">ansible.builtin.set_fact</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">intermediate_cert_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ansible_eda.event.payload.details.error</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">regex_search(regex_query,</span><span class="nv"> </span><span class="s">ignorecase=True)</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">    </span><span class="nt">vars</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">regex_query</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&amp;//=]*)&#39;</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Get intermediate certificate filename</span>
+<span class="w">    </span><span class="nt">ansible.builtin.set_fact</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">intermediate_cert_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">intermediate_cert_url</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">regex_search(regex_query,</span><span class="nv"> </span><span class="s">ignorecase=True)</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">    </span><span class="nt">vars</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">regex_query</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;[^\/\\&amp;\?]+\.\w{3,4}(?=([\?&amp;].*$|$))&#39;</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Download intermediate certificate</span>
+<span class="w">    </span><span class="nt">ansible.builtin.get_url</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">intermediate_cert_url</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">intermediate_cert_name</span><span class="nv"> </span><span class="s">}}&#39;</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Convert intermediate certificate from DER format to PEM format</span>
+<span class="w">    </span><span class="nt">ansible.builtin.command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openssl x509 -inform DER -outform PEM -in {{ intermediate_cert_name }} -out {{ intermediate_cert_name }}.pem</span>
+<span class="w">    </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">output</span>
+<span class="w">    </span><span class="nt">changed_when</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">output.rc != 0</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import intermediate certificate to NGFW</span>
+<span class="w">    </span><span class="nt">paloaltonetworks.panos.panos_import</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">device</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;certificate&#39;</span>
+<span class="w">      </span><span class="nt">certificate_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">intermediate_cert_name</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;pem&#39;</span>
+<span class="w">      </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">intermediate_cert_name</span><span class="nv"> </span><span class="s">}}.pem&#39;</span>
 </pre></div>
 </div>
 </section>
