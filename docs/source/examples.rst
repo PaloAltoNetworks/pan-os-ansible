@@ -345,7 +345,7 @@ following tasks in an Ansible playbook:
 
 .. code-block:: yaml
 
-    - name: Create a HTTP Server Profile for Decyption Logs
+    - name: Create a HTTP Server Profile for Decryption Logs
       paloaltonetworks.panos.panos_http_profile:
         provider: '{{ device }}'
         name: '{{ server_profile_name_decrypt }}'
@@ -377,13 +377,14 @@ following tasks in an Ansible playbook:
               "type": "decryption"
           }
 
-    - name: Create http server
+    - name: Create HTTP server
       paloaltonetworks.panos.panos_http_server:
         provider: '{{ device }}'
         http_profile: '{{ server_profile_name_decrypt }}'
-        name: 'my-http-server'
+        name: 'my-EDA-server'
         address: '192.168.1.5'
         http_method: 'GET'
+        http_port: 5000
 
     - name: Add a HTTP header to HTTP Server Profile
       paloaltonetworks.panos.panos_http_profile_header:
@@ -411,16 +412,17 @@ create a Log Forwarding Profile:
     - name: Create log forwarding profile
       paloaltonetworks.panos.panos_log_forwarding_profile:
         provider: '{{ provider }}'
-        name: 'default'
+        name: 'EDA_LFP'
         enhanced_logging: true
 
     - name: Create log forwarding profile match list
       paloaltonetworks.panos.panos_log_forwarding_profile_match_list:
         provider: '{{ provider }}'
-        log_forwarding_profile: 'default'
+        log_forwarding_profile: 'EDA_LFP'
         name: 'eda-decryption-forwarding'
         log_type: 'decryption'
         filter: '( err_index neq None ) and ( proxy_type eq Forward )'
+        http_profiles: ['{{ server_profile_name_decrypt }}']
 
 
 Rulebook - rulebook.yml
@@ -435,9 +437,9 @@ the decryption logs from PAN-OS, and execute a remediation playbook:
     - name: "Receive logs sourced from HTTP Server Profile in PAN-OS"
       hosts: "localhost"
 
-      ## Define how our plugin should listen for logs from the PAN-OS firewall
+      ## Define how our plugin should listen for logs from PAN-OS
       sources:
-        - cdot65.panos.logs:
+        - paloaltonetworks.panos.logs:
             host: 0.0.0.0
             port: 5000
             type: decryption
@@ -494,7 +496,7 @@ category used to bypass decryption, thus remediating the problem:
           username: "admin"
           password: "redacted"
 
-        bypass_category_name: 'decyption-bypass'
+        bypass_category_name: 'decryption-bypass'
 
 
       ## When EDA calls this playbook for execution, it takes the SNI (Server Name Indication)
