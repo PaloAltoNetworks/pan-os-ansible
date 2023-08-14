@@ -33,7 +33,7 @@ Example:
 #  limitations under the License.
 
 # ruff: noqa: UP001, UP010
-from __future__ import absolute_import, division, print_function
+from __future__ import absolute_import, annotations, division, print_function
 
 # pylint: disable-next=invalid-name
 __metaclass__ = type
@@ -191,7 +191,7 @@ if __name__ == "__main__":
     class MockQueue:
         """A mock queue for handling events asynchronously."""
 
-        async def put(self: "MockQueue", event: str) -> None:
+        async def put(self: MockQueue, event: str) -> None:
             """Put an event into the queue.
 
             Parameters
@@ -202,7 +202,7 @@ if __name__ == "__main__":
             """
             the_logger.info(event)
 
-        async def get(self: "MockQueue") -> None:
+        async def get(self: MockQueue) -> None:
             """Get an event from the queue."""
             the_logger.info("Getting event from the queue.")
 
