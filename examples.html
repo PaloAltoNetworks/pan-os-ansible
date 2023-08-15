@@ -411,7 +411,7 @@ send logs to the EDA server.</p>
 </div>
 <p>This HTTP Server Profile could be configured in its entirety using the
 following tasks in an Ansible playbook:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create a HTTP Server Profile for Decyption Logs</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create a HTTP Server Profile for Decryption Logs</span>
 <span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_http_profile</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">device</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">server_profile_name_decrypt</span><span class="nv"> </span><span class="s">}}&#39;</span>
@@ -443,13 +443,14 @@ following tasks in an Ansible playbook:</p>
 <span class="w">          </span><span class="no">&quot;type&quot;: &quot;decryption&quot;</span>
 <span class="w">      </span><span class="no">}</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create http server</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create HTTP server</span>
 <span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_http_server</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">device</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">    </span><span class="nt">http_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">server_profile_name_decrypt</span><span class="nv"> </span><span class="s">}}&#39;</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;my-http-server&#39;</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;my-EDA-server&#39;</span>
 <span class="w">    </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;192.168.1.5&#39;</span>
 <span class="w">    </span><span class="nt">http_method</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;GET&#39;</span>
+<span class="w">    </span><span class="nt">http_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add a HTTP header to HTTP Server Profile</span>
 <span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_http_profile_header</span><span class="p">:</span>
@@ -475,16 +476,17 @@ create a Log Forwarding Profile:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create log forwarding profile</span>
 <span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_log_forwarding_profile</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;default&#39;</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;EDA_LFP&#39;</span>
 <span class="w">    </span><span class="nt">enhanced_logging</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create log forwarding profile match list</span>
 <span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_log_forwarding_profile_match_list</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
-<span class="w">    </span><span class="nt">log_forwarding_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;default&#39;</span>
+<span class="w">    </span><span class="nt">log_forwarding_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;EDA_LFP&#39;</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;eda-decryption-forwarding&#39;</span>
 <span class="w">    </span><span class="nt">log_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;decryption&#39;</span>
 <span class="w">    </span><span class="nt">filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;(</span><span class="nv"> </span><span class="s">err_index</span><span class="nv"> </span><span class="s">neq</span><span class="nv"> </span><span class="s">None</span><span class="nv"> </span><span class="s">)</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">(</span><span class="nv"> </span><span class="s">proxy_type</span><span class="nv"> </span><span class="s">eq</span><span class="nv"> </span><span class="s">Forward</span><span class="nv"> </span><span class="s">)&#39;</span>
+<span class="w">    </span><span class="nt">http_profiles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">server_profile_name_decrypt</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </section>
@@ -496,9 +498,9 @@ the decryption logs from PAN-OS, and execute a remediation playbook:</p>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Receive</span><span class="nv"> </span><span class="s">logs</span><span class="nv"> </span><span class="s">sourced</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">HTTP</span><span class="nv"> </span><span class="s">Server</span><span class="nv"> </span><span class="s">Profile</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">PAN-OS&quot;</span>
 <span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;localhost&quot;</span>
 
-<span class="w">  </span><span class="c1">## Define how our plugin should listen for logs from the PAN-OS firewall</span>
+<span class="w">  </span><span class="c1">## Define how our plugin should listen for logs from PAN-OS</span>
 <span class="w">  </span><span class="nt">sources</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cdot65.panos.logs</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">paloaltonetworks.panos.logs</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0.0.0</span>
 <span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
 <span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">decryption</span>
@@ -547,7 +549,7 @@ category used to bypass decryption, thus remediating the problem:</p>
 <span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;admin&quot;</span>
 <span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;redacted&quot;</span>
 
-<span class="w">    </span><span class="nt">bypass_category_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;decyption-bypass&#39;</span>
+<span class="w">    </span><span class="nt">bypass_category_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;decryption-bypass&#39;</span>
 
 
 <span class="w">  </span><span class="c1">## When EDA calls this playbook for execution, it takes the SNI (Server Name Indication)</span>
