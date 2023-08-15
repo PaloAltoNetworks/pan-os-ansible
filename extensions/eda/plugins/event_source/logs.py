@@ -32,7 +32,7 @@ Example:
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-# ruff: noqa: UP001, UP010
+# ruff: noqa: UP001, UP010, FA102
 from __future__ import absolute_import, division, print_function
 
 # pylint: disable-next=invalid-name
