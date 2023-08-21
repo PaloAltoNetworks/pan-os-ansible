@@ -105,8 +105,11 @@ jobs:
       # - name: Install built collection
       #   run: poetry run ansible-galaxy collection install *.tar.gz
 
+      - name: Test
+        uses: ls -l
+
       - name: Run ansible-lint
-        uses: ansible/ansible-lint-action@main # Config file is .ansible-lint
+        uses: ansible/ansible-lint@main # Config file is .ansible-lint
 
   # Tox is used to execute linters required for Event-Driven Ansible (EDA) code:
   #   github.com/ansible/eda-partner-testing/blob/main/README.md
