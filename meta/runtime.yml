@@ -10,9 +10,9 @@ plugin_routing:
     panos_commit:
       deprecation:
         removal_version: "3.0.0"
-        warning_text: > 
+        warning_text: >
           Use 'paloaltonetworks.panos.panos_commit_firewall',
-          'paloaltonetworks.panos.panos_commit_panorama', 
+          'paloaltonetworks.panos.panos_commit_panorama',
           or 'paloaltonetworks.panos.panos_commit_push' instead.
       redirect: paloaltonetworks.panos.panos_commit_firewall
     panos_dag:
