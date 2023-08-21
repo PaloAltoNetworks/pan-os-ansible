@@ -9,9 +9,9 @@ profile: production
 # exclude_paths included in this file are parsed relative to this file's location
 # and not relative to the CWD of execution. CLI arguments passed to the --exclude
 # option are parsed relative to the CWD of execution.
-# exclude_paths:
+exclude_paths:
 #   - .cache/ # implicit unless exclude_paths is defined in config
-#   - .github/
+  - .github/
 #   - test/fixtures/formatting-before/
 #   - test/fixtures/formatting-prettier/
 # parseable: true
@@ -20,8 +20,8 @@ profile: production
 # verbosity: 1
 
 # Mock modules or roles in order to pass ansible-playbook --syntax-check
-mock_modules:
-  - paloaltonetworks.panos.panos_op
+# mock_modules:
+#   - paloaltonetworks.panos.panos_op
 #   - zuul_return
 #   # note the foo.bar is invalid as being neither a module or a collection
 #   - fake_namespace.fake_collection.fake_module
