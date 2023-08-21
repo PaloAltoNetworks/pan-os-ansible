@@ -109,7 +109,7 @@ jobs:
         uses: ls -l
 
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@6.17.2 # Config file is .ansible-lint
+        uses: ansible/ansible-lint@6f728e0c95671350595c14f46fe71738adc23d2e # Config file is .ansible-lint
 
   # Tox is used to execute linters required for Event-Driven Ansible (EDA) code:
   #   github.com/ansible/eda-partner-testing/blob/main/README.md
