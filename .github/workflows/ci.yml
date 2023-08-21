@@ -83,13 +83,13 @@ jobs:
   lint:
     name: Ansible Lint
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+    defaults:
+      run:
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
     steps:
-      # - uses: actions/checkout@v3
-      #   with:
-      #     path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+      - uses: actions/checkout@v3
+        with:
+          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       # - name: Setup Python
       #   uses: actions/setup-python@v4
