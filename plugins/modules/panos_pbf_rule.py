@@ -156,9 +156,9 @@ options:
             - Leave this as None for a next hop type of 'None'.
         type: str
         choices:
-            - "none"
-            - "ip-address"
-            - "fqdn"
+            - None
+            - ip-address
+            - fqdn
     forward_next_hop_value:
         description:
             - The next hop value if forward next hop type is not None.
@@ -246,7 +246,7 @@ def main():
             ),
             forward_vsys=dict(),
             forward_egress_interface=dict(),
-            forward_next_hop_type=dict(choices=[None, "ip-address", "fqdn"]),
+            forward_next_hop_type=dict(choices=["None", "ip-address", "fqdn"]),
             forward_next_hop_value=dict(),
             forward_monitor_profile=dict(),
             forward_monitor_ip_address=dict(),
