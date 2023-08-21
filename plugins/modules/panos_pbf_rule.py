@@ -156,9 +156,9 @@ options:
             - Leave this as None for a next hop type of 'None'.
         type: str
         choices:
-            - None
-            - ip-address
-            - fqdn
+            - "none"
+            - "ip-address"
+            - "fqdn"
     forward_next_hop_value:
         description:
             - The next hop value if forward next hop type is not None.
