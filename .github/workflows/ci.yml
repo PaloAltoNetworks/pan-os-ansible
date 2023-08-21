@@ -77,6 +77,23 @@ jobs:
         timeout-minutes: 8
         run: poetry run make ${{ matrix.sanity }}
 
+  # Ansible-lint is a requirement for certification, and was added to the
+  # certification pipeline 20 June 2023 per Ansible Partner Engineering
+  # communication emails
+  lint:
+    name: Ansible Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint-action@main # Config file is .ansible-lint
+
   # Tox is used to execute linters required for Event-Driven Ansible (EDA) code:
   #   github.com/ansible/eda-partner-testing/blob/main/README.md
   # Tox should only execute over <root>/extensions/eda/plugins.
