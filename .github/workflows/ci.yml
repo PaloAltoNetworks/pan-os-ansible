@@ -21,14 +21,6 @@ jobs:
     name: Sanity (Ⓐ${{ matrix.ansible }})
     strategy:
       matrix:
-        # ansible:
-          # - "2.9"
-          # - "2.10"
-          # - "2.11"
-          # - "2.12"
-          # - "2.13"
-          # - "2.14"
-          # - "2.15"
         include:
           - ansible: "2.13"
             python_ver: "3.10"
@@ -36,11 +28,6 @@ jobs:
             python_ver: "3.11"
           - ansible: "2.15"
             python_ver: "3.11"
-          # - sanity: "new-sanity"
-          # - ansible: "2.9"
-          #   sanity: "old-sanity"
-          # - ansible: "2.10"
-          #   sanity: "old-sanity"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -89,6 +76,8 @@ jobs:
   # Ansible-lint is a requirement for certification, and was added to the
   # certification pipeline 20 June 2023 per Ansible Partner Engineering
   # communication emails
+  #
+  # Config file is .ansible-lint
   lint:
     name: Ansible Lint
     runs-on: ubuntu-latest
@@ -101,7 +90,7 @@ jobs:
           path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@main # Config file is .ansible-lint
+        uses: ansible/ansible-lint@main
 
   # Tox is used to execute linters required for Event-Driven Ansible (EDA) code:
   #   github.com/ansible/eda-partner-testing/blob/main/README.md
