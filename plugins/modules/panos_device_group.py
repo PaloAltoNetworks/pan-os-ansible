@@ -112,9 +112,10 @@ class Helper(ConnectionHelper):
         else:
             parent = module.params["parent"]
             result["diff"]["after_parent"] = parent
-            if (
-                obj.opstate.dg_hierarchy.parent != parent
-                and module.params["state"] != "gathered"
+            if obj.opstate.dg_hierarchy.parent != parent and module.params["state"] in (
+                "present",
+                "replaced",
+                "merged",
             ):
                 result["changed"] = True
                 obj.opstate.dg_hierarchy.parent = parent
