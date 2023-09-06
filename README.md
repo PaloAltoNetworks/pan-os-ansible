@@ -11,8 +11,8 @@ factors, using the PAN-OS API.
 -   Free software: Apache 2.0 License
 -   Documentation:
     <https://paloaltonetworks.github.io/pan-os-ansible/>
--   PANW community supported live page:
-    <http://live.paloaltonetworks.com/ansible>
+-   Getting started tutorials, how-to guides and other background reading:
+    <https://pan.dev/ansible/docs/panos>
 -   Repo:
     <https://github.com/PaloAltoNetworks/pan-os-ansible>
 -   Example Playbooks:
