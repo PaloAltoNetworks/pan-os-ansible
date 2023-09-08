@@ -1225,31 +1225,43 @@ class ConnectionHelper(object):
                         raise Exception(err_msg)
 
                 if operator == "==":
-                    evaler.append("{0}".format("{0}".format(item_config[field]) == value))
+                    evaler.append(
+                        "{0}".format("{0}".format(item_config[field]) == value)
+                    )
                 elif operator == "!=":
-                    evaler.append("{0}".format("{0}".format(item_config[field]) != value))
+                    evaler.append(
+                        "{0}".format("{0}".format(item_config[field]) != value)
+                    )
                 elif operator == "<":
                     evaler.append(
                         "{0}".format(
-                            False if value is None else item_config[field] < float(value)
+                            False
+                            if value is None
+                            else item_config[field] < float(value)
                         )
                     )
                 elif operator == "<=":
                     evaler.append(
                         "{0}".format(
-                            False if value is None else item_config[field] <= float(value)
+                            False
+                            if value is None
+                            else item_config[field] <= float(value)
                         )
                     )
                 elif operator == ">":
                     evaler.append(
                         "{0}".format(
-                            False if value is None else item_config[field] > float(value)
+                            False
+                            if value is None
+                            else item_config[field] > float(value)
                         )
                     )
                 elif operator == ">=":
                     evaler.append(
                         "{0}".format(
-                            False if value is None else item_config[field] >= float(value)
+                            False
+                            if value is None
+                            else item_config[field] >= float(value)
                         )
                     )
                 elif operator == "contains":
@@ -1265,7 +1277,9 @@ class ConnectionHelper(object):
                         "{0}".format(not (item_config[field] or "").startswith(value))
                     )
                 elif operator == "ends-with":
-                    evaler.append("{0}".format((item_config[field] or "").endswith(value)))
+                    evaler.append(
+                        "{0}".format((item_config[field] or "").endswith(value))
+                    )
                 elif operator == "does-not-end-with":
                     evaler.append(
                         "{0}".format(not (item_config[field] or "").endswith(value))
@@ -1278,7 +1292,9 @@ class ConnectionHelper(object):
                     )
                 elif operator == "does-not-match-regex":
                     evaler.append(
-                        "{0}".format(re.search(value, (item_config[field] or "")) is None)
+                        "{0}".format(
+                            re.search(value, (item_config[field] or "")) is None
+                        )
                     )
                 elif operator == "contains-regex":
                     prog = re.compile(value)
