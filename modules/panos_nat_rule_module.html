@@ -4,18 +4,18 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>paloaltonetworks.panos.panos_nat_rule module – Manage a policy NAT rule &mdash; Palo Alto Networks Ansible Collection  documentation</title>
+  <title>paloaltonetworks.panos.panos_nat_rule module &mdash; Palo Alto Networks Ansible Collection  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -70,13 +70,13 @@
 <li class="toctree-l2"><a class="reference internal" href="panos_cert_gen_ssh_module.html">paloaltonetworks.panos.panos_cert_gen_ssh module – generates a self-signed certificate using SSH protocol with SSH key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_check_module.html">paloaltonetworks.panos.panos_check module – Checks is a PAN-OS device is ready for configuration.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_commit_firewall_module.html">paloaltonetworks.panos.panos_commit_firewall module – Commit the firewall’s candidate configuration.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="panos_commit_module.html">paloaltonetworks.panos.panos_commit module – Commit a PAN-OS device’s candidate configuration.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_commit_module.html">paloaltonetworks.panos.panos_commit module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_commit_panorama_module.html">paloaltonetworks.panos.panos_commit_panorama module – Commit Panorama’s candidate configuration.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_commit_push_module.html">paloaltonetworks.panos.panos_commit_push module – Push running configuration to managed devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_config_element_module.html">paloaltonetworks.panos.panos_config_element module – Modifies an element in the PAN-OS configuration.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_custom_url_category_module.html">paloaltonetworks.panos.panos_custom_url_category module – Manage custom url category objects on PAN-OS devices.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="panos_dag_module.html">paloaltonetworks.panos.panos_dag module – Manage a dynamic address group</a></li>
-<li class="toctree-l2"><a class="reference internal" href="panos_dag_tags_module.html">paloaltonetworks.panos.panos_dag_tags module – Manage tags for DAG’s on PAN-OS devices.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_dag_module.html">paloaltonetworks.panos.panos_dag module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_dag_tags_module.html">paloaltonetworks.panos.panos_dag_tags module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_decryption_rule_module.html">paloaltonetworks.panos.panos_decryption_rule module – Manage a decryption rule on PAN-OS.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_device_group_module.html">paloaltonetworks.panos.panos_device_group module – Manage Panorama device group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_dhcp_module.html">paloaltonetworks.panos.panos_dhcp module – Manage DHCP for an interface.</a></li>
@@ -116,34 +116,21 @@
 <li class="toctree-l2"><a class="reference internal" href="panos_mgtconfig_module.html">paloaltonetworks.panos.panos_mgtconfig module – Module used to configure some of the device management.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_nat_rule2_module.html">paloaltonetworks.panos.panos_nat_rule2 module – Manage a NAT rule</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_nat_rule_facts_module.html">paloaltonetworks.panos.panos_nat_rule_facts module – Get information about a NAT rule.</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">paloaltonetworks.panos.panos_nat_rule module – Manage a policy NAT rule</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#deprecated">DEPRECATED</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#status">Status</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#authors">Authors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#collection-links">Collection links</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">paloaltonetworks.panos.panos_nat_rule module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_object_facts_module.html">paloaltonetworks.panos.panos_object_facts module – Retrieve facts about objects on PAN-OS devices.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="panos_object_module.html">paloaltonetworks.panos.panos_object module – create/read/update/delete object in PAN-OS or Panorama</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_object_module.html">paloaltonetworks.panos.panos_object module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_op_module.html">paloaltonetworks.panos.panos_op module – execute arbitrary OP commands on PANW devices (e.g. show interface all)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_pbf_rule_module.html">paloaltonetworks.panos.panos_pbf_rule module – Manage Policy Based Forwarding rules on PAN-OS.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_pg_module.html">paloaltonetworks.panos.panos_pg module – Manage a security profiles group</a></li>
-<li class="toctree-l2"><a class="reference internal" href="panos_query_rules_module.html">paloaltonetworks.panos.panos_query_rules module – PANOS module that allows search for security rules in PANW NGFW devices.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_query_rules_module.html">paloaltonetworks.panos.panos_query_rules module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_redistribution_module.html">paloaltonetworks.panos.panos_redistribution module – Manage a Redistribution Profile on a virtual router</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_region_module.html">paloaltonetworks.panos.panos_region module – Manage regions on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_registered_ip_facts_module.html">paloaltonetworks.panos.panos_registered_ip_facts module – Retrieve facts about registered IPs on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_registered_ip_module.html">paloaltonetworks.panos.panos_registered_ip module – Register IP addresses for use with dynamic address groups on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_restart_module.html">paloaltonetworks.panos.panos_restart module – Restart a device</a></li>
-<li class="toctree-l2"><a class="reference internal" href="panos_sag_module.html">paloaltonetworks.panos.panos_sag module – Create a static address group.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_sag_module.html">paloaltonetworks.panos.panos_sag module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_schedule_object_module.html">paloaltonetworks.panos.panos_schedule_object module – Manage schedule objects on PAN-OS devices.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="panos_security_rule_facts_module.html">paloaltonetworks.panos.panos_security_rule_facts module – Retrieve information about security rules.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_security_rule_facts_module.html">paloaltonetworks.panos.panos_security_rule_facts module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_security_rule_module.html">paloaltonetworks.panos.panos_security_rule module – Manage security rule policy on PAN-OS devices or Panorama management console.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_service_group_module.html">paloaltonetworks.panos.panos_service_group module – Manage service group objects on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_service_object_module.html">paloaltonetworks.panos.panos_service_object module – Manage service objects on PAN-OS devices.</a></li>
@@ -161,13 +148,13 @@
 <li class="toctree-l2"><a class="reference internal" href="panos_tunnel_module.html">paloaltonetworks.panos.panos_tunnel module – Manage tunnel interfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_type_cmd_module.html">paloaltonetworks.panos.panos_type_cmd module – Execute arbitrary TYPE commands on PAN-OS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_userid_module.html">paloaltonetworks.panos.panos_userid module – Allow for registration and de-registration of userid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="panos_virtual_router_facts_module.html">paloaltonetworks.panos.panos_virtual_router_facts module – Retrieves virtual router information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_virtual_router_facts_module.html">paloaltonetworks.panos.panos_virtual_router_facts module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_virtual_router_module.html">paloaltonetworks.panos.panos_virtual_router module – Manage a Virtual Router</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_virtual_wire_module.html">paloaltonetworks.panos.panos_virtual_wire module – Manage Virtual Wires (vwire).</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_vlan_interface_module.html">paloaltonetworks.panos.panos_vlan_interface module – Manage VLAN interfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_vlan_module.html">paloaltonetworks.panos.panos_vlan module – Manage VLANs.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_vm_auth_key_module.html">paloaltonetworks.panos.panos_vm_auth_key module – Create a VM auth key for VM-Series bootstrapping</a></li>
-<li class="toctree-l2"><a class="reference internal" href="panos_zone_facts_module.html">paloaltonetworks.panos.panos_zone_facts module – Retrieves zone information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_zone_facts_module.html">paloaltonetworks.panos.panos_zone_facts module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_zone_module.html">paloaltonetworks.panos.panos_zone module – Manage security zone</a></li>
 </ul>
 </li>
@@ -191,7 +178,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../modules.html">Module reference</a></li>
-      <li class="breadcrumb-item active">paloaltonetworks.panos.panos_nat_rule module – Manage a policy NAT rule</li>
+      <li class="breadcrumb-item active">paloaltonetworks.panos.panos_nat_rule module</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/blob/master/docs/source/modules/panos_nat_rule_module.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -201,577 +188,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module"></span><section id="paloaltonetworks-panos-panos-nat-rule-module-manage-a-policy-nat-rule">
-<h1>paloaltonetworks.panos.panos_nat_rule module – Manage a policy NAT rule<a class="headerlink" href="#paloaltonetworks-panos-panos-nat-rule-module-manage-a-policy-nat-rule" title="Permalink to this heading"></a></h1>
+  <span class="target" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module"></span><section id="paloaltonetworks-panos-panos-nat-rule-module">
+<h1>paloaltonetworks.panos.panos_nat_rule module<a class="headerlink" href="#paloaltonetworks-panos-panos-nat-rule-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.3).</p>
-<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
-You need further requirements to be able to use this module,
-see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
-<p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">paloaltonetworks.panos.panos_nat_rule</span></code>.</p>
+<p>This redirect is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.4).</p>
 </div>
-<p class="ansible-version-added">New in paloaltonetworks.panos 1.0.0</p>
-<nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#deprecated" id="id71">DEPRECATED</a></p></li>
-<li><p><a class="reference internal" href="#synopsis" id="id72">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id73">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id74">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id75">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id76">Examples</a></p></li>
-<li><p><a class="reference internal" href="#status" id="id77">Status</a></p></li>
+<li><p>This redirect has been <strong>deprecated</strong>. Please update your tasks to use the new name <code class="docutils literal notranslate"><span class="pre">paloaltonetworks.panos.panos_nat_rule2</span></code> instead.
+It will be removed in version 3.0.0 of paloaltonetworks.panos.</p></li>
+<li><p>This is a redirect to the <a class="reference internal" href="panos_nat_rule2_module.html#ansible-collections-paloaltonetworks-panos-panos-nat-rule2-module"><span class="std std-ref">paloaltonetworks.panos.panos_nat_rule2 module</span></a>.</p></li>
+<li><p>This redirect does <strong>not</strong> work with Ansible 2.9.</p></li>
+<li><p>The collection contains the following information on this deprecation: Updating module design to network resource modules.</p></li>
 </ul>
-</nav>
-<section id="deprecated">
-<h2><a class="toc-backref" href="#id71" role="doc-backlink">DEPRECATED</a><a class="headerlink" href="#deprecated" title="Permalink to this heading"></a></h2>
-<dl class="field-list simple">
-<dt class="field-odd">Removed in<span class="colon">:</span></dt>
-<dd class="field-odd"><p>version 3.0.0</p>
-</dd>
-<dt class="field-even">Why<span class="colon">:</span></dt>
-<dd class="field-even"><p>The design of this module is not consistent with current design.</p>
-</dd>
-<dt class="field-odd">Alternative<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Use <a class="reference internal" href="panos_nat_rule2_module.html#ansible-collections-paloaltonetworks-panos-panos-nat-rule2-module"><span class="std std-ref">paloaltonetworks.panos.panos_nat_rule2</span></a> instead.</p>
-</dd>
-</dl>
-</section>
-<section id="synopsis">
-<h2><a class="toc-backref" href="#id72" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
-<ul class="simple">
-<li><p>Manage a policy nat rule. Keep in mind that we can either end up configuring source NAT, destination NAT, or both.</p></li>
-<li><p>Instead of splitting it into two we will make a fair attempt to determine which one the user wants.</p></li>
-</ul>
-</section>
-<section id="requirements">
-<span id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-requirements"></span><h2><a class="toc-backref" href="#id73" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
-<p>The below requirements are needed on the host that executes this module.</p>
-<ul class="simple">
-<li><p>pan-python &gt;= 0.16</p></li>
-<li><p>pan-os-python &gt;= 1.7.3</p></li>
-</ul>
-</section>
-<section id="parameters">
-<h2><a class="toc-backref" href="#id74" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
-<table class="ansible-option-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Parameter</p></th>
-<th class="head"><p>Comments</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-api_key"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-api-key"><strong>api_key</strong></p>
-<a class="ansibleOptionLink" href="#parameter-api_key" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
-<p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
-<hr><p>The API key to use instead of generating it using <em>username</em> / <em>password</em>.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-audit_comment"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-audit-comment"><strong>audit_comment</strong></p>
-<a class="ansibleOptionLink" href="#parameter-audit_comment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Add an audit comment to the rule being defined.</p>
-<p>This is only applied if there was a change to the rule.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-commit"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-commit"><strong>commit</strong></p>
-<a class="ansibleOptionLink" href="#parameter-commit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
-<p>Please use <a class="reference internal" href="panos_commit_firewall_module.html#ansible-collections-paloaltonetworks-panos-panos-commit-firewall-module"><span class="std std-ref">paloaltonetworks.panos.panos_commit_firewall</span></a>, <a class="reference internal" href="panos_commit_panorama_module.html#ansible-collections-paloaltonetworks-panos-panos-commit-panorama-module"><span class="std std-ref">paloaltonetworks.panos.panos_commit_panorama</span></a>, <a class="reference internal" href="panos_commit_push_module.html#ansible-collections-paloaltonetworks-panos-panos-commit-push-module"><span class="std std-ref">paloaltonetworks.panos.panos_commit_push</span></a> instead.</p>
-<hr><p>Commit changes after creating object.  If <em>ip_address</em> is a Panorama device, and <em>device_group</em> or <em>template</em> are also set, perform a commit to Panorama and a commit-all to the device group/template.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`true`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-description"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-description"><strong>description</strong></p>
-<a class="ansibleOptionLink" href="#parameter-description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>NAT rule description.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-destination_ip"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-destination-ip"><strong>destination_ip</strong></p>
-<a class="ansibleOptionLink" href="#parameter-destination_ip" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>list of destination addresses</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id5"><span class="problematic" id="id6">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-destination_zone"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-destination-zone"><strong>destination_zone</strong></p>
-<a class="ansibleOptionLink" href="#parameter-destination_zone" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>destination zone</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-device_group"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-device-group"><strong>device_group</strong></p>
-<a class="ansibleOptionLink" href="#parameter-device_group" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>(Panorama only) The device group the operation should target.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id7"><span class="problematic" id="id8">:ansible-option-default:`&quot;shared&quot;`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-devicegroup"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-devicegroup"><strong>devicegroup</strong></p>
-<a class="ansibleOptionLink" href="#parameter-devicegroup" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
-<p>Use <em>device_group</em> instead.</p>
-<hr><p>The device group to place the NAT rule into.</p>
-<p>Panorama only; ignored for firewalls.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnat_address"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-dnat-address"><strong>dnat_address</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnat_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Static dnat translated address</p>
-<p>Mutually exclusive with <em>dnat_dynamic_address</em>, <em>dnat_dynamic_port</em>, and <em>dnat_dynamic_distribution</em>.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnat_dynamic_address"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-dnat-dynamic-address"><strong>dnat_dynamic_address</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnat_dynamic_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Dynamic destination translated address.</p>
-<p>Mutually exclusive with <em>dnat_address</em> and <em>dnat_port</em>.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnat_dynamic_distribution"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-dnat-dynamic-distribution"><strong>dnat_dynamic_distribution</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnat_dynamic_distribution" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Dynamic destination translated distribution.</p>
-<p>Mutually exclusive with <em>dnat_address</em> and <em>dnat_port</em>.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnat_dynamic_port"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-dnat-dynamic-port"><strong>dnat_dynamic_port</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnat_dynamic_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Dynamic destination translated port.</p>
-<p>Mutually exclusive with <em>dnat_address</em> and <em>dnat_port</em>.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnat_port"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-dnat-port"><strong>dnat_port</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnat_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Static dnat translated port</p>
-<p>Mutually exclusive with <em>dnat_dynamic_address</em>, <em>dnat_dynamic_port</em>, and <em>dnat_dynamic_distribution</em>.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-existing_rule"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-existing-rule"><strong>existing_rule</strong></p>
-<a class="ansibleOptionLink" href="#parameter-existing_rule" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><ul>
-<li><dl>
-<dt>If <em>location=before</em> or <em>location=after</em>, this option specifies</dt><dd><blockquote>
-<div><p>an existing rule name.  The rule being managed by this module will
-be positioned relative to the value of this parameter.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>Required if <em>location=before</em> or <em>location=after</em>.</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-group_tag"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-group-tag"><strong>group_tag</strong></p>
-<a class="ansibleOptionLink" href="#parameter-group_tag" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The group tag.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-ip_address"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-ip-address"><strong>ip_address</strong></p>
-<a class="ansibleOptionLink" href="#parameter-ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
-<p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
-<hr><p>The IP address or hostname of the PAN-OS device being configured.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-location"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-location"><strong>location</strong></p>
-<a class="ansibleOptionLink" href="#parameter-location" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Position to place the rule in.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`&quot;top&quot;`</span></a></p></li>
-<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`&quot;bottom&quot;`</span></a></p></li>
-<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`&quot;before&quot;`</span></a></p></li>
-<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`&quot;after&quot;`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-nat_type"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-nat-type"><strong>nat_type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-nat_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Type of NAT.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry-default:`&quot;ipv4&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`&quot;nat64&quot;`</span></a></p></li>
-<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`&quot;nptv6&quot;`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-negate_target"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-negate-target"><strong>negate_target</strong></p>
-<a class="ansibleOptionLink" href="#parameter-negate_target" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Applicable for Panorama only.</p>
-<p>Negate the value for <em>target</em>.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`true`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-operation"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-operation"><strong>operation</strong></p>
-<a class="ansibleOptionLink" href="#parameter-operation" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p><strong>Removed</strong></p>
-<p>Use <em>state</em> instead.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-password"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-password"><strong>password</strong></p>
-<a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
-<p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
-<hr><p>The password to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-port"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-port"><strong>port</strong></p>
-<a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
-<p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
-<hr><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-option-default:`443`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-provider"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-provider"><strong>provider</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-<p><span class="ansible-option-versionadded">added in paloaltonetworks.panos 1.0.0</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>A dict object containing connection details.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-provider/api_key"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-provider-api-key"><strong>api_key</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provider/api_key" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The API key to use instead of generating it using <em>username</em> / <em>password</em>.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-provider/ip_address"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-provider-ip-address"><strong>ip_address</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provider/ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The IP address or hostname of the PAN-OS device being configured.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-provider/password"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-provider-password"><strong>password</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provider/password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The password to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-provider/port"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-provider-port"><strong>port</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-option-default:`443`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-provider/serial_number"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-provider-serial-number"><strong>serial_number</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provider/serial_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The serial number of a firewall to use for targeted commands. If <em>ip_address</em> is not a Panorama PAN-OS device, then this param is ignored.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-provider/username"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-provider-username"><strong>username</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id31"><span class="problematic" id="id32">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-rule_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-rule-name"><strong>rule_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-rule_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>name of the SNAT rule</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-rulebase"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-rulebase"><strong>rulebase</strong></p>
-<a class="ansibleOptionLink" href="#parameter-rulebase" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The rulebase in which the rule is to exist.  If left unspecified, this defaults to <em>rulebase=pre-rulebase</em> for Panorama.  For NGFW, this is always set to be <em>rulebase=rulebase</em>.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`&quot;pre-rulebase&quot;`</span></a></p></li>
-<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`&quot;rulebase&quot;`</span></a></p></li>
-<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`&quot;post-rulebase&quot;`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-service"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-service"><strong>service</strong></p>
-<a class="ansibleOptionLink" href="#parameter-service" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>service</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id39"><span class="problematic" id="id40">:ansible-option-default:`&quot;any&quot;`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-snat_address_type"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-snat-address-type"><strong>snat_address_type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-snat_address_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>type of source translation.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry-default:`&quot;interface-address&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`&quot;translated-address&quot;`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-snat_bidirectional"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-snat-bidirectional"><strong>snat_bidirectional</strong></p>
-<a class="ansibleOptionLink" href="#parameter-snat_bidirectional" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>bidirectional flag</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`true`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-snat_dynamic_address"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-snat-dynamic-address"><strong>snat_dynamic_address</strong></p>
-<a class="ansibleOptionLink" href="#parameter-snat_dynamic_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Source NAT translated address.</p>
-<p>Used when <em>snat_type=dynamic-ip</em> or <em>snat_type=dynamic-ip-and-port</em>.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-snat_interface"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-snat-interface"><strong>snat_interface</strong></p>
-<a class="ansibleOptionLink" href="#parameter-snat_interface" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>snat interface</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-snat_interface_address"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-snat-interface-address"><strong>snat_interface_address</strong></p>
-<a class="ansibleOptionLink" href="#parameter-snat_interface_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>snat interface address</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-snat_static_address"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-snat-static-address"><strong>snat_static_address</strong></p>
-<a class="ansibleOptionLink" href="#parameter-snat_static_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Source NAT translated address. Used with Static-IP translation.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-snat_type"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-snat-type"><strong>snat_type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-snat_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>type of source translation</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`&quot;static-ip&quot;`</span></a></p></li>
-<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`&quot;dynamic-ip&quot;`</span></a></p></li>
-<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`&quot;dynamic-ip-and-port&quot;`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-source_ip"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-source-ip"><strong>source_ip</strong></p>
-<a class="ansibleOptionLink" href="#parameter-source_ip" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>list of source addresses</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id55"><span class="problematic" id="id56">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-source_zone"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-source-zone"><strong>source_zone</strong></p>
-<a class="ansibleOptionLink" href="#parameter-source_zone" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>list of source zones</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-state"><strong>state</strong></p>
-<a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The state of this object.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry-default:`&quot;present&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry:`&quot;absent&quot;`</span></a></p></li>
-<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`&quot;enable&quot;`</span></a></p></li>
-<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry:`&quot;disable&quot;`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-tag"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-tag"><strong>tag</strong></p>
-<a class="ansibleOptionLink" href="#parameter-tag" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Administrative tags.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-tag_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-tag-name"><strong>tag_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-tag_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
-<p>Use <em>tag</em> instead.</p>
-<hr><p>Administrative tag.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-target"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-target"><strong>target</strong></p>
-<a class="ansibleOptionLink" href="#parameter-target" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Applicable for Panorama only.</p>
-<p>Apply this rule exclusively to the listed firewall serial numbers.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-to_interface"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-to-interface"><strong>to_interface</strong></p>
-<a class="ansibleOptionLink" href="#parameter-to_interface" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Original packet’s destination interface.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id65"><span class="problematic" id="id66">:ansible-option-default:`&quot;any&quot;`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-username"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-username"><strong>username</strong></p>
-<a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
-<p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
-<hr><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id67"><span class="problematic" id="id68">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-uuid"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-uuid"><strong>uuid</strong></p>
-<a class="ansibleOptionLink" href="#parameter-uuid" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The rule UUID.</p>
-<p>Note that this is currently more of a read-only field.</p>
-<p>Usage of the UUID cannot currently take the place of using the rule name as the primary identifier.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-vsys"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-nat-rule-module-parameter-vsys"><strong>vsys</strong></p>
-<a class="ansibleOptionLink" href="#parameter-vsys" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The vsys this object belongs to.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id69"><span class="problematic" id="id70">:ansible-option-default:`&quot;vsys1&quot;`</span></a></p>
-</div></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="notes">
-<h2><a class="toc-backref" href="#id75" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<ul class="simple">
-<li><p>Checkmode is supported.</p></li>
-<li><p>Panorama is supported.</p></li>
-<li><p>PAN-OS connectivity should be specified using <em>provider</em> or the classic PAN-OS connectivity params (<em>ip_address</em>, <em>username</em>, <em>password</em>, <em>api_key</em>, and <em>port</em>).  If both are present, then the classic params are ignored.</p></li>
-</ul>
-</div>
-</section>
-<section id="examples">
-<h2><a class="toc-backref" href="#id76" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a source and destination nat rule</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create NAT SSH rule for 10.0.1.101</span>
-<span class="w">  </span><span class="nt">panos_nat_rule</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
-<span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Web</span><span class="nv"> </span><span class="s">SSH&quot;</span>
-<span class="w">    </span><span class="nt">source_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;external&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">    </span><span class="nt">destination_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;external&quot;</span>
-<span class="w">    </span><span class="nt">source_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;any&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">    </span><span class="nt">destination_ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;10.0.0.100&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;service-tcp-221&quot;</span>
-<span class="w">    </span><span class="nt">snat_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dynamic-ip-and-port&quot;</span>
-<span class="w">    </span><span class="nt">snat_interface</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ethernet1/2&quot;</span>
-<span class="w">    </span><span class="nt">dnat_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.0.1.101&quot;</span>
-<span class="w">    </span><span class="nt">dnat_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;22&quot;</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">disable a specific security rule</span>
-<span class="w">  </span><span class="nt">panos_nat_rule</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
-<span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Prod-Legacy</span><span class="nv"> </span><span class="s">1&#39;</span>
-<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;disable&#39;</span>
-</pre></div>
-</div>
-</section>
-<section id="status">
-<h2><a class="toc-backref" href="#id77" role="doc-backlink">Status</a><a class="headerlink" href="#status" title="Permalink to this heading"></a></h2>
-<ul class="simple">
-<li><p>This module will be removed in version 3.0.0.
-<em>[deprecated]</em></p></li>
-<li><p>For more information see <a class="reference internal" href="#deprecated">DEPRECATED</a>.</p></li>
-</ul>
-<section id="authors">
-<h3>Authors<a class="headerlink" href="#authors" title="Permalink to this heading"></a></h3>
-<ul class="simple">
-<li><p>Luigi Mori (&#64;jtschichold)</p></li>
-<li><p>Ivan Bojer (&#64;ivanbojer)</p></li>
-<li><p>Robert Hagen (&#64;stealthllama)</p></li>
-<li><p>Michael Richardson (&#64;mrichardson03)</p></li>
-<li><p>Garfield Lee Freeman (&#64;shinmog)</p></li>
-<li><p>Ken Celenza (&#64;itdependsnetworks)</p></li>
-</ul>
-</section>
-<section id="collection-links">
-<h3>Collection links<a class="headerlink" href="#collection-links" title="Permalink to this heading"></a></h3>
-<p class="ansible-links">
-  <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
-  <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
-</p></section>
-</section>
 </section>
 
 
