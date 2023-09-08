@@ -1,3 +1,11 @@
+### [2.17.5](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.4...v2.17.5) (2023-09-08)
+
+
+### Bug Fixes
+
+* **gathered_filter:** Update logic to cover cases of None ([#488](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/488)) ([d2372c5](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/d2372c5f9e3a26f047859e3feed5ab647970c631))
+* **panos_device_group:** Do not move a Device Group if state is set to gathered ([#484](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/484)) ([93d61a7](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/93d61a76cb81342c4ef743b7bce28e6132120288))
+
 ### [2.17.4](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.3...v2.17.4) (2023-08-15)
 
 
