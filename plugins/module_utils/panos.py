@@ -1255,7 +1255,7 @@ class ConnectionHelper(object):
             elif operator == "contains":
                 evaler.append("{0}".format(value in (item_config[field] or [])))
             elif operator == "does-not-contain":
-                evaler.append("{0}".format(value in (item_config[field] or [])))
+                evaler.append("{0}".format(value not in (item_config[field] or [])))
             elif operator == "starts-with":
                 evaler.append(
                     "{0}".format((item_config[field] or "").startswith(value))
