@@ -21,17 +21,13 @@ jobs:
     name: Sanity (Ⓐ${{ matrix.ansible }})
     strategy:
       matrix:
-        ansible:
-          - "2.9"
-          - "2.10"
-          - "2.11"
-          - "2.12"
         include:
-          - sanity: "new-sanity"
-          - ansible: "2.9"
-            sanity: "old-sanity"
-          - ansible: "2.10"
-            sanity: "old-sanity"
+          - ansible: "2.13"
+            python_ver: "3.10"
+          - ansible: "2.14"
+            python_ver: "3.11"
+          - ansible: "2.15"
+            python_ver: "3.11"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -44,7 +40,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: ${{ matrix.python_ver }}
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v8
@@ -75,7 +71,26 @@ jobs:
 
       - name: Run sanity tests
         timeout-minutes: 8
-        run: poetry run make ${{ matrix.sanity }}
+        run: poetry run make new-sanity
+
+  # Ansible-lint is a requirement for certification, and was added to the
+  # certification pipeline 20 June 2023 per Ansible Partner Engineering
+  # communication emails
+  #
+  # Config file is .ansible-lint
+  lint:
+    name: Ansible Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@main
 
   # Tox is used to execute linters required for Event-Driven Ansible (EDA) code:
   #   github.com/ansible/eda-partner-testing/blob/main/README.md
@@ -124,7 +139,7 @@ jobs:
   release:
     name: release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [sanity, tox]
+    needs: [sanity, tox, lint]
     runs-on: ubuntu-latest
 
     steps:

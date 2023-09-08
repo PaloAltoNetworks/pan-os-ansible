@@ -1,5 +1,5 @@
 ---
-requires_ansible: '>=2.9.10'
+requires_ansible: '>=2.13.0'
 plugin_routing:
   modules:
     panos_admin:
@@ -7,3 +7,67 @@ plugin_routing:
         removal_version: "3.0.0"
         warning_text: Use 'paloaltonetworks.panos.panos_administrator' instead.
       redirect: paloaltonetworks.panos.panos_administrator
+    panos_commit:
+      deprecation:
+        removal_version: "3.0.0"
+        warning_text: >
+          Use 'paloaltonetworks.panos.panos_commit_firewall',
+          'paloaltonetworks.panos.panos_commit_panorama',
+          or 'paloaltonetworks.panos.panos_commit_push' instead.
+      redirect: paloaltonetworks.panos.panos_commit_firewall
+    panos_dag:
+      deprecation:
+        removal_version: "3.0.0"
+        warning_text: Use 'paloaltonetworks.panos.panos_address_group' instead.
+      redirect: paloaltonetworks.panos.panos_address_group
+    panos_dag_tags:
+      deprecation:
+        removal_version: "3.0.0"
+        warning_text: Using new modern API calls in the paloaltonetworks.panos.panos_registered_ip
+      redirect: paloaltonetworks.panos.panos_registered_ip
+    panos_object:
+      deprecation:
+        removal_version: "3.0.0"
+        warning_text: Updated to idempotent modules
+      redirect: paloaltonetworks.panos.panos_address_object
+    panos_object_facts:
+      deprecation:
+        removal_version: "3.0.0"
+        warning_text: Updating module design to network resource modules.
+    panos_nat_rule:
+      deprecation:
+        removal_version: "3.0.0"
+        warning_text: Updating module design to network resource modules.
+      redirect: paloaltonetworks.panos.panos_nat_rule2
+    panos_nat_rule_facts:
+      deprecation:
+        removal_version: "3.0.0"
+        warning_text: Updating module design to network resource modules.
+    panos_query_rules:
+      deprecation:
+        removal_version: "3.0.0"
+        warning_text: Querying rules is handled better by 'paloaltonetworks.panos.panos_match_rule'.
+      redirect: paloaltonetworks.panos.panos_match_rule
+    panos_sag:
+      deprecation:
+        removal_version: "3.0.0"
+        warning_text: Use 'paloaltonetworks.panos.panos_address_group' instead.
+      redirect: paloaltonetworks.panos.panos_address_group
+
+    panos_security_rule_facts:
+      deprecation:
+        removal_version: "3.0.0"
+        warning_text: Use 'paloaltonetworks.panos.panos_security_rule' with 'state=gathered'.
+      redirect: paloaltonetworks.panos.panos_security_rule
+
+    panos_virtual_router_facts:
+      deprecation:
+        removal_version: "3.0.0"
+        warning_text: Use 'paloaltonetworks.panos.panos_virtual_router' with 'state=gathered'.
+      redirect: paloaltonetworks.panos.panos_virtual_router
+
+    panos_zone_facts:
+      deprecation:
+        removal_version: "3.0.0"
+        warning_text: Use 'paloaltonetworks.panos.panos_zone' with 'state=gathered'.
+      redirect: paloaltonetworks.panos.panos_zone

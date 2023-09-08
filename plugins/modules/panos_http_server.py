@@ -73,9 +73,9 @@ options:
             - TLS handshake protocol version
         type: str
         choices:
-            - 1.0
-            - 1.1
-            - 1.2
+            - "1.0"
+            - "1.1"
+            - "1.2"
     certificate_profile:
         description:
             - PAN-OS 9.0+

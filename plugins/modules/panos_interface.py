@@ -106,9 +106,9 @@ options:
         type: str
         choices:
             - auto
-            - 10
-            - 100
-            - 1000
+            - "10"
+            - "100"
+            - "1000"
     link_duplex:
         description:
             - Link duplex.

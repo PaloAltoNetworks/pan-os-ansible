@@ -37,4 +37,3 @@ modules:
   # These settings only apply to modules/module_utils.
   # It is not possible to declare supported Python versions for controller-only code.
   # All Python versions supported by the controller must be supported by controller-only code.
-  
