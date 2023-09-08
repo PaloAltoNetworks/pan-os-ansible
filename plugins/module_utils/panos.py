@@ -1229,42 +1229,70 @@ class ConnectionHelper(object):
             elif operator == "!=":
                 evaler.append("{0}".format("{0}".format(item_config[field]) != value))
             elif operator == "<":
-                evaler.append("{0}".format(item_config[field] < float(value)))
+                evaler.append(
+                    "{0}".format(
+                        False if value is None else item_config[field] < float(value)
+                    )
+                )
             elif operator == "<=":
-                evaler.append("{0}".format(item_config[field] <= float(value)))
+                evaler.append(
+                    "{0}".format(
+                        False if value is None else item_config[field] <= float(value)
+                    )
+                )
             elif operator == ">":
-                evaler.append("{0}".format(item_config[field] > float(value)))
+                evaler.append(
+                    "{0}".format(
+                        False if value is None else item_config[field] > float(value)
+                    )
+                )
             elif operator == ">=":
-                evaler.append("{0}".format(item_config[field] >= float(value)))
+                evaler.append(
+                    "{0}".format(
+                        False if value is None else item_config[field] >= float(value)
+                    )
+                )
             elif operator == "contains":
-                evaler.append("{0}".format(value in item_config[field]))
+                evaler.append("{0}".format(value in (item_config[field] or [])))
             elif operator == "does-not-contain":
-                evaler.append("{0}".format(value in item_config[field]))
+                evaler.append("{0}".format(value not in (item_config[field] or [])))
             elif operator == "starts-with":
-                evaler.append("{0}".format(item_config[field].startswith(value)))
+                evaler.append(
+                    "{0}".format((item_config[field] or "").startswith(value))
+                )
             elif operator == "does-not-start-with":
-                evaler.append("{0}".format(not item_config[field].startswith(value)))
+                evaler.append(
+                    "{0}".format(not (item_config[field] or "").startswith(value))
+                )
             elif operator == "ends-with":
-                evaler.append("{0}".format(item_config[field].endswith(value)))
+                evaler.append("{0}".format((item_config[field] or "").endswith(value)))
             elif operator == "does-not-end-with":
-                evaler.append("{0}".format(not item_config[field].endswith(value)))
+                evaler.append(
+                    "{0}".format(not (item_config[field] or "").endswith(value))
+                )
             elif operator == "matches-regex":
                 evaler.append(
-                    "{0}".format(re.search(value, item_config[field]) is not None)
+                    "{0}".format(
+                        re.search(value, (item_config[field] or "")) is not None
+                    )
                 )
             elif operator == "does-not-match-regex":
                 evaler.append(
-                    "{0}".format(re.search(value, item_config[field]) is None)
+                    "{0}".format(re.search(value, (item_config[field] or "")) is None)
                 )
             elif operator == "contains-regex":
                 prog = re.compile(value)
                 evaler.append(
-                    "{0}".format(any(prog.search(x) for x in item_config[field]))
+                    "{0}".format(
+                        any(prog.search(x) for x in (item_config[field] or []))
+                    )
                 )
             elif operator == "does-not-contain-regex":
                 prog = re.compile(value)
                 evaler.append(
-                    "{0}".format(not any(prog.search(x) for x in item_config[field]))
+                    "{0}".format(
+                        not any(prog.search(x) for x in (item_config[field] or []))
+                    )
                 )
             else:
                 raise Exception("Unknown operator: {0}".format(operator))
