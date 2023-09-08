@@ -13,3 +13,8 @@ itself. Unless explicitly tagged, all projects or work posted in our GitHub
 repository (at https://github.com/PaloAltoNetworks) or sites other than our
 official Downloads page on https://support.paloaltonetworks.com are provided
 under the best effort policy.
+
+As of version 2.12.2, this Collection of Ansible Modules for PAN-OS is
+[certified on Ansible Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/paloaltonetworks/panos)
+and officially supported for Ansible subscribers. Ansible subscribers can engage
+for support through their usual route towards Red Hat.
