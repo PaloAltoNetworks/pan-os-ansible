@@ -1,3 +1,10 @@
+### [2.17.4](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.3...v2.17.4) (2023-08-15)
+
+
+### Bug Fixes
+
+* **event-driven ansible:** Update for Red Hat's certification checks ([#479](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/479)) ([0fdce26](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/0fdce2660dd357b5a5e3cde706068f89655c6a4f))
+
 ### [2.17.3](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.2...v2.17.3) (2023-07-11)
 
 
