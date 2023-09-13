@@ -21,17 +21,13 @@ jobs:
     name: Sanity (Ⓐ${{ matrix.ansible }})
     strategy:
       matrix:
-        ansible:
-          - "2.9"
-          - "2.10"
-          - "2.11"
-          - "2.12"
         include:
-          - sanity: "new-sanity"
-          - ansible: "2.9"
-            sanity: "old-sanity"
-          - ansible: "2.10"
-            sanity: "old-sanity"
+          - ansible: "2.13"
+            python_ver: "3.10"
+          - ansible: "2.14"
+            python_ver: "3.11"
+          - ansible: "2.15"
+            python_ver: "3.11"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -44,7 +40,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: ${{ matrix.python_ver }}
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v8
@@ -75,7 +71,45 @@ jobs:
 
       - name: Run sanity tests
         timeout-minutes: 8
-        run: poetry run make ${{ matrix.sanity }}
+        run: poetry run make new-sanity
+
+  # Ansible-lint is a requirement for certification, and was added to the
+  # certification pipeline 20 June 2023 per Ansible Partner Engineering
+  # communication emails
+  #
+  # Config file is .ansible-lint
+  lint:
+    name: Ansible Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@main
+
+  # Tox is used to execute linters required for Event-Driven Ansible (EDA) code:
+  #   github.com/ansible/eda-partner-testing/blob/main/README.md
+  # Tox should only execute over <root>/extensions/eda/plugins.
+  # Tox utilises the tox.ini file found in the local directory.
+  # This action is taken from Ansible Partner Engineering's example:
+  #   github.com/ansible/eda-partner-testing/blob/main/.github/workflows/tox.yml
+  # Tox is planned by Ansible Partner Engineering to cover other code in future.
+  tox:
+    name: Tox Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install deps
+        run: python -m pip install tox
+      - name: Move to tox conf file and run tox
+        run: | 
+          cd .github/workflows
+          python -m tox -- ../..
 
   format:
     name: Code Format Check
@@ -105,7 +139,7 @@ jobs:
   release:
     name: release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [sanity]
+    needs: [sanity, tox, lint]
     runs-on: ubuntu-latest
 
     steps:
@@ -189,7 +223,7 @@ jobs:
         run: poetry add ansible-core^2.13
 
       - name: Add antsibull-docs
-        run: poetry add antsibull-docs
+        run: poetry add antsibull-docs^1.11.0
 
       - name: Install dependencies
         run: poetry install
@@ -219,7 +253,7 @@ jobs:
           mkdir -p pan-os-ansible/ansible_collections/paloaltonetworks/panos
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.4.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages

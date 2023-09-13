@@ -84,6 +84,7 @@ options:
         type: list
         elements: str
         required: false
+        default: []
     operation:
         description:
             - The operation to perform Supported values are I(add)/I(list)/I(delete).

@@ -2,7 +2,7 @@
 Palo Alto Networks Ansible Collection
 =====================================
 
-Version: 2.16.0
+Version: 2.17.5
 
 The Palo Alto Networks Ansible collection is a collection of modules that
 automate configuration and operational tasks on Palo Alto Networks Next
@@ -10,8 +10,9 @@ Generation Firewalls (both physical and virtualized) and Panorama.  The
 underlying protocol uses API calls that are wrapped within the Ansible
 framework.
 
-This is a **community supported project**. You can find the community
-supported live page at https://live.paloaltonetworks.com/ansible.
+This is the module reference documentation. Other documentation including
+getting started tutorials, how-to guides and other background reading, can
+be found at https://pan.dev/ansible/docs/panos/
 
 
 Installation
@@ -37,6 +38,7 @@ Then in your playbooks you can specify that you want to use the
         - paloaltonetworks.panos
 
 * Ansible Galaxy: https://galaxy.ansible.com/PaloAltoNetworks/panos
+* Red Hat Catalog: https://catalog.redhat.com/software/collection/paloaltonetworks/panos
 * GitHub repo:  https://github.com/PaloAltoNetworks/pan-os-ansible
 
 

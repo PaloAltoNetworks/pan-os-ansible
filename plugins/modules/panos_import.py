@@ -37,6 +37,9 @@ requirements:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.full_template_support
+notes:
+    - I(category=certificate) is used for importing a certificate on its own from a file.
+    - I(category=keypair) is used for importing a certificate and private key from a single file.
 options:
     category:
         description:
@@ -98,6 +101,11 @@ options:
         description:
             - Passphrase used to decrypt the certificate and/or private key.
         type: str
+    block_private_key_export:
+        description:
+            - When I(category=keypair), controls if the private key is allowed to be exported from PAN-OS in future.
+            - If this parameter is left undefined, the effective value with be no.
+        type: bool
     custom_logo_location:
         description:
             - When I(category=custom-logo), import this logo file here.
@@ -286,6 +294,7 @@ def main():
             certificate_name=dict(type="str"),
             format=dict(type="str", choices=["pem", "pkcs12"]),
             passphrase=dict(type="str", no_log=True),
+            block_private_key_export=dict(type="bool"),
             custom_logo_location=dict(
                 type="str",
                 choices=[
@@ -334,6 +343,14 @@ def main():
         params["certificate-name"] = module.params["certificate_name"]
         params["format"] = module.params["format"]
         params["passphrase"] = module.params["passphrase"]
+        src = "block_private_key_export"
+        dst = "block-private-key"
+        if module.params[src] is None:
+            params[dst] = None
+        elif module.params[src]:
+            params[dst] = "yes"
+        else:
+            params[dst] = "no"
 
     elif category == "custom-logo":
         params["where"] = module.params["custom_logo_location"]

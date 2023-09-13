@@ -50,7 +50,7 @@ options:
             - Specify the priority for Diffie-Hellman (DH) groups.
         type: list
         elements: str
-        choices: ['group1', 'group2', 'group5', 'group14', 'group19', 'group20']
+        choices: ['group1', 'group2', 'group5', 'group14', 'group15', 'group16', 'group19', 'group20', 'group21']
         default: ['group2']
         aliases:
             - dhgroup
@@ -59,7 +59,7 @@ options:
             - Authentication hashes used for IKE phase 1 proposal.
         type: list
         elements: str
-        choices: ['none', 'md5', 'sha1', 'sha256', 'sha384', 'sha512']
+        choices: ['non-auth', 'md5', 'sha1', 'sha256', 'sha384', 'sha512']
         default: ['sha1']
     encryption:
         description:
@@ -160,13 +160,23 @@ def main():
                 type="list",
                 elements="str",
                 default=["group2"],
-                choices=["group1", "group2", "group5", "group14", "group19", "group20"],
+                choices=[
+                    "group1",
+                    "group2",
+                    "group5",
+                    "group14",
+                    "group15",
+                    "group16",
+                    "group19",
+                    "group20",
+                    "group21",
+                ],
                 aliases=["dhgroup"],
             ),
             authentication=dict(
                 type="list",
                 elements="str",
-                choices=["none", "md5", "sha1", "sha256", "sha384", "sha512"],
+                choices=["non-auth", "md5", "sha1", "sha256", "sha384", "sha512"],
                 default=["sha1"],
             ),
             encryption=dict(
