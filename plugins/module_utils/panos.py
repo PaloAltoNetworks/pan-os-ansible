@@ -1213,8 +1213,8 @@ class ConnectionHelper(object):
                 evaler.append("{0}".format(not bool(item_config[field])))
 
             if operator in ["is-none", "is-not-none", "is-true", "is-false"]:
-                evaler.extend(")" * (len(operator_list)-1))
-                pdepth -= len(operator_list) -1
+                evaler.extend(")" * (len(operator_list) - 1))
+                pdepth -= len(operator_list) - 1
                 continue
 
             if len(operator_list) != 1:
