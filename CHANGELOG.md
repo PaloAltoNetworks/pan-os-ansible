@@ -1,3 +1,10 @@
+### [2.17.6](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.5...v2.17.6) (2023-09-14)
+
+
+### Bug Fixes
+
+* **gathered_filter:** Fix error handling for no-value operators ([#489](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/489)) ([351960c](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/351960c90624b299ce8cdd35146d95bd941ed22c))
+
 ### [2.17.5](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.4...v2.17.5) (2023-09-08)
 
 
