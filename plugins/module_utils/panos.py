@@ -1201,6 +1201,8 @@ class ConnectionHelper(object):
             except StopIteration:
                 raise Exception(err_msg)
 
+            operator_list = operator.split(")")
+            operator = operator_list[0]
             if operator == "is-none":
                 evaler.append("{0}".format(item_config[field] is None))
             elif operator == "is-not-none":
@@ -1208,7 +1210,15 @@ class ConnectionHelper(object):
             elif operator == "is-true":
                 evaler.append("{0}".format(bool(item_config[field])))
             elif operator == "is-false":
-                evaler.append("{0}".format(bool(not item_config[field])))
+                evaler.append("{0}".format(not bool(item_config[field])))
+
+            if operator in ["is-none", "is-not-none", "is-true", "is-false"]:
+                evaler.extend(")" * (len(operator_list) - 1))
+                pdepth -= len(operator_list) - 1
+                continue
+
+            if len(operator_list) != 1:
+                raise Exception(err_msg)
 
             try:
                 value = next(token_iter)
