@@ -1201,6 +1201,8 @@ class ConnectionHelper(object):
             except StopIteration:
                 raise Exception(err_msg)
 
+            operator_list = operator.split(")")
+            operator = operator_list[0]
             if operator == "is-none":
                 evaler.append("{0}".format(item_config[field] is None))
             elif operator == "is-not-none":
@@ -1208,110 +1210,102 @@ class ConnectionHelper(object):
             elif operator == "is-true":
                 evaler.append("{0}".format(bool(item_config[field])))
             elif operator == "is-false":
-                evaler.append("{0}".format(bool(not item_config[field])))
-            else:
-                try:
-                    value = next(token_iter)
-                except StopIteration:
+                evaler.append("{0}".format(not bool(item_config[field])))
+
+            if operator in ["is-none", "is-not-none", "is-true", "is-false"]:
+                evaler.extend(")" * (len(operator_list)-1))
+                pdepth -= len(operator_list) -1
+                continue
+
+            if len(operator_list) != 1:
+                raise Exception(err_msg)
+
+            try:
+                value = next(token_iter)
+            except StopIteration:
+                raise Exception(err_msg)
+
+            while value.endswith(")"):
+                end_parens += 1
+                pdepth -= 1
+                if pdepth < 0:
+                    raise Exception(err_msg)
+                value = value[:-1]
+                if not value:
                     raise Exception(err_msg)
 
-                while value.endswith(")"):
-                    end_parens += 1
-                    pdepth -= 1
-                    if pdepth < 0:
-                        raise Exception(err_msg)
-                    value = value[:-1]
-                    if not value:
-                        raise Exception(err_msg)
-
-                if operator == "==":
-                    evaler.append(
-                        "{0}".format("{0}".format(item_config[field]) == value)
+            if operator == "==":
+                evaler.append("{0}".format("{0}".format(item_config[field]) == value))
+            elif operator == "!=":
+                evaler.append("{0}".format("{0}".format(item_config[field]) != value))
+            elif operator == "<":
+                evaler.append(
+                    "{0}".format(
+                        False if value is None else item_config[field] < float(value)
                     )
-                elif operator == "!=":
-                    evaler.append(
-                        "{0}".format("{0}".format(item_config[field]) != value)
+                )
+            elif operator == "<=":
+                evaler.append(
+                    "{0}".format(
+                        False if value is None else item_config[field] <= float(value)
                     )
-                elif operator == "<":
-                    evaler.append(
-                        "{0}".format(
-                            False
-                            if value is None
-                            else item_config[field] < float(value)
-                        )
+                )
+            elif operator == ">":
+                evaler.append(
+                    "{0}".format(
+                        False if value is None else item_config[field] > float(value)
                     )
-                elif operator == "<=":
-                    evaler.append(
-                        "{0}".format(
-                            False
-                            if value is None
-                            else item_config[field] <= float(value)
-                        )
+                )
+            elif operator == ">=":
+                evaler.append(
+                    "{0}".format(
+                        False if value is None else item_config[field] >= float(value)
                     )
-                elif operator == ">":
-                    evaler.append(
-                        "{0}".format(
-                            False
-                            if value is None
-                            else item_config[field] > float(value)
-                        )
+                )
+            elif operator == "contains":
+                evaler.append("{0}".format(value in (item_config[field] or [])))
+            elif operator == "does-not-contain":
+                evaler.append("{0}".format(value not in (item_config[field] or [])))
+            elif operator == "starts-with":
+                evaler.append(
+                    "{0}".format((item_config[field] or "").startswith(value))
+                )
+            elif operator == "does-not-start-with":
+                evaler.append(
+                    "{0}".format(not (item_config[field] or "").startswith(value))
+                )
+            elif operator == "ends-with":
+                evaler.append("{0}".format((item_config[field] or "").endswith(value)))
+            elif operator == "does-not-end-with":
+                evaler.append(
+                    "{0}".format(not (item_config[field] or "").endswith(value))
+                )
+            elif operator == "matches-regex":
+                evaler.append(
+                    "{0}".format(
+                        re.search(value, (item_config[field] or "")) is not None
                     )
-                elif operator == ">=":
-                    evaler.append(
-                        "{0}".format(
-                            False
-                            if value is None
-                            else item_config[field] >= float(value)
-                        )
+                )
+            elif operator == "does-not-match-regex":
+                evaler.append(
+                    "{0}".format(re.search(value, (item_config[field] or "")) is None)
+                )
+            elif operator == "contains-regex":
+                prog = re.compile(value)
+                evaler.append(
+                    "{0}".format(
+                        any(prog.search(x) for x in (item_config[field] or []))
                     )
-                elif operator == "contains":
-                    evaler.append("{0}".format(value in (item_config[field] or [])))
-                elif operator == "does-not-contain":
-                    evaler.append("{0}".format(value not in (item_config[field] or [])))
-                elif operator == "starts-with":
-                    evaler.append(
-                        "{0}".format((item_config[field] or "").startswith(value))
+                )
+            elif operator == "does-not-contain-regex":
+                prog = re.compile(value)
+                evaler.append(
+                    "{0}".format(
+                        not any(prog.search(x) for x in (item_config[field] or []))
                     )
-                elif operator == "does-not-start-with":
-                    evaler.append(
-                        "{0}".format(not (item_config[field] or "").startswith(value))
-                    )
-                elif operator == "ends-with":
-                    evaler.append(
-                        "{0}".format((item_config[field] or "").endswith(value))
-                    )
-                elif operator == "does-not-end-with":
-                    evaler.append(
-                        "{0}".format(not (item_config[field] or "").endswith(value))
-                    )
-                elif operator == "matches-regex":
-                    evaler.append(
-                        "{0}".format(
-                            re.search(value, (item_config[field] or "")) is not None
-                        )
-                    )
-                elif operator == "does-not-match-regex":
-                    evaler.append(
-                        "{0}".format(
-                            re.search(value, (item_config[field] or "")) is None
-                        )
-                    )
-                elif operator == "contains-regex":
-                    prog = re.compile(value)
-                    evaler.append(
-                        "{0}".format(
-                            any(prog.search(x) for x in (item_config[field] or []))
-                        )
-                    )
-                elif operator == "does-not-contain-regex":
-                    prog = re.compile(value)
-                    evaler.append(
-                        "{0}".format(
-                            not any(prog.search(x) for x in (item_config[field] or []))
-                        )
-                    )
-                else:
-                    raise Exception("Unknown operator: {0}".format(operator))
+                )
+            else:
+                raise Exception("Unknown operator: {0}".format(operator))
 
             evaler.extend(")" * end_parens)
 
