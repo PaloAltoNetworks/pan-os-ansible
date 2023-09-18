@@ -467,7 +467,7 @@ def main():
             if filename is None:
                 module.fail_json(msg="filename is required for export")
 
-            save_binary(module, xapi, category, filename)
+            save_binary(module, xapi, category, filename, create_directory)
 
     elif category == "filter-pcap":
         # When exporting a filter pcap, from_name can be:
@@ -487,7 +487,7 @@ def main():
             if filename is None:
                 module.fail_json(msg="filename is required for export")
 
-            save_binary(module, xapi, category, filename)
+            save_binary(module, xapi, category, filename, create_directory)
 
     elif category == "dlp-pcap":
         from_name = module.params["dlp_pcap_name"]
@@ -512,7 +512,7 @@ def main():
             if filename is None:
                 module.fail_json(msg="filename is required for export")
 
-            save_binary(module, xapi, category, filename)
+            save_binary(module, xapi, category, filename, create_directory)
 
     elif category == "threat-pcap":
         if filename is None:
@@ -535,7 +535,7 @@ def main():
             search_time=search_time,
             serialno=serial,
         )
-        save_binary(module, xapi, category, filename)
+        save_binary(module, xapi, category, filename, create_directory)
 
     module.exit_json(changed=False)
 
