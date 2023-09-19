@@ -293,10 +293,10 @@ def get_devicegroup(device, devicegroup):
 def find_object(device, dev_group, obj_name, obj_type):
     # Get the firewall objects
     obj_type.refreshall(device)
-    if isinstance(device, pandevice.firewall.Firewall):
+    if isinstance(device, firewall.Firewall):
         addr = device.find(obj_name, obj_type)
         return addr
-    elif isinstance(device, pandevice.panorama.Panorama):
+    elif isinstance(device, panorama.Panorama):
         addr = device.find(obj_name, obj_type)
         if addr is None:
             if dev_group:
