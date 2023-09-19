@@ -263,7 +263,6 @@ try:
     from panos.errors import PanDeviceError
 except ImportError:
     try:
-        import pandevice
         from pandevice.panorama import DeviceGroup, Panorama
         from pandevice.firewall import Firewall
         from pandevice import objects
