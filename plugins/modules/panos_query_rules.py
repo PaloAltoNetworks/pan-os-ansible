@@ -147,7 +147,6 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    import panos
     from panos import base, firewall, objects, panorama, policies
 except ImportError:
     try:

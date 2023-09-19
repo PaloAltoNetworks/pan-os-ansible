@@ -233,7 +233,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 try:
     from panos.device import Vsys
-    from panos.errors import PanDeviceError
     from panos.firewall import Firewall
     from panos.network import (
         AggregateInterface,
@@ -251,7 +250,6 @@ try:
 except ImportError:
     try:
         from pandevice.device import Vsys
-        from pandevice.errors import PanDeviceError
         from pandevice.firewall import Firewall
         from pandevice.network import (
             AggregateInterface,

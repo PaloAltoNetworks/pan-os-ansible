@@ -256,16 +256,15 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    import panos
     from panos.panorama import DeviceGroup
-    from panos import objects, panorama
+    from panos import objects
     from panos.base import PanDevice
     from panos.errors import PanDeviceError
 except ImportError:
     try:
         import pandevice
         from pandevice.panorama import DeviceGroup
-        from pandevice import objects, panorama
+        from pandevice import objects
         from pandevice.base import PanDevice
         from pandevice.errors import PanDeviceError
     except ImportError:
