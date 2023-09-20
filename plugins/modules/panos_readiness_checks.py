@@ -31,7 +31,7 @@ description:
       Please refer to package's documentation for L(syntax,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks)
       and L(configuration dialect,https://pan.dev/panos/docs/panos-upgrade-assurance/dialect/).
 author: "Łukasz Pawlęga (@fosix)"
-version_added: '2.16.0'
+version_added: '2.18.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -147,32 +147,8 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 try:
     from panos_upgrade_assurance.check_firewall import CheckFirewall
     from panos_upgrade_assurance.firewall_proxy import FirewallProxy
-    from panos.panorama import Panorama
 except ImportError:
     pass
-
-
-def get_firewall_proxy_object(module_params: dict):
-    provider = module_params["provider"]
-    if provider["serial_number"]:
-        panorama = Panorama(
-            hostname=provider["ip_address"],
-            api_username=provider["username"],
-            api_password=provider["password"],
-        )
-        firewall = FirewallProxy(
-            serial=provider["serial_number"], vsys=module_params["vsys"]
-        )
-        panorama.add(firewall)
-        return firewall
-    else:
-        return FirewallProxy(
-            hostname=provider["ip_address"],
-            api_username=provider["username"],
-            api_password=provider["password"],
-            vsys=module_params["vsys"],
-        )
-
 
 def main():
     results = dict()
@@ -194,7 +170,7 @@ def main():
     results = dict()
     module_failed = False
 
-    firewall = get_firewall_proxy_object(module.params)
+    firewall = FirewallProxy(firewall=helper.get_pandevice_parent(module))
 
     checks = CheckFirewall(
         node=firewall, skip_force_locale=module.params["skip_force_locale"]

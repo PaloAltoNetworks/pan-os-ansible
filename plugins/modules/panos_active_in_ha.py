@@ -29,7 +29,7 @@ description:
     - A simple boolean check, verifies if a node is an active (B(true)) or passive (B(false)) node in an HA pair.
     - If node does not belong to an HA pair or the pair is no configured correctly the module will fail.
 author: "Łukasz Pawlęga (@fosix)"
-version_added: '2.16.0'
+version_added: '2.18.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -93,35 +93,11 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.panorama import Panorama
     from panos_upgrade_assurance.check_firewall import CheckFirewall
     from panos_upgrade_assurance.firewall_proxy import FirewallProxy
     from panos_upgrade_assurance.utils import CheckStatus
 except ImportError:
     pass
-
-
-def get_firewall_proxy_object(module_params: dict):
-    provider = module_params["provider"]
-    if provider["serial_number"]:
-        panorama = Panorama(
-            hostname=provider["ip_address"],
-            api_username=provider["username"],
-            api_password=provider["password"],
-        )
-        firewall = FirewallProxy(
-            serial=provider["serial_number"], vsys=module_params["vsys"]
-        )
-        panorama.add(firewall)
-        return firewall
-    else:
-        return FirewallProxy(
-            hostname=provider["ip_address"],
-            api_username=provider["username"],
-            api_password=provider["password"],
-            vsys=module_params["vsys"],
-        )
-
 
 def main():
     results = dict()
@@ -139,7 +115,7 @@ def main():
         argument_spec=helper.argument_spec, supports_check_mode=False
     )
 
-    firewall = get_firewall_proxy_object(module.params)
+    firewall = FirewallProxy(firewall=helper.get_pandevice_parent(module))
 
     is_active = CheckFirewall(firewall).check_is_ha_active(
         skip_config_sync=module.params["skip_config_sync"]
