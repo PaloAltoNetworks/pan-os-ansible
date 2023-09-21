@@ -220,17 +220,24 @@ class ConnectionHelper(object):
             try:
                 import panos_upgrade_assurance
             except ImportError:
-                module.fail_json(msg='Missing required library "panos_upgrade_assurance".', syspath=sys.path)
+                module.fail_json(
+                    msg='Missing required library "panos_upgrade_assurance".',
+                    syspath=sys.path,
+                )
             # This code assumes both panos_upgrade_assurance.version and self.min_panos_upgrade_assurance
             # are a tuple of 3 ints.  If panos_upgrade_assurance.version is a string, then you'll have
             # to turn it into a 3 element tuple of ints to do the comparison.
-            pua_ver = tuple(int(x) for x in panos_upgrade_assurance.__version__.split("."))
+            pua_ver = tuple(
+                int(x) for x in panos_upgrade_assurance.__version__.split(".")
+            )
             if pua_ver < self.min_panos_upgrade_assurance:
-                module.fail_json(msg=MIN_VERSION_ERROR.format(
-                    "panos_upgrade_assurance",
-                    _vstr(pua_ver),
-                    _vstr(self.min_panos_upgrade_assurance),
-                ))
+                module.fail_json(
+                    msg=MIN_VERSION_ERROR.format(
+                        "panos_upgrade_assurance",
+                        _vstr(pua_ver),
+                        _vstr(self.min_panos_upgrade_assurance),
+                    )
+                )
 
         pan_device_auth, serial_number = None, None
         if module.params["provider"] and module.params["provider"]["ip_address"]:

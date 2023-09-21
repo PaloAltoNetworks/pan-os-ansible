@@ -604,7 +604,6 @@ class HttpApi(HttpApiBase):
 
     @staticmethod
     def _validate_response(http_code, http_response):
-
         # Valid XML-API responses can be contained in the following HTTP status
         # codes:
         #   400 - Bad Request (malformed request)

@@ -152,13 +152,14 @@ try:
 except ImportError:
     pass
 
+
 def main():
     results = dict()
 
     helper = get_connection(
         vsys=True,
         with_classic_provider_spec=True,
-        min_panos_upgrade_assurance_version = MIN_PUA_VER,
+        min_panos_upgrade_assurance_version=MIN_PUA_VER,
         argument_spec=dict(
             checks=dict(type="list", default=["all"], elements="raw"),
             force_fail=dict(type="bool", default=False),

@@ -219,7 +219,6 @@ def xml_contained(big, small):
         return False
 
     for element, path in iterpath(small):
-
         # Elements with "member" children must have all their children be equal.
         if element.find("*/member/..") is not None:
             big_element = big.find(path)

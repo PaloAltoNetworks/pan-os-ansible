@@ -101,13 +101,14 @@ except ImportError:
 
 MIN_PUA_VER = (0, 3, 0)
 
+
 def main():
     results = dict()
 
     helper = get_connection(
         vsys=True,
         with_classic_provider_spec=True,
-        min_panos_upgrade_assurance_version = MIN_PUA_VER,
+        min_panos_upgrade_assurance_version=MIN_PUA_VER,
         argument_spec=dict(
             force_fail=dict(type="bool", default=False),
             skip_config_sync=dict(type="bool", default=False),

@@ -263,7 +263,6 @@ def export_binary(module, xapi, category, filename, create_directory):
 
 
 def save_binary(module, xapi, category, filename, create_directory):
-
     # This function is almost the same as export_binary, but omits the line...
     #   xapi.export(category=category)
     # This function is therefore used where the xapi.export operation is already done
@@ -285,7 +284,6 @@ def save_binary(module, xapi, category, filename, create_directory):
 
 
 def export_async(module, xapi, category, filename, interval=60, timeout=600):
-
     # Submit job, get resulting job id
     xapi.export(category=category)
     job_result = ET.fromstring(xapi.xml_root())
@@ -442,7 +440,6 @@ def main():
         save_binary(module, xapi, category, filename, create_directory)
 
     elif category == "application-pcap":
-
         # When exporting an application pcap, from_name can be:
         #   - nothing, which gets you a list of directories
         #   - a directory name, which gets you a list of pcaps in that directory
@@ -464,7 +461,6 @@ def main():
             save_binary(module, xapi, category, filename)
 
     elif category == "filter-pcap":
-
         # When exporting a filter pcap, from_name can be:
         #   - nothing, which gets you a list of files
         #   - a filename, which gets you the pcap file

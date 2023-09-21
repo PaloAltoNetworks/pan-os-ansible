@@ -185,19 +185,23 @@ from ansible.module_utils.basic import AnsibleModule
 try:
     from panos_upgrade_assurance.snapshot_compare import SnapshotCompare
 except ImportError:
-    module.fail_json(msg='Missing required library "panos_upgrade_assurance".', syspath=sys.path)
+    module.fail_json(
+        msg='Missing required library "panos_upgrade_assurance".', syspath=sys.path
+    )
 
 MIN_PUA_VER = (0, 3, 0)
 
-def main():
 
+def main():
     pua_ver = tuple(int(x) for x in panos_upgrade_assurance.__version__.split("."))
     if pua_ver < MIN_PUA_VER:
-        module.fail_json(msg=MIN_VERSION_ERROR.format(
-            "panos_upgrade_assurance",
-            _vstr(pua_ver),
-            _vstr(MIN_PUA_VER),
-        ))
+        module.fail_json(
+            msg=MIN_VERSION_ERROR.format(
+                "panos_upgrade_assurance",
+                _vstr(pua_ver),
+                _vstr(MIN_PUA_VER),
+            )
+        )
 
     module = AnsibleModule(
         argument_spec=dict(

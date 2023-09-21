@@ -197,7 +197,6 @@ def delete_address_group(device, group_name):
 
 
 def main():
-
     argument_spec = dict(
         ip_address=dict(required=True),
         password=dict(no_log=True, required=True),

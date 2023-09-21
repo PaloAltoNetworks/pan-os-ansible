@@ -236,7 +236,6 @@ def addr_in_obj(addr, obj):
 
 def get_services(device, dev_group, svc_list, obj_list):
     for svc in svc_list:
-
         # Search global address objects
         global_obj_match = device.find(svc, objects.ServiceObject)
         if global_obj_match:
@@ -249,7 +248,6 @@ def get_services(device, dev_group, svc_list, obj_list):
 
         # Search Panorama device group
         if isinstance(device, pandevice.panorama.Panorama):
-
             # Search device group address objects
             dg_obj_match = dev_group.find(svc, objects.ServiceObject)
             if dg_obj_match:
