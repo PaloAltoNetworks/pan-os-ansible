@@ -106,6 +106,7 @@ class ConnectionHelper(object):
         self,
         min_pandevice_version,
         min_panos_version,
+        min_panos_upgrade_assurance_version,
         error_on_firewall_shared,
         panorama_error,
         firewall_error,
@@ -127,6 +128,7 @@ class ConnectionHelper(object):
         self.vsys_shared = None
         self.min_pandevice_version = min_pandevice_version
         self.min_panos_version = min_panos_version
+        self.min_panos_upgrade_assurance_version = min_panos_upgrade_assurance_version
         self.error_on_firewall_shared = error_on_firewall_shared
         self.panorama_error = panorama_error
         self.firewall_error = firewall_error
@@ -213,6 +215,22 @@ class ConnectionHelper(object):
                     ),
                     sdk_package_path=panos.__file__.rsplit("/", 1)[0],
                 )
+
+        if self.min_panos_upgrade_assurance_version is not None:
+            try:
+                import panos_upgrade_assurance
+            except ImportError:
+                module.fail_json(msg='Missing required library "panos_upgrade_assurance".', syspath=sys.path)
+            # This code assumes both panos_upgrade_assurance.version and self.min_panos_upgrade_assurance
+            # are a tuple of 3 ints.  If panos_upgrade_assurance.version is a string, then you'll have
+            # to turn it into a 3 element tuple of ints to do the comparison.
+            pua_ver = tuple(int(x) for x in panos_upgrade_assurance.__version__.split("."))
+            if pua_ver < self.min_panos_upgrade_assurance:
+                module.fail_json(msg=MIN_VERSION_ERROR.format(
+                    "panos_upgrade_assurance",
+                    _vstr(pua_ver),
+                    _vstr(self.min_panos_upgrade_assurance),
+                ))
 
         pan_device_auth, serial_number = None, None
         if module.params["provider"] and module.params["provider"]["ip_address"]:
@@ -1323,6 +1341,7 @@ def get_connection(
     required_one_of=None,
     min_pandevice_version=None,
     min_panos_version=None,
+    min_panos_upgrade_assurance_version=None,
     error_on_firewall_shared=False,
     panorama_error=None,
     firewall_error=None,
@@ -1454,6 +1473,7 @@ def get_connection(
     helper = helper_cls(
         min_pandevice_version,
         min_panos_version,
+        min_panos_upgrade_assurance_version,
         error_on_firewall_shared,
         panorama_error,
         firewall_error,

@@ -116,6 +116,8 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
+MIN_PUA_VER = (0, 3, 0)
+
 try:
     from panos_upgrade_assurance.firewall_proxy import FirewallProxy
     from panos_upgrade_assurance.check_firewall import CheckFirewall
@@ -128,6 +130,7 @@ def main():
     helper = get_connection(
         vsys=True,
         with_classic_provider_spec=True,
+        min_panos_upgrade_assurance_version = MIN_PUA_VER,
         argument_spec=dict(
             state_areas=dict(type="list", default=["all"], elements="str")
         ),
