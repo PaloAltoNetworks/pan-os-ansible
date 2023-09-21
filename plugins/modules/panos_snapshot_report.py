@@ -22,13 +22,13 @@ __metaclass__ = type
 DOCUMENTATION = """
 ---
 module: panos_snapshot_report
-short_description: Generates a report by comparing two snapshot made with the M(panos_state_snapshot) module.
+short_description: Generates a report by comparing two snapshot made with the M(paloaltonetworks.panos.panos_state_snapshot) module.
 description:
     - A wrapper around the PAN-OS Upgrade Assurance package.
     - This is an 'offline' module, meaning it operates only on available facts. It does not need to connect to a device.
       It's a wrapper around the L(SnapshotCompare class, https://pan.dev/panos/docs/panos-upgrade-assurance/api/snapshot_compare/#class-snapshotcompare).
-    - The module takes two snapshots made with M(panos_state_snapshot) module, compares them and produces a report in a form of a B(dict).
-      Keys in this report match the state areas, values contain comparison details.
+    - The module takes two snapshots made with M(paloaltonetworks.panos.panos_state_snapshot) module, compares them and produces a report in a form of
+      a B(dict). Keys in this report match the state areas, values contain comparison details.
     - You can limit the report to the state area's you're only interested in. You can also adjust the comparison by excluding some or
       limiting to particular properties.
     - Please refer to package's documentation for L(syntax,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks)
@@ -64,27 +64,6 @@ options:
         type: list
         elements: raw
         default: ["all"]
-        suboptions:
-            properties:
-                description:
-                    - 'Applicable only to: arp_table, ip_sec_tunnels, license, routes.'
-                    - Provides a list of properties to include or skip when comparing two snapshots.
-                    - For example, when comparing route tables you might want to skip B(flags) property to avoid false positives.
-                type: list
-                default: ["all"]
-            count_change_threshold:
-                description:
-                    - 'Applicable only to: arp_table, nics, routes.'
-                    - Useful when we assume that a count of elements between snapshots will change by some percentage.
-                type: int
-                default: 0
-            thresholds:
-                description:
-                    - 'Applicable only to: session_stats.'
-                    - A list of single element dictionaries that specify the session type (key) and the maximum change percentage (value).
-                type: list
-                default: []
-                required: true
 """
 
 EXAMPLES = """
@@ -182,17 +161,31 @@ response:
 
 from ansible.module_utils.basic import AnsibleModule
 
+PUA_AVAILABLE = True
 try:
     from panos_upgrade_assurance.snapshot_compare import SnapshotCompare
 except ImportError:
-    module.fail_json(
-        msg='Missing required library "panos_upgrade_assurance".', syspath=sys.path
-    )
+    PUA_AVAILABLE = False
+    pass
 
 MIN_PUA_VER = (0, 3, 0)
 
 
 def main():
+    module = AnsibleModule(
+        argument_spec=dict(
+            left_snapshot=dict(type="dict", required=True),
+            right_snapshot=dict(type="dict", required=True),
+            reports=dict(type="list", default=["all"], elements="raw"),
+        ),
+        supports_check_mode=False,
+    )
+
+    if not PUA_AVAILABLE:
+        module.fail_json(
+            msg='Missing required library "panos_upgrade_assurance".', syspath=sys.path
+        )
+
     pua_ver = tuple(int(x) for x in panos_upgrade_assurance.__version__.split("."))
     if pua_ver < MIN_PUA_VER:
         module.fail_json(
@@ -202,15 +195,6 @@ def main():
                 _vstr(MIN_PUA_VER),
             )
         )
-
-    module = AnsibleModule(
-        argument_spec=dict(
-            left_snapshot=dict(type="dict", required=True),
-            right_snapshot=dict(type="dict", required=True),
-            reports=dict(type="list", default=["all"], elements="raw"),
-        ),
-        supports_check_mode=False,
-    )
 
     results = SnapshotCompare(
         left_snapshot=module.params["left_snapshot"],

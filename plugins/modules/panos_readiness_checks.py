@@ -25,8 +25,8 @@ module: panos_readiness_checks
 short_description: Runs readiness checks (boolean in nature) against a Firewall device.
 description:
     - A wrapper around the PAN-OS Upgrade Assurance package.
-    - The module is meant to run readiness checks available in the package's L(CheckFirewall.run_readiness_checks()
-      method,https://pan.dev/panos/docs/panos-upgrade-assurance/api/check_firewall/#checkfirewallrun_readiness_checks).
+    - The module is meant to run readiness checks available in the package's CheckFirewall.run_readiness_checks()
+      L(method,https://pan.dev/panos/docs/panos-upgrade-assurance/api/check_firewall/#checkfirewallrun_readiness_checks).
       Since it's just a wrapper, the way you would configure a check is exactly the same as if you would run the class directly.
       Please refer to package's documentation for L(syntax,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks)
       and L(configuration dialect,https://pan.dev/panos/docs/panos-upgrade-assurance/dialect/).

@@ -25,8 +25,8 @@ module: panos_state_snapshot
 short_description: Takes a snapshot of a state of a Firewall device.
 description:
     - A wrapper around the PAN-OS Upgrade Assurance package.
-    - The module takes a snapshot of a state of specified areas. It runs the package's
-      L(CheckFirewall.run_snapshots() method, https://pan.dev/panos/docs/panos-upgrade-assurance/api/check_firewall/#checkfirewallrun_snapshots).
+    - The module takes a snapshot of a state of specified areas. It runs the package's CheckFirewall.run_snapshots()
+      L(method, https://pan.dev/panos/docs/panos-upgrade-assurance/api/check_firewall/#checkfirewallrun_snapshots).
       Since it's just a wrapper, the way you would configure snapshot area is exactly the same as if you would run the class directly.
       Please refer to package's documentation for L(syntax,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks)
       and L(configuration dialect,https://pan.dev/panos/docs/panos-upgrade-assurance/dialect/).
