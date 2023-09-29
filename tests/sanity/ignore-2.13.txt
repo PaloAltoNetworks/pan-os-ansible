@@ -106,3 +106,5 @@ plugins/modules/panos_vm_auth_key.py validate-modules:missing-gplv3-license
 plugins/modules/panos_zone.py validate-modules:missing-gplv3-license
 plugins/modules/panos_zone_facts.py validate-modules:missing-gplv3-license
 plugins/httpapi/panos.py validate-modules:missing-gplv3-license
+plugins/modules/panos_object_facts.py pylint:used-before-assignment
+plugins/modules/panos_query_rules.py pylint:used-before-assignment
