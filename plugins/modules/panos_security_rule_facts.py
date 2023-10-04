@@ -120,7 +120,7 @@ EXAMPLES = """
   panos_security_rule_facts:
     provider: '{{ provider }}'
     names:
-        - 'HTTP Multimedia'
+      - 'HTTP Multimedia'
   register: rule1
 
 - debug:

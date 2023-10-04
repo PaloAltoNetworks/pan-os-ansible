@@ -146,7 +146,6 @@ options:
 """
 
 EXAMPLES = """
-
 """
 
 RETURN = """
