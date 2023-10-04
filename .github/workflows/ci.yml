@@ -90,7 +90,7 @@ jobs:
           path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@v6.20.2
+        uses: ansible/ansible-lint@v6.20.1
         with:
           args: -vv
 
