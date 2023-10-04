@@ -91,6 +91,8 @@ jobs:
 
       - name: Run ansible-lint
         uses: ansible/ansible-lint@main
+        with:
+          args: -vv
 
   # Tox is used to execute linters required for Event-Driven Ansible (EDA) code:
   #   github.com/ansible/eda-partner-testing/blob/main/README.md
