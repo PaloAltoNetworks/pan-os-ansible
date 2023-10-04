@@ -2,7 +2,8 @@ PAN-OS Ansible Collection
 =========================
 
 ![CI](https://github.com/PaloAltoNetworks/pan-os-ansible/workflows/CI/badge.svg?branch=develop)
-![Version on Galaxy](https://img.shields.io/badge/dynamic/json?style=flat&label=Ansible+Galaxy&prefix=v&url=https://galaxy.ansible.com/api/v2/collections/paloaltonetworks/panos/&query=latest_version.version)
+![Version on Galaxy](https://img.shields.io/badge/dynamic/json?style=flat&label=Ansible+Galaxy+Latest+Version&prefix=v&url=https://galaxy.ansible.com/api/v3/plugin/ansible/content/published/collections/index/paloaltonetworks/panos/&query=highest_version.version)
+![Downloads from Galaxy](https://img.shields.io/badge/dynamic/json?style=flat&label=Ansible+Galaxy+Downloads&url=https://galaxy.ansible.com/api/v3/plugin/ansible/content/published/collections/index/paloaltonetworks/panos/&query=download_count)
 
 Ansible collection that automates the configuration and operational tasks on
 Palo Alto Networks Next Generation Firewalls, both physical and virtualized form
