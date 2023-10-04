@@ -86,9 +86,11 @@ jobs:
         working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@v6.20.3
+        uses: ansible/ansible-lint@v6.20.2
         with:
           args: -vv
 
