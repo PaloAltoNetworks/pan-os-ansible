@@ -102,9 +102,9 @@ EXAMPLES = """
     ip_address: "192.168.1.1"
     password: "admin"
     sag_name: "sag-1"
-    static_value: ['test-addresses', ]
+    static_value: ['test-addresses-1', 'test-addresses-2']
     description: "A description for the static address group"
-    tags: ["tags to be associated with the group", ]
+    tags: ["tags to be associated with the group"]
 """
 
 RETURN = """

@@ -68,11 +68,11 @@ EXAMPLES = """
     provider: '{{ provider }}'
     name: 'Software Updates'
     value:
-        - ms-update
-        - apple-update
-        - adobe-update
-        - google-update
-        - ms-product-activation
+      - ms-update
+      - apple-update
+      - adobe-update
+      - google-update
+      - ms-product-activation
 """
 
 RETURN = """
