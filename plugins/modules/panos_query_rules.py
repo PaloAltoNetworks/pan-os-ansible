@@ -147,11 +147,9 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    import panos
     from panos import base, firewall, objects, panorama, policies
 except ImportError:
     try:
-        import pandevice
         from pandevice import base, firewall, objects, panorama, policies
     except ImportError:
         pass
@@ -204,7 +202,7 @@ def get_object(device, dev_group, obj_name):
         return match
 
     # Search Panorama device group
-    if isinstance(device, pandevice.panorama.Panorama):
+    if isinstance(device, panorama.Panorama):
         # Search device group address objects
         match = dev_group.find(obj_name, objects.AddressObject)
         if match:
@@ -248,7 +246,7 @@ def get_services(device, dev_group, svc_list, obj_list):
             get_services(device, dev_group, global_grp_match.value, obj_list)
 
         # Search Panorama device group
-        if isinstance(device, pandevice.panorama.Panorama):
+        if isinstance(device, panorama.Panorama):
 
             # Search device group address objects
             dg_obj_match = dev_group.find(svc, objects.ServiceObject)

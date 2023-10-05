@@ -136,22 +136,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-try:
-    from panos.network import (
-        RedistributionProfile,
-        RedistributionProfileIPv6,
-        VirtualRouter,
-    )
-except ImportError:
-    try:
-        from pandevice.network import (
-            RedistributionProfile,
-            RedistributionProfileIPv6,
-            VirtualRouter,
-        )
-    except ImportError:
-        pass
-
 
 class Helper(ConnectionHelper):
     def spec_handling(self, spec, module):

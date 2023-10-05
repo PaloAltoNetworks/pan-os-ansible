@@ -205,9 +205,7 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    import pan.xapi
     import requests
-    import requests_toolbelt
 
     HAS_LIB = True
 except ImportError:
