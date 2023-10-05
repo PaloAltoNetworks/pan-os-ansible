@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_commit_firewall module -- Commit the firewall's can
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.5).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -658,13 +658,13 @@ Examples
     - name: commit changes by specified admins on firewall
       panos_commit_firewall:
         provider: '{{ credentials }}'
-        admins: ['netops','secops','cloudops']
+        admins: ['netops', 'secops', 'cloudops']
         description: 'Saturday change window'
 
     - name: commit only policy and object changes on firewall
       panos_commit_firewall:
         provider: '{{ credentials }}'
-        exclude_device_and_network: True
+        exclude_device_and_network: true
 
 
 

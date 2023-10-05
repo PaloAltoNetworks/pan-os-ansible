@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_dhcp_relay module -- Manage dhcp relay.
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.5).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -904,7 +904,7 @@ Examples
         provider: '{{ provider }}'
         dhcp_interface: 'ethernet1/1'
         interface: 'ethernet1/1'
-        ipv4_enabled: True
+        ipv4_enabled: true
         ipv4_servers:
           - '1.1.1.1'
           - '2.2.2.2'

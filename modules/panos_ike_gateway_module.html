@@ -203,7 +203,7 @@
 <h1>paloaltonetworks.panos.panos_ike_gateway module – Manage IKE gateway on the firewall with subset of settings.<a class="headerlink" href="#paloaltonetworks-panos-panos-ike-gateway-module-manage-ike-gateway-on-the-firewall-with-subset-of-settings" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.5).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.6).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-ike-gateway-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -696,13 +696,13 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;IKEGW-Ansible&#39;</span>
 <span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;ikev2&#39;</span>
 <span class="w">    </span><span class="nt">interface</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;ethernet1/1&#39;</span>
-<span class="w">    </span><span class="nt">enable_passive_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
-<span class="w">    </span><span class="nt">enable_liveness_check</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">enable_passive_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">enable_liveness_check</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">liveness_check_interval</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;5&#39;</span>
 <span class="w">    </span><span class="nt">peer_ip_value</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1.2.3.4&#39;</span>
 <span class="w">    </span><span class="nt">pre_shared_key</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CHANGEME&#39;</span>
 <span class="w">    </span><span class="nt">ikev2_crypto_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;IKE-Ansible&#39;</span>
-<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create IKE gateway (dynamic)</span>
 <span class="w">  </span><span class="nt">panos_ike_gateway</span><span class="p">:</span>
@@ -711,7 +711,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <span class="w">    </span><span class="nt">interface</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;ethernet1/1&#39;</span>
 <span class="w">    </span><span class="nt">peer_ip_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dynamic</span>
 <span class="w">    </span><span class="nt">pre_shared_key</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CHANGEME&#39;</span>
-<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </pre></div>
 </div>
 <section id="authors">

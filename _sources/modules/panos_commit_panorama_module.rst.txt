@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_commit_panorama module -- Commit Panorama's candida
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.5).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -854,18 +854,18 @@ Examples
     - name: commit changes by specified admins on panorama
       panos_commit_panorama:
         provider: '{{ credentials }}'
-        admins: ['netops','secops','cloudops']
+        admins: ['netops', 'secops', 'cloudops']
         description: 'Saturday change window'
 
     - name: commit specific device group changes on panorama
       panos_commit_panorama:
         provider: '{{ credentials }}'
-        device_groups: ['production','development','testing']
+        device_groups: ['production', 'development', 'testing']
 
     - name: commit log collector group changes on panorama
       panos_commit_panorama:
         provider: '{{ credentials }}'
-        log_collector_groups: ['us-west-loggers','apac-loggers','latam-loggers']
+        log_collector_groups: ['us-west-loggers', 'apac-loggers', 'latam-loggers']
         description: 'Log collector changes'
 
 

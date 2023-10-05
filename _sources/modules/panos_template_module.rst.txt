@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_template module -- Manage Panorama template
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.5).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -613,8 +613,8 @@ Examples
         name: 'hello world'
         description: 'my description here'
         devices:
-          - 0123456
-          - 1123456
+          - 90123456
+          - 91123456
 
     # Delete a template
     - name: Delete a template

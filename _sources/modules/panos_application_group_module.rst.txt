@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_application_group module -- Manage application grou
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.5).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -885,11 +885,11 @@ Examples
         provider: '{{ provider }}'
         name: 'Software Updates'
         value:
-            - ms-update
-            - apple-update
-            - adobe-update
-            - google-update
-            - ms-product-activation
+          - ms-update
+          - apple-update
+          - adobe-update
+          - google-update
+          - ms-product-activation
 
 
 
