@@ -1,0 +1,38 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: Download running configuration
+  paloaltonetworks.panos.panos_export:
+    provider: '{{ device }}'
+    category: 'configuration'
+    filename: 'running-config.xml'
+  register: result
+
+- name: Assert config export was successful
+  assert:
+    that:
+      - result is success
+
+- name: Download device state
+  paloaltonetworks.panos.panos_export:
+    provider: "{{ device }}"
+    category: "device-state"
+    filename: "device-state.tgz"
+  register: result
+
+- name: Assert device state export was successful
+  assert:
+    that:
+      - result is success
+
+- name: Download statsdump
+  paloaltonetworks.panos.panos_export:
+    provider: "{{ device }}"
+    category: "stats-dump"
+    filename: "statsdump.tar.gz"
+  register: result
+
+- name: Assert statsdump export was successful
+  assert:
+    that:
+      - result is success

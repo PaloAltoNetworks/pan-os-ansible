@@ -1,0 +1,34 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: Print current playbook directory
+  ansible.builtin.debug:
+    var: playbook_dir
+
+- name: Test import configuration
+  paloaltonetworks.panos.panos_import:
+    provider: "{{ device }}"
+    file: "test_config.xml"
+    category: "configuration"
+  register: result
+
+- name: Assert config import was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: Test import certificate
+  paloaltonetworks.panos.panos_import:
+    provider: "{{ device }}"
+    file: "test_cert.pem"
+    certificate_name: "test_cert"
+    format: "pem"
+    category: "certificate"
+  register: result
+
+- name: Assert config import was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
