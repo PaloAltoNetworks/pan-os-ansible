@@ -35,7 +35,7 @@ jobs:
       run:
         working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
@@ -103,7 +103,7 @@ jobs:
     name: Tox Checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install deps
         run: python -m pip install tox
       - name: Move to tox conf file and run tox
@@ -118,7 +118,7 @@ jobs:
       run:
         working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
@@ -144,7 +144,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # This task could be removed once the task below is confirmed working
       - name: Set up Galaxy auth
@@ -207,7 +207,7 @@ jobs:
       # such as ansible-test in the symlink directory fails.  Thus we need
       # to have the real path contain ansible_collections/paloaltonetworks/panos.
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ./ansible_collections/paloaltonetworks/panos
 
@@ -243,7 +243,7 @@ jobs:
         run: poetry run make docs
 
       # This is here for right now because the action to deploy seems to assume
-      # (and not have a configuration option to) mirror the actions/checkout@v3
+      # (and not have a configuration option to) mirror the actions/checkout@v4
       # the with.path spec.
       - name: Move the repo to where the deploy action is looking for it
         run: |
