@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_dhcp_relay module -- Manage dhcp relay.
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.7).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -900,7 +900,7 @@ Examples
 
     
     # Create IPv4 DHCP Relay
-    - panos_dhcp_relay:
+    - paloaltonetworks.panos.panos_dhcp_relay:
         provider: '{{ provider }}'
         dhcp_interface: 'ethernet1/1'
         interface: 'ethernet1/1'
@@ -910,7 +910,7 @@ Examples
           - '2.2.2.2'
 
     # Delete DHCP Relay
-    - panos_dhcp_relay:
+    - paloaltonetworks.panos.panos_dhcp_relay:
         provider: '{{ provider }}'
         dhcp_interface: 'ethernet1/1'
         interface: 'ethernet1/1'
@@ -946,6 +946,7 @@ Collection links
 
   <p class="ansible-links">
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://pan.dev/ansible/docs/panos" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
   </p>
 

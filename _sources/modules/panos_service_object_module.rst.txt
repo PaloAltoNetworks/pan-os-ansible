@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_service_object module -- Manage service objects on 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.7).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -1201,7 +1201,7 @@ Examples
 
     
     - name: Create service object 'ssh-tcp-22'
-      panos_service_object:
+      paloaltonetworks.panos.panos_service_object:
         provider: '{{ provider }}'
         name: 'ssh-tcp-22'
         destination_port: '22'
@@ -1209,14 +1209,14 @@ Examples
         tag: ['Prod']
 
     - name: Create service object 'mysql-tcp-3306'
-      panos_service_object:
+      paloaltonetworks.panos.panos_service_object:
         provider: '{{ provider }}'
         name: 'mysql-tcp-3306'
         destination_port: '3306'
         description: 'MySQL on tcp/3306'
 
     - name: Delete service object 'mysql-tcp-3306'
-      panos_service_object:
+      paloaltonetworks.panos.panos_service_object:
         provider: '{{ provider }}'
         name: 'mysql-tcp-3306'
         state: 'absent'
@@ -1251,6 +1251,7 @@ Collection links
 
   <p class="ansible-links">
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://pan.dev/ansible/docs/panos" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
   </p>
 

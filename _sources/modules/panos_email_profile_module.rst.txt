@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_email_profile module -- Manage email server profile
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.7).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -1376,7 +1376,7 @@ Examples
     
     # Create a profile
     - name: Create email profile
-      panos_email_profile:
+      paloaltonetworks.panos.panos_email_profile:
         provider: '{{ provider }}'
         name: 'my-profile'
 
@@ -1410,6 +1410,7 @@ Collection links
 
   <p class="ansible-links">
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://pan.dev/ansible/docs/panos" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
   </p>
 

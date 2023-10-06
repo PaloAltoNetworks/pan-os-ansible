@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_ipv6_address module -- Manage IPv6 addresses on an 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.7).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -1134,7 +1134,7 @@ Examples
     
     # Have an IPv6 address on ethernet1/6.2
     - name: Assert the given IPv6 address
-      panos_ipv6_address:
+      paloaltonetworks.panos.panos_ipv6_address:
         provider: '{{ provider }}'
         iface_name: 'ethernet1/6.2'
         address: '2001:db8:123:1::1'
@@ -1169,6 +1169,7 @@ Collection links
 
   <p class="ansible-links">
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://pan.dev/ansible/docs/panos" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
   </p>
 

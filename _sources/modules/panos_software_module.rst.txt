@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_software module -- Manage PAN-OS software versions.
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.7).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -730,7 +730,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Restart device after installing desired version.  Use in conjunction with panos\_check to determine when firewall is ready again.
+      Restart device after installing desired version.  Use in conjunction with \ :ref:`paloaltonetworks.panos.panos\_check <ansible_collections.paloaltonetworks.panos.panos_check_module>`\  to determine when firewall is ready again.
 
 
       .. rst-class:: ansible-option-line
@@ -936,20 +936,20 @@ Examples
 
     
     - name: Install PAN-OS 8.1.6 and restart
-      panos_software:
+      paloaltonetworks.panos.panos_software:
         provider: '{{ provider }}'
         version: '8.1.6'
         restart: true
 
     - name: Download PAN-OS 9.0.0 base image only
-      panos_software:
+      paloaltonetworks.panos.panos_software:
         provider: '{{ provider }}'
         version: '9.0.0'
         install: false
         restart: false
 
     - name: Download PAN-OS 9.0.1 and sync to HA peer
-      panos_software:
+      paloaltonetworks.panos.panos_software:
         provider: '{{ provider }}'
         version: '9.0.1'
         sync_to_peer: true
@@ -957,7 +957,7 @@ Examples
         restart: false
 
     - name: Downgrade to 9.1.10 with named config load
-      panos_software:
+      paloaltonetworks.panos.panos_software:
         provider: '{{ device }}'
         version: 9.1.10
         named_config: '9.1.10_backup_named_config.xml'
@@ -1048,6 +1048,7 @@ Collection links
 
   <p class="ansible-links">
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://pan.dev/ansible/docs/panos" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
   </p>
 

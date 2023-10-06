@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_bgp_peer module -- Manage a BGP Peer
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.7).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -1825,7 +1825,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Name of the virtual router; it must already exist; see panos\_virtual\_router.
+      Name of the virtual router; it must already exist; see \ :ref:`paloaltonetworks.panos.panos\_virtual\_router <ansible_collections.paloaltonetworks.panos.panos_virtual_router_module>`\ .
 
 
       .. rst-class:: ansible-option-line
@@ -1863,7 +1863,7 @@ Examples
 
     
     - name: Create BGP Peer
-      panos_bgp_peer:
+      paloaltonetworks.panos.panos_bgp_peer:
         provider: '{{ provider }}'
         peer_group: 'peer-group-1'
         name: 'peer-1'
@@ -1905,6 +1905,7 @@ Collection links
 
   <p class="ansible-links">
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://pan.dev/ansible/docs/panos" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
   </p>
 

@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_bgp_policy_rule module -- Manage a BGP Policy Impor
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.7).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -1854,7 +1854,7 @@ Examples
     
     # Add a BGP Policy
     - name: Create Policy Import Rule
-      panos_bgp_policy_rule:
+      paloaltonetworks.panos.panos_bgp_policy_rule:
         provider: '{{ provider }}'
         vr_name: 'default'
         name: 'import-rule-001'
@@ -1870,7 +1870,7 @@ Examples
         action_dampening: 'dampening-profile'
 
     - name: Create Policy Export Rule
-      panos_bgp_policy_rule:
+      paloaltonetworks.panos.panos_bgp_policy_rule:
         provider: '{{ provider }}'
         vr_name: 'default'
         name: 'export-rule-001'
@@ -1879,7 +1879,7 @@ Examples
         action: 'allow'
 
     - name: Remove Export Rule
-      panos_bgp_policy_rule:
+      paloaltonetworks.panos.panos_bgp_policy_rule:
         provider: '{{ provider }}'
         state: 'absent'
         vr_name: 'default'
@@ -1917,6 +1917,7 @@ Collection links
 
   <p class="ansible-links">
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://pan.dev/ansible/docs/panos" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
   </p>
 

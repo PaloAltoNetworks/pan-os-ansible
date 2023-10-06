@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_mgtconfig module -- Module used to configure some o
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.7).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -1158,7 +1158,7 @@ Examples
 
     
     - name: set dns and panorama
-      panos_mgtconfig:
+      paloaltonetworks.panos.panos_mgtconfig:
         provider: '{{ provider }}'
         dns_server_primary: "1.1.1.1"
         dns_server_secondary: "1.1.1.2"
@@ -1197,6 +1197,7 @@ Collection links
 
   <p class="ansible-links">
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://pan.dev/ansible/docs/panos" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
   </p>
 

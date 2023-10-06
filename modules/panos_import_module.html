@@ -203,7 +203,7 @@
 <h1>paloaltonetworks.panos.panos_import module – import file on PAN-OS devices<a class="headerlink" href="#paloaltonetworks-panos-panos-import-module-import-file-on-pan-os-devices" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.6).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.7).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-import-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -499,13 +499,13 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <section id="examples">
 <h2><a class="toc-backref" href="#id105" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import software image into PAN-OS</span>
-<span class="w">  </span><span class="nt">panos_import</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_import</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
 <span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">software</span>
-<span class="w">    </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/tmp/PanOS_vm-10.0.1</span>
+<span class="w">    </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/tmp/paloaltonetworks.panos.panos_vm-10.0.1</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import certificate</span>
-<span class="w">  </span><span class="nt">panos_import</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_import</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">device</span> <span class="cp">}}</span><span class="s">&#39;</span>
 <span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;certificate&#39;</span>
 <span class="w">    </span><span class="nt">certificate_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;ISRG</span><span class="nv"> </span><span class="s">Root</span><span class="nv"> </span><span class="s">X1&#39;</span>
@@ -513,39 +513,39 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <span class="w">    </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/tmp/isrgrootx1.pem&#39;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import content</span>
-<span class="w">  </span><span class="nt">panos_import</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_import</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">device</span> <span class="cp">}}</span><span class="s">&#39;</span>
 <span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;content&#39;</span>
 <span class="w">    </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/tmp/panupv2-all-contents-8322-6317&#39;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import named configuration snapshot</span>
-<span class="w">  </span><span class="nt">panos_import</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_import</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">device</span> <span class="cp">}}</span><span class="s">&#39;</span>
 <span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;configuration&#39;</span>
 <span class="w">    </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/tmp/config.xml&#39;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import application block page</span>
-<span class="w">  </span><span class="nt">panos_import</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_import</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">device</span> <span class="cp">}}</span><span class="s">&#39;</span>
 <span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;application-block-page&#39;</span>
 <span class="w">    </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/tmp/application-block-page.html&#39;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import custom logo</span>
-<span class="w">  </span><span class="nt">panos_import</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_import</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">device</span> <span class="cp">}}</span><span class="s">&#39;</span>
 <span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;custom-logo&#39;</span>
 <span class="w">    </span><span class="nt">custom_logo_location</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;login-screen&#39;</span>
 <span class="w">    </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/tmp/logo.jpg&#39;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import SAML metadata profile</span>
-<span class="w">  </span><span class="nt">panos_import</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_import</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">device</span> <span class="cp">}}</span><span class="s">&#39;</span>
 <span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;idp-metadata&#39;</span>
 <span class="w">    </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/tmp/saml_metadata.xml&#39;</span>
 <span class="w">    </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;saml-profile&#39;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import SAML metadata profile to template</span>
-<span class="w">  </span><span class="nt">panos_import</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_import</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">device</span> <span class="cp">}}</span><span class="s">&#39;</span>
 <span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;idp-metadata&#39;</span>
 <span class="w">    </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/tmp/saml_metadata.xml&#39;</span>
@@ -565,6 +565,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <h3>Collection links<a class="headerlink" href="#collection-links" title="Permalink to this heading"></a></h3>
 <p class="ansible-links">
   <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+  <a href="https://pan.dev/ansible/docs/panos" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
   <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
 </p></section>
 </section>

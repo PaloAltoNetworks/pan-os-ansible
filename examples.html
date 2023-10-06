@@ -113,7 +113,7 @@ precede the more general ones.</p>
 <section id="firewall">
 <h3>Firewall<a class="headerlink" href="#firewall" title="Permalink to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add test rule 1 to the firewall</span>
-<span class="w">  </span><span class="nt">panos_security_rule</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_security_rule</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Ansible</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">1&#39;</span>
 <span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;An</span><span class="nv"> </span><span class="s">Ansible</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">rule&#39;</span>
@@ -134,7 +134,7 @@ precede the more general ones.</p>
 <section id="panorama">
 <h3>Panorama<a class="headerlink" href="#panorama" title="Permalink to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add test pre-rule to Panorama</span>
-<span class="w">  </span><span class="nt">panos_security_rule</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_security_rule</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Ansible</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">1&#39;</span>
 <span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;An</span><span class="nv"> </span><span class="s">Ansible</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">pre-rule&#39;</span>
@@ -166,7 +166,7 @@ virtual wire interfaces.</p>
 <section id="id1">
 <h3>Firewall<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add the service object to the firewall first</span>
-<span class="w">  </span><span class="nt">panos_service_object</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_service_object</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;service-tcp-221&#39;</span>
 <span class="w">    </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;tcp&#39;</span>
@@ -175,7 +175,7 @@ virtual wire interfaces.</p>
 <span class="w">    </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create dynamic NAT rule on the firewall</span>
-<span class="w">  </span><span class="nt">panos_nat_rule</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_nat_rule</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Web</span><span class="nv"> </span><span class="s">SSH</span><span class="nv"> </span><span class="s">inbound&#39;</span>
 <span class="w">    </span><span class="nt">source_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;external&#39;</span><span class="p p-Indicator">]</span>
@@ -193,7 +193,7 @@ virtual wire interfaces.</p>
 <section id="id2">
 <h3>Panorama<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add the necessary service object to Panorama first</span>
-<span class="w">  </span><span class="nt">panos_object</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_object</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;service-tcp-221&#39;</span>
 <span class="w">    </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;tcp&#39;</span>
@@ -203,7 +203,7 @@ virtual wire interfaces.</p>
 <span class="w">    </span><span class="nt">device_group</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;shared_services_11022&#39;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create dynamic NAT rule on Panorama</span>
-<span class="w">  </span><span class="nt">panos_nat_rule</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_nat_rule</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">    </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Web</span><span class="nv"> </span><span class="s">SSH</span><span class="nv"> </span><span class="s">inbound&#39;</span>
 <span class="w">    </span><span class="nt">source_zone</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;external&#39;</span><span class="p p-Indicator">]</span>
@@ -225,7 +225,7 @@ virtual wire interfaces.</p>
 <p>Change admin password of PAN-OS device using SSH with SSH key. This is
 used in particular when NGFW is deployed in the cloud (such as AWS).</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Change user password using ssh protocol</span>
-<span class="w">  </span><span class="nt">panos_admpwd</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_admpwd</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">ip_address</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">username</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">    </span><span class="nt">newpassword</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">new_password</span><span class="nv"> </span><span class="s">}}&#39;</span>
@@ -240,7 +240,7 @@ GlobalProtect client, SSL connector, or otherwise. Root certificate
 must be preset on the system first. This module depends on paramiko
 for ssh.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">generate self signed certificate</span>
-<span class="w">  </span><span class="nt">panos_cert_gen_ssh</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_cert_gen_ssh</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ip_address</span><span class="nv"> </span><span class="s">}}&quot;</span>
 <span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">username</span><span class="nv"> </span><span class="s">}}&quot;</span>
 <span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">password</span><span class="nv"> </span><span class="s">}}&quot;</span>
@@ -256,7 +256,7 @@ for ssh.</p>
 jobs). The check could be done once or multiple times until the device
 is ready.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Wait for FW reboot</span>
-<span class="w">  </span><span class="nt">panos_check</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_check</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">  </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span>
 <span class="w">  </span><span class="nt">until</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">not result|failed</span>
@@ -269,7 +269,7 @@ is ready.</p>
 <h2>Import configuration<a class="headerlink" href="#import-configuration" title="Permalink to this heading"></a></h2>
 <p>Import file into PAN-OS device.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">import configuration file into PAN-OS</span>
-<span class="w">  </span><span class="nt">panos_import</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_import</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ip_address</span><span class="nv"> </span><span class="s">}}&quot;</span>
 <span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">username</span><span class="nv"> </span><span class="s">}}&quot;</span>
 <span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">password</span><span class="nv"> </span><span class="s">}}&quot;</span>
@@ -283,7 +283,7 @@ is ready.</p>
 <p>Configure data-port (DP) network interface for DHCP. By default DP
 interfaces are static.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enable DHCP client on ethernet1/1 in zone external</span>
-<span class="w">  </span><span class="nt">panos_interface</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_interface</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">    </span><span class="nt">if_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ethernet1/1&quot;</span>
 <span class="w">    </span><span class="nt">zone_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;external&quot;</span>
@@ -316,7 +316,7 @@ configuration from a configuration file</p>
 <span class="w">    </span><span class="nt">wait_for</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">port=22 host=&#39;{{ provider.ip_address }}&#39; search_regex=SSH timeout=600</span>
 
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">checking if device ready</span>
-<span class="w">    </span><span class="nt">panos_check</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">paloaltonetworks.panos.panos_check</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">    </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span>
 <span class="w">    </span><span class="nt">until</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">not result|failed</span>
@@ -324,7 +324,7 @@ configuration from a configuration file</p>
 <span class="w">    </span><span class="nt">delay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
 
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">import configuration</span>
-<span class="w">    </span><span class="nt">panos_import</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">paloaltonetworks.panos.panos_import</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.ip_address</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.username</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.password</span><span class="nv"> </span><span class="s">}}&#39;</span>
@@ -333,7 +333,7 @@ configuration from a configuration file</p>
 <span class="w">    </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span>
 
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">load configuration</span>
-<span class="w">    </span><span class="nt">panos_loadcfg</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">paloaltonetworks.panos.panos_loadcfg</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.ip_address</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.username</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.password</span><span class="nv"> </span><span class="s">}}&#39;</span>
@@ -341,7 +341,7 @@ configuration from a configuration file</p>
 <span class="w">      </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">set admin password</span>
-<span class="w">    </span><span class="nt">panos_administrator</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">paloaltonetworks.panos.panos_administrator</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
 <span class="w">      </span><span class="nt">admin_username</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;admin&#39;</span>
 <span class="w">      </span><span class="nt">admin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider.password</span><span class="nv"> </span><span class="s">}}&#39;</span>
@@ -349,7 +349,7 @@ configuration from a configuration file</p>
 <span class="w">      </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">commit (blocks until finished)</span>
-<span class="w">    </span><span class="nt">panos_commit</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">paloaltonetworks.panos.panos_commit</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
 </pre></div>
 </div>

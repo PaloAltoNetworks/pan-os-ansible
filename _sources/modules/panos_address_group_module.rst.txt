@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_address_group module -- Manage address group object
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.7).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -1003,21 +1003,21 @@ Examples
 
     
     - name: Create object group 'Prod'
-      panos_address_group:
+      paloaltonetworks.panos.panos_address_group:
         provider: '{{ provider }}'
         name: 'Prod'
         static_value: ['Test-One', 'Test-Three']
         tag: ['Prod']
 
     - name: Create object group 'SI'
-      panos_address_group:
+      paloaltonetworks.panos.panos_address_group:
         provider: '{{ provider }}'
         name: 'SI'
         dynamic_value: "'SI_Instances'"
         tag: ['SI']
 
     - name: Delete object group 'SI'
-      panos_address_group:
+      paloaltonetworks.panos.panos_address_group:
         provider: '{{ provider }}'
         name: 'SI'
         state: 'absent'
@@ -1053,6 +1053,7 @@ Collection links
 
   <p class="ansible-links">
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://pan.dev/ansible/docs/panos" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
   </p>
 

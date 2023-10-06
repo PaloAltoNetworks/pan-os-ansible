@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_ike_gateway module -- Manage IKE gateway on the fir
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.7).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -1863,7 +1863,7 @@ Examples
 
     
     - name: Add IKE gateway config to the firewall
-      panos_ike_gateway:
+      paloaltonetworks.panos.panos_ike_gateway:
         provider: '{{ provider }}'
         state: 'present'
         name: 'IKEGW-Ansible'
@@ -1878,7 +1878,7 @@ Examples
         commit: false
 
     - name: Create IKE gateway (dynamic)
-      panos_ike_gateway:
+      paloaltonetworks.panos.panos_ike_gateway:
         provider: '{{ device }}'
         name: 'test-dynamic'
         interface: 'ethernet1/1'
@@ -1916,6 +1916,7 @@ Collection links
 
   <p class="ansible-links">
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://pan.dev/ansible/docs/panos" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
   </p>
 

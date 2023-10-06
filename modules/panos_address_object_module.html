@@ -203,7 +203,7 @@
 <h1>paloaltonetworks.panos.panos_address_object module – Manage address objects on PAN-OS devices.<a class="headerlink" href="#paloaltonetworks-panos-panos-address-object-module-manage-address-objects-on-pan-os-devices" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.6).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.7).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-address-object-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -455,7 +455,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <section id="examples">
 <h2><a class="toc-backref" href="#id41" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create object &#39;Test-One&#39;</span>
-<span class="w">  </span><span class="nt">panos_address_object</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_address_object</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Test-One&#39;</span>
 <span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1.1.1.1&#39;</span>
@@ -463,7 +463,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <span class="w">    </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;Prod&#39;</span><span class="p p-Indicator">]</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create object &#39;Test-Two&#39;</span>
-<span class="w">  </span><span class="nt">panos_address_object</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_address_object</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Test-Two&#39;</span>
 <span class="w">    </span><span class="nt">address_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;ip-range&#39;</span>
@@ -472,7 +472,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <span class="w">    </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;SI&#39;</span><span class="p p-Indicator">]</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create object &#39;Test-Three&#39;</span>
-<span class="w">  </span><span class="nt">panos_address_object</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_address_object</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Test-Three&#39;</span>
 <span class="w">    </span><span class="nt">address_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;fqdn&#39;</span>
@@ -480,7 +480,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Description</span><span class="nv"> </span><span class="s">Three&#39;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete object &#39;Test-Two&#39;</span>
-<span class="w">  </span><span class="nt">panos_address_object</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_address_object</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Test-Two&#39;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;absent&#39;</span>
@@ -497,6 +497,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <h3>Collection links<a class="headerlink" href="#collection-links" title="Permalink to this heading"></a></h3>
 <p class="ansible-links">
   <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+  <a href="https://pan.dev/ansible/docs/panos" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
   <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
 </p></section>
 </section>

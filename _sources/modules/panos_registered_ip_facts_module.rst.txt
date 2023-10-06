@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_registered_ip_facts module -- Retrieve facts about 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.6).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.17.7).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -724,18 +724,18 @@ Examples
 
     
     - name: Get facts for all registered IPs
-      panos_registered_ip_facts:
+      paloaltonetworks.panos.panos_registered_ip_facts:
         provider: '{{ provider }}'
       register: registered_ip_facts
 
     - name: Get facts for specific tag
-      panos_registered_ip_facts:
+      paloaltonetworks.panos.panos_registered_ip_facts:
         provider: '{{ provider }}'
         tags: ['First_Tag']
       register: first_tag_registered_ip_facts
 
     - name: Get facts for a specific IP address
-      panos_registered_ip_facts:
+      paloaltonetworks.panos.panos_registered_ip_facts:
         provider: '{{ provider }}'
         ips: ['192.168.1.1']
       register: ipaddress_registered_ip_facts
@@ -829,6 +829,7 @@ Collection links
 
   <p class="ansible-links">
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://pan.dev/ansible/docs/panos" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
     <a href="https://github.com/PaloAltoNetworks/pan-os-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
   </p>
 
