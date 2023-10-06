@@ -117,7 +117,7 @@ options:
 
 EXAMPLES = """
 - name: Create schedule object
-  panos_schedule_object:
+  paloaltonetworks.panos.panos_schedule_object:
     provider: '{{ provider }}'
     name: 'Monday-Work-Day'
     type: 'recurring'
@@ -126,7 +126,7 @@ EXAMPLES = """
       - '09:00-17:00'
 
 - name: Create non-recurring schedule object
-  panos_schedule_object:
+  paloaltonetworks.panos.panos_schedule_object:
     provider: '{{ device }}'
     name: 'Week-of-Sept-21'
     type: 'non-recurring'

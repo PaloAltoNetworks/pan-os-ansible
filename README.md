@@ -2,7 +2,7 @@ PAN-OS Ansible Collection
 =========================
 
 ![CI](https://github.com/PaloAltoNetworks/pan-os-ansible/workflows/CI/badge.svg?branch=develop)
-![Version on Galaxy](https://img.shields.io/badge/dynamic/json?style=flat&label=Ansible+Galaxy&prefix=v&url=https://galaxy.ansible.com/api/v2/collections/paloaltonetworks/panos/&query=latest_version.version)
+![Version on Galaxy](https://img.shields.io/badge/dynamic/json?style=flat&label=Ansible+Galaxy+Latest+Version&prefix=v&url=https://galaxy.ansible.com/api/v3/plugin/ansible/content/published/collections/index/paloaltonetworks/panos/&query=highest_version.version)
 
 Ansible collection that automates the configuration and operational tasks on
 Palo Alto Networks Next Generation Firewalls, both physical and virtualized form
@@ -10,7 +10,7 @@ factors, using the PAN-OS API.
 
 -   Free software: Apache 2.0 License
 -   Documentation:
-    <https://paloaltonetworks.github.io/pan-os-ansible/>
+    <https://pan.dev/ansible/docs/panos>
 -   Getting started tutorials, how-to guides and other background reading:
     <https://pan.dev/ansible/docs/panos>
 -   Repo:
@@ -76,7 +76,7 @@ and officially supported for Ansible subscribers. Ansible subscribers can engage
 for support through their usual route towards Red Hat.
 
 For those who are not Ansible subscribers, this Collection of Ansible Modules is
-also [published on Ansible Galaxy](https://galaxy.ansible.com/paloaltonetworks/panos)
+also [published on Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos)
 to be freely used under an as-is, best effort, support
 policy. These scripts should be seen as community supported and Palo
 Alto Networks will contribute our expertise as and when possible. We do

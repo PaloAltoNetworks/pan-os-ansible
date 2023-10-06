@@ -70,7 +70,7 @@ options:
 
 EXAMPLES = """
 - name: Create object 'Test-One'
-  panos_address_object:
+  paloaltonetworks.panos.panos_address_object:
     provider: '{{ provider }}'
     name: 'Test-One'
     value: '1.1.1.1'
@@ -78,7 +78,7 @@ EXAMPLES = """
     tag: ['Prod']
 
 - name: Create object 'Test-Two'
-  panos_address_object:
+  paloaltonetworks.panos.panos_address_object:
     provider: '{{ provider }}'
     name: 'Test-Two'
     address_type: 'ip-range'
@@ -87,7 +87,7 @@ EXAMPLES = """
     tag: ['SI']
 
 - name: Create object 'Test-Three'
-  panos_address_object:
+  paloaltonetworks.panos.panos_address_object:
     provider: '{{ provider }}'
     name: 'Test-Three'
     address_type: 'fqdn'
@@ -95,7 +95,7 @@ EXAMPLES = """
     description: 'Description Three'
 
 - name: Delete object 'Test-Two'
-  panos_address_object:
+  paloaltonetworks.panos.panos_address_object:
     provider: '{{ provider }}'
     name: 'Test-Two'
     state: 'absent'

@@ -65,20 +65,20 @@ options:
 EXAMPLES = """
 # Create a template.
 - name: Create template stack
-  panos_template_stack:
+  paloaltonetworks.panos.panos_template_stack:
     provider: '{{ provider }}'
     name: 'hello world'
     description: 'my description here'
     templates:
-        - template1
-        - template2
+      - template1
+      - template2
     devices:
-      - 0123456
-      - 1123456
+      - 90123456
+      - 91123456
 
 # Delete a template stack
 - name: Delete a template stack
-  panos_template_stack:
+  paloaltonetworks.panos.panos_template_stack:
     provider: '{{ provider }}'
     name: 'some stack'
     state: 'absent'

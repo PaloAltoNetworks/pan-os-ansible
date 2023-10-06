@@ -190,7 +190,7 @@ options:
 
 EXAMPLES = """
 - name: add SSH inbound rule to Panorama device group
-  panos_decryption_rule:
+  paloaltonetworks.panos.panos_decryption_rule:
     provider: '{{ provider }}'
     device_group: 'Cloud Edge'
     name: 'sampleRule'

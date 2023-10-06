@@ -95,7 +95,7 @@ options:
 
 EXAMPLES = """
 - name: Create service object 'ssh-tcp-22'
-  panos_service_object:
+  paloaltonetworks.panos.panos_service_object:
     provider: '{{ provider }}'
     name: 'ssh-tcp-22'
     destination_port: '22'
@@ -103,14 +103,14 @@ EXAMPLES = """
     tag: ['Prod']
 
 - name: Create service object 'mysql-tcp-3306'
-  panos_service_object:
+  paloaltonetworks.panos.panos_service_object:
     provider: '{{ provider }}'
     name: 'mysql-tcp-3306'
     destination_port: '3306'
     description: 'MySQL on tcp/3306'
 
 - name: Delete service object 'mysql-tcp-3306'
-  panos_service_object:
+  paloaltonetworks.panos.panos_service_object:
     provider: '{{ provider }}'
     name: 'mysql-tcp-3306'
     state: 'absent'

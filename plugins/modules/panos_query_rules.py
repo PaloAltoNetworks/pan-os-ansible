@@ -115,7 +115,7 @@ options:
 
 EXAMPLES = """
 - name: search for rules with tcp/3306
-  panos_query_rules:
+  paloaltonetworks.panos.panos_query_rules:
     ip_address: '{{ ip_address }}'
     username: '{{ username }}'
     password: '{{ password }}'
@@ -125,7 +125,7 @@ EXAMPLES = """
     protocol: 'tcp'
 
 - name: search devicegroup for inbound rules to dmz host
-  panos_query_rules:
+  paloaltonetworks.panos.panos_query_rules:
     ip_address: '{{ ip_address }}'
     api_key: '{{ api_key }}'
     destination_zone: 'DMZ'
@@ -133,7 +133,7 @@ EXAMPLES = """
     address: 'DeviceGroupA'
 
 - name: search for rules containing a specified rule tag
-  panos_query_rules:
+  paloaltonetworks.panos.panos_query_rules:
     ip_address: '{{ ip_address }}'
     username: '{{ username }}'
     password: '{{ password }}'
@@ -147,11 +147,9 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    import panos
     from panos import base, firewall, objects, panorama, policies
 except ImportError:
     try:
-        import pandevice
         from pandevice import base, firewall, objects, panorama, policies
     except ImportError:
         pass
@@ -204,7 +202,7 @@ def get_object(device, dev_group, obj_name):
         return match
 
     # Search Panorama device group
-    if isinstance(device, pandevice.panorama.Panorama):
+    if isinstance(device, panorama.Panorama):
         # Search device group address objects
         match = dev_group.find(obj_name, objects.AddressObject)
         if match:
@@ -248,7 +246,7 @@ def get_services(device, dev_group, svc_list, obj_list):
             get_services(device, dev_group, global_grp_match.value, obj_list)
 
         # Search Panorama device group
-        if isinstance(device, pandevice.panorama.Panorama):
+        if isinstance(device, panorama.Panorama):
 
             # Search device group address objects
             dg_obj_match = dev_group.find(svc, objects.ServiceObject)

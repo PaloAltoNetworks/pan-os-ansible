@@ -67,7 +67,7 @@ options:
 
 EXAMPLES = """
 - name: Get a list of all NAT rules
-  panos_nat_rule_facts:
+  paloaltonetworks.panos.panos_nat_rule_facts:
     provider: '{{ provider }}'
     listing: true
   register: res1
@@ -76,7 +76,7 @@ EXAMPLES = """
     msg: '{{ res1.listing }}'
 
 - name: Get the NAT rule foo
-  panos_nat_rule_facts:
+  paloaltonetworks.panos.panos_nat_rule_facts:
     provider: '{{ provider }}'
     rule_name: 'foo'
   register: res2

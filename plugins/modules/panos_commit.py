@@ -62,18 +62,18 @@ options:
 
 EXAMPLES = """
 - name: commit candidate config on firewall
-  panos_commit:
+  paloaltonetworks.panos.panos_commit:
     provider: '{{ provider }}'
 
 - name: commit candidate config on Panorama
-  panos_commit:
+  paloaltonetworks.panos.panos_commit:
     provider: '{{ provider }}'
     device_group: 'Cloud-Edge'
 
 - name: commit changes by specified admins to firewall
-  panos_commit:
+  paloaltonetworks.panos.panos_commit:
     provider: '{{ provider }}'
-    admins: ['admin1','admin2']
+    admins: ['admin1', 'admin2']
 """
 
 RETURN = """

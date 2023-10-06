@@ -93,7 +93,7 @@ options:
 
 EXAMPLES = """
 - name: Create Virtual Router
-  panos_virtual_router:
+  paloaltonetworks.panos.panos_virtual_router:
     provider: '{{ provider }}'
     name: vr-1
     commit: true

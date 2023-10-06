@@ -118,12 +118,12 @@ options:
 
 EXAMPLES = """
 # Configure user "foo"
-  - name: configure foo administrator
-    panos_administrator:
-      provider: '{{ provider }}'
-      admin_username: 'foo'
-      admin_password: 'secret'
-      superuser: true
+- name: configure foo administrator
+  paloaltonetworks.panos.panos_administrator:
+    provider: '{{ provider }}'
+    admin_username: 'foo'
+    admin_password: 'secret'
+    superuser: true
 """
 
 RETURN = """

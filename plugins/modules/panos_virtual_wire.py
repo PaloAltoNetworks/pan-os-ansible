@@ -69,7 +69,7 @@ options:
 
 EXAMPLES = """
 - name: Create Vwire
-  panos_virtual_wire:
+  paloaltonetworks.panos.panos_virtual_wire:
     provider: '{{ provider }}'
     name: 'vwire1'
     interface1: 'ethernet1/1'

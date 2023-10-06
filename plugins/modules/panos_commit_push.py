@@ -83,27 +83,27 @@ options:
 
 EXAMPLES = """
 - name: push device group configs
-  panos_commit_push:
+  paloaltonetworks.panos.panos_commit_push:
     provider: '{{ credentials }}'
     style: 'device group'
     name: 'Internet Edge Firewalls'
     description: 'Update ECMP routing'
 
 - name: push template configs and force values
-  panos_commit_push:
+  paloaltonetworks.panos.panos_commit_push:
     provider: '{{ credentials }}'
     style: 'template'
     name: 'APAC Regional Template'
-    force_template_values: True
+    force_template_values: true
 
 - name: push log collector group configs
-  panos_commit_push:
+  paloaltonetworks.panos.panos_commit_push:
     provider: '{{ credentials }}'
     style: 'log collector group'
     name: 'LatAm Collector Group'
 
 - name: push to multiple devices
-  panos_commit_push:
+  paloaltonetworks.panos.panos_commit_push:
     provider: '{{ credentials }}'
     style: 'device group'
     name: 'Partner DMZ Firewalls'
@@ -113,18 +113,18 @@ EXAMPLES = """
       - 1001001F0F000
 
 - name: push to multiple device groups
-  panos_commit_push:
+  paloaltonetworks.panos.panos_commit_push:
     provider: '{{ credentials }}'
     style: 'device group'
     name: '{{ item }}'
-    sync: False
+    sync: false
   loop:
     - Production Firewalls
     - Staging Firewalls
     - Development Firewalls
 
 - name: push admin-specific changes to a device group
-  panos_commit_push:
+  paloaltonetworks.panos.panos_commit_push:
     provider: "{{ credentials }}"
     style: 'device group'
     name: 'EMEA_Device_Group'

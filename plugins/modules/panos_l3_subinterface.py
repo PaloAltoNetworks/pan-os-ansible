@@ -118,16 +118,16 @@ options:
 EXAMPLES = """
 # Create ethernet1/1.5 as DHCP.
 - name: enable DHCP client on ethernet1/1.5 in zone public
-  panos_l3_subinterface:
+  paloaltonetworks.panos.panos_l3_subinterface:
     provider: '{{ provider }}'
     name: "ethernet1/1.5"
     tag: 1
-    create_default_route: True
+    create_default_route: true
     zone_name: "public"
 
 # Update ethernet1/2.7 with a static IP address in zone dmz.
 - name: ethernet1/2.7 as static in zone dmz
-  panos_l3_subinterface:
+  paloaltonetworks.panos.panos_l3_subinterface:
     provider: '{{ provider }}'
     name: "ethernet1/2.7"
     tag: 7

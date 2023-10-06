@@ -60,13 +60,13 @@ options:
 EXAMPLES = """
 # Single check.
 - name: check if ready
-  panos_check:
+  paloaltonetworks.panos.panos_check:
     provider: '{{ provider }}'
     timeout: 0
 
 # Wait 2 minutes, then check every 5 seconds for 10 minutes.
 - name: wait for reboot
-  panos_check:
+  paloaltonetworks.panos.panos_check:
     provider: '{{ provider }}'
     initial_delay: 120
     interval: 5

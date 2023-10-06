@@ -54,35 +54,35 @@ options:
 
 EXAMPLES = """
 - name: Add 'First_Tag' tag to 1.1.1.1
-  panos_registered_ip:
+  paloaltonetworks.panos.panos_registered_ip:
     provider: '{{ provider }}'
     ips: ['1.1.1.1']
     tags: ['First_Tag']
     state: 'present'
 
 - name: Add 'First_Tag' tag to 1.1.1.2
-  panos_registered_ip:
+  paloaltonetworks.panos.panos_registered_ip:
     provider: '{{ provider }}'
     ips: ['1.1.1.2']
     tags: ['First_Tag']
     state: 'present'
 
 - name: Add 'Second_Tag' tag to 1.1.1.1
-  panos_registered_ip:
+  paloaltonetworks.panos.panos_registered_ip:
     provider: '{{ provider }}'
     ips: ['1.1.1.1']
     tags: ['Second_Tag']
     state: 'present'
 
 - name: Remove 'Second_Tag' from 1.1.1.1
-  panos_registered_ip:
+  paloaltonetworks.panos.panos_registered_ip:
     provider: '{{ provider }}'
     ips: ['1.1.1.1']
     tags: ['Second_Tag']
     state: 'absent'
 
 - name: Remove 'First_Tag' from 1.1.1.2 (will unregister entirely)
-  panos_registered_ip:
+  paloaltonetworks.panos.panos_registered_ip:
     provider: '{{ provider }}'
     ips: ['1.1.1.2']
     tags: ['First_Tag']

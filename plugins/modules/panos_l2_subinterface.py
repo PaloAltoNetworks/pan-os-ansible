@@ -81,7 +81,7 @@ options:
 EXAMPLES = """
 # Create ethernet1/1.5
 - name: ethernet1/1.5 in zone sales
-  panos_l2_subinterface:
+  paloaltonetworks.panos.panos_l2_subinterface:
     provider: '{{ provider }}'
     name: "ethernet1/1.5"
     tag: 5

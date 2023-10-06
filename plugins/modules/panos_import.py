@@ -135,13 +135,13 @@ options:
 
 EXAMPLES = """
 - name: Import software image into PAN-OS
-  panos_import:
+  paloaltonetworks.panos.panos_import:
     provider: '{{ provider }}'
     category: software
-    file: /tmp/PanOS_vm-10.0.1
+    file: /tmp/paloaltonetworks.panos.panos_vm-10.0.1
 
 - name: Import certificate
-  panos_import:
+  paloaltonetworks.panos.panos_import:
     provider: '{{ device }}'
     category: 'certificate'
     certificate_name: 'ISRG Root X1'
@@ -149,39 +149,39 @@ EXAMPLES = """
     filename: '/tmp/isrgrootx1.pem'
 
 - name: Import content
-  panos_import:
+  paloaltonetworks.panos.panos_import:
     provider: '{{ device }}'
     category: 'content'
     filename: '/tmp/panupv2-all-contents-8322-6317'
 
 - name: Import named configuration snapshot
-  panos_import:
+  paloaltonetworks.panos.panos_import:
     provider: '{{ device }}'
     category: 'configuration'
     filename: '/tmp/config.xml'
 
 - name: Import application block page
-  panos_import:
+  paloaltonetworks.panos.panos_import:
     provider: '{{ device }}'
     category: 'application-block-page'
     filename: '/tmp/application-block-page.html'
 
 - name: Import custom logo
-  panos_import:
+  paloaltonetworks.panos.panos_import:
     provider: '{{ device }}'
     category: 'custom-logo'
     custom_logo_location: 'login-screen'
     filename: '/tmp/logo.jpg'
 
 - name: Import SAML metadata profile
-  panos_import:
+  paloaltonetworks.panos.panos_import:
     provider: '{{ device }}'
     category: 'idp-metadata'
     filename: '/tmp/saml_metadata.xml'
     profile_name: 'saml-profile'
 
 - name: Import SAML metadata profile to template
-  panos_import:
+  paloaltonetworks.panos.panos_import:
     provider: '{{ device }}'
     category: 'idp-metadata'
     filename: '/tmp/saml_metadata.xml'
@@ -205,9 +205,7 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    import pan.xapi
     import requests
-    import requests_toolbelt
 
     HAS_LIB = True
 except ImportError:

@@ -213,7 +213,7 @@ options:
 EXAMPLES = """
 # Create a source and destination nat rule
 - name: Create NAT SSH rule for 10.0.1.101
-  panos_nat_rule:
+  paloaltonetworks.panos.panos_nat_rule:
     provider: '{{ provider }}'
     rule_name: "Web SSH"
     source_zone: ["external"]
@@ -227,7 +227,7 @@ EXAMPLES = """
     dnat_port: "22"
 
 - name: disable a specific security rule
-  panos_nat_rule:
+  paloaltonetworks.panos.panos_nat_rule:
     provider: '{{ provider }}'
     rule_name: 'Prod-Legacy 1'
     state: 'disable'

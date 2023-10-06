@@ -98,7 +98,7 @@ options:
 
 EXAMPLES = """
 - name: Create http server
-  panos_http_server:
+  paloaltonetworks.panos.panos_http_server:
     provider: '{{ provider }}'
     http_profile: 'my-profile'
     name: 'my-http-server'

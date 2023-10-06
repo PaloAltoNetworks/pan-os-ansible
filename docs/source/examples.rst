@@ -17,7 +17,7 @@ Firewall
 .. code-block:: yaml
 
   - name: Add test rule 1 to the firewall
-    panos_security_rule:
+    paloaltonetworks.panos.panos_security_rule:
       provider: '{{ provider }}'
       rule_name: 'Ansible test 1'
       description: 'An Ansible test rule'
@@ -40,7 +40,7 @@ Panorama
 .. code-block:: yaml
 
   - name: Add test pre-rule to Panorama
-    panos_security_rule:
+    paloaltonetworks.panos.panos_security_rule:
       provider: '{{ provider }}'
       rule_name: 'Ansible test 1'
       description: 'An Ansible test pre-rule'
@@ -75,7 +75,7 @@ Firewall
 .. code-block:: yaml
 
   - name: Add the service object to the firewall first
-    panos_service_object:
+    paloaltonetworks.panos.panos_service_object:
       provider: '{{ provider }}'
       name: 'service-tcp-221'
       protocol: 'tcp'
@@ -84,7 +84,7 @@ Firewall
       commit: false
 
   - name: Create dynamic NAT rule on the firewall
-    panos_nat_rule:
+    paloaltonetworks.panos.panos_nat_rule:
       provider: '{{ provider }}'
       rule_name: 'Web SSH inbound'
       source_zone: ['external']
@@ -104,7 +104,7 @@ Panorama
 .. code-block:: yaml
 
   - name: Add the necessary service object to Panorama first
-    panos_object:
+    paloaltonetworks.panos.panos_object:
       provider: '{{ provider }}'
       name: 'service-tcp-221'
       protocol: 'tcp'
@@ -114,7 +114,7 @@ Panorama
       device_group: 'shared_services_11022'
 
   - name: Create dynamic NAT rule on Panorama
-    panos_nat_rule:
+    paloaltonetworks.panos.panos_nat_rule:
       provider: '{{ provider }}'
       rule_name: 'Web SSH inbound'
       source_zone: ['external']
@@ -137,7 +137,7 @@ used in particular when NGFW is deployed in the cloud (such as AWS).
 .. code-block:: yaml
 
   - name: Change user password using ssh protocol
-    panos_admpwd:
+    paloaltonetworks.panos.panos_admpwd:
       ip_address: '{{ ip_address }}'
       username: '{{ username }}'
       newpassword: '{{ new_password }}'
@@ -155,7 +155,7 @@ for ssh.
 .. code-block:: yaml
 
   - name: generate self signed certificate
-    panos_cert_gen_ssh:
+    paloaltonetworks.panos.panos_cert_gen_ssh:
       ip_address: "{{ ip_address }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -174,7 +174,7 @@ is ready.
 .. code-block:: yaml
 
   - name: Wait for FW reboot
-    panos_check:
+    paloaltonetworks.panos.panos_check:
       provider: '{{ provider }}'
     register: result
     until: not result|failed
@@ -190,7 +190,7 @@ Import file into PAN-OS device.
 .. code-block:: yaml
 
     - name: import configuration file into PAN-OS
-      panos_import:
+      paloaltonetworks.panos.panos_import:
         ip_address: "{{ ip_address }}"
         username: "{{ username }}"
         password: "{{ password }}"
@@ -207,7 +207,7 @@ interfaces are static.
 .. code-block:: yaml
 
     - name: enable DHCP client on ethernet1/1 in zone external
-      panos_interface:
+      paloaltonetworks.panos.panos_interface:
         provider: '{{ provider }}'
         if_name: "ethernet1/1"
         zone_name: "external"
@@ -243,7 +243,7 @@ configuration from a configuration file
         wait_for: port=22 host='{{ provider.ip_address }}' search_regex=SSH timeout=600
 
       - name: checking if device ready
-        panos_check:
+        paloaltonetworks.panos.panos_check:
           provider: '{{ provider }}'
         register: result
         until: not result|failed
@@ -251,7 +251,7 @@ configuration from a configuration file
         delay: 10
 
       - name: import configuration
-        panos_import:
+        paloaltonetworks.panos.panos_import:
           ip_address: '{{ provider.ip_address }}'
           username: '{{ provider.username }}'
           password: '{{ provider.password }}'
@@ -260,7 +260,7 @@ configuration from a configuration file
         register: result
 
       - name: load configuration
-        panos_loadcfg:
+        paloaltonetworks.panos.panos_loadcfg:
           ip_address: '{{ provider.ip_address }}'
           username: '{{ provider.username }}'
           password: '{{ provider.password }}'
@@ -268,7 +268,7 @@ configuration from a configuration file
           commit: False
 
       - name: set admin password
-        panos_administrator:
+        paloaltonetworks.panos.panos_administrator:
           provider: '{{ provider }}'
           admin_username: 'admin'
           admin_password: '{{ provider.password }}'
@@ -276,7 +276,7 @@ configuration from a configuration file
           commit: False
 
       - name: commit (blocks until finished)
-        panos_commit:
+        paloaltonetworks.panos.panos_commit:
           provider: '{{ provider }}'
 
 Event-Driven Ansible (EDA)

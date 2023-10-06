@@ -122,7 +122,7 @@ options:
 EXAMPLES = """
 # Create a profile
 - name: Create email profile
-  panos_email_profile:
+  paloaltonetworks.panos.panos_email_profile:
     provider: '{{ provider }}'
     name: 'my-profile'
 """

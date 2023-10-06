@@ -42,7 +42,7 @@ extends_documentation_fragment:
 
 EXAMPLES = """
 - name: Restart PAN-OS
-  panos_restart:
+  paloaltonetworks.panos.panos_restart:
     provider: '{{ provider }}'
 """
 

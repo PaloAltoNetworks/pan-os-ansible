@@ -58,7 +58,7 @@ options:
 
 EXAMPLES = """
 - name: Create VLAN
-  panos_vlan:
+  paloaltonetworks.panos.panos_vlan:
     provider: '{{ provider }}'
     name: 'Internal'
     virtual_interface: 'vlan.2'

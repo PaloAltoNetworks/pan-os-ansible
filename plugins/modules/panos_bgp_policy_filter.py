@@ -146,12 +146,11 @@ options:
 """
 
 EXAMPLES = """
-
 """
 
 RETURN = """
 # Default return values
-panos_obj:
+paloaltonetworks.panos.panos_obj:
     description: a serialized policy filter is returned when state == 'return-object'
     returned: success
     type: str

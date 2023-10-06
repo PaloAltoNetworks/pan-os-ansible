@@ -152,25 +152,25 @@ options:
 
 EXAMPLES = """
 - name: Export configuration
-  panos_export:
+  paloaltonetworks.panos.panos_export:
     provider: '{{ provider }}'
     category: 'configuration'
     filename: 'running-config.xml'
 
 - name: Export application block page
-  panos_export:
+  paloaltonetworks.panos.panos_export:
     provider: '{{ provider }}'
     category: 'application-block-page'
     filename: 'application-block-page.html'
 
 - name: Export tech support (module will wait until file is ready)
-  panos_export:
+  paloaltonetworks.panos.panos_export:
     provider: '{{ provider }}'
     category: 'tech-support'
     filename: 'tech-support.tgz'
 
 - name: Export threat packet capture
-  panos_export:
+  paloaltonetworks.panos.panos_export:
     provider: '{{ provider }}'
     category: 'threat-pcap'
     threat_pcap_id: '1206450340254187521'
@@ -199,17 +199,14 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.panorama import Panorama
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.panorama import Panorama
     except ImportError:
         pass
 
 try:
-    import pan.xapi
     import xmltodict
 
     HAS_LIB = True
@@ -217,7 +214,6 @@ except ImportError:
     HAS_LIB = False
 
 import json
-import os
 import pathlib
 import time
 import xml.etree.ElementTree as ET

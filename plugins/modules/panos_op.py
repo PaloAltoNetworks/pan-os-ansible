@@ -65,26 +65,26 @@ options:
 
 EXAMPLES = """
 - name: show list of all interfaces
-  panos_op:
+  paloaltonetworks.panos.panos_op:
     provider: '{{ provider }}'
     cmd: 'show interfaces all'
 
 - name: show system info
-  panos_op:
+  paloaltonetworks.panos.panos_op:
     provider: '{{ provider }}'
     cmd: 'show system info'
 
 - name: show system info as XML command
-  panos_op:
+  paloaltonetworks.panos.panos_op:
     provider: '{{ provider }}'
     cmd: '<show><system><info/></system></show>'
     cmd_is_xml: true
 
 - name: set serial number with error ignore
-  panos_op:
+  paloaltonetworks.panos.panos_op:
     provider: '{{ provider }}'
     cmd: 'set serial-number "123456"'
-    ignore_disconnect: True
+    ignore_disconnect: true
 """
 
 RETURN = """
