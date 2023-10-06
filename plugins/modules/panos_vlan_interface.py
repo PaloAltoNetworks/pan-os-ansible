@@ -115,7 +115,7 @@ options:
 EXAMPLES = """
 # Create vlan.2 as DHCP
 - name: enable DHCP client on ethernet1/1 in zone public
-  panos_vlan_interface:
+  paloaltonetworks.panos.panos_vlan_interface:
     provider: '{{ provider }}'
     name: "vlan.2"
     zone_name: "public"
@@ -124,7 +124,7 @@ EXAMPLES = """
 
 # Set vlan.7 with a static IP
 - name: Configure vlan.7
-  panos_vlan_interface:
+  paloaltonetworks.panos.panos_vlan_interface:
     provider: '{{ provider }}'
     name: "vlan.7"
     ip: ["10.1.1.1/24"]

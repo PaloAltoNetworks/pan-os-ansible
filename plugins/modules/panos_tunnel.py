@@ -91,14 +91,14 @@ options:
 EXAMPLES = """
 # Create tunnel.1
 - name: create tunnel.1
-  panos_tunnel:
+  paloaltonetworks.panos.panos_tunnel:
     provider: '{{ provider }}'
     if_name: "tunnel.1"
     ip: ["10.1.1.1/32"]
 
 # Update tunnel comment.
 - name: update tunnel.1 comment
-  panos_tunnel:
+  paloaltonetworks.panos.panos_tunnel:
     provider: '{{ provider }}'
     if_name: "tunnel.1"
     ip: ["10.1.1.1/32"]

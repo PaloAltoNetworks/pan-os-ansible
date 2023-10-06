@@ -200,7 +200,7 @@ options:
 
 EXAMPLES = """
 - name: set ports to HA mode
-  panos_interface:
+  paloaltonetworks.panos.panos_interface:
     provider: '{{ provider }}'
     if_name: "{{ item }}"
     mode: "ha"
@@ -213,7 +213,7 @@ EXAMPLES = """
     - ethernet1/5
 
 - name: Configure Active/Standby HA
-  panos_ha:
+  paloaltonetworks.panos.panos_ha:
     provider: '{{ provider }}'
     state: present
     ha_peer_ip: "192.168.50.1"
@@ -223,7 +223,7 @@ EXAMPLES = """
     ha2_port: "ethernet1/3"
 
 - name: Configure Active/Active HA
-  panos_ha:
+  paloaltonetworks.panos.panos_ha:
     provider: "{{ provider }}"
     state: present
     ha_mode: "active-active"

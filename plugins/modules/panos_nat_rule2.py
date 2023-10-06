@@ -235,7 +235,7 @@ options:
 
 EXAMPLES = """
 - name: add a nat rule
-  panos_nat_rule2:
+  paloaltonetworks.panos.panos_nat_rule2:
     provider: '{{ provider }}'
     name: 'myRule'
     description: 'Made by Ansible'

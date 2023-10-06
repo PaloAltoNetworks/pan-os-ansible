@@ -102,7 +102,7 @@ options:
 EXAMPLES = """
 # Create a server match list
 - name: Create log forwarding profile match list
-  panos_log_forwarding_profile_match_list:
+  paloaltonetworks.panos.panos_log_forwarding_profile_match_list:
     provider: '{{ provider }}'
     log_forwarding_profile: 'my-profile'
     name: 'ml-1'

@@ -67,7 +67,7 @@ options:
 
 EXAMPLES = """
 - name: Create dynamic user group
-  panos_dynamic_user_group:
+  paloaltonetworks.panos.panos_dynamic_user_group:
     provider: '{{ provider }}'
     name: 'Questionable-Users'
     description: 'Questionable Users'

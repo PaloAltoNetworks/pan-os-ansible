@@ -116,7 +116,7 @@ options:
 
 EXAMPLES = """
 - name: Create application filter
-  panos_application_filter:
+  paloaltonetworks.panos.panos_application_filter:
     provider: '{{ provider }}'
     name: 'custom-apps'
     category: ['business-systems']
@@ -125,7 +125,7 @@ EXAMPLES = """
     risk: ['1']
 
 - name: Remove custom application
-  panos_application_filter:
+  paloaltonetworks.panos.panos_application_filter:
     provider: '{{ provider }}'
     name: 'custom-apps'
     state: 'absent'

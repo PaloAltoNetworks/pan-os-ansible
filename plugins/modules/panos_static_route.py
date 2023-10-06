@@ -101,34 +101,34 @@ options:
 
 EXAMPLES = """
 - name: Create route 'Test-One'
-  panos_static_route:
+  paloaltonetworks.panos.panos_static_route:
     provider: '{{ provider }}'
     name: 'Test-One'
     destination: '1.1.1.0/24'
     nexthop: '10.0.0.1'
 
 - name: Create route 'Test-Two'
-  panos_static_route:
+  paloaltonetworks.panos.panos_static_route:
     provider: '{{ provider }}'
     name: 'Test-Two'
     destination: '2.2.2.0/24'
     nexthop: '10.0.0.1'
 
 - name: Create route 'Test-Three'
-  panos_static_route:
+  paloaltonetworks.panos.panos_static_route:
     provider: '{{ provider }}'
     name: 'Test-Three'
     destination: '3.3.3.0/24'
     nexthop: '10.0.0.1'
 
 - name: Delete route 'Test-Two'
-  panos_static_route:
+  paloaltonetworks.panos.panos_static_route:
     provider: '{{ provider }}'
     name: 'Test-Two'
     state: 'absent'
 
 - name: Create route 'Test-Four'
-  panos_static_route:
+  paloaltonetworks.panos.panos_static_route:
     provider: '{{ provider }}'
     name: 'Test-Four'
     destination: '4.4.4.0/24'
@@ -136,7 +136,7 @@ EXAMPLES = """
     virtual_router: 'VR-Two'
 
 - name: Create route 'Test-Five'
-  panos_static_route:
+  paloaltonetworks.panos.panos_static_route:
     provider: '{{ provider }}'
     name: 'Test-Five'
     destination: '5.5.5.0/24'

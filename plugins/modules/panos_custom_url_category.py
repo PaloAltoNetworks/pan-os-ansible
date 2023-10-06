@@ -63,7 +63,7 @@ options:
 
 EXAMPLES = """
 - name: Create Custom Url Category 'Internet Access List'
-  panos_custom_url_category:
+  paloaltonetworks.panos.panos_custom_url_category:
     provider: '{{ provider }}'
     name: 'Internet Access List'
     description: 'Description One'
@@ -72,7 +72,7 @@ EXAMPLES = """
       - redhat.com
 
 - name: Remove Custom Url Category 'Internet Access List'
-  panos_custom_url_category:
+  paloaltonetworks.panos.panos_custom_url_category:
     provider: '{{ provider }}'
     name: 'Internet Access List'
     state: 'absent'

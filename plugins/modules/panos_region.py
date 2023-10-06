@@ -67,7 +67,7 @@ options:
 
 EXAMPLES = """
 - name: Create region
-  panos_region:
+  paloaltonetworks.panos.panos_region:
     provider: '{{ provider }}'
     name: 'Palo-Alto-Networks'
     address:

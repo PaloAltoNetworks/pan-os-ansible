@@ -109,7 +109,7 @@ options:
 
 EXAMPLES = """
 - name: Get a list of all security rules
-  panos_security_rule_facts:
+  paloaltonetworks.panos.panos_security_rule_facts:
     provider: '{{ provider }}'
   register: sec_rules
 
@@ -117,7 +117,7 @@ EXAMPLES = """
     msg: '{{ sec_rules.rule_names }}'
 
 - name: Get the definition for rule 'HTTP Multimedia'
-  panos_security_rule_facts:
+  paloaltonetworks.panos.panos_security_rule_facts:
     provider: '{{ provider }}'
     names:
       - 'HTTP Multimedia'
@@ -127,7 +127,7 @@ EXAMPLES = """
     msg: '{{ rule1.spec }}'
 
 - name: Get rule names matching DNS traffic
-  panos_security_rule_facts:
+  paloaltonetworks.panos.panos_security_rule_facts:
     provider: '{{ provider }}'
     match_rules:
       source_zone: 'trust'

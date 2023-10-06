@@ -50,14 +50,14 @@ options:
 EXAMPLES = """
 # Get information on a specific virtual router
 - name: Get vr3 info
-  panos_virtual_router_facts:
+  paloaltonetworks.panos.panos_virtual_router_facts:
     provider: '{{ provider }}'
     name: 'vr3'
   register: ans
 
 # Get the config of all virtual routers
 - name: Get all virtual routers
-  panos_virtual_router_facts:
+  paloaltonetworks.panos.panos_virtual_router_facts:
     provider: '{{ provider }}'
   register: vrlist
 """

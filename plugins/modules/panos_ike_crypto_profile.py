@@ -107,7 +107,7 @@ options:
 
 EXAMPLES = """
 - name: Add IKE crypto config to the firewall
-  panos_ike_crypto_profile:
+  paloaltonetworks.panos.panos_ike_crypto_profile:
     provider: '{{ provider }}'
     state: 'present'
     name: 'vpn-0cc61dd8c06f95cfd-0'

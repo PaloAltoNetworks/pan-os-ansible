@@ -82,7 +82,7 @@ options:
 
 EXAMPLES = """
 - name: Create BGP Dampening Profile
-  panos_bgp_dampening:
+  paloaltonetworks.panos.panos_bgp_dampening:
     name: damp-profile-1
     enable: true
     commit: true

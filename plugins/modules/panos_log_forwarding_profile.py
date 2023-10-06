@@ -58,7 +58,7 @@ options:
 EXAMPLES = """
 # Create a profile
 - name: Create log forwarding profile
-  panos_log_forwarding_profile:
+  paloaltonetworks.panos.panos_log_forwarding_profile:
     provider: '{{ provider }}'
     name: 'my-profile'
     enhanced_logging: true

@@ -106,14 +106,14 @@ options:
 EXAMPLES = """
 # Delete loopback.1
 - name: delete loopback.1
-  panos_loopback_interface:
+  paloaltonetworks.panos.panos_loopback_interface:
     provider: '{{ provider }}'
     if_name: "loopback.1"
     state: 'absent'
 
 # Update/create loopback comment.
 - name: update loopback.1 comment
-  panos_loopback_interface:
+  paloaltonetworks.panos.panos_loopback_interface:
     provider: '{{ provider }}'
     if_name: "loopback.1"
     ip: ["10.1.1.1/32"]

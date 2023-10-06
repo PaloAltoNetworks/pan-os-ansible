@@ -120,7 +120,7 @@ options:
 
 EXAMPLES = """
 - name: Create Redistribution Profile
-  panos_redistribution:
+  paloaltonetworks.panos.panos_redistribution:
     provider: '{{ provider }}'
     name: 'my-profile'
     priority: 42

@@ -148,7 +148,7 @@ options:
 
 EXAMPLES = """
 - name: Create BGP Aggregation Rule
-  panos_bgp_aggregate:
+  paloaltonetworks.panos.panos_bgp_aggregate:
     provider: '{{ provider }}'
     vr_name: 'default'
     name: 'aggr-rule-01'
@@ -157,7 +157,7 @@ EXAMPLES = """
     summary: true
 
 - name: Remove BGP Aggregation Rule
-  panos_bgp_aggregate:
+  paloaltonetworks.panos.panos_bgp_aggregate:
     provider: '{{ provider }}'
     vr_name: 'default'
     name: 'aggr-rule-01'

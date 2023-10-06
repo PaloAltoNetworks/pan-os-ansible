@@ -60,20 +60,20 @@ options:
 EXAMPLES = """
 # Create a device group under shared.
 - name: Create device group
-  panos_device_group:
+  paloaltonetworks.panos.panos_device_group:
     provider: '{{ provider }}'
     name: 'hello world'
 
 # Create a device group under "hello world"
 - name: Create device group under hello world
-  panos_device_group:
+  paloaltonetworks.panos.panos_device_group:
     provider: '{{ provider }}'
     name: 'child'
     parent: 'hello world'
 
 # Delete the child device group
 - name: Delete a device group.
-  panos_device_group:
+  paloaltonetworks.panos.panos_device_group:
     provider: '{{ provider }}'
     name: 'some device group'
     state: 'absent'

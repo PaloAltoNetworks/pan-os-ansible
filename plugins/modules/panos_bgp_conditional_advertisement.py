@@ -89,7 +89,7 @@ options:
 
 EXAMPLES = """
 - name: Create BGP Conditional Advertisement Rule
-  panos_bgp_conditional_advertisement:
+  paloaltonetworks.panos.panos_bgp_conditional_advertisement:
     provider: '{{ provider }}'
     name: 'cond-rule-01'
     enable: true

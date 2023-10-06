@@ -90,7 +90,7 @@ options:
 
 EXAMPLES = """
 - name: set dns and panorama
-  panos_mgtconfig:
+  paloaltonetworks.panos.panos_mgtconfig:
     provider: '{{ provider }}'
     dns_server_primary: "1.1.1.1"
     dns_server_secondary: "1.1.1.2"

@@ -82,7 +82,7 @@ options:
 EXAMPLES = """
 # Create a profile
 - name: Create email server in an email profile
-  panos_email_server:
+  paloaltonetworks.panos.panos_email_server:
     provider: '{{ provider }}'
     email_profile: 'my-profile'
     name: 'my-email-server'

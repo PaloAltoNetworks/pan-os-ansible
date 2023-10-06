@@ -80,7 +80,7 @@ options:
 
 EXAMPLES = """
 - name: Add a header to the config log type
-  panos_http_profile_header:
+  paloaltonetworks.panos.panos_http_profile_header:
     provider: '{{ provider }}'
     http_profile: 'my-profile'
     log_type: 'user id'

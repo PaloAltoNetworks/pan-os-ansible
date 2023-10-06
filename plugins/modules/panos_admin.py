@@ -85,7 +85,7 @@ options:
 EXAMPLES = """
 # Set the password of user admin to "badpassword"
 - name: set admin password
-  panos_admin:
+  paloaltonetworks.panos.panos_admin:
     ip_address: "192.168.1.1"
     password: "admin"
     admin_username: admin

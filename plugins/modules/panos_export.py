@@ -152,25 +152,25 @@ options:
 
 EXAMPLES = """
 - name: Export configuration
-  panos_export:
+  paloaltonetworks.panos.panos_export:
     provider: '{{ provider }}'
     category: 'configuration'
     filename: 'running-config.xml'
 
 - name: Export application block page
-  panos_export:
+  paloaltonetworks.panos.panos_export:
     provider: '{{ provider }}'
     category: 'application-block-page'
     filename: 'application-block-page.html'
 
 - name: Export tech support (module will wait until file is ready)
-  panos_export:
+  paloaltonetworks.panos.panos_export:
     provider: '{{ provider }}'
     category: 'tech-support'
     filename: 'tech-support.tgz'
 
 - name: Export threat packet capture
-  panos_export:
+  paloaltonetworks.panos.panos_export:
     provider: '{{ provider }}'
     category: 'threat-pcap'
     threat_pcap_id: '1206450340254187521'

@@ -68,7 +68,7 @@ options:
 
 EXAMPLES = """
 # Create IPv6 DHCP Relay address
-- panos_dhcp_relay:
+- paloaltonetworks.panos.panos_dhcp_relay:
     provider: '{{ provider }}'
     dhcp_interface: 'ethernet1/1'
     dhcp_relay_interface: 'ethernet1/1'
@@ -76,7 +76,7 @@ EXAMPLES = """
     interface: 'ethernet1/1'
 
 # Delete DHCP Relay ipv6 address
-- panos_dhcp_relay:
+- paloaltonetworks.panos.panos_dhcp_relay:
     provider: '{{ provider }}'
     dhcp_interface: 'ethernet1/1'
     dhcp_relay_interface: 'ethernet1/1'

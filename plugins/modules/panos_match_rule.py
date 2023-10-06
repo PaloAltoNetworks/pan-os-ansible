@@ -108,7 +108,7 @@ options:
 
 EXAMPLES = """
 - name: check security rules for Google DNS
-  panos_match_rule:
+  paloaltonetworks.panos.panos_match_rule:
     provider: '{{ provider }}'
     source_ip: '10.0.0.0'
     destination_ip: '8.8.8.8'
@@ -119,7 +119,7 @@ EXAMPLES = """
 - debug: msg='{{ result.rule }}'
 
 - name: check security rules inbound SSH with user match
-  panos_match_rule:
+  paloaltonetworks.panos.panos_match_rule:
     provider: '{{ provider }}'
     source_ip: '0.0.0.0'
     source_user: 'mydomain\\jsmith'
@@ -130,7 +130,7 @@ EXAMPLES = """
 - debug: msg='{{ result.rule }}'
 
 - name: check NAT rules for source NAT
-  panos_match_rule:
+  paloaltonetworks.panos.panos_match_rule:
     provider: '{{ provider }}'
     rule_type: 'nat'
     source_zone: 'Prod-DMZ'
@@ -143,7 +143,7 @@ EXAMPLES = """
 - debug: msg='{{ result.rule }}'
 
 - name: check NAT rules for inbound web
-  panos_match_rule:
+  paloaltonetworks.panos.panos_match_rule:
     provider: '{{ provider }}'
     rule_type: 'nat'
     source_zone: 'Internet'
@@ -157,7 +157,7 @@ EXAMPLES = """
 - debug: msg='{{ result.rule }}'
 
 - name: check security rules for outbound POP3 in vsys4
-  panos_match_rule:
+  paloaltonetworks.panos.panos_match_rule:
     provider: '{{ provider }}'
     vsys_id: 'vsys4'
     source_ip: '10.0.0.0'

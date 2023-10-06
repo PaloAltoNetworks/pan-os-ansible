@@ -184,7 +184,7 @@ options:
 EXAMPLES = """
 # Create ethernet1/1 as DHCP.
 - name: enable DHCP client on ethernet1/1 in zone public
-  panos_interface:
+  paloaltonetworks.panos.panos_interface:
     provider: '{{ provider }}'
     if_name: "ethernet1/1"
     zone_name: "public"
@@ -192,7 +192,7 @@ EXAMPLES = """
 
 # Update ethernet1/2 with a static IP address in zone dmz.
 - name: ethernet1/2 as static in zone dmz
-  panos_interface:
+  paloaltonetworks.panos.panos_interface:
     provider: '{{ provider }}'
     if_name: "ethernet1/2"
     mode: "layer3"

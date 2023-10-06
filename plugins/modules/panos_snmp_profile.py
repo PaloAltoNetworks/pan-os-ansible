@@ -57,7 +57,7 @@ options:
 EXAMPLES = """
 # Create snmp profile
 - name: Create snmp profile
-  panos_snmp_profile:
+  paloaltonetworks.panos.panos_snmp_profile:
     provider: '{{ provider }}'
     name: 'my-profile'
 """

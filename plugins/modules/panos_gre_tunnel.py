@@ -105,7 +105,7 @@ options:
 
 EXAMPLES = """
 - name: Create GRE tunnel
-  panos_gre_tunnel:
+  paloaltonetworks.panos.panos_gre_tunnel:
     provider: '{{ provider }}'
     name: 'myGreTunnel'
     interface: 'ethernet1/5'

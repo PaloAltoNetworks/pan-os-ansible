@@ -143,7 +143,7 @@ options:
 
 EXAMPLES = """
 - name: Configure and enable BGP
-  panos_bgp:
+  paloaltonetworks.panos.panos_bgp:
     provider: '{{ provider }}'
     router_id: '1.1.1.1'
     local_as: '64512'
