@@ -37,7 +37,7 @@ from functools import reduce
 import importlib
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.connection import Connection, ConnectionError
+from ansible.module_utils.connection import Connection
 
 _MIN_VERSION_ERROR = "{0} version ({1}) < minimum version ({2})"
 HAS_PANDEVICE = True

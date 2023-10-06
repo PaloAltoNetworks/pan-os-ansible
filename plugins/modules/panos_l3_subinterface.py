@@ -122,7 +122,7 @@ EXAMPLES = """
     provider: '{{ provider }}'
     name: "ethernet1/1.5"
     tag: 1
-    create_default_route: True
+    create_default_route: true
     zone_name: "public"
 
 # Update ethernet1/2.7 with a static IP address in zone dmz.
