@@ -63,7 +63,7 @@ options:
         type: str
     tag:
         description:
-            - List of tags to add to this address object.
+            - List of tags to add to this address object
         type: list
         elements: str
 """
