@@ -87,10 +87,8 @@ jobs:
       run:
         working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
-
+      - name: Check out code
+        uses: actions/checkout@v4
       - name: Run ansible-lint
         uses: ansible/ansible-lint@main
 

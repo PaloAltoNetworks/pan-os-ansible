@@ -78,13 +78,13 @@ EXAMPLES = r"""
 - name: commit changes by specified admins on firewall
   panos_commit_firewall:
     provider: '{{ credentials }}'
-    admins: ['netops','secops','cloudops']
+    admins: ['netops', 'secops', 'cloudops']
     description: 'Saturday change window'
 
 - name: commit only policy and object changes on firewall
   panos_commit_firewall:
     provider: '{{ credentials }}'
-    exclude_device_and_network: True
+    exclude_device_and_network: true
 """
 
 RETURN = r"""

@@ -70,8 +70,8 @@ EXAMPLES = """
     name: 'hello world'
     description: 'my description here'
     devices:
-      - 0123456
-      - 1123456
+      - 90123456
+      - 91123456
 
 # Delete a template
 - name: Delete a template

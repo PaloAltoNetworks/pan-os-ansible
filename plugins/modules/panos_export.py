@@ -199,17 +199,14 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 try:
-    from panos.errors import PanDeviceError
     from panos.panorama import Panorama
 except ImportError:
     try:
-        from pandevice.errors import PanDeviceError
         from pandevice.panorama import Panorama
     except ImportError:
         pass
 
 try:
-    import pan.xapi
     import xmltodict
 
     HAS_LIB = True
@@ -217,7 +214,6 @@ except ImportError:
     HAS_LIB = False
 
 import json
-import os
 import pathlib
 import time
 import xml.etree.ElementTree as ET

@@ -200,38 +200,38 @@ options:
 
 EXAMPLES = """
 # Add a BGP Policy
-  - name: Create Policy Import Rule
-    panos_bgp_policy_rule:
-      provider: '{{ provider }}'
-      vr_name: 'default'
-      name: 'import-rule-001'
-      type: 'import'
-      enable: true
-      action: 'allow'
-      address_prefix:
-        - name: '10.1.1.0/24'
-        - name: '10.1.2.0/24'
-          exact: false
-        - name: '10.1.3.0/24'
-          exact: true
-      action_dampening: 'dampening-profile'
+- name: Create Policy Import Rule
+  panos_bgp_policy_rule:
+    provider: '{{ provider }}'
+    vr_name: 'default'
+    name: 'import-rule-001'
+    type: 'import'
+    enable: true
+    action: 'allow'
+    address_prefix:
+      - name: '10.1.1.0/24'
+      - name: '10.1.2.0/24'
+        exact: false
+      - name: '10.1.3.0/24'
+        exact: true
+    action_dampening: 'dampening-profile'
 
-  - name: Create Policy Export Rule
-    panos_bgp_policy_rule:
-      provider: '{{ provider }}'
-      vr_name: 'default'
-      name: 'export-rule-001'
-      type: 'export'
-      enable: true
-      action: 'allow'
+- name: Create Policy Export Rule
+  panos_bgp_policy_rule:
+    provider: '{{ provider }}'
+    vr_name: 'default'
+    name: 'export-rule-001'
+    type: 'export'
+    enable: true
+    action: 'allow'
 
-  - name: Remove Export Rule
-    panos_bgp_policy_rule:
-      provider: '{{ provider }}'
-      state: 'absent'
-      vr_name: 'default'
-      name: 'export-rule-001'
-      type: 'export'
+- name: Remove Export Rule
+  panos_bgp_policy_rule:
+    provider: '{{ provider }}'
+    state: 'absent'
+    vr_name: 'default'
+    name: 'export-rule-001'
+    type: 'export'
 """
 
 RETURN = """
