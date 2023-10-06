@@ -53,13 +53,13 @@ options:
         type: str
     address_type:
         description:
-            - Type of address object.
+            - Type of address object
         choices: ['ip-netmask', 'ip-range', 'fqdn', 'ip-wildcard']
         type: str
         default: 'ip-netmask'
     description:
         description:
-            - Descriptive name for this address object.
+            - Descriptive name for this address object
         type: str
     tag:
         description:
