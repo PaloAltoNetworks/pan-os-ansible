@@ -64,7 +64,7 @@ options:
 
 EXAMPLES = """
 - name: Create application group
-  panos_application_group:
+  paloaltonetworks.panos.panos_application_group:
     provider: '{{ provider }}'
     name: 'Software Updates'
     value:

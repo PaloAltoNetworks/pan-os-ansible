@@ -69,21 +69,21 @@ options:
 
 EXAMPLES = """
 - name: Create object group 'Prod'
-  panos_address_group:
+  paloaltonetworks.panos.panos_address_group:
     provider: '{{ provider }}'
     name: 'Prod'
     static_value: ['Test-One', 'Test-Three']
     tag: ['Prod']
 
 - name: Create object group 'SI'
-  panos_address_group:
+  paloaltonetworks.panos.panos_address_group:
     provider: '{{ provider }}'
     name: 'SI'
     dynamic_value: "'SI_Instances'"
     tag: ['SI']
 
 - name: Delete object group 'SI'
-  panos_address_group:
+  paloaltonetworks.panos.panos_address_group:
     provider: '{{ provider }}'
     name: 'SI'
     state: 'absent'

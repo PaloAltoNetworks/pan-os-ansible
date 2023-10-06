@@ -65,7 +65,7 @@ options:
 EXAMPLES = """
 # Create a template.
 - name: Create template
-  panos_template:
+  paloaltonetworks.panos.panos_template:
     provider: '{{ provider }}'
     name: 'hello world'
     description: 'my description here'
@@ -75,7 +75,7 @@ EXAMPLES = """
 
 # Delete a template
 - name: Delete a template
-  panos_template:
+  paloaltonetworks.panos.panos_template:
     provider: '{{ provider }}'
     name: 'some template'
     state: 'absent'

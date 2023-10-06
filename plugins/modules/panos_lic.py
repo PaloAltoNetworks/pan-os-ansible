@@ -53,7 +53,7 @@ options:
 
 EXAMPLES = """
 - name: Activate my authcode
-  panos_lic:
+  paloaltonetworks.panos.panos_lic:
     provider: '{{ provider }}'
     auth_code: "IBADCODE"
   register: result

@@ -62,7 +62,7 @@ options:
 EXAMPLES = """
 # Create a snmp v2 server
 - name: Create snmp v2 server
-  panos_snmp_v2c_server:
+  paloaltonetworks.panos.panos_snmp_v2c_server:
     provider: '{{ provider }}'
     snmp_profile: 'my-profile'
     name: 'my-v2c-server'

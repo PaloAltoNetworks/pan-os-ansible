@@ -204,7 +204,7 @@ options:
 
 EXAMPLES = """
 - name: Add IKE gateway config to the firewall
-  panos_ike_gateway:
+  paloaltonetworks.panos.panos_ike_gateway:
     provider: '{{ provider }}'
     state: 'present'
     name: 'IKEGW-Ansible'
@@ -219,7 +219,7 @@ EXAMPLES = """
     commit: false
 
 - name: Create IKE gateway (dynamic)
-  panos_ike_gateway:
+  paloaltonetworks.panos.panos_ike_gateway:
     provider: '{{ device }}'
     name: 'test-dynamic'
     interface: 'ethernet1/1'

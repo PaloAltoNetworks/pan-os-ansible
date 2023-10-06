@@ -201,7 +201,7 @@ options:
 EXAMPLES = """
 # Add a BGP Policy
 - name: Create Policy Import Rule
-  panos_bgp_policy_rule:
+  paloaltonetworks.panos.panos_bgp_policy_rule:
     provider: '{{ provider }}'
     vr_name: 'default'
     name: 'import-rule-001'
@@ -217,7 +217,7 @@ EXAMPLES = """
     action_dampening: 'dampening-profile'
 
 - name: Create Policy Export Rule
-  panos_bgp_policy_rule:
+  paloaltonetworks.panos.panos_bgp_policy_rule:
     provider: '{{ provider }}'
     vr_name: 'default'
     name: 'export-rule-001'
@@ -226,7 +226,7 @@ EXAMPLES = """
     action: 'allow'
 
 - name: Remove Export Rule
-  panos_bgp_policy_rule:
+  paloaltonetworks.panos.panos_bgp_policy_rule:
     provider: '{{ provider }}'
     state: 'absent'
     vr_name: 'default'

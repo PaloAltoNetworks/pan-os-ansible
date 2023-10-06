@@ -100,7 +100,7 @@ options:
 
 EXAMPLES = """
 - name: Create BGP Peer Group
-  panos_bgp_peer_group:
+  paloaltonetworks.panos.panos_bgp_peer_group:
     provider: '{{ provider }}'
     name: 'peer-group-1'
     enable: true

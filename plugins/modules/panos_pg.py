@@ -77,7 +77,7 @@ options:
 
 EXAMPLES = """
 - name: setup security profile group
-  panos_pg:
+  paloaltonetworks.panos.panos_pg:
     provider: '{{ provider }}'
     pg_name: "pg-default"
     virus: "default"

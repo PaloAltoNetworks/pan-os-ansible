@@ -164,14 +164,14 @@ options:
         type: bool
     vr_name:
         description:
-            - Name of the virtual router; it must already exist; see panos_virtual_router.
+            - Name of the virtual router; it must already exist; see M(paloaltonetworks.panos.panos_virtual_router).
         type: str
         default: default
 """
 
 EXAMPLES = """
 - name: Create BGP Peer
-  panos_bgp_peer:
+  paloaltonetworks.panos.panos_bgp_peer:
     provider: '{{ provider }}'
     peer_group: 'peer-group-1'
     name: 'peer-1'

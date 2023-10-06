@@ -93,7 +93,7 @@ options:
 
 EXAMPLES = """
 - name: Create syslog server
-  panos_syslog_server:
+  paloaltonetworks.panos.panos_syslog_server:
     provider: '{{ provider }}'
     syslog_profile: 'my-profile'
     name: 'my-syslog-server'

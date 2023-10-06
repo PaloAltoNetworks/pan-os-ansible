@@ -90,7 +90,7 @@ options:
 EXAMPLES = """
 # Have an IPv6 address on ethernet1/6.2
 - name: Assert the given IPv6 address
-  panos_ipv6_address:
+  paloaltonetworks.panos.panos_ipv6_address:
     provider: '{{ provider }}'
     iface_name: 'ethernet1/6.2'
     address: '2001:db8:123:1::1'

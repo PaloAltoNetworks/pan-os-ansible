@@ -88,7 +88,7 @@ options:
 
 EXAMPLES = """
 - name: Add IPSec IPv4 Proxy ID
-  panos_ipsec_ipv4_proxyid:
+  paloaltonetworks.panos.panos_ipsec_ipv4_proxyid:
     provider: '{{ provider }}'
     name: 'IPSec-ProxyId'
     tunnel_name: 'Default_Tunnel'

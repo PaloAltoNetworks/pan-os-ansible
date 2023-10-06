@@ -113,7 +113,7 @@ options:
 
 EXAMPLES = """
 - name: BGP use Redistribution Policy 1
-  panos_bgp_redistribute:
+  paloaltonetworks.panos.panos_bgp_redistribute:
     provider: '{{ provider }}'
     name: '10.2.3.0/24'
     enable: true

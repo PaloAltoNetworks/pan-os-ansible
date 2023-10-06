@@ -91,7 +91,7 @@ options:
 
 EXAMPLES = """
 - name: Create the tags to map IP addresses
-  panos_dag_tags:
+  paloaltonetworks.panos.panos_dag_tags:
     ip_address: "{{ ip_address }}"
     password: "{{ password }}"
     ip_to_register: "{{ ip_to_register }}"
@@ -101,7 +101,7 @@ EXAMPLES = """
   tags: "adddagip"
 
 - name: List the IP address to tag mapping
-  panos_dag_tags:
+  paloaltonetworks.panos.panos_dag_tags:
     ip_address: "{{ ip_address }}"
     password: "{{ password }}"
     tag_names: "{{ tag_names }}"
@@ -110,7 +110,7 @@ EXAMPLES = """
   tags: "listdagip"
 
 - name: Unregister an IP address from a tag mapping
-  panos_dag_tags:
+  paloaltonetworks.panos.panos_dag_tags:
     ip_address: "{{ ip_address }}"
     password: "{{ password }}"
     ip_to_register: "{{ ip_to_register }}"

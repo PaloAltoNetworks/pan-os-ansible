@@ -46,7 +46,7 @@ options:
 
 EXAMPLES = """
 - name: Create an 8 hour VM auth key
-  panos_vm_auth_key:
+  paloaltonetworks.panos.panos_vm_auth_key:
     provider: '{{ provider }}'
     hours: 8
   register: res

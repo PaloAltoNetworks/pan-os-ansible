@@ -91,7 +91,7 @@ options:
 EXAMPLES = """
 # Create an L3 zone.
 - name: create DMZ zone on a firewall
-  panos_zone:
+  paloaltonetworks.panos.panos_zone:
     provider: '{{ provider }}'
     zone: 'dmz'
     mode: 'layer3'
@@ -99,7 +99,7 @@ EXAMPLES = """
 
 # Add an interface to the zone.
 - name: add ethernet1/2 to zone dmz
-  panos_interface:
+  paloaltonetworks.panos.panos_interface:
     provider: '{{ provider }}'
     zone: 'dmz'
     mode: 'layer3'
@@ -108,14 +108,14 @@ EXAMPLES = """
 
 # Delete the zone.
 - name: delete the DMZ zone
-  panos_interface:
+  paloaltonetworks.panos.panos_interface:
     provider: '{{ provider }}'
     zone: 'dmz'
     state: 'absent'
 
 # Add a zone to a multi-VSYS Panorama template
 - name: add Cloud zone to template
-  panos_interface:
+  paloaltonetworks.panos.panos_interface:
     provider: '{{ provider }}'
     template: 'Datacenter Template'
     vsys: 'vsys4'

@@ -60,14 +60,14 @@ options:
 EXAMPLES = """
 # Import and load config file from URL
 - name: import configuration
-  panos_import:
+  paloaltonetworks.panos.panos_import:
     ip_address: "192.168.1.1"
     password: "admin"
     url: "{{ConfigURL}}"
     category: "configuration"
   register: result
 - name: load configuration
-  panos_loadcfg:
+  paloaltonetworks.panos.panos_loadcfg:
     ip_address: "192.168.1.1"
     password: "admin"
     file: "{{result.filename}}"

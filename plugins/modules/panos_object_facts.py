@@ -81,28 +81,28 @@ options:
 
 EXAMPLES = """
 - name: Retrieve address group object 'Prod'
-  panos_object_facts:
+  paloaltonetworks.panos.panos_object_facts:
     provider: '{{ provider }}'
     name: 'Prod'
     object_type: 'address-group'
   register: result
 
 - name: Retrieve service group object 'Prod-Services'
-  panos_object_facts:
+  paloaltonetworks.panos.panos_object_facts:
     provider: '{{ provider }}'
     name: 'Prod-Services'
     object_type: 'service-group'
   register: result
 
 - name: Find all address objects with "Prod" in the name
-  panos_object_facts:
+  paloaltonetworks.panos.panos_object_facts:
     provider: '{{ provider }}'
     name_regex: '.*Prod.*'
     object_type: 'address'
   register: result
 
 - name: Find all static address objects that use addy1
-  panos_object_facts:
+  paloaltonetworks.panos.panos_object_facts:
     provider: '{{ provider }}'
     object_type: 'address-group'
     field: 'static_value'

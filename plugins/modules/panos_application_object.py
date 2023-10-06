@@ -173,7 +173,7 @@ options:
 
 EXAMPLES = """
 - name: Create custom application
-  panos_application_object:
+  paloaltonetworks.panos.panos_application_object:
     provider: '{{ provider }}'
     name: 'custom-app'
     category: 'business-systems'
@@ -182,7 +182,7 @@ EXAMPLES = """
     risk: 1
 
 - name: Remove custom application
-  panos_application_object:
+  paloaltonetworks.panos.panos_application_object:
     provider: '{{ provider }}'
     name: 'custom-app'
     state: 'absent'

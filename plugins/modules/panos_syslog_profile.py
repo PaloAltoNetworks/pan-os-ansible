@@ -122,7 +122,7 @@ options:
 EXAMPLES = """
 # Create a profile
 - name: Create syslog profile
-  panos_syslog_profile:
+  paloaltonetworks.panos.panos_syslog_profile:
     provider: '{{ provider }}'
     name: 'my-profile'
 """

@@ -44,7 +44,7 @@ options:
 EXAMPLES = """
 # Gather facts
 - name: Get facts
-  panos_facts:
+  paloaltonetworks.panos.panos_facts:
     provider: '{{ provider }}'
     gather_subset: ['config']
 """

@@ -151,7 +151,7 @@ options:
 EXAMPLES = """
 # Create ae1 interface.
 - name: create ae1 interface with IP in untrust zone
-  panos_aggregate_interface:
+  paloaltonetworks.panos.panos_aggregate_interface:
     provider: '{{ provider }}'
     if_name: "ae1"
     ip: '[ "192.168.0.1" ]'

@@ -192,7 +192,7 @@ options:
 
 EXAMPLES = """
 - name: add a pbf rule
-  panos_pbf_rule:
+  paloaltonetworks.panos.panos_pbf_rule:
     provider: '{{ provider }}'
     name: 'my-pbf'
     description: 'Made by Ansible'

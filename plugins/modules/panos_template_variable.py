@@ -69,7 +69,7 @@ options:
 EXAMPLES = """
 # Create a template variable.
 - name: create template variable
-  panos_template_variable:
+  paloaltonetworks.panos.panos_template_variable:
     provider: '{{ provider }}'
     template: 'tmpl name'
     name: '$ip1'
@@ -78,7 +78,7 @@ EXAMPLES = """
 
 # Create a fqdn template stack variable
 - name: create fqdn template stack variable
-  panos_template_variable:
+  paloaltonetworks.panos.panos_template_variable:
     name: '$fqdn1'
     value: 'example.com'
     variable_type: 'fqdn'

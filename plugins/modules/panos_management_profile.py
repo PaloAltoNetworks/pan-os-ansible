@@ -104,14 +104,14 @@ options:
 
 EXAMPLES = """
 - name: ensure mngt profile foo exists and allows ping and ssh
-  panos_management_profile:
+  paloaltonetworks.panos.panos_management_profile:
     provider: '{{ provider }}'
     name: 'foo'
     ping: true
     ssh: true
 
 - name: make sure mngt profile bar does not exist
-  panos_management_profile:
+  paloaltonetworks.panos.panos_management_profile:
     provider: '{{ provider }}'
     name: 'bar'
     state: 'absent'

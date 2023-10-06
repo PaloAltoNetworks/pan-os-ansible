@@ -104,7 +104,7 @@ options:
 EXAMPLES = """
 # Create a log forwarding server match list action
 - name: Create the action
-  panos_log_forwarding_profile_match_list_action:
+  paloaltonetworks.panos.panos_log_forwarding_profile_match_list_action:
     provider: '{{ provider }}'
     log_forwarding_profile: 'my-profile'
     log_forwarding_profile_match_list: 'ml-1'
