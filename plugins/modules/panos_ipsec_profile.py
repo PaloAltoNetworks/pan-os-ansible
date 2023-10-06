@@ -112,7 +112,7 @@ options:
 
 EXAMPLES = """
 - name: Add IPSec crypto config to the firewall
-  panos_ipsec_profile:
+  paloaltonetworks.panos.panos_ipsec_profile:
     provider: '{{ provider }}'
     state: 'present'
     name: 'ipsec-vpn-0cc61dd8c06f95cfd-0'

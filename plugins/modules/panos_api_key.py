@@ -42,7 +42,7 @@ extends_documentation_fragment:
 
 EXAMPLES = """
 - name: retrieve api_key
-  panos_api_key:
+  paloaltonetworks.panos.panos_api_key:
     provider: '{{ provider }}'
   register: auth
 

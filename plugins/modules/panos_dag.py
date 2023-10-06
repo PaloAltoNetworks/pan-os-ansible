@@ -100,7 +100,7 @@ options:
 
 EXAMPLES = """
 - name: Create dag
-  panos_dag:
+  paloaltonetworks.panos.panos_dag:
     ip_address: "192.168.1.1"
     password: "admin"
     dag_name: "dag-1"
@@ -218,7 +218,7 @@ def main():
     )
 
     module.deprecate(
-        "This module has been deprecated; use panos_address_group",
+        "This module has been deprecated; use paloaltonetworks.panos.panos_address_group",
         version="3.0.0",
         collection_name="paloaltonetworks.panos",
     )

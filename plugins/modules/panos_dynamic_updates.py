@@ -51,7 +51,7 @@ options:
 
 EXAMPLES = """
 - name: Update content to latest version
-  panos_dynamic_updates:
+  paloaltonetworks.panos.panos_dynamic_updates:
     provider: '{{ provider }}'
 """
 

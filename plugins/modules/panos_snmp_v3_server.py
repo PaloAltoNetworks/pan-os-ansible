@@ -74,7 +74,7 @@ options:
 EXAMPLES = """
 # Create snmp v3 server
 - name: Create snmp v3 server
-  panos_snmp_v3_server:
+  paloaltonetworks.panos.panos_snmp_v3_server:
     provider: '{{ provider }}'
     snmp_profile: 'my-profile'
     name: 'my-v3-server'

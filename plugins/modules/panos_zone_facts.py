@@ -51,14 +51,14 @@ options:
 EXAMPLES = """
 # Get information on a specific zone
 - name: Get zone3 info
-  panos_zone_facts:
+  paloaltonetworks.panos.panos_zone_facts:
     provider: '{{ provider }}'
     name: 'zone3'
   register: ans
 
 # Get the config of all zones
 - name: Get all zones
-  panos_zone_facts:
+  paloaltonetworks.panos.panos_zone_facts:
     provider: '{{ provider }}'
   register: zones
 """

@@ -74,17 +74,17 @@ options:
 
 EXAMPLES = """
 # Create IPv4 DHCP Relay
-- panos_dhcp_relay:
+- paloaltonetworks.panos.panos_dhcp_relay:
     provider: '{{ provider }}'
     dhcp_interface: 'ethernet1/1'
     interface: 'ethernet1/1'
-    ipv4_enabled: True
+    ipv4_enabled: true
     ipv4_servers:
       - '1.1.1.1'
       - '2.2.2.2'
 
 # Delete DHCP Relay
-- panos_dhcp_relay:
+- paloaltonetworks.panos.panos_dhcp_relay:
     provider: '{{ provider }}'
     dhcp_interface: 'ethernet1/1'
     interface: 'ethernet1/1'

@@ -2,7 +2,7 @@
 Palo Alto Networks Ansible Collection
 =====================================
 
-Version: 2.17.6
+Version: 2.17.7
 
 The Palo Alto Networks Ansible collection is a collection of modules that
 automate configuration and operational tasks on Palo Alto Networks Next
@@ -37,7 +37,7 @@ Then in your playbooks you can specify that you want to use the
     collections:
         - paloaltonetworks.panos
 
-* Ansible Galaxy: https://galaxy.ansible.com/PaloAltoNetworks/panos
+* Ansible Galaxy: https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos
 * Red Hat Catalog: https://catalog.redhat.com/software/collection/paloaltonetworks/panos
 * GitHub repo:  https://github.com/PaloAltoNetworks/pan-os-ansible
 
@@ -81,7 +81,7 @@ and officially supported for Ansible subscribers. Ansible subscribers can engage
 for support through their usual route towards Red Hat.
 
 For those who are not Ansible subscribers, this Collection of Ansible Modules is
-also [published on Ansible Galaxy](https://galaxy.ansible.com/paloaltonetworks/panos)
+also [published on Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos)
 to be freely used under an as-is, best effort, support
 policy. These scripts should be seen as community supported and Palo
 Alto Networks will contribute our expertise as and when possible. We do

@@ -28,6 +28,8 @@ jobs:
             python_ver: "3.11"
           - ansible: "2.15"
             python_ver: "3.11"
+          - ansible: "2.16"
+            python_ver: "3.11"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -85,10 +87,8 @@ jobs:
       run:
         working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
-
+      - name: Check out code
+        uses: actions/checkout@v4
       - name: Run ansible-lint
         uses: ansible/ansible-lint@main
 

@@ -106,14 +106,14 @@ options:
 
 EXAMPLES = """
 - name: Create tag object 'Prod'
-  panos_tag_object:
+  paloaltonetworks.panos.panos_tag_object:
     provider: '{{ provider }}'
     name: 'Prod'
     color: 'red'
     comments: 'Prod Environment'
 
 - name: Remove tag object 'Prod'
-  panos_tag_object:
+  paloaltonetworks.panos.panos_tag_object:
     provider: '{{ provider }}'
     name: 'Prod'
     state: 'absent'

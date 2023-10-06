@@ -199,48 +199,48 @@ options:
 """
 
 EXAMPLES = """
-  - name: set ports to HA mode
-    panos_interface:
-      provider: '{{ provider }}'
-      if_name: "{{ item }}"
-      mode: "ha"
-      enable_dhcp: false
-    with_items:
-      - ethernet1/1
-      - ethernet1/2
-      - ethernet1/3
-      - ethernet1/4
-      - ethernet1/5
+- name: set ports to HA mode
+  paloaltonetworks.panos.panos_interface:
+    provider: '{{ provider }}'
+    if_name: "{{ item }}"
+    mode: "ha"
+    enable_dhcp: false
+  with_items:
+    - ethernet1/1
+    - ethernet1/2
+    - ethernet1/3
+    - ethernet1/4
+    - ethernet1/5
 
-  - name: Configure Active/Standby HA
-    panos_ha:
-      provider: '{{ provider }}'
-      state: present
-      ha_peer_ip: "192.168.50.1"
-      ha1_ip_address: "192.168.50.2"
-      ha1_netmask: "255.255.255.252"
-      ha1_port: "ethernet1/1"
-      ha2_port: "ethernet1/3"
+- name: Configure Active/Standby HA
+  paloaltonetworks.panos.panos_ha:
+    provider: '{{ provider }}'
+    state: present
+    ha_peer_ip: "192.168.50.1"
+    ha1_ip_address: "192.168.50.2"
+    ha1_netmask: "255.255.255.252"
+    ha1_port: "ethernet1/1"
+    ha2_port: "ethernet1/3"
 
-  - name: Configure Active/Active HA
-    panos_ha:
-      provider: "{{ provider }}"
-      state: present
-      ha_mode: "active-active"
-      ha_device_id: 0
-      ha_session_owner_selection: "first-packet"
-      ha_session_setup: "first-packet"
-      ha_peer_ip: "192.168.50.1"
-      ha_peer_ip_backup: "192.168.50.5"
-      ha1_port: "ethernet1/1"
-      ha1_ip_address: "192.168.50.2"
-      ha1_netmask: "255.255.255.252"
-      ha1b_port: "ethernet1/2"
-      ha1b_ip_address: "192.168.50.6"
-      ha1b_netmask: "255.255.255.252"
-      ha2_port: "ethernet1/3"
-      ha2b_port: "ethernet1/4"
-      ha3_port: "ethernet1/5"
+- name: Configure Active/Active HA
+  paloaltonetworks.panos.panos_ha:
+    provider: "{{ provider }}"
+    state: present
+    ha_mode: "active-active"
+    ha_device_id: 0
+    ha_session_owner_selection: "first-packet"
+    ha_session_setup: "first-packet"
+    ha_peer_ip: "192.168.50.1"
+    ha_peer_ip_backup: "192.168.50.5"
+    ha1_port: "ethernet1/1"
+    ha1_ip_address: "192.168.50.2"
+    ha1_netmask: "255.255.255.252"
+    ha1b_port: "ethernet1/2"
+    ha1b_ip_address: "192.168.50.6"
+    ha1b_netmask: "255.255.255.252"
+    ha2_port: "ethernet1/3"
+    ha2b_port: "ethernet1/4"
+    ha3_port: "ethernet1/5"
 """
 
 RETURN = """

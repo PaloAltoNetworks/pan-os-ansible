@@ -257,7 +257,7 @@ options:
 
 EXAMPLES = """
 - name: add SSH inbound rule to Panorama device group
-  panos_security_rule:
+  paloaltonetworks.panos.panos_security_rule:
     provider: '{{ provider }}'
     device_group: 'Cloud Edge'
     rule_name: 'SSH permit'
@@ -271,7 +271,7 @@ EXAMPLES = """
     action: 'allow'
 
 - name: add a rule to allow HTTP multimedia only to CDNs
-  panos_security_rule:
+  paloaltonetworks.panos.panos_security_rule:
     provider: '{{ provider }}'
     rule_name: 'HTTP Multimedia'
     description: 'Allow HTTP multimedia only to host at 1.1.1.1'
@@ -283,7 +283,7 @@ EXAMPLES = """
     action: 'allow'
 
 - name: add a more complex rule that uses security profiles
-  panos_security_rule:
+  paloaltonetworks.panos.panos_security_rule:
     provider: '{{ provider }}'
     rule_name: 'Allow HTTP'
     source_zone: ['public']
@@ -298,7 +298,7 @@ EXAMPLES = """
     wildfire_analysis: 'default'
 
 - name: disable a Panorama pre-rule
-  panos_security_rule:
+  paloaltonetworks.panos.panos_security_rule:
     provider: '{{ provider }}'
     device_group: 'Production edge'
     rule_name: 'Allow telnet'
@@ -312,14 +312,14 @@ EXAMPLES = """
     disabled: true
 
 - name: delete a device group security rule
-  panos_security_rule:
+  paloaltonetworks.panos.panos_security_rule:
     provider: '{{ provider }}'
     state: 'absent'
     device_group: 'DC Firewalls'
     rule_name: 'Allow telnet'
 
 - name: add a rule at a specific location in the rulebase
-  panos_security_rule:
+  paloaltonetworks.panos.panos_security_rule:
     provider: '{{ provider }}'
     rule_name: 'SSH permit'
     description: 'SSH rule test'

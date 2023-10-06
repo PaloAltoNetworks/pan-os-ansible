@@ -63,16 +63,16 @@ options:
 
 EXAMPLES = """
 - name: Create Custom Url Category 'Internet Access List'
-  panos_custom_url_category:
+  paloaltonetworks.panos.panos_custom_url_category:
     provider: '{{ provider }}'
     name: 'Internet Access List'
     description: 'Description One'
     url_value:
-        - microsoft.com
-        - redhat.com
+      - microsoft.com
+      - redhat.com
 
 - name: Remove Custom Url Category 'Internet Access List'
-  panos_custom_url_category:
+  paloaltonetworks.panos.panos_custom_url_category:
     provider: '{{ provider }}'
     name: 'Internet Access List'
     state: 'absent'

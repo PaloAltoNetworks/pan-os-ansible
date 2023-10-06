@@ -120,7 +120,7 @@ options:
 
 EXAMPLES = """
 - name: Create Redistribution Profile
-  panos_redistribution:
+  paloaltonetworks.panos.panos_redistribution:
     provider: '{{ provider }}'
     name: 'my-profile'
     priority: 42
@@ -135,22 +135,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     ConnectionHelper,
     get_connection,
 )
-
-try:
-    from panos.network import (
-        RedistributionProfile,
-        RedistributionProfileIPv6,
-        VirtualRouter,
-    )
-except ImportError:
-    try:
-        from pandevice.network import (
-            RedistributionProfile,
-            RedistributionProfileIPv6,
-            VirtualRouter,
-        )
-    except ImportError:
-        pass
 
 
 class Helper(ConnectionHelper):

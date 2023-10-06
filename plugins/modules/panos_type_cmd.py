@@ -93,7 +93,7 @@ options:
 
 EXAMPLES = """
 - name: Create an address object using set.
-  panos_type_cmd:
+  paloaltonetworks.panos.panos_type_cmd:
     provider: '{{ provider }}'
     xpath: |
       /config/devices/entry[@name='localhost.localdomain']
@@ -106,7 +106,7 @@ EXAMPLES = """
       </entry>
 
 - name: Then rename it.
-  panos_type_cmd:
+  paloaltonetworks.panos.panos_type_cmd:
     provider: '{{ provider }}'
     cmd: 'rename'
     xpath: |
@@ -116,7 +116,7 @@ EXAMPLES = """
     new_name: 'dmz-block'
 
 - name: Show the address object.
-  panos_type_cmd:
+  paloaltonetworks.panos.panos_type_cmd:
     provider: '{{ provider }}'
     cmd: 'show'
     xpath: |

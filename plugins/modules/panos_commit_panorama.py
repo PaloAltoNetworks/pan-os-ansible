@@ -102,24 +102,24 @@ options:
 
 EXAMPLES = r"""
 - name: commit candidate configs on panorama
-  panos_commit_panorama:
+  paloaltonetworks.panos.panos_commit_panorama:
     provider: '{{ credentials }}'
 
 - name: commit changes by specified admins on panorama
-  panos_commit_panorama:
+  paloaltonetworks.panos.panos_commit_panorama:
     provider: '{{ credentials }}'
-    admins: ['netops','secops','cloudops']
+    admins: ['netops', 'secops', 'cloudops']
     description: 'Saturday change window'
 
 - name: commit specific device group changes on panorama
-  panos_commit_panorama:
+  paloaltonetworks.panos.panos_commit_panorama:
     provider: '{{ credentials }}'
-    device_groups: ['production','development','testing']
+    device_groups: ['production', 'development', 'testing']
 
 - name: commit log collector group changes on panorama
-  panos_commit_panorama:
+  paloaltonetworks.panos.panos_commit_panorama:
     provider: '{{ credentials }}'
-    log_collector_groups: ['us-west-loggers','apac-loggers','latam-loggers']
+    log_collector_groups: ['us-west-loggers', 'apac-loggers', 'latam-loggers']
     description: 'Log collector changes'
 """
 

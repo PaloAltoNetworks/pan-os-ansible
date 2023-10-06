@@ -70,7 +70,7 @@ options:
 
 EXAMPLES = """
 - name: Create BGP Authentication Profile
-  panos_bgp_auth:
+  paloaltonetworks.panos.panos_bgp_auth:
     provider: '{{ provider }}'
     vr_name: 'my virtual router'
     name: auth-profile-1

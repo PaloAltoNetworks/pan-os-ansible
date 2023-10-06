@@ -210,7 +210,7 @@ options:
 
 EXAMPLES = """
 - name: Add IPSec tunnel to IKE gateway profile
-  panos_ipsec_tunnel:
+  paloaltonetworks.panos.panos_ipsec_tunnel:
     provider: '{{ provider }}'
     name: 'IPSecTunnel-Ansible'
     tunnel_interface: 'tunnel.2'

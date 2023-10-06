@@ -1,0 +1,15 @@
+---
+- import_tasks: 'reset.yml'
+
+- name: Create Redistribution Profile
+  paloaltonetworks.panos.panos_redistribution:
+    provider: '{{ device }}'
+    name: 'my-profile'
+    priority: 42
+  register: result
+
+- name: Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed

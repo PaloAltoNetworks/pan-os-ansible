@@ -51,13 +51,13 @@ options:
 
 EXAMPLES = """
 # Gather all DHCP configuration for an interface
-- panos_dhcp:
+- paloaltonetworks.panos.panos_dhcp:
     provider: '{{ provider }}'
     interface: 'ethernet1/1'
     state: 'gathered'
 
 # Delete any and all DHCP configuration
-- panos_dhcp:
+- paloaltonetworks.panos.panos_dhcp:
     provider: '{{ provider }}'
     interface: 'ethernet1/1'
     state: absent

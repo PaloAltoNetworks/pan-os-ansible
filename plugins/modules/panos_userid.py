@@ -57,7 +57,7 @@ options:
 
 EXAMPLES = """
 - name: Register user ivanb to 10.0.1.101
-  panos_userid:
+  paloaltonetworks.panos.panos_userid:
     provider: '{{ provider }}'
     userid: 'ACMECORP\\ivanb'
     register_ip: '10.0.1.101'

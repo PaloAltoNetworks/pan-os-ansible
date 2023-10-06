@@ -66,7 +66,8 @@ options:
     restart:
         description:
             - Restart device after installing desired version.  Use in conjunction with
-              panos_check to determine when firewall is ready again.
+              M(paloaltonetworks.panos.panos_check) to determine when firewall is ready
+              again.
         type: bool
         default: False
     timeout:
@@ -89,20 +90,20 @@ options:
 
 EXAMPLES = """
 - name: Install PAN-OS 8.1.6 and restart
-  panos_software:
+  paloaltonetworks.panos.panos_software:
     provider: '{{ provider }}'
     version: '8.1.6'
     restart: true
 
 - name: Download PAN-OS 9.0.0 base image only
-  panos_software:
+  paloaltonetworks.panos.panos_software:
     provider: '{{ provider }}'
     version: '9.0.0'
     install: false
     restart: false
 
 - name: Download PAN-OS 9.0.1 and sync to HA peer
-  panos_software:
+  paloaltonetworks.panos.panos_software:
     provider: '{{ provider }}'
     version: '9.0.1'
     sync_to_peer: true
@@ -110,7 +111,7 @@ EXAMPLES = """
     restart: false
 
 - name: Downgrade to 9.1.10 with named config load
-  panos_software:
+  paloaltonetworks.panos.panos_software:
     provider: '{{ device }}'
     version: 9.1.10
     named_config: '9.1.10_backup_named_config.xml'
