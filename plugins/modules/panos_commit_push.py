@@ -94,7 +94,7 @@ EXAMPLES = """
     provider: '{{ credentials }}'
     style: 'template'
     name: 'APAC Regional Template'
-    force_template_values: True
+    force_template_values: true
 
 - name: push log collector group configs
   panos_commit_push:
@@ -117,7 +117,7 @@ EXAMPLES = """
     provider: '{{ credentials }}'
     style: 'device group'
     name: '{{ item }}'
-    sync: False
+    sync: false
   loop:
     - Production Firewalls
     - Staging Firewalls

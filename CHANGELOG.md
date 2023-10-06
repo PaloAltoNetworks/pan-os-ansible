@@ -1,3 +1,10 @@
+### [2.17.7](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.6...v2.17.7) (2023-10-05)
+
+
+### Bug Fixes
+
+* **various:** Remove unused imports for pylint testing ([#495](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/495)) ([71aecd6](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/71aecd6ec2128c8035e1ad40479e9c059fa27388))
+
 ### [2.17.6](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.5...v2.17.6) (2023-09-14)
 
 

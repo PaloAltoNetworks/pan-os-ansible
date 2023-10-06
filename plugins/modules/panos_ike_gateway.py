@@ -210,13 +210,13 @@ EXAMPLES = """
     name: 'IKEGW-Ansible'
     version: 'ikev2'
     interface: 'ethernet1/1'
-    enable_passive_mode: True
-    enable_liveness_check: True
+    enable_passive_mode: true
+    enable_liveness_check: true
     liveness_check_interval: '5'
     peer_ip_value: '1.2.3.4'
     pre_shared_key: 'CHANGEME'
     ikev2_crypto_profile: 'IKE-Ansible'
-    commit: False
+    commit: false
 
 - name: Create IKE gateway (dynamic)
   panos_ike_gateway:
@@ -225,7 +225,7 @@ EXAMPLES = """
     interface: 'ethernet1/1'
     peer_ip_type: dynamic
     pre_shared_key: 'CHANGEME'
-    commit: False
+    commit: false
 """
 
 RETURN = """

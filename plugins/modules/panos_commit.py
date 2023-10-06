@@ -73,7 +73,7 @@ EXAMPLES = """
 - name: commit changes by specified admins to firewall
   panos_commit:
     provider: '{{ provider }}'
-    admins: ['admin1','admin2']
+    admins: ['admin1', 'admin2']
 """
 
 RETURN = """

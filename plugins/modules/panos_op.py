@@ -84,7 +84,7 @@ EXAMPLES = """
   panos_op:
     provider: '{{ provider }}'
     cmd: 'set serial-number "123456"'
-    ignore_disconnect: True
+    ignore_disconnect: true
 """
 
 RETURN = """

@@ -71,7 +71,7 @@ EXAMPLES = """
     provider: '{{ provider }}'
     name: 'Palo-Alto-Networks'
     address:
-        - '192.168.0.0/16'
+      - '192.168.0.0/16'
     latitude: 37.383415
     longitude: -121.982882
 """

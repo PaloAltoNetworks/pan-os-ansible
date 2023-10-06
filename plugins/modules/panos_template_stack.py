@@ -70,11 +70,11 @@ EXAMPLES = """
     name: 'hello world'
     description: 'my description here'
     templates:
-        - template1
-        - template2
+      - template1
+      - template2
     devices:
-      - 0123456
-      - 1123456
+      - 90123456
+      - 91123456
 
 # Delete a template stack
 - name: Delete a template stack
