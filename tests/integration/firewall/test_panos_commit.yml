@@ -31,12 +31,14 @@
       - result is success
       - result is not changed
 
-- name: test_panos_commit - Old commit module
-  paloaltonetworks.panos.panos_commit:
-    provider: '{{ device }}'
-  register: result
+# Removing test, Ansible now fails rather than give deprecation message
+# - name: test_panos_commit - Old commit module
+#   paloaltonetworks.panos.panos_commit:
+#     provider: '{{ device }}'
+#   register: result
 
-- name: test_panos_commit - Assert old commit has deprecation message
-  assert:
-    that:
-      - result.deprecations | select("search", "This module is deprecated") | list | length > 0
+# Removing test, Ansible now fails rather than give deprecation message
+# - name: test_panos_commit - Assert old commit has deprecation message
+#   assert:
+#     that:
+#       - result.deprecations | select("search", "This module is deprecated") | list | length > 0
