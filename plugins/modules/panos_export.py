@@ -259,7 +259,6 @@ def export_binary(module, xapi, category, filename, create_directory):
 
 
 def save_binary(module, xapi, category, filename, create_directory):
-
     # This function is almost the same as export_binary, but omits the line...
     #   xapi.export(category=category)
     # This function is therefore used where the xapi.export operation is already done
@@ -280,8 +279,9 @@ def save_binary(module, xapi, category, filename, create_directory):
         module.fail_json(msg=msg)
 
 
-def export_async(module, xapi, category, filename, interval=60, timeout=600):
-
+def export_async(
+    module, xapi, category, filename, interval=60, timeout=600, create_directory=False
+):
     # Submit job, get resulting job id
     xapi.export(category=category)
     job_result = ET.fromstring(xapi.xml_root())
@@ -309,7 +309,7 @@ def export_async(module, xapi, category, filename, interval=60, timeout=600):
     # Get completed job
     xapi.export(category=category, extra_qs={"action": "get", "job-id": job_id})
 
-    save_binary(module, xapi, category, filename)
+    save_binary(module, xapi, category, filename, create_directory)
 
 
 HTML_EXPORTS = [
@@ -403,7 +403,14 @@ def main():
         if category == "stats-dump" and isinstance(parent, Panorama):
             module.fail_json(msg="stats-dump is not supported on Panorama")
 
-        export_async(module, xapi, category, filename, timeout=timeout)
+        export_async(
+            module,
+            xapi,
+            category,
+            filename,
+            timeout=timeout,
+            create_directory=create_directory,
+        )
 
     elif category == "device-state":
         if filename is None:
@@ -438,7 +445,6 @@ def main():
         save_binary(module, xapi, category, filename, create_directory)
 
     elif category == "application-pcap":
-
         # When exporting an application pcap, from_name can be:
         #   - nothing, which gets you a list of directories
         #   - a directory name, which gets you a list of pcaps in that directory
@@ -457,10 +463,9 @@ def main():
             if filename is None:
                 module.fail_json(msg="filename is required for export")
 
-            save_binary(module, xapi, category, filename)
+            save_binary(module, xapi, category, filename, create_directory)
 
     elif category == "filter-pcap":
-
         # When exporting a filter pcap, from_name can be:
         #   - nothing, which gets you a list of files
         #   - a filename, which gets you the pcap file
@@ -478,7 +483,7 @@ def main():
             if filename is None:
                 module.fail_json(msg="filename is required for export")
 
-            save_binary(module, xapi, category, filename)
+            save_binary(module, xapi, category, filename, create_directory)
 
     elif category == "dlp-pcap":
         from_name = module.params["dlp_pcap_name"]
@@ -503,7 +508,7 @@ def main():
             if filename is None:
                 module.fail_json(msg="filename is required for export")
 
-            save_binary(module, xapi, category, filename)
+            save_binary(module, xapi, category, filename, create_directory)
 
     elif category == "threat-pcap":
         if filename is None:
@@ -526,7 +531,7 @@ def main():
             search_time=search_time,
             serialno=serial,
         )
-        save_binary(module, xapi, category, filename)
+        save_binary(module, xapi, category, filename, create_directory)
 
     module.exit_json(changed=False)
 
