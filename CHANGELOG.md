@@ -1,3 +1,10 @@
+### [2.17.8](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.7...v2.17.8) (2023-10-23)
+
+
+### Bug Fixes
+
+* **panos_export:** Fix create_directory for panos_export for binary files ([#492](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/492)) ([d0f8572](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/d0f8572eabf1419ccd004a3ec8cb628409fea7ff))
+
 ### [2.17.7](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.6...v2.17.7) (2023-10-05)
 
 
