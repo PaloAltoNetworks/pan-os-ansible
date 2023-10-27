@@ -40,7 +40,7 @@ requirements:
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
     - pan-os-upgrade-assurance can be obtained from PyPI U(https://pypi.python.org/pypi/pan-os-upgrade-assurance)
 notes:
-    - Only Firewalls are supported.
+    - This is an offline module, no device connection is made.
     - Check mode is not supported.
 options:
     left_snapshot:
