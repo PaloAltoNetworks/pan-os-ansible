@@ -37,7 +37,7 @@ requirements:
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
     - pan-os-upgrade-assurance can be obtained from PyPI U(https://pypi.python.org/pypi/pan-os-upgrade-assurance)
 notes:
-    - Only Firewalls are supported.
+    - Panorama is not supported.
     - Check mode is not supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
@@ -135,6 +135,7 @@ def main():
         argument_spec=dict(
             state_areas=dict(type="list", default=["all"], elements="str")
         ),
+        panorama_error="This is a firewall only module",
     )
 
     module = AnsibleModule(
