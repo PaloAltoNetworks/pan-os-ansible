@@ -62,6 +62,9 @@ target/
 # pyenv
 .python-version
 
+# poetry
+poetry.lock
+
 # dotenv
 .env
 
