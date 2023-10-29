@@ -36,10 +36,6 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
-    - paloaltonetworks.panos.fragments.device_group
-    - paloaltonetworks.panos.fragments.network_resource_module_state
-    - paloaltonetworks.panos.fragments.deprecated_commit
-    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     name:
         description:
