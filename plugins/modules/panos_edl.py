@@ -148,7 +148,7 @@ def main():
             repeat_at=dict(),
             repeat_day_of_week=dict(),
             repeat_day_of_month=dict(),
-        )
+        ),
     )
 
     module = AnsibleModule(
