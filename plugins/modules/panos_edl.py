@@ -20,7 +20,6 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 DOCUMENTATION = """
----
 module: panos_edl
 short_description: Manage external dynamic lists on PAN-OS devices.
 description:
@@ -95,7 +94,7 @@ options:
         type: str
     repeat_day_of_week:
         description:
-            -  For `repeat=daily`, the day of the week.
+            - For `repeat=daily`, the day of the week.
         type: str
     repeat_day_of_month:
         description:
@@ -106,9 +105,14 @@ options:
 EXAMPLES = """
 - name: Create EDL 'test-edl'
   paloaltonetworks.panos.panos_edl:
-    provider: '{{ provider }}'
+    provider: '{{ device }}'
     name: 'test-edl'
     description: 'EDL description'
+    edl_type: 'ip'
+    source: 'http://1.2.3.4'
+    certificate_profile: 'pan-lab-cert-profile'
+    repeat: 'hourly'
+    state: 'present'
 
 - name: Delete EDL 'test-edl'
   paloaltonetworks.panos.panos_edl:
