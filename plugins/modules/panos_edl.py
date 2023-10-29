@@ -20,6 +20,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 DOCUMENTATION = """
+---
 module: panos_edl
 short_description: Manage external dynamic lists on PAN-OS devices.
 description:
@@ -60,7 +61,7 @@ options:
     expand_domain:
         description:
             - PAN-OS 9.0+
-            - Enable/disable expand domain (requires `edl_type=domain`)
+            - Enable/disable expand domain (requires 'edl_type=domain')
         type: bool
         default: false
     certificate_profile:
@@ -90,11 +91,11 @@ options:
         type: str
     repeat_day_of_week:
         description:
-            - For `repeat=daily`, the day of the week.
+            - For 'repeat=daily', the day of the week.
         type: str
     repeat_day_of_month:
         description:
-            - For `repeat=monthly`, the day of the month.
+            - For 'repeat=monthly', the day of the month.
         type: str
 """
 
