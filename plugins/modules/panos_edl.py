@@ -50,6 +50,57 @@ options:
         description:
             - Descriptive name for this EDL.
         type: str
+    edl_type:
+        description:
+            - The EDL type.
+        type: str
+        choices:
+            - "ip"
+            - "domain"
+            - "url"
+    source:
+        description:
+            - Source.
+        type: str
+    expand_domain:
+        description:
+            - PAN-OS 9.0+
+            - Enable/disable expand domain (requires `edl_type=domain`)
+        type: bool
+        default: false
+    certificate_profile:
+        description:
+            - PAN-OS 8.0+
+            - Profile for authenticating client certificates
+        type: str
+    exceptions:
+        description:
+            - PAN-OS 8.0+
+            - Exceptions.
+        type: list
+        elements: str
+    repeat:
+        description:
+            - Retrieval interval.
+        type: str
+        choices:
+            - "five-minute"
+            - "hourly"
+            - "daily"
+            - "weekly"
+            - "monthly
+    repeat_at:
+        description:
+            - The time specification for the given repeat value.
+        type: str
+    repeat_day_of_week:
+        description:
+            -  For `repeat=daily`, the day of the week.
+        type: str
+    repeat_day_of_month:
+        description:
+            - For `repeat=monthly`, the day of the month.
+        type: str
 """
 
 EXAMPLES = """
@@ -88,7 +139,16 @@ def main():
         sdk_params=dict(
             name=dict(required=True),
             description=dict(),
-        ),
+            edl_type=dict(),
+            source=dict(),
+            expand_domain=dict(),
+            certificate_profile=dict(),
+            exceptions=dict(type="list", elements="str"),
+            repeat=dict(),
+            repeat_at=dict(),
+            repeat_day_of_week=dict(),
+            repeat_day_of_month=dict(),
+        )
     )
 
     module = AnsibleModule(
