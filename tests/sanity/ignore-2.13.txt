@@ -37,6 +37,7 @@ plugins/modules/panos_dhcp_relay.py validate-modules:missing-gplv3-license
 plugins/modules/panos_dhcp.py validate-modules:missing-gplv3-license
 plugins/modules/panos_dynamic_updates.py validate-modules:missing-gplv3-license
 plugins/modules/panos_dynamic_user_group.py validate-modules:missing-gplv3-license
+plugins/modules/panos_edl.py validate-modules:missing-gplv3-license
 plugins/modules/panos_email_profile.py validate-modules:missing-gplv3-license
 plugins/modules/panos_email_server.py validate-modules:missing-gplv3-license
 plugins/modules/panos_export.py validate-modules:missing-gplv3-license
