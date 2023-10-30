@@ -27,7 +27,7 @@ description:
     - Manage external dynamic lists on PAN-OS devices.
 author:
     - Sebastian Czech (@sebastianczech)
-version_added: '2.18.1'
+version_added: '2.18'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -39,29 +39,25 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.vsys
 options:
     name:
-        description:
-            - Name of External Dynamic List to create.
+        description: Name of External Dynamic List to create.
         type: str
     description:
-        description:
-            - Descriptive name for this EDL.
+        description: Descriptive name for this EDL.
         type: str
     edl_type:
-        description:
-            - The EDL type.
+        description: The EDL type.
         type: str
         choices:
             - "ip"
             - "domain"
             - "url"
     source:
-        description:
-            - Source.
+        description: Source.
         type: str
     expand_domain:
         description:
             - PAN-OS 9.0+
-            - Enable/disable expand domain (requires 'edl_type=domain')
+            - Enable/disable expand domain (requires `edl_type=domain`)
         type: bool
         default: false
     certificate_profile:
@@ -76,26 +72,22 @@ options:
         type: list
         elements: str
     repeat:
-        description:
-            - Retrieval interval.
+        description: Retrieval interval.
         type: str
         choices:
             - "five-minute"
             - "hourly"
             - "daily"
             - "weekly"
-            - "monthly
+            - "monthly"
     repeat_at:
-        description:
-            - The time specification for the given repeat value.
+        description: The time specification for the given repeat value.
         type: str
     repeat_day_of_week:
-        description:
-            - For 'repeat=daily', the day of the week.
+        description: For `repeat=daily`, the day of the week.
         type: str
     repeat_day_of_month:
-        description:
-            - For 'repeat=monthly', the day of the month.
+        description: For `repeat=monthly`, the day of the month.
         type: str
 """
 
