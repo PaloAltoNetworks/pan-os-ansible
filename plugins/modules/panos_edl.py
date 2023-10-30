@@ -27,7 +27,7 @@ description:
     - Manage external dynamic lists on PAN-OS devices.
 author:
     - Sebastian Czech (@sebastianczech)
-version_added: '2.18'
+version_added: '2.18.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -37,6 +37,10 @@ notes:
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
+    - paloaltonetworks.panos.fragments.device_group
+    - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.deprecated_commit
+    - paloaltonetworks.panos.fragments.gathered_filter
 options:
     name:
         description: Name of External Dynamic List to create.
@@ -132,12 +136,21 @@ def main():
         sdk_params=dict(
             name=dict(required=True),
             description=dict(),
-            edl_type=dict(),
+            edl_type=dict(
+                type="str",
+                choices=["ip", "domain", "url"],
+            ),
             source=dict(),
-            expand_domain=dict(),
+            expand_domain=dict(
+                type="bool",
+                default=False,
+            ),
             certificate_profile=dict(),
             exceptions=dict(type="list", elements="str"),
-            repeat=dict(),
+            repeat=dict(
+                type="str",
+                choices=["five-minute", "hourly", "daily", "weekly", "monthly"],
+            ),
             repeat_at=dict(),
             repeat_day_of_week=dict(),
             repeat_day_of_month=dict(),
