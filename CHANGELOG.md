@@ -1,3 +1,15 @@
+## [2.18.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.8...v2.18.0) (2023-11-29)
+
+
+### Features
+
+* **upgrade_assurance:** add upgrade assurance modules ([40b0d0d](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/40b0d0dc442c1c62231e63c95479a0b212df5ad6))
+
+
+### Bug Fixes
+
+* **upgrade_assurance:** error out panorama connections ([218e2d2](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/218e2d2a1b53cd04e48b4f92de48feb23a5e9f0e))
+
 ### [2.17.8](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.7...v2.17.8) (2023-10-23)
 
 
