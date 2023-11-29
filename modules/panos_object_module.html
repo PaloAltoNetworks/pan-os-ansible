@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>paloaltonetworks.panos.panos_object module &mdash; Palo Alto Networks Ansible Collection  documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -47,6 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../gatheredfilter.html">Gathered Filter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="panos_active_in_ha_module.html">paloaltonetworks.panos.panos_active_in_ha module – Checks if node is an active node in HA pair.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_address_group_module.html">paloaltonetworks.panos.panos_address_group module – Manage address group objects on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_address_object_module.html">paloaltonetworks.panos.panos_address_object module – Manage address objects on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_admin_module.html">paloaltonetworks.panos.panos_admin module</a></li>
@@ -123,6 +126,7 @@
 <li class="toctree-l2"><a class="reference internal" href="panos_pbf_rule_module.html">paloaltonetworks.panos.panos_pbf_rule module – Manage Policy Based Forwarding rules on PAN-OS.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_pg_module.html">paloaltonetworks.panos.panos_pg module – Manage a security profiles group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_query_rules_module.html">paloaltonetworks.panos.panos_query_rules module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_readiness_checks_module.html">paloaltonetworks.panos.panos_readiness_checks module – Runs readiness checks (boolean in nature) against a Firewall device.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_redistribution_module.html">paloaltonetworks.panos.panos_redistribution module – Manage a Redistribution Profile on a virtual router</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_region_module.html">paloaltonetworks.panos.panos_region module – Manage regions on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_registered_ip_facts_module.html">paloaltonetworks.panos.panos_registered_ip_facts module – Retrieve facts about registered IPs on PAN-OS devices.</a></li>
@@ -134,10 +138,12 @@
 <li class="toctree-l2"><a class="reference internal" href="panos_security_rule_module.html">paloaltonetworks.panos.panos_security_rule module – Manage security rule policy on PAN-OS devices or Panorama management console.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_service_group_module.html">paloaltonetworks.panos.panos_service_group module – Manage service group objects on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_service_object_module.html">paloaltonetworks.panos.panos_service_object module – Manage service objects on PAN-OS devices.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_snapshot_report_module.html">paloaltonetworks.panos.panos_snapshot_report module – Generates a report by comparing two snapshot made with the <span class="xref std std-ref">paloaltonetworks.panos.panos_state_snapshot</span> module.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_snmp_profile_module.html">paloaltonetworks.panos.panos_snmp_profile module – Manage SNMP server profiles.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_snmp_v2c_server_module.html">paloaltonetworks.panos.panos_snmp_v2c_server module – Manage SNMP v2c servers.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_snmp_v3_server_module.html">paloaltonetworks.panos.panos_snmp_v3_server module – Manage SNMP v3 servers.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_software_module.html">paloaltonetworks.panos.panos_software module – Manage PAN-OS software versions.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panos_state_snapshot_module.html">paloaltonetworks.panos.panos_state_snapshot module – Takes a snapshot of a state of a Firewall device.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_static_route_module.html">paloaltonetworks.panos.panos_static_route module – Manage static routes on PAN-OS devices.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_syslog_profile_module.html">paloaltonetworks.panos.panos_syslog_profile module – Manage syslog server profiles.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panos_syslog_server_module.html">paloaltonetworks.panos.panos_syslog_server module – Manage syslog server profile syslog servers.</a></li>
@@ -192,7 +198,7 @@
 <h1>paloaltonetworks.panos.panos_object module<a class="headerlink" href="#paloaltonetworks-panos-panos-object-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This redirect is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.7).</p>
+<p>This redirect is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.17.8).</p>
 </div>
 <ul class="simple">
 <li><p>This redirect has been <strong>deprecated</strong>. Please update your tasks to use the new name <code class="docutils literal notranslate"><span class="pre">paloaltonetworks.panos.panos_address_object</span></code> instead.
