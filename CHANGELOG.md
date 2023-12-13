@@ -1,3 +1,10 @@
+## [2.19.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.18.0...v2.19.0) (2023-12-13)
+
+
+### Features
+
+* **module/panos_edl:** New module for External Dynamic Lists ([#512](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/512)) ([1e33995](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/1e3399536101c3ab426158724fe2948e7ffde50e))
+
 ## [2.18.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.8...v2.18.0) (2023-11-29)
 
 
