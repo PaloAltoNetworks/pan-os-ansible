@@ -1,3 +1,10 @@
+### [2.19.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.19.0...v2.19.1) (2023-12-14)
+
+
+### Bug Fixes
+
+* define in pyproject.toml Python 3.9 for ansible-core 2.14 ([#522](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/522)) ([d4cd846](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/d4cd84640502eee7822688167f6dc93412e19b0a))
+
 ## [2.19.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.18.0...v2.19.0) (2023-12-13)
 
 
