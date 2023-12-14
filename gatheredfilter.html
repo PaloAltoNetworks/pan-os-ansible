@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -15,9 +15,9 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -97,13 +97,13 @@
            <div itemprop="articleBody">
              
   <section id="gathered-filter">
-<h1>Gathered Filter<a class="headerlink" href="#gathered-filter" title="Permalink to this heading"></a></h1>
+<h1>Gathered Filter<a class="headerlink" href="#gathered-filter" title="Link to this heading"></a></h1>
 <p>Starting in <em>v2.11.0</em>, the modules belonging to this collection that behave like
 network resource modules all support a <cite>gathered_filter</cite> parameter.  Where present,
 this parameter provides advanced filtering for PAN-OS objects beyond simple name
 matching.</p>
 <section id="the-gathered-filter-option">
-<h2>The <cite>gathered_filter</cite> Option<a class="headerlink" href="#the-gathered-filter-option" title="Permalink to this heading"></a></h2>
+<h2>The <cite>gathered_filter</cite> Option<a class="headerlink" href="#the-gathered-filter-option" title="Link to this heading"></a></h2>
 <p>The <cite>gathered_filter</cite> parameter is essentially a mini rules engine, allowing users to
 specify potentially very complex logic to retrieve information on PAN-OS objects
 present.  Features such as arbitrary field searching and regular expressions are all
@@ -119,7 +119,7 @@ supported.</p>
 </div>
 </section>
 <section id="fields">
-<h2>Fields<a class="headerlink" href="#fields" title="Permalink to this heading"></a></h2>
+<h2>Fields<a class="headerlink" href="#fields" title="Link to this heading"></a></h2>
 <p>Fields supported are the fields of the module itself supports, as is related to the
 pan-os-python object being configured by the module.  Besides the object’s fields, there
 are a few other special fields that are supported.</p>
@@ -134,10 +134,10 @@ across all vsys.  The vsys, which is part of the parent XPATH, must be fixed, an
 searching happens underneath that.</p>
 </section>
 <section id="operators">
-<h2>Operators<a class="headerlink" href="#operators" title="Permalink to this heading"></a></h2>
+<h2>Operators<a class="headerlink" href="#operators" title="Link to this heading"></a></h2>
 <p>There are two scenarios:  an operator that expects a value and one that doesn’t.</p>
 <section id="operators-no-value">
-<h3>Operators - No Value<a class="headerlink" href="#operators-no-value" title="Permalink to this heading"></a></h3>
+<h3>Operators - No Value<a class="headerlink" href="#operators-no-value" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><cite>is-none</cite>: <cite>True</cite> if the field is python <cite>None</cite></p></li>
 <li><p><cite>is-not-none</cite>: <cite>True</cite> if the field is not python <cite>None</cite></p></li>
@@ -146,7 +146,7 @@ searching happens underneath that.</p>
 </ul>
 </section>
 <section id="operators-requires-a-value">
-<h3>Operators - Requires a Value<a class="headerlink" href="#operators-requires-a-value" title="Permalink to this heading"></a></h3>
+<h3>Operators - Requires a Value<a class="headerlink" href="#operators-requires-a-value" title="Link to this heading"></a></h3>
 <p>For any of the regex operators, please refer to the python documentation on the <cite>re</cite> library.</p>
 <p><a class="reference external" href="https://docs.python.org/3/library/re.html">https://docs.python.org/3/library/re.html</a></p>
 <p>All regex searches are using <cite>re.search()</cite>, so use anchoring the limit the regex to the
@@ -174,16 +174,16 @@ can be used if a literal space character needs to be matched in the value.</p>
 </section>
 </section>
 <section id="return-values">
-<h2>Return Values<a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<h2>Return Values<a class="headerlink" href="#return-values" title="Link to this heading"></a></h2>
 <p>The two return values of <cite>gathered</cite> and <cite>gathered_xml</cite> are still used, but <cite>gathered</cite> is now
 a list of dicts instead of a dict, and <cite>gathered_xml</cite> is a list of strings instead of a string.</p>
 <p>Even if the match criteria returns zero results, as long as there is no syntax error, this
 module will not return an error.</p>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
 <section id="example-match-all">
-<h3>Example - Match All<a class="headerlink" href="#example-match-all" title="Permalink to this heading"></a></h3>
+<h3>Example - Match All<a class="headerlink" href="#example-match-all" title="Link to this heading"></a></h3>
 <p>These all do the same thing, listed from fastest to slowest.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;*&#39;</span>
 </pre></div>
@@ -196,25 +196,25 @@ module will not return an error.</p>
 </div>
 </section>
 <section id="example-matching-a-suffix">
-<h3>Example - Matching a Suffix<a class="headerlink" href="#example-matching-a-suffix" title="Permalink to this heading"></a></h3>
+<h3>Example - Matching a Suffix<a class="headerlink" href="#example-matching-a-suffix" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;description</span><span class="nv"> </span><span class="s">ends-with</span><span class="nv"> </span><span class="s">_sales&#39;</span>
 </pre></div>
 </div>
 </section>
 <section id="example-matching-two-things">
-<h3>Example - Matching Two Things<a class="headerlink" href="#example-matching-two-things" title="Permalink to this heading"></a></h3>
+<h3>Example - Matching Two Things<a class="headerlink" href="#example-matching-two-things" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;description</span><span class="nv"> </span><span class="s">starts-with</span><span class="nv"> </span><span class="s">DMZ</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">description</span><span class="nv"> </span><span class="s">ends-with</span><span class="nv"> </span><span class="s">&quot;</span><span class="nv"> </span><span class="s">New</span><span class="nv"> </span><span class="s">Zealand&quot;&#39;</span>
 </pre></div>
 </div>
 </section>
 <section id="example-searching-within-listings">
-<h3>Example - Searching Within Listings<a class="headerlink" href="#example-searching-within-listings" title="Permalink to this heading"></a></h3>
+<h3>Example - Searching Within Listings<a class="headerlink" href="#example-searching-within-listings" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;interfaces</span><span class="nv"> </span><span class="s">contains</span><span class="nv"> </span><span class="s">ethernet1/1&#39;</span>
 </pre></div>
 </div>
 </section>
 <section id="example-groupings">
-<h3>Example - Groupings<a class="headerlink" href="#example-groupings" title="Permalink to this heading"></a></h3>
+<h3>Example - Groupings<a class="headerlink" href="#example-groupings" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;name</span><span class="nv"> </span><span class="s">ends-with</span><span class="nv"> </span><span class="s">_dmz</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">(tag</span><span class="nv"> </span><span class="s">is-false</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">description</span><span class="nv"> </span><span class="s">is-false)&#39;</span>
 </pre></div>
 </div>

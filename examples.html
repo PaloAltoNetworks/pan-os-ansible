@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -15,9 +15,9 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -104,16 +104,16 @@
            <div itemprop="articleBody">
              
   <section id="examples">
-<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h1>
+<h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
 <section id="add-security-policy-to-firewall-or-panorama">
-<h2>Add security policy to Firewall or Panorama<a class="headerlink" href="#add-security-policy-to-firewall-or-panorama" title="Permalink to this heading"></a></h2>
+<h2>Add security policy to Firewall or Panorama<a class="headerlink" href="#add-security-policy-to-firewall-or-panorama" title="Link to this heading"></a></h2>
 <p>Security policies allow you to enforce rules and take action, and can
 be as general or specific as needed. The policy rules are compared
 against the incoming traffic in sequence, and because the first rule
 that matches the traffic is applied, the more specific rules must
 precede the more general ones.</p>
 <section id="firewall">
-<h3>Firewall<a class="headerlink" href="#firewall" title="Permalink to this heading"></a></h3>
+<h3>Firewall<a class="headerlink" href="#firewall" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add test rule 1 to the firewall</span>
 <span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_security_rule</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
@@ -134,7 +134,7 @@ precede the more general ones.</p>
 </div>
 </section>
 <section id="panorama">
-<h3>Panorama<a class="headerlink" href="#panorama" title="Permalink to this heading"></a></h3>
+<h3>Panorama<a class="headerlink" href="#panorama" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add test pre-rule to Panorama</span>
 <span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_security_rule</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
@@ -157,7 +157,7 @@ precede the more general ones.</p>
 </section>
 </section>
 <section id="add-nat-policy-to-firewall-or-panorama">
-<h2>Add NAT policy to Firewall or Panorama<a class="headerlink" href="#add-nat-policy-to-firewall-or-panorama" title="Permalink to this heading"></a></h2>
+<h2>Add NAT policy to Firewall or Panorama<a class="headerlink" href="#add-nat-policy-to-firewall-or-panorama" title="Link to this heading"></a></h2>
 <p>If you define Layer 3 interfaces on the firewall, you can configure a
 Network Address Translation (NAT) policy to specify whether source or
 destination IP addresses and ports are converted between public and
@@ -166,7 +166,7 @@ be translated to public addresses on traffic sent from an internal
 (trusted) zone to a public (untrusted) zone. NAT is also supported on
 virtual wire interfaces.</p>
 <section id="id1">
-<h3>Firewall<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<h3>Firewall<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add the service object to the firewall first</span>
 <span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_service_object</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
@@ -193,7 +193,7 @@ virtual wire interfaces.</p>
 </div>
 </section>
 <section id="id2">
-<h3>Panorama<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<h3>Panorama<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add the necessary service object to Panorama first</span>
 <span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_object</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">provider</span><span class="nv"> </span><span class="s">}}&#39;</span>
@@ -223,7 +223,7 @@ virtual wire interfaces.</p>
 </section>
 </section>
 <section id="change-firewall-admin-password-using-ssh">
-<h2>Change firewall admin password using SSH<a class="headerlink" href="#change-firewall-admin-password-using-ssh" title="Permalink to this heading"></a></h2>
+<h2>Change firewall admin password using SSH<a class="headerlink" href="#change-firewall-admin-password-using-ssh" title="Link to this heading"></a></h2>
 <p>Change admin password of PAN-OS device using SSH with SSH key. This is
 used in particular when NGFW is deployed in the cloud (such as AWS).</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Change user password using ssh protocol</span>
@@ -236,7 +236,7 @@ used in particular when NGFW is deployed in the cloud (such as AWS).</p>
 </div>
 </section>
 <section id="generates-self-signed-certificate">
-<h2>Generates self-signed certificate<a class="headerlink" href="#generates-self-signed-certificate" title="Permalink to this heading"></a></h2>
+<h2>Generates self-signed certificate<a class="headerlink" href="#generates-self-signed-certificate" title="Link to this heading"></a></h2>
 <p>This module generates a self-signed certificate that can be used by
 GlobalProtect client, SSL connector, or otherwise. Root certificate
 must be preset on the system first. This module depends on paramiko
@@ -253,7 +253,7 @@ for ssh.</p>
 </div>
 </section>
 <section id="check-if-fw-is-ready">
-<h2>Check if FW is ready<a class="headerlink" href="#check-if-fw-is-ready" title="Permalink to this heading"></a></h2>
+<h2>Check if FW is ready<a class="headerlink" href="#check-if-fw-is-ready" title="Link to this heading"></a></h2>
 <p>Check if PAN-OS device is ready for being configured (no pending
 jobs). The check could be done once or multiple times until the device
 is ready.</p>
@@ -268,7 +268,7 @@ is ready.</p>
 </div>
 </section>
 <section id="import-configuration">
-<h2>Import configuration<a class="headerlink" href="#import-configuration" title="Permalink to this heading"></a></h2>
+<h2>Import configuration<a class="headerlink" href="#import-configuration" title="Link to this heading"></a></h2>
 <p>Import file into PAN-OS device.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">import configuration file into PAN-OS</span>
 <span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_import</span><span class="p">:</span>
@@ -281,7 +281,7 @@ is ready.</p>
 </div>
 </section>
 <section id="dhcp-on-data-port">
-<h2>DHCP on data port<a class="headerlink" href="#dhcp-on-data-port" title="Permalink to this heading"></a></h2>
+<h2>DHCP on data port<a class="headerlink" href="#dhcp-on-data-port" title="Link to this heading"></a></h2>
 <p>Configure data-port (DP) network interface for DHCP. By default DP
 interfaces are static.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enable DHCP client on ethernet1/1 in zone external</span>
@@ -295,7 +295,7 @@ interfaces are static.</p>
 </div>
 </section>
 <section id="load-configuration">
-<h2>Load configuration<a class="headerlink" href="#load-configuration" title="Permalink to this heading"></a></h2>
+<h2>Load configuration<a class="headerlink" href="#load-configuration" title="Link to this heading"></a></h2>
 <p>This is example playbook that imports and loads firewall
 configuration from a configuration file</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">import config</span>
@@ -357,7 +357,7 @@ configuration from a configuration file</p>
 </div>
 </section>
 <section id="event-driven-ansible-eda">
-<h2>Event-Driven Ansible (EDA)<a class="headerlink" href="#event-driven-ansible-eda" title="Permalink to this heading"></a></h2>
+<h2>Event-Driven Ansible (EDA)<a class="headerlink" href="#event-driven-ansible-eda" title="Link to this heading"></a></h2>
 <p>Event-Driven Ansible is a responsive automation solution that can
 process events containing discrete, actionable intelligence.
 The <cite>extensions/plugins/event_source/logs.py</cite> plugin is capable of
@@ -381,7 +381,7 @@ when a condition is met.</p></li>
 detecting decryption issues based on the Decryption Logs, and responding
 by placing the relevant URLs into a category used for decryption bypass.</p>
 <section id="http-server-profile">
-<h3>HTTP Server Profile<a class="headerlink" href="#http-server-profile" title="Permalink to this heading"></a></h3>
+<h3>HTTP Server Profile<a class="headerlink" href="#http-server-profile" title="Link to this heading"></a></h3>
 <p>The following example shows what a Decryption HTTP server profile
 would look like in PAN-OS. The HTTP server profile is configured to
 send logs to the EDA server.</p>
@@ -493,7 +493,7 @@ create a Log Forwarding Profile:</p>
 </div>
 </section>
 <section id="rulebook-rulebook-yml">
-<h3>Rulebook - rulebook.yml<a class="headerlink" href="#rulebook-rulebook-yml" title="Permalink to this heading"></a></h3>
+<h3>Rulebook - rulebook.yml<a class="headerlink" href="#rulebook-rulebook-yml" title="Link to this heading"></a></h3>
 <p>This rulebook shows an example of how to configure EDA to receive
 the decryption logs from PAN-OS, and execute a remediation playbook:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
@@ -523,7 +523,7 @@ the decryption logs from PAN-OS, and execute a remediation playbook:</p>
 </div>
 </section>
 <section id="inventory">
-<h3>Inventory<a class="headerlink" href="#inventory" title="Permalink to this heading"></a></h3>
+<h3>Inventory<a class="headerlink" href="#inventory" title="Link to this heading"></a></h3>
 <p>The inventory for this example use case is one that defines all hosts
 (firewalls) to be local connectivity, as this is how Ansible communicates
 with PAN-OS:</p>
@@ -535,7 +535,7 @@ with PAN-OS:</p>
 </div>
 </section>
 <section id="playbook-decryption-remediation-yml">
-<h3>Playbook - decryption_remediation.yml<a class="headerlink" href="#playbook-decryption-remediation-yml" title="Permalink to this heading"></a></h3>
+<h3>Playbook - decryption_remediation.yml<a class="headerlink" href="#playbook-decryption-remediation-yml" title="Link to this heading"></a></h3>
 <p>The playbook executed when the conditions in the rulebook are met, in
 this example use case, performs tasks to add the relevant URL into a
 category used to bypass decryption, thus remediating the problem:</p>
