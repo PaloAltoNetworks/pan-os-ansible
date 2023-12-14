@@ -10,7 +10,7 @@ homepage = "https://github.com/PaloAltoNetworks/pan-os-ansible"
 repository = "https://github.com/PaloAltoNetworks/pan-os-ansible"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 pan-python = "^0.17.0"
 pan-os-python = "^1.8.0"
 xmltodict = "^0.12.0"
