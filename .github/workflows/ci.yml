@@ -22,8 +22,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - ansible: "2.13"
-            python_ver: "3.10"
           - ansible: "2.14"
             python_ver: "3.11"
           - ansible: "2.15"
@@ -220,7 +218,7 @@ jobs:
         uses: Gr1N/setup-poetry@v8
 
       - name: Add ansible-core
-        run: poetry add ansible-core^2.13
+        run: poetry add ansible-core^2.14
 
       - name: Add antsibull-docs
         run: poetry add antsibull-docs^1.11.0

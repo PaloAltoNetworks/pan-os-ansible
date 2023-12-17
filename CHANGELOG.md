@@ -1,3 +1,29 @@
+### [2.19.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.19.0...v2.19.1) (2023-12-14)
+
+
+### Bug Fixes
+
+* define in pyproject.toml Python 3.9 for ansible-core 2.14 ([#522](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/522)) ([d4cd846](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/d4cd84640502eee7822688167f6dc93412e19b0a))
+
+## [2.19.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.18.0...v2.19.0) (2023-12-13)
+
+
+### Features
+
+* **module/panos_edl:** New module for External Dynamic Lists ([#512](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/512)) ([1e33995](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/1e3399536101c3ab426158724fe2948e7ffde50e))
+
+## [2.18.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.8...v2.18.0) (2023-11-29)
+
+
+### Features
+
+* **upgrade_assurance:** add upgrade assurance modules ([40b0d0d](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/40b0d0dc442c1c62231e63c95479a0b212df5ad6))
+
+
+### Bug Fixes
+
+* **upgrade_assurance:** error out panorama connections ([218e2d2](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/218e2d2a1b53cd04e48b4f92de48feb23a5e9f0e))
+
 ### [2.17.8](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.17.7...v2.17.8) (2023-10-23)
 
 
