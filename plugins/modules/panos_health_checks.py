@@ -30,7 +30,9 @@ description:
       Since it's just a wrapper, the way you would configure a check is exactly the same as if you would run the class directly.
       Please refer to package's documentation for L(syntax,https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#health-checks)
       and L(configuration dialect,https://pan.dev/panos/docs/panos-upgrade-assurance/dialect/).
-author: "Łukasz Pawlęga (@fosix)"
+    - Health checks are designed to check the overall status of the system is ok and it is not affected by any specific 
+      security or software advisories.
+author: "Adam Baumeister (@adambaumeister)"
 version_added: '2.18.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
