@@ -1,0 +1,16 @@
+---
+- name: test the Health Check functionality of the panos_health_checks module
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    device:
+      ip_address: '{{ ip_address }}'
+      username: '{{ username }}'
+      password: '{{ password }}'
+
+  tasks:
+    - name: Run Health Checks
+      ansible.builtin.include_tasks:
+        file: "firewall/test_panos_health_checks.yml"
