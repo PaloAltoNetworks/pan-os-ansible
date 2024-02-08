@@ -102,7 +102,7 @@ def check_jobs(jobs):
         job_type = j.findtext(".//type")
         job_result = j.findtext(".//result")
 
-        if job_type is None and job_result == "Failed-Job":
+        if job_type == "Failed-Job" and job_result is None:
             return True
 
         if job_type is None or job_result is None:
