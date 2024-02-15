@@ -166,7 +166,7 @@ options:
             - remove-regex
             - append
             - overwrite
-    action_community_modifier 
+    action_community_modifier: 
         description:
             - Modifier for the community action. Required if 'action_community_type' is set to 'append' or 'overwrite'.
         type: str
