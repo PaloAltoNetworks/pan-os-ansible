@@ -59,6 +59,7 @@ async def status() -> web.Response:
     Returns
     -------
     A web.Response object with status 200 and the text "up" returned by the function.
+
     """
     return web.Response(status=200, text="up")
 
@@ -78,6 +79,7 @@ async def webhook(request: web.Request) -> web.Response:
     Returns
     -------
     A web.Response object with status 200 and the status.
+
     """
     try:
         payload = await request.json()
