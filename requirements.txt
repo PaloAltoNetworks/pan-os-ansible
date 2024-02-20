@@ -10,3 +10,7 @@ xmltodict==0.12.0 ; python_version >= "3.8" and python_version < "4.0" \
 panos-upgrade-assurance==0.3.0 ; python_version >= "3.8" and python_version < "4.0" \
     --hash=sha256:0e5bb1a1f5bf317086fe118fb80f5d03c1aa1426c8ecdcda657983f392accc63 \
     --hash=sha256:88bfc470f9bfa09ed22c919f8328782868c649d44e97a06c8d29c32e0211c257
+pyopenssl==23.3.0 ; python_version > "3.8" and python_version < "4.0" \
+    --hash=sha256:6756834481d9ed5470f4a9393455154bc92fe7a64b7bc6ee2c804e78c52099b2
+cryptography==41.0.7 ; python_version > "3.8" and python_version < "4.0" \
+    --hash=sha256:43f2552a2378b44869fe8827aa19e69512e3245a219104438692385b0ee119d1
