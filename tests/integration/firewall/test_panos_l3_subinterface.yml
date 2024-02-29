@@ -1,0 +1,105 @@
+---
+- name: test_panos_l3_subinterface - Create
+  paloaltonetworks.panos.panos_l3_subinterface:
+    provider: '{{ device }}'
+    name: 'ethernet1/1.1'
+    tag: 2
+  register: result
+
+- name: test_panos_l3_subinterface - Assert create was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_l3_subinterface - Create (idempotence)
+  paloaltonetworks.panos.panos_l3_subinterface:
+    provider: '{{ device }}'
+    name: 'ethernet1/1.1'
+    tag: 2
+  register: result
+
+- name: test_panos_l3_subinterface - Assert create (idempotence) was successful
+  assert:
+    that:
+      - result is success
+      - result is not changed
+
+- name: test_panos_l3_subinterface - Modify
+  paloaltonetworks.panos.panos_l3_subinterface:
+    provider: '{{ device }}'
+    name: 'ethernet1/1.1'
+    tag: 1
+  register: result
+
+- name: test_panos_l3_subinterface - Assert modify was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_l3_subinterface - Gather all
+  paloaltonetworks.panos.panos_l3_subinterface:
+    provider: '{{ device }}'
+    parent_interface: 'ethernet1/1'
+    state: 'gathered'
+    gathered_filter: '*'
+  register: result
+
+- name: test_panos_l3_subinterface - Assert gather all returned result
+  assert:
+    that:
+      - result is success
+      - "{{ result.gathered | length == 1 }}"
+
+- name: test_panos_l3_subinterface - Gather by parameter with one match
+  paloaltonetworks.panos.panos_l3_subinterface:
+    provider: '{{ device }}'
+    parent_interface: 'ethernet1/1'
+    state: 'gathered'
+    gathered_filter: 'name ends-with 1'
+  register: result
+
+- name: test_panos_l3_subinterface - Assert gather by parameter with one match returned result
+  assert:
+    that:
+      - result is success
+      - "{{ result.gathered | length == 1 }}"
+
+- name: test_panos_l3_subinterface - Gather by parameter with no match
+  paloaltonetworks.panos.panos_l3_subinterface:
+    provider: '{{ device }}'
+    parent_interface: 'ethernet1/1'
+    state: 'gathered'
+    gathered_filter: 'name ends-with 2'
+  register: result
+
+- name: test_panos_l3_subinterface - Assert gather by parameter with no match returned result
+  assert:
+    that:
+      - result is success
+      - "{{ result.gathered | length == 0 }}"
+
+- name: test_panos_l3_subinterface - Delete
+  paloaltonetworks.panos.panos_l3_subinterface:
+    provider: '{{ device }}'
+    name: 'ethernet1/1.1'
+    tag: 2
+    state: 'absent'
+  register: result
+
+- name: test_panos_l3_subinterface - Assert delete was successful
+  assert:
+    that:
+      - result is success
+      - result is changed
+
+- name: test_panos_l3_subinterface - Make sure changes commit cleanly
+  paloaltonetworks.panos.panos_commit_firewall:
+    provider: '{{ device }}'
+  register: result
+
+- name: test_panos_l3_subinterface - Assert commit was successful
+  assert:
+    that:
+      - result is success
