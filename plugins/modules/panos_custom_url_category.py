@@ -42,7 +42,7 @@ extends_documentation_fragment:
 options:
     name:
         description:
-            - Name of the tag.
+            - Name of the url category.
         type: str
     description:
         description:
