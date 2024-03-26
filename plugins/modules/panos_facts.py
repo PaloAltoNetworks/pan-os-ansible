@@ -483,7 +483,7 @@ class VsysFacts(Factbase):
                 }
             )
 
-        self.facts.update({"virtual-systems": virtual_systems})
+        self.facts.update({"virtual_systems": virtual_systems})
 
 
 class Config(Factbase):
