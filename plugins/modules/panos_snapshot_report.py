@@ -38,7 +38,7 @@ version_added: '2.18.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
-    - pan-os-upgrade-assurance can be obtained from PyPI U(https://pypi.python.org/pypi/pan-os-upgrade-assurance)
+    - panos-upgrade-assurance can be obtained from PyPI U(https://pypi.python.org/pypi/panos-upgrade-assurance)
 notes:
     - This is an offline module, no device connection is made.
     - Check mode is not supported.
