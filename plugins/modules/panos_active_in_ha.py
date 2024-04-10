@@ -112,6 +112,7 @@ def main():
         argument_spec=dict(
             force_fail=dict(type="bool", default=False),
             skip_config_sync=dict(type="bool", default=False),
+            ignore_non_functional=dict(type="bool", default=False)
         ),
         panorama_error="This is a firewall only module",
     )
@@ -123,7 +124,8 @@ def main():
     firewall = FirewallProxy(firewall=helper.get_pandevice_parent(module))
 
     is_active = CheckFirewall(firewall).check_is_ha_active(
-        skip_config_sync=module.params["skip_config_sync"]
+        skip_config_sync=module.params["skip_config_sync"],
+        ignore_non_functional=module.params['ignore_non_functional']
     )
 
     if module.params["force_fail"]:
