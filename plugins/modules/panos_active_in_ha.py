@@ -53,6 +53,13 @@ options:
               node's current state in an HA pair. Can be useful when working with partially upgraded nodes. Use with caution.
         type: bool
         default: false
+    ignore_non_functional:
+        description:
+            - Use with caution, when set to `True` will ignore if device
+            state is `non-functional` on one of the nodes. Helpful when verifying a state of a partially upgraded HA pair with
+            vmseries plugin version mismatch.
+        type: bool
+        default: false
 # """
 
 EXAMPLES = """
