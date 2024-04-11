@@ -55,9 +55,8 @@ options:
         default: false
     ignore_non_functional:
         description:
-            - Use with caution, when set to `True` will ignore if device
-            state is `non-functional` on one of the nodes. Helpful when verifying a state of a partially upgraded HA pair with
-            vmseries plugin version mismatch.
+            - Use with caution, when set to `True` will ignore if device state is `non-functional` on one of the nodes. Helpful
+              when verifying a state of a partially upgraded HA pair with vmseries plugin version mismatch.
         type: bool
         default: false
 # """
@@ -119,7 +118,7 @@ def main():
         argument_spec=dict(
             force_fail=dict(type="bool", default=False),
             skip_config_sync=dict(type="bool", default=False),
-            ignore_non_functional=dict(type="bool", default=False)
+            ignore_non_functional=dict(type="bool", default=False),
         ),
         panorama_error="This is a firewall only module",
     )
@@ -132,7 +131,7 @@ def main():
 
     is_active = CheckFirewall(firewall).check_is_ha_active(
         skip_config_sync=module.params["skip_config_sync"],
-        ignore_non_functional=module.params['ignore_non_functional']
+        ignore_non_functional=module.params['ignore_non_functional'],
     )
 
     if module.params["force_fail"]:
