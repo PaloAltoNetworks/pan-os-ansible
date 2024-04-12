@@ -29,7 +29,7 @@ description:
     - A simple boolean check, verifies if a node is an active (B(true)) or passive (B(false)) node in an HA pair.
     - If node does not belong to an HA pair or the pair is no configured correctly the module will fail.
 author: "Łukasz Pawlęga (@fosix)"
-version_added: '2.19'
+version_added: '2.20.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
