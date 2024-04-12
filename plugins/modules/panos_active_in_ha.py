@@ -131,7 +131,7 @@ def main():
 
     is_active = CheckFirewall(firewall).check_is_ha_active(
         skip_config_sync=module.params["skip_config_sync"],
-        ignore_non_functional=module.params['ignore_non_functional'],
+        ignore_non_functional=module.params["ignore_non_functional"],
     )
 
     if module.params["force_fail"]:
