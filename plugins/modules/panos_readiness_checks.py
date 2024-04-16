@@ -148,6 +148,7 @@ MIN_PUA_VER = (0, 3, 0)
 
 try:
     from panos_upgrade_assurance.check_firewall import CheckFirewall
+    from panos_upgrade_assurance.exceptions import UpdateServerConnectivityException
     from panos_upgrade_assurance.firewall_proxy import FirewallProxy
 except ImportError:
     pass

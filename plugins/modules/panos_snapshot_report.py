@@ -166,6 +166,7 @@ PUA_AVAILABLE = True
 try:
     import panos_upgrade_assurance
     from panos_upgrade_assurance.snapshot_compare import SnapshotCompare
+    from panos_upgrade_assurance.exceptions import SnapshotSchemeMismatchException
 except ImportError:
     PUA_AVAILABLE = False
     pass
