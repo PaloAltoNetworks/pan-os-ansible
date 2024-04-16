@@ -180,14 +180,24 @@ def main():
     checks = CheckFirewall(
         node=firewall, skip_force_locale=module.params["skip_force_locale"]
     )
-    results = checks.run_readiness_checks(checks_configuration=module.params["checks"])
 
-    if module.params["force_fail"]:
-        for check in list(results.keys()):
-            if results[check]["state"]:
-                del results[check]
-            else:
-                module_failed = True
+    try:
+        results = checks.run_readiness_checks(
+            checks_configuration=module.params["checks"]
+        )
+    except UpdateServerConnectivityException as exc:
+        results["active_support"] = {
+            "state": False,
+            "reason": getattr(exc, "message", repr(exc)),
+        }
+        module_failed = True
+    else:
+        if module.params["force_fail"]:
+            for check in list(results.keys()):
+                if results[check]["state"]:
+                    del results[check]
+                else:
+                    module_failed = True
 
     module.exit_json(changed=False, response=results, failed=module_failed)
 
