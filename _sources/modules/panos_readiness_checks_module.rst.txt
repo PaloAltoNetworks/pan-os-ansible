@@ -85,7 +85,7 @@ The below requirements are needed on the host that executes this module.
 
 - pan-python can be obtained from PyPI \ https://pypi.python.org/pypi/pan-python\ 
 - pandevice can be obtained from PyPI \ https://pypi.python.org/pypi/pandevice\ 
-- pan-os-upgrade-assurance can be obtained from PyPI \ https://pypi.org/project/panos-upgrade-assurance\ 
+- panos-upgrade-assurance can be obtained from PyPI \ https://pypi.org/project/panos-upgrade-assurance\ 
 
 
 

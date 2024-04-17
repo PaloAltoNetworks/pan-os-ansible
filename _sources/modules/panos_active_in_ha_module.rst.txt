@@ -86,7 +86,7 @@ The below requirements are needed on the host that executes this module.
 
 - pan-python can be obtained from PyPI \ https://pypi.python.org/pypi/pan-python\ 
 - pandevice can be obtained from PyPI \ https://pypi.python.org/pypi/pandevice\ 
-- pan-os-upgrade-assurance can be obtained from PyPI \ https://pypi.org/project/panos-upgrade-assurance\ 
+- panos-upgrade-assurance can be obtained from PyPI \ https://pypi.org/project/panos-upgrade-assurance\ 
 
 
 
@@ -182,6 +182,48 @@ Parameters
         <div class="ansible-option-cell">
 
       When set to \ :strong:`true`\  will make the module fail also when node is passive. This option is useful when we want to skip using \ :ref:`ansible.builtin.assert <ansible_collections.ansible.builtin.assert_module>`\ .
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ignore_non_functional"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_active_in_ha_module__parameter-ignore_non_functional:
+
+      .. rst-class:: ansible-option-title
+
+      **ignore_non_functional**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ignore_non_functional" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Use with caution, when set to \`True\` will ignore if device state is \`non-functional\` on one of the nodes. Helpful when verifying a state of a partially upgraded HA pair with vmseries plugin version mismatch.
 
 
       .. rst-class:: ansible-option-line

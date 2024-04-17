@@ -712,6 +712,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-parent_interface"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_l3_subinterface_module__parameter-parent_interface:
+
+      .. rst-class:: ansible-option-title
+
+      **parent_interface**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-parent_interface" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name of the parent interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-password"></div>
 
       .. _ansible_collections.paloaltonetworks.panos.panos_l3_subinterface_module__parameter-password:

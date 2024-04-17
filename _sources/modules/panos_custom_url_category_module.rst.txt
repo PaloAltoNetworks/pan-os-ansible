@@ -334,7 +334,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Name of the tag.
+      Name of the url category.
 
 
       .. raw:: html
