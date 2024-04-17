@@ -1,3 +1,16 @@
+## [2.20.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.19.1...v2.20.0) (2024-04-17)
+
+
+### Features
+
+* Add new option to panos_active_in_ha module ([#560](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/560)) ([a2870f5](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/a2870f5d742a6d6dd2e759e101ba1b6fcc9e6ee9))
+
+
+### Bug Fixes
+
+* Add 'parent_interface' parameter for l2/l3 subinterface modules ([#552](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/552)) ([73c28a8](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/73c28a890ab35784a40ee14a47c11b31f4ffac6d))
+* **panos_facts.py:** Fixed virtual systems fact name ([#558](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/558)) ([0d0fd6d](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/0d0fd6d11d3bfd55a3795f32f69f9201fd54f554))
+
 ### [2.19.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.19.0...v2.19.1) (2023-12-14)
 
 
