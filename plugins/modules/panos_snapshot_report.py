@@ -166,6 +166,7 @@ PUA_AVAILABLE = True
 try:
     import panos_upgrade_assurance
     from panos_upgrade_assurance.snapshot_compare import SnapshotCompare
+    from panos_upgrade_assurance.exceptions import SnapshotSchemeMismatchException
 except ImportError:
     PUA_AVAILABLE = False
     pass
@@ -198,10 +199,13 @@ def main():
             )
         )
 
-    results = SnapshotCompare(
-        left_snapshot=module.params["left_snapshot"],
-        right_snapshot=module.params["right_snapshot"],
-    ).compare_snapshots(reports=module.params["reports"])
+    try:
+        results = SnapshotCompare(
+            left_snapshot=module.params["left_snapshot"],
+            right_snapshot=module.params["right_snapshot"],
+        ).compare_snapshots(reports=module.params["reports"])
+    except SnapshotSchemeMismatchException as exc:
+        module.fail_json(msg=getattr(exc, "message", repr(exc)))
 
     module.exit_json(changed=False, response=results)
 
