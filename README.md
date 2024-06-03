@@ -38,6 +38,12 @@ Install this collection using the Ansible Galaxy CLI:
 ansible-galaxy collection install paloaltonetworks.panos
 ```
 
+Install the collection's python dependencies using the Python pip installer and the `requirements.txt` file found in the root of this repository:
+
+```bash
+pip install -r requirements.txt
+```
+
 Usage
 -----
 
