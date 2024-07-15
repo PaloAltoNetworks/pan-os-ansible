@@ -59,13 +59,12 @@ options:
         type: str
     source_zone:
         description:
-            - List of source zones.
-        default: ["any"]
+            - List of source zones. Defaults to "any" in SDK.
         type: list
         elements: str
     source_ip:
         description:
-            - List of source addresses.
+            - List of source addresses. Defaults to "any" in SDK.
             - This can be an IP address, an address object/group, etc.
             - When referencing predefined EDLs, use config names of the EDLS not
               their full names. The config names can be found with the CLI...
@@ -74,13 +73,12 @@ options:
                 panw-highrisk-ip-list      panw-highrisk-ip-list
                 panw-known-ip-list         panw-known-ip-list
                 panw-torexit-ip-list       panw-torexit-ip-list
-        default: ["any"]
         type: list
         elements: str
     source_user:
-        description:
+        description: >
             - Use users to enforce policy for individual users or a group of users.
-        default: ["any"]
+            Defaults to "any" in SDK.
         type: list
         elements: str
     hip_profiles:
@@ -97,13 +95,12 @@ options:
         elements: str
     destination_zone:
         description:
-            - List of destination zones.
-        default: ["any"]
+            - List of destination zones. Defaults to "any" in SDK.
         type: list
         elements: str
     destination_ip:
         description:
-            - List of destination addresses.
+            - List of destination addresses. Defaults to "any" in SDK.
             - This can be an IP address, an address object/group, etc.
             - When referencing predefined EDLs, use config names of the EDLS not
               their full names. The config names can be found with the CLI...
@@ -112,34 +109,31 @@ options:
                 panw-highrisk-ip-list      panw-highrisk-ip-list
                 panw-known-ip-list         panw-known-ip-list
                 panw-torexit-ip-list       panw-torexit-ip-list
-        default: ["any"]
         type: list
         elements: str
     application:
         description:
-            - List of applications, application groups, and/or application filters.
-        default: ["any"]
+            - List of applications, application groups, and/or application filters. Defaults to "any" in SDK.
         type: list
         elements: str
     service:
         description:
-            - List of services and/or service groups.
-        default: ['application-default']
+            - List of services and/or service groups. Defaults to "application-default" in SDK.
         type: list
         elements: str
     category:
         description:
-            - List of destination URL categories.
+            - List of destination URL categories. Defaults to "any" in SDK.
             - When referencing predefined EDLs, use config names of the EDLS not
               their full names. The config names can be found with the CLI...
               request system external-list show type predefined-url name <tab>
                 panw-auth-portal-exclude-list   panw-auth-portal-exclude-list
-        default: ["any"]
         type: list
         elements: str
     action:
-        description:
-            - Action to apply once rules matches.
+        description: >
+            - Action to apply to the rule. No default value in SDK, should be provided when creating
+            a new resource.
         type: str
         choices:
             - allow
@@ -148,20 +142,17 @@ options:
             - reset-client
             - reset-server
             - reset-both
-        default: "allow"
     log_setting:
         description:
             - Log forwarding profile.
         type: str
     log_start:
         description:
-            - Whether to log at session start.
-        default: false
+            - Whether to log at session start. Defaults to PAN-OS behaviour.
         type: bool
     log_end:
         description:
-            - Whether to log at session end.
-        default: true
+            - Whether to log at session end. Defaults to PAN-OS behaviour.
         type: bool
     description:
         description:
@@ -169,13 +160,12 @@ options:
         type: str
     rule_type:
         description:
-            - Type of security rule (version 6.1 of PanOS and above).
+            - Type of security rule (version 6.1 of PanOS and above). Defaults to "universal" in SDK.
         type: str
         choices:
             - universal
             - intrazone
             - interzone
-        default: 'universal'
     tag_name:
         description:
             - List of tags associated with the rule.
@@ -183,18 +173,15 @@ options:
         elements: str
     negate_source:
         description:
-            - Match on the reverse of the 'source_ip' attribute
-        default: false
+            - Match on the reverse of the 'source_ip' attribute. Defaults to PAN-OS behaviour.
         type: bool
     negate_destination:
         description:
-            - Match on the reverse of the 'destination_ip' attribute
-        default: false
+            - Match on the reverse of the 'destination_ip' attribute. Defaults to PAN-OS behaviour.
         type: bool
     disabled:
         description:
-            - Disable this rule.
-        default: false
+            - Disable this rule. Defaults to PAN-OS behaviour.
         type: bool
     schedule:
         description:
@@ -205,9 +192,9 @@ options:
             - Send 'ICMP Unreachable'. Used with 'deny', 'drop', and 'reset' actions.
         type: bool
     disable_server_response_inspection:
-        description:
+        description: >
             - Disables packet inspection from the server to the client. Useful under heavy server load conditions.
-        default: false
+            Defaults to PAN-OS behaviour.
         type: bool
     group_profile:
         description: >
@@ -400,24 +387,23 @@ def main():
         sdk_params=dict(
             rule_name=dict(required=True, sdk_param="name"),
             source_zone=dict(
-                type="list", elements="str", default=["any"], sdk_param="fromzone"
+                type="list", elements="str", sdk_param="fromzone"
             ),
             source_ip=dict(
-                type="list", elements="str", default=["any"], sdk_param="source"
+                type="list", elements="str", sdk_param="source"
             ),
-            source_user=dict(type="list", elements="str", default=["any"]),
+            source_user=dict(type="list", elements="str"),
             hip_profiles=dict(type="list", elements="str"),
             destination_zone=dict(
-                type="list", elements="str", default=["any"], sdk_param="tozone"
+                type="list", elements="str", sdk_param="tozone"
             ),
             destination_ip=dict(
-                type="list", elements="str", default=["any"], sdk_param="destination"
+                type="list", elements="str", sdk_param="destination"
             ),
-            application=dict(type="list", elements="str", default=["any"]),
-            service=dict(type="list", elements="str", default=["application-default"]),
-            category=dict(type="list", elements="str", default=["any"]),
+            application=dict(type="list", elements="str"),
+            service=dict(type="list", elements="str"),
+            category=dict(type="list", elements="str"),
             action=dict(
-                default="allow",
                 choices=[
                     "allow",
                     "deny",
@@ -428,21 +414,20 @@ def main():
                 ],
             ),
             log_setting=dict(),
-            log_start=dict(type="bool", default=False),
-            log_end=dict(type="bool", default=True),
+            log_start=dict(type="bool"),
+            log_end=dict(type="bool"),
             description=dict(),
             rule_type=dict(
-                default="universal",
                 choices=["universal", "intrazone", "interzone"],
                 sdk_param="type",
             ),
             tag_name=dict(type="list", elements="str", sdk_param="tag"),
-            negate_source=dict(type="bool", default=False),
-            negate_destination=dict(type="bool", default=False),
-            disabled=dict(type="bool", default=False),
+            negate_source=dict(type="bool"),
+            negate_destination=dict(type="bool"),
+            disabled=dict(type="bool"),
             schedule=dict(),
             icmp_unreachable=dict(type="bool"),
-            disable_server_response_inspection=dict(type="bool", default=False),
+            disable_server_response_inspection=dict(type="bool"),
             group_profile=dict(sdk_param="group"),
             antivirus=dict(sdk_param="virus"),
             spyware=dict(),
@@ -456,6 +441,16 @@ def main():
         extra_params=dict(
             # TODO(gfreeman) - remove this in the next role release.
             devicegroup=dict(),
+        ),
+        preset_values=dict(
+            source_zone=["any"],
+            source_ip=["any"],
+            source_user=["any", "pre-logon", "known-user", "unknown"],
+            destination_zone=["any", "multicast"],
+            destination_ip=["any"],
+            application=["any"],
+            service=["application-default", "any"],
+            category=["any"],
         ),
     )
 
