@@ -1886,7 +1886,7 @@ class PanOSAnsibleModule(AnsibleModule):
         with_state=False,
         with_enabled_state=False,
         *args,
-        **kwargs
+        **kwargs,
     ):
         spec = {}
 
