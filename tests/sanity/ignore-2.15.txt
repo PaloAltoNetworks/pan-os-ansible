@@ -85,6 +85,7 @@ plugins/modules/panos_sag.py validate-modules:missing-gplv3-license
 plugins/modules/panos_schedule_object.py validate-modules:missing-gplv3-license
 plugins/modules/panos_security_rule_facts.py validate-modules:missing-gplv3-license
 plugins/modules/panos_security_rule.py validate-modules:missing-gplv3-license
+plugins/modules/panos_security_rule.py validate-modules:doc-default-does-not-match-spec
 plugins/modules/panos_service_group.py validate-modules:missing-gplv3-license
 plugins/modules/panos_service_object.py validate-modules:missing-gplv3-license
 plugins/modules/panos_snapshot_report.py validate-modules:missing-gplv3-license
