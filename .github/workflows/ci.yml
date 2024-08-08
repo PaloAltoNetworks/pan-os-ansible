@@ -22,11 +22,11 @@ jobs:
     strategy:
       matrix:
         include:
-          - ansible: "2.14"
-            python_ver: "3.11"
           - ansible: "2.15"
             python_ver: "3.11"
           - ansible: "2.16"
+            python_ver: "3.11"
+          - ansible: "2.17"
             python_ver: "3.11"
     runs-on: ubuntu-latest
     defaults:
