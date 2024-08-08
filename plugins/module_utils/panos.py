@@ -853,6 +853,8 @@ class ConnectionHelper(object):
                         if isinstance(obj_value, list) or isinstance(item_value, list):
                             if not item_value:
                                 item_value = []
+                            if isinstance(obj_value, str):
+                                obj_value = [obj_value]
                             # if current config or obj to create is one of the preset values
                             # (dropdown options in UI) then replace it with the obj value
                             # since values like "any" can not be in place with other values.
