@@ -139,6 +139,8 @@ class ConnectionHelper(object):
         self.parents = ()
         self.sdk_params = {}
         self.extra_params = {}
+        self.default_values = {}
+        self.preset_values = {}
         self.reference_operations = ()
         self.ansible_to_sdk_param_mapping = {}
         self.with_uuid = False
@@ -489,6 +491,11 @@ class ConnectionHelper(object):
                 ansible_param, ansible_param
             )
             spec[sdk_param] = module.params.get(ansible_param)
+            if ansible_param in self.preset_values.keys():
+                self.preset_values[sdk_param] = self.preset_values.pop(ansible_param)
+            if ansible_param in self.default_values.keys():
+                self.default_values[sdk_param] = self.default_values.pop(ansible_param)
+
         if self.with_uuid:
             spec["uuid"] = module.params["uuid"]
         if self.with_target:
@@ -690,27 +697,40 @@ class ConnectionHelper(object):
                 if not item.equal(obj, compare_children=True):
                     result["changed"] = True
                     obj.extend(other_children)
-                    result["after"] = self.describe(obj)
-                    result["diff"]["after"] = eltostr(obj)
                     if not module.check_mode:
                         if self.with_update_in_apply_state:
-                            for param in obj.about().keys():
-                                if getattr(item, param) != getattr(obj, param):
+                            for key, obj_value in obj.about().items():
+                                # NOTE checking defaults for with_update_in_apply_state doesnot have
+                                # a use for now as template, stack and device group dont have
+                                # defaults in the SDK
+                                # it also breaks panos_template as SDK has `mode` attribute set
+                                # to "normal" by default, but there is no xpath for this.
+                                # if obj_value is None:
+                                #     setattr(obj, key, self._get_default_value(obj, key))
+                                if getattr(item, key) != getattr(obj, key):
                                     try:
-                                        obj.update(param)
+                                        obj.update(key)
                                     except PanDeviceError as e:
                                         module.fail_json(
-                                            msg="Failed update {0}: {1}".format(
-                                                param, e
-                                            )
+                                            msg="Failed update {0}: {1}".format(key, e)
                                         )
+                            result["after"] = self.describe(obj)
+                            result["diff"]["after"] = eltostr(obj)
                         else:
+                            for key, obj_value in obj.about().items():
+                                if obj_value is None:
+                                    setattr(obj, key, self._get_default_value(obj, key))
+                            result["after"] = self.describe(obj)
+                            result["diff"]["after"] = eltostr(obj)
                             try:
                                 obj.apply()
                             except PanDeviceError as e:
                                 module.fail_json(msg="Failed apply: {0}".format(e))
                 break
             else:
+                for key, obj_value in obj.about().items():
+                    if obj_value is None:
+                        setattr(obj, key, self._get_default_value(obj, key))
                 result["changed"] = True
                 result["before"] = None
                 result["after"] = self.describe(obj)
@@ -829,15 +849,29 @@ class ConnectionHelper(object):
                 updated_params = set([])
                 for key, obj_value in obj.about().items():
                     item_value = getattr(item, key, None)
-                    if obj_value is not None:
+                    if obj_value:
                         if isinstance(obj_value, list) or isinstance(item_value, list):
                             if not item_value:
                                 item_value = []
-                            for elm in obj_value:
-                                if elm not in item_value:
-                                    updated_params.add(key)
-                                    item_value.append(elm)
-                                    setattr(item, key, item_value)
+                            if isinstance(obj_value, str):
+                                obj_value = [obj_value]
+                            # if current config or obj to create is one of the preset values
+                            # (dropdown options in UI) then replace it with the obj value
+                            # since values like "any" can not be in place with other values.
+                            if (
+                                preset_values := self.preset_values.get(key, None)
+                            ) and (
+                                set(item_value).issubset(preset_values)
+                                or set(obj_value).issubset(preset_values)
+                            ):
+                                updated_params.add(key)
+                                setattr(item, key, obj_value)
+                            else:
+                                for elm in obj_value:
+                                    if elm not in item_value:
+                                        updated_params.add(key)
+                                        item_value.append(elm)
+                                        setattr(item, key, item_value)
                         elif item_value != obj_value:
                             updated_params.add(key)
                             setattr(item, key, obj_value)
@@ -854,7 +888,10 @@ class ConnectionHelper(object):
                                     msg="Failed update {0}: {1}".format(param, e)
                                 )
                 break
-            else:
+            else:  # create new record with merge
+                for key, obj_value in obj.about().items():
+                    if obj_value is None:
+                        setattr(obj, key, self._get_default_value(obj, key))
                 result["before"] = None
                 result["after"] = self.describe(obj)
                 result["diff"] = {
@@ -1139,6 +1176,30 @@ class ConnectionHelper(object):
 
         return ans
 
+    def _get_default_value(self, obj, key):
+        """Returns default value for an sdk param in Ansible module.
+
+        Args:
+            obj: The pandevice object to fetch defaults from SDK.
+            key: sdk param name to get default value for.
+
+        Returns:
+            Default value of sdk param if defined in Ansible module default_values or
+            fetch from SDK defaults as a fallback.
+
+        """
+        # TODO get default values from pan-os-python SDK
+        # obj._params is not public attribute on SDK which provide default values
+        # either make it public accessible or provide a method
+        # NOTE create a temp object with defaults and use values from this temp object
+        # to fetch defaults for None values and set it for the object to create
+        obj_default = obj.__class__()
+        if (default_value := self.default_values.get(key, None)) is None:
+            # set default value from SDK if not found in module default_values
+            default_value = getattr(obj_default, key, None)
+
+        return default_value
+
     def matches_gathered_filter(self, item, logic):
         """Returns True if the item and its contents matches the logic given.
 
@@ -1368,6 +1429,8 @@ def get_connection(
     parents=None,
     sdk_params=None,
     extra_params=None,
+    default_values=None,
+    preset_values=None,
     reference_operations=None,
     ansible_to_sdk_param_mapping=None,
     with_uuid=False,
@@ -1745,6 +1808,10 @@ def get_connection(
                 renames[k] = sdk_name
             spec[k] = sdk_params[k]
         helper.sdk_params = sdk_params
+        if preset_values is not None:
+            helper.preset_values = preset_values
+        if default_values is not None:
+            helper.default_values = default_values
 
     if with_gathered_filter:
         if "gathered_filter" in spec:
@@ -1821,7 +1888,7 @@ class PanOSAnsibleModule(AnsibleModule):
         with_state=False,
         with_enabled_state=False,
         *args,
-        **kwargs
+        **kwargs,
     ):
         spec = {}
 
