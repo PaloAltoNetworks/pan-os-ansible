@@ -60,6 +60,10 @@ options:
             - The default vsys in case of a single vsys firewall.
         type: str
         default: vsys1
+    mode:
+        description:
+            - Mode for template.
+        type: str
 """
 
 EXAMPLES = """
@@ -117,6 +121,7 @@ def main():
             description=dict(),
             devices=dict(type="list", elements="str"),
             default_vsys=dict(default="vsys1"),
+            mode=dict(),
         ),
     )
 
