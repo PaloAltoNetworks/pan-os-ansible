@@ -210,7 +210,7 @@
 <h1>paloaltonetworks.panos.panos_security_rule module – Manage security rule policy on PAN-OS devices or Panorama management console.<a class="headerlink" href="#paloaltonetworks-panos-panos-security-rule-module-manage-security-rule-policy-on-pan-os-devices-or-panorama-management-console" title="Link to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.19.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/paloaltonetworks/panos">paloaltonetworks.panos collection</a> (version 2.21.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-paloaltonetworks-panos-panos-security-rule-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -219,35 +219,44 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <p class="ansible-version-added">New in paloaltonetworks.panos 1.0.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id109">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id110">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id111">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id112">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id113">Examples</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id93">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id94">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id95">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id96">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id97">Examples</a></p></li>
 </ul>
 </nav>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id109" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><ul>
-<li><p>Security policies allow you to enforce rules and take action, and can be as
-general or specific as needed.</p></li>
-<li><p>The policy rules are compared against the incoming traffic in sequence, and
-because the first rule that matches the traffic is applied, the more specific
-rules must precede the more general ones.</p></li>
+<h2><a class="toc-backref" href="#id93" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Link to this heading"></a></h2>
+<ul>
+<li><p>Following rules apply for security policies:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Security policies allow you to enforce rules and take action, and can be as</p></li>
 </ul>
+<p>general or specific as needed.</p>
+<ul class="simple">
+<li><p>The policy rules are compared against the incoming traffic in sequence, and</p></li>
+</ul>
+<p>because the first rule that matches the traffic is applied, the more specific
+rules must precede the more general ones.</p>
+<ul class="simple">
+<li><p>Defaults in spec descriptions apply when <em>state=present</em>/<em>state=replaced</em>,</p></li>
+</ul>
+<p>or when creating a new resource with <em>state=merged</em>.</p>
+</div></blockquote>
 </li>
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-requirements"></span><h2><a class="toc-backref" href="#id110" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Link to this heading"></a></h2>
+<span id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-requirements"></span><h2><a class="toc-backref" href="#id94" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Link to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>pandevice can be obtained from PyPI <a class="reference external" href="https://pypi.python.org/pypi/pandevice">https://pypi.python.org/pypi/pandevice</a></p></li>
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id111" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id95" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -259,10 +268,10 @@ rules must precede the more general ones.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-action"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-action"><strong>action</strong></p>
 <a class="ansibleOptionLink" href="#parameter-action" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Action to apply once rules matches.</p>
+<td><div class="ansible-option-cell"><p>Action to apply to the rule. Defaults to <em>“allow”</em>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry-default:`&quot;allow&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`&quot;allow&quot;`</span></a></p></li>
 <li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`&quot;deny&quot;`</span></a></p></li>
 <li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry:`&quot;drop&quot;`</span></a></p></li>
 <li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`&quot;reset-client&quot;`</span></a></p></li>
@@ -291,8 +300,7 @@ rules must precede the more general ones.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-application"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-application"><strong>application</strong></p>
 <a class="ansibleOptionLink" href="#parameter-application" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>List of applications, application groups, and/or application filters.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id13"><span class="problematic" id="id14">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
+<td><div class="ansible-option-cell"><p>List of applications, application groups, and/or application filters. Defaults to <em>[“any”]</em>.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -307,9 +315,8 @@ rules must precede the more general ones.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-category"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-category"><strong>category</strong></p>
 <a class="ansibleOptionLink" href="#parameter-category" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>List of destination URL categories.</p>
+<td><div class="ansible-option-cell"><p>List of destination URL categories. Defaults to <em>[“any”]</em>.</p>
 <p>When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI… request system external-list show type predefined-url name &lt;tab&gt; panw-auth-portal-exclude-list   panw-auth-portal-exclude-list</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id15"><span class="problematic" id="id16">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -321,8 +328,8 @@ rules must precede the more general ones.</p></li>
 <hr><p>Commit changes after creating object.  If <em>ip_address</em> is a Panorama device, and <em>device_group</em> or <em>template</em> are also set, perform a commit to Panorama and a commit-all to the device group/template.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -344,18 +351,16 @@ rules must precede the more general ones.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-destination_ip"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-destination-ip"><strong>destination_ip</strong></p>
 <a class="ansibleOptionLink" href="#parameter-destination_ip" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>List of destination addresses.</p>
+<td><div class="ansible-option-cell"><p>List of destination addresses. Defaults to <em>[“any”]</em>.</p>
 <p>This can be an IP address, an address object/group, etc.</p>
 <p>When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI… request system external-list show type predefined-ip name &lt;tab&gt; panw-bulletproof-ip-list   panw-bulletproof-ip-list panw-highrisk-ip-list      panw-highrisk-ip-list panw-known-ip-list         panw-known-ip-list panw-torexit-ip-list       panw-torexit-ip-list</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id21"><span class="problematic" id="id22">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-destination_zone"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-destination-zone"><strong>destination_zone</strong></p>
 <a class="ansibleOptionLink" href="#parameter-destination_zone" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>List of destination zones.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id23"><span class="problematic" id="id24">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
+<td><div class="ansible-option-cell"><p>List of destination zones. Defaults to <em>[“any”]</em>.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -363,7 +368,7 @@ rules must precede the more general ones.</p></li>
 <a class="ansibleOptionLink" href="#parameter-device_group" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>(Panorama only) The device group the operation should target.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id25"><span class="problematic" id="id26">:ansible-option-default:`&quot;shared&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id17"><span class="problematic" id="id18">:ansible-option-default:`&quot;shared&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -379,11 +384,11 @@ rules must precede the more general ones.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-disable_server_response_inspection"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-disable-server-response-inspection"><strong>disable_server_response_inspection</strong></p>
 <a class="ansibleOptionLink" href="#parameter-disable_server_response_inspection" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Disables packet inspection from the server to the client. Useful under heavy server load conditions.</p>
+<td><div class="ansible-option-cell"><p>Disables packet inspection from the server to the client. Useful under heavy server load conditions. Defaults to <em>false</em>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -391,11 +396,11 @@ rules must precede the more general ones.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-disabled"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-disabled"><strong>disabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-disabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Disable this rule.</p>
+<td><div class="ansible-option-cell"><p>Disable this rule. Defaults to <em>false</em>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -438,9 +443,7 @@ be positioned relative to the value of this parameter.</p>
 <div class="ansibleOptionAnchor" id="parameter-group_profile"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-group-profile"><strong>group_profile</strong></p>
 <a class="ansibleOptionLink" href="#parameter-group_profile" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><ul class="simple">
-<li><p>Security profile group that is already defined in the system. This property supersedes antivirus, vulnerability, spyware, url_filtering, file_blocking, data_filtering, and wildfire_analysis properties.</p></li>
-</ul>
+<td><div class="ansible-option-cell"><p>Security profile group that is already defined in the system. This property supersedes antivirus, vulnerability, spyware, url_filtering, file_blocking, data_filtering, and wildfire_analysis properties.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -454,23 +457,9 @@ be positioned relative to the value of this parameter.</p>
 <div class="ansibleOptionAnchor" id="parameter-hip_profiles"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-hip-profiles"><strong>hip_profiles</strong></p>
 <a class="ansibleOptionLink" href="#parameter-hip_profiles" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><ul>
-<li><dl>
-<dt>If you are using GlobalProtect with host information profile (HIP)</dt><dd><blockquote>
-<div><p>enabled, you can also base the policy on information collected by
-GlobalProtect. For example, the user access level can be determined
-HIP that notifies the firewall about the user’s local configuration.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>NOTE: If <em>state=present</em> or <em>state=replaced</em>, and you’re running
-PAN-OS &lt; 10.0.0, then this will have a default of <em>[“any”]</em>.</p></li>
-<li><p>If you are using PAN-OS &gt;= 10.0.0, please do not use this
-parameter as it was removed from PAN-OS in 10.0.0.</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
+<td><div class="ansible-option-cell"><p>If you are using GlobalProtect with host information profile (HIP) enabled, you can also base the policy on information collected by GlobalProtect. For example, the user access level can be determined HIP that notifies the firewall about the user’s local configuration.</p>
+<p>NOTE If <em>state=present</em> or <em>state=replaced</em>, and you’re running PAN-OS &lt; 10.0.0, then this will have a default of <em>[“any”]</em>.</p>
+<p>If you are using PAN-OS &gt;= 10.0.0, please do not use this parameter as it was removed from PAN-OS in 10.0.0.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -480,8 +469,8 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <td><div class="ansible-option-cell"><p>Send ‘ICMP Unreachable’. Used with ‘deny’, ‘drop’, and ‘reset’ actions.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -501,10 +490,10 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <td><div class="ansible-option-cell"><p>Position to place the rule in.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`&quot;top&quot;`</span></a></p></li>
-<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`&quot;bottom&quot;`</span></a></p></li>
-<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`&quot;before&quot;`</span></a></p></li>
-<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`&quot;after&quot;`</span></a></p></li>
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`&quot;top&quot;`</span></a></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`&quot;bottom&quot;`</span></a></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`&quot;before&quot;`</span></a></p></li>
+<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`&quot;after&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -512,11 +501,11 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-log_end"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-log-end"><strong>log_end</strong></p>
 <a class="ansibleOptionLink" href="#parameter-log_end" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Whether to log at session end.</p>
+<td><div class="ansible-option-cell"><p>Whether to log at session end. Defaults to <em>true</em>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -531,11 +520,11 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-log_start"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-log-start"><strong>log_start</strong></p>
 <a class="ansibleOptionLink" href="#parameter-log_start" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Whether to log at session start.</p>
+<td><div class="ansible-option-cell"><p>Whether to log at session start. Defaults to <em>false</em>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -543,11 +532,11 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-negate_destination"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-negate-destination"><strong>negate_destination</strong></p>
 <a class="ansibleOptionLink" href="#parameter-negate_destination" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Match on the reverse of the ‘destination_ip’ attribute</p>
+<td><div class="ansible-option-cell"><p>Match on the reverse of the ‘destination_ip’ attribute. Defaults to <em>false</em>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -555,11 +544,11 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-negate_source"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-negate-source"><strong>negate_source</strong></p>
 <a class="ansibleOptionLink" href="#parameter-negate_source" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Match on the reverse of the ‘source_ip’ attribute</p>
+<td><div class="ansible-option-cell"><p>Match on the reverse of the ‘source_ip’ attribute. Defaults to <em>false</em>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -571,8 +560,8 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <p>Negate the value for <em>target</em>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id65"><span class="problematic" id="id66">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -592,7 +581,7 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id67"><span class="problematic" id="id68">:ansible-option-default:`443`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id59"><span class="problematic" id="id60">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -629,7 +618,7 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The port number to connect to the PAN-OS device on.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id69"><span class="problematic" id="id70">:ansible-option-default:`443`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id61"><span class="problematic" id="id62">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -644,7 +633,7 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id71"><span class="problematic" id="id72">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id63"><span class="problematic" id="id64">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -658,12 +647,12 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-rule_type"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-rule-type"><strong>rule_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-rule_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Type of security rule (version 6.1 of PanOS and above).</p>
+<td><div class="ansible-option-cell"><p>Type of security rule (version 6.1 of PanOS and above). Defaults to <em>“universal”</em>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id73"><span class="problematic" id="id74">:ansible-option-choices-entry-default:`&quot;universal&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id75"><span class="problematic" id="id76">:ansible-option-choices-entry:`&quot;intrazone&quot;`</span></a></p></li>
-<li><p><a href="#id77"><span class="problematic" id="id78">:ansible-option-choices-entry:`&quot;interzone&quot;`</span></a></p></li>
+<li><p><a href="#id65"><span class="problematic" id="id66">:ansible-option-choices-entry:`&quot;universal&quot;`</span></a></p></li>
+<li><p><a href="#id67"><span class="problematic" id="id68">:ansible-option-choices-entry:`&quot;intrazone&quot;`</span></a></p></li>
+<li><p><a href="#id69"><span class="problematic" id="id70">:ansible-option-choices-entry:`&quot;interzone&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -674,9 +663,9 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <td><div class="ansible-option-cell"><p>The rulebase in which the rule is to exist.  If left unspecified, this defaults to <em>rulebase=pre-rulebase</em> for Panorama.  For NGFW, this is always set to be <em>rulebase=rulebase</em>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id79"><span class="problematic" id="id80">:ansible-option-choices-entry:`&quot;pre-rulebase&quot;`</span></a></p></li>
-<li><p><a href="#id81"><span class="problematic" id="id82">:ansible-option-choices-entry:`&quot;rulebase&quot;`</span></a></p></li>
-<li><p><a href="#id83"><span class="problematic" id="id84">:ansible-option-choices-entry:`&quot;post-rulebase&quot;`</span></a></p></li>
+<li><p><a href="#id71"><span class="problematic" id="id72">:ansible-option-choices-entry:`&quot;pre-rulebase&quot;`</span></a></p></li>
+<li><p><a href="#id73"><span class="problematic" id="id74">:ansible-option-choices-entry:`&quot;rulebase&quot;`</span></a></p></li>
+<li><p><a href="#id75"><span class="problematic" id="id76">:ansible-option-choices-entry:`&quot;post-rulebase&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -691,34 +680,30 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-service"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-service"><strong>service</strong></p>
 <a class="ansibleOptionLink" href="#parameter-service" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>List of services and/or service groups.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id85"><span class="problematic" id="id86">:ansible-option-default:`[&quot;application-default&quot;]`</span></a></p>
+<td><div class="ansible-option-cell"><p>List of services and/or service groups. Defaults to <em>[“application-default”]</em>.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-source_ip"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-source-ip"><strong>source_ip</strong></p>
 <a class="ansibleOptionLink" href="#parameter-source_ip" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>List of source addresses.</p>
+<td><div class="ansible-option-cell"><p>List of source addresses. Defaults to <em>[“any”]</em>.</p>
 <p>This can be an IP address, an address object/group, etc.</p>
 <p>When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI… request system external-list show type predefined-ip name &lt;tab&gt; panw-bulletproof-ip-list   panw-bulletproof-ip-list panw-highrisk-ip-list      panw-highrisk-ip-list panw-known-ip-list         panw-known-ip-list panw-torexit-ip-list       panw-torexit-ip-list</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id87"><span class="problematic" id="id88">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-source_user"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-source-user"><strong>source_user</strong></p>
 <a class="ansibleOptionLink" href="#parameter-source_user" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Use users to enforce policy for individual users or a group of users.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id89"><span class="problematic" id="id90">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
+<td><div class="ansible-option-cell"><p>Use users to enforce policy for individual users or a group of users. Defaults to <em>[“any”]</em>.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-source_zone"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-security-rule-module-parameter-source-zone"><strong>source_zone</strong></p>
 <a class="ansibleOptionLink" href="#parameter-source_zone" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>List of source zones.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id91"><span class="problematic" id="id92">:ansible-option-default:`[&quot;any&quot;]`</span></a></p>
+<td><div class="ansible-option-cell"><p>List of source zones. Defaults to <em>[“any”]</em>.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -735,12 +720,12 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <td><div class="ansible-option-cell"><p>The state.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id93"><span class="problematic" id="id94">:ansible-option-choices-entry-default:`&quot;present&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id95"><span class="problematic" id="id96">:ansible-option-choices-entry:`&quot;absent&quot;`</span></a></p></li>
-<li><p><a href="#id97"><span class="problematic" id="id98">:ansible-option-choices-entry:`&quot;replaced&quot;`</span></a></p></li>
-<li><p><a href="#id99"><span class="problematic" id="id100">:ansible-option-choices-entry:`&quot;merged&quot;`</span></a></p></li>
-<li><p><a href="#id101"><span class="problematic" id="id102">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
-<li><p><a href="#id103"><span class="problematic" id="id104">:ansible-option-choices-entry:`&quot;gathered&quot;`</span></a></p></li>
+<li><p><a href="#id77"><span class="problematic" id="id78">:ansible-option-choices-entry-default:`&quot;present&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id79"><span class="problematic" id="id80">:ansible-option-choices-entry:`&quot;absent&quot;`</span></a></p></li>
+<li><p><a href="#id81"><span class="problematic" id="id82">:ansible-option-choices-entry:`&quot;replaced&quot;`</span></a></p></li>
+<li><p><a href="#id83"><span class="problematic" id="id84">:ansible-option-choices-entry:`&quot;merged&quot;`</span></a></p></li>
+<li><p><a href="#id85"><span class="problematic" id="id86">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
+<li><p><a href="#id87"><span class="problematic" id="id88">:ansible-option-choices-entry:`&quot;gathered&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -773,7 +758,7 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <td><div class="ansible-option-cell"><p><strong>Deprecated</strong></p>
 <p>Use <em>provider</em> to specify PAN-OS connectivity instead.</p>
 <hr><p>The username to use for authentication.  This is ignored if <em>api_key</em> is specified.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id105"><span class="problematic" id="id106">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id89"><span class="problematic" id="id90">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -790,7 +775,7 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 <a class="ansibleOptionLink" href="#parameter-vsys" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The vsys this object belongs to.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id107"><span class="problematic" id="id108">:ansible-option-default:`&quot;vsys1&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id91"><span class="problematic" id="id92">:ansible-option-default:`&quot;vsys1&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -811,7 +796,7 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id112" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id96" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Link to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -822,7 +807,7 @@ parameter as it was removed from PAN-OS in 10.0.0.</p></li>
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id113" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id97" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">add SSH inbound rule to Panorama device group</span>
 <span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_security_rule</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>

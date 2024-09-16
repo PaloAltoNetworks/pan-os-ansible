@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_template module -- Manage Panorama template
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.19.1).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.21.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -245,6 +245,40 @@ Parameters
       An advanced filtering option to filter results returned from PAN-OS.
 
       Refer to the guide discussing \ :emphasis:`gathered\_filter`\  for more information.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mode"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_template_module__parameter-mode:
+
+      .. rst-class:: ansible-option-title
+
+      **mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Mode for template.
 
 
       .. raw:: html

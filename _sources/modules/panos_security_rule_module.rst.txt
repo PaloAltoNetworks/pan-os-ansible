@@ -42,7 +42,7 @@ paloaltonetworks.panos.panos_security_rule module -- Manage security rule policy
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.19.1).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.21.0).
 
     To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
@@ -68,11 +68,17 @@ Synopsis
 
 .. Description
 
-- - Security policies allow you to enforce rules and take action, and can be as
-    general or specific as needed.
-  - The policy rules are compared against the incoming traffic in sequence, and
-    because the first rule that matches the traffic is applied, the more specific
-    rules must precede the more general ones.
+- Following rules apply for security policies:
+
+      - Security policies allow you to enforce rules and take action, and can be as
+      general or specific as needed.
+
+      - The policy rules are compared against the incoming traffic in sequence, and
+      because the first rule that matches the traffic is applied, the more specific
+      rules must precede the more general ones.
+
+      - Defaults in spec descriptions apply when \ :emphasis:`state=present`\ /\ :emphasis:`state=replaced`\ ,
+      or when creating a new resource with \ :emphasis:`state=merged`\ .
 
 
 
@@ -136,14 +142,14 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Action to apply once rules matches.
+      Action to apply to the rule. Defaults to \ :emphasis:`"allow"`\ .
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry-default:`"allow"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"allow"`
       - :ansible-option-choices-entry:`"deny"`
       - :ansible-option-choices-entry:`"drop"`
       - :ansible-option-choices-entry:`"reset-client"`
@@ -262,12 +268,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of applications, application groups, and/or application filters.
+      List of applications, application groups, and/or application filters. Defaults to \ :emphasis:`["any"]`\ .
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`["any"]`
 
       .. raw:: html
 
@@ -336,14 +338,10 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of destination URL categories.
+      List of destination URL categories. Defaults to \ :emphasis:`["any"]`\ .
 
       When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI... request system external-list show type predefined-url name \<tab\> panw-auth-portal-exclude-list   panw-auth-portal-exclude-list
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`["any"]`
 
       .. raw:: html
 
@@ -498,16 +496,12 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of destination addresses.
+      List of destination addresses. Defaults to \ :emphasis:`["any"]`\ .
 
       This can be an IP address, an address object/group, etc.
 
       When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI... request system external-list show type predefined-ip name \<tab\> panw-bulletproof-ip-list   panw-bulletproof-ip-list panw-highrisk-ip-list      panw-highrisk-ip-list panw-known-ip-list         panw-known-ip-list panw-torexit-ip-list       panw-torexit-ip-list
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`["any"]`
 
       .. raw:: html
 
@@ -540,12 +534,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of destination zones.
+      List of destination zones. Defaults to \ :emphasis:`["any"]`\ .
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`["any"]`
 
       .. raw:: html
 
@@ -662,14 +652,14 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Disables packet inspection from the server to the client. Useful under heavy server load conditions.
+      Disables packet inspection from the server to the client. Useful under heavy server load conditions. Defaults to \ :emphasis:`false`\ .
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
 
 
@@ -704,14 +694,14 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Disable this rule.
+      Disable this rule. Defaults to \ :emphasis:`false`\ .
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
 
 
@@ -856,8 +846,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      - Security profile group that is already defined in the system. This property supersedes antivirus, vulnerability, spyware, url\_filtering, file\_blocking, data\_filtering, and wildfire\_analysis properties.
-          
+      Security profile group that is already defined in the system. This property supersedes antivirus, vulnerability, spyware, url\_filtering, file\_blocking, data\_filtering, and wildfire\_analysis properties.
 
 
       .. raw:: html
@@ -925,15 +914,11 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      - If you are using GlobalProtect with host information profile (HIP)
-            enabled, you can also base the policy on information collected by
-            GlobalProtect. For example, the user access level can be determined
-            HIP that notifies the firewall about the user's local configuration.
-          - NOTE: If \ :emphasis:`state=present`\  or \ :emphasis:`state=replaced`\ , and you're running
-            PAN-OS \< 10.0.0, then this will have a default of \ :emphasis:`["any"]`\ .
-          - If you are using PAN-OS \>= 10.0.0, please do not use this
-            parameter as it was removed from PAN-OS in 10.0.0.
-          
+      If you are using GlobalProtect with host information profile (HIP) enabled, you can also base the policy on information collected by GlobalProtect. For example, the user access level can be determined HIP that notifies the firewall about the user's local configuration.
+
+      NOTE If \ :emphasis:`state=present`\  or \ :emphasis:`state=replaced`\ , and you're running PAN-OS \< 10.0.0, then this will have a default of \ :emphasis:`["any"]`\ .
+
+      If you are using PAN-OS \>= 10.0.0, please do not use this parameter as it was removed from PAN-OS in 10.0.0.
 
 
       .. raw:: html
@@ -1099,7 +1084,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Whether to log at session end.
+      Whether to log at session end. Defaults to \ :emphasis:`true`\ .
 
 
       .. rst-class:: ansible-option-line
@@ -1107,7 +1092,7 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -1175,14 +1160,14 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Whether to log at session start.
+      Whether to log at session start. Defaults to \ :emphasis:`false`\ .
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
 
 
@@ -1217,14 +1202,14 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Match on the reverse of the 'destination\_ip' attribute
+      Match on the reverse of the 'destination\_ip' attribute. Defaults to \ :emphasis:`false`\ .
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
 
 
@@ -1259,14 +1244,14 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Match on the reverse of the 'source\_ip' attribute
+      Match on the reverse of the 'source\_ip' attribute. Defaults to \ :emphasis:`false`\ .
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
 
 
@@ -1725,14 +1710,14 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Type of security rule (version 6.1 of PanOS and above).
+      Type of security rule (version 6.1 of PanOS and above). Defaults to \ :emphasis:`"universal"`\ .
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry-default:`"universal"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"universal"`
       - :ansible-option-choices-entry:`"intrazone"`
       - :ansible-option-choices-entry:`"interzone"`
 
@@ -1845,12 +1830,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of services and/or service groups.
+      List of services and/or service groups. Defaults to \ :emphasis:`["application-default"]`\ .
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`["application-default"]`
 
       .. raw:: html
 
@@ -1883,16 +1864,12 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of source addresses.
+      List of source addresses. Defaults to \ :emphasis:`["any"]`\ .
 
       This can be an IP address, an address object/group, etc.
 
       When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI... request system external-list show type predefined-ip name \<tab\> panw-bulletproof-ip-list   panw-bulletproof-ip-list panw-highrisk-ip-list      panw-highrisk-ip-list panw-known-ip-list         panw-known-ip-list panw-torexit-ip-list       panw-torexit-ip-list
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`["any"]`
 
       .. raw:: html
 
@@ -1925,12 +1902,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Use users to enforce policy for individual users or a group of users.
+      Use users to enforce policy for individual users or a group of users. Defaults to \ :emphasis:`["any"]`\ .
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`["any"]`
 
       .. raw:: html
 
@@ -1963,12 +1936,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of source zones.
+      List of source zones. Defaults to \ :emphasis:`["any"]`\ .
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`["any"]`
 
       .. raw:: html
 
