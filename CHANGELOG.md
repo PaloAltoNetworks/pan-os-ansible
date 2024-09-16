@@ -1,3 +1,15 @@
+## [2.21.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.20.0...v2.21.0) (2024-09-16)
+
+
+### Features
+
+* Add additional error handling to some upgrade assurance modules ([#561](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/561)) ([c64cd79](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/c64cd7902b4e4a83c12a53036052a9c82070af1a))
+
+
+### Bug Fixes
+
+* **panos_security_rule:** state merged with existing values ([#570](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/570)) ([db6c32c](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/db6c32c7b9303f7b5b66f7169babca7f52f4ed87))
+
 ## [2.20.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.19.1...v2.20.0) (2024-04-17)
 
 
