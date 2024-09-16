@@ -1,3 +1,10 @@
+### [2.21.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.0...v2.21.1) (2024-09-16)
+
+
+### Bug Fixes
+
+* new release for failed ci ([3872708](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/38727087df51e2e547611053a3f5767e6e04400c))
+
 ## [2.21.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.20.0...v2.21.0) (2024-09-16)
 
 
