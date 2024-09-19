@@ -15,7 +15,7 @@ paloaltonetworks.panos.panos_query_rules module
 .. Collection note
 
 .. note::
-    This redirect is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.21.0).
+    This redirect is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.21.1).
 
 
 - This redirect has been **deprecated**. Please update your tasks to use the new name ``paloaltonetworks.panos.panos_match_rule`` instead.
