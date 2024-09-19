@@ -1,3 +1,10 @@
+### [2.21.2](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.1...v2.21.2) (2024-09-19)
+
+
+### Bug Fixes
+
+* requirements.txt update python version and remove hashes ([905b1eb](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/905b1eb76236d1560deb249bb7c048aa455721c2))
+
 ### [2.21.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.0...v2.21.1) (2024-09-16)
 
 
