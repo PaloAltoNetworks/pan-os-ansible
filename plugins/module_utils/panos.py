@@ -1207,8 +1207,8 @@ class ConnectionHelper(object):
         """
         lex = shlex.shlex(logic, posix=True)
         lex.whitespace_split = True
-        lex.commenters = ''
-        lex.escape = ''
+        lex.commenters = ""
+        lex.escape = ""
 
         return list(lex)
 
