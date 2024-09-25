@@ -192,7 +192,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          provenance: false
+          provenance: false     # disabled to keep number of images low for development branches
 
 
   release_build:
