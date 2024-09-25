@@ -75,6 +75,8 @@ jobs:
             type=semver,pattern=v{{version}}
             type=semver,pattern=v{{major}}.{{minor}}
             type=semver,pattern=v{{major}}
+            type=ref,event=branch
+            type=ref,event=tag
 
         # TODO we should take pan-os-ansible from galaxy for a release BUT what about develop branch??
         # https://github.com/ansible-collections/community.dns/blob/main/.github/workflows/ee.yml#L96-L98
