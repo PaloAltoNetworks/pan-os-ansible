@@ -163,7 +163,6 @@ jobs:
       - name: create execution env context
         run: |
           poetry run -C ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }} ansible-builder create -v 3 --output-filename Dockerfile
-          # poetry run ansible-builder create -f meta/execution-environment.yml -v 3 --output-filename Dockerfile
           ls -l ./context/
           ls -l ./context/_build/src/
           cat ./context/_build/src/requirements.txt
