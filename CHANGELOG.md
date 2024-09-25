@@ -6,6 +6,25 @@
 * Add additional error handling to some upgrade assurance modules ([#561](https://github.com/alperenkose/pan-os-ansible/issues/561)) ([c64cd79](https://github.com/alperenkose/pan-os-ansible/commit/c64cd7902b4e4a83c12a53036052a9c82070af1a))
 * Add new option to panos_active_in_ha module ([#560](https://github.com/alperenkose/pan-os-ansible/issues/560)) ([a2870f5](https://github.com/alperenkose/pan-os-ansible/commit/a2870f5d742a6d6dd2e759e101ba1b6fcc9e6ee9))
 * ee ci for development ([97c31ba](https://github.com/alperenkose/pan-os-ansible/commit/97c31ba43cba71ee3d695ccac698d3beed01bf2c))
+* test ee ci for release ([a7605af](https://github.com/alperenkose/pan-os-ansible/commit/a7605af5ffb09e3a7ddf2f564deaef727c2fcded))
+
+
+### Bug Fixes
+
+* Add 'parent_interface' parameter for l2/l3 subinterface modules ([#552](https://github.com/alperenkose/pan-os-ansible/issues/552)) ([73c28a8](https://github.com/alperenkose/pan-os-ansible/commit/73c28a890ab35784a40ee14a47c11b31f4ffac6d))
+* new release for failed ci ([3872708](https://github.com/alperenkose/pan-os-ansible/commit/38727087df51e2e547611053a3f5767e6e04400c))
+* requirements.txt update python version and remove hashes ([905b1eb](https://github.com/alperenkose/pan-os-ansible/commit/905b1eb76236d1560deb249bb7c048aa455721c2))
+* **panos_facts.py:** Fixed virtual systems fact name ([#558](https://github.com/alperenkose/pan-os-ansible/issues/558)) ([0d0fd6d](https://github.com/alperenkose/pan-os-ansible/commit/0d0fd6d11d3bfd55a3795f32f69f9201fd54f554))
+* **panos_security_rule:** state merged with existing values ([#570](https://github.com/alperenkose/pan-os-ansible/issues/570)) ([db6c32c](https://github.com/alperenkose/pan-os-ansible/commit/db6c32c7b9303f7b5b66f7169babca7f52f4ed87))
+
+## [2.20.0](https://github.com/alperenkose/pan-os-ansible/compare/v2.19.1...v2.20.0) (2024-09-25)
+
+
+### Features
+
+* Add additional error handling to some upgrade assurance modules ([#561](https://github.com/alperenkose/pan-os-ansible/issues/561)) ([c64cd79](https://github.com/alperenkose/pan-os-ansible/commit/c64cd7902b4e4a83c12a53036052a9c82070af1a))
+* Add new option to panos_active_in_ha module ([#560](https://github.com/alperenkose/pan-os-ansible/issues/560)) ([a2870f5](https://github.com/alperenkose/pan-os-ansible/commit/a2870f5d742a6d6dd2e759e101ba1b6fcc9e6ee9))
+* ee ci for development ([97c31ba](https://github.com/alperenkose/pan-os-ansible/commit/97c31ba43cba71ee3d695ccac698d3beed01bf2c))
 
 
 ### Bug Fixes
