@@ -198,7 +198,7 @@ jobs:
   release_build:
     name: Build and Publish Ansible EE for release
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success' && contains(github.event.workflow_run.jobs[*].name, 'release')
+    # if: github.event.workflow_run.conclusion == 'success' && contains(github.event.workflow_run.jobs[*].name, 'release')
         # (( github.event.workflow_run.head_branch == 'refs/heads/develop') ||
         # contains(github.event.workflow_run.jobs[*].name, 'release'))
     # NOTE what if we make a release from develop branch? dont worry it would make both develop and alpha images I suppose..:)
@@ -212,6 +212,12 @@ jobs:
         working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
     steps:
+      # TODO DEBUG github.event.workflow_run.jobs[*].name
+      - name: Echo workflow_run attributes
+        run: |
+          echo "workflow_run attributes: ${{ toJSON(github.event.workflow_run) }}"
+          exit 1
+
       - name: check out code
         uses: actions/checkout@v4
         with:
