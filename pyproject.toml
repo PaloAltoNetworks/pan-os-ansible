@@ -40,6 +40,13 @@ chardet = "3.0.4"
 idna = "2.8"
 requests = "^2.22.0"
 
+[tool.poetry.group.ansible-ee]
+optional = true
+
+[tool.poetry.group.ansible-ee.dependencies]
+# ansible-core = "^2.15"
+ansible-builder = "^3.0.0"
+
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
