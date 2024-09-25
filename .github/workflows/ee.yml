@@ -2,9 +2,9 @@ name: Ansible EE Image
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - develop
+  push:
+    branches:
+      - develop
   #   tags:
   #     - 'v*'
   release:
@@ -63,7 +63,6 @@ jobs:
       - name: set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-        # TODO might need to use the ref or edge type as well for develop branch tagging..
         # TODO latest should only be tagged for release versions
       - name: determine docker tags and labels
         id: meta
