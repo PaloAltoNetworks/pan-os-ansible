@@ -89,6 +89,7 @@ jobs:
       - name: Create files for building execution environment
         run: |
           COLLECTION_FILENAME="$(ls "${{ env.NAMESPACE }}-${{ env.COLLECTION_NAME }}"-*.tar.gz)"
+          COLLECTION_PIP_REQUIREMENTS="ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/requirements.txt"
 
           # EE config
           cat > execution-environment.yml <<EOF
@@ -121,7 +122,7 @@ jobs:
           additional_build_files:
             - src: ${COLLECTION_FILENAME}
               dest: src
-            - src: requirements.txt
+            - src: ${COLLECTION_PIP_REQUIREMENTS}
               dest: src
 
           additional_build_steps:
