@@ -14,7 +14,7 @@ on:
 env:
   NAMESPACE: paloaltonetworks
   COLLECTION_NAME: panos
-  PYTHON_VERSION: 3.9
+  PYTHON_VERSION: 3.9           # TODO do we need this, as we take it from pyproject.yml ?
 
 
 jobs:
@@ -69,7 +69,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          context: git # this ensures to reference the current git context instead of workflow context (context info ref/sha)
+          context: workflow # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
           images: ghcr.io/alperenkose/pan-os-ansible # TODO ghcr.io/paloaltonetworks/pan-os-ansible
           tags: |
             type=semver,pattern=v{{version}}
