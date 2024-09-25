@@ -9,7 +9,7 @@ on:
   #     - 'v*'
   # release:
   #   types: [published]
-  workflow_run:
+  workflow_run:                 # NOTE workflow runs from default branch..
     workflows: ['CI']
     types: completed
 
@@ -23,7 +23,7 @@ jobs:
   build:
     name: Build and Publish Ansible EE for development
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'refs/heads/develop'
+    # if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'refs/heads/develop'
 
     permissions:
       contents: read
@@ -34,6 +34,14 @@ jobs:
         working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
     steps:
+      - name: debug github event
+        id: tag
+        run: |
+          echo "github event: ${{ github.event }}"
+          echo "github event workflow_run: ${{github.event.workflow_run}}"
+          echo "github event workflow_run head: ${{github.event.workflow_run.head_branch}}"
+          exit 1
+
       - name: check out code
         uses: actions/checkout@v4
         with:
