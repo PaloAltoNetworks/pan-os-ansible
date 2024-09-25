@@ -1,3 +1,15 @@
+## [2.23.0](https://github.com/alperenkose/pan-os-ansible/compare/v2.22.0...v2.23.0) (2024-09-25)
+
+
+### Features
+
+* test ee ci for release ([0542e56](https://github.com/alperenkose/pan-os-ansible/commit/0542e564acbc2acd01dd20e9e2da83f1eee8501c))
+
+
+### Bug Fixes
+
+* temp disable sanity tests ([d79a97b](https://github.com/alperenkose/pan-os-ansible/commit/d79a97b240e13a8af91f685790bec0676ef7bb2b))
+
 ## [2.20.0](https://github.com/alperenkose/pan-os-ansible/compare/v2.19.1...v2.20.0) (2024-09-25)
 
 
