@@ -164,6 +164,7 @@ jobs:
           # poetry run ansible-builder create -f meta/execution-environment.yml -v 3 --output-filename Dockerfile
           ls -l ./context/
           ls -l ./context/_build/src/
+          cat ./context/_build/src/requirements.txt
           cat ./context/Dockerfile
         working-directory: .
 
