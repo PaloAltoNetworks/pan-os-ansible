@@ -126,7 +126,7 @@ jobs:
 
           additional_build_steps:
             append_base:
-              - RUN $PYCMD -m pip install -U pip
+              - RUN \$PYCMD -m pip install -U pip
             append_final:
               # SymLink `python` -> `python3.9`
               - RUN alternatives --install /usr/bin/python python /usr/bin/python3.9 39
