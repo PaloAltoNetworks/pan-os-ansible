@@ -144,30 +144,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # This task could be removed once the task below is confirmed working
-      - name: Set up Galaxy auth
-        run: |
-          mkdir -p ~/.ansible
-          echo "token: $GALAXY_API_KEY" > ~/.ansible/galaxy_token
-        env:
-          GALAXY_API_KEY: ${{ secrets.GALAXY_API_KEY }}
-        shell: bash
+      # # This task could be removed once the task below is confirmed working
+      # - name: Set up Galaxy auth
+      #   run: |
+      #     mkdir -p ~/.ansible
+      #     echo "token: $GALAXY_API_KEY" > ~/.ansible/galaxy_token
+      #   env:
+      #     GALAXY_API_KEY: ${{ secrets.GALAXY_API_KEY }}
+      #   shell: bash
 
-      # New task for combined Galaxy and AutomationHub publishing
-      - name: Set up Automation Hub and Galaxy ansible.cfg file
-        run: |
-          cat << EOF > ansible.cfg
-          [galaxy]
-          server_list = automation_hub, release_galaxy
-          [galaxy_server.automation_hub]
-          url=${{ secrets.AUTOMATION_HUB_URL }}
-          auth_url=${{ secrets.AUTOMATION_HUB_SSO_URL }}
-          token=${{ secrets.AUTOMATION_HUB_API_TOKEN }}
-          [galaxy_server.release_galaxy]
-          url=https://galaxy.ansible.com/
-          token=${{ secrets.GALAXY_API_KEY }}
-          EOF
-        shell: bash
+      # # New task for combined Galaxy and AutomationHub publishing
+      # - name: Set up Automation Hub and Galaxy ansible.cfg file
+      #   run: |
+      #     cat << EOF > ansible.cfg
+      #     [galaxy]
+      #     server_list = automation_hub, release_galaxy
+      #     [galaxy_server.automation_hub]
+      #     url=${{ secrets.AUTOMATION_HUB_URL }}
+      #     auth_url=${{ secrets.AUTOMATION_HUB_SSO_URL }}
+      #     token=${{ secrets.AUTOMATION_HUB_API_TOKEN }}
+      #     [galaxy_server.release_galaxy]
+      #     url=https://galaxy.ansible.com/
+      #     token=${{ secrets.GALAXY_API_KEY }}
+      #     EOF
+      #   shell: bash
 
       - name: Create release and publish
         id: release
