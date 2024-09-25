@@ -159,7 +159,7 @@ jobs:
 
       - name: create execution env context
         run: |
-          poetry run ansible-builder create -v 3 --output-filename Dockerfile
+          poetry run -C ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }} ansible-builder create -v 3 --output-filename Dockerfile
           # poetry run ansible-builder create -f meta/execution-environment.yml -v 3 --output-filename Dockerfile
           ls -l ./context/
         working-directory: .
@@ -174,7 +174,7 @@ jobs:
       - name: build and publish
         uses: docker/build-push-action@v5
         with:
-          context: "./context/"
+          context: "../../../context/"
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
