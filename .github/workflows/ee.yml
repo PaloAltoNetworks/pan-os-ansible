@@ -150,7 +150,6 @@ jobs:
 
           # Python Requirements
           cat > requirements.txt <<EOF
-          ---
           -r src/requirements.txt
           jmespath
           EOF
@@ -164,6 +163,8 @@ jobs:
           poetry run -C ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }} ansible-builder create -v 3 --output-filename Dockerfile
           # poetry run ansible-builder create -f meta/execution-environment.yml -v 3 --output-filename Dockerfile
           ls -l ./context/
+          ls -l ./context/_build/src/
+          cat ./context/Dockerfile
         working-directory: .
 
       - name: login to GHCR
