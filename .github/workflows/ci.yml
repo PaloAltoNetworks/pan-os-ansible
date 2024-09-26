@@ -259,7 +259,7 @@ jobs:
           clean: true
 
   rc:
-    name: check if we have a change that requires an EE
+    name: Check rc EE
     runs-on: ubuntu-latest
     needs: [sanity, tox, lint, format]
     if: (github.event_name == 'push' && github.ref == 'refs/heads/develop')
@@ -283,15 +283,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build_dev_ee:
-    name: Development Ansible EE
-    runs-on: ubuntu-latest
+    name: dev_ee
     needs: rc
     if: needs.rc.outputs.rc == 'true'
     uses: ./.github/workflows/ee.yml
 
   build_prod_ee:
-    name: Release Ansible EE
-    runs-on: ubuntu-latest
+    name: release_ee
     needs: release
     uses: ./.github/workflows/ee.yml
     with:
