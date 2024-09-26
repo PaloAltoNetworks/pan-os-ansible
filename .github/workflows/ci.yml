@@ -296,11 +296,12 @@ jobs:
         id: rc
         run: |
           # Trick semantic-release into thinking we're not in a CI environment
-          unset GITHUB_ACTIONS
-          unset GITHUB_EVENT_NAME
-          echo "headref is: $HEAD_REF"
-
-          npx semantic-release --dry-run --no-ci --branches '${HEAD_REF#refs/heads/}'
+          OUTPUT="$(bash -c "unset GITHUB_ACTIONS && unset GITHUB_EVENT_NAME && npx semantic-release --dry-run --no-ci --branches '${HEAD_REF#refs/heads/}'")"
+          echo "$OUTPUT"
+          # echo "headref is: $HEAD_REF"
+          # unset GITHUB_ACTIONS
+          # unset GITHUB_EVENT_NAME
+          # npx semantic-release --dry-run --no-ci --branches '${HEAD_REF#refs/heads/}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ github.ref }}
