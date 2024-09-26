@@ -61,7 +61,7 @@ jobs:
   build_dev_ee:
     name: Development Ansible EE
     runs-on: ubuntu-latest
-    if: !inputs.release
+    if: inputs.release == 'false'
     # needs: rc
     # if: needs.rc.outputs.rc == 'true'
 
