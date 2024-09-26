@@ -1,3 +1,40 @@
+## [2.24.0](https://github.com/alperenkose/pan-os-ansible/compare/v2.23.1...v2.24.0) (2024-09-26)
+
+
+### Features
+
+* new ee ci ([039b0f0](https://github.com/alperenkose/pan-os-ansible/commit/039b0f0e1d740bd8b99556bfc0b672aab6f8c405))
+* refactor ee ci ([3916283](https://github.com/alperenkose/pan-os-ansible/commit/39162831869a6b6c2c04370820dc6338c9820248))
+
+
+### Bug Fixes
+
+* merge docker meta ([f1cf7ef](https://github.com/alperenkose/pan-os-ansible/commit/f1cf7efff96743f2babeac9beaf5ee5f3f67572f))
+* new ee ci ([750f65e](https://github.com/alperenkose/pan-os-ansible/commit/750f65ecdb3865cec145cb8ebff800661185e07c))
+* refactor ee ci ([46b5404](https://github.com/alperenkose/pan-os-ansible/commit/46b540466cb6e0ea531fc49d1269b745cc269b83))
+* refactor ee ci ([4967797](https://github.com/alperenkose/pan-os-ansible/commit/4967797b695f9c3d4f3661726affa19a70431ec0))
+* refactor ee ci ([c8c20df](https://github.com/alperenkose/pan-os-ansible/commit/c8c20df65845e7a10d1fe185c00f5f3425c72ffe))
+* refactor ee ci ([69bd778](https://github.com/alperenkose/pan-os-ansible/commit/69bd778f5b313ff2f1d0fee0dc336c7747a4e8ad))
+* trick semantic ([0490c30](https://github.com/alperenkose/pan-os-ansible/commit/0490c30d84fdbeadfe4221d9407c861c24218aef))
+* trick semantic ([2b77ad1](https://github.com/alperenkose/pan-os-ansible/commit/2b77ad1fa72223f8439b5d2871ccd5e63468c1a4))
+* trick semantic ([ced4e06](https://github.com/alperenkose/pan-os-ansible/commit/ced4e06cc9fffd65ec5e4b97dd215351d7bbadf7))
+* trick semantic ([27a5fe0](https://github.com/alperenkose/pan-os-ansible/commit/27a5fe087c40edf406944830071c0f8af654cfb2))
+* trick semantic ([4eb1d97](https://github.com/alperenkose/pan-os-ansible/commit/4eb1d975478325b4241e75a1a9c4cf762cb74d49))
+* trick semantic ([cec5bdb](https://github.com/alperenkose/pan-os-ansible/commit/cec5bdb550d9c14c34a6f0fa4df4099ceafd7c59))
+* trick semantic ([47f372f](https://github.com/alperenkose/pan-os-ansible/commit/47f372ff6cd65fefc6e52d505492f604c3ddccb9))
+* trick semantic ([5ffab61](https://github.com/alperenkose/pan-os-ansible/commit/5ffab618c07fd1081ab174f6c08ad9f338c6558a))
+* trick semantic ([5fd4dce](https://github.com/alperenkose/pan-os-ansible/commit/5fd4dcec213d36d6f8149fc910121041f5975dfc))
+* trick semantic ([68b0f0b](https://github.com/alperenkose/pan-os-ansible/commit/68b0f0bb31124de1fb83d514898e6f0fad383b0c))
+* trick semantic ([d221ce7](https://github.com/alperenkose/pan-os-ansible/commit/d221ce78f18475da579c38c80321a6edc1e72d44))
+* trick semantic ([b2df5ec](https://github.com/alperenkose/pan-os-ansible/commit/b2df5ecbb1a2c76f4604ae3ac89e443c7dd35d80))
+* trick semantic ([8623a7a](https://github.com/alperenkose/pan-os-ansible/commit/8623a7a0a40d508580c2a15e1a94f92749bb23c5))
+* trick semantic ([9db37ba](https://github.com/alperenkose/pan-os-ansible/commit/9db37ba75862b336eddfe2a7d559570562f5e980))
+* trick semantic ([47d3cea](https://github.com/alperenkose/pan-os-ansible/commit/47d3cea550c1e860da0de277dd40238b34a43b65))
+* trick semantic ([2bd67aa](https://github.com/alperenkose/pan-os-ansible/commit/2bd67aa0291d09c27be6f66d1e529f3c19671536))
+* trick semantic ([11c06d2](https://github.com/alperenkose/pan-os-ansible/commit/11c06d29854c29753e17525aa0cf7a9d0a62145a))
+* trick semantic ([30c8232](https://github.com/alperenkose/pan-os-ansible/commit/30c8232680e8d3ffcfb2258deb116c99c2991068))
+* work dir ([02c438a](https://github.com/alperenkose/pan-os-ansible/commit/02c438a6c905f22c8b38a6d6d3e18b714edd8b23))
+
 ### [2.23.1](https://github.com/alperenkose/pan-os-ansible/compare/v2.23.0...v2.23.1) (2024-09-26)
 
 
