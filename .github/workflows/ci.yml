@@ -270,19 +270,38 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v4
 
-      - name: rc check
-        id: rc
-        uses: cycjimmy/semantic-release-action@v4
+      - name: setup node.js
+        uses: actions/setup-node@v2
         with:
-          dry_run: true
-          semantic_version: 17.1.1
-          extra_plugins: |
-            conventional-changelog-conventionalcommits@^4.4.0
-            @semantic-release/changelog@^5.0.1
-            @semantic-release/git@^9.0.0
-            @semantic-release/exec@^5.0.00
+          node-version: 'lts/*'
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: trick semantic check
+        id: rc
+        run: |
+          # Trick semantic-release into thinking we're not in a CI environment
+          unset GITHUB_ACTIONS
+          unset GITHUB_EVENT_NAME
+
+          npx semantic-release --dry-run --no-ci --branches $GITHUB_HEAD_REF
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: rc check
+      #   id: rc
+      #   uses: cycjimmy/semantic-release-action@v4
+      #   with:
+      #     dry_run: true
+      #     semantic_version: 17.1.1
+      #     extra_plugins: |
+      #       conventional-changelog-conventionalcommits@^4.4.0
+      #       @semantic-release/changelog@^5.0.1
+      #       @semantic-release/git@^9.0.0
+      #       @semantic-release/exec@^5.0.00
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build_dev_ee:
     name: dev_ee
