@@ -211,10 +211,6 @@ jobs:
 
     steps:
 
-      - name: Echo workflow_run attributes
-        run: |
-          echo "workflow_run attributes: ${{ toJSON(github.event.workflow_run) }}"
-
       - name: Proceed if release job from CI workflow succeeded
         run: |
           curl -L \
