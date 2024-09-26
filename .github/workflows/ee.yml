@@ -2,16 +2,16 @@ name: Ansible EE Image
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - develop
+  push:
+    branches:
+      - develop
   #   tags:
   #     - 'v*'
-  # release:
-  #   types: [published]
-  workflow_run:                 # NOTE workflow runs from default branch..
-    workflows: ['CI']
-    types: completed
+  release:
+    types: [published]
+  # workflow_run:                 # NOTE workflow runs from default branch..
+  #   workflows: ['CI']
+  #   types: completed
 
 env:
   NAMESPACE: paloaltonetworks
@@ -19,11 +19,38 @@ env:
   PYTHON_VERSION: 3.9           # TODO do we need this, as we take it from pyproject.yml ?
 
 
+  # one job can run on push to develop branch or on manual workflow_dispatch ?
+  # and other job can run on release published (hoping release happens after being published to galaxy..)
+
 jobs:
-  build:
-    name: Build and Publish Ansible EE for development
+
+  rc:
+    name: check if we have a change that requires an EE
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'develop'
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/develop') || github.event_name == 'workflow_dispatch'
+    outputs:
+      rc: ${{ steps.rc.outputs.new_release_published }}
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: rc check
+        id: rc
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          dry_run: true
+          semantic_version: 17.1.1
+          extra_plugins: |
+            conventional-changelog-conventionalcommits@^4.4.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build_dev_ee:
+    name: Development Ansible EE
+    runs-on: ubuntu-latest
+    needs: rc
+    if: needs.rc.outputs.rc == 'true'
 
     permissions:
       contents: read
@@ -194,11 +221,10 @@ jobs:
           cache-to: type=gha,mode=max
           provenance: false     # disabled to keep number of images low for development branches
 
-
-  release_build:
-    name: Build and Publish Ansible EE for release
+  build_release_ee:
+    name: Release Ansible EE
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success'
+    if: github.event_name == 'release' && github.event.action == 'published'
     # NOTE what if we make a release from develop branch? dont worry it would make both develop and alpha images I suppose..:)
 
     permissions:
@@ -211,17 +237,17 @@ jobs:
 
     steps:
 
-      - name: Proceed if release job from CI workflow succeeded
-        run: |
-          curl -L \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            ${{ github.event.workflow_run.jobs_url }} > jobs.json
-          conclusion=$(jq < jobs.json --raw-output '.jobs[] | select( .name == "release" ) | .conclusion')
-          echo ${conclusion}
-          [[ ${conclusion} == "success" ]]
-        working-directory: .
+      # - name: Proceed if release job from CI workflow succeeded
+      #   run: |
+      #     curl -L \
+      #       -H "Accept: application/vnd.github+json" \
+      #       -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+      #       -H "X-GitHub-Api-Version: 2022-11-28" \
+      #       ${{ github.event.workflow_run.jobs_url }} > jobs.json
+      #     conclusion=$(jq < jobs.json --raw-output '.jobs[] | select( .name == "release" ) | .conclusion')
+      #     echo ${conclusion}
+      #     [[ ${conclusion} == "success" ]]
+      #   working-directory: .
 
       - name: check out code
         uses: actions/checkout@v4
