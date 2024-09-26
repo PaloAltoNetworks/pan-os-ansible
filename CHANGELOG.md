@@ -1,3 +1,12 @@
+### [2.23.1](https://github.com/alperenkose/pan-os-ansible/compare/v2.23.0...v2.23.1) (2024-09-26)
+
+
+### Bug Fixes
+
+* check release job for release build ([6871fc3](https://github.com/alperenkose/pan-os-ansible/commit/6871fc3c1d21215c939de806a448b93c8529e960))
+* debug release image ([9c92e00](https://github.com/alperenkose/pan-os-ansible/commit/9c92e00661a162d7f80684ab26916b5fc99894cf))
+* remove debug ([60c8324](https://github.com/alperenkose/pan-os-ansible/commit/60c83245afd1cdd79fc74924d16383f2e5959e4d))
+
 ## [2.23.0](https://github.com/alperenkose/pan-os-ansible/compare/v2.22.0...v2.23.0) (2024-09-25)
 
 
