@@ -300,11 +300,10 @@ jobs:
           unset GITHUB_EVENT_NAME
           echo "headref is: $HEAD_REF"
 
-          npx semantic-release --dry-run --no-ci --branches '${HEAD_REF}'
+          npx semantic-release --dry-run --no-ci --branches '${HEAD_REF#refs/heads/}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ github.ref }}
-
 
       # - name: rc check
       #   id: rc
