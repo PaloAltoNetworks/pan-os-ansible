@@ -285,9 +285,10 @@ jobs:
       - name: install dependencies
         run: |
           npm install --save-dev semantic-release
-          npm install @semantic-release/exec -D
+          npm install @semantic-release/commit-analyzer -D
           npm install @semantic-release/changelog -D
           npm install @semantic-release/git -D
+          npm install @semantic-release/exec -D
           # npx semantic-release
           # npm install
           # npm ci
