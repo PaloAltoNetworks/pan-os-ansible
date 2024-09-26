@@ -275,10 +275,14 @@ jobs:
         uses: cycjimmy/semantic-release-action@v4
         with:
           dry_run: true
-          semantic_version: 17.1.1
+          semantic_version: 19.0
           extra_plugins: |
-            conventional-changelog-conventionalcommits@^4.4.0
-            @semantic-release/git@^9.0.0
+            conventional-changelog-conventionalcommits@^5.0.0
+            @semantic-release/git@^10.0.1
+          # semantic_version: 17.1.1
+          # extra_plugins: |
+          #   conventional-changelog-conventionalcommits@^4.4.0
+          #   @semantic-release/git@^9.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
