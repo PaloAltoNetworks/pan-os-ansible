@@ -278,11 +278,6 @@ jobs:
         with:
           node-version: 'lts/*'
 
-      # - uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 20
-      #     cache: 'npm'
-
       - name: install dependencies
         run: |
           npm install --save-dev semantic-release
@@ -292,15 +287,16 @@ jobs:
           npm install @semantic-release/git -D
           npm install @semantic-release/exec -D
           # npx semantic-release
-          # npm install
           # npm ci
 
       - name: trick semantic check
         id: rc
         run: |
           # Trick semantic-release into thinking we're not in a CI environment
-          OUTPUT="$(bash -c "unset GITHUB_ACTIONS && unset GITHUB_EVENT_NAME && npx semantic-release --dry-run --no-ci --branches '${HEAD_REF#refs/heads/}'")"
-          # NEW_RELEASE_VERSION=$(echo "$OUTPUT" | grep -oP 'The next release version is \K(\d+\.\d+\.\d+)')
+          OUTPUT="$(bash -c "unset GITHUB_ACTIONS && unset GITHUB_EVENT_NAME && npx semantic-release --dry-run --no-ci --branches '${GITHUB_REF#refs/heads/}'")"
+          # print output
+          echo "$OUTPUT"
+          # grep with semver regex - \K means to start matching from here in Perl regex
           NEW_RELEASE_VERSION=$(echo "$OUTPUT" | grep -oP 'The next release version is \K(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?')
           echo "new_release_version=$NEW_RELEASE_VERSION" >> "$GITHUB_OUTPUT"
 
@@ -309,14 +305,12 @@ jobs:
           else
             echo "new_release_published=true" >> "$GITHUB_OUTPUT"
           fi
-          # echo "headref is: $HEAD_REF"
-          # unset GITHUB_ACTIONS
-          # unset GITHUB_EVENT_NAME
-          # npx semantic-release --dry-run --no-ci --branches '${HEAD_REF#refs/heads/}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_REF: ${{ github.ref }}
+          GITHUB_REF: ${{ github.ref }}
 
+      # below does NOT work because semantic-release expects branch name in the config even in dry-run
+      # but we run rc check in non main branches
       # - name: rc check
       #   id: rc
       #   uses: cycjimmy/semantic-release-action@v4

@@ -13,32 +13,17 @@ on:
         description: EE for a release or development
         type: boolean
         default: false
-  # push:
-  #   branches:
-  #     - develop
-  #   tags:
-  #     - 'v*'
-  # release:
-  #   types: [published]
-  # workflow_run:                 # NOTE workflow runs from default branch..
-  #   workflows: ['CI']
-  #   types: completed
 
 env:
   NAMESPACE: paloaltonetworks
   COLLECTION_NAME: panos
   PYTHON_VERSION: 3.9           # TODO do we need this, as we take it from pyproject.yml ?
 
-
-  # one job can run on push to develop branch or on manual workflow_dispatch ?
-  # and other job can run on release published (hoping release happens after being published to galaxy..)
-
 jobs:
 
   build_ee:
     name: Ansible EE
     runs-on: ubuntu-latest
-    # if: inputs.release == 'false'
 
     permissions:
       contents: read
@@ -49,13 +34,6 @@ jobs:
         working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
     steps:
-      # - name: debug github event
-      #   id: tag
-      #   run: |
-      #     echo "github event: ${{ github.event }}"
-      #     echo "github event workflow_run: ${{github.event.workflow_run}}"
-      #     echo "github event workflow_run head: ${{github.event.workflow_run.head_branch}}"
-      #     exit 1
 
       - name: check out code
         uses: actions/checkout@v4
@@ -69,7 +47,7 @@ jobs:
           PYVER=$(grep '^[Pp]ython ' pyproject.toml | sed -E 's/python += +\"\^?([0-9]\.[0-9]+)(\.[0-9]+)?\"/\1/; /python/q1')
           echo "pyversion=$PYVER" >> $GITHUB_OUTPUT
         # uses: PaloAltoNetworks/pan-os-upgrade-assurance/.github/actions/discover_python_version@v0.3.1
-        # working-directory doesn't work with uses, until you get a `with path` similar to checkout this is going to be inline
+        # working-directory doesn't work with uses, until you get a `with path` similar to checkout, this is going to be inline
 
       - name: install Python
         uses: actions/setup-python@v4
@@ -101,7 +79,6 @@ jobs:
             type=semver,pattern=v{{major}}
             type=ref,event=branch
             type=ref,event=tag
-        # if: ${{ inputs.release == 'false' }}
 
       # - name: get version for release image
       #   id: tag
@@ -121,7 +98,7 @@ jobs:
       #       type=semver,pattern=v{{major}},value=${{ steps.tag.outputs.version_tag }}
       #   if: inputs.release
 
-        # NOTE we should take pan-os-ansible from galaxy for a release, but use build for develop
+        # NOTE we should take pan-os-ansible from galaxy for a release, but local build for develop
         # ref - https://github.com/ansible-collections/community.dns/blob/main/.github/workflows/ee.yml#L96-L98
       - name: Build collection from development branch
         run: |
