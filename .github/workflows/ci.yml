@@ -272,18 +272,20 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v4
 
-      # - name: setup node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 'lts/*'
-
-      - uses: actions/setup-node@v4
+      - name: setup node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
+          node-version: 'lts/*'
+
+      # - uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20
+      #     cache: 'npm'
 
       - name: install dependencies
-        run: npm ci
+        run: |
+          npm install
+          npm ci
 
       - name: trick semantic check
         id: rc
