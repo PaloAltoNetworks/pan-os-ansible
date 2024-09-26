@@ -67,6 +67,12 @@ jobs:
       - name: set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: get version for release image
+        id: tag
+        run: echo "version_tag=$(poetry version -s)" >> $GITHUB_OUTPUT
+        if: inputs.release
+
+      # TODO this didnot work for main, try with setting value for semver or check priority
       - name: determine docker tags and labels
         id: meta
         uses: docker/metadata-action@v5
@@ -74,16 +80,11 @@ jobs:
           context: workflow # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
           images: ghcr.io/alperenkose/pan-os-ansible # TODO ghcr.io/paloaltonetworks/pan-os-ansible
           tags: |
-            type=semver,pattern=v{{version}}
-            type=semver,pattern=v{{major}}.{{minor}}
-            type=semver,pattern=v{{major}}
+            type=semver,pattern=v{{version}},value=${{ steps.tag.outputs.version_tag }}
+            type=semver,pattern=v{{major}}.{{minor}},value=${{ steps.tag.outputs.version_tag }}
+            type=semver,pattern=v{{major}},value=${{ steps.tag.outputs.version_tag }}
             type=ref,event=branch
             type=ref,event=tag
-
-      # - name: get version for release image
-      #   id: tag
-      #   run: echo "version_tag=$(poetry version -s)" >> $GITHUB_OUTPUT
-      #   if: inputs.release
 
       # # TODO latest should only be tagged for release versions
       # - name: determine docker tags and labels for release image
