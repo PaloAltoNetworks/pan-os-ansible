@@ -221,6 +221,7 @@ jobs:
           conclusion=$(jq < jobs.json --raw-output '.jobs[] | select( .name == "release" ) | .conclusion')
           echo ${conclusion}
           [[ ${conclusion} == "success" ]]
+        working-directory: .
 
       - name: check out code
         uses: actions/checkout@v4
