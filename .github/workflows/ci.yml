@@ -284,8 +284,9 @@ jobs:
 
       - name: install dependencies
         run: |
-          npm install
-          npm ci
+          npx semantic-release
+          # npm install
+          # npm ci
 
       - name: trick semantic check
         id: rc
