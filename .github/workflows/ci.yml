@@ -298,6 +298,7 @@ jobs:
           # Trick semantic-release into thinking we're not in a CI environment
           unset GITHUB_ACTIONS
           unset GITHUB_EVENT_NAME
+          echo "headref is: $HEAD_REF"
 
           npx semantic-release --dry-run --no-ci --branches '${HEAD_REF}'
         env:
