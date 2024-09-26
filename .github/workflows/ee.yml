@@ -89,7 +89,7 @@ jobs:
       - name: set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: determine docker tags and labels for development image
+      - name: determine docker tags and labels
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -126,7 +126,7 @@ jobs:
       - name: Build collection from development branch
         run: |
           ansible-galaxy collection build --output-path ../../../
-        if: ${{ inputs.release == 'false' }}
+        if: ${{ inputs.release == false }}
 
       - name: create base EE file
         run: |
@@ -197,7 +197,7 @@ jobs:
           echo "::group::requirements.yml"
           cat requirements.yml
           echo "::endgroup::"
-        if: ${{ inputs.release == 'false' }}
+        if: ${{ inputs.release == false }}
         working-directory: .
 
       - name: append build files to EE file for release
