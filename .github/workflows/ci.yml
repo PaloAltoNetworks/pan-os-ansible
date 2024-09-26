@@ -286,6 +286,7 @@ jobs:
         run: |
           npm install --save-dev semantic-release
           npm install @semantic-release/commit-analyzer -D
+          npm install conventional-changelog-conventionalcommits -D
           npm install @semantic-release/changelog -D
           npm install @semantic-release/git -D
           npm install @semantic-release/exec -D
