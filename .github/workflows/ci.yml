@@ -284,7 +284,8 @@ jobs:
 
       - name: install dependencies
         run: |
-          npx semantic-release
+          npm install --save-dev semantic-release
+          # npx semantic-release
           # npm install
           # npm ci
 
