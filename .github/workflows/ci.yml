@@ -286,6 +286,8 @@ jobs:
         run: |
           npm install --save-dev semantic-release
           npm install @semantic-release/exec -D
+          npm install @semantic-release/changelog -D
+          npm install @semantic-release/git -D
           # npx semantic-release
           # npm install
           # npm ci
