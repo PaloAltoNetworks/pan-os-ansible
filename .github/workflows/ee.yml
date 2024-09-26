@@ -35,29 +35,6 @@ env:
 
 jobs:
 
-  # rc:
-  #   name: check if we have a change that requires an EE
-  #   runs-on: ubuntu-latest
-  #   if: (github.event_name == 'push' && github.ref == 'refs/heads/develop') || github.event_name == 'workflow_dispatch'
-  #   outputs:
-  #     rc: ${{ steps.rc.outputs.new_release_published }}
-
-  #   steps:
-  #     - name: checkout code
-  #       uses: actions/checkout@v4
-
-  #     - name: rc check
-  #       id: rc
-  #       uses: cycjimmy/semantic-release-action@v4
-  #       with:
-  #         dry_run: true
-  #         semantic_version: 17.1.1
-  #         extra_plugins: |
-  #           conventional-changelog-conventionalcommits@^4.4.0
-  #           @semantic-release/git@^9.0.0
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   build_dev_ee:
     name: Development Ansible EE
     runs-on: ubuntu-latest
