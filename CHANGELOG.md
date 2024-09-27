@@ -1,3 +1,11 @@
+### [2.25.3](https://github.com/alperenkose/pan-os-ansible/compare/v2.25.2...v2.25.3) (2024-09-27)
+
+
+### Bug Fixes
+
+* ci ([f3d5fa5](https://github.com/alperenkose/pan-os-ansible/commit/f3d5fa5df12d743fae4f7edd753e3527373b414e))
+* event name ([9d809fe](https://github.com/alperenkose/pan-os-ansible/commit/9d809fe7fa5914967f96e95fcaeb50b2f0942c74))
+
 ### [2.25.2](https://github.com/alperenkose/pan-os-ansible/compare/v2.25.1...v2.25.2) (2024-09-27)
 
 
