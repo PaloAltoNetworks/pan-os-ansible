@@ -1,3 +1,13 @@
+### [2.25.1](https://github.com/alperenkose/pan-os-ansible/compare/v2.25.0...v2.25.1) (2024-09-27)
+
+
+### Bug Fixes
+
+* refactor ee ci ([b2fe985](https://github.com/alperenkose/pan-os-ansible/commit/b2fe9857727b7b0711a03a113bfa6fd5cf34c2e0))
+* refactor ee ci ([4f4edd9](https://github.com/alperenkose/pan-os-ansible/commit/4f4edd9a7e4e52896b327112912317a3f367cf60))
+* refactor ee ci ([c7e1faf](https://github.com/alperenkose/pan-os-ansible/commit/c7e1fafa4665de4af32adb68d10d8aef230ef40b))
+* refactor ee ci ([e9a55f3](https://github.com/alperenkose/pan-os-ansible/commit/e9a55f3c3cbac849dc67063880710ef1befc2470))
+
 ## [2.25.0](https://github.com/alperenkose/pan-os-ansible/compare/v2.24.0...v2.25.0) (2024-09-26)
 
 
