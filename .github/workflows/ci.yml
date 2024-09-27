@@ -341,4 +341,4 @@ jobs:
     uses: ./.github/workflows/ee.yml
     with:
       release: true
-      release_tag: needs.release.outputs.new_release_git_tag
+      release_tag: ${{ needs.release.outputs.new_release_git_tag }}
