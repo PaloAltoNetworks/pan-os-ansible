@@ -53,6 +53,7 @@ jobs:
 
       - name: check and findout the tag
         id: tag
+        # outputs tag name as v1.2.3 and version as 1.2.3
         run: |
           if [[ "${{ github.event_name }}" == "workflow_call" &&
                 "${{ inputs.release }}" == "true" ]]; then
@@ -91,7 +92,7 @@ jobs:
           # fi
         env:
           GITHUB_REF: ${{ github.ref }}
-        # outputs tag name as v1.2.3
+        working-directory: .
 
       # TODO CHECKOUT tag.outputs.name BUT IS IT POSSIBLE TO OMIT TAG WHEN IT'S EMPTY?
       # so we can checkout the branch itself when tag is empty
