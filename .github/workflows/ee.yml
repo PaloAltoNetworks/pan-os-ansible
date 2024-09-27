@@ -51,11 +51,12 @@ jobs:
       #   normal checkout - it will checkout whatever the workflow is run on
       #   prepare EE on branch
 
+      # TODO workflow_call is triggered by push and PR - need to check PR as well..
       - name: check and findout the tag
         id: tag
         # outputs tag name as v1.2.3 and version as 1.2.3
         run: |
-          if [[ "${{ github.event_name }}" == "workflow_call" &&
+          if [[ "${{ github.event_name }}" == "push" &&
                 "${{ inputs.release }}" == "true" ]]; then
               if [[ "${{ inputs.release_tag }}" != "v"* ]]; then
                   echo "release_tag (${{ inputs.release_tag }}) must be provided when workflow_call called with release."
@@ -65,7 +66,7 @@ jobs:
               echo "name=${{inputs.release_tag}}" >> $GITHUB_OUTPUT
               echo "version=$TAG_VERSION" >> $GITHUB_OUTPUT
               echo "Ansible EE will be prepared for release ${{ inputs.release_tag }}"
-          elif [[ "${{ github.event_name }}" == "workflow_call" ]]; then
+          elif [[ "${{ github.event_name }}" == "push" ]]; then
               echo "Ansible EE will be prepared for branch ${GITHUB_REF#refs/heads/}"
           elif [[ "${{ github.event_name }}" == "workflow_dispatch" &&
                 "${{ inputs.release }}" == "true" ]]; then
