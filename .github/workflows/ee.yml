@@ -4,9 +4,13 @@ on:
   workflow_call:
     inputs:
       release:
-        description: EE for a release or development
+        description: Prepare EE for a release
         type: boolean
         default: false
+      release_tag:              # tag starting with 'v' like v1.2.3
+        description: Git tag for release to prepare EE
+        type: string
+        required: false
   workflow_dispatch:
     inputs:
       release:
@@ -34,11 +38,69 @@ jobs:
         working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
     steps:
+      # if event == workflow_call and inputs.release == true
+      #   release_tag must be given as input
+      #   checkout tag and prepare EE on tag
+      # elif event == workflow_call and inputs.release == false
+      #   normal checkout - it will checkout whatever the workflow is run on
+      #   prepare EE on branch
+      # elif event == workflow_dispatch and inputs.release == true
+      #   workflow must be run on a tag
+      #   checkout tag and prepare EE on tag
+      # elif event == workflow_dispatch and inputs.release == false
+      #   normal checkout - it will checkout whatever the workflow is run on
+      #   prepare EE on branch
 
+      - name: check and findout the tag
+        id: tag
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_call" &&
+                "${{ inputs.release }}" == "true" ]]; then
+              if [[ "${{ inputs.release_tag }}" != "v"* ]]; then
+                  echo "release_tag (${{ inputs.release_tag }}) must be provided when workflow_call called with release."
+                  exit 1
+              fi
+              TAG_VERSION=$(echo "${{inputs.release_tag}}" | sed 's#v##')
+              echo "name=${{inputs.release_tag}}" >> $GITHUB_OUTPUT
+              echo "version=$TAG_VERSION" >> $GITHUB_OUTPUT
+              echo "Ansible EE will be prepared for release ${{ inputs.release_tag }}"
+          elif [[ "${{ github.event_name }}" == "workflow_call" ]]; then
+              echo "Ansible EE will be prepared for branch ${GITHUB_REF#refs/heads/}"
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" &&
+                "${{ inputs.release }}" == "true" ]]; then
+              if [[ "${GITHUB_REF}" != "refs/tags/v"* ]]; then
+                  echo "workflow_dispatch must be run on a release tag when release is selected - run on ${GITHUB_REF}"
+                  exit 1
+              fi
+              TAG_NAME=$(echo "${GITHUB_REF}" | sed 's#refs/tags/##')
+              TAG_VERSION=$(echo "${TAG_NAME}" | sed 's#v##')
+              echo "name=$TAG_NAME" >> $GITHUB_OUTPUT
+              echo "version=$TAG_VERSION" >> $GITHUB_OUTPUT
+              echo "Ansible EE will be prepared for release $TAG_NAME"
+          else
+              echo "Ansible EE will be prepared for branch ${GITHUB_REF#refs/heads/}"
+          fi
+          # if [[ "${{ github.ref }}" == "refs/tags/"* ]]; then
+          #   echo "This workflow is run on tag: ${{ github.ref }}"
+          #   TAG_NAME=$(echo "${{ github.ref }}" | sed 's#refs/tags/##')
+          #   echo "name=$TAG_NAME" >> $GITHUB_OUTPUT
+          #   echo "Tag: $TAG_NAME"
+          # else
+          #   echo "This workflow is not run on a tag"
+          #   exit 1
+          # fi
+        env:
+          GITHUB_REF: ${{ github.ref }}
+        # outputs tag name as v1.2.3
+
+      # TODO CHECKOUT tag.outputs.name BUT IS IT POSSIBLE TO OMIT TAG WHEN IT'S EMPTY?
+      # so we can checkout the branch itself when tag is empty
       - name: check out code
         uses: actions/checkout@v4
         with:
           path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+          ref: ${{ steps.tag.outputs.name == '' && github.ref || steps.tag.outputs.name }}
+          # if tag is empty; github.ref else tag.outputs.name
 
       - name: discover Python version
         id: pyversion
@@ -67,12 +129,15 @@ jobs:
       - name: set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: get version for release image
-        id: tag
-        run: echo "version_tag=$(poetry version -s)" >> $GITHUB_OUTPUT
-        if: inputs.release
+        # TODO version wrong in pyproject.toml
+        # this DOES NOT start with v
+      # - name: get version for release image
+      #   id: tag
+      #   run: echo "version_tag=$(poetry version -s)" >> $GITHUB_OUTPUT
+      #   if: inputs.release
 
-      # TODO this didnot work for main, try with setting value for semver or check priority
+      # TODO try release from tag to exclude main label
+      # we should NOT need value if we check out with tag??
       - name: determine docker tags and labels
         id: meta
         uses: docker/metadata-action@v5
@@ -80,9 +145,9 @@ jobs:
           context: workflow # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
           images: ghcr.io/alperenkose/pan-os-ansible # TODO ghcr.io/paloaltonetworks/pan-os-ansible
           tags: |
-            type=semver,pattern=v{{version}},value=${{ steps.tag.outputs.version_tag }}
-            type=semver,pattern=v{{major}}.{{minor}},value=${{ steps.tag.outputs.version_tag }}
-            type=semver,pattern=v{{major}},value=${{ steps.tag.outputs.version_tag }}
+            type=semver,pattern=v{{version}}
+            type=semver,pattern=v{{major}}.{{minor}}
+            type=semver,pattern=v{{major}}
             type=ref,event=branch
             type=ref,event=tag
 
@@ -197,7 +262,7 @@ jobs:
           ---
           collections:
             - name: paloaltonetworks.panos
-              version: ${{steps.tag.outputs.version_tag}}
+              version: ${{steps.tag.outputs.version}}
             - name: awx.awx
             - community.general
           EOF

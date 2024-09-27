@@ -140,6 +140,10 @@ jobs:
     # needs: [sanity, tox, lint, format] TEMP
     needs: [tox]
     runs-on: ubuntu-latest
+    outputs:
+      new_release_published: ${{ steps.release.outputs.new_release_published }}
+      new_release_version: ${{ steps.release.outputs.new_release_version }}
+      new_release_git_tag: ${{ steps.release.outputs.new_release_git_tag }}
 
     steps:
       - name: Checkout
@@ -337,3 +341,4 @@ jobs:
     uses: ./.github/workflows/ee.yml
     with:
       release: true
+      release_tag: needs.release.outputs.new_release_git_tag
