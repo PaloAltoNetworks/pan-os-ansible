@@ -138,13 +138,13 @@ jobs:
       #   run: echo "version_tag=$(poetry version -s)" >> $GITHUB_OUTPUT
       #   if: inputs.release
 
-      # TODO try release from tag to exclude main label
-      # we should NOT need value if we check out with tag??
+      # TODO release from checkout tag to exclude main label - DID NOT WORK
+      # TRY with git context but need to restest develop
       - name: determine docker tags and labels
         id: meta
         uses: docker/metadata-action@v5
         with:
-          context: workflow # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
+          context: git # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
           images: ghcr.io/alperenkose/pan-os-ansible # TODO ghcr.io/paloaltonetworks/pan-os-ansible
           tags: |
             type=semver,pattern=v{{version}}
