@@ -209,8 +209,8 @@ jobs:
           additional_build_steps:
             append_base:
               - RUN \$PYCMD -m pip install -U pip
-            prepend_builder:
-              - COPY _build/src/requirements.txt src/requirements.txt
+            # prepend_builder:
+            #   - COPY _build/src/requirements.txt src/requirements.txt
             append_final:
               # SymLink `python` -> `python3.9`
               - RUN alternatives --install /usr/bin/python python /usr/bin/python3.9 39
@@ -227,10 +227,10 @@ jobs:
           # append to existing EE file
           cat >> execution-environment.yml <<EOF
           additional_build_files:
-            # - src: ${COLLECTION_FILENAME}
-            #   dest: src
-            - src: ${COLLECTION_PIP_REQUIREMENTS}
+            - src: ${COLLECTION_FILENAME}
               dest: src
+            # - src: ${COLLECTION_PIP_REQUIREMENTS}
+            #   dest: src
           EOF
           echo "::group::execution-environment.yml"
           cat execution-environment.yml
@@ -240,8 +240,8 @@ jobs:
           cat > requirements.yml <<EOF
           ---
           collections:
-            # - name: src/${COLLECTION_FILENAME}
-            #   type: file
+            - name: src/${COLLECTION_FILENAME}
+              type: file
             - name: awx.awx
             - community.general
           EOF
@@ -257,11 +257,11 @@ jobs:
           COLLECTION_PIP_REQUIREMENTS="requirements.txt"
 
           # append to existing EE file
-          cat >> execution-environment.yml <<EOF
-          additional_build_files:
-            - src: ${COLLECTION_PIP_REQUIREMENTS}
-              dest: src
-          EOF
+          # cat >> execution-environment.yml <<EOF
+          # additional_build_files:
+          #   - src: ${COLLECTION_PIP_REQUIREMENTS}
+          #     dest: src
+          # EOF
           echo "::group::execution-environment.yml"
           cat execution-environment.yml
           echo "::endgroup::"
@@ -286,7 +286,7 @@ jobs:
         run: |
           # Python Requirements
           cat > requirements-ee.txt <<EOF
-          -r src/requirements.txt
+          # -r src/requirements.txt
           jmespath
           EOF
           echo "::group::requirements-ee.txt"
