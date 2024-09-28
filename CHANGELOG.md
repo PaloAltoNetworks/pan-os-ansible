@@ -1,3 +1,10 @@
+### [2.25.6](https://github.com/alperenkose/pan-os-ansible/compare/v2.25.5...v2.25.6) (2024-09-28)
+
+
+### Bug Fixes
+
+* test without python requirements ([14fe047](https://github.com/alperenkose/pan-os-ansible/commit/14fe047af80ce1c849ba37ecb097fc63ca22ce5a))
+
 ### [2.25.5](https://github.com/alperenkose/pan-os-ansible/compare/v2.25.4...v2.25.5) (2024-09-28)
 
 
