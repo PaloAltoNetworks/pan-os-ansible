@@ -21,7 +21,6 @@ on:
 env:
   NAMESPACE: paloaltonetworks
   COLLECTION_NAME: panos
-  PYTHON_VERSION: 3.9           # TODO do we need this, as we take it from pyproject.yml ?
 
 jobs:
 
@@ -34,20 +33,15 @@ jobs:
       packages: write
 
     steps:
-      # if event == workflow_call and inputs.release == true
+      # if event == push (same event from workflow_call) and inputs.release == true
       #   release_tag must be given as input
       #   checkout tag and prepare EE on tag
-      # elif event == workflow_call and inputs.release == false
-      #   normal checkout - it will checkout whatever the workflow is run on
-      #   prepare EE on branch
       # elif event == workflow_dispatch and inputs.release == true
       #   workflow must be run on a tag
       #   checkout tag and prepare EE on tag
-      # elif event == workflow_dispatch and inputs.release == false
+      # else - could be workflow_call or workflow_dispatch with release false
       #   normal checkout - it will checkout whatever the workflow is run on
       #   prepare EE on branch
-
-      # TODO workflow_call is triggered by push and PR - need to check PR as well..
       - name: check and findout the tag
         id: tag
         # outputs tag name as v1.2.3 and version as 1.2.3
@@ -62,8 +56,6 @@ jobs:
               echo "name=${{inputs.release_tag}}" >> $GITHUB_OUTPUT
               echo "version=$TAG_VERSION" >> $GITHUB_OUTPUT
               echo "Ansible EE will be prepared for release ${{ inputs.release_tag }}"
-          elif [[ "${{ github.event_name }}" == "push" ]]; then
-              echo "Ansible EE will be prepared for branch ${GITHUB_REF#refs/heads/}"
           elif [[ "${{ github.event_name }}" == "workflow_dispatch" &&
                 "${{ inputs.release }}" == "true" ]]; then
               if [[ "${GITHUB_REF}" != "refs/tags/v"* ]]; then
@@ -78,15 +70,6 @@ jobs:
           else
               echo "Ansible EE will be prepared for branch ${GITHUB_REF#refs/heads/}"
           fi
-          # if [[ "${{ github.ref }}" == "refs/tags/"* ]]; then
-          #   echo "This workflow is run on tag: ${{ github.ref }}"
-          #   TAG_NAME=$(echo "${{ github.ref }}" | sed 's#refs/tags/##')
-          #   echo "name=$TAG_NAME" >> $GITHUB_OUTPUT
-          #   echo "Tag: $TAG_NAME"
-          # else
-          #   echo "This workflow is not run on a tag"
-          #   exit 1
-          # fi
         env:
           GITHUB_REF: ${{ github.ref }}
 
@@ -223,7 +206,7 @@ jobs:
           collections:
             - name: paloaltonetworks.panos
               version: 2.21.2
-              # version: ${{steps.tag.outputs.version}} TEMP commented for testing..
+              # version: ${{steps.tag.outputs.version}} TODO TEMP commented for testing..
             - name: awx.awx
             - community.general
           EOF
