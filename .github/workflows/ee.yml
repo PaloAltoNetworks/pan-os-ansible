@@ -244,11 +244,9 @@ jobs:
           cat requirements-ee.txt
           echo "::endgroup::"
 
-      # TODO why do we still execute poetry on sub dir here?
       - name: create execution env context
         run: |
           poetry run ansible-builder create -v 3 --output-filename Dockerfile
-          # poetry run -C ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }} ansible-builder create -v 3 --output-filename Dockerfile
           ls -l ./context/
           cat ./context/Dockerfile
 
