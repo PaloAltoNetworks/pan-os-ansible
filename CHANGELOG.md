@@ -1,3 +1,13 @@
+### [2.25.4](https://github.com/alperenkose/pan-os-ansible/compare/v2.25.3...v2.25.4) (2024-09-28)
+
+
+### Bug Fixes
+
+* ci ([e0dc943](https://github.com/alperenkose/pan-os-ansible/commit/e0dc943282fffd8526acf742d246b45923fa44fe))
+* event name ([2422242](https://github.com/alperenkose/pan-os-ansible/commit/2422242184ff45619d66f3fa0928315def7cb91e))
+* git context ([144e81d](https://github.com/alperenkose/pan-os-ansible/commit/144e81d139e8ea627423254bf620ecbbe3d147cf))
+* without work-dir ([bb36138](https://github.com/alperenkose/pan-os-ansible/commit/bb361386383d53d92a86e7ef2cd1bf66ae7bb0a6))
+
 ### [2.25.3](https://github.com/alperenkose/pan-os-ansible/compare/v2.25.2...v2.25.3) (2024-09-27)
 
 
