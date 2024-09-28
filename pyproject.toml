@@ -44,7 +44,6 @@ requests = "^2.22.0"
 optional = true
 
 [tool.poetry.group.ansible-ee.dependencies]
-# ansible-core = "^2.15"
 ansible-builder = "^3.0.0"
 
 [build-system]
