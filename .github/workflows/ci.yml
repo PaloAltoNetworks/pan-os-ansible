@@ -301,7 +301,7 @@ jobs:
           # print output
           echo "$OUTPUT"
           # grep with semver regex - \K means to start matching from here in Perl regex
-          NEW_RELEASE_VERSION=$(echo "$OUTPUT" | grep -oP 'The next release version is \K(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?')
+          NEW_RELEASE_VERSION=$(echo "$OUTPUT" | grep -oP 'The next release version is \K(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?' || echo -n "")
           echo "new_release_version=$NEW_RELEASE_VERSION" >> "$GITHUB_OUTPUT"
 
           if [ -z "$NEW_RELEASE_VERSION" ]; then

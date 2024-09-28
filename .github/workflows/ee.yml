@@ -33,10 +33,6 @@ jobs:
       contents: read
       packages: write
 
-    # defaults:
-    #   run:
-    #     working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
-
     steps:
       # if event == workflow_call and inputs.release == true
       #   release_tag must be given as input
@@ -93,16 +89,13 @@ jobs:
           # fi
         env:
           GITHUB_REF: ${{ github.ref }}
-        # working-directory: .
 
-      # TODO CHECKOUT tag.outputs.name BUT IS IT POSSIBLE TO OMIT TAG WHEN IT'S EMPTY?
-      # so we can checkout the branch itself when tag is empty
+      # checkout tag for releae otherwise checkout branch
       - name: check out code
         uses: actions/checkout@v4
         with:
           # if tag is empty; github.ref else tag.outputs.name
           ref: ${{ steps.tag.outputs.name == '' && github.ref || steps.tag.outputs.name }}
-          # path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: discover Python version
         id: pyversion
@@ -131,18 +124,8 @@ jobs:
       - name: set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-        # TODO version wrong in pyproject.toml
-        # this DOES NOT start with v
-      # - name: get version for release image
-      #   id: tag
-      #   run: echo "version_tag=$(poetry version -s)" >> $GITHUB_OUTPUT
-      #   if: inputs.release
-
-      # TODO release from checkout tag to exclude main label - DID NOT WORK
-      # TRY with git context but need to restest develop - git folder not found in sub dir..
-      # context workflow yapsan release icin label main oluyor.. X
-      # context git yapsan develop icin fail ediyor, git folder bulamiyor cunku alt dizinde.
-      # TODO BURADA KALDIN - checkout u direk ana dizine yapsak olmaz mi? ansible builder mi fail ediyor??
+      # produce docker tags for semver if on a tag, otherwise take ref branch name
+      # latest tag is only produced for semver operating on a tag
       - name: determine docker tags and labels
         id: meta
         uses: docker/metadata-action@v5
@@ -156,25 +139,11 @@ jobs:
             type=ref,event=branch
             type=ref,event=tag
 
-      # # TODO latest should only be tagged for release versions
-      # - name: determine docker tags and labels for release image
-      #   id: meta
-      #   uses: docker/metadata-action@v5
-      #   with:
-      #     context: workflow # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
-      #     images: ghcr.io/alperenkose/pan-os-ansible # TODO ghcr.io/paloaltonetworks/pan-os-ansible
-      #     tags: |
-      #       type=semver,pattern=v{{version}},value=${{ steps.tag.outputs.version_tag }}
-      #       type=semver,pattern=v{{major}}.{{minor}},value=${{ steps.tag.outputs.version_tag }}
-      #       type=semver,pattern=v{{major}},value=${{ steps.tag.outputs.version_tag }}
-      #   if: inputs.release
-
-        # NOTE we should take pan-os-ansible from galaxy for a release, but local build for develop
-        # ref - https://github.com/ansible-collections/community.dns/blob/main/.github/workflows/ee.yml#L96-L98
+      # take pan-os-ansible from galaxy for a release, but local build for develop
+      # ref - https://github.com/ansible-collections/community.dns/blob/main/.github/workflows/ee.yml#L96-L98
       - name: Build collection from development branch
         run: |
           ansible-galaxy collection build
-          # ansible-galaxy collection build --output-path ../../../
         if: ${{ inputs.release == false }}
 
       - name: create base EE file
@@ -209,34 +178,26 @@ jobs:
           additional_build_steps:
             append_base:
               - RUN \$PYCMD -m pip install -U pip
-            # prepend_builder:
-            #   - COPY _build/src/requirements.txt src/requirements.txt
             append_final:
               # SymLink `python` -> `python3.9`
               - RUN alternatives --install /usr/bin/python python /usr/bin/python3.9 39
 
           EOF
-        # working-directory: .
 
-      - name: append build files to EE file for development
+      - name: append build files to EE for development
         run: |
           COLLECTION_FILENAME="$(ls "${{ env.NAMESPACE }}-${{ env.COLLECTION_NAME }}"-*.tar.gz)"
-          # COLLECTION_PIP_REQUIREMENTS="ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/requirements.txt"
-          COLLECTION_PIP_REQUIREMENTS="requirements.txt"
 
           # append to existing EE file
           cat >> execution-environment.yml <<EOF
           additional_build_files:
             - src: ${COLLECTION_FILENAME}
               dest: src
-            # - src: ${COLLECTION_PIP_REQUIREMENTS}
-            #   dest: src
           EOF
           echo "::group::execution-environment.yml"
           cat execution-environment.yml
           echo "::endgroup::"
 
-          # TODO i see duplicate requirements maybe we don't need to include collction here??
           cat > requirements.yml <<EOF
           ---
           collections:
@@ -249,19 +210,9 @@ jobs:
           cat requirements.yml
           echo "::endgroup::"
         if: ${{ inputs.release == false }}
-        # working-directory: .
 
-      - name: append build files to EE file for release
+      - name: append build files to EE for release
         run: |
-          # COLLECTION_PIP_REQUIREMENTS="ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/requirements.txt"
-          COLLECTION_PIP_REQUIREMENTS="requirements.txt"
-
-          # append to existing EE file
-          # cat >> execution-environment.yml <<EOF
-          # additional_build_files:
-          #   - src: ${COLLECTION_PIP_REQUIREMENTS}
-          #     dest: src
-          # EOF
           echo "::group::execution-environment.yml"
           cat execution-environment.yml
           echo "::endgroup::"
@@ -280,103 +231,25 @@ jobs:
           cat requirements.yml
           echo "::endgroup::"
         if: inputs.release
-        # working-directory: .
 
-      - name: create requirements.txt
+      # when you build a collection the requirements.txt file is already included in it
+      # this is for additional packages we want to include in the EE image
+      - name: create additional requirements.txt for EE
         run: |
           # Python Requirements
           cat > requirements-ee.txt <<EOF
-          # -r src/requirements.txt
           jmespath
           EOF
           echo "::group::requirements-ee.txt"
           cat requirements-ee.txt
           echo "::endgroup::"
-        # working-directory: .
 
-      # - name: Create files for building execution environment
-      #   run: |
-      #     COLLECTION_FILENAME="$(ls "${{ env.NAMESPACE }}-${{ env.COLLECTION_NAME }}"-*.tar.gz)"
-      #     COLLECTION_PIP_REQUIREMENTS="ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/requirements.txt"
-
-      #     # EE config
-      #     cat > execution-environment.yml <<EOF
-      #     ---
-      #     version: 3
-
-      #     images:
-      #       base_image:
-      #         name: quay.io/centos/centos:stream9
-
-      #     dependencies:
-      #       python_interpreter:
-      #         package_system: python3.9
-      #         python_path: /usr/bin/python3.9
-      #       ansible_core:
-      #         package_pip: ansible-core>=2.15.0rc2,<2.16
-      #       ansible_runner:
-      #         package_pip: ansible-runner
-      #       system: |
-      #         git-core [platform:rpm]
-      #         python3.9-devel [platform:rpm compile]
-      #         libcurl-devel [platform:rpm compile]
-      #         sshpass [platform:rpm]
-      #         rsync [platform:rpm]
-      #         epel-release [platform:rpm]
-      #         unzip [platform:rpm]
-      #       galaxy: requirements.yml
-      #       python: requirements.txt
-
-      #     additional_build_files:
-      #       - src: ${COLLECTION_FILENAME}
-      #         dest: src
-      #       - src: ${COLLECTION_PIP_REQUIREMENTS}
-      #         dest: src
-
-      #     additional_build_steps:
-      #       append_base:
-      #         - RUN \$PYCMD -m pip install -U pip
-      #       prepend_builder:
-      #         - COPY _build/src/requirements.txt src/requirements.txt
-      #       append_final:
-      #         # SymLink `python` -> `python3.9`
-      #         - RUN alternatives --install /usr/bin/python python /usr/bin/python3.9 39
-      #     EOF
-      #     echo "::group::execution-environment.yml"
-      #     cat execution-environment.yml
-      #     echo "::endgroup::"
-
-      #     # Collection Requirements
-      #     cat > requirements.yml <<EOF
-      #     ---
-      #     collections:
-      #       - name: src/${COLLECTION_FILENAME}
-      #         type: file
-      #       - name: awx.awx
-      #       - community.general
-      #     EOF
-      #     echo "::group::requirements.yml"
-      #     cat requirements.yml
-      #     echo "::endgroup::"
-
-      #     # Python Requirements
-      #     cat > requirements.txt <<EOF
-      #     -r src/requirements.txt
-      #     jmespath
-      #     EOF
-      #     echo "::group::requirements.txt"
-      #     cat requirements.txt
-      #     echo "::endgroup::"
-      #   working-directory: .
-
+      # TODO why do we still execute poetry on sub dir here?
       - name: create execution env context
         run: |
           poetry run -C ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }} ansible-builder create -v 3 --output-filename Dockerfile
           ls -l ./context/
-          # ls -l ./context/_build/src/
-          # cat ./context/_build/src/requirements.txt
           cat ./context/Dockerfile
-        # working-directory: .
 
       - name: login to GHCR
         uses: docker/login-action@v3
@@ -395,178 +268,3 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           provenance: ${{ inputs.release }} # disable for development to keep number of images low
-
-  # build_release_ee:
-  #   name: Release Ansible EE
-  #   runs-on: ubuntu-latest
-  #   if: inputs.release
-  #   # if: github.event_name == 'release' && github.event.action == 'published'
-  #   # NOTE what if we make a release from develop branch? dont worry it would make both develop and alpha images I suppose..:)
-
-  #   permissions:
-  #     contents: read
-  #     packages: write
-
-  #   defaults:
-  #     run:
-  #       working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
-
-  #   steps:
-
-  #     # - name: Proceed if release job from CI workflow succeeded
-  #     #   run: |
-  #     #     curl -L \
-  #     #       -H "Accept: application/vnd.github+json" \
-  #     #       -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-  #     #       -H "X-GitHub-Api-Version: 2022-11-28" \
-  #     #       ${{ github.event.workflow_run.jobs_url }} > jobs.json
-  #     #     conclusion=$(jq < jobs.json --raw-output '.jobs[] | select( .name == "release" ) | .conclusion')
-  #     #     echo ${conclusion}
-  #     #     [[ ${conclusion} == "success" ]]
-  #     #   working-directory: .
-
-  #     - name: check out code
-  #       uses: actions/checkout@v4
-  #       with:
-  #         path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
-
-  #     - name: discover Python version
-  #       id: pyversion
-  #       shell: bash
-  #       run: |
-  #         PYVER=$(grep '^[Pp]ython ' pyproject.toml | sed -E 's/python += +\"\^?([0-9]\.[0-9]+)(\.[0-9]+)?\"/\1/; /python/q1')
-  #         echo "pyversion=$PYVER" >> $GITHUB_OUTPUT
-  #       # uses: PaloAltoNetworks/pan-os-upgrade-assurance/.github/actions/discover_python_version@v0.3.1
-  #       # working-directory doesn't work with uses, until you get a `with path` similar to checkout this is going to be inline
-
-  #     - name: install Python
-  #       uses: actions/setup-python@v4
-  #       with:
-  #         python-version: ${{ steps.pyversion.outputs.pyversion }}
-  #         cache: pip
-
-  #     - name: install Poetry
-  #       uses: Gr1N/setup-poetry@v8
-
-  #     - name: prep Poetry venv
-  #       run: |
-  #         poetry env use ${{ steps.pyversion.outputs.pyversion }}
-  #         poetry lock
-  #         poetry install --with ansible-ee --without dev --no-root
-
-  #     - name: set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v3
-
-  #     - name: get version for release image
-  #       id: tag
-  #       run: echo "version_tag=$(poetry version -s)" >> $GITHUB_OUTPUT
-
-  #     # TODO latest should only be tagged for release versions
-  #     - name: determine docker tags and labels for release image
-  #       id: meta
-  #       uses: docker/metadata-action@v5
-  #       with:
-  #         context: workflow # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
-  #         images: ghcr.io/alperenkose/pan-os-ansible # TODO ghcr.io/paloaltonetworks/pan-os-ansible
-  #         tags: |
-  #           type=semver,pattern=v{{version}},value=${{ steps.tag.outputs.version_tag }}
-  #           type=semver,pattern=v{{major}}.{{minor}},value=${{ steps.tag.outputs.version_tag }}
-  #           type=semver,pattern=v{{major}},value=${{ steps.tag.outputs.version_tag }}
-
-  #     - name: Create files for building execution environment
-  #       run: |
-  #         COLLECTION_PIP_REQUIREMENTS="ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/requirements.txt"
-
-  #         # EE config
-  #         cat > execution-environment.yml <<EOF
-  #         ---
-  #         version: 3
-
-  #         images:
-  #           base_image:
-  #             name: quay.io/centos/centos:stream9
-
-  #         dependencies:
-  #           python_interpreter:
-  #             package_system: python3.9
-  #             python_path: /usr/bin/python3.9
-  #           ansible_core:
-  #             package_pip: ansible-core>=2.15.0rc2,<2.16
-  #           ansible_runner:
-  #             package_pip: ansible-runner
-  #           system: |
-  #             git-core [platform:rpm]
-  #             python3.9-devel [platform:rpm compile]
-  #             libcurl-devel [platform:rpm compile]
-  #             sshpass [platform:rpm]
-  #             rsync [platform:rpm]
-  #             epel-release [platform:rpm]
-  #             unzip [platform:rpm]
-  #           galaxy: requirements.yml
-  #           python: requirements.txt
-
-  #         additional_build_files:
-  #           - src: ${COLLECTION_PIP_REQUIREMENTS}
-  #             dest: src
-
-  #         additional_build_steps:
-  #           append_base:
-  #             - RUN \$PYCMD -m pip install -U pip
-  #           prepend_builder:
-  #             - COPY _build/src/requirements.txt src/requirements.txt
-  #           append_final:
-  #             # SymLink `python` -> `python3.9`
-  #             - RUN alternatives --install /usr/bin/python python /usr/bin/python3.9 39
-  #         EOF
-  #         echo "::group::execution-environment.yml"
-  #         cat execution-environment.yml
-  #         echo "::endgroup::"
-
-  #         # Collection Requirements
-  #         cat > requirements.yml <<EOF
-  #         ---
-  #         collections:
-  #           - name: paloaltonetworks.panos
-  #             version: ${{steps.tag.outputs.version_tag}}
-  #           - name: awx.awx
-  #           - community.general
-  #         EOF
-  #         echo "::group::requirements.yml"
-  #         cat requirements.yml
-  #         echo "::endgroup::"
-
-  #         # Python Requirements
-  #         cat > requirements.txt <<EOF
-  #         -r src/requirements.txt
-  #         jmespath
-  #         EOF
-  #         echo "::group::requirements.txt"
-  #         cat requirements.txt
-  #         echo "::endgroup::"
-  #       working-directory: .
-
-  #     - name: create execution env context
-  #       run: |
-  #         poetry run -C ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }} ansible-builder create -v 3 --output-filename Dockerfile
-  #         ls -l ./context/
-  #         ls -l ./context/_build/src/
-  #         cat ./context/_build/src/requirements.txt
-  #         cat ./context/Dockerfile
-  #       working-directory: .
-
-  #     - name: login to GHCR
-  #       uses: docker/login-action@v3
-  #       with:
-  #         registry: ghcr.io
-  #         username: ${{ github.actor }}
-  #         password: ${{ secrets.GITHUB_TOKEN }}
-
-  #     - name: build and publish
-  #       uses: docker/build-push-action@v5
-  #       with:
-  #         context: "./context/"
-  #         push: true
-  #         tags: ${{ steps.meta.outputs.tags }}
-  #         labels: ${{ steps.meta.outputs.labels }}
-  #         cache-from: type=gha
-  #         cache-to: type=gha,mode=max
