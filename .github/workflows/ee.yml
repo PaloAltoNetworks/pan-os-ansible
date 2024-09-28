@@ -374,7 +374,7 @@ jobs:
           poetry run -C ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }} ansible-builder create -v 3 --output-filename Dockerfile
           ls -l ./context/
           ls -l ./context/_build/src/
-          cat ./context/_build/src/requirements.txt
+          # cat ./context/_build/src/requirements.txt
           cat ./context/Dockerfile
         # working-directory: .
 
