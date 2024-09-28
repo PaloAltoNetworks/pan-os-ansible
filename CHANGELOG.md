@@ -1,3 +1,13 @@
+### [2.25.5](https://github.com/alperenkose/pan-os-ansible/compare/v2.25.4...v2.25.5) (2024-09-28)
+
+
+### Bug Fixes
+
+* override panos for testing ([63f2f66](https://github.com/alperenkose/pan-os-ansible/commit/63f2f6664046dbeb045e2a542fee46ebec14985d))
+* test without providing panos collection ([a17ed51](https://github.com/alperenkose/pan-os-ansible/commit/a17ed51599b535755e071d19894ce5f763f56a0a))
+* test without python requirements ([fa46174](https://github.com/alperenkose/pan-os-ansible/commit/fa4617416f5ff1591e5d66f91026d167e39f14ce))
+* test without python requirements ([9d7d2a2](https://github.com/alperenkose/pan-os-ansible/commit/9d7d2a26ab4913c8ed29b95d2b91c309ac985f63))
+
 ### [2.25.4](https://github.com/alperenkose/pan-os-ansible/compare/v2.25.3...v2.25.4) (2024-09-28)
 
 
