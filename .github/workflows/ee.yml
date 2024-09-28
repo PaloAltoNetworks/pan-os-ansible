@@ -33,9 +33,9 @@ jobs:
       contents: read
       packages: write
 
-    defaults:
-      run:
-        working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+    # defaults:
+    #   run:
+    #     working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
     steps:
       # if event == workflow_call and inputs.release == true
@@ -93,16 +93,16 @@ jobs:
           # fi
         env:
           GITHUB_REF: ${{ github.ref }}
-        working-directory: .
+        # working-directory: .
 
       # TODO CHECKOUT tag.outputs.name BUT IS IT POSSIBLE TO OMIT TAG WHEN IT'S EMPTY?
       # so we can checkout the branch itself when tag is empty
       - name: check out code
         uses: actions/checkout@v4
         with:
-          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
-          ref: ${{ steps.tag.outputs.name == '' && github.ref || steps.tag.outputs.name }}
           # if tag is empty; github.ref else tag.outputs.name
+          ref: ${{ steps.tag.outputs.name == '' && github.ref || steps.tag.outputs.name }}
+          # path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: discover Python version
         id: pyversion
@@ -139,7 +139,10 @@ jobs:
       #   if: inputs.release
 
       # TODO release from checkout tag to exclude main label - DID NOT WORK
-      # TRY with git context but need to restest develop
+      # TRY with git context but need to restest develop - git folder not found in sub dir..
+      # context workflow yapsan release icin label main oluyor.. X
+      # context git yapsan develop icin fail ediyor, git folder bulamiyor cunku alt dizinde.
+      # TODO BURADA KALDIN - checkout u direk ana dizine yapsak olmaz mi? ansible builder mi fail ediyor??
       - name: determine docker tags and labels
         id: meta
         uses: docker/metadata-action@v5
@@ -170,7 +173,8 @@ jobs:
         # ref - https://github.com/ansible-collections/community.dns/blob/main/.github/workflows/ee.yml#L96-L98
       - name: Build collection from development branch
         run: |
-          ansible-galaxy collection build --output-path ../../../
+          ansible-galaxy collection build
+          # ansible-galaxy collection build --output-path ../../../
         if: ${{ inputs.release == false }}
 
       - name: create base EE file
@@ -200,7 +204,7 @@ jobs:
               epel-release [platform:rpm]
               unzip [platform:rpm]
             galaxy: requirements.yml
-            python: requirements.txt
+            python: requirements-ee.txt
 
           additional_build_steps:
             append_base:
@@ -212,12 +216,13 @@ jobs:
               - RUN alternatives --install /usr/bin/python python /usr/bin/python3.9 39
 
           EOF
-        working-directory: .
+        # working-directory: .
 
       - name: append build files to EE file for development
         run: |
           COLLECTION_FILENAME="$(ls "${{ env.NAMESPACE }}-${{ env.COLLECTION_NAME }}"-*.tar.gz)"
-          COLLECTION_PIP_REQUIREMENTS="ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/requirements.txt"
+          # COLLECTION_PIP_REQUIREMENTS="ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/requirements.txt"
+          COLLECTION_PIP_REQUIREMENTS="requirements.txt"
 
           # append to existing EE file
           cat >> execution-environment.yml <<EOF
@@ -243,11 +248,12 @@ jobs:
           cat requirements.yml
           echo "::endgroup::"
         if: ${{ inputs.release == false }}
-        working-directory: .
+        # working-directory: .
 
       - name: append build files to EE file for release
         run: |
-          COLLECTION_PIP_REQUIREMENTS="ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/requirements.txt"
+          # COLLECTION_PIP_REQUIREMENTS="ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/requirements.txt"
+          COLLECTION_PIP_REQUIREMENTS="requirements.txt"
 
           # append to existing EE file
           cat >> execution-environment.yml <<EOF
@@ -272,19 +278,19 @@ jobs:
           cat requirements.yml
           echo "::endgroup::"
         if: inputs.release
-        working-directory: .
+        # working-directory: .
 
       - name: create requirements.txt
         run: |
           # Python Requirements
-          cat > requirements.txt <<EOF
+          cat > requirements-ee.txt <<EOF
           -r src/requirements.txt
           jmespath
           EOF
-          echo "::group::requirements.txt"
-          cat requirements.txt
+          echo "::group::requirements-ee.txt"
+          cat requirements-ee.txt
           echo "::endgroup::"
-        working-directory: .
+        # working-directory: .
 
       # - name: Create files for building execution environment
       #   run: |
@@ -368,7 +374,7 @@ jobs:
           ls -l ./context/_build/src/
           cat ./context/_build/src/requirements.txt
           cat ./context/Dockerfile
-        working-directory: .
+        # working-directory: .
 
       - name: login to GHCR
         uses: docker/login-action@v3
