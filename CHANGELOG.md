@@ -1,3 +1,13 @@
+### [2.25.7](https://github.com/alperenkose/pan-os-ansible/compare/v2.25.6...v2.25.7) (2024-09-28)
+
+
+### Bug Fixes
+
+* test ansible collection path ([00ddd77](https://github.com/alperenkose/pan-os-ansible/commit/00ddd772b8d320f2502e8879aa447711db854537))
+* test pr ([a2807a3](https://github.com/alperenkose/pan-os-ansible/commit/a2807a37ce7d4129b5e92e62a074e0b4c0c1ff3b))
+* test with defaults ([e9b5a23](https://github.com/alperenkose/pan-os-ansible/commit/e9b5a23346fcfa0e352e081c8d02cd14c290e651))
+* update comments ([ff2a7b6](https://github.com/alperenkose/pan-os-ansible/commit/ff2a7b65b670a94f0e76ee3da344b5c4b5e84715))
+
 ### [2.25.6](https://github.com/alperenkose/pan-os-ansible/compare/v2.25.5...v2.25.6) (2024-09-28)
 
 
