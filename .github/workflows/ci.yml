@@ -14,64 +14,64 @@ env:
 
 jobs:
 
-  # ## Sanity is required:
-  # #
-  # # https://docs.ansible.com/ansible/latest/dev_guide/testing_sanity.html
-  # sanity:
-  #   name: Sanity (Ⓐ${{ matrix.ansible }})
-  #   strategy:
-  #     matrix:
-  #       include:
-  #         - ansible: "2.15"
-  #           python_ver: "3.11"
-  #         - ansible: "2.16"
-  #           python_ver: "3.11"
-  #         - ansible: "2.17"
-  #           python_ver: "3.11"
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+  ## Sanity is required:
+  #
+  # https://docs.ansible.com/ansible/latest/dev_guide/testing_sanity.html
+  sanity:
+    name: Sanity (Ⓐ${{ matrix.ansible }})
+    strategy:
+      matrix:
+        include:
+          - ansible: "2.15"
+            python_ver: "3.11"
+          - ansible: "2.16"
+            python_ver: "3.11"
+          - ansible: "2.17"
+            python_ver: "3.11"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
-  #     - name: Setup Python
-  #       uses: actions/setup-python@v4
-  #       with:
-  #         python-version: ${{ matrix.python_ver }}
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python_ver }}
 
-  #     - name: Install Poetry
-  #       uses: Gr1N/setup-poetry@v8
-  #       #with:
-  #       #  poetry-version: 1.0.10
+      - name: Install Poetry
+        uses: Gr1N/setup-poetry@v8
+        #with:
+        #  poetry-version: 1.0.10
 
-  #     # Install the head of the given branch (devel, stable-2.10)
-  #     - name: Install ansible-base (${{ matrix.ansible }})
-  #       run: poetry run pip install https://github.com/ansible/ansible/archive/stable-${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+      # Install the head of the given branch (devel, stable-2.10)
+      - name: Install ansible-base (${{ matrix.ansible }})
+        run: poetry run pip install https://github.com/ansible/ansible/archive/stable-${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
-  #     - name: Create lock file
-  #       run: poetry lock
+      - name: Create lock file
+        run: poetry lock
 
-  #     #- name: Cache poetry dependencies
-  #     #  uses: actions/cache@v2
-  #     #  with:
-  #     #    #path: ~/.cache/pypoetry/virtualenvs
-  #     #    #key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
-  #     #    ##restore-keys: |
-  #     #    ##  ${{ runner.os }}-poetry-${{ matrix.python-version }}-
-  #     #    path: ${{ steps.poetry-cache.outputs.dir }}
-  #     #    key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-  #     #    restore-keys: |
-  #     #      ${{ runner.os }}-poetry-
+      #- name: Cache poetry dependencies
+      #  uses: actions/cache@v2
+      #  with:
+      #    #path: ~/.cache/pypoetry/virtualenvs
+      #    #key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+      #    ##restore-keys: |
+      #    ##  ${{ runner.os }}-poetry-${{ matrix.python-version }}-
+      #    path: ${{ steps.poetry-cache.outputs.dir }}
+      #    key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-poetry-
 
-  #     - name: Install dependencies
-  #       run: poetry install
+      - name: Install dependencies
+        run: poetry install
 
-  #     - name: Run sanity tests
-  #       timeout-minutes: 8
-  #       run: poetry run make new-sanity
+      - name: Run sanity tests
+        timeout-minutes: 8
+        run: poetry run make new-sanity
 
   # Ansible-lint is a requirement for certification, and was added to the
   # certification pipeline 20 June 2023 per Ansible Partner Engineering
@@ -137,8 +137,7 @@ jobs:
   release:
     name: release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    # needs: [sanity, tox, lint, format] TEMP
-    needs: [tox]
+    needs: [sanity, tox, lint, format]
     runs-on: ubuntu-latest
     outputs:
       new_release_published: ${{ steps.release.outputs.new_release_published }}
@@ -266,8 +265,7 @@ jobs:
   rc:
     name: Check rc EE
     runs-on: ubuntu-latest
-    # needs: [sanity, tox, lint, format] TEMP
-    needs: [tox]
+    needs: [sanity, tox, lint, format]
     if: (github.event_name == 'push' && github.ref == 'refs/heads/develop')
     outputs:
       rc: ${{ steps.rc.outputs.new_release_published }}
