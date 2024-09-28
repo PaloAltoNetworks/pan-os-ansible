@@ -227,8 +227,8 @@ jobs:
           # append to existing EE file
           cat >> execution-environment.yml <<EOF
           additional_build_files:
-            - src: ${COLLECTION_FILENAME}
-              dest: src
+            # - src: ${COLLECTION_FILENAME}
+            #   dest: src
             - src: ${COLLECTION_PIP_REQUIREMENTS}
               dest: src
           EOF
@@ -236,11 +236,12 @@ jobs:
           cat execution-environment.yml
           echo "::endgroup::"
 
+          # TODO i see duplicate requirements maybe we don't need to include collction here??
           cat > requirements.yml <<EOF
           ---
           collections:
-            - name: src/${COLLECTION_FILENAME}
-              type: file
+            # - name: src/${COLLECTION_FILENAME}
+            #   type: file
             - name: awx.awx
             - community.general
           EOF
