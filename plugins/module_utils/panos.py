@@ -1200,6 +1200,18 @@ class ConnectionHelper(object):
 
         return default_value
 
+    def _shlex_split(self, logic):
+        """Split string using shlex.split without escape char
+
+        Escape char '\' is removed from shlex class to correctly process regex.
+        """
+        lex = shlex.shlex(logic, posix=True)
+        lex.whitespace_split = True
+        lex.commenters = ""
+        lex.escape = ""
+
+        return list(lex)
+
     def matches_gathered_filter(self, item, logic):
         """Returns True if the item and its contents matches the logic given.
 
@@ -1223,7 +1235,7 @@ class ConnectionHelper(object):
         evaler = []
 
         pdepth = 0
-        logic_tokens = shlex.split(logic)
+        logic_tokens = self._shlex_split(logic)
         token_iter = iter(logic_tokens)
         while True:
             end_parens = 0
