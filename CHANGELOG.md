@@ -1,3 +1,17 @@
+## [2.26.0](https://github.com/alperenkose/pan-os-ansible/compare/v2.25.7...v2.26.0) (2024-10-02)
+
+
+### Features
+
+* use pyversion ([cb21254](https://github.com/alperenkose/pan-os-ansible/commit/cb212542927f1cb5926b4e4af954f8d2d78c8755))
+
+
+### Bug Fixes
+
+* use env vars ([2287ec9](https://github.com/alperenkose/pan-os-ansible/commit/2287ec9686a6faf6eaabb036a5f6f7ca8aa70161))
+* use pyversion ([d558d26](https://github.com/alperenkose/pan-os-ansible/commit/d558d26524fd1956cae053b149d56f002218c53d))
+* use pyversion ([649aa44](https://github.com/alperenkose/pan-os-ansible/commit/649aa4416613886310e77bb87ad15d3ad8255763))
+
 ### [2.25.7](https://github.com/alperenkose/pan-os-ansible/compare/v2.25.6...v2.25.7) (2024-09-28)
 
 
