@@ -83,11 +83,6 @@ jobs:
       - name: discover Python version
         id: pyversion
         uses: PaloAltoNetworks/pan-os-upgrade-assurance/.github/actions/discover_python_version@v0.3.1
-        # shell: bash
-        # run: |
-        #   PYVER=$(grep '^[Pp]ython ' pyproject.toml | sed -E 's/python += +\"\^?([0-9]\.[0-9]+)(\.[0-9]+)?\"/\1/; /python/q1')
-        #   echo "pyversion=$PYVER" >> $GITHUB_OUTPUT
-        # working-directory doesn't work with uses, until you get a `with path` similar to checkout, this is going to be inline
 
       - name: install Python
         uses: actions/setup-python@v4

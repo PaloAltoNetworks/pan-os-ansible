@@ -205,7 +205,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./ansible_collections/paloaltonetworks/panos
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
     steps:
       # Just a note here:  The Ansible stuff is apparently doing realpath
@@ -215,7 +215,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: ./ansible_collections/paloaltonetworks/panos
+          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -255,8 +255,8 @@ jobs:
         run: |
           cd ../../../..
           mv pan-os-ansible the_repo
-          mv the_repo/ansible_collections/paloaltonetworks/panos pan-os-ansible
-          mkdir -p pan-os-ansible/ansible_collections/paloaltonetworks/panos
+          mv the_repo/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }} pan-os-ansible
+          mkdir -p pan-os-ansible/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.4.3
