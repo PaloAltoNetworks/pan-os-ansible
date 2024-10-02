@@ -10,7 +10,6 @@ on:
 env:
   NAMESPACE: paloaltonetworks
   COLLECTION_NAME: panos
-  PYTHON_VERSION: 3.8
 
 jobs:
 
@@ -109,9 +108,14 @@ jobs:
           cd .github/workflows
           python -m tox -- ../..
 
+  pyversion:
+    name: Discover minimum Python version
+    uses: ./.github/workflows/_discover_python_ver.yml
+
   format:
     name: Code Format Check
     runs-on: ubuntu-latest
+    needs: pyversion
     defaults:
       run:
         working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
@@ -123,7 +127,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: ${{ needs.pyversion.outputs.pyversion }}
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v8
@@ -139,6 +143,10 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: [sanity, tox, lint, format]
     runs-on: ubuntu-latest
+    outputs:
+      new_release_published: ${{ steps.release.outputs.new_release_published }}
+      new_release_version: ${{ steps.release.outputs.new_release_version }}
+      new_release_git_tag: ${{ steps.release.outputs.new_release_git_tag }}
 
     steps:
       - name: Checkout
@@ -192,12 +200,12 @@ jobs:
   docs:
     name: docs
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [release]
+    needs: [release, pyversion]
     runs-on: ubuntu-latest
 
     defaults:
       run:
-        working-directory: ./ansible_collections/paloaltonetworks/panos
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
     steps:
       # Just a note here:  The Ansible stuff is apparently doing realpath
@@ -207,12 +215,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: ./ansible_collections/paloaltonetworks/panos
+          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: ${{ needs.pyversion.outputs.pyversion }}
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v8
@@ -247,8 +255,8 @@ jobs:
         run: |
           cd ../../../..
           mv pan-os-ansible the_repo
-          mv the_repo/ansible_collections/paloaltonetworks/panos pan-os-ansible
-          mkdir -p pan-os-ansible/ansible_collections/paloaltonetworks/panos
+          mv the_repo/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }} pan-os-ansible
+          mkdir -p pan-os-ansible/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.4.3
@@ -257,3 +265,82 @@ jobs:
           branch: gh-pages
           folder: docs/html
           clean: true
+
+  rc:
+    name: Check rc EE
+    runs-on: ubuntu-latest
+    needs: [sanity, tox, lint, format]
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/develop')
+    outputs:
+      rc: ${{ steps.rc.outputs.new_release_published }}
+      new_release_version: ${{ steps.rc.outputs.new_release_version }}
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: install dependencies
+        run: |
+          npm install --save-dev semantic-release
+          npm install @semantic-release/commit-analyzer -D
+          npm install conventional-changelog-conventionalcommits -D
+          npm install @semantic-release/changelog -D
+          npm install @semantic-release/git -D
+          npm install @semantic-release/exec -D
+          # npx semantic-release
+          # npm ci
+
+      - name: trick semantic check
+        id: rc
+        run: |
+          # Trick semantic-release into thinking we're not in a CI environment
+          OUTPUT="$(bash -c "unset GITHUB_ACTIONS && unset GITHUB_EVENT_NAME && npx semantic-release --dry-run --no-ci --branches '${GITHUB_REF#refs/heads/}'")"
+          # print output
+          echo "$OUTPUT"
+          # grep with semver regex - \K means to start matching from here in Perl regex
+          NEW_RELEASE_VERSION=$(echo "$OUTPUT" | grep -oP 'The next release version is \K(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?' || echo -n "")
+          echo "new_release_version=$NEW_RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+
+          if [ -z "$NEW_RELEASE_VERSION" ]; then
+            echo "new_release_published=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "new_release_published=true" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REF: ${{ github.ref }}
+
+      # below does NOT work because semantic-release expects branch name in the config even in dry-run
+      # but we run rc check in non main branches
+      # - name: rc check
+      #   id: rc
+      #   uses: cycjimmy/semantic-release-action@v4
+      #   with:
+      #     dry_run: true
+      #     semantic_version: 17.1.1
+      #     extra_plugins: |
+      #       conventional-changelog-conventionalcommits@^4.4.0
+      #       @semantic-release/changelog@^5.0.1
+      #       @semantic-release/git@^9.0.0
+      #       @semantic-release/exec@^5.0.00
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build_dev_ee:
+    name: dev_ee
+    needs: rc
+    if: needs.rc.outputs.rc == 'true'
+    uses: ./.github/workflows/ee.yml
+
+  build_prod_ee:
+    name: release_ee
+    needs: release
+    uses: ./.github/workflows/ee.yml
+    with:
+      release: true
+      release_tag: ${{ needs.release.outputs.new_release_git_tag }}
