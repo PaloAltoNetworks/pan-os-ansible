@@ -48,6 +48,10 @@ options:
         description:
             - Name of the interface to configure.
         type: str
+    parent_interface:
+        description:
+            - Name of the parent interface
+        type: str
     tag:
         description:
             - Tag (vlan id) for the interface
@@ -151,8 +155,30 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 class Helper(ConnectionHelper):
     def initial_handling(self, module):
         # Sanity check.
-        if "." not in module.params["name"]:
-            module.fail_json(msg='Interface name does not have "." in it')
+        name_set = True if module.params["name"] is not None else False
+        parent_set = True if module.params["parent_interface"] is not None else False
+
+        if module.params["state"] == "gathered" and not parent_set:
+            module.fail_json(
+                msg="'parent_interface' is required when state is 'gathered'."
+            )
+
+        if name_set:
+            if "." not in module.params["name"]:
+                module.fail_json(
+                    msg="Subinterface name does not have '.' in it: {0}".format(
+                        module.params["name"]
+                    )
+                )
+            if (
+                parent_set
+                and module.params["parent_interface"] not in module.params["name"]
+            ):
+                module.fail_json(
+                    msg="Parent and subinterface names do not match: {0} - {1}".format(
+                        module.params["parent_interface"], module.params["name"]
+                    )
+                )
 
         if module.params["state"] not in ("present", "replaced"):
             return
@@ -161,9 +187,11 @@ class Helper(ConnectionHelper):
             module.params["vsys"] = "vsys1"
 
     def parent_handling(self, parent, module):
-        iname = module.params["name"].split(".")[0]
+        if module.params["parent_interface"] is not None:
+            iname = module.params["parent_interface"]
+        else:
+            iname = module.params["name"].split(".")[0]
 
-        eth = None
         if iname.startswith("ae"):
             eth = to_sdk_cls("network", "AggregateInterface")(iname)
         else:
@@ -214,6 +242,9 @@ def main():
                 type="bool", default=False, sdk_param="create_dhcp_default_route"
             ),
             dhcp_default_route_metric=dict(type="int"),
+        ),
+        extra_params=dict(
+            parent_interface=dict(type="str"),
         ),
     )
 

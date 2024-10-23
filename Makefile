@@ -60,4 +60,4 @@ new-sanity:		## Sanity tests for Ansible v2.11 and above
 
 .PHONY: reqs
 reqs:       ## Recreate the requirements.txt file
-	poetry export -f requirements.txt --output requirements.txt
+	poetry export -f requirements.txt --output requirements.txt --only=main --without-hashes

@@ -33,7 +33,7 @@ version_added: '2.18.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
-    - pan-os-upgrade-assurance can be obtained from PyPI U(https://pypi.org/project/panos-upgrade-assurance)
+    - panos-upgrade-assurance can be obtained from PyPI U(https://pypi.org/project/panos-upgrade-assurance)
 notes:
     - Panorama is not supported.
     - Check mode is not supported.
@@ -51,6 +51,12 @@ options:
         description:
             - When set to B(true) will skip configuration synchronization state between nodes before trying to retrieve
               node's current state in an HA pair. Can be useful when working with partially upgraded nodes. Use with caution.
+        type: bool
+        default: false
+    ignore_non_functional:
+        description:
+            - Use with caution, when set to `True` will ignore if device state is `non-functional` on one of the nodes. Helpful
+              when verifying a state of a partially upgraded HA pair with vmseries plugin version mismatch.
         type: bool
         default: false
 # """
@@ -112,6 +118,7 @@ def main():
         argument_spec=dict(
             force_fail=dict(type="bool", default=False),
             skip_config_sync=dict(type="bool", default=False),
+            ignore_non_functional=dict(type="bool", default=False),
         ),
         panorama_error="This is a firewall only module",
     )
@@ -123,7 +130,8 @@ def main():
     firewall = FirewallProxy(firewall=helper.get_pandevice_parent(module))
 
     is_active = CheckFirewall(firewall).check_is_ha_active(
-        skip_config_sync=module.params["skip_config_sync"]
+        skip_config_sync=module.params["skip_config_sync"],
+        ignore_non_functional=module.params["ignore_non_functional"],
     )
 
     if module.params["force_fail"]:
