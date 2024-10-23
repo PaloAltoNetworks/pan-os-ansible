@@ -166,6 +166,10 @@ options:
             - remove-regex
             - append
             - overwrite
+    action_community_modifier:
+        description:
+            - Modifier for the community action. Required if 'action_community_type' is set to 'append' or 'overwrite'.
+        type: str
     action_community_argument:
         description:
             - Argument to the action community value if needed.
@@ -298,6 +302,7 @@ def setup_args():
             type="str",
             choices=["none", "remove-all", "remove-regex", "append", "overwrite"],
         ),
+        action_community_modifier=dict(type="str"),
         action_community_argument=dict(type="str"),
         action_extended_community_type=dict(type="str"),
         action_extended_community_argument=dict(type="str"),
@@ -359,6 +364,7 @@ def main():
         "action_as_path_type": module.params["action_as_path_type"],
         "action_as_path_prepend_times": module.params["action_as_path_prepend_times"],
         "action_community_type": module.params["action_community_type"],
+        "action_community_modifier": module.params["action_community_modifier"],
         "action_community_argument": module.params["action_community_argument"],
         "action_extended_community_type": module.params[
             "action_extended_community_type"
