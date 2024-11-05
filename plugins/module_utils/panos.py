@@ -555,6 +555,20 @@ class ConnectionHelper(object):
         """
         pass
 
+    def object_handling(self, obj, module):
+        """Override to provide custom functionality for newly created/replaced objects.
+
+        This method is run for newly created objects with merged state or
+        created/replaced objects with present state.
+
+        By default it will handle default values for objects.
+        It's advised to call `super().object_handling(obj, module)` if overriden
+        in the modules.
+        """
+        for key, obj_value in obj.about().items():
+            if obj_value is None:
+                setattr(obj, key, self._get_default_value(obj, key))
+
     def pre_state_handling(self, obj, result, module):
         """Override to provide custom pre-state handling functionality."""
         pass
@@ -694,6 +708,8 @@ class ConnectionHelper(object):
                         continue
                     other_children.append(x)
                     item.remove(x)
+                # object_handling need to be before equal comparison for evaluating defaults
+                self.object_handling(obj, module)
                 if not item.equal(obj, compare_children=True):
                     result["changed"] = True
                     obj.extend(other_children)
@@ -703,10 +719,6 @@ class ConnectionHelper(object):
                                 # NOTE checking defaults for with_update_in_apply_state doesnot have
                                 # a use for now as template, stack and device group dont have
                                 # defaults in the SDK
-                                # it also breaks panos_template as SDK has `mode` attribute set
-                                # to "normal" by default, but there is no xpath for this.
-                                # if obj_value is None:
-                                #     setattr(obj, key, self._get_default_value(obj, key))
                                 if getattr(item, key) != getattr(obj, key):
                                     try:
                                         obj.update(key)
@@ -717,9 +729,6 @@ class ConnectionHelper(object):
                             result["after"] = self.describe(obj)
                             result["diff"]["after"] = eltostr(obj)
                         else:
-                            for key, obj_value in obj.about().items():
-                                if obj_value is None:
-                                    setattr(obj, key, self._get_default_value(obj, key))
                             result["after"] = self.describe(obj)
                             result["diff"]["after"] = eltostr(obj)
                             try:
@@ -728,9 +737,7 @@ class ConnectionHelper(object):
                                 module.fail_json(msg="Failed apply: {0}".format(e))
                 break
             else:
-                for key, obj_value in obj.about().items():
-                    if obj_value is None:
-                        setattr(obj, key, self._get_default_value(obj, key))
+                self.object_handling(obj, module)
                 result["changed"] = True
                 result["before"] = None
                 result["after"] = self.describe(obj)
@@ -889,9 +896,7 @@ class ConnectionHelper(object):
                                 )
                 break
             else:  # create new record with merge
-                for key, obj_value in obj.about().items():
-                    if obj_value is None:
-                        setattr(obj, key, self._get_default_value(obj, key))
+                self.object_handling(obj, module)
                 result["before"] = None
                 result["after"] = self.describe(obj)
                 result["diff"] = {

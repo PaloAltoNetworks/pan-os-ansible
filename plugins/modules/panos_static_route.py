@@ -52,14 +52,13 @@ options:
         type: str
     nexthop_type:
         description:
-            - Type of next hop.
+            - Type of next hop. Defaults to I("ip-address").
         type: str
         choices:
             - ip-address
             - discard
             - none
             - next-vr
-        default: 'ip-address'
     nexthop:
         description:
             - Next hop IP address.  Required if I(state=present).
@@ -165,7 +164,11 @@ class Helper(ConnectionHelper):
         # default to ip-address when nexthop is set in merged state
         # we dont know if object exists or not in merged state, and we dont set default values in module invocation
         # in order to avoid unintended updates to non-provided params, but if nexthop is given, type must be ip-address
-        if module.params["state"] == "merged" and spec["nexthop_type"] is None and spec["nexthop"] is not None:
+        if (
+            module.params["state"] == "merged"
+            and spec["nexthop_type"] is None
+            and spec["nexthop"] is not None
+        ):
             spec["nexthop_type"] = "ip-address"
 
         # NOTE merged state have a lot of API issues for updating nexthop we will let the API return it..
@@ -181,6 +184,10 @@ class Helper(ConnectionHelper):
             ]
             module.fail_json(msg=" ".join(msg))
 
+    def object_handling(self, obj, module):
+        super().object_handling(obj, module)
+        if module.params.get("nexthop_type") == "none":
+            setattr(obj, "nexthop_type", None)
 
 
 def main():
