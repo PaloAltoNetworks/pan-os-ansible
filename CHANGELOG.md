@@ -1,3 +1,11 @@
+### [2.21.3](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.2...v2.21.3) (2024-11-14)
+
+
+### Bug Fixes
+
+* Add new community argument for bgp_policy_rule ([#543](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/543)) ([255ebed](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/255ebed0450a8b993e4aebc81dc20ff8991079a2))
+* implement object_handling method for overriding defaults ([#589](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/589)) ([2a085cb](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/2a085cb600bb6cfdfbeb0b4109b76ede28e49078))
+
 ### [2.21.2](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.1...v2.21.2) (2024-09-19)
 
 
