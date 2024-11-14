@@ -554,14 +554,14 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Type of next hop.
+      Type of next hop. Defaults to \ :emphasis:`"ip-address"`\ .
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry-default:`"ip-address"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"ip-address"`
       - :ansible-option-choices-entry:`"discard"`
       - :ansible-option-choices-entry:`"none"`
       - :ansible-option-choices-entry:`"next-vr"`

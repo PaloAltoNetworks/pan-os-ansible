@@ -296,6 +296,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_community_modifier"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_community_modifier:
+
+      .. rst-class:: ansible-option-title
+
+      **action_community_modifier**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_community_modifier" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Modifier for the community action. Required if 'action\_community\_type' is set to 'append' or 'overwrite'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-action_community_type"></div>
 
       .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_community_type:
