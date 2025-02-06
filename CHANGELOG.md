@@ -1,20 +1,3 @@
-### [2.21.5](https://github.com/alperenkose/pan-os-ansible/compare/v2.21.4...v2.21.5) (2025-02-06)
-
-
-### Bug Fixes
-
-* pyproject version ([253a7cf](https://github.com/alperenkose/pan-os-ansible/commit/253a7cf078a9adf745f9e202f2516f6cf56541b2))
-
-### [2.21.4](https://github.com/alperenkose/pan-os-ansible/compare/v2.21.3...v2.21.4) (2025-02-06)
-
-
-### Bug Fixes
-
-* build clean files ([602c36e](https://github.com/alperenkose/pan-os-ansible/commit/602c36ea84d3da6c6c8df8814ec792f34d20ded8))
-* build clean files ([d9084af](https://github.com/alperenkose/pan-os-ansible/commit/d9084afb653c06426b05aea09c72806203d59e8f))
-* semver github folder ([228f694](https://github.com/alperenkose/pan-os-ansible/commit/228f69439cd74c688da3121a57981bbe039c7b2d))
-* update artifacts version ([b5e819a](https://github.com/alperenkose/pan-os-ansible/commit/b5e819a85ea0ae20009e7deef0586ebff5c0b9a2))
-
 ### [2.21.3](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.2...v2.21.3) (2024-11-14)
 
 
