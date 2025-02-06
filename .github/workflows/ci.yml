@@ -183,7 +183,6 @@ jobs:
       - name: cleanup files before packaging
         run: |
           rm -rf \
-            .github \
             .isort.cfg
 
       - name: Create release and publish

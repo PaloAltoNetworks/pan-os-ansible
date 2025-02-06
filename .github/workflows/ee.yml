@@ -120,7 +120,6 @@ jobs:
       - name: cleanup files before packaging
         run: |
           rm -rf \
-            .github \
             .isort.cfg
 
       # take pan-os-ansible from galaxy for a release, but local build for develop
