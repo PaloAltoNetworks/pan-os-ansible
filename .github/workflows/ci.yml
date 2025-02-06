@@ -180,6 +180,12 @@ jobs:
           EOF
         shell: bash
 
+      - name: cleanup files before packaging
+        run: |
+          rm -rf \
+            .github \
+            .isort.cfg
+
       - name: Create release and publish
         id: release
         uses: cycjimmy/semantic-release-action@v4
