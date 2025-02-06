@@ -1,3 +1,10 @@
+### [2.21.5](https://github.com/alperenkose/pan-os-ansible/compare/v2.21.4...v2.21.5) (2025-02-06)
+
+
+### Bug Fixes
+
+* pyproject version ([253a7cf](https://github.com/alperenkose/pan-os-ansible/commit/253a7cf078a9adf745f9e202f2516f6cf56541b2))
+
 ### [2.21.4](https://github.com/alperenkose/pan-os-ansible/compare/v2.21.3...v2.21.4) (2025-02-06)
 
 
