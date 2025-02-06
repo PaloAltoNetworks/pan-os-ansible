@@ -109,7 +109,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           context: git # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
-          images: ghcr.io/paloaltonetworks/pan-os-ansible
+          images: ghcr.io/alperenkose/pan-os-ansible # ghcr.io/paloaltonetworks/pan-os-ansible
           tags: |
             type=semver,pattern=v{{version}}
             type=semver,pattern=v{{major}}.{{minor}}
