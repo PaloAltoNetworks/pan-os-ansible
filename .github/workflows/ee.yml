@@ -117,6 +117,11 @@ jobs:
             type=ref,event=branch
             type=ref,event=tag
 
+      - name: cleanup files before packaging
+        run: |
+          rm -rf \
+            .isort.cfg
+
       # take pan-os-ansible from galaxy for a release, but local build for develop
       # ref - https://github.com/ansible-collections/community.dns/blob/main/.github/workflows/ee.yml#L96-L98
       - name: Build collection from development branch

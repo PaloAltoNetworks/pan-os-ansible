@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pan-os-ansible"
-version = "2.10.0"
+version = "2.21.3"
 description = "Ansible collection for Palo Alto Networks PAN-OS"
 authors = ["Palo Alto Networks <devrel@paloaltonetworks.com>"]
 license = "Apache-2.0"
@@ -8,6 +8,7 @@ keywords = ["panos", "pan-os-ansible"]
 readme = "README.md"
 homepage = "https://github.com/PaloAltoNetworks/pan-os-ansible"
 repository = "https://github.com/PaloAltoNetworks/pan-os-ansible"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.9"
