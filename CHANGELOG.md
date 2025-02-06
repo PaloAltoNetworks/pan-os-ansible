@@ -1,3 +1,10 @@
+### [2.21.4](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.3...v2.21.4) (2025-02-06)
+
+
+### Bug Fixes
+
+* update assurance dependency ([de1dcf4](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/de1dcf40c944f07cee6dc438746f384edddc1064))
+
 ### [2.21.3](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.2...v2.21.3) (2024-11-14)
 
 
