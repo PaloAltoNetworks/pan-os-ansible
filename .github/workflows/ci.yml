@@ -156,18 +156,18 @@ jobs:
         uses: actions/checkout@v4
 
       # This task could be removed once the task below is confirmed working
-      - name: Set up Galaxy auth
-        run: |
-          mkdir -p ~/.ansible
-          echo "token: $GALAXY_API_KEY" > ~/.ansible/galaxy_token
-        env:
-          GALAXY_API_KEY: ${{ secrets.GALAXY_API_KEY }}
-        shell: bash
+      # - name: Set up Galaxy auth
+      #   run: |
+      #     mkdir -p ~/.ansible
+      #     echo "token: $GALAXY_API_KEY" > ~/.ansible/galaxy_token
+      #   env:
+      #     GALAXY_API_KEY: ${{ secrets.GALAXY_API_KEY }}
+      #   shell: bash
 
       # New task for combined Galaxy and AutomationHub publishing
       - name: Set up Automation Hub and Galaxy ansible.cfg file
         run: |
-          cat << EOF > ansible.cfg
+          cat << EOF > ~/.ansible.cfg
           [galaxy]
           server_list = automation_hub, release_galaxy
           [galaxy_server.automation_hub]
