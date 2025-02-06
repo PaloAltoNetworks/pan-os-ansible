@@ -24,7 +24,8 @@
                 "assets": [
                     "galaxy.yml",
                     "docs/source/index.rst",
-                    "./CHANGELOG.md"
+                    "./CHANGELOG.md",
+                    "pyproject.toml"
                 ],
                 "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
             }
