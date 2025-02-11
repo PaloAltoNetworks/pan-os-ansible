@@ -161,6 +161,10 @@ def is_valid_sequence(current, target):
     elif (current.major + 1 == target.major) and (target.minor == 0):
         return True
 
+    # Upgrade to 11.1.x from 10.1.x or 10.2.x as direct upgrade(part of simplified upgrade)
+    elif ((current.major == 10) and (current.minor == 1 or current.minor == 2)) and (target.major == 11 and target.minor == 1):
+          return True
+    
     # Downgrade minor version (9.1.0 -> 9.0.0)
     elif (current.major == target.major) and (current.minor - 1 == target.minor):
         return True
