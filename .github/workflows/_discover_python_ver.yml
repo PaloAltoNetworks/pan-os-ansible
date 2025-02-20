@@ -23,6 +23,17 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v4
-      - name: discover Python version
+
+      - name: extract Python version
         id: pyversion
-        uses: PaloAltoNetworks/pan-os-upgrade-assurance/.github/actions/discover_python_version@v0.3.1
+        run: |
+          # try to extract the 'python = "xxx"' string from TOML file
+          local constraint=$(grep -E '^python\s*=' pyproject.toml | cut -d= -f2- | tr -d ' "')
+
+          if [[ $constraint =~ (>=|\^|~)([0-9]+\.[0-9]+) ]]; then
+              # echo "Operator: ${BASH_REMATCH[1]}"
+              echo "pyver=${BASH_REMATCH[2]}" >> $GITHUB_OUTPUT
+          else
+              echo "No valid Python version found."
+              return 1
+          fi
