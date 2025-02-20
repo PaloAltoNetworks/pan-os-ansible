@@ -28,9 +28,9 @@ jobs:
         id: pyversion
         run: |
           # try to extract the 'python = "xxx"' string from TOML file
-          local constraint=$(grep -E '^python\s*=' pyproject.toml | cut -d= -f2- | tr -d ' "')
+          CONSTRAINT=$(grep -E '^python\s*=' pyproject.toml | cut -d= -f2- | tr -d ' "')
 
-          if [[ $constraint =~ (>=|\^|~)([0-9]+\.[0-9]+) ]]; then
+          if [[ $CONSTRAINT =~ (>=|\^|~)([0-9]+\.[0-9]+) ]]; then
               # echo "Operator: ${BASH_REMATCH[1]}"
               echo "pyver=${BASH_REMATCH[2]}" >> $GITHUB_OUTPUT
           else
