@@ -41,8 +41,15 @@ jobs:
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v8
+        with:
+          poetry-version: "1"
 
-      - name: Install Dependencies
+      - run: poetry --version
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Install temp dependencies
         run: poetry run pip install toml
 
       - name: Export requirements.txt
