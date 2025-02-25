@@ -1,0 +1,88 @@
+name: Check Requirements are up to date
+
+on:                             # TODO
+  workflow_dispatch:  # Allow manual trigger
+
+env:
+  NAMESPACE: paloaltonetworks
+  COLLECTION_NAME: panos
+
+jobs:
+  validate-requirements:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: discover Python version
+        id: pyversion
+        uses: ./.github/actions/discover_python_version
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ steps.pyversion.outputs.pyversion }}
+
+      - name: Install Poetry
+        uses: Gr1N/setup-poetry@v8
+
+      - name: Install Dependencies
+        run: poetry run pip install toml
+
+      - name: Export requirements.txt
+        run: poetry run make reqs
+
+      # - name: Export Requirements.txt
+      #   run: |
+      #     poetry export -f requirements.txt --output requirements.txt.new --only=main --without-hashes
+
+      - name: Normalize Requirements File
+        run: |
+          poetry run python <<EOF
+          import toml
+          import re
+
+          # Load pyproject.toml
+          with open("pyproject.toml", "r") as f:
+              pyproject = toml.load(f)
+
+          # Extract dependencies with their correct version constraints
+          main_deps = pyproject["tool"]["poetry"]["dependencies"]
+          main_deps.pop("python", None)  # Remove Python entry
+
+          # Read exported requirements.txt
+          with open("requirements.txt", "r") as f:
+              lines = f.readlines()
+
+          # Function to replace package version while keeping extras/markers
+          def replace_version(line):
+              match = re.match(r"^([a-zA-Z0-9\-_]+)(\[.*\])?([=><~!]+[^\s;]+)(.*)", line)
+              if match:
+                  pkg_name, extras, constraint, rest = match.groups()
+                  pkg_name_lower = pkg_name.lower()
+
+                  if pkg_name_lower in main_deps:
+                      return f"{pkg_name}{extras or ''}{main_deps[pkg_name_lower]}{rest}\n"
+
+              return line
+
+          # Process and replace package versions
+          updated_lines = [replace_version(line) for line in lines]
+
+          # Write cleaned requirements.txt
+          with open("requirements.txt", "w") as f:
+              f.writelines(updated_lines)
+
+          EOF
+
+      - name: Check for changes in requirements.txt
+        run: |
+          if git diff --exit-code requirements.txt; then
+            echo "✅ No changes in requirements.txt"
+          else
+            echo "❌ requirements.txt is outdated. Please update it with `make reqs` and commit the changes."
+            exit 1
+          fi
