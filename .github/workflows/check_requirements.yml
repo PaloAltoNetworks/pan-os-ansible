@@ -1,12 +1,7 @@
 name: Check Requirements are up to date
 
-on:                             # TODO
+on:
   workflow_call:
-    inputs:
-      python-version:
-        type: string
-        required: true
-  workflow_dispatch:  # Allow manual trigger
     inputs:
       python-version:
         type: string
@@ -17,7 +12,8 @@ env:
   COLLECTION_NAME: panos
 
 jobs:
-  validate-requirements:
+  needs-update:
+    name: Need Requirements Update
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -28,12 +24,6 @@ jobs:
         with:
           path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
-      # - name: discover Python version
-      #   id: pyversion
-      #   uses: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/.github/actions/discover_python_version
-      #   with:
-      #     working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
-
       - name: Install Python
         uses: actions/setup-python@v4
         with:
@@ -43,8 +33,6 @@ jobs:
         uses: Gr1N/setup-poetry@v8
         with:
           poetry-version: "1.8.5"
-
-      - run: poetry --version
 
       - name: Install dependencies
         run: poetry install

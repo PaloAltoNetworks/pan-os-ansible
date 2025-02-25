@@ -139,7 +139,6 @@ jobs:
         run: poetry run make check-format
 
   requirements:
-    name: Check requirements update
     needs: pyversion
     uses: ./.github/workflows/check_requirements.yml
     with:
