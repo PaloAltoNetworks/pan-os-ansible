@@ -42,7 +42,7 @@ jobs:
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v8
         with:
-          poetry-version: "1"
+          poetry-version: "1.8.5"
 
       - run: poetry --version
 
