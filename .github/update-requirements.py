@@ -13,7 +13,11 @@ main_deps.pop("python", None)  # Remove Python entry
 with open("requirements.txt", "r") as f:
     exported_reqs = f.readlines()
 
-main_reqs = [line for line in exported_reqs if any(line.split('=')[0] == dep for dep in main_deps.keys())]
+main_reqs = [
+    line
+    for line in exported_reqs
+    if any(line.split("=")[0] == dep for dep in main_deps.keys())
+]
 
 # Function to replace package version while keeping extras/markers
 def replace_version(line):
@@ -26,6 +30,7 @@ def replace_version(line):
             return f"{pkg_name}{extras or ''}{main_deps[pkg_name_lower]}{rest}\n"
 
     return line
+
 
 # Process and replace package versions
 updated_reqs = [replace_version(line) for line in main_reqs]
