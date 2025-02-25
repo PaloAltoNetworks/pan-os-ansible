@@ -1,6 +1,11 @@
 name: Discover minimum Python version
 description: Discover the lowest supported Python version based on pyptoject.toml file
 
+inputs:
+  working-directory:
+    required: false
+    default: "./"
+
 outputs:
   pyversion:
     description: Lowest supported python version
@@ -23,3 +28,4 @@ runs:
             echo "No valid Python version found."
             return 1
         fi
+      working-directory: ${{ inputs.working-directory }}

@@ -22,6 +22,8 @@ jobs:
       - name: discover Python version
         id: pyversion
         uses: ./.github/actions/discover_python_version
+        with:
+          working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Install Python
         uses: actions/setup-python@v4
