@@ -19,9 +19,16 @@ jobs:
         with:
           path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
+      # - name: discover Python version
+      #   id: pyversion
+      #   uses: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/.github/actions/discover_python_version
+      #   with:
+      #     working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
       - name: discover Python version
         id: pyversion
-        uses: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/.github/actions/discover_python_version
+        uses: alperenkose/pan-os-ansible/.github/actions/discover_python_version@${{ github.sha }
+        # uses: PaloAltoNetworks/pan-os-ansible/.github/actions/discover_python_version@TODO
         with:
           working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
