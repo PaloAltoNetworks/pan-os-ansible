@@ -143,7 +143,6 @@ jobs:
     needs: pyversion
     uses: ./.github/workflows/check_requirements.yml
     with:
-      working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
       python-version: ${{ needs.pyversion.outputs.pyversion }}
 
   release:
