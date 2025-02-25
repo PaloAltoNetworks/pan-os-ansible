@@ -1,3 +1,6 @@
+# This script updates the requirements file to match with version constraints in pyproject.yml
+# and also removes subdependencies keeping only the main dependencies
+
 import toml
 import re
 
@@ -18,6 +21,7 @@ main_reqs = [
     for line in exported_reqs
     if any(line.split("=")[0] == dep for dep in main_deps.keys())
 ]
+
 
 # Function to replace package version while keeping extras/markers
 def replace_version(line):
