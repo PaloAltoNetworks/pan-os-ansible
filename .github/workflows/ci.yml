@@ -138,10 +138,19 @@ jobs:
       - name: Do black code format check
         run: poetry run make check-format
 
+  requirements:
+    name: Check requirements update
+    runs-on: ubuntu-latest
+    needs: pyversion
+    uses: ./.github/workflows/check_requirements.yml
+    with:
+      working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+      python-version: ${{ needs.pyversion.outputs.pyversion }}
+
   release:
     name: release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [sanity, tox, lint, format]
+    needs: [sanity, tox, lint, format, requirements]
     runs-on: ubuntu-latest
     outputs:
       new_release_published: ${{ steps.release.outputs.new_release_published }}
@@ -268,7 +277,7 @@ jobs:
   rc:
     name: Check rc EE
     runs-on: ubuntu-latest
-    needs: [sanity, tox, lint, format]
+    needs: [sanity, tox, lint, format, requirements]
     if: (github.event_name == 'push' && github.ref == 'refs/heads/develop')
     outputs:
       rc: ${{ steps.rc.outputs.new_release_published }}

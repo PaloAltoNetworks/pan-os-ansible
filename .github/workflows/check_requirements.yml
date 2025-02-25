@@ -1,23 +1,40 @@
 name: Check Requirements are up to date
 
 on:                             # TODO
+  workflow_call:
+    inputs:
+      python-version:
+        type: string
+        required: true
+      working-directory:
+        type: string
+        required: false
+        default: './'
   workflow_dispatch:  # Allow manual trigger
+    inputs:
+      python-version:
+        type: string
+        required: true
+      working-directory:
+        type: string
+        required: false
+        default: './'
 
-env:
-  NAMESPACE: paloaltonetworks
-  COLLECTION_NAME: panos
+# env:
+#   NAMESPACE: paloaltonetworks
+#   COLLECTION_NAME: panos
 
 jobs:
   validate-requirements:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+        working-directory: ${{ inputs.working-directory }}
 
     steps:
       - uses: actions/checkout@v4
         with:
-          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+          path: ${{ inputs.working-directory }}
 
       # - name: discover Python version
       #   id: pyversion
@@ -25,17 +42,10 @@ jobs:
       #   with:
       #     working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
-      - name: discover Python version
-        id: pyversion
-        uses: alperenkose/pan-os-ansible/.github/actions/discover_python_version@${{ github.sha }}
-        # uses: PaloAltoNetworks/pan-os-ansible/.github/actions/discover_python_version@TODO
-        with:
-          working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
-
       - name: Install Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ steps.pyversion.outputs.pyversion }}
+          python-version: ${{ inputs.python-version }}
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v8
