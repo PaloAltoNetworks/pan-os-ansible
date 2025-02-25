@@ -27,7 +27,7 @@ jobs:
 
       - name: discover Python version
         id: pyversion
-        uses: alperenkose/pan-os-ansible/.github/actions/discover_python_version@${{ github.sha }
+        uses: alperenkose/pan-os-ansible/.github/actions/discover_python_version@${{ github.sha }}
         # uses: PaloAltoNetworks/pan-os-ansible/.github/actions/discover_python_version@TODO
         with:
           working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
