@@ -140,7 +140,6 @@ jobs:
 
   requirements:
     name: Check requirements update
-    runs-on: ubuntu-latest
     needs: pyversion
     uses: ./.github/workflows/check_requirements.yml
     with:
