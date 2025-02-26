@@ -337,13 +337,13 @@ jobs:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build_dev_ee:
-    name: dev_ee
+    name: dev
     needs: rc
     if: needs.rc.outputs.rc == 'true'
     uses: ./.github/workflows/ee.yml
 
   build_prod_ee:
-    name: release_ee
+    name: release
     needs: release
     uses: ./.github/workflows/ee.yml
     with:
