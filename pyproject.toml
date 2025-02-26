@@ -10,6 +10,10 @@ homepage = "https://github.com/PaloAltoNetworks/pan-os-ansible"
 repository = "https://github.com/PaloAltoNetworks/pan-os-ansible"
 package-mode = false
 
+# Dependency version constraints should be maintained to be compatible with PEP 508
+# as well as pip requirements, which can be transferred as is.
+# Caret(^), tilde(~) and other non-compatible contraints should NOT be used.
+# Best compatible way is to use >= and < version range contraints.
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
 pan-os-python = ">=1.8,<2.0"
