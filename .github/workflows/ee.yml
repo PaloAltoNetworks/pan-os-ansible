@@ -197,6 +197,7 @@ jobs:
               type: file
             - name: awx.awx
             - community.general
+            - name: ansible.posix
           EOF
           echo "::group::requirements.yml"
           cat requirements.yml
@@ -217,6 +218,7 @@ jobs:
               version: ${{needs.prepare.outputs.version}}
             - name: awx.awx
             - community.general
+            - name: ansible.posix
           EOF
           echo "::group::requirements.yml"
           cat requirements.yml
@@ -230,6 +232,7 @@ jobs:
           # Python Requirements
           cat > requirements-ee.txt <<EOF
           jmespath
+          markdown-it-py>=3.0.0
           EOF
           echo "::group::requirements-ee.txt"
           cat requirements-ee.txt
@@ -305,7 +308,7 @@ jobs:
       - name: determine docker tags and labels
         id: meta
         uses: docker/metadata-action@v5
-        with:
+        with: # labels and annotations are overwritten for image.title information
           context: git # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
           images: ghcr.io/alperenkose/pan-os-ansible-rhel9 # TODO CHANGE ORGANIZATION
           tags: |
@@ -411,7 +414,6 @@ jobs:
           cat requirements-ee.txt
           echo "::endgroup::"
 
-      # TODO set docker image name somewhere here..
       - name: create execution env context
         run: |
           poetry run ansible-builder create -v 3 --output-filename Dockerfile
