@@ -43,8 +43,8 @@ jobs:
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v8
-        #with:
-        #  poetry-version: 1.0.10
+        with:
+          poetry-version: "1.8.5"
 
       # Install the head of the given branch (devel, stable-2.10)
       - name: Install ansible-base (${{ matrix.ansible }})
@@ -131,6 +131,8 @@ jobs:
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v8
+        with:
+          poetry-version: "1.8.5"
 
       - name: Install dependencies
         run: poetry install
@@ -229,6 +231,8 @@ jobs:
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v8
+        with:
+          poetry-version: "1.8.5"
 
       - name: Add ansible-core
         run: poetry add ansible-core^2.15
