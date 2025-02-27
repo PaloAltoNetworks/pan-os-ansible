@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
     inputs:
       release:
-        description: EE for a release or development
+        description: Prepare EE for a release tag
         type: boolean
         default: false
 
@@ -23,14 +23,11 @@ env:
   COLLECTION_NAME: panos
 
 jobs:
-
-  build_ee:
-    name: Ansible EE
+  prepare:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
+    outputs:
+      name: ${{ steps.tag.outputs.name }}
+      version: ${{ steps.tag.outputs.version }}
 
     steps:
       # if event == push (same event from workflow_call) and inputs.release == true
@@ -73,12 +70,22 @@ jobs:
         env:
           GITHUB_REF: ${{ github.ref }}
 
+  build_awx:
+    name: AWX Ansible EE
+    runs-on: ubuntu-latest
+    needs: prepare
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
       # checkout tag for releae otherwise checkout branch
       - name: check out code
         uses: actions/checkout@v4
         with:
           # if tag is empty; github.ref else tag.outputs.name
-          ref: ${{ steps.tag.outputs.name == '' && github.ref || steps.tag.outputs.name }}
+          ref: ${{ needs.prepare.outputs.name == '' && github.ref || needs.prepare.outputs.name }}
 
       - name: discover Python version
         id: pyversion
@@ -92,6 +99,8 @@ jobs:
 
       - name: install Poetry
         uses: Gr1N/setup-poetry@v8
+        with:
+          poetry-version: "1.8.5"
 
       - name: prep Poetry venv
         run: |
@@ -188,6 +197,7 @@ jobs:
               type: file
             - name: awx.awx
             - community.general
+            - name: ansible.posix
           EOF
           echo "::group::requirements.yml"
           cat requirements.yml
@@ -205,9 +215,10 @@ jobs:
           ---
           collections:
             - name: paloaltonetworks.panos
-              version: ${{steps.tag.outputs.version}}
+              version: ${{needs.prepare.outputs.version}}
             - name: awx.awx
             - community.general
+            - name: ansible.posix
           EOF
           echo "::group::requirements.yml"
           cat requirements.yml
@@ -221,6 +232,7 @@ jobs:
           # Python Requirements
           cat > requirements-ee.txt <<EOF
           jmespath
+          markdown-it-py>=3.0.0
           EOF
           echo "::group::requirements-ee.txt"
           cat requirements-ee.txt
@@ -238,6 +250,189 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: build and publish
+        uses: docker/build-push-action@v5
+        with:
+          context: "./context/"
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: ${{ inputs.release }} # disable for development to keep number of images low
+
+  build_rhel:
+    name: RedHat Ansible EE
+    runs-on: ubuntu-latest
+    needs: prepare
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      # checkout tag for releae otherwise checkout branch
+      - name: check out code
+        uses: actions/checkout@v4
+        with:
+          # if tag is empty; github.ref else tag.outputs.name
+          ref: ${{ needs.prepare.outputs.name == '' && github.ref || needs.prepare.outputs.name }}
+
+      - name: discover Python version
+        id: pyversion
+        uses: ./.github/actions/discover_python_version
+
+      - name: install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ steps.pyversion.outputs.pyversion }}
+          cache: pip
+
+      - name: install Poetry
+        uses: Gr1N/setup-poetry@v8
+        with:
+          poetry-version: "1.8.5"
+
+      - name: prep Poetry venv
+        run: |
+          poetry env use ${{ steps.pyversion.outputs.pyversion }}
+          poetry lock
+          poetry install --with ansible-ee --without dev --no-root
+
+      - name: set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # produce docker tags for semver if on a tag, otherwise take ref branch name
+      # latest tag is only produced for semver operating on a tag
+      - name: determine docker tags and labels
+        id: meta
+        uses: docker/metadata-action@v5
+        with: # labels and annotations are overwritten for image.title information
+          context: git # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
+          images: ghcr.io/paloaltonetworks/pan-os-ansible-rhel9
+          tags: |
+            type=semver,pattern=v{{version}}
+            type=semver,pattern=v{{major}}.{{minor}}
+            type=semver,pattern=v{{major}}
+            type=ref,event=branch
+            type=ref,event=tag
+          labels: |
+            org.opencontainers.image.title=pan-os-ansible-rhel9
+          annotations: |
+            org.opencontainers.image.title=pan-os-ansible-rhel9
+
+      - name: cleanup files before packaging
+        run: |
+          rm -rf \
+            .isort.cfg
+
+      # take pan-os-ansible from galaxy for a release, but local build for develop
+      # ref - https://github.com/ansible-collections/community.dns/blob/main/.github/workflows/ee.yml#L96-L98
+      - name: Build collection from development branch
+        run: |
+          ansible-galaxy collection build
+        if: ${{ inputs.release == false }}
+
+      - name: create base EE file
+        run: |
+          cat > execution-environment.yml <<EOF
+          ---
+          version: 3
+
+          images:
+            base_image:
+              name: registry.redhat.io/ansible-automation-platform-25/ee-minimal-rhel9:latest
+
+          dependencies:
+            galaxy: requirements.yml
+            python: requirements-ee.txt
+
+          # Custom package manager path for the RHEL based images
+          options:
+            package_manager_path: /usr/bin/microdnf
+
+          EOF
+
+      - name: append build files to EE for development
+        run: |
+          COLLECTION_FILENAME="$(ls "${{ env.NAMESPACE }}-${{ env.COLLECTION_NAME }}"-*.tar.gz)"
+
+          # append to existing EE file
+          cat >> execution-environment.yml <<EOF
+          additional_build_files:
+            - src: ${COLLECTION_FILENAME}
+              dest: src
+          EOF
+          echo "::group::execution-environment.yml"
+          cat execution-environment.yml
+          echo "::endgroup::"
+
+          cat > requirements.yml <<EOF
+          ---
+          collections:
+            - name: src/${COLLECTION_FILENAME}
+              type: file
+            - name: community.general
+            - name: ansible.posix
+          EOF
+          echo "::group::requirements.yml"
+          cat requirements.yml
+          echo "::endgroup::"
+        if: ${{ inputs.release == false }}
+
+      - name: append build files to EE for release
+        run: |
+          echo "::group::execution-environment.yml"
+          cat execution-environment.yml
+          echo "::endgroup::"
+
+          # Collection Requirements
+          cat > requirements.yml <<EOF
+          ---
+          collections:
+            - name: paloaltonetworks.panos
+              version: ${{needs.prepare.outputs.version}}
+            - name: community.general
+            - name: ansible.posix
+          EOF
+          echo "::group::requirements.yml"
+          cat requirements.yml
+          echo "::endgroup::"
+        if: inputs.release
+
+      # when you build a collection the requirements.txt file is already included in it
+      # this is for additional packages we want to include in the EE image
+      - name: create additional requirements.txt for EE
+        run: |
+          # Python Requirements
+          cat > requirements-ee.txt <<EOF
+          jmespath
+          markdown-it-py>=3.0.0
+          EOF
+          echo "::group::requirements-ee.txt"
+          cat requirements-ee.txt
+          echo "::endgroup::"
+
+      - name: create execution env context
+        run: |
+          poetry run ansible-builder create -v 3 --output-filename Dockerfile
+          ls -l ./context/
+          cat ./context/Dockerfile
+
+      - name: login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: login to registry.redhat.io
+        uses: docker/login-action@v3
+        with:
+          registry: registry.redhat.io
+          username: ${{ secrets.RH_REGISTRY_USER }}
+          password: ${{ secrets.RH_REGISTRY_TOKEN }}
 
       - name: build and publish
         uses: docker/build-push-action@v5

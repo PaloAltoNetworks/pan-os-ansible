@@ -43,8 +43,8 @@ jobs:
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v8
-        #with:
-        #  poetry-version: 1.0.10
+        with:
+          poetry-version: "1.8.5"
 
       # Install the head of the given branch (devel, stable-2.10)
       - name: Install ansible-base (${{ matrix.ansible }})
@@ -131,6 +131,8 @@ jobs:
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v8
+        with:
+          poetry-version: "1.8.5"
 
       - name: Install dependencies
         run: poetry install
@@ -145,7 +147,7 @@ jobs:
       python-version: ${{ needs.pyversion.outputs.pyversion }}
 
   release:
-    name: release
+    name: Release Version
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: [sanity, tox, lint, format, requirements]
     runs-on: ubuntu-latest
@@ -229,6 +231,8 @@ jobs:
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v8
+        with:
+          poetry-version: "1.8.5"
 
       - name: Add ansible-core
         run: poetry add ansible-core^2.15
@@ -272,7 +276,7 @@ jobs:
           clean: true
 
   rc:
-    name: Check rc EE
+    name: Check RC EE
     runs-on: ubuntu-latest
     needs: [sanity, tox, lint, format, requirements]
     if: (github.event_name == 'push' && github.ref == 'refs/heads/develop')
@@ -337,13 +341,13 @@ jobs:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build_dev_ee:
-    name: dev_ee
+    name: Dev EE
     needs: rc
     if: needs.rc.outputs.rc == 'true'
     uses: ./.github/workflows/ee.yml
 
   build_prod_ee:
-    name: release_ee
+    name: Release EE
     needs: release
     uses: ./.github/workflows/ee.yml
     with:
