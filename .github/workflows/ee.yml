@@ -316,6 +316,8 @@ jobs:
             type=ref,event=tag
           labels: |
             org.opencontainers.image.title=pan-os-ansible-rhel9
+          annotations: |
+            org.opencontainers.image.title=pan-os-ansible-rhel9
 
       - name: cleanup files before packaging
         run: |
