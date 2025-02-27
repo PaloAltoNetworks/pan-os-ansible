@@ -25,4 +25,4 @@ jobs:
         uses: actions/checkout@v4
       - name: discover Python version
         id: pyversion
-        uses: PaloAltoNetworks/pan-os-upgrade-assurance/.github/actions/discover_python_version@v0.3.1
+        uses: ./.github/actions/discover_python_version
