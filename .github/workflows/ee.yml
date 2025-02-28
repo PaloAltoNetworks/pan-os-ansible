@@ -150,15 +150,15 @@ jobs:
 
           dependencies:
             python_interpreter:
-              package_system: python3.9
-              python_path: /usr/bin/python3.9
+              package_system: python3.11
+              python_path: /usr/bin/python3.11
             ansible_core:
-              package_pip: ansible-core>=2.15.0rc2,<2.16
+              package_pip: ansible-core>=2.16.0,<2.17
             ansible_runner:
               package_pip: ansible-runner
             system: |
               git-core [platform:rpm]
-              python3.9-devel [platform:rpm compile]
+              python3.11-devel [platform:rpm compile]
               libcurl-devel [platform:rpm compile]
               sshpass [platform:rpm]
               rsync [platform:rpm]
@@ -171,8 +171,8 @@ jobs:
             append_base:
               - RUN \$PYCMD -m pip install -U pip
             append_final:
-              # SymLink `python` -> `python3.9`
-              - RUN alternatives --install /usr/bin/python python /usr/bin/python3.9 39
+              # SymLink `python` -> `python3.11`
+              - RUN alternatives --install /usr/bin/python python /usr/bin/python3.11 311
 
           EOF
 
