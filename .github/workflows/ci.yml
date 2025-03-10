@@ -268,7 +268,7 @@ jobs:
           mkdir -p pan-os-ansible/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.4.3
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
