@@ -82,7 +82,7 @@ jobs:
     steps:
       # checkout tag for releae otherwise checkout branch
       - name: check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           # if tag is empty; github.ref else tag.outputs.name
           ref: ${{ needs.prepare.outputs.name == '' && github.ref || needs.prepare.outputs.name }}
@@ -92,13 +92,13 @@ jobs:
         uses: ./.github/actions/discover_python_version
 
       - name: install Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # v4
         with:
           python-version: ${{ steps.pyversion.outputs.pyversion }}
           cache: pip
 
       - name: install Poetry
-        uses: Gr1N/setup-poetry@v8
+        uses: Gr1N/setup-poetry@15821dc8a61bc630db542ae4baf6a7c19a994844 # v8
         with:
           poetry-version: "1.8.5"
 
@@ -109,13 +109,13 @@ jobs:
           poetry install --with ansible-ee --without dev --no-root
 
       - name: set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3
 
       # produce docker tags for semver if on a tag, otherwise take ref branch name
       # latest tag is only produced for semver operating on a tag
       - name: determine docker tags and labels
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5
         with:
           context: git # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
           images: ghcr.io/paloaltonetworks/pan-os-ansible
@@ -245,14 +245,14 @@ jobs:
           cat ./context/Dockerfile
 
       - name: login to GHCR
-        uses: docker/login-action@v3
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 #v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: build and publish
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
         with:
           context: "./context/"
           push: true
@@ -274,7 +274,7 @@ jobs:
     steps:
       # checkout tag for releae otherwise checkout branch
       - name: check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           # if tag is empty; github.ref else tag.outputs.name
           ref: ${{ needs.prepare.outputs.name == '' && github.ref || needs.prepare.outputs.name }}
@@ -284,13 +284,13 @@ jobs:
         uses: ./.github/actions/discover_python_version
 
       - name: install Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # v4
         with:
           python-version: ${{ steps.pyversion.outputs.pyversion }}
           cache: pip
 
       - name: install Poetry
-        uses: Gr1N/setup-poetry@v8
+        uses: Gr1N/setup-poetry@15821dc8a61bc630db542ae4baf6a7c19a994844 # v8
         with:
           poetry-version: "1.8.5"
 
@@ -301,13 +301,13 @@ jobs:
           poetry install --with ansible-ee --without dev --no-root
 
       - name: set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3
 
       # produce docker tags for semver if on a tag, otherwise take ref branch name
       # latest tag is only produced for semver operating on a tag
       - name: determine docker tags and labels
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5
         with: # labels and annotations are overwritten for image.title information
           context: git # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
           images: ghcr.io/paloaltonetworks/pan-os-ansible-rhel9
@@ -421,21 +421,21 @@ jobs:
           cat ./context/Dockerfile
 
       - name: login to GHCR
-        uses: docker/login-action@v3
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 #v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: login to registry.redhat.io
-        uses: docker/login-action@v3
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 #v3
         with:
           registry: registry.redhat.io
           username: ${{ secrets.RH_REGISTRY_USER }}
           password: ${{ secrets.RH_REGISTRY_TOKEN }}
 
       - name: build and publish
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
         with:
           context: "./context/"
           push: true
