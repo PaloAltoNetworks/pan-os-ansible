@@ -32,19 +32,19 @@ jobs:
       run:
         working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@b64ffcaf5b410884ad320a9cfac8866006a109aa # v4
         with:
           python-version: ${{ matrix.python_ver }}
 
       - name: Install Poetry
-        uses: Gr1N/setup-poetry@v8
-        #with:
-        #  poetry-version: 1.0.10
+        uses: Gr1N/setup-poetry@15821dc8a61bc630db542ae4baf6a7c19a994844 # v8
+        with:
+          poetry-version: "1.8.5"
 
       # Install the head of the given branch (devel, stable-2.10)
       - name: Install ansible-base (${{ matrix.ansible }})
@@ -85,9 +85,9 @@ jobs:
         working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@main
+        uses: ansible/ansible-lint@cb6a42235ff14e2da113f588bb088c2f68540f7b # main
 
   # Tox is used to execute linters required for Event-Driven Ansible (EDA) code:
   #   github.com/ansible/eda-partner-testing/blob/main/README.md
@@ -100,7 +100,7 @@ jobs:
     name: Tox Checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Install deps
         run: python -m pip install tox
       - name: Move to tox conf file and run tox
@@ -120,17 +120,19 @@ jobs:
       run:
         working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@b64ffcaf5b410884ad320a9cfac8866006a109aa # v4
         with:
           python-version: ${{ needs.pyversion.outputs.pyversion }}
 
       - name: Install Poetry
-        uses: Gr1N/setup-poetry@v8
+        uses: Gr1N/setup-poetry@15821dc8a61bc630db542ae4baf6a7c19a994844 # v8
+        with:
+          poetry-version: "1.8.5"
 
       - name: Install dependencies
         run: poetry install
@@ -138,10 +140,16 @@ jobs:
       - name: Do black code format check
         run: poetry run make check-format
 
+  requirements:
+    needs: pyversion
+    uses: ./.github/workflows/check_requirements.yml
+    with:
+      python-version: ${{ needs.pyversion.outputs.pyversion }}
+
   release:
-    name: release
+    name: Release Version
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [sanity, tox, lint, format]
+    needs: [sanity, tox, lint, format, requirements]
     runs-on: ubuntu-latest
     outputs:
       new_release_published: ${{ steps.release.outputs.new_release_published }}
@@ -153,7 +161,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       # New task for combined Galaxy and AutomationHub publishing
       - name: Set up Automation Hub and Galaxy ansible.cfg file
@@ -178,7 +186,7 @@ jobs:
 
       - name: Create release and publish
         id: release
-        uses: cycjimmy/semantic-release-action@v4
+        uses: cycjimmy/semantic-release-action@0a51e81a6baff2acad3ee88f4121c589c73d0f0e # v4
         with:
           semantic_version: 17.1.1
           extra_plugins: |
@@ -190,7 +198,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Store built collection
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: collection
           path: |
@@ -212,17 +220,19 @@ jobs:
       # such as ansible-test in the symlink directory fails.  Thus we need
       # to have the real path contain ansible_collections/paloaltonetworks/panos.
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@b64ffcaf5b410884ad320a9cfac8866006a109aa # v4
         with:
           python-version: ${{ needs.pyversion.outputs.pyversion }}
 
       - name: Install Poetry
-        uses: Gr1N/setup-poetry@v8
+        uses: Gr1N/setup-poetry@15821dc8a61bc630db542ae4baf6a7c19a994844 # v8
+        with:
+          poetry-version: "1.8.5"
 
       - name: Add ansible-core
         run: poetry add ansible-core^2.15
@@ -258,7 +268,7 @@ jobs:
           mkdir -p pan-os-ansible/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.4.3
+        uses: JamesIves/github-pages-deploy-action@a1ea191d508feb8485aceba848389d49f80ca2dc # v4.4.3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
@@ -266,9 +276,9 @@ jobs:
           clean: true
 
   rc:
-    name: Check rc EE
+    name: Check RC EE
     runs-on: ubuntu-latest
-    needs: [sanity, tox, lint, format]
+    needs: [sanity, tox, lint, format, requirements]
     if: (github.event_name == 'push' && github.ref == 'refs/heads/develop')
     outputs:
       rc: ${{ steps.rc.outputs.new_release_published }}
@@ -276,10 +286,10 @@ jobs:
 
     steps:
       - name: checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: setup node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
         with:
           node-version: 'lts/*'
 
@@ -331,13 +341,13 @@ jobs:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build_dev_ee:
-    name: dev_ee
+    name: Dev EE
     needs: rc
     if: needs.rc.outputs.rc == 'true'
     uses: ./.github/workflows/ee.yml
 
   build_prod_ee:
-    name: release_ee
+    name: Release EE
     needs: release
     uses: ./.github/workflows/ee.yml
     with:
