@@ -349,6 +349,7 @@ jobs:
   build_prod_ee:
     name: Release EE
     needs: release
+    if: needs.release.outputs.new_release_published == 'true'
     uses: ./.github/workflows/ee.yml
     with:
       release: true
