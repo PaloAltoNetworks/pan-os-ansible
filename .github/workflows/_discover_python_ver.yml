@@ -1,0 +1,28 @@
+name: (sub) Discover Python version
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  contents: read
+
+on:
+  workflow_call:
+    outputs:
+      pyversion:
+        description: A discovered Python version
+        value: ${{ jobs.pyversion.outputs.pyversion }}
+
+jobs:
+  pyversion:
+    name: Discover minimum Python version
+    runs-on: ubuntu-latest
+    outputs:
+      pyversion: ${{ steps.pyversion.outputs.pyversion }}
+    steps:
+      - name: checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - name: discover Python version
+        id: pyversion
+        uses: ./.github/actions/discover_python_version
