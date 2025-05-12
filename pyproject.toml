@@ -42,6 +42,7 @@ certifi = "2021.5.30"
 chardet = "3.0.4"
 idna = "2.8"
 requests = ">=2.22.0,<3.0"
+toml = "*"
 
 [tool.poetry.group.ansible-ee]
 optional = true
