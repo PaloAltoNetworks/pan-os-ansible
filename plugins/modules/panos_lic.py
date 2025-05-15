@@ -139,12 +139,12 @@ def main():
                 "feature": x[0],
                 "description": x[1],
                 "serial": x[2],
-                "issued": x[3].strftime(date_format)
-                if hasattr(x[3], "strftime")
-                else x[3],
-                "expires": x[4].strftime(date_format)
-                if hasattr(x[4], "strftime")
-                else x[4],
+                "issued": (
+                    x[3].strftime(date_format) if hasattr(x[3], "strftime") else x[3]
+                ),
+                "expires": (
+                    x[4].strftime(date_format) if hasattr(x[4], "strftime") else x[4]
+                ),
                 "expired": x[5],
                 "authcode": x[6],
             }
