@@ -27,7 +27,7 @@ before 2.16 are **not supported**.
 Python Version
 --------------
 
-The minimum python version for this collection is python 3.9.
+The minimum python version for this collection is python 3.10.
 
 Installation
 ------------

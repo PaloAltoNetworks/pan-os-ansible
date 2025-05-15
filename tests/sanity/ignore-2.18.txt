@@ -49,7 +49,6 @@ plugins/modules/panos_http_profile.py validate-modules:missing-gplv3-license
 plugins/modules/panos_http_server.py validate-modules:missing-gplv3-license
 plugins/modules/panos_ike_crypto_profile.py validate-modules:missing-gplv3-license
 plugins/modules/panos_ike_gateway.py validate-modules:missing-gplv3-license
-plugins/modules/panos_ike_gateway.py validate-modules:option-equal-up-to-casing
 plugins/modules/panos_import.py validate-modules:missing-gplv3-license
 plugins/modules/panos_interface.py validate-modules:missing-gplv3-license
 plugins/modules/panos_ipsec_ipv4_proxyid.py validate-modules:missing-gplv3-license
