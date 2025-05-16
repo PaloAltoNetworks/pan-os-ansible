@@ -125,6 +125,31 @@ These all do the same thing, listed from fastest to slowest.
     gathered_filter: 'name matches-regex .*?'
 
 
+Example - Matching a Regex
+--------------------------
+
+It is possible to write regex in the following formats;
+
+* Standard regex in single quotation marks(`'`)
+* Escaped backslash in double quotation marks(`"`)
+* Using folded block scalar followed by a dash (`>-`) without any quotation marks
+
+See examples below which correspond to the same regex:
+
+.. code-block:: yaml
+
+    gathered_filter: 'name matches-regex \sPAN\s'
+
+.. code-block:: yaml
+
+    gathered_filter: "name matches-regex \\sPAN\\s"
+
+.. code-block:: yaml
+
+    gathered_filter: >-
+      name matches-regex \sPAN\s
+
+
 Example - Matching a Suffix
 ---------------------------
 
