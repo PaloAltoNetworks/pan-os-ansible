@@ -1,3 +1,23 @@
+## [3.0.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.4...v3.0.0) (2025-05-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* merge beta to develop for a new major release (#618)
+* drop crypto_profile_name alias in panos_ike_gateway
+* `gathered_filter` in 'gathered' state now accepts valid regex
+expressions, the previous syntax with extra escape characters is not valid anymore.
+
+### Bug Fixes
+
+* gathered_filter to process regex correctly ([#583](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/583)) ([ae4103a](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/ae4103a5df5aad0b0b06b257ffce6a2a0c47f9f3))
+
+
+### Miscellaneous Chores
+
+* merge beta to develop for a new major release ([#618](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/618)) ([f89f05a](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/f89f05a7d27b7b6b118e37fb5981b0337d9a2e69))
+* support ansible-core 2.16 to 2.18 - drop python 3.9 ([#604](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/604)) ([3b0f5ab](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/3b0f5abcf5d941e10df13a49c810327cfab5c4fd))
+
 ### [2.21.4](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.3...v2.21.4) (2025-02-06)
 
 
