@@ -22,12 +22,12 @@ Tested Ansible Versions
 -----------------------
 
 This collection is tested with the most current Ansible releases.  Ansible versions
-before 2.15 are **not supported**.
+before 2.16 are **not supported**.
 
 Python Version
 --------------
 
-The minimum python version for this collection is python 3.9.
+The minimum python version for this collection is python 3.10.
 
 Installation
 ------------

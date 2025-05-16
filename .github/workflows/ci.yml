@@ -21,11 +21,11 @@ jobs:
     strategy:
       matrix:
         include:
-          - ansible: "2.15"
-            python_ver: "3.11"
           - ansible: "2.16"
             python_ver: "3.11"
           - ansible: "2.17"
+            python_ver: "3.11"
+          - ansible: "2.18"
             python_ver: "3.11"
     runs-on: ubuntu-latest
     defaults:
@@ -235,7 +235,7 @@ jobs:
           poetry-version: "1.8.5"
 
       - name: Add ansible-core
-        run: poetry add ansible-core^2.15
+        run: poetry add ansible-core^2.16
 
       - name: Add antsibull-docs
         run: poetry add antsibull-docs^1.11.0
