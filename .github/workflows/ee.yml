@@ -11,6 +11,11 @@ on:
         description: Git tag for release to prepare EE
         type: string
         required: false
+    secrets:
+      RH_REGISTRY_USER:
+        required: true
+      RH_REGISTRY_TOKEN:
+        required: true
   workflow_dispatch:
     inputs:
       release:

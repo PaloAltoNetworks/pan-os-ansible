@@ -345,6 +345,7 @@ jobs:
     needs: rc
     if: needs.rc.outputs.rc == 'true'
     uses: ./.github/workflows/ee.yml
+    secrets: inherit
 
   build_prod_ee:
     name: Release EE
@@ -354,3 +355,4 @@ jobs:
     with:
       release: true
       release_tag: ${{ needs.release.outputs.new_release_git_tag }}
+    secrets: inherit
