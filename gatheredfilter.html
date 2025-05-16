@@ -14,7 +14,7 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -55,6 +55,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#return-values">Return Values</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#example-match-all">Example - Match All</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-matching-a-regex">Example - Matching a Regex</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#example-matching-a-suffix">Example - Matching a Suffix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#example-matching-two-things">Example - Matching Two Things</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#example-searching-within-listings">Example - Searching Within Listings</a></li>
@@ -190,6 +191,26 @@ module will not return an error.</p>
 </pre></div>
 </div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;name</span><span class="nv"> </span><span class="s">matches-regex</span><span class="nv"> </span><span class="s">.*?&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-matching-a-regex">
+<h3>Example - Matching a Regex<a class="headerlink" href="#example-matching-a-regex" title="Link to this heading"></a></h3>
+<p>It is possible to write regex in the following formats;</p>
+<ul class="simple">
+<li><p>Standard regex in single quotation marks(<cite>’</cite>)</p></li>
+<li><p>Escaped backslash in double quotation marks(<cite>”</cite>)</p></li>
+<li><p>Using folded block scalar followed by a dash (<cite>&gt;-</cite>) without any quotation marks</p></li>
+</ul>
+<p>See examples below which correspond to the same regex:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;name</span><span class="nv"> </span><span class="s">matches-regex</span><span class="nv"> </span><span class="s">\sPAN\s&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;name</span><span class="nv"> </span><span class="s">matches-regex</span><span class="nv"> </span><span class="s">\\sPAN\\s&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gathered_filter</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;-</span>
+<span class="w">  </span><span class="no">name matches-regex \sPAN\s</span>
 </pre></div>
 </div>
 </section>
