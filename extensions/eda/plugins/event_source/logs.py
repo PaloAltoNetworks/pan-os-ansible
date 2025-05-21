@@ -1,3 +1,18 @@
+#  Copyright 2023 Palo Alto Networks, Inc
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+
 """An ansible-rulebook event source module.
 
 An ansible-rulebook event source module for receiving events via a webhook from
@@ -19,25 +34,43 @@ Example:
 
 """
 
-#  Copyright 2023 Palo Alto Networks, Inc
-#
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
-
 # ruff: noqa: UP001, UP010, FA102
 from __future__ import absolute_import, division, print_function
 
 # pylint: disable-next=invalid-name
 __metaclass__ = type
+
+DOCUMENTATION = r"""
+---
+short_description: Receive events from PAN-OS firewall or Panorama appliance.
+description:
+  - An ansible-rulebook event source plugin for receiving events via a webhook from
+    PAN-OS firewall or Panorama appliance.
+options:
+  host:
+    description:
+      - The webserver hostname to listen to. Set to 0.0.0.0 to listen on all
+        interfaces.
+    type: str
+    default: "localhost"
+  port:
+    description:
+      - The TCP port to listen to.
+    type: int
+    default: 5000
+  type:
+    description:
+      - The log type to filter events.
+    type: str
+    default: "decryption"
+"""
+
+EXAMPLES = r"""
+- paloaltonetworks.panos.logs:
+    host: 0.0.0.0
+    port: 5000
+    type: decryption
+"""
 
 import asyncio
 import logging
