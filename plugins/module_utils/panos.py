@@ -203,7 +203,7 @@ class ConnectionHelper(object):
                 'Please "pip install pan-os-python" at your earliest convenience.',
             ]
             module.deprecate(
-                " ".join(lum), version="3.0.0", collection_name="paloaltonetworks.panos"
+                " ".join(lum), version="4.0.0", collection_name="paloaltonetworks.panos"
             )
 
         # Verify pan-os-python (formerly pandevice) minimum version.
@@ -261,7 +261,7 @@ class ConnectionHelper(object):
             )
             msg = 'Classic provider params are deprecated; use "provider" instead'
             module.deprecate(
-                msg, version="3.0.0", collection_name="paloaltonetworks.panos"
+                msg, version="4.0.0", collection_name="paloaltonetworks.panos"
             )
         else:
             module.fail_json(msg="Provider params are required.")
@@ -434,7 +434,7 @@ class ConnectionHelper(object):
         if module.params.get("commit"):
             module.deprecate(
                 "Please use the commit modules instead of the commit option",
-                version="3.0.0",
+                version="4.0.0",
                 collection_name="paloaltonetworks.panos",
             )
 
@@ -455,7 +455,7 @@ class ConnectionHelper(object):
         if self.with_commit and module.params["commit"]:
             module.deprecate(
                 'Param "commit" is deprecated; use the various commit modules',
-                version="3.0.0",
+                version="4.0.0",
                 collection_name="paloaltonetworks.panos",
             )
 

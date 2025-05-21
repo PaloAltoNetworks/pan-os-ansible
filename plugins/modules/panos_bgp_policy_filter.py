@@ -321,7 +321,7 @@ def main():
     if module.params["state"] == "return-object":
         module.deprecate(
             "state=return-object is deprecated",
-            version="3.0.0",
+            version="4.0.0",
             collection_name="paloaltonetworks.panos",
         )
         obj.parent = None

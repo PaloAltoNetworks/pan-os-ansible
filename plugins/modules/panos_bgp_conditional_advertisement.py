@@ -182,7 +182,7 @@ def main():
         if val is not None:
             module.deprecate(
                 "Param {0} is deprecated".format(ansible_param),
-                version="3.0.0",
+                version="4.0.0",
                 collection_name="paloaltonetworks.panos",
             )
             filter_obj = pickle.loads(b64decode(val))

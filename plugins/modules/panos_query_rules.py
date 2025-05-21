@@ -31,7 +31,7 @@ author: "Bob Hagen (@stealthllama)"
 version_added: '1.0.0'
 deprecated:
     alternative: Use M(paloaltonetworks.panos.panos_match_rule)
-    removed_in: '3.0.0'
+    removed_in: '4.0.0'
     why: Querying rules is handled better by M(paloaltonetworks.panos.panos_match_rule).
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
@@ -327,7 +327,7 @@ def main():
 
     module.deprecate(
         "This module has been deprecated; use panos_match_rule",
-        version="3.0.0",
+        version="4.0.0",
         collection_name="paloaltonetworks.panos",
     )
 

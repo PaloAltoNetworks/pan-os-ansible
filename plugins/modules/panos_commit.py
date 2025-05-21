@@ -33,7 +33,7 @@ version_added: '1.0.0'
 deprecated:
     alternative: 'Use M(paloaltonetworks.panos.panos_commit_firewall), M(paloaltonetworks.panos.panos_commit_panorama),
     M(paloaltonetworks.panos.panos_commit_push) instead.'
-    removed_in: '3.0.0'
+    removed_in: '4.0.0'
     why: 'This module is a subset of functionality found in other modules.'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
@@ -107,7 +107,7 @@ def main():
 
     module.deprecate(
         "This module is deprecated; use panos_commit_firewall, panos_commit_panorama, panos_commit_push",
-        version="3.0.0",
+        version="4.0.0",
         collection_name="paloaltonetworks.panos",
     )
 
@@ -117,7 +117,7 @@ def main():
     if module.params["devicegroup"] is not None:
         module.deprecate(
             'Param "devicegroup" is deprecated; use "device_group"',
-            version="3.0.0",
+            version="4.0.0",
             collection_name="paloaltonetworks.panos",
         )
         if module.params["device_group"] is not None:

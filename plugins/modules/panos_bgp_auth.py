@@ -93,7 +93,7 @@ class Helper(ConnectionHelper):
         if module.params["replace"] is not None:
             module.deprecate(
                 'Param "replace" is deprecated; please use state instead',
-                version="3.0.0",
+                version="4.0.0",
                 collection_name="paloaltonetworks.panos",
             )
 

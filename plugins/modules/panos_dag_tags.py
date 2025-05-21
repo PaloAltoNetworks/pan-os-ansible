@@ -31,7 +31,7 @@ requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
 deprecated:
-  removed_in: '3.0.0'
+  removed_in: '4.0.0'
   why: Using new modern API calls in the panos_registered_ip
   alternative: Use M(paloaltonetworks.panos.panos_registered_ip) instead.
 notes:

@@ -31,7 +31,7 @@ version_added: '1.0.0'
 deprecated:
     alternative: Use M(paloaltonetworks.panos.panos_administrator) instead.
     why: This module is a subset of M(paloaltonetworks.panos.panos_administrator)'s functionality.
-    removed_in: "3.0.0"
+    removed_in: "4.0.0"
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
 notes:
@@ -193,7 +193,7 @@ def main():
 
     module.deprecate(
         "This module is deprecated; use panos_administrator",
-        version="3.0.0",
+        version="4.0.0",
         collection_name="paloaltonetworks.panos",
     )
 
@@ -223,7 +223,7 @@ def main():
     if commit:
         module.deprecate(
             "Please use the commit modules instead of the commit option.",
-            version="3.0.0",
+            version="4.0.0",
             collection_name="paloaltonetworks.panos",
         )
 

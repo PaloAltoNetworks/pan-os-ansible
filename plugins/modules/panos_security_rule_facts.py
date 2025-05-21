@@ -31,7 +31,7 @@ author:
 version_added: '1.0.0'
 deprecated:
     alternative: Use M(paloaltonetworks.panos.panos_security_rule) with I(state=gathered).
-    removed_in: '3.0.0'
+    removed_in: '4.0.0'
     why: Updating module design to network resource modules.
 requirements:
     - pan-python
@@ -374,7 +374,7 @@ def main():
 
     module.deprecate(
         "Deprecated; use panos_security_rule with state=gathered instead",
-        version="3.0.0",
+        version="4.0.0",
         collection_name="paloaltonetworks.panos",
     )
 
@@ -386,14 +386,14 @@ def main():
     if module.params.get("all_details"):
         module.deprecate(
             "Please use details instead of all_details.",
-            version="3.0.0",
+            version="4.0.0",
             collection_name="paloaltonetworks.panos",
         )
 
     if module.params["rule_name"]:
         module.deprecate(
             "Please use the names parameter instead of rule_name.",
-            version="3.0.0",
+            version="4.0.0",
             collection_name="paloaltonetworks.panos",
         )
 
