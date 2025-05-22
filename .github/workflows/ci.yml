@@ -63,7 +63,8 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_NAME: ${{ steps.branch.outputs.name }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+          # BRANCH_NAME: ${{ steps.branch.outputs.name }}
 
       # below does NOT work because semantic-release expects branch name in the config even in dry-run
       # but we run rc check in non main branches
