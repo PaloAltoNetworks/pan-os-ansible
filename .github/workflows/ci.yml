@@ -26,11 +26,11 @@ jobs:
         with:
           fetch-depth: 0  # This ensures all history is fetched
 
-      - name: checkout relevant branch if this is a PR
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ] || [ "${{ github.event_name }}" = "pull_request_target" ]; then
-            git checkout -b ${{ github.base_ref }} pull/${{ github.event.number }}/merge
-          fi
+      # - name: checkout relevant branch if this is a PR
+      #   run: |
+      #     if [ "${{ github.event_name }}" = "pull_request" ] || [ "${{ github.event_name }}" = "pull_request_target" ]; then
+      #       git checkout -b ${{ github.base_ref }} pull/${{ github.event.number }}/merge
+      #     fi
 
       - name: setup node.js
         uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
