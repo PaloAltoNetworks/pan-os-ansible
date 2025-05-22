@@ -57,7 +57,7 @@ jobs:
         id: rc
         run: |
           # Trick semantic-release into thinking we're not in a CI environment
-          OUTPUT="$(bash -c "unset GITHUB_ACTIONS; npx semantic-release --dry-run --no-ci --debug")"
+          OUTPUT="$(bash -c "unset GITHUB_ACTIONS; npx semantic-release --dry-run --no-ci --branches ${{ env.BRANCH_NAME }} --debug")"
           # print output
           echo "$OUTPUT"
           # grep with semver regex - \K means to start matching from here in Perl regex
@@ -71,7 +71,7 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+          BRANCH_NAME: ${{ github.base_ref || github.ref_name }}
           # BRANCH_NAME: ${{ steps.branch.outputs.name }}
 
       # below does NOT work because semantic-release expects branch name in the config even in dry-run
