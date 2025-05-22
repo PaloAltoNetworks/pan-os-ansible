@@ -30,7 +30,7 @@ jobs:
         id: branch
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ] || [ "${{ github.event_name }}" = "pull_request_target" ]; then
-            TMP_BRANCH = "tmp-pr-branch"
+            TMP_BRANCH="tmp-pr-branch"
             echo "name=$TMP_BRANCH" >> "$GITHUB_OUTPUT"
             git checkout -b $TMP_BRANCH pull/${{ github.event.number }}/merge
           fi
