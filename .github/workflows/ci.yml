@@ -26,6 +26,12 @@ jobs:
         with:
           fetch-depth: 0  # This ensures all history is fetched
 
+      - name: checkout relevant branch if this is a PR
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ] || [ "${{ github.event_name }}" = "pull_request_target" ]; then
+            git checkout -b ${{ github.base_ref }} pull/${{ github.event.number }}/merge
+          fi
+
       - name: setup node.js
         uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
         with:
@@ -50,7 +56,6 @@ jobs:
       - name: trick semantic check
         id: rc
         run: |
-          git checkout ${{ env.BRANCH_NAME }}
           # Trick semantic-release into thinking we're not in a CI environment
           OUTPUT="$(bash -c "unset GITHUB_ACTIONS; npx semantic-release --dry-run --no-ci --debug")"
           # print output
