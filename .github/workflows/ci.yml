@@ -26,10 +26,13 @@ jobs:
         # with:
         #   fetch-depth: 0  # This ensures all history is fetched
 
-      - name: checkout relevant branch if this is a PR
+      - name: checkout a temp branch if this is a PR
+        id: branch
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ] || [ "${{ github.event_name }}" = "pull_request_target" ]; then
-            git checkout -b ${{ github.head_ref }} pull/${{ github.event.number }}/merge
+            TMP_BRANCH = "tmp-pr-branch"
+            echo "name=$TMP_BRANCH" >> "$GITHUB_OUTPUT"
+            git checkout -b $TMP_BRANCH pull/${{ github.event.number }}/merge
           fi
 
       - name: setup node.js
@@ -47,11 +50,6 @@ jobs:
           npm install @semantic-release/exec -D
           # npx semantic-release
           # npm ci
-
-      - name: find out branch name
-        shell: bash
-        run: echo "name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: branch
 
       - name: trick semantic check
         id: rc
@@ -71,7 +69,7 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+          BRANCH_NAME: ${{ steps.branch.outputs.name || github.ref_name }}
           # BRANCH_NAME: ${{ steps.branch.outputs.name }}
 
       # below does NOT work because semantic-release expects branch name in the config even in dry-run
