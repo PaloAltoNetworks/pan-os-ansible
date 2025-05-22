@@ -49,7 +49,7 @@ jobs:
         id: rc
         run: |
           # Trick semantic-release into thinking we're not in a CI environment
-          OUTPUT="$(bash -c "unset GITHUB_ACTIONS && unset GITHUB_EVENT_NAME && npx semantic-release --dry-run --no-ci --branches ${{ env.BRANCH_NAME }}")"
+          OUTPUT="$(bash -c "npx semantic-release --dry-run --no-ci --debug --branches ${{ env.BRANCH_NAME }}")"
           # print output
           echo "$OUTPUT"
           # grep with semver regex - \K means to start matching from here in Perl regex
