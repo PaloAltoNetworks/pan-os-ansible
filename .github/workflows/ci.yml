@@ -40,11 +40,16 @@ jobs:
           # npx semantic-release
           # npm ci
 
+      - name: find out branch name
+        shell: bash
+        run: echo "name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: branch
+
       - name: trick semantic check
         id: rc
         run: |
           # Trick semantic-release into thinking we're not in a CI environment
-          OUTPUT="$(bash -c "unset GITHUB_ACTIONS && unset GITHUB_EVENT_NAME && npx semantic-release --dry-run --no-ci --branches '${GITHUB_REF#refs/heads/}'")"
+          OUTPUT="$(bash -c "unset GITHUB_ACTIONS && unset GITHUB_EVENT_NAME && npx semantic-release --dry-run --no-ci --branches '${env.BRANCH_NAME}'")"
           # print output
           echo "$OUTPUT"
           # grep with semver regex - \K means to start matching from here in Perl regex
@@ -58,7 +63,7 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REF: ${{ github.ref }}
+          BRANCH_NAME: ${{ steps.branch.outputs.name }}
 
       # below does NOT work because semantic-release expects branch name in the config even in dry-run
       # but we run rc check in non main branches
