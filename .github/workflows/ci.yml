@@ -13,11 +13,75 @@ env:
 
 jobs:
 
+  rc:
+    name: Check Release Candidate
+    runs-on: ubuntu-latest
+    outputs:
+      rc: ${{ steps.rc.outputs.new_release_published }}
+      new_release_version: ${{ steps.rc.outputs.new_release_version }}
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: setup node.js
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
+        with:
+          node-version: 'lts/*'
+
+      - name: install dependencies
+        run: |
+          npm install --save-dev semantic-release
+          npm install @semantic-release/commit-analyzer -D
+          npm install conventional-changelog-conventionalcommits -D
+          npm install @semantic-release/changelog -D
+          npm install @semantic-release/git -D
+          npm install @semantic-release/exec -D
+          # npx semantic-release
+          # npm ci
+
+      - name: trick semantic check
+        id: rc
+        run: |
+          # Trick semantic-release into thinking we're not in a CI environment
+          OUTPUT="$(bash -c "unset GITHUB_ACTIONS && unset GITHUB_EVENT_NAME && npx semantic-release --dry-run --no-ci --branches '${GITHUB_REF#refs/heads/}'")"
+          # print output
+          echo "$OUTPUT"
+          # grep with semver regex - \K means to start matching from here in Perl regex
+          NEW_RELEASE_VERSION=$(echo "$OUTPUT" | grep -oP 'The next release version is \K(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?' || echo -n "")
+          echo "new_release_version=$NEW_RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+
+          if [ -z "$NEW_RELEASE_VERSION" ]; then
+            echo "new_release_published=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "new_release_published=true" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REF: ${{ github.ref }}
+
+      # below does NOT work because semantic-release expects branch name in the config even in dry-run
+      # but we run rc check in non main branches
+      # - name: rc check
+      #   id: rc
+      #   uses: cycjimmy/semantic-release-action@v4
+      #   with:
+      #     dry_run: true
+      #     semantic_version: 17.1.1
+      #     extra_plugins: |
+      #       conventional-changelog-conventionalcommits@^4.4.0
+      #       @semantic-release/changelog@^5.0.1
+      #       @semantic-release/git@^9.0.0
+      #       @semantic-release/exec@^5.0.00
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   ## Sanity is required:
   #
   # https://docs.ansible.com/ansible/latest/dev_guide/testing_sanity.html
   sanity:
     name: Sanity (Ⓐ${{ matrix.ansible }})
+    needs: rc
     strategy:
       matrix:
         include:
@@ -67,6 +131,14 @@ jobs:
 
       - name: Install dependencies
         run: poetry install
+
+      - name: Temp update version files if new release required
+        if: needs.rc.outputs.rc == 'true'
+        run: |
+          .github/set-version.sh ${{ needs.rc.outputs.new_release_version }}
+
+      - name: Temp update requirements.txt changes if any
+        run: poetry run make reqs
 
       - name: Run sanity tests
         timeout-minutes: 8
@@ -162,6 +234,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          persist-credentials: false
 
       # New task for combined Galaxy and AutomationHub publishing
       - name: Set up Automation Hub and Galaxy ansible.cfg file
@@ -275,75 +349,11 @@ jobs:
           folder: docs/html
           clean: true
 
-  rc:
-    name: Check RC EE
-    runs-on: ubuntu-latest
-    needs: [sanity, tox, lint, format, requirements]
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/develop')
-    outputs:
-      rc: ${{ steps.rc.outputs.new_release_published }}
-      new_release_version: ${{ steps.rc.outputs.new_release_version }}
-
-    steps:
-      - name: checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-
-      - name: setup node.js
-        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
-        with:
-          node-version: 'lts/*'
-
-      - name: install dependencies
-        run: |
-          npm install --save-dev semantic-release
-          npm install @semantic-release/commit-analyzer -D
-          npm install conventional-changelog-conventionalcommits -D
-          npm install @semantic-release/changelog -D
-          npm install @semantic-release/git -D
-          npm install @semantic-release/exec -D
-          # npx semantic-release
-          # npm ci
-
-      - name: trick semantic check
-        id: rc
-        run: |
-          # Trick semantic-release into thinking we're not in a CI environment
-          OUTPUT="$(bash -c "unset GITHUB_ACTIONS && unset GITHUB_EVENT_NAME && npx semantic-release --dry-run --no-ci --branches '${GITHUB_REF#refs/heads/}'")"
-          # print output
-          echo "$OUTPUT"
-          # grep with semver regex - \K means to start matching from here in Perl regex
-          NEW_RELEASE_VERSION=$(echo "$OUTPUT" | grep -oP 'The next release version is \K(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?' || echo -n "")
-          echo "new_release_version=$NEW_RELEASE_VERSION" >> "$GITHUB_OUTPUT"
-
-          if [ -z "$NEW_RELEASE_VERSION" ]; then
-            echo "new_release_published=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "new_release_published=true" >> "$GITHUB_OUTPUT"
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REF: ${{ github.ref }}
-
-      # below does NOT work because semantic-release expects branch name in the config even in dry-run
-      # but we run rc check in non main branches
-      # - name: rc check
-      #   id: rc
-      #   uses: cycjimmy/semantic-release-action@v4
-      #   with:
-      #     dry_run: true
-      #     semantic_version: 17.1.1
-      #     extra_plugins: |
-      #       conventional-changelog-conventionalcommits@^4.4.0
-      #       @semantic-release/changelog@^5.0.1
-      #       @semantic-release/git@^9.0.0
-      #       @semantic-release/exec@^5.0.00
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build_dev_ee:
     name: Dev EE
-    needs: rc
-    if: needs.rc.outputs.rc == 'true'
+    needs: [rc, sanity, tox, lint, format, requirements]
+    if: (needs.rc.outputs.rc == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/develop')
     uses: ./.github/workflows/ee.yml
     secrets: inherit
 
