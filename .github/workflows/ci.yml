@@ -23,16 +23,14 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-        # with:
-        #   fetch-depth: 0  # This ensures all history is fetched
+        with:
+          fetch-depth: 0  # This ensures all history is fetched
 
       - name: checkout a temp branch if this is a PR
         id: branch
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ] || [ "${{ github.event_name }}" = "pull_request_target" ]; then
-            TMP_BRANCH="tmp-pr-branch"
-            echo "name=$TMP_BRANCH" >> "$GITHUB_OUTPUT"
-            git checkout -b $TMP_BRANCH pull/${{ github.event.number }}/merge
+            git checkout -b ${{ github.base_ref }} pull/${{ github.event.number }}/merge
           fi
 
       - name: setup node.js
@@ -69,7 +67,7 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_NAME: ${{ steps.branch.outputs.name || github.ref_name }}
+          BRANCH_NAME: ${{ github.base_ref || github.ref_name }}
           # BRANCH_NAME: ${{ steps.branch.outputs.name }}
 
       # below does NOT work because semantic-release expects branch name in the config even in dry-run
