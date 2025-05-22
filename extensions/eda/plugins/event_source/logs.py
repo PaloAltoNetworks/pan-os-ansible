@@ -12,7 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-
 """An ansible-rulebook event source module.
 
 An ansible-rulebook event source module for receiving events via a webhook from
@@ -39,6 +38,14 @@ from __future__ import absolute_import, division, print_function
 
 # pylint: disable-next=invalid-name
 __metaclass__ = type
+
+import asyncio
+import logging
+from json import JSONDecodeError
+from typing import Any
+
+from aiohttp import web
+from dpath import util
 
 DOCUMENTATION = r"""
 ---
@@ -72,13 +79,6 @@ EXAMPLES = r"""
     type: decryption
 """
 
-import asyncio
-import logging
-from json import JSONDecodeError
-from typing import Any
-
-from aiohttp import web
-from dpath import util
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
