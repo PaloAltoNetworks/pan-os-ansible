@@ -15,7 +15,7 @@ jobs:
 
   rc:
     name: Check Release Candidate
-    if: github.event_name == 'push' # on push to any branch
+    if: github.event_name == 'push' && !startsWith(github.ref, 'refs/tags/') # on push to branches but not tags
     runs-on: ubuntu-latest
     outputs:
       rc: ${{ steps.rc.outputs.new_release_published }}
@@ -221,8 +221,8 @@ jobs:
 
   release:
     name: Release Version
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [sanity, tox, lint, format, requirements]
+    needs: [rc, sanity, tox, lint, format, requirements]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.rc.outputs.rc == 'true'
     runs-on: ubuntu-latest
     outputs:
       new_release_published: ${{ steps.release.outputs.new_release_published }}
