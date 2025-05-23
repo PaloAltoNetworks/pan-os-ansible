@@ -1,3 +1,10 @@
+### [3.0.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.0.0...v3.0.1) (2025-05-23)
+
+
+### Bug Fixes
+
+* push deprecations to 4.0.0 ([d6e4ea0](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/d6e4ea01d874e5727a309ebbf5c6d910d2163156))
+
 ## [3.0.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.4...v3.0.0) (2025-05-16)
 
 
