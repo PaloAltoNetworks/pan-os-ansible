@@ -15,11 +15,11 @@ paloaltonetworks.panos.panos_zone_facts module
 .. Collection note
 
 .. note::
-    This redirect is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 2.21.4).
+    This redirect is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 3.0.0).
 
 
 - This redirect has been **deprecated**. Please update your tasks to use the new name ``paloaltonetworks.panos.panos_zone`` instead.
-  It will be removed in version 3.0.0 of paloaltonetworks.panos.
+  It will be removed in version 4.0.0 of paloaltonetworks.panos.
 - This is a redirect to the :ref:`paloaltonetworks.panos.panos_zone module <ansible_collections.paloaltonetworks.panos.panos_zone_module>`.
 - This redirect does **not** work with Ansible 2.9.
 - The collection contains the following information on this deprecation: Use 'paloaltonetworks.panos.panos\_zone' with 'state=gathered'.
