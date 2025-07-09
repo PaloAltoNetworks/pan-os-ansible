@@ -33,7 +33,7 @@ Example:
 
 """
 
-# ruff: noqa: UP001, UP010, FA102
+# ruff: noqa: UP001, UP010
 from __future__ import absolute_import, division, print_function
 
 # pylint: disable-next=invalid-name
