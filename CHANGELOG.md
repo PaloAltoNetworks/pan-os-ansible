@@ -1,3 +1,10 @@
+## [3.1.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.0.1...v3.1.0) (2025-07-09)
+
+
+### Features
+
+* **panos_state_snapshot:** allow dict config element for snapshots ([#632](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/632)) ([1dacfac](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/1dacface538cf7c1258e5d566cf881c874fc05c2))
+
 ### [3.0.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.0.0...v3.0.1) (2025-05-23)
 
 
