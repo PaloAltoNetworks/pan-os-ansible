@@ -133,7 +133,7 @@ def main():
         with_classic_provider_spec=True,
         min_panos_upgrade_assurance_version=MIN_PUA_VER,
         argument_spec=dict(
-            state_areas=dict(type="list", default=["all"], elements="str")
+            state_areas=dict(type="list", default=["all"], elements="raw")
         ),
         panorama_error="This is a firewall only module",
     )
