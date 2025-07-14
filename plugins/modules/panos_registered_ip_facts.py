@@ -30,8 +30,6 @@ version_added: '1.0.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
-notes:
-    - Panorama is not supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.vsys
@@ -93,7 +91,6 @@ def main():
     helper = get_connection(
         vsys=True,
         with_classic_provider_spec=True,
-        panorama_error="Panorama is not supported for this module.",
         argument_spec=dict(
             tags=dict(type="list", elements="str"),
             ips=dict(type="list", elements="str"),
