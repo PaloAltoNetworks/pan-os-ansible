@@ -50,7 +50,6 @@ Then in your playbooks you can specify that you want to use the
    examples
    modules
    history
-   contributing
    authors
    license
 
