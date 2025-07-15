@@ -313,7 +313,7 @@ jobs:
         run: poetry add ansible-core^2.16
 
       - name: Add antsibull-docs
-        run: poetry add antsibull-docs^1.11.0
+        run: poetry add antsibull-docs
 
       - name: Install dependencies
         run: poetry install

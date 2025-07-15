@@ -323,7 +323,7 @@ options:
             - after
         type: str
     existing_rule:
-        description: >
+        description:
             - If I(location=before) or I(location=after), this option specifies
               an existing rule name.  The rule being managed by this module will
               be positioned relative to the value of this parameter.

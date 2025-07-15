@@ -23,7 +23,7 @@ DOCUMENTATION = """
 ---
 module: panos_ike_crypto_profile
 short_description: Manage IKE Crypto profile on the firewall with subset of settings
-description: >
+description:
     - Use the IKE Crypto Profiles page to specify protocols and algorithms for
       identification, authentication, and encryption (IKEv1 or IKEv2, Phase 1).
 author: "Ivan Bojer (@ivanbojer)"
@@ -98,7 +98,7 @@ options:
             - IKE phase 1 key lifetime in days.
         type: int
     authentication_multiple:
-        description: >
+        description:
             - PAN-OS 7.0 and above.
             - IKEv2 SA reauthentication interval equals I(authentication_multiple)
               times lifetime; 0 means reauthentication is disabled.
