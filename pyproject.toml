@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pan-os-ansible"
-version = "3.1.0"
+version = "3.1.1"
 description = "Ansible collection for Palo Alto Networks PAN-OS"
 authors = ["Palo Alto Networks <devrel@paloaltonetworks.com>"]
 license = "Apache-2.0"

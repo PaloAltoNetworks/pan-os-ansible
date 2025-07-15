@@ -1,3 +1,10 @@
+### [3.1.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.1.0...v3.1.1) (2025-07-15)
+
+
+### Bug Fixes
+
+* support panorama for userid ip-tags ([#633](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/633)) ([d836af3](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/d836af3edceab9def9d59f075e32c3a089230fec))
+
 ## [3.1.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.0.1...v3.1.0) (2025-07-09)
 
 
