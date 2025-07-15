@@ -6,12 +6,12 @@ extensions = [
     "sphinx_rtd_theme",
     "sphinx.ext.autodoc",
     "sphinx.ext.intersphinx",
-    "sphinx_antsibull_ext"
+    "sphinx_antsibull_ext",
 ]
 exclude_patterns = []
 
 intersphinx_mapping = {
-     'ansible': ('https://docs.ansible.com/ansible/latest/', None),
+    "ansible": ("https://docs.ansible.com/ansible/latest/", None),
 }
 
 html_theme = "sphinx_rtd_theme"
