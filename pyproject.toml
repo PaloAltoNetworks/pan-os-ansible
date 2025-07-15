@@ -38,7 +38,7 @@ six = "*"
 pycodestyle = "*"
 requests = ">=2.22.0,<3.0"
 toml = "*"
-antsibull-docs = ">=1.11.0,<2.0"
+antsibull-docs = "*"
 
 [tool.poetry.group.ansible-ee]
 optional = true

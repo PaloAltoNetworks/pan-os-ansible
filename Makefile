@@ -29,8 +29,10 @@ help:
 
 .PHONY: docs
 docs:		## Build collection documentation
+	rm -rf docs/html
+	rm -rf docs/source/modules
 	mkdir antsibull
-	poetry run antsibull-docs collection --use-current --dest-dir antsibull --no-indexes collections paloaltonetworks.panos
+	poetry run antsibull-docs collection --use-current --dest-dir antsibull --no-indexes paloaltonetworks.panos
 	mkdir -p docs/source/modules
 	mv antsibull/collections/paloaltonetworks/panos/* docs/source/modules
 	rm -rf antsibull
