@@ -1,0 +1,88 @@
+name: Documentation Build
+
+on:
+  workflow_dispatch:  # Allow manual triggering
+  workflow_call:      # Allow calling from other workflows
+
+env:
+  NAMESPACE: paloaltonetworks
+  COLLECTION_NAME: panos
+
+jobs:
+  pyversion:
+    name: Discover minimum Python version
+    uses: ./.github/workflows/_discover_python_ver.yml
+
+  docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+    steps:
+      # Just a note here:  The Ansible stuff is apparently doing realpath
+      # checks, so trying to simlink stuff and then run Ansible commands
+      # such as ansible-test in the symlink directory fails.  Thus we need
+      # to have the real path contain ansible_collections/paloaltonetworks/panos.
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+      - name: discover Python version
+        id: pyversion
+        uses: ./.github/actions/discover_python_version
+        with:
+          working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+      - name: Setup Python
+        uses: actions/setup-python@b64ffcaf5b410884ad320a9cfac8866006a109aa # v4
+        with:
+          python-version: ${{ steps.pyversion.outputs.pyversion }}
+
+      - name: Install Poetry
+        uses: Gr1N/setup-poetry@15821dc8a61bc630db542ae4baf6a7c19a994844 # v8
+        with:
+          poetry-version: "1.8.5"
+
+      - name: Add ansible-core
+        run: poetry add ansible-core^2.16
+
+      - name: Add antsibull-docs
+        run: poetry add antsibull-docs
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Build the collection
+        run: poetry run ansible-galaxy collection build
+
+      - name: Install built collection
+        run: poetry run ansible-galaxy collection install *.tar.gz
+
+      - name: Generate documentation
+        run: poetry run make docs
+
+      - name: Remove .doctrees directory
+        run: |
+          rm -rf docs/html/.doctrees
+        shell: bash
+
+      # This is here for right now because the action to deploy seems to assume
+      # (and not have a configuration option to) mirror the actions/checkout@v4
+      # the with.path spec.
+      - name: Move the repo to where the deploy action is looking for it
+        run: |
+          cd ../../../..
+          mv pan-os-ansible the_repo
+          mv the_repo/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }} pan-os-ansible
+          mkdir -p pan-os-ansible/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@a1ea191d508feb8485aceba848389d49f80ca2dc # v4.4.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: docs/html
+          clean: true
