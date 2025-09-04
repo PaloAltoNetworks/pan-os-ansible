@@ -1,29 +1,1108 @@
-
-.. Document meta section
+.. Document meta
 
 :orphan:
 
-.. Document body
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. meta::
+  :antsibull-docs: 2.21.0
 
 .. Anchors
 
 .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module:
 
+.. Anchors: short name for ansible.builtin
+
 .. Title
 
-paloaltonetworks.panos.panos_type_cmd module
-++++++++++++++++++++++++++++++++++++++++++++
+paloaltonetworks.panos.panos_type_cmd module -- Execute arbitrary TYPE commands on PAN-OS
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
+
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+
+    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_type_cmd_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_type_cmd`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 1.0.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
 
 
-The documentation for the module plugin, paloaltonetworks.panos.panos_type_cmd,  was malformed.
+Synopsis
+--------
 
-The errors were:
+.. Description
 
-* ::
+- This module allows you to execute arbitrary TYPE commands on PAN-OS.
+- This module does not provide guards of any sort, so USE AT YOUR OWN RISK.
+- Refer to the PAN-OS and Panorama API guide for more info.
+- https://docs.paloaltonetworks.com/pan-os.html
 
-        1 validation error for ModuleDocSchema
-        doc -> plugin_name
-          extra fields not permitted (type=value_error.extra)
+
+.. Aliases
 
 
-File a bug with the `paloaltonetworks.panos collection <https://github.com/PaloAltoNetworks/pan-os-ansible/issues>`_ in order to have it corrected.
+.. Requirements
+
+.. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python
+- pandevice
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+  :class: longtable ansible-option-table
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-api_key"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-api_key" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The API key to use instead of generating it using :emphasis:`username` / :emphasis:`password`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cmd"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-cmd:
+
+      .. rst-class:: ansible-option-title
+
+      **cmd**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cmd" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The command to run.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"show"`
+      - :ansible-option-choices-entry:`"get"`
+      - :ansible-option-choices-entry:`"delete"`
+      - :ansible-option-choices-entry-default:`"set"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"edit"`
+      - :ansible-option-choices-entry:`"move"`
+      - :ansible-option-choices-entry:`"rename"`
+      - :ansible-option-choices-entry:`"clone"`
+      - :ansible-option-choices-entry:`"override"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dst"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-dst:
+
+      .. rst-class:: ansible-option-title
+
+      **dst**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dst" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Used in :emphasis:`cmd=move`.
+
+      The reference object.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-element"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-element:
+
+      .. rst-class:: ansible-option-title
+
+      **element**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-element" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Used in :emphasis:`cmd=set`\ , :emphasis:`cmd=edit`\ , and :emphasis:`cmd=override`.
+
+      The element payload.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-extra_qs"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-extra_qs:
+
+      .. rst-class:: ansible-option-title
+
+      **extra_qs**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-extra_qs" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dict of extra params to pass in.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ip_address" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-new_name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-new_name:
+
+      .. rst-class:: ansible-option-title
+
+      **new_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-new_name" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Used in :emphasis:`cmd=rename` and :emphasis:`cmd=clone`.
+
+      The new name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-password"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The password to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dict object containing connection details.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/api_key"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-provider/api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/api_key" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The API key to use instead of generating it using :emphasis:`username` / :emphasis:`password`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/ip_address"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-provider/ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/ip_address" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/password"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-provider/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/password" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The password to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/port"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-provider/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/serial_number"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-provider/serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/serial_number" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN-OS device, then this param is ignored.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/username"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-provider/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The username to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-username"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The username to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-where"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-where:
+
+      .. rst-class:: ansible-option-title
+
+      **where**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-where" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Used in :emphasis:`cmd=move`.
+
+      The movement keyword.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-xpath"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-xpath:
+
+      .. rst-class:: ansible-option-title
+
+      **xpath**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-xpath" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The XPATH.
+
+      All newlines are removed from the XPATH to allow for shorter lines.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-xpath_from"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__parameter-xpath_from:
+
+      .. rst-class:: ansible-option-title
+
+      **xpath_from**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-xpath_from" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Used in :emphasis:`cmd=clone`.
+
+      The from xpath.
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Panorama is supported.
+   - Check mode is not supported.
+   - PAN-OS connectivity should be specified using :emphasis:`provider` or the classic PAN-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    - name: Create an address object using set.
+      paloaltonetworks.panos.panos_type_cmd:
+        provider: '{{ provider }}'
+        xpath: |
+          /config/devices/entry[@name='localhost.localdomain']
+          /vsys/entry[@name='vsys1']
+          /address
+        element: |
+          <entry name="sales-block">
+            <ip-netmask>192.168.55.0/24</ip-netmask>
+            <description>Address CIDR for sales org</description>
+          </entry>
+
+    - name: Then rename it.
+      paloaltonetworks.panos.panos_type_cmd:
+        provider: '{{ provider }}'
+        cmd: 'rename'
+        xpath: |
+          /config/devices/entry[@name='localhost.localdomain']
+          /vsys/entry[@name='vsys1']
+          /address/entry[@name='sales-block']
+        new_name: 'dmz-block'
+
+    - name: Show the address object.
+      paloaltonetworks.panos.panos_type_cmd:
+        provider: '{{ provider }}'
+        cmd: 'show'
+        xpath: |
+          /config/devices/entry[@name='localhost.localdomain']
+          /vsys/entry[@name='vsys1']
+          /address/entry[@name='dmz-block']
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+  :class: longtable ansible-option-table
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-stdout"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__return-stdout:
+
+      .. rst-class:: ansible-option-title
+
+      **stdout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-stdout" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      output (if any) of the given API command as JSON formatted string
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{entry: {@name: dmz-block, ip-netmask: 192.168.55.0/24, description: Address CIDR for sales org}}"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-stdout_xml"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_type_cmd_module__return-stdout_xml:
+
+      .. rst-class:: ansible-option-title
+
+      **stdout_xml**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-stdout_xml" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      output of the given API command as an XML formatted string
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"\<entry name=dmz-block\>\<ip-netmask\>192.168.55.0/24\</ip-netmask\>...\</entry\>"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Garfield Lee Freeman (@shinmog)
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. ansible-links::
+
+  - title: "Issue Tracker"
+    url: "https://github.com/PaloAltoNetworks/pan-os-ansible/issues"
+    external: true
+  - title: "Homepage"
+    url: "https://pan.dev/ansible/docs/panos"
+    external: true
+  - title: "Repository (Sources)"
+    url: "https://github.com/PaloAltoNetworks/pan-os-ansible"
+    external: true
+
+
+.. Parsing errors

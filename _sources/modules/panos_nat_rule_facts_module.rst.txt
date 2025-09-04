@@ -1,29 +1,2028 @@
-
-.. Document meta section
+.. Document meta
 
 :orphan:
 
-.. Document body
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. meta::
+  :antsibull-docs: 2.21.0
 
 .. Anchors
 
 .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module:
 
+.. Anchors: short name for ansible.builtin
+
 .. Title
 
-paloaltonetworks.panos.panos_nat_rule_facts module
-++++++++++++++++++++++++++++++++++++++++++++++++++
+paloaltonetworks.panos.panos_nat_rule_facts module -- Get information about a NAT rule.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
+
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+
+    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_nat_rule_facts`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 1.0.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+DEPRECATED
+----------
+:Removed in: version 4.0.0
+:Why: Updating module design to network resource modules.
+:Alternative: Use :ref:`paloaltonetworks.panos.panos\_nat\_rule2 <ansible_collections.paloaltonetworks.panos.panos_nat_rule2_module>` with :emphasis:`state=gathered`.
+
+Synopsis
+--------
+
+.. Description
+
+- Get information about one or more NAT rules.
 
 
-The documentation for the module plugin, paloaltonetworks.panos.panos_nat_rule_facts,  was malformed.
-
-The errors were:
-
-* ::
-
-        1 validation error for ModuleDocSchema
-        doc -> plugin_name
-          extra fields not permitted (type=value_error.extra)
+.. Aliases
 
 
-File a bug with the `paloaltonetworks.panos collection <https://github.com/PaloAltoNetworks/pan-os-ansible/issues>`_ in order to have it corrected.
+.. Requirements
+
+.. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python
+- pandevice
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+  :class: longtable ansible-option-table
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-api_key"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-api_key" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The API key to use instead of generating it using :emphasis:`username` / :emphasis:`password`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-device_group"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-device_group:
+
+      .. rst-class:: ansible-option-title
+
+      **device_group**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-device_group" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      (Panorama only) The device group the operation should target.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"shared"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ip_address" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-listing"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-listing:
+
+      .. rst-class:: ansible-option-title
+
+      **listing**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-listing" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Return all rules.
+
+      Mutually exclusive with rule\_name, rule\_regex, and uuid.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-password"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The password to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dict object containing connection details.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/api_key"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-provider/api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/api_key" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The API key to use instead of generating it using :emphasis:`username` / :emphasis:`password`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/ip_address"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-provider/ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/ip_address" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/password"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-provider/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/password" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The password to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/port"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-provider/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/serial_number"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-provider/serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/serial_number" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN-OS device, then this param is ignored.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/username"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-provider/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The username to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rule_name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-rule_name:
+
+      .. rst-class:: ansible-option-title
+
+      **rule_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rule_name" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name of the rule.
+
+      Mutually exclusive with rule\_regex, listing, and uuid.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rule_regex"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-rule_regex:
+
+      .. rst-class:: ansible-option-title
+
+      **rule_regex**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rule_regex" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A regex to match against the rule name.
+
+      Mutually exclusive with rule\_name, listing, and uuid.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rulebase"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-rulebase:
+
+      .. rst-class:: ansible-option-title
+
+      **rulebase**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rulebase" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The rulebase in which the rule is to exist. If left unspecified, this defaults to :emphasis:`rulebase=pre-rulebase` for Panorama. For NGFW, this is always set to be :emphasis:`rulebase=rulebase`.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"pre-rulebase"`
+      - :ansible-option-choices-entry:`"rulebase"`
+      - :ansible-option-choices-entry:`"post-rulebase"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-username"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The username to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-uuid"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-uuid:
+
+      .. rst-class:: ansible-option-title
+
+      **uuid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-uuid" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Match the given rule UUID (PAN-OS 9.0+).
+
+      Mutually exclusive with rule\_name, listing, and rule\_regex.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-vsys"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__parameter-vsys:
+
+      .. rst-class:: ansible-option-title
+
+      **vsys**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-vsys" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The vsys this object belongs to.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"vsys1"`
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Checkmode is not supported.
+   - Panorama is supported.
+   - PAN-OS connectivity should be specified using :emphasis:`provider` or the classic PAN-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    - name: Get a list of all NAT rules
+      paloaltonetworks.panos.panos_nat_rule_facts:
+        provider: '{{ provider }}'
+        listing: true
+      register: res1
+
+    - debug:
+        msg: '{{ res1.listing }}'
+
+    - name: Get the NAT rule foo
+      paloaltonetworks.panos.panos_nat_rule_facts:
+        provider: '{{ provider }}'
+        rule_name: 'foo'
+      register: res2
+
+    - debug:
+        msg: '{{ res2.object }}'
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+  :class: longtable ansible-option-table
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-listing"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-listing:
+
+      .. rst-class:: ansible-option-title
+
+      **listing**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-listing" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of rules
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` When :emphasis:`listing` or :emphasis:`rule\_regex` is set
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object:
+
+      .. rst-class:: ansible-option-title
+
+      **object**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`complex`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Single rule definition
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` When :emphasis:`rule\_name` or :emphasis:`uuid` is specified
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/description"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/description" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/destination_ip"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/destination_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **destination_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/destination_ip" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Destination addresses
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/destination_zone"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/destination_zone:
+
+      .. rst-class:: ansible-option-title
+
+      **destination_zone**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/destination_zone" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      To zones
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/dnat_address"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/dnat_address:
+
+      .. rst-class:: ansible-option-title
+
+      **dnat_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/dnat_address" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Destination NAT translated address
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/dnat_port"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/dnat_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnat_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/dnat_port" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Destination NAT translated port
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/nat_type"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/nat_type:
+
+      .. rst-class:: ansible-option-title
+
+      **nat_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/nat_type" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The NAT type
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/rule_name"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/rule_name:
+
+      .. rst-class:: ansible-option-title
+
+      **rule_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/rule_name" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Rule name
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/service"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/service:
+
+      .. rst-class:: ansible-option-title
+
+      **service**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/service" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The service
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/snat_address_type"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/snat_address_type:
+
+      .. rst-class:: ansible-option-title
+
+      **snat_address_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/snat_address_type" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of source translation
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/snat_bidirectional"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/snat_bidirectional:
+
+      .. rst-class:: ansible-option-title
+
+      **snat_bidirectional**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/snat_bidirectional" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bidirectional flag
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/snat_dynamic_address"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/snat_dynamic_address:
+
+      .. rst-class:: ansible-option-title
+
+      **snat_dynamic_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/snat_dynamic_address" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Source NAT translated address
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/snat_interface"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/snat_interface:
+
+      .. rst-class:: ansible-option-title
+
+      **snat_interface**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/snat_interface" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Source NAT interface
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/snat_interface_address"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/snat_interface_address:
+
+      .. rst-class:: ansible-option-title
+
+      **snat_interface_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/snat_interface_address" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SNAT interface address
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/snat_static_address"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/snat_static_address:
+
+      .. rst-class:: ansible-option-title
+
+      **snat_static_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/snat_static_address" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Static IP SNAT translated address
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/snat_type"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/snat_type:
+
+      .. rst-class:: ansible-option-title
+
+      **snat_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/snat_type" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of source translation
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/source_ip"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/source_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **source_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/source_ip" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Source addresses
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/source_zone"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/source_zone:
+
+      .. rst-class:: ansible-option-title
+
+      **source_zone**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/source_zone" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Source zone
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/tag_val"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/tag_val:
+
+      .. rst-class:: ansible-option-title
+
+      **tag_val**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/tag_val" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Administrative tags for this rule
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/to_interface"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/to_interface:
+
+      .. rst-class:: ansible-option-title
+
+      **to_interface**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/to_interface" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Egress interface from route lookup
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-object/uuid"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_nat_rule_facts_module__return-object/uuid:
+
+      .. rst-class:: ansible-option-title
+
+      **uuid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-object/uuid" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The UUID of the rule (PAN-OS 9.0+)
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+
+..  Status (Presently only deprecated)
+
+Status
+------
+
+.. Deprecated note
+
+- This module will be removed in version 4.0.0.
+  *[deprecated]*
+- For more information see `DEPRECATED`_.
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Garfield Lee Freeman (@shinmog)
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. ansible-links::
+
+  - title: "Issue Tracker"
+    url: "https://github.com/PaloAltoNetworks/pan-os-ansible/issues"
+    external: true
+  - title: "Homepage"
+    url: "https://pan.dev/ansible/docs/panos"
+    external: true
+  - title: "Repository (Sources)"
+    url: "https://github.com/PaloAltoNetworks/pan-os-ansible"
+    external: true
+
+
+.. Parsing errors

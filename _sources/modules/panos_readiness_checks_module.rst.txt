@@ -1,29 +1,1022 @@
-
-.. Document meta section
+.. Document meta
 
 :orphan:
 
-.. Document body
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. meta::
+  :antsibull-docs: 2.21.0
 
 .. Anchors
 
 .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module:
 
+.. Anchors: short name for ansible.builtin
+
 .. Title
 
-paloaltonetworks.panos.panos_readiness_checks module
-++++++++++++++++++++++++++++++++++++++++++++++++++++
+paloaltonetworks.panos.panos_readiness_checks module -- Runs readiness checks (boolean in nature) against a Firewall device.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
+
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+
+    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_readiness_checks`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 2.18.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
 
 
-The documentation for the module plugin, paloaltonetworks.panos.panos_readiness_checks,  was malformed.
+Synopsis
+--------
 
-The errors were:
+.. Description
 
-* ::
-
-        1 validation error for ModuleDocSchema
-        doc -> plugin_name
-          extra fields not permitted (type=value_error.extra)
+- A wrapper around the PAN-OS Upgrade Assurance package.
+- The module is meant to run readiness checks available in the package's CheckFirewall.run\_readiness\_checks() \ `method <https://pan.dev/panos/docs/panos-upgrade-assurance/api/check_firewall/#checkfirewallrun_readiness_checks>`__. Since it's just a wrapper, the way you would configure a check is exactly the same as if you would run the class directly. Please refer to package's documentation for \ `syntax <https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks>`__ and \ `configuration dialect <https://pan.dev/panos/docs/panos-upgrade-assurance/dialect/>`__.
 
 
-File a bug with the `paloaltonetworks.panos collection <https://github.com/PaloAltoNetworks/pan-os-ansible/issues>`_ in order to have it corrected.
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan-python <https://pypi.python.org/pypi/pan-python>`__
+- pandevice can be obtained from PyPI \ `https://pypi.python.org/pypi/pandevice <https://pypi.python.org/pypi/pandevice>`__
+- panos-upgrade-assurance can be obtained from PyPI \ `https://pypi.org/project/panos-upgrade-assurance <https://pypi.org/project/panos-upgrade-assurance>`__
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+  :class: longtable ansible-option-table
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-api_key"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-api_key" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The API key to use instead of generating it using :emphasis:`username` / :emphasis:`password`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-checks"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-checks:
+
+      .. rst-class:: ansible-option-title
+
+      **checks**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-checks" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A list of checks that should be run against a device. For the details on currently supported checks please refer to \ `package's documentation <https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks>`__.
+
+      In most of the cases it is enough to specify a check name to run it with default settings. In this case the list element is of type :strong:`str`. If additional configuration is required the element is a one element :strong:`dict`\ , where key is the check name and value contains the check's configuration. For information which check requires additional configuration please refer to \ `package documentation <https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#readiness-checks>`__.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`["all"]`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-force_fail"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-force_fail:
+
+      .. rst-class:: ansible-option-title
+
+      **force_fail**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-force_fail" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to :strong:`true` will make the module fail when at least one of the checks did not pass.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ip_address" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-password"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The password to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dict object containing connection details.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/api_key"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-provider/api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/api_key" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The API key to use instead of generating it using :emphasis:`username` / :emphasis:`password`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/ip_address"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-provider/ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/ip_address" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/password"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-provider/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/password" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The password to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/port"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-provider/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/serial_number"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-provider/serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/serial_number" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN-OS device, then this param is ignored.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/username"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-provider/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The username to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-skip_force_locale"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-skip_force_locale:
+
+      .. rst-class:: ansible-option-title
+
+      **skip_force_locale**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-skip_force_locale" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to :strong:`true` will skip the :strong:`en\_US.UTF-8` locales on the checks.
+
+      Use with caution only when you actually use different, English based locales but you do not have :strong:`en\_US.UTF-8` installed.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-username"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The username to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-vsys"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__parameter-vsys:
+
+      .. rst-class:: ansible-option-title
+
+      **vsys**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-vsys" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The vsys this object belongs to.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"vsys1"`
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Panorama is not supported.
+   - Check mode is not supported.
+   - PAN-OS connectivity should be specified using :emphasis:`provider` or the classic PAN-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    - name: Run all management plane checks using NOT notation
+      panos_readiness_checks:
+        provider: '{{ device }}'
+        checks:
+          - '!ha'
+          - '!session_exist'
+          - '!arp_entry_exist'
+          - '!ip_sec_tunnel_status'
+
+    - name: Check if a specified session exists in vsys2, fail if it does not
+      panos_readiness_checks:
+        provider: '{{ device }}'
+        vsys: vsys2
+        force_fail: true
+        checks:
+          - session_exist:
+              source: '34.23.15.1'
+              destination: '10.1.0.4'
+              dest_port: '80'
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+  :class: longtable ansible-option-table
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__return-response:
+
+      .. rst-class:: ansible-option-title
+
+      **response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This is a :strong:`dict` where keys are checks names just as you specify them in the :emphasis:`checks` property.
+
+      Each value is also a :strong:`dict`.
+
+      WHen :emphasis:`force\_fail` has the default value of :strong:`false` this :strong:`dict` contains results for all checks that were specified in :emphasis:`checks` property.
+
+      When :emphasis:`force\_fail` is set to :strong:`true` it contains only checks that failed.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"arp\_entry\_exist": {"reason": "[SKIPPED] Missing ARP table entry description.", "state": false}, "candidate\_config": {"reason": "[FAIL] Pending changes found on device.", "state": false}, "content\_version": {"reason": "[FAIL] Installed content DB version (8640-7694) is not the latest one (8697-7981).", "state": false}, "free\_disk\_space": {"reason": "[SUCCESS] ", "state": true}, "ha": {"reason": "[ERROR] Device is not a member of an HA pair.", "state": false}, "ip\_sec\_tunnel\_status": {"reason": "[SKIPPED] Missing tunnel specification.", "state": false}, "ntp\_sync": {"reason": "[ERROR] No NTP server configured.", "state": false}, "panorama": {"reason": "[SUCCESS] ", "state": true}, "session\_exist": {"reason": "[SKIPPED] Missing critical session description. Failing check.", "state": false}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response/reason"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__return-response/reason:
+
+      .. rst-class:: ansible-option-title
+
+      **reason**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response/reason" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A free text describing the check result.
+
+      Prefixed with a keyword: SUCCESS, FAIL, ERROR, SKIPPED.
+
+      Meaningful only for failed tests as the ones succeeded are self explanatory.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response/state"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_readiness_checks_module__return-response/state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response/state" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A result of a check.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Łukasz Pawlęga (@fosix)
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. ansible-links::
+
+  - title: "Issue Tracker"
+    url: "https://github.com/PaloAltoNetworks/pan-os-ansible/issues"
+    external: true
+  - title: "Homepage"
+    url: "https://pan.dev/ansible/docs/panos"
+    external: true
+  - title: "Repository (Sources)"
+    url: "https://github.com/PaloAltoNetworks/pan-os-ansible"
+    external: true
+
+
+.. Parsing errors

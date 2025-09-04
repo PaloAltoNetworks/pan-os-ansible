@@ -1,29 +1,1107 @@
-
-.. Document meta section
+.. Document meta
 
 :orphan:
 
-.. Document body
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. meta::
+  :antsibull-docs: 2.21.0
 
 .. Anchors
 
 .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module:
 
+.. Anchors: short name for ansible.builtin
+
 .. Title
 
-paloaltonetworks.panos.panos_syslog_server module
-+++++++++++++++++++++++++++++++++++++++++++++++++
+paloaltonetworks.panos.panos_syslog_server module -- Manage syslog server profile syslog servers.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
+
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+
+    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_syslog_server_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_syslog_server`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 1.0.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
 
 
-The documentation for the module plugin, paloaltonetworks.panos.panos_syslog_server,  was malformed.
+Synopsis
+--------
 
-The errors were:
+.. Description
 
-* ::
-
-        1 validation error for ModuleDocSchema
-        doc -> plugin_name
-          extra fields not permitted (type=value_error.extra)
+- Manages syslog servers in an syslog server profile.
 
 
-File a bug with the `paloaltonetworks.panos collection <https://github.com/PaloAltoNetworks/pan-os-ansible/issues>`_ in order to have it corrected.
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python
+- pandevice \>= 0.11.1
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+  :class: longtable ansible-option-table
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-api_key"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-api_key" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The API key to use instead of generating it using :emphasis:`username` / :emphasis:`password`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-device_group"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-device_group:
+
+      .. rst-class:: ansible-option-title
+
+      **device_group**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-device_group" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      (Panorama only) The device group the operation should target.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"shared"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-facility"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-facility:
+
+      .. rst-class:: ansible-option-title
+
+      **facility**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-facility" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Syslog facility.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"LOG\_USER"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"LOG\_LOCAL0"`
+      - :ansible-option-choices-entry:`"LOG\_LOCAL1"`
+      - :ansible-option-choices-entry:`"LOG\_LOCAL2"`
+      - :ansible-option-choices-entry:`"LOG\_LOCAL3"`
+      - :ansible-option-choices-entry:`"LOG\_LOCAL4"`
+      - :ansible-option-choices-entry:`"LOG\_LOCAL5"`
+      - :ansible-option-choices-entry:`"LOG\_LOCAL6"`
+      - :ansible-option-choices-entry:`"LOG\_LOCAL7"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-format"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-format:
+
+      .. rst-class:: ansible-option-title
+
+      **format**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-format" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Format of the syslog message.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"BSD"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"IETF"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-gathered_filter"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-gathered_filter:
+
+      .. rst-class:: ansible-option-title
+
+      **gathered_filter**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-gathered_filter" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When :emphasis:`state=gathered`.
+
+      An advanced filtering option to filter results returned from PAN-OS.
+
+      Refer to the guide discussing :emphasis:`gathered\_filter` for more information.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ip_address" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Server name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-password"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The password to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dict object containing connection details.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/api_key"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-provider/api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/api_key" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The API key to use instead of generating it using :emphasis:`username` / :emphasis:`password`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/ip_address"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-provider/ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/ip_address" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/password"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-provider/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/password" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The password to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/port"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-provider/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/serial_number"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-provider/serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/serial_number" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN-OS device, then this param is ignored.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/username"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-provider/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The username to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-server"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-server:
+
+      .. rst-class:: ansible-option-title
+
+      **server**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-server" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IP address or FQDN of the syslog server
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The state.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+      - :ansible-option-choices-entry:`"replaced"`
+      - :ansible-option-choices-entry:`"merged"`
+      - :ansible-option-choices-entry:`"deleted"`
+      - :ansible-option-choices-entry:`"gathered"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-syslog_port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-syslog_port:
+
+      .. rst-class:: ansible-option-title
+
+      **syslog_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-syslog_port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Syslog port number
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-syslog_profile"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-syslog_profile:
+
+      .. rst-class:: ansible-option-title
+
+      **syslog_profile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-syslog_profile" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name of the syslog server profile.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-transport"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-transport:
+
+      .. rst-class:: ansible-option-title
+
+      **transport**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-transport" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Syslog transport.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"UDP"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"TCP"`
+      - :ansible-option-choices-entry:`"SSL"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-username"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The username to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-vsys"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_syslog_server_module__parameter-vsys:
+
+      .. rst-class:: ansible-option-title
+
+      **vsys**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-vsys" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The vsys this object belongs to.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"shared"`
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Panorama is supported.
+   - Check mode is supported.
+   - PAN-OS connectivity should be specified using :emphasis:`provider` or the classic PAN-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    - name: Create syslog server
+      paloaltonetworks.panos.panos_syslog_server:
+        provider: '{{ provider }}'
+        syslog_profile: 'my-profile'
+        name: 'my-syslog-server'
+        server: '10.1.1.1'
+        syslog_port: 514
+
+
+
+.. Facts
+
+
+.. Return values
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Garfield Lee Freeman (@shinmog)
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. ansible-links::
+
+  - title: "Issue Tracker"
+    url: "https://github.com/PaloAltoNetworks/pan-os-ansible/issues"
+    external: true
+  - title: "Homepage"
+    url: "https://pan.dev/ansible/docs/panos"
+    external: true
+  - title: "Repository (Sources)"
+    url: "https://github.com/PaloAltoNetworks/pan-os-ansible"
+    external: true
+
+
+.. Parsing errors

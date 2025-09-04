@@ -1,7 +1,9 @@
-
 .. Document meta
 
 :orphan:
+
+.. meta::
+  :antsibull-docs: 2.21.0
 
 .. Anchors
 
@@ -15,11 +17,11 @@ paloaltonetworks.panos.panos_virtual_router_facts module
 .. Collection note
 
 .. note::
-    This redirect is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/paloaltonetworks/panos>`_ (version 3.0.1).
+    This redirect is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
 
 
 - This redirect has been **deprecated**. Please update your tasks to use the new name ``paloaltonetworks.panos.panos_virtual_router`` instead.
   It will be removed in version 4.0.0 of paloaltonetworks.panos.
-- This is a redirect to the :ref:`paloaltonetworks.panos.panos_virtual_router module <ansible_collections.paloaltonetworks.panos.panos_virtual_router_module>`.
+- This is a redirect to the :ansplugin:`paloaltonetworks.panos.panos_virtual_router module <paloaltonetworks.panos.panos_virtual_router#module>`.
 - This redirect does **not** work with Ansible 2.9.
 - The collection contains the following information on this deprecation: Use 'paloaltonetworks.panos.panos\_virtual\_router' with 'state=gathered'.

@@ -1,29 +1,1968 @@
-
-.. Document meta section
+.. Document meta
 
 :orphan:
 
-.. Document body
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. meta::
+  :antsibull-docs: 2.21.0
 
 .. Anchors
 
 .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module:
 
+.. Anchors: short name for ansible.builtin
+
 .. Title
 
-paloaltonetworks.panos.panos_bgp_policy_rule module
-+++++++++++++++++++++++++++++++++++++++++++++++++++
+paloaltonetworks.panos.panos_bgp_policy_rule module -- Manage a BGP Policy Import/Export Rule
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
+
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+
+    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_bgp_policy_rule`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 1.0.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
 
 
-The documentation for the module plugin, paloaltonetworks.panos.panos_bgp_policy_rule,  was malformed.
+Synopsis
+--------
 
-The errors were:
+.. Description
 
-* ::
-
-        1 validation error for ModuleDocSchema
-        doc -> plugin_name
-          extra fields not permitted (type=value_error.extra)
+- Use BGP to publish and consume routes from disparate networks.
 
 
-File a bug with the `paloaltonetworks.panos collection <https://github.com/PaloAltoNetworks/pan-os-ansible/issues>`_ in order to have it corrected.
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan-python <https://pypi.python.org/pypi/pan-python>`__
+- pandevice can be obtained from PyPI \ `https://pypi.python.org/pypi/pandevice <https://pypi.python.org/pypi/pandevice>`__
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+  :class: longtable ansible-option-table
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action:
+
+      .. rst-class:: ansible-option-title
+
+      **action**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Rule action.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"allow"`
+      - :ansible-option-choices-entry:`"deny"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_as_path_limit"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_as_path_limit:
+
+      .. rst-class:: ansible-option-title
+
+      **action_as_path_limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_as_path_limit" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Add AS path limit attribute if it does not exist.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_as_path_prepend_times"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_as_path_prepend_times:
+
+      .. rst-class:: ansible-option-title
+
+      **action_as_path_prepend_times**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_as_path_prepend_times" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Prepend local AS for specified number of times.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_as_path_type"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_as_path_type:
+
+      .. rst-class:: ansible-option-title
+
+      **action_as_path_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_as_path_type" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      AS path update options.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"none"`
+      - :ansible-option-choices-entry:`"remove"`
+      - :ansible-option-choices-entry:`"prepend"`
+      - :ansible-option-choices-entry:`"remove-and-prepend"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_community_argument"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_community_argument:
+
+      .. rst-class:: ansible-option-title
+
+      **action_community_argument**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_community_argument" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Argument to the action community value if needed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_community_modifier"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_community_modifier:
+
+      .. rst-class:: ansible-option-title
+
+      **action_community_modifier**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_community_modifier" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Modifier for the community action. Required if 'action\_community\_type' is set to 'append' or 'overwrite'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_community_type"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_community_type:
+
+      .. rst-class:: ansible-option-title
+
+      **action_community_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_community_type" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Community update options.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"none"`
+      - :ansible-option-choices-entry:`"remove-all"`
+      - :ansible-option-choices-entry:`"remove-regex"`
+      - :ansible-option-choices-entry:`"append"`
+      - :ansible-option-choices-entry:`"overwrite"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_dampening"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_dampening:
+
+      .. rst-class:: ansible-option-title
+
+      **action_dampening**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_dampening" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Route flap dampening profile; only with "import" type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_extended_community_argument"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_extended_community_argument:
+
+      .. rst-class:: ansible-option-title
+
+      **action_extended_community_argument**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_extended_community_argument" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Argument to the action extended community value if needed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_extended_community_type"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_extended_community_type:
+
+      .. rst-class:: ansible-option-title
+
+      **action_extended_community_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_extended_community_type" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Extended community update options.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_local_preference"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_local_preference:
+
+      .. rst-class:: ansible-option-title
+
+      **action_local_preference**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_local_preference" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      New local preference value.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_med"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_med:
+
+      .. rst-class:: ansible-option-title
+
+      **action_med**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_med" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      New MED value.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_nexthop"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_nexthop:
+
+      .. rst-class:: ansible-option-title
+
+      **action_nexthop**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_nexthop" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Nexthop address.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_origin"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_origin:
+
+      .. rst-class:: ansible-option-title
+
+      **action_origin**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_origin" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      New route origin.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"igp"`
+      - :ansible-option-choices-entry:`"egp"`
+      - :ansible-option-choices-entry:`"incomplete"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-action_weight"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-action_weight:
+
+      .. rst-class:: ansible-option-title
+
+      **action_weight**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-action_weight" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      New weight value; only with "import" type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-address_prefix"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-address_prefix:
+
+      .. rst-class:: ansible-option-title
+
+      **address_prefix**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-address_prefix" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of address prefix dicts with "name"/"exact" keys.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-api_key"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-api_key" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The API key to use instead of generating it using :emphasis:`username` / :emphasis:`password`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-commit"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-commit:
+
+      .. rst-class:: ansible-option-title
+
+      **commit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-commit" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Please use :ref:`paloaltonetworks.panos.panos\_commit\_firewall <ansible_collections.paloaltonetworks.panos.panos_commit_firewall_module>`\ , :ref:`paloaltonetworks.panos.panos\_commit\_panorama <ansible_collections.paloaltonetworks.panos.panos_commit_panorama_module>`\ , :ref:`paloaltonetworks.panos.panos\_commit\_push <ansible_collections.paloaltonetworks.panos.panos_commit_push_module>` instead.
+
+      .. raw:: html
+
+        <hr>
+
+      Commit changes after creating object. If :emphasis:`ip\_address` is a Panorama device, and :emphasis:`device\_group` or :emphasis:`template` are also set, perform a commit to Panorama and a commit-all to the device group/template.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-enable"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-enable:
+
+      .. rst-class:: ansible-option-title
+
+      **enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-enable" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable rule.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ip_address" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_afi"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-match_afi:
+
+      .. rst-class:: ansible-option-title
+
+      **match_afi**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_afi" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Address Family Identifier.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"ip"`
+      - :ansible-option-choices-entry:`"ipv6"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_as_path_regex"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-match_as_path_regex:
+
+      .. rst-class:: ansible-option-title
+
+      **match_as_path_regex**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_as_path_regex" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      AS-path regular expression.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_community_regex"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-match_community_regex:
+
+      .. rst-class:: ansible-option-title
+
+      **match_community_regex**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_community_regex" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Community AS-path regular expression.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_extended_community_regex"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-match_extended_community_regex:
+
+      .. rst-class:: ansible-option-title
+
+      **match_extended_community_regex**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_extended_community_regex" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Extended Community AS-path regular expression.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_from_peer"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-match_from_peer:
+
+      .. rst-class:: ansible-option-title
+
+      **match_from_peer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_from_peer" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Filter by peer that sent this route.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_med"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-match_med:
+
+      .. rst-class:: ansible-option-title
+
+      **match_med**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_med" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Multi-Exit Discriminator.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_nexthop"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-match_nexthop:
+
+      .. rst-class:: ansible-option-title
+
+      **match_nexthop**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_nexthop" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Next-hop attributes.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_route_table"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-match_route_table:
+
+      .. rst-class:: ansible-option-title
+
+      **match_route_table**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_route_table" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Route table to match rule.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"unicast"`
+      - :ansible-option-choices-entry:`"multicast"`
+      - :ansible-option-choices-entry:`"both"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-match_safi"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-match_safi:
+
+      .. rst-class:: ansible-option-title
+
+      **match_safi**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-match_safi" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Subsequent Address Family Identifier.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"ip"`
+      - :ansible-option-choices-entry:`"ipv6"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name of filter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-password"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The password to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dict object containing connection details.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/api_key"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-provider/api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/api_key" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The API key to use instead of generating it using :emphasis:`username` / :emphasis:`password`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/ip_address"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-provider/ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/ip_address" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The IP address or hostname of the PAN-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/password"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-provider/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/password" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The password to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/port"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-provider/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The port number to connect to the PAN-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/serial_number"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-provider/serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/serial_number" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN-OS device, then this param is ignored.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/username"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-provider/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The username to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The state.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-template"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-template:
+
+      .. rst-class:: ansible-option-title
+
+      **template**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-template" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      (Panorama only) The template this operation should target. Mutually exclusive with :emphasis:`template\_stack`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-template_stack"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-template_stack:
+
+      .. rst-class:: ansible-option-title
+
+      **template_stack**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-template_stack" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      (Panorama only) The template stack this operation should target. Mutually exclusive with :emphasis:`template`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-type"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-type:
+
+      .. rst-class:: ansible-option-title
+
+      **type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-type" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The type of rule.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"import"`
+      - :ansible-option-choices-entry:`"export"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-used_by"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-used_by:
+
+      .. rst-class:: ansible-option-title
+
+      **used_by**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-used_by" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Peer-groups that use this rule.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-username"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The username to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-vr_name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_bgp_policy_rule_module__parameter-vr_name:
+
+      .. rst-class:: ansible-option-title
+
+      **vr_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-vr_name" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name of the virtual router; it must already exist; see :ref:`paloaltonetworks.panos.panos\_virtual\_router <ansible_collections.paloaltonetworks.panos.panos_virtual_router_module>`.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"default"`
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Checkmode is supported.
+   - Panorama is supported.
+   - PAN-OS connectivity should be specified using :emphasis:`provider` or the classic PAN-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
+   - If the PAN-OS to be configured is Panorama, either :emphasis:`template` or :emphasis:`template\_stack` must be specified.
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    # Add a BGP Policy
+    - name: Create Policy Import Rule
+      paloaltonetworks.panos.panos_bgp_policy_rule:
+        provider: '{{ provider }}'
+        vr_name: 'default'
+        name: 'import-rule-001'
+        type: 'import'
+        enable: true
+        action: 'allow'
+        address_prefix:
+          - name: '10.1.1.0/24'
+          - name: '10.1.2.0/24'
+            exact: false
+          - name: '10.1.3.0/24'
+            exact: true
+        action_dampening: 'dampening-profile'
+
+    - name: Create Policy Export Rule
+      paloaltonetworks.panos.panos_bgp_policy_rule:
+        provider: '{{ provider }}'
+        vr_name: 'default'
+        name: 'export-rule-001'
+        type: 'export'
+        enable: true
+        action: 'allow'
+
+    - name: Remove Export Rule
+      paloaltonetworks.panos.panos_bgp_policy_rule:
+        provider: '{{ provider }}'
+        state: 'absent'
+        vr_name: 'default'
+        name: 'export-rule-001'
+        type: 'export'
+
+
+
+.. Facts
+
+
+.. Return values
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Joshua Colson (@freakinhippie)
+- Garfield Lee Freeman (@shinmog)
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. ansible-links::
+
+  - title: "Issue Tracker"
+    url: "https://github.com/PaloAltoNetworks/pan-os-ansible/issues"
+    external: true
+  - title: "Homepage"
+    url: "https://pan.dev/ansible/docs/panos"
+    external: true
+  - title: "Repository (Sources)"
+    url: "https://github.com/PaloAltoNetworks/pan-os-ansible"
+    external: true
+
+
+.. Parsing errors
