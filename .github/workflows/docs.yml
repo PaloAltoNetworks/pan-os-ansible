@@ -9,10 +9,6 @@ env:
   COLLECTION_NAME: panos
 
 jobs:
-  pyversion:
-    name: Discover minimum Python version
-    uses: ./.github/workflows/_discover_python_ver.yml
-
   docs:
     name: Build Documentation
     runs-on: ubuntu-latest
@@ -32,7 +28,7 @@ jobs:
 
       - name: discover Python version
         id: pyversion
-        uses: ./.github/actions/discover_python_version
+        uses: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/.github/actions/discover_python_version
         with:
           working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
