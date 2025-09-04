@@ -15,7 +15,6 @@ jobs:
 
   docs:
     name: Build Documentation
-    needs: pyversion
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -31,10 +30,16 @@ jobs:
         with:
           path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
+      - name: discover Python version
+        id: pyversion
+        uses: ./.github/actions/discover_python_version
+        with:
+          working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
       - name: Setup Python
         uses: actions/setup-python@b64ffcaf5b410884ad320a9cfac8866006a109aa # v4
         with:
-          python-version: ${{ needs.pyversion.outputs.pyversion }}
+          python-version: ${{ steps.pyversion.outputs.pyversion }}
 
       - name: Install Poetry
         uses: Gr1N/setup-poetry@15821dc8a61bc630db542ae4baf6a7c19a994844 # v8
