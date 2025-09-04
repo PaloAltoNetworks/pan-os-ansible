@@ -28,7 +28,7 @@ jobs:
 
       - name: discover Python version
         id: pyversion
-        uses: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}/.github/actions/discover_python_version
+        uses: ./ansible_collections/paloaltonetworks/panos/.github/actions/discover_python_version
         with:
           working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
