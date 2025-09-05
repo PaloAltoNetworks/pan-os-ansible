@@ -2443,6 +2443,7 @@ Authors
 - Robert Hagen (@stealthllama)
 - Michael Richardson (@mrichardson03)
 - Garfield Lee Freeman (@shinmog)
+- Alp Eren Kose (@alperenkose)
 
 
 .. Extra links
