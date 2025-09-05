@@ -7,14 +7,20 @@
 collection := $(notdir $(realpath $(CURDIR)      ))
 namespace  := $(notdir $(realpath $(CURDIR)/..   ))
 toplevel   := $(notdir $(realpath $(CURDIR)/../..))
-
 err_msg := Place collection at <WHATEVER>/ansible_collections/paloaltonetworks/panos
-ifneq (panos,$(collection))
-  $(error $(err_msg))
-else ifneq (paloaltonetworks,$(namespace))
-  $(error $(err_msg))
-else ifneq (ansible_collections,$(toplevel))
-  $(error $(err_msg))
+
+# List of targets that require path check
+PATH_CHECK_TARGETS := old-sanity new-sanity
+
+# Check if current target requires path check
+ifneq ($(filter $(MAKECMDGOALS),$(PATH_CHECK_TARGETS)),)
+  ifneq (panos,$(collection))
+    $(error $(err_msg))
+  else ifneq (paloaltonetworks,$(namespace))
+    $(error $(err_msg))
+  else ifneq (ansible_collections,$(toplevel))
+    $(error $(err_msg))
+  endif
 endif
 
 python_version := $(shell \
@@ -32,7 +38,7 @@ docs:		## Build collection documentation
 	rm -rf docs/html
 	rm -rf docs/source/modules
 	mkdir antsibull
-	poetry run antsibull-docs collection --use-current --dest-dir antsibull --no-indexes paloaltonetworks.panos
+	antsibull-docs collection --use-current --dest-dir antsibull --no-indexes paloaltonetworks.panos
 	mkdir -p docs/source/modules
 	mv antsibull/collections/paloaltonetworks/panos/* docs/source/modules
 	rm -rf antsibull
