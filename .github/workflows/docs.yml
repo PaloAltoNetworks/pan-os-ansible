@@ -12,9 +12,9 @@ jobs:
   docs:
     name: Build Documentation
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+    # defaults:
+    #   run:
+    #     working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
     steps:
       # Just a note here:  The Ansible stuff is apparently doing realpath
@@ -23,14 +23,15 @@ jobs:
       # to have the real path contain ansible_collections/paloaltonetworks/panos.
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-        with:
-          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+        # with:
+        #   path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: discover Python version
         id: pyversion
-        uses: ./ansible_collections/paloaltonetworks/panos/.github/actions/discover_python_version
-        with:
-          working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+        uses: ./.github/actions/discover_python_version
+        # uses: ./ansible_collections/paloaltonetworks/panos/.github/actions/discover_python_version
+        # with:
+        #   working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Setup Python
         uses: actions/setup-python@b64ffcaf5b410884ad320a9cfac8866006a109aa # v4
@@ -45,8 +46,8 @@ jobs:
       - name: Add ansible-core
         run: poetry add ansible-core^2.16
 
-      - name: Add antsibull-docs
-        run: poetry add antsibull-docs
+      # - name: Add antsibull-docs
+      #   run: poetry add antsibull-docs
 
       - name: Install dependencies
         run: poetry install
@@ -65,15 +66,15 @@ jobs:
           rm -rf docs/html/.doctrees
         shell: bash
 
-      # This is here for right now because the action to deploy seems to assume
-      # (and not have a configuration option to) mirror the actions/checkout@v4
-      # the with.path spec.
-      - name: Move the repo to where the deploy action is looking for it
-        run: |
-          cd ../../../..
-          mv pan-os-ansible the_repo
-          mv the_repo/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }} pan-os-ansible
-          mkdir -p pan-os-ansible/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+      # # This is here for right now because the action to deploy seems to assume
+      # # (and not have a configuration option to) mirror the actions/checkout@v4
+      # # the with.path spec.
+      # - name: Move the repo to where the deploy action is looking for it
+      #   run: |
+      #     cd ../../../..
+      #     mv pan-os-ansible the_repo
+      #     mv the_repo/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }} pan-os-ansible
+      #     mkdir -p pan-os-ansible/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@a1ea191d508feb8485aceba848389d49f80ca2dc # v4.4.3
