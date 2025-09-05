@@ -97,6 +97,10 @@ jobs:
       run:
         working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
     steps:
+      # Just a note here:  The Ansible stuff is apparently doing realpath
+      # checks, so trying to simlink stuff and then run Ansible commands
+      # such as ansible-test in the symlink directory fails.  Thus we need
+      # to have the real path contain ansible_collections/paloaltonetworks/panos.
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
