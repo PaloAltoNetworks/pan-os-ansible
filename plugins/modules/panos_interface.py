@@ -109,6 +109,10 @@ options:
             - "10"
             - "100"
             - "1000"
+            - "10000"
+            - "25000"
+            - "40000"
+            - "100000"
     link_duplex:
         description:
             - Link duplex.
@@ -290,7 +294,7 @@ def main():
             lldp_enabled=dict(),
             lldp_profile=dict(),
             netflow_profile_l2=dict(),
-            link_speed=dict(choices=["auto", "10", "100", "1000"]),
+            link_speed=dict(choices=["auto", "10", "100", "1000", "10000", "25000", "40000", "100000"]),
             link_duplex=dict(choices=["auto", "full", "half"]),
             link_state=dict(choices=["auto", "up", "down"]),
             aggregate_group=dict(),
