@@ -294,6 +294,9 @@ jobs:
     name: Dev EE
     needs: [rc, sanity, tox, lint, format, requirements]
     if: (needs.rc.outputs.rc == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/develop')
+    permissions:
+      contents: read
+      packages: write
     uses: ./.github/workflows/ee.yml
     secrets: inherit
 
@@ -301,6 +304,9 @@ jobs:
     name: Release EE
     needs: release
     if: needs.release.outputs.new_release_published == 'true'
+    permissions:
+      contents: read
+      packages: write
     uses: ./.github/workflows/ee.yml
     with:
       release: true
