@@ -17,6 +17,8 @@ jobs:
     name: Check Release Candidate
     if: github.event_name == 'push' && !startsWith(github.ref, 'refs/tags/') # on push to branches but not tags
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
       rc: ${{ steps.rc.outputs.new_release_published }}
       new_release_version: ${{ steps.rc.outputs.new_release_version }}
