@@ -16,18 +16,18 @@
 
 .. Title
 
-paloaltonetworks.panos.panos_dynamic_updates module -- Install dynamic updates on PAN-OS devices.
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+paloaltonetworks.panos.panos_dynamic_updates module -- Install dynamic updates on PAN\-OS devices.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.2.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    To install it, use: :code:`ansible\-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
     see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_dynamic_updates_module_requirements>` for details.
 
@@ -51,7 +51,7 @@ Synopsis
 
 .. Description
 
-- Installs the latest content update on PAN-OS devices.
+- Installs the latest content update on PAN\-OS devices.
 
 
 .. Aliases
@@ -65,8 +65,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- pan-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan-python <https://pypi.python.org/pypi/pan-python>`__
-- pan-os-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan-os-python <https://pypi.python.org/pypi/pan-os-python>`__
+- pan\-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan\-python <https://pypi.python.org/pypi/pan-python>`__
+- pan\-os\-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan\-os\-python <https://pypi.python.org/pypi/pan-os-python>`__
 
 
 
@@ -203,7 +203,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The IP address or hostname of the PAN-OS device being configured.
+      The IP address or hostname of the PAN\-OS device being configured.
 
 
       .. raw:: html
@@ -287,7 +287,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The port number to connect to the PAN-OS device on.
+      The port number to connect to the PAN\-OS device on.
 
 
       .. rst-class:: ansible-option-line
@@ -333,7 +333,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN-OS device, then this param is ignored.
+      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN\-OS device, then this param is ignored.
 
 
       .. raw:: html
@@ -556,7 +556,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"8372-6534"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"8372\-6534"`
 
 
       .. raw:: html

@@ -16,18 +16,18 @@
 
 .. Title
 
-paloaltonetworks.panos.panos_export module -- export file from PAN-OS devices
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+paloaltonetworks.panos.panos_export module -- export file from PAN\-OS devices
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.2.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    To install it, use: :code:`ansible\-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
     see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_export_module_requirements>` for details.
 
@@ -51,7 +51,7 @@ Synopsis
 
 .. Description
 
-- Export files from PAN-OS device
+- Export files from PAN\-OS device
 
 
 .. Aliases
@@ -65,7 +65,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- pan-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan-python <https://pypi.python.org/pypi/pan-python>`__
+- pan\-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan\-python <https://pypi.python.org/pypi/pan-python>`__
 - pandevice can be obtained from PyPI \ `https://pypi.python.org/pypi/pandevice <https://pypi.python.org/pypi/pandevice>`__
 - xmltodict
 
@@ -119,7 +119,7 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
@@ -159,7 +159,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      When :emphasis:`category=application-pcap`\ , this can be a blank string, a packet capture directory name, or a packet capture name. If the value is either blank or a directory name, a list of directories or packet capture files will be returned. If the value is a packet capture file name, the file will be written to :emphasis:`filename`.
+      When :emphasis:`category=application\-pcap`\ , this can be a blank string, a packet capture directory name, or a packet capture name. If the value is either blank or a directory name, a list of directories or packet capture files will be returned. If the value is a packet capture file name, the file will be written to :emphasis:`filename`.
 
 
       .. raw:: html
@@ -200,33 +200,33 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`"application-block-page"`
-      - :ansible-option-choices-entry:`"application-pcap"`
-      - :ansible-option-choices-entry:`"captive-portal-text"`
+      - :ansible-option-choices-entry:`"application\-block\-page"`
+      - :ansible-option-choices-entry:`"application\-pcap"`
+      - :ansible-option-choices-entry:`"captive\-portal\-text"`
       - :ansible-option-choices-entry:`"certificate"`
       - :ansible-option-choices-entry-default:`"configuration"` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`"credential-block-page"`
-      - :ansible-option-choices-entry:`"credential-coach-text"`
-      - :ansible-option-choices-entry:`"data-filter-block-page"`
-      - :ansible-option-choices-entry:`"device-state"`
-      - :ansible-option-choices-entry:`"dlp-pcap"`
-      - :ansible-option-choices-entry:`"file-block-continue-page"`
-      - :ansible-option-choices-entry:`"file-block-page"`
-      - :ansible-option-choices-entry:`"filter-pcap"`
-      - :ansible-option-choices-entry:`"global-protect-portal-custom-help-page"`
-      - :ansible-option-choices-entry:`"global-protect-portal-custom-home-page"`
-      - :ansible-option-choices-entry:`"global-protect-portal-custom-login-page"`
-      - :ansible-option-choices-entry:`"global-protect-portal-custom-welcome-page"`
-      - :ansible-option-choices-entry:`"mfa-login-page"`
-      - :ansible-option-choices-entry:`"safe-search-block-page"`
-      - :ansible-option-choices-entry:`"ssl-cert-status-page"`
-      - :ansible-option-choices-entry:`"ssl-optout-text"`
-      - :ansible-option-choices-entry:`"stats-dump"`
-      - :ansible-option-choices-entry:`"tech-support"`
-      - :ansible-option-choices-entry:`"threat-pcap"`
-      - :ansible-option-choices-entry:`"url-block-page"`
-      - :ansible-option-choices-entry:`"url-coach-text"`
-      - :ansible-option-choices-entry:`"virus-block-page"`
+      - :ansible-option-choices-entry:`"credential\-block\-page"`
+      - :ansible-option-choices-entry:`"credential\-coach\-text"`
+      - :ansible-option-choices-entry:`"data\-filter\-block\-page"`
+      - :ansible-option-choices-entry:`"device\-state"`
+      - :ansible-option-choices-entry:`"dlp\-pcap"`
+      - :ansible-option-choices-entry:`"file\-block\-continue\-page"`
+      - :ansible-option-choices-entry:`"file\-block\-page"`
+      - :ansible-option-choices-entry:`"filter\-pcap"`
+      - :ansible-option-choices-entry:`"global\-protect\-portal\-custom\-help\-page"`
+      - :ansible-option-choices-entry:`"global\-protect\-portal\-custom\-home\-page"`
+      - :ansible-option-choices-entry:`"global\-protect\-portal\-custom\-login\-page"`
+      - :ansible-option-choices-entry:`"global\-protect\-portal\-custom\-welcome\-page"`
+      - :ansible-option-choices-entry:`"mfa\-login\-page"`
+      - :ansible-option-choices-entry:`"safe\-search\-block\-page"`
+      - :ansible-option-choices-entry:`"ssl\-cert\-status\-page"`
+      - :ansible-option-choices-entry:`"ssl\-optout\-text"`
+      - :ansible-option-choices-entry:`"stats\-dump"`
+      - :ansible-option-choices-entry:`"tech\-support"`
+      - :ansible-option-choices-entry:`"threat\-pcap"`
+      - :ansible-option-choices-entry:`"url\-block\-page"`
+      - :ansible-option-choices-entry:`"url\-coach\-text"`
+      - :ansible-option-choices-entry:`"virus\-block\-page"`
 
 
       .. raw:: html
@@ -489,7 +489,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      When :emphasis:`category=dlp-pcap`\ , this value can be a blank string, or a packet capture name. If the value is blank, a list of packet capture files will be returned. If the value is a packet capture file name, the file will be written to :emphasis:`filename`.
+      When :emphasis:`category=dlp\-pcap`\ , this value can be a blank string, or a packet capture name. If the value is blank, a list of packet capture files will be returned. If the value is a packet capture file name, the file will be written to :emphasis:`filename`.
 
 
       .. raw:: html
@@ -557,7 +557,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      When :emphasis:`category=filter-pcap`\ , this value can be a blank string, or a packet capture name. If the value is blank, a list of packet capture files will be returned. If the value is a packet capture file name, the file will be written to :emphasis:`filename`.
+      When :emphasis:`category=filter\-pcap`\ , this value can be a blank string, or a packet capture name. If the value is blank, a list of packet capture files will be returned. If the value is a packet capture file name, the file will be written to :emphasis:`filename`.
 
 
       .. raw:: html
@@ -593,13 +593,13 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
         <hr>
 
-      The IP address or hostname of the PAN-OS device being configured.
+      The IP address or hostname of the PAN\-OS device being configured.
 
 
       .. raw:: html
@@ -635,7 +635,7 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
@@ -677,13 +677,13 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
         <hr>
 
-      The port number to connect to the PAN-OS device on.
+      The port number to connect to the PAN\-OS device on.
 
 
       .. rst-class:: ansible-option-line
@@ -808,7 +808,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The IP address or hostname of the PAN-OS device being configured.
+      The IP address or hostname of the PAN\-OS device being configured.
 
 
       .. raw:: html
@@ -892,7 +892,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The port number to connect to the PAN-OS device on.
+      The port number to connect to the PAN\-OS device on.
 
 
       .. rst-class:: ansible-option-line
@@ -938,7 +938,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN-OS device, then this param is ignored.
+      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN\-OS device, then this param is ignored.
 
 
       .. raw:: html
@@ -1019,7 +1019,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      When :emphasis:`category=threat-pcap`\ , this value is a unique identifier for the packet capture, and can be obtained from the 'pcap\_id' field in the THREAT log.
+      When :emphasis:`category=threat\-pcap`\ , this value is a unique identifier for the packet capture, and can be obtained from the 'pcap\_id' field in the THREAT log.
 
 
       .. raw:: html
@@ -1053,7 +1053,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      When :emphasis:`category=threat-pcap`\ , this value is is used to narrow the search for the 'pcap\_id' and is used to set a time window in the range -5 minutes to +2 hours of the time specified. The search time is typically set to the \*\*receive\_time\*\* field in the THREAT log. The PAN-OS log time string format is used, for example '2015/01/20 10:51:09'. If the value is not specified, it will be set to the threat epoch time which is part of the 'pcap\_id'.
+      When :emphasis:`category=threat\-pcap`\ , this value is is used to narrow the search for the 'pcap\_id' and is used to set a time window in the range \-5 minutes to +2 hours of the time specified. The search time is typically set to the \*\*receive\_time\*\* field in the THREAT log. The PAN\-OS log time string format is used, for example '2015/01/20 10:51:09'. If the value is not specified, it will be set to the threat epoch time which is part of the 'pcap\_id'.
 
 
       .. raw:: html
@@ -1087,7 +1087,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      When :emphasis:`category=threat-pcap`\ , this value is required when exporting from Panorama and is used to specify the device to fetch the packet capture from.
+      When :emphasis:`category=threat\-pcap`\ , this value is required when exporting from Panorama and is used to specify the device to fetch the packet capture from.
 
 
       .. raw:: html
@@ -1121,7 +1121,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      When category is set to 'tech-support', 'stats-dump', or 'device-state', the operating can take a while to complete. This is the maximum amount of time to wait, in seconds.
+      When category is set to 'tech\-support', 'stats\-dump', or 'device\-state', the operating can take a while to complete. This is the maximum amount of time to wait, in seconds.
 
 
       .. rst-class:: ansible-option-line
@@ -1161,7 +1161,7 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
@@ -1190,7 +1190,7 @@ Notes
 .. note::
    - Checkmode is NOT supported.
    - Panorama is supported.
-   - PAN-OS connectivity should be specified using :emphasis:`provider` or the classic PAN-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
+   - PAN\-OS connectivity should be specified using :emphasis:`provider` or the classic PAN\-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
 
 .. Seealso
 
@@ -1287,7 +1287,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{'dir-listing': {'file': ['/capture-rx', '/capture-tx', '/capture-fw']}}"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{'dir\-listing': {'file': ['/capture\-rx', '/capture\-tx', '/capture\-fw']}}"`
 
 
       .. raw:: html
@@ -1332,7 +1332,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"\<dir-listing\>\<file\>/capture-rx\</file\>\<file\>/capture-tx\</file\>\<file\>/capture-fw\</file\>\</dir-listing\>"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"\<dir\-listing\>\<file\>/capture\-rx\</file\>\<file\>/capture\-tx\</file\>\<file\>/capture\-fw\</file\>\</dir\-listing\>"`
 
 
       .. raw:: html

@@ -22,12 +22,12 @@ paloaltonetworks.panos.panos_template module -- Manage Panorama template
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.2.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    To install it, use: :code:`ansible\-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
     see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_template_module_requirements>` for details.
 
@@ -65,7 +65,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- pan-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan-python <https://pypi.python.org/pypi/pan-python>`__
+- pan\-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan\-python <https://pypi.python.org/pypi/pan-python>`__
 - pandevice can be obtained from PyPI \ `https://pypi.python.org/pypi/pandevice <https://pypi.python.org/pypi/pandevice>`__
 - pandevice \>= 1.5.1
 - PANOS \>= 7.0
@@ -226,7 +226,7 @@ Parameters
 
       When :emphasis:`state=gathered`.
 
-      An advanced filtering option to filter results returned from PAN-OS.
+      An advanced filtering option to filter results returned from PAN\-OS.
 
       Refer to the guide discussing :emphasis:`gathered\_filter` for more information.
 
@@ -417,7 +417,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The IP address or hostname of the PAN-OS device being configured.
+      The IP address or hostname of the PAN\-OS device being configured.
 
 
       .. raw:: html
@@ -501,7 +501,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The port number to connect to the PAN-OS device on.
+      The port number to connect to the PAN\-OS device on.
 
 
       .. rst-class:: ansible-option-line
@@ -547,7 +547,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN-OS device, then this param is ignored.
+      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN\-OS device, then this param is ignored.
 
 
       .. raw:: html

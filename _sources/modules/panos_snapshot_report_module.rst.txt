@@ -22,12 +22,12 @@ paloaltonetworks.panos.panos_snapshot_report module -- Generates a report by com
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.2.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    To install it, use: :code:`ansible\-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
     see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_snapshot_report_module_requirements>` for details.
 
@@ -51,7 +51,7 @@ Synopsis
 
 .. Description
 
-- A wrapper around the PAN-OS Upgrade Assurance package.
+- A wrapper around the PAN\-OS Upgrade Assurance package.
 - This is an 'offline' module, meaning it operates only on available facts. It does not need to connect to a device. It's a wrapper around the \ `SnapshotCompare class <https://pan.dev/panos/docs/panos-upgrade-assurance/api/snapshot_compare/#class-snapshotcompare>`__.
 - The module takes two snapshots made with :ref:`paloaltonetworks.panos.panos\_state\_snapshot <ansible_collections.paloaltonetworks.panos.panos_state_snapshot_module>` module, compares them and produces a report in a form of a :strong:`dict`. Keys in this report match the state areas, values contain comparison details.
 - You can limit the report to the state area's you're only interested in. You can also adjust the comparison by excluding some or limiting to particular properties.
@@ -69,9 +69,9 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- pan-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan-python <https://pypi.python.org/pypi/pan-python>`__
+- pan\-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan\-python <https://pypi.python.org/pypi/pan-python>`__
 - pandevice can be obtained from PyPI \ `https://pypi.python.org/pypi/pandevice <https://pypi.python.org/pypi/pandevice>`__
-- panos-upgrade-assurance can be obtained from PyPI \ `https://pypi.python.org/pypi/panos-upgrade-assurance <https://pypi.python.org/pypi/panos-upgrade-assurance>`__
+- panos\-upgrade\-assurance can be obtained from PyPI \ `https://pypi.python.org/pypi/panos\-upgrade\-assurance <https://pypi.python.org/pypi/panos-upgrade-assurance>`__
 
 
 
@@ -121,7 +121,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      One of the snapshots to compare. It can be any snapshot taken in any time, but normally, in an upgrade scenario, you would think about it as the pre-upgrade snapshot.
+      One of the snapshots to compare. It can be any snapshot taken in any time, but normally, in an upgrade scenario, you would think about it as the pre\-upgrade snapshot.
 
 
       .. raw:: html
@@ -199,7 +199,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      One of the snapshots to compare. It can be any snapshot taken in any time, but normally, in an upgrade scenario, you would think about it as the post-upgrade snapshot.
+      One of the snapshots to compare. It can be any snapshot taken in any time, but normally, in an upgrade scenario, you would think about it as the post\-upgrade snapshot.
 
 
       .. raw:: html
@@ -303,7 +303,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"content\_version": {"added": {"added\_keys": [], "passed": true}, "changed": {"changed\_raw": {"version": {"left\_snap": "8647-7730", "right\_snap": "8647-7729"}}, "passed": false}, "missing": {"missing\_keys": [], "passed": true}, "passed": false}, "ip\_sec\_tunnels": {"added": {"added\_keys": [], "passed": true}, "changed": {"changed\_raw": {"ipsec\_tun": {"added": {"added\_keys": [], "passed": true}, "changed": {"changed\_raw": {"state": {"left\_snap": "init", "right\_snap": "running"}}, "passed": false}, "missing": {"missing\_keys": [], "passed": true}, "passed": false}}, "passed": false}, "missing": {"missing\_keys": [], "passed": true}, "passed": false}, "license": {"added": {"added\_keys": [], "passed": true}, "changed": {"changed\_raw": {}, "passed": true}, "missing": {"missing\_keys": ["AutoFocus Device License"], "passed": false}, "passed": false}, "nics": {"added": {"added\_keys": [], "passed": true}, "changed": {"changed\_raw": {"ethernet1/1": {"left\_snap": "up", "right\_snap": "down"}}, "passed": false}, "missing": {"missing\_keys": ["tunnel"], "passed": false}, "passed": false}}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"content\_version": {"added": {"added\_keys": [], "passed": true}, "changed": {"changed\_raw": {"version": {"left\_snap": "8647\-7730", "right\_snap": "8647\-7729"}}, "passed": false}, "missing": {"missing\_keys": [], "passed": true}, "passed": false}, "ip\_sec\_tunnels": {"added": {"added\_keys": [], "passed": true}, "changed": {"changed\_raw": {"ipsec\_tun": {"added": {"added\_keys": [], "passed": true}, "changed": {"changed\_raw": {"state": {"left\_snap": "init", "right\_snap": "running"}}, "passed": false}, "missing": {"missing\_keys": [], "passed": true}, "passed": false}}, "passed": false}, "missing": {"missing\_keys": [], "passed": true}, "passed": false}, "license": {"added": {"added\_keys": [], "passed": true}, "changed": {"changed\_raw": {}, "passed": true}, "missing": {"missing\_keys": ["AutoFocus Device License"], "passed": false}, "passed": false}, "nics": {"added": {"added\_keys": [], "passed": true}, "changed": {"changed\_raw": {"ethernet1/1": {"left\_snap": "up", "right\_snap": "down"}}, "passed": false}, "missing": {"missing\_keys": ["tunnel"], "passed": false}, "passed": false}}`
 
 
       .. raw:: html

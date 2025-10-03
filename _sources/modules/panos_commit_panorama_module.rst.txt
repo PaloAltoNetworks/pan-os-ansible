@@ -22,12 +22,12 @@ paloaltonetworks.panos.panos_commit_panorama module -- Commit Panorama's candida
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.2.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    To install it, use: :code:`ansible\-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
     see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_commit_panorama_module_requirements>` for details.
 
@@ -66,7 +66,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- pan-os-python
+- pan\-os\-python
 
 
 
@@ -499,7 +499,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The IP address or hostname of the PAN-OS device being configured.
+      The IP address or hostname of the PAN\-OS device being configured.
 
 
       .. raw:: html
@@ -583,7 +583,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The port number to connect to the PAN-OS device on.
+      The port number to connect to the PAN\-OS device on.
 
 
       .. rst-class:: ansible-option-line
@@ -629,7 +629,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN-OS device, then this param is ignored.
+      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN\-OS device, then this param is ignored.
 
 
       .. raw:: html
@@ -993,7 +993,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      The ID of the PAN-OS commit job.
+      The ID of the PAN\-OS commit job.
 
 
       .. rst-class:: ansible-option-line

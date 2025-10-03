@@ -22,12 +22,12 @@ paloaltonetworks.panos.panos_http_profile_param module -- Manage HTTP params for
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.2.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    To install it, use: :code:`ansible\-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
     see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_http_profile_param_module_requirements>` for details.
 
@@ -65,9 +65,9 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- pan-python
+- pan\-python
 - pandevice \>= 0.11.1
-- PAN-OS \>= 8.0
+- PAN\-OS \>= 8.0
 
 
 
@@ -119,7 +119,7 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
@@ -199,7 +199,7 @@ Parameters
 
       When :emphasis:`state=gathered`.
 
-      An advanced filtering option to filter results returned from PAN-OS.
+      An advanced filtering option to filter results returned from PAN\-OS.
 
       Refer to the guide discussing :emphasis:`gathered\_filter` for more information.
 
@@ -271,13 +271,13 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
         <hr>
 
-      The IP address or hostname of the PAN-OS device being configured.
+      The IP address or hostname of the PAN\-OS device being configured.
 
 
       .. raw:: html
@@ -403,7 +403,7 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
@@ -445,13 +445,13 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
         <hr>
 
-      The port number to connect to the PAN-OS device on.
+      The port number to connect to the PAN\-OS device on.
 
 
       .. rst-class:: ansible-option-line
@@ -576,7 +576,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The IP address or hostname of the PAN-OS device being configured.
+      The IP address or hostname of the PAN\-OS device being configured.
 
 
       .. raw:: html
@@ -660,7 +660,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The port number to connect to the PAN-OS device on.
+      The port number to connect to the PAN\-OS device on.
 
 
       .. rst-class:: ansible-option-line
@@ -706,7 +706,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN-OS device, then this param is ignored.
+      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN\-OS device, then this param is ignored.
 
 
       .. raw:: html
@@ -835,7 +835,7 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
@@ -936,7 +936,7 @@ Notes
 .. note::
    - Panorama is supported.
    - Check mode is supported.
-   - PAN-OS connectivity should be specified using :emphasis:`provider` or the classic PAN-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
+   - PAN\-OS connectivity should be specified using :emphasis:`provider` or the classic PAN\-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
 
 .. Seealso
 

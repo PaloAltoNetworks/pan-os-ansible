@@ -22,12 +22,12 @@ paloaltonetworks.panos.panos_ipsec_profile module -- Manage IPSec Crypto profile
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.2.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    To install it, use: :code:`ansible\-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
     see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_ipsec_profile_module_requirements>` for details.
 
@@ -65,7 +65,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- pan-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan-python <https://pypi.python.org/pypi/pan-python>`__
+- pan\-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan\-python <https://pypi.python.org/pypi/pan-python>`__
 - pandevice can be obtained from PyPI \ `https://pypi.python.org/pypi/pandevice <https://pypi.python.org/pypi/pandevice>`__
 
 
@@ -163,7 +163,7 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
@@ -211,7 +211,7 @@ Parameters
 
         <hr>
 
-      Commit changes after creating object. If :emphasis:`ip\_address` is a Panorama device, and :emphasis:`device\_group` or :emphasis:`template` are also set, perform a commit to Panorama and a commit-all to the device group/template.
+      Commit changes after creating object. If :emphasis:`ip\_address` is a Panorama device, and :emphasis:`device\_group` or :emphasis:`template` are also set, perform a commit to Panorama and a commit\-all to the device group/template.
 
 
       .. rst-class:: ansible-option-line
@@ -257,14 +257,14 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Diffie-Hellman (DH) groups.
+      Diffie\-Hellman (DH) groups.
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`"no-pfs"`
+      - :ansible-option-choices-entry:`"no\-pfs"`
       - :ansible-option-choices-entry:`"group1"`
       - :ansible-option-choices-entry-default:`"group2"` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`"group5"`
@@ -371,11 +371,11 @@ Parameters
       - :ansible-option-choices-entry:`"des"`
       - :ansible-option-choices-entry:`"3des"`
       - :ansible-option-choices-entry:`"null"`
-      - :ansible-option-choices-entry:`"aes-128-cbc"`
-      - :ansible-option-choices-entry:`"aes-192-cbc"`
-      - :ansible-option-choices-entry:`"aes-256-cbc"`
-      - :ansible-option-choices-entry:`"aes-128-gcm"`
-      - :ansible-option-choices-entry:`"aes-256-gcm"`
+      - :ansible-option-choices-entry:`"aes\-128\-cbc"`
+      - :ansible-option-choices-entry:`"aes\-192\-cbc"`
+      - :ansible-option-choices-entry:`"aes\-256\-cbc"`
+      - :ansible-option-choices-entry:`"aes\-128\-gcm"`
+      - :ansible-option-choices-entry:`"aes\-256\-gcm"`
 
 
       .. raw:: html
@@ -411,7 +411,7 @@ Parameters
 
       When :emphasis:`state=gathered`.
 
-      An advanced filtering option to filter results returned from PAN-OS.
+      An advanced filtering option to filter results returned from PAN\-OS.
 
       Refer to the guide discussing :emphasis:`gathered\_filter` for more information.
 
@@ -449,13 +449,13 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
         <hr>
 
-      The IP address or hostname of the PAN-OS device being configured.
+      The IP address or hostname of the PAN\-OS device being configured.
 
 
       .. raw:: html
@@ -801,7 +801,7 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
@@ -843,13 +843,13 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
         <hr>
 
-      The port number to connect to the PAN-OS device on.
+      The port number to connect to the PAN\-OS device on.
 
 
       .. rst-class:: ansible-option-line
@@ -974,7 +974,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The IP address or hostname of the PAN-OS device being configured.
+      The IP address or hostname of the PAN\-OS device being configured.
 
 
       .. raw:: html
@@ -1058,7 +1058,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The port number to connect to the PAN-OS device on.
+      The port number to connect to the PAN\-OS device on.
 
 
       .. rst-class:: ansible-option-line
@@ -1104,7 +1104,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN-OS device, then this param is ignored.
+      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN\-OS device, then this param is ignored.
 
 
       .. raw:: html
@@ -1301,7 +1301,7 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
@@ -1330,8 +1330,8 @@ Notes
 .. note::
    - Panorama is supported.
    - Check mode is supported.
-   - PAN-OS connectivity should be specified using :emphasis:`provider` or the classic PAN-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
-   - If the PAN-OS to be configured is Panorama, either :emphasis:`template` or :emphasis:`template\_stack` must be specified.
+   - PAN\-OS connectivity should be specified using :emphasis:`provider` or the classic PAN\-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
+   - If the PAN\-OS to be configured is Panorama, either :emphasis:`template` or :emphasis:`template\_stack` must be specified.
 
 .. Seealso
 

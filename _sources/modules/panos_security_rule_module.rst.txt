@@ -16,18 +16,18 @@
 
 .. Title
 
-paloaltonetworks.panos.panos_security_rule module -- Manage security rule policy on PAN-OS devices or Panorama management console.
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+paloaltonetworks.panos.panos_security_rule module -- Manage security rule policy on PAN\-OS devices or Panorama management console.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.1.1).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.2.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install paloaltonetworks.panos`.
+    To install it, use: :code:`ansible\-galaxy collection install paloaltonetworks.panos`.
     You need further requirements to be able to use this module,
     see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_security_rule_module_requirements>` for details.
 
@@ -52,12 +52,12 @@ Synopsis
 .. Description
 
 - Following rules apply for security policies:
-  - Security policies allow you to enforce rules and take action, and can be as
+  \- Security policies allow you to enforce rules and take action, and can be as
   general or specific as needed.
-  - The policy rules are compared against the incoming traffic in sequence, and
+  \- The policy rules are compared against the incoming traffic in sequence, and
   because the first rule that matches the traffic is applied, the more specific
   rules must precede the more general ones.
-  - Defaults in spec descriptions apply when :emphasis:`state=present`\ /\ :emphasis:`state=replaced`\ ,
+  \- Defaults in spec descriptions apply when :emphasis:`state=present`\ /\ :emphasis:`state=replaced`\ ,
   or when creating a new resource with :emphasis:`state=merged`.
 
 
@@ -133,9 +133,9 @@ Parameters
       - :ansible-option-choices-entry:`"allow"`
       - :ansible-option-choices-entry:`"deny"`
       - :ansible-option-choices-entry:`"drop"`
-      - :ansible-option-choices-entry:`"reset-client"`
-      - :ansible-option-choices-entry:`"reset-server"`
-      - :ansible-option-choices-entry:`"reset-both"`
+      - :ansible-option-choices-entry:`"reset\-client"`
+      - :ansible-option-choices-entry:`"reset\-server"`
+      - :ansible-option-choices-entry:`"reset\-both"`
 
 
       .. raw:: html
@@ -205,7 +205,7 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
@@ -317,7 +317,7 @@ Parameters
 
       List of destination URL categories. Defaults to :emphasis:`["any"]`.
 
-      When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI... request system external-list show type predefined-url name \<tab\> panw-auth-portal-exclude-list panw-auth-portal-exclude-list
+      When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI... request system external\-list show type predefined\-url name \<tab\> panw\-auth\-portal\-exclude\-list panw\-auth\-portal\-exclude\-list
 
 
       .. raw:: html
@@ -359,7 +359,7 @@ Parameters
 
         <hr>
 
-      Commit changes after creating object. If :emphasis:`ip\_address` is a Panorama device, and :emphasis:`device\_group` or :emphasis:`template` are also set, perform a commit to Panorama and a commit-all to the device group/template.
+      Commit changes after creating object. If :emphasis:`ip\_address` is a Panorama device, and :emphasis:`device\_group` or :emphasis:`template` are also set, perform a commit to Panorama and a commit\-all to the device group/template.
 
 
       .. rst-class:: ansible-option-line
@@ -473,7 +473,7 @@ Parameters
 
       This can be an IP address, an address object/group, etc.
 
-      When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI... request system external-list show type predefined-ip name \<tab\> panw-bulletproof-ip-list panw-bulletproof-ip-list panw-highrisk-ip-list panw-highrisk-ip-list panw-known-ip-list panw-known-ip-list panw-torexit-ip-list panw-torexit-ip-list
+      When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI... request system external\-list show type predefined\-ip name \<tab\> panw\-bulletproof\-ip\-list panw\-bulletproof\-ip\-list panw\-highrisk\-ip\-list panw\-highrisk\-ip\-list panw\-known\-ip\-list panw\-known\-ip\-list panw\-torexit\-ip\-list panw\-torexit\-ip\-list
 
 
       .. raw:: html
@@ -777,7 +777,7 @@ Parameters
 
       When :emphasis:`state=gathered`.
 
-      An advanced filtering option to filter results returned from PAN-OS.
+      An advanced filtering option to filter results returned from PAN\-OS.
 
       Refer to the guide discussing :emphasis:`gathered\_filter` for more information.
 
@@ -883,9 +883,9 @@ Parameters
 
       If you are using GlobalProtect with host information profile (HIP) enabled, you can also base the policy on information collected by GlobalProtect. For example, the user access level can be determined HIP that notifies the firewall about the user's local configuration.
 
-      NOTE If :emphasis:`state=present` or :emphasis:`state=replaced`\ , and you're running PAN-OS \< 10.0.0, then this will have a default of :emphasis:`["any"]`.
+      NOTE If :emphasis:`state=present` or :emphasis:`state=replaced`\ , and you're running PAN\-OS \< 10.0.0, then this will have a default of :emphasis:`["any"]`.
 
-      If you are using PAN-OS \>= 10.0.0, please do not use this parameter as it was removed from PAN-OS in 10.0.0.
+      If you are using PAN\-OS \>= 10.0.0, please do not use this parameter as it was removed from PAN\-OS in 10.0.0.
 
 
       .. raw:: html
@@ -963,13 +963,13 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
         <hr>
 
-      The IP address or hostname of the PAN-OS device being configured.
+      The IP address or hostname of the PAN\-OS device being configured.
 
 
       .. raw:: html
@@ -1295,7 +1295,7 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
@@ -1337,13 +1337,13 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
         <hr>
 
-      The port number to connect to the PAN-OS device on.
+      The port number to connect to the PAN\-OS device on.
 
 
       .. rst-class:: ansible-option-line
@@ -1468,7 +1468,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The IP address or hostname of the PAN-OS device being configured.
+      The IP address or hostname of the PAN\-OS device being configured.
 
 
       .. raw:: html
@@ -1552,7 +1552,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The port number to connect to the PAN-OS device on.
+      The port number to connect to the PAN\-OS device on.
 
 
       .. rst-class:: ansible-option-line
@@ -1598,7 +1598,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN-OS device, then this param is ignored.
+      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN\-OS device, then this param is ignored.
 
 
       .. raw:: html
@@ -1756,16 +1756,16 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The rulebase in which the rule is to exist. If left unspecified, this defaults to :emphasis:`rulebase=pre-rulebase` for Panorama. For NGFW, this is always set to be :emphasis:`rulebase=rulebase`.
+      The rulebase in which the rule is to exist. If left unspecified, this defaults to :emphasis:`rulebase=pre\-rulebase` for Panorama. For NGFW, this is always set to be :emphasis:`rulebase=rulebase`.
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`"pre-rulebase"`
+      - :ansible-option-choices-entry:`"pre\-rulebase"`
       - :ansible-option-choices-entry:`"rulebase"`
-      - :ansible-option-choices-entry:`"post-rulebase"`
+      - :ansible-option-choices-entry:`"post\-rulebase"`
 
 
       .. raw:: html
@@ -1833,7 +1833,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of services and/or service groups. Defaults to :emphasis:`["application-default"]`.
+      List of services and/or service groups. Defaults to :emphasis:`["application\-default"]`.
 
 
       .. raw:: html
@@ -1871,7 +1871,7 @@ Parameters
 
       This can be an IP address, an address object/group, etc.
 
-      When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI... request system external-list show type predefined-ip name \<tab\> panw-bulletproof-ip-list panw-bulletproof-ip-list panw-highrisk-ip-list panw-highrisk-ip-list panw-known-ip-list panw-known-ip-list panw-torexit-ip-list panw-torexit-ip-list
+      When referencing predefined EDLs, use config names of the EDLS not their full names. The config names can be found with the CLI... request system external\-list show type predefined\-ip name \<tab\> panw\-bulletproof\-ip\-list panw\-bulletproof\-ip\-list panw\-highrisk\-ip\-list panw\-highrisk\-ip\-list panw\-known\-ip\-list panw\-known\-ip\-list panw\-torexit\-ip\-list panw\-torexit\-ip\-list
 
 
       .. raw:: html
@@ -2159,7 +2159,7 @@ Parameters
 
       :strong:`Deprecated`
 
-      Use :emphasis:`provider` to specify PAN-OS connectivity instead.
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
 
       .. raw:: html
 
@@ -2205,7 +2205,7 @@ Parameters
 
       The rule UUID.
 
-      Note that this is currently more of a read-only field.
+      Note that this is currently more of a read\-only field.
 
       Usage of the UUID cannot currently take the place of using the rule name as the primary identifier.
 
@@ -2332,7 +2332,7 @@ Notes
 .. note::
    - Checkmode is supported.
    - Panorama is supported.
-   - PAN-OS connectivity should be specified using :emphasis:`provider` or the classic PAN-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
+   - PAN\-OS connectivity should be specified using :emphasis:`provider` or the classic PAN\-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
 
 .. Seealso
 
