@@ -1,3 +1,10 @@
+## [3.2.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.1.1...v3.2.0) (2025-10-03)
+
+
+### Features
+
+* **panos_software:** support Skip Software Version Upgrade ([#638](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/638)) ([aacc82a](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/aacc82ab146554d8fbd3fe0751634f92ff51850c))
+
 ### [3.1.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.1.0...v3.1.1) (2025-07-15)
 
 
