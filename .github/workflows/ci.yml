@@ -289,6 +289,8 @@ jobs:
     name: docs
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: [release, pyversion]
+    permissions:
+      contents: write
     uses: ./.github/workflows/docs.yml
     secrets: inherit
 

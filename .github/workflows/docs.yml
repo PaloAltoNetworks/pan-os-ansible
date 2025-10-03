@@ -8,6 +8,9 @@ env:
   NAMESPACE: paloaltonetworks
   COLLECTION_NAME: panos
 
+permissions:
+  contents: write
+
 jobs:
   docs:
     name: Build Documentation
