@@ -1,0 +1,10 @@
+---
+# Test the functionality of the panos_health_checks module
+- name: Run all Health Checks
+  panos_health_checks:
+    provider: '{{ device }}'
+  register: result
+
+- assert:
+    that:
+      - result.response
