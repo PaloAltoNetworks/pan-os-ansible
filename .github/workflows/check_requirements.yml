@@ -1,0 +1,53 @@
+name: Check Requirements
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        type: string
+        required: true
+
+env:
+  NAMESPACE: paloaltonetworks
+  COLLECTION_NAME: panos
+
+jobs:
+  needs-update:
+    name: Need Requirements Update
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          path: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+      - name: Install Python
+        uses: actions/setup-python@b64ffcaf5b410884ad320a9cfac8866006a109aa # v4
+        with:
+          python-version: ${{ inputs.python-version }}
+
+      - name: Install Poetry
+        uses: Gr1N/setup-poetry@15821dc8a61bc630db542ae4baf6a7c19a994844 # v8
+        with:
+          poetry-version: "1.8.5"
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Install temp dependencies
+        run: poetry run pip install toml
+
+      - name: Make requirements.txt
+        run: poetry run make reqs
+
+      - name: Check for changes in requirements.txt
+        run: |
+          if git diff --exit-code requirements.txt; then
+            echo "✅ No changes in requirements.txt"
+          else
+            echo "❌ requirements.txt is outdated. Please update it with "make reqs" and commit the changes."
+            exit 1
+          fi

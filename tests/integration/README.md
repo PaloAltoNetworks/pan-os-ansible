@@ -9,6 +9,11 @@ Test playbooks assume that firewalls have the following initial configuration:
 - DHCP management configuration
 - a CA certificate with key named `local-ca` marked as `forward trust`
 
+And panoramas to have:
+
+- `Test-DG` device group
+- `Test-Template` template
+
 Add firewalls to `firewall` group in inventory, Panorama instances to
 `panoramas` group (see `inventory.example`):
 
@@ -28,13 +33,13 @@ booted, and save a copy of the config into `blank.xml` on the device.
 ### Run a single test
 
 ```
-ansible-playbook -i inventory run_single_test.yml -e test=test_panos_address_object
+ansible-playbook -i inventory.ini run_single_test.yml -e test=test_panos_address_object
 ```
 
 ### Run all tests
 
 ```
-ansible-playbook -i inventory run_all_tests.yml
+ansible-playbook -i inventory.ini run_all_tests.yml
 ```
 
 ## Writing a test

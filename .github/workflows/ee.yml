@@ -1,0 +1,451 @@
+name: Ansible EE Image
+
+on:
+  workflow_call:
+    inputs:
+      release:
+        description: Prepare EE for a release
+        type: boolean
+        default: false
+      release_tag:              # tag starting with 'v' like v1.2.3
+        description: Git tag for release to prepare EE
+        type: string
+        required: false
+    secrets:
+      RH_REGISTRY_USER:
+        required: true
+      RH_REGISTRY_TOKEN:
+        required: true
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Prepare EE for a release tag
+        type: boolean
+        default: false
+
+env:
+  NAMESPACE: paloaltonetworks
+  COLLECTION_NAME: panos
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      name: ${{ steps.tag.outputs.name }}
+      version: ${{ steps.tag.outputs.version }}
+
+    steps:
+      # if event == push (same event from workflow_call) and inputs.release == true
+      #   release_tag must be given as input
+      #   checkout tag and prepare EE on tag
+      # elif event == workflow_dispatch and inputs.release == true
+      #   workflow must be run on a tag
+      #   checkout tag and prepare EE on tag
+      # else - could be workflow_call or workflow_dispatch with release false
+      #   normal checkout - it will checkout whatever the workflow is run on
+      #   prepare EE on branch
+      - name: check and findout the tag
+        id: tag
+        # outputs tag name as v1.2.3 and version as 1.2.3
+        run: |
+          if [[ "${{ github.event_name }}" == "push" &&
+                "${{ inputs.release }}" == "true" ]]; then
+              if [[ "${{ inputs.release_tag }}" != "v"* ]]; then
+                  echo "release_tag (${{ inputs.release_tag }}) must be provided when workflow_call called with release."
+                  exit 1
+              fi
+              TAG_VERSION=$(echo "${{inputs.release_tag}}" | sed 's#v##')
+              echo "name=${{inputs.release_tag}}" >> $GITHUB_OUTPUT
+              echo "version=$TAG_VERSION" >> $GITHUB_OUTPUT
+              echo "Ansible EE will be prepared for release ${{ inputs.release_tag }}"
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" &&
+                "${{ inputs.release }}" == "true" ]]; then
+              if [[ "${GITHUB_REF}" != "refs/tags/v"* ]]; then
+                  echo "workflow_dispatch must be run on a release tag when release is selected - run on ${GITHUB_REF}"
+                  exit 1
+              fi
+              TAG_NAME=$(echo "${GITHUB_REF}" | sed 's#refs/tags/##')
+              TAG_VERSION=$(echo "${TAG_NAME}" | sed 's#v##')
+              echo "name=$TAG_NAME" >> $GITHUB_OUTPUT
+              echo "version=$TAG_VERSION" >> $GITHUB_OUTPUT
+              echo "Ansible EE will be prepared for release $TAG_NAME"
+          else
+              echo "Ansible EE will be prepared for branch ${GITHUB_REF#refs/heads/}"
+          fi
+        env:
+          GITHUB_REF: ${{ github.ref }}
+
+  build_awx:
+    name: AWX Ansible EE
+    runs-on: ubuntu-latest
+    needs: prepare
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      # checkout tag for releae otherwise checkout branch
+      - name: check out code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          # if tag is empty; github.ref else tag.outputs.name
+          ref: ${{ needs.prepare.outputs.name == '' && github.ref || needs.prepare.outputs.name }}
+
+      - name: discover Python version
+        id: pyversion
+        uses: ./.github/actions/discover_python_version
+
+      - name: install Python
+        uses: actions/setup-python@b64ffcaf5b410884ad320a9cfac8866006a109aa # v4
+        with:
+          python-version: ${{ steps.pyversion.outputs.pyversion }}
+          cache: pip
+
+      - name: install Poetry
+        uses: Gr1N/setup-poetry@15821dc8a61bc630db542ae4baf6a7c19a994844 # v8
+        with:
+          poetry-version: "1.8.5"
+
+      - name: prep Poetry venv
+        run: |
+          poetry env use ${{ steps.pyversion.outputs.pyversion }}
+          poetry lock
+          poetry install --with ansible-ee --without dev --no-root
+
+      - name: set up Docker Buildx
+        uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3
+
+      # produce docker tags for semver if on a tag, otherwise take ref branch name
+      # latest tag is only produced for semver operating on a tag
+      - name: determine docker tags and labels
+        id: meta
+        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5
+        with:
+          context: git # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
+          images: ghcr.io/paloaltonetworks/pan-os-ansible
+          tags: |
+            type=semver,pattern=v{{version}}
+            type=semver,pattern=v{{major}}.{{minor}}
+            type=semver,pattern=v{{major}}
+            type=ref,event=branch
+            type=ref,event=tag
+
+      - name: cleanup files before packaging
+        run: |
+          rm -rf \
+            .isort.cfg
+
+      # take pan-os-ansible from galaxy for a release, but local build for develop
+      # ref - https://github.com/ansible-collections/community.dns/blob/main/.github/workflows/ee.yml#L96-L98
+      - name: Build collection from development branch
+        run: |
+          ansible-galaxy collection build
+        if: ${{ inputs.release == false }}
+
+      - name: create base EE file
+        run: |
+          cat > execution-environment.yml <<EOF
+          ---
+          version: 3
+
+          images:
+            base_image:
+              name: quay.io/centos/centos:stream9
+
+          dependencies:
+            python_interpreter:
+              package_system: python3.11
+              python_path: /usr/bin/python3.11
+            ansible_core:
+              package_pip: ansible-core>=2.16.0,<2.17
+            ansible_runner:
+              package_pip: ansible-runner
+            system: |
+              git-core [platform:rpm]
+              python3.11-devel [platform:rpm compile]
+              libcurl-devel [platform:rpm compile]
+              sshpass [platform:rpm]
+              rsync [platform:rpm]
+              epel-release [platform:rpm]
+              unzip [platform:rpm]
+            galaxy: requirements.yml
+            python: requirements-ee.txt
+
+          additional_build_steps:
+            append_base:
+              - RUN \$PYCMD -m pip install -U pip
+            append_final:
+              # SymLink `python` -> `python3.11`
+              - RUN alternatives --install /usr/bin/python python /usr/bin/python3.11 311
+
+          EOF
+
+      - name: append build files to EE for development
+        run: |
+          COLLECTION_FILENAME="$(ls "${{ env.NAMESPACE }}-${{ env.COLLECTION_NAME }}"-*.tar.gz)"
+
+          # append to existing EE file
+          cat >> execution-environment.yml <<EOF
+          additional_build_files:
+            - src: ${COLLECTION_FILENAME}
+              dest: src
+          EOF
+          echo "::group::execution-environment.yml"
+          cat execution-environment.yml
+          echo "::endgroup::"
+
+          cat > requirements.yml <<EOF
+          ---
+          collections:
+            - name: src/${COLLECTION_FILENAME}
+              type: file
+            - name: awx.awx
+            - community.general
+            - name: ansible.posix
+          EOF
+          echo "::group::requirements.yml"
+          cat requirements.yml
+          echo "::endgroup::"
+        if: ${{ inputs.release == false }}
+
+      - name: append build files to EE for release
+        run: |
+          echo "::group::execution-environment.yml"
+          cat execution-environment.yml
+          echo "::endgroup::"
+
+          # Collection Requirements
+          cat > requirements.yml <<EOF
+          ---
+          collections:
+            - name: paloaltonetworks.panos
+              version: ${{needs.prepare.outputs.version}}
+            - name: awx.awx
+            - community.general
+            - name: ansible.posix
+          EOF
+          echo "::group::requirements.yml"
+          cat requirements.yml
+          echo "::endgroup::"
+        if: inputs.release
+
+      # when you build a collection the requirements.txt file is already included in it
+      # this is for additional packages we want to include in the EE image
+      - name: create additional requirements.txt for EE
+        run: |
+          # Python Requirements
+          cat > requirements-ee.txt <<EOF
+          jmespath
+          markdown-it-py>=3.0.0
+          EOF
+          echo "::group::requirements-ee.txt"
+          cat requirements-ee.txt
+          echo "::endgroup::"
+
+      - name: create execution env context
+        run: |
+          poetry run ansible-builder create -v 3 --output-filename Dockerfile
+          ls -l ./context/
+          cat ./context/Dockerfile
+
+      - name: login to GHCR
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 #v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: build and publish
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
+        with:
+          context: "./context/"
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: ${{ inputs.release }} # disable for development to keep number of images low
+
+  build_rhel:
+    name: RedHat Ansible EE
+    runs-on: ubuntu-latest
+    needs: prepare
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      # checkout tag for releae otherwise checkout branch
+      - name: check out code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          # if tag is empty; github.ref else tag.outputs.name
+          ref: ${{ needs.prepare.outputs.name == '' && github.ref || needs.prepare.outputs.name }}
+
+      - name: discover Python version
+        id: pyversion
+        uses: ./.github/actions/discover_python_version
+
+      - name: install Python
+        uses: actions/setup-python@b64ffcaf5b410884ad320a9cfac8866006a109aa # v4
+        with:
+          python-version: ${{ steps.pyversion.outputs.pyversion }}
+          cache: pip
+
+      - name: install Poetry
+        uses: Gr1N/setup-poetry@15821dc8a61bc630db542ae4baf6a7c19a994844 # v8
+        with:
+          poetry-version: "1.8.5"
+
+      - name: prep Poetry venv
+        run: |
+          poetry env use ${{ steps.pyversion.outputs.pyversion }}
+          poetry lock
+          poetry install --with ansible-ee --without dev --no-root
+
+      - name: set up Docker Buildx
+        uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3
+
+      # produce docker tags for semver if on a tag, otherwise take ref branch name
+      # latest tag is only produced for semver operating on a tag
+      - name: determine docker tags and labels
+        id: meta
+        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5
+        with: # labels and annotations are overwritten for image.title information
+          context: git # git - this ensures to reference the current git context instead of workflow context (context info ref/sha)
+          images: ghcr.io/paloaltonetworks/pan-os-ansible-rhel9
+          tags: |
+            type=semver,pattern=v{{version}}
+            type=semver,pattern=v{{major}}.{{minor}}
+            type=semver,pattern=v{{major}}
+            type=ref,event=branch
+            type=ref,event=tag
+          labels: |
+            org.opencontainers.image.title=pan-os-ansible-rhel9
+          annotations: |
+            org.opencontainers.image.title=pan-os-ansible-rhel9
+
+      - name: cleanup files before packaging
+        run: |
+          rm -rf \
+            .isort.cfg
+
+      # take pan-os-ansible from galaxy for a release, but local build for develop
+      # ref - https://github.com/ansible-collections/community.dns/blob/main/.github/workflows/ee.yml#L96-L98
+      - name: Build collection from development branch
+        run: |
+          ansible-galaxy collection build
+        if: ${{ inputs.release == false }}
+
+      - name: create base EE file
+        run: |
+          cat > execution-environment.yml <<EOF
+          ---
+          version: 3
+
+          images:
+            base_image:
+              name: registry.redhat.io/ansible-automation-platform-25/ee-minimal-rhel9:latest
+
+          dependencies:
+            galaxy: requirements.yml
+            python: requirements-ee.txt
+
+          # Custom package manager path for the RHEL based images
+          options:
+            package_manager_path: /usr/bin/microdnf
+
+          EOF
+
+      - name: append build files to EE for development
+        run: |
+          COLLECTION_FILENAME="$(ls "${{ env.NAMESPACE }}-${{ env.COLLECTION_NAME }}"-*.tar.gz)"
+
+          # append to existing EE file
+          cat >> execution-environment.yml <<EOF
+          additional_build_files:
+            - src: ${COLLECTION_FILENAME}
+              dest: src
+          EOF
+          echo "::group::execution-environment.yml"
+          cat execution-environment.yml
+          echo "::endgroup::"
+
+          cat > requirements.yml <<EOF
+          ---
+          collections:
+            - name: src/${COLLECTION_FILENAME}
+              type: file
+            - name: community.general
+            - name: ansible.posix
+          EOF
+          echo "::group::requirements.yml"
+          cat requirements.yml
+          echo "::endgroup::"
+        if: ${{ inputs.release == false }}
+
+      - name: append build files to EE for release
+        run: |
+          echo "::group::execution-environment.yml"
+          cat execution-environment.yml
+          echo "::endgroup::"
+
+          # Collection Requirements
+          cat > requirements.yml <<EOF
+          ---
+          collections:
+            - name: paloaltonetworks.panos
+              version: ${{needs.prepare.outputs.version}}
+            - name: community.general
+            - name: ansible.posix
+          EOF
+          echo "::group::requirements.yml"
+          cat requirements.yml
+          echo "::endgroup::"
+        if: inputs.release
+
+      # when you build a collection the requirements.txt file is already included in it
+      # this is for additional packages we want to include in the EE image
+      - name: create additional requirements.txt for EE
+        run: |
+          # Python Requirements
+          cat > requirements-ee.txt <<EOF
+          jmespath
+          markdown-it-py>=3.0.0
+          EOF
+          echo "::group::requirements-ee.txt"
+          cat requirements-ee.txt
+          echo "::endgroup::"
+
+      - name: create execution env context
+        run: |
+          poetry run ansible-builder create -v 3 --output-filename Dockerfile
+          ls -l ./context/
+          cat ./context/Dockerfile
+
+      - name: login to GHCR
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 #v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: login to registry.redhat.io
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 #v3
+        with:
+          registry: registry.redhat.io
+          username: ${{ secrets.RH_REGISTRY_USER }}
+          password: ${{ secrets.RH_REGISTRY_TOKEN }}
+
+      - name: build and publish
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
+        with:
+          context: "./context/"
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: ${{ inputs.release }} # disable for development to keep number of images low

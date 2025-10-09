@@ -149,6 +149,17 @@ def needs_download(device, version):
 
 
 def is_valid_sequence(current, target):
+    # PAN-OS version sequence for Skip Software Version Upgrade supported from 10.1
+    # It is recommended to skip at most 2 major/minor release from 10.1 and 3 major/minor release from 11.0
+    version_sequence = [
+        PanOSVersion("10.1"),
+        PanOSVersion("10.2"),
+        PanOSVersion("11.0"),
+        PanOSVersion("11.1"),
+        PanOSVersion("11.2"),
+        PanOSVersion("12.1"),
+    ]
+
     # Patch version change (major and minor versions match)
     if (current.major == target.major) and (current.minor == target.minor):
         return True
@@ -169,8 +180,52 @@ def is_valid_sequence(current, target):
     elif current.major - 1 == target.major:
         return True
 
-    else:
-        return False
+    # Skip Software Version Upgrade version logic for >= 10.1
+    elif current >= PanOSVersion("10.1.0"):
+        try:
+            current_index = -1
+            target_index = -1
+
+            # Find the indices of current and target versions in the sequence
+            for i, version in enumerate(version_sequence):
+                if current.major == version.major and current.minor == version.minor:
+                    current_index = i
+                if target.major == version.major and target.minor == version.minor:
+                    target_index = i
+
+            # fail if either version is not in our sequence
+            if current_index == -1 or target_index == -1:
+                return False
+
+            # Calculate version distance based on the sequence
+            version_distance = target_index - current_index
+            abs_version_distance = abs(version_distance)
+
+            # Downgrade path
+            if version_distance < 0:
+                if target < PanOSVersion("10.1.0"):
+                    # downgrades supported to min 10.1 for Skip Software Version
+                    return False
+
+                # For all versions >= 10.1, allow skipping at most 3 versions in downgrade
+                # (11.2 -> 10.1) or (12.1 -> 10.2)
+                return (
+                    abs_version_distance <= 4
+                )  # Distance of 4 means skipping 3 versions
+
+            # Upgrade path
+            else:
+                # For all versions >= 10.1, allow skipping at most 3 versions in upgrade
+                # (10.1 -> 11.2) or (10.2 -> 12.1)
+                return (
+                    abs_version_distance <= 4
+                )  # Distance of 4 means skipping 3 versions
+
+        except (ValueError, TypeError):  # If there's any issue with version comparisons
+            return False
+
+    # if nothing matched so far
+    return False
 
 
 def main():

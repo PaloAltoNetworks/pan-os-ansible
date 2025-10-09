@@ -24,18 +24,23 @@ DOCUMENTATION = """
 module: panos_security_rule
 short_description: Manage security rule policy on PAN-OS devices or Panorama management console.
 description: >
-    - Security policies allow you to enforce rules and take action, and can be as
-    general or specific as needed.
-    - The policy rules are compared against the incoming traffic in sequence, and
-    because the first rule that matches the traffic is applied, the more specific
-    rules must precede the more general ones.
-    - Defaults in spec descriptions apply when I(state=present)/I(state=replaced),
-    or when creating a new resource with I(state=merged).
+    Following rules apply for security policies:
+
+        - Security policies allow you to enforce rules and take action, and can be as
+        general or specific as needed.
+
+        - The policy rules are compared against the incoming traffic in sequence, and
+        because the first rule that matches the traffic is applied, the more specific
+        rules must precede the more general ones.
+
+        - Defaults in spec descriptions apply when I(state=present)/I(state=replaced),
+        or when creating a new resource with I(state=merged).
 author:
     - Ivan Bojer (@ivanbojer)
     - Robert Hagen (@stealthllama)
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
+    - Alp Eren Kose (@alperenkose)
 version_added: '1.0.0'
 requirements:
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -78,18 +83,18 @@ options:
         type: list
         elements: str
     source_user:
-        description: >
+        description:
             - Use users to enforce policy for individual users or a group of users.
-            Defaults to I(["any"]).
+              Defaults to I(["any"]).
         type: list
         elements: str
     hip_profiles:
-        description: >
+        description:
             - If you are using GlobalProtect with host information profile (HIP)
               enabled, you can also base the policy on information collected by
               GlobalProtect. For example, the user access level can be determined
               HIP that notifies the firewall about the user's local configuration.
-            - NOTE: If I(state=present) or I(state=replaced), and you're running
+            - NOTE If I(state=present) or I(state=replaced), and you're running
               PAN-OS < 10.0.0, then this will have a default of I(["any"]).
             - If you are using PAN-OS >= 10.0.0, please do not use this
               parameter as it was removed from PAN-OS in 10.0.0.
@@ -114,9 +119,9 @@ options:
         type: list
         elements: str
     application:
-        description: >
+        description:
             - List of applications, application groups, and/or application filters.
-            Defaults to I(["any"]).
+              Defaults to I(["any"]).
         type: list
         elements: str
     service:
@@ -194,14 +199,14 @@ options:
             - Send 'ICMP Unreachable'. Used with 'deny', 'drop', and 'reset' actions.
         type: bool
     disable_server_response_inspection:
-        description: >
+        description:
             - Disables packet inspection from the server to the client. Useful under heavy server load conditions.
-            Defaults to I(false).
+              Defaults to I(false).
         type: bool
     group_profile:
-        description: >
+        description:
             - Security profile group that is already defined in the system. This property supersedes antivirus,
-            vulnerability, spyware, url_filtering, file_blocking, data_filtering, and wildfire_analysis properties.
+              vulnerability, spyware, url_filtering, file_blocking, data_filtering, and wildfire_analysis properties.
         type: str
     antivirus:
         description:
@@ -342,7 +347,7 @@ class Helper(ConnectionHelper):
         if module.params["devicegroup"] is not None:
             module.deprecate(
                 'Param "devicegroup" is deprecated; use "device_group"',
-                version="3.0.0",
+                version="4.0.0",
                 collection_name="paloaltonetworks.panos",
             )
             if module.params["device_group"] is not None:

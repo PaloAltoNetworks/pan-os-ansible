@@ -105,6 +105,14 @@ class Helper(ConnectionHelper):
         vsys = to_sdk_cls("device", "Vsys")(module.params["default_vsys"])
         obj.add(vsys)
 
+    def object_handling(self, obj, module):
+        super().object_handling(obj, module)
+        # override 'mode' param sdk default to None if it's not set explicitly in invocation.
+        # SDK has `mode` attribute set to "normal" by default, but there is no xpath for this
+        # resulting in xpath schema error if default is used.
+        if module.params.get("mode") is None:
+            setattr(obj, "mode", None)
+
 
 def main():
     helper = get_connection(

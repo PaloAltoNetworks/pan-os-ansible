@@ -19,6 +19,7 @@
       until: result is not failed and (result.stdout | from_json).response.result == 'yes'
       retries: 5
       delay: 300
+      when: inventory_hostname in groups['firewalls']
 
     - name: Save copy of blank config
       paloaltonetworks.panos.panos_op:

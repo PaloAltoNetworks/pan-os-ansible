@@ -100,6 +100,7 @@ def module_mock(mocker):
 
 # General Tests
 
+
 # Happy path: module requires (very) low pan-os-python and PAN-OS versions, and
 # we're connecting to a firewall.  Should not error or have deprecation
 # warnings.
@@ -215,6 +216,7 @@ def test_commit_deprecate(module_mock):
 
 
 # Panorama Tests
+
 
 # Test that specifying a serial number in 'provider' will return a firewall
 # object.
@@ -414,6 +416,7 @@ def test_panorama_rulebase_error(module_mock, panorama_mock):
 
 
 # Firewall Tests
+
 
 # Specifying a rulebase using the 'rulebase' parameter should only ever get
 # the main rulebase when connecting to a firewall.

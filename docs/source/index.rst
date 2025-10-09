@@ -2,7 +2,7 @@
 Palo Alto Networks Ansible Collection
 =====================================
 
-Version: 2.20.0
+Version: 3.2.0
 
 The Palo Alto Networks Ansible collection is a collection of modules that
 automate configuration and operational tasks on Palo Alto Networks Next
@@ -20,8 +20,8 @@ Installation
 
 This collection has the following environment requirements:
 
-* Python 3.8 or higher
-* Ansible 2.9 or higher
+* Python 3.10 or higher
+* ansible-core 2.16 or higher
 
 Install the collection using `ansible-galaxy`:
 
@@ -50,7 +50,6 @@ Then in your playbooks you can specify that you want to use the
    examples
    modules
    history
-   contributing
    authors
    license
 

@@ -203,7 +203,7 @@ class ConnectionHelper(object):
                 'Please "pip install pan-os-python" at your earliest convenience.',
             ]
             module.deprecate(
-                " ".join(lum), version="3.0.0", collection_name="paloaltonetworks.panos"
+                " ".join(lum), version="4.0.0", collection_name="paloaltonetworks.panos"
             )
 
         # Verify pan-os-python (formerly pandevice) minimum version.
@@ -261,7 +261,7 @@ class ConnectionHelper(object):
             )
             msg = 'Classic provider params are deprecated; use "provider" instead'
             module.deprecate(
-                msg, version="3.0.0", collection_name="paloaltonetworks.panos"
+                msg, version="4.0.0", collection_name="paloaltonetworks.panos"
             )
         else:
             module.fail_json(msg="Provider params are required.")
@@ -434,7 +434,7 @@ class ConnectionHelper(object):
         if module.params.get("commit"):
             module.deprecate(
                 "Please use the commit modules instead of the commit option",
-                version="3.0.0",
+                version="4.0.0",
                 collection_name="paloaltonetworks.panos",
             )
 
@@ -455,7 +455,7 @@ class ConnectionHelper(object):
         if self.with_commit and module.params["commit"]:
             module.deprecate(
                 'Param "commit" is deprecated; use the various commit modules',
-                version="3.0.0",
+                version="4.0.0",
                 collection_name="paloaltonetworks.panos",
             )
 
@@ -554,6 +554,20 @@ class ConnectionHelper(object):
         function is the last chance to set self.sdk_cls.
         """
         pass
+
+    def object_handling(self, obj, module):
+        """Override to provide custom functionality for newly created/replaced objects.
+
+        This method is run for newly created objects with merged state or
+        created/replaced objects with present state.
+
+        By default it will handle default values for objects.
+        It's advised to call `super().object_handling(obj, module)` if overriden
+        in the modules.
+        """
+        for key, obj_value in obj.about().items():
+            if obj_value is None:
+                setattr(obj, key, self._get_default_value(obj, key))
 
     def pre_state_handling(self, obj, result, module):
         """Override to provide custom pre-state handling functionality."""
@@ -694,6 +708,8 @@ class ConnectionHelper(object):
                         continue
                     other_children.append(x)
                     item.remove(x)
+                # object_handling need to be before equal comparison for evaluating defaults
+                self.object_handling(obj, module)
                 if not item.equal(obj, compare_children=True):
                     result["changed"] = True
                     obj.extend(other_children)
@@ -703,10 +719,6 @@ class ConnectionHelper(object):
                                 # NOTE checking defaults for with_update_in_apply_state doesnot have
                                 # a use for now as template, stack and device group dont have
                                 # defaults in the SDK
-                                # it also breaks panos_template as SDK has `mode` attribute set
-                                # to "normal" by default, but there is no xpath for this.
-                                # if obj_value is None:
-                                #     setattr(obj, key, self._get_default_value(obj, key))
                                 if getattr(item, key) != getattr(obj, key):
                                     try:
                                         obj.update(key)
@@ -717,9 +729,6 @@ class ConnectionHelper(object):
                             result["after"] = self.describe(obj)
                             result["diff"]["after"] = eltostr(obj)
                         else:
-                            for key, obj_value in obj.about().items():
-                                if obj_value is None:
-                                    setattr(obj, key, self._get_default_value(obj, key))
                             result["after"] = self.describe(obj)
                             result["diff"]["after"] = eltostr(obj)
                             try:
@@ -728,9 +737,7 @@ class ConnectionHelper(object):
                                 module.fail_json(msg="Failed apply: {0}".format(e))
                 break
             else:
-                for key, obj_value in obj.about().items():
-                    if obj_value is None:
-                        setattr(obj, key, self._get_default_value(obj, key))
+                self.object_handling(obj, module)
                 result["changed"] = True
                 result["before"] = None
                 result["after"] = self.describe(obj)
@@ -889,9 +896,7 @@ class ConnectionHelper(object):
                                 )
                 break
             else:  # create new record with merge
-                for key, obj_value in obj.about().items():
-                    if obj_value is None:
-                        setattr(obj, key, self._get_default_value(obj, key))
+                self.object_handling(obj, module)
                 result["before"] = None
                 result["after"] = self.describe(obj)
                 result["diff"] = {
@@ -1200,6 +1205,18 @@ class ConnectionHelper(object):
 
         return default_value
 
+    def _shlex_split(self, logic):
+        """Split string using shlex.split without escape char
+
+        Escape char '\' is removed from shlex class to correctly process regex.
+        """
+        lex = shlex.shlex(logic, posix=True)
+        lex.whitespace_split = True
+        lex.commenters = ""
+        lex.escape = ""
+
+        return list(lex)
+
     def matches_gathered_filter(self, item, logic):
         """Returns True if the item and its contents matches the logic given.
 
@@ -1223,7 +1240,7 @@ class ConnectionHelper(object):
         evaler = []
 
         pdepth = 0
-        logic_tokens = shlex.split(logic)
+        logic_tokens = self._shlex_split(logic)
         token_iter = iter(logic_tokens)
         while True:
             end_parens = 0

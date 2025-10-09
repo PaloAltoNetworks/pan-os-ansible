@@ -183,8 +183,6 @@ options:
             - Crypto profile for IKEv1.
         type: str
         default: 'default'
-        aliases:
-            - crypto_profile_name
     ikev1_exchange_mode:
         description:
             - The IKE exchange mode to use
@@ -198,8 +196,6 @@ options:
             - Crypto profile for IKEv2.
         type: str
         default: 'default'
-        aliases:
-            - crypto_profile_name
 """
 
 EXAMPLES = """
@@ -302,15 +298,11 @@ def main():
             ),
             peer_id_value=dict(default=None),
             peer_id_check=dict(choices=["exact", "wildcard"]),
-            ikev1_crypto_profile=dict(
-                default="default", aliases=["crypto_profile_name"]
-            ),
+            ikev1_crypto_profile=dict(default="default"),
             ikev1_exchange_mode=dict(
                 default=None, choices=["auto", "main", "aggressive"]
             ),
-            ikev2_crypto_profile=dict(
-                default="default", aliases=["crypto_profile_name"]
-            ),
+            ikev2_crypto_profile=dict(default="default"),
         ),
     )
 

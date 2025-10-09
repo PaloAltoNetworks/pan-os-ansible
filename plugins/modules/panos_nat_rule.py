@@ -36,7 +36,7 @@ author:
 version_added: '1.0.0'
 deprecated:
     alternative: Use M(paloaltonetworks.panos.panos_nat_rule2) instead.
-    removed_in: '3.0.0'
+    removed_in: '4.0.0'
     why: The design of this module is not consistent with current design.
 requirements:
     - pan-python >= 0.16
@@ -394,7 +394,7 @@ def main():
 
     module.deprecate(
         "This module has been deprecated; use panos_nat_rule2 instead",
-        version="3.0.0",
+        version="4.0.0",
         collection_name="paloaltonetworks.panos",
     )
 
@@ -404,7 +404,7 @@ def main():
     if module.params["devicegroup"] is not None:
         module.deprecate(
             'Param "devicegroup" is deprecated; use "device_group"',
-            version="3.0.0",
+            version="4.0.0",
             collection_name="paloaltonetworks.panos",
         )
         module.params["device_group"] = module.params["devicegroup"]
@@ -412,7 +412,7 @@ def main():
         tag_val = module.params["tag_name"]
         module.deprecate(
             'Param "tag_name" is deprecated; use "tag"',
-            version="3.0.0",
+            version="4.0.0",
             collection_name="paloaltonetworks.panos",
         )
         if module.params["tag"]:

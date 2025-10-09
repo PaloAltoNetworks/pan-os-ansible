@@ -1,3 +1,92 @@
+## [3.2.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.1.1...v3.2.0) (2025-10-03)
+
+
+### Features
+
+* **panos_software:** support Skip Software Version Upgrade ([#638](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/638)) ([aacc82a](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/aacc82ab146554d8fbd3fe0751634f92ff51850c))
+
+### [3.1.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.1.0...v3.1.1) (2025-07-15)
+
+
+### Bug Fixes
+
+* support panorama for userid ip-tags ([#633](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/633)) ([d836af3](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/d836af3edceab9def9d59f075e32c3a089230fec))
+
+## [3.1.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.0.1...v3.1.0) (2025-07-09)
+
+
+### Features
+
+* **panos_state_snapshot:** allow dict config element for snapshots ([#632](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/632)) ([1dacfac](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/1dacface538cf7c1258e5d566cf881c874fc05c2))
+
+### [3.0.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.0.0...v3.0.1) (2025-05-23)
+
+
+### Bug Fixes
+
+* push deprecations to 4.0.0 ([d6e4ea0](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/d6e4ea01d874e5727a309ebbf5c6d910d2163156))
+
+## [3.0.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.4...v3.0.0) (2025-05-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* merge beta to develop for a new major release (#618)
+* drop crypto_profile_name alias in panos_ike_gateway
+* `gathered_filter` in 'gathered' state now accepts valid regex
+expressions, the previous syntax with extra escape characters is not valid anymore.
+
+### Bug Fixes
+
+* gathered_filter to process regex correctly ([#583](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/583)) ([ae4103a](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/ae4103a5df5aad0b0b06b257ffce6a2a0c47f9f3))
+
+
+### Miscellaneous Chores
+
+* merge beta to develop for a new major release ([#618](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/618)) ([f89f05a](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/f89f05a7d27b7b6b118e37fb5981b0337d9a2e69))
+* support ansible-core 2.16 to 2.18 - drop python 3.9 ([#604](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/604)) ([3b0f5ab](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/3b0f5abcf5d941e10df13a49c810327cfab5c4fd))
+
+### [2.21.4](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.3...v2.21.4) (2025-02-06)
+
+
+### Bug Fixes
+
+* update assurance dependency ([de1dcf4](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/de1dcf40c944f07cee6dc438746f384edddc1064))
+
+### [2.21.3](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.2...v2.21.3) (2024-11-14)
+
+
+### Bug Fixes
+
+* Add new community argument for bgp_policy_rule ([#543](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/543)) ([255ebed](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/255ebed0450a8b993e4aebc81dc20ff8991079a2))
+* implement object_handling method for overriding defaults ([#589](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/589)) ([2a085cb](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/2a085cb600bb6cfdfbeb0b4109b76ede28e49078))
+
+### [2.21.2](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.1...v2.21.2) (2024-09-19)
+
+
+### Bug Fixes
+
+* requirements.txt update python version and remove hashes ([905b1eb](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/905b1eb76236d1560deb249bb7c048aa455721c2))
+
+### [2.21.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.21.0...v2.21.1) (2024-09-16)
+
+
+### Bug Fixes
+
+* new release for failed ci ([3872708](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/38727087df51e2e547611053a3f5767e6e04400c))
+
+## [2.21.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.20.0...v2.21.0) (2024-09-16)
+
+
+### Features
+
+* Add additional error handling to some upgrade assurance modules ([#561](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/561)) ([c64cd79](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/c64cd7902b4e4a83c12a53036052a9c82070af1a))
+
+
+### Bug Fixes
+
+* **panos_security_rule:** state merged with existing values ([#570](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/570)) ([db6c32c](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/db6c32c7b9303f7b5b66f7169babca7f52f4ed87))
+
 ## [2.20.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v2.19.1...v2.20.0) (2024-04-17)
 
 

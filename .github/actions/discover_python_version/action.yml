@@ -1,0 +1,31 @@
+name: Discover minimum Python version
+description: Discover the lowest supported Python version based on pyptoject.toml file
+
+inputs:
+  working-directory:
+    required: false
+    default: "./"
+
+outputs:
+  pyversion:
+    description: Lowest supported python version
+    value: ${{ steps.pyversion.outputs.pyver }}
+
+runs:
+  using: composite
+  steps:
+    - name: extract Python version
+      id: pyversion
+      shell: bash
+      run: |
+        # try to extract the 'python = "xxx"' string from TOML file
+        CONSTRAINT=$(grep -E '^python\s*=' pyproject.toml | cut -d= -f2- | tr -d ' "')
+
+        if [[ $CONSTRAINT =~ (>=|\^|~)([0-9]+\.[0-9]+) ]]; then
+            # echo "Operator: ${BASH_REMATCH[1]}"
+            echo "pyver=${BASH_REMATCH[2]}" >> $GITHUB_OUTPUT
+        else
+            echo "No valid Python version found."
+            return 1
+        fi
+      working-directory: ${{ inputs.working-directory }}

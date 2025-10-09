@@ -138,7 +138,7 @@ class Helper(ConnectionHelper):
         if module.params["panorama_template"] is not None:
             module.deprecate(
                 'Param "panorama_template" is deprecated; use "template"',
-                version="3.0.0",
+                version="4.0.0",
                 collection_name="paloaltonetworks.panos",
             )
             if module.params["template"] is not None:
