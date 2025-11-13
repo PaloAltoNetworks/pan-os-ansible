@@ -57,7 +57,7 @@ jobs:
               TAG_VERSION=$(echo "${RELEASE_TAG}" | sed 's#v##')
               echo "name=${RELEASE_TAG}" >> $GITHUB_OUTPUT
               echo "version=$TAG_VERSION" >> $GITHUB_OUTPUT
-              echo "Ansible EE will be prepared for release ${{ inputs.release_tag }}"
+              echo "Ansible EE will be prepared for release ${RELEASE_TAG}"
           elif [[ "${{ github.event_name }}" == "workflow_dispatch" &&
                 "${RELEASE}" == "true" ]]; then
               if [[ "${GITHUB_REF}" != "refs/tags/v"* ]]; then
