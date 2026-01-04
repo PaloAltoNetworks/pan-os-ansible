@@ -44,7 +44,6 @@ options:
         description:
             - Name of the LDAP server profile.
         type: str
-        required: True
     ldap_type:
         description:
             - Ldap profile type.
@@ -110,6 +109,7 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
+
 def main():
     helper = get_connection(
         vsys_shared=True,
@@ -121,11 +121,11 @@ def main():
         min_panos_version=(7, 0, 0),
         sdk_cls=("device", "LdapServerProfile"),
         sdk_params=dict(
-            name=dict(required=True),
+            name=dict(),
             ldap_type=dict(choices=["other", "active-directory", "e-directory", "sun"], default="other"),
             base_dn=dict(sdk_param="base"),
             bind_dn=dict(),
-            bind_password=dict(),
+            bind_password=dict(no_log=True),
             bind_timelimit=dict(type="int"),
             timelimit=dict(type="int"),
             retry_interval=dict(type="int"),
