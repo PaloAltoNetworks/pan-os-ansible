@@ -49,13 +49,11 @@ options:
         description:
             - Name of the LDAP server profile.
         type: str
-        required: True
     ldap_server_address:
         description:
             - IP address or FQDN of ldap server to use.
         type: str
-        required: True
-    port:
+    ldap_port:
         description:
             - Port number
         type: str
@@ -81,6 +79,7 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
+
 def main():
     helper = get_connection(
         vsys_shared=True,
@@ -93,8 +92,8 @@ def main():
         parents=(("device", "LdapServerProfile", "ldap_profile"),),
         sdk_cls=("device", "LdapServer"),
         sdk_params=dict(
-            name=dict(required=True),
-            ldap_server_address=dict(required=True, type="str", sdk_param="address"),
+            name=dict(),
+            ldap_server_address=dict(type="str", sdk_param="address"),
             ldap_port=dict(type="str", sdk_param="port"),
         ),
     )
