@@ -6,6 +6,7 @@
     LR_NAME: "Test-LR"
     VRF_NAME: "default"
     STATIC_ROUTE_NAME: "test-route-1"
+    OSPF_AREA_NAME: "0.0.0.0"
 
 - name: test_panos_logical_router - Create
   paloaltonetworks.panos.panos_logical_router:
@@ -14,14 +15,18 @@
     template: '{{ template | default(omit) }}'
   register: result
 
-
-- name: test_panos_logical_router_vrf - Add interface
+- name: test_panos_logical_router_vrf - Add interface, enable BGP and OSPF.
   paloaltonetworks.panos.panos_logical_router_vrf:
     provider: '{{ device }}'
     logical_router: '{{ LR_NAME }}'
     name: "{{ VRF_NAME }}"
     interface:
       - ethernet1/1
+    bgp_enable: true
+    bgp_router_id: 10.10.10.10
+    bgp_local_as: 65500
+    ospf_enable: true
+    ospf_router_id: 10.10.10.10
     template: '{{ template | default(omit) }}'
   register: result
 
@@ -34,5 +39,25 @@
     destination: "1.1.1.1/32"
     nexthop: "192.168.10.2"
     nexthop_type: ip-address
+    template: '{{ template | default(omit) }}'
+  register: result
+
+
+- name: test_panos_logical_router_vrf_ospf_area - Configure an OSPF Area
+  paloaltonetworks.panos.panos_logical_router_vrf_ospf_area:
+    provider: '{{ device }}'
+    logical_router: '{{ LR_NAME }}'
+    vrf_name: "{{ VRF_NAME }}"
+    name: "{{ OSPF_AREA_NAME }}"
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_logical_router_vrf_ospf_area_interface - Configure an OSPF Interface within an rea
+  paloaltonetworks.panos.panos_logical_router_vrf_ospf_area_interface:
+    provider: '{{ device }}'
+    logical_router: '{{ LR_NAME }}'
+    vrf_name: "{{ VRF_NAME }}"
+    area_name: "{{ OSPF_AREA_NAME }}"
+    name: "ethernet1/1"
     template: '{{ template | default(omit) }}'
   register: result

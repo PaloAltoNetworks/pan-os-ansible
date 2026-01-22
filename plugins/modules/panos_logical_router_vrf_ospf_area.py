@@ -21,10 +21,10 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 ---
-module: panos_logical_router_vrf_static_route
-short_description: Manage logical router static routes
+module: panos_logical_router_vrf_ospf_area
+short_description: Manage logical router OSPF Area configuration
 description:
-    - Manage PANOS Logical Routers Static Routes.
+    - Manage PANOS Logical Router OSPF AREA configuration
 author:
     - Adam Baumeister (@abaumeister)
 version_added: '1.0.0'
@@ -53,69 +53,61 @@ options:
         required: true
     name:
         description:
-            - Static route name
+            - The Area ID
         type: str
-    destination:
+    authentication:
         description:
-            - Destination network
+            - Authentication profile name
         type: str
-    nexthop_type:
+    type:
         description:
-            - ip-address, discard, or next-vr
+            - Area type
         type: str
-        choices:
-            - "ip-address"
-            - "discard"
-            - "next-lr"
-    nexthop:
+    import_list:
         description:
-            - Next hop IP address or Next VR Name
+            - Import list
         type: str
-    interface:
+    export_list:
         description:
-            - Next hop interface
+            - Export list
         type: str
-    admin_dist:
+    inbound_filter_list:
         description:
-            - Administrative distance
+            - Inbound filter list
         type: str
+    outbound_filter_list:
+        description:
+            - Outbound filter list
+        type: str
+    no_summary:
+        description:
+            - No summary
+        type: bool
     metric:
         description:
-            - Metric
+            - Metric value
         type: int
-        default: 10
-    enable_path_monitor:
+    metric_type:
         description:
-            - Enable Path Monitor
-        type: bool
-    failure_condition:
-        description:
-            - Path Monitor failure condition set 'any' or 'all'
-        type: str
-    preemptive_hold_time:
-        description:
-            - Path Monitor Preemptive Hold Time in minutes
-        type: int
-    bfd_profile:
-        description:
-            - Name of the BRD profile
+            - Metric type
         type: str
 """
 
 EXAMPLES = """
-- name: Create Logical Router
-  paloaltonetworks.panos.panos_logical_router_vrf_static_route:
-    provider: '{{ provider }}'
-    name: lr-1
-    commit: true
-    destination: 1.1.1.1/32
-    nexthop: 192.168.10.1
-    nexthop_type: ip-address
+- name: test_panos_logical_router_vrf - Configure an OSPF Area
+  paloaltonetworks.panos.panos_logical_router_vrf_ospf_area:
+    provider: '{{ device }}'
+    logical_router: 'default'
+    vrf_name: "default"
+    name: "0.0.0.0"
+    template: '{{ template | default(omit) }}'
+  register: result
 """
 
 RETURN = """
 # Default return values
 """
+
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
@@ -131,23 +123,22 @@ def main():
         with_gathered_filter=True,
         with_classic_provider_spec=True,
         with_commit=True,
-        sdk_cls=("network", "VrfStaticRoute"),
+        sdk_cls=("network", "VrfOspfArea"),
         parents=(
             ("network", "LogicalRouter", "logical_router"),
             ("network", "Vrf", "vrf_name"),
         ),
         sdk_params=dict(
-            name=dict(required=True),
-            destination=dict(required=True),
-            nexthop_type=dict(choices=["ip-address", "discard", "next-lr"]),
-            nexthop=dict(),
-            interface=dict(),
-            admin_dist=dict(),
-            metric=dict(type="int", default=10),
-            enable_path_monitor=dict(type="bool"),
-            failure_condition=dict(),
-            preemptive_hold_time=dict(type="int"),
-            bfd_profile=dict(),
+            name=dict(type="str", required=True),
+            authentication=dict(type="str"),
+            type=dict(type="str"),
+            import_list=dict(type="str"),
+            export_list=dict(type="str"),
+            inbound_filter_list=dict(type="str"),
+            outbound_filter_list=dict(type="str"),
+            no_summary=dict(type="bool"),
+            metric=dict(type="int"),
+            metric_type=dict(type="str"),
         ),
     )
 

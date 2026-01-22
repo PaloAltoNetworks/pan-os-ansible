@@ -111,3 +111,8 @@ plugins/modules/panos_vlan.py validate-modules:missing-gplv3-license
 plugins/modules/panos_vm_auth_key.py validate-modules:missing-gplv3-license
 plugins/modules/panos_zone_facts.py validate-modules:missing-gplv3-license
 plugins/modules/panos_zone.py validate-modules:missing-gplv3-license
+plugins/modules/panos_logical_router.py validate-modules:missing-gplv3-license
+plugins/modules/panos_logical_router_vrf.py validate-modules:missing-gplv3-license
+plugins/modules/panos_logical_router_vrf_ospf_area.py validate-modules:missing-gplv3-license
+plugins/modules/panos_logical_router_vrf_ospf_area_interface.py validate-modules:missing-gplv3-license
+plugins/modules/panos_logical_router_vrf_static_route.py validate-modules:missing-gplv3-license

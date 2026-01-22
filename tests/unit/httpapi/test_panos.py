@@ -370,7 +370,7 @@ class TestPanosHttpApi:
             "<request status='success'></request>",
         )
 
-        (code, response) = self.plugin.send_request(
+        code, response = self.plugin.send_request(
             data=data, params=params, headers=headers
         )
 

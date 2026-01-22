@@ -1,0 +1,5 @@
+---
+
+- import_tasks: '../firewall/test_panos_logical_router.yml'
+  vars:
+    template: '{{ test_template | default("Test-Template") }}'

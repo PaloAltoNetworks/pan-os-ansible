@@ -37,7 +37,6 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
     - paloaltonetworks.panos.fragments.gathered_filter
-    - paloaltonetworks.panos.fragments.vsys_import
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
 notes:
@@ -48,7 +47,6 @@ options:
         description:
             -  Name of virtual router
         type: str
-        default: 'default'
 """
 
 EXAMPLES = """
@@ -68,7 +66,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-from panos.network import LogicalRouter
 
 def main():
     helper = get_connection(
@@ -79,9 +76,7 @@ def main():
         with_classic_provider_spec=True,
         with_commit=True,
         sdk_cls=("network", "LogicalRouter"),
-        sdk_params=dict(
-            name=dict(required=True)
-        ),
+        sdk_params=dict(name=dict(required=True)),
     )
 
     module = AnsibleModule(

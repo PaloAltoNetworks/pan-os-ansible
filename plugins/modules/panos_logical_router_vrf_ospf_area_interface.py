@@ -21,10 +21,10 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 ---
-module: panos_logical_router_vrf_static_route
-short_description: Manage logical router static routes
+module: panos_logical_router_vrf_ospf_area_interface
+short_description: Manage logical router OSPF interface configuration within an area
 description:
-    - Manage PANOS Logical Routers Static Routes.
+    - Manage PANOS Logical Router OSPF
 author:
     - Adam Baumeister (@abaumeister)
 version_added: '1.0.0'
@@ -51,66 +51,63 @@ options:
             - The parent VRF to insert the route into
         type: str
         required: true
+    area_name:
+        description:
+            - The parent area to attach the interface to
+        type: str
+        required: true
     name:
         description:
-            - Static route name
+            - Interface name
         type: str
-    destination:
+    enable:
         description:
-            - Destination network
-        type: str
-    nexthop_type:
+            - Enable OSPF on this interface
+        type: bool
+    mtu_ignore:
         description:
-            - ip-address, discard, or next-vr
-        type: str
-        choices:
-            - "ip-address"
-            - "discard"
-            - "next-lr"
-    nexthop:
+            - Ignore mtu when try to establish adjacency
+        type: bool
+    passive:
         description:
-            - Next hop IP address or Next VR Name
-        type: str
-    interface:
+            - Suppress the sending of hello packets in this interface
+        type: bool
+    priority:
         description:
-            - Next hop interface
-        type: str
-    admin_dist:
+            - Priority for OSPF designated router selection
+        type: int
+    link_type:
         description:
-            - Administrative distance
+            - Link Type
         type: str
     metric:
         description:
-            - Metric
+            - Cost of OSPF interface
         type: int
-        default: 10
-    enable_path_monitor:
+    authentication:
         description:
-            - Enable Path Monitor
-        type: bool
-    failure_condition:
-        description:
-            - Path Monitor failure condition set 'any' or 'all'
+            - Authentication options
         type: str
-    preemptive_hold_time:
-        description:
-            - Path Monitor Preemptive Hold Time in minutes
-        type: int
     bfd_profile:
         description:
-            - Name of the BRD profile
+            - BFD profile
+        type: str
+    timing:
+        description:
+            - Protocol timer setting
         type: str
 """
 
 EXAMPLES = """
-- name: Create Logical Router
-  paloaltonetworks.panos.panos_logical_router_vrf_static_route:
-    provider: '{{ provider }}'
-    name: lr-1
-    commit: true
-    destination: 1.1.1.1/32
-    nexthop: 192.168.10.1
-    nexthop_type: ip-address
+- name: test_panos_logical_router_vrf_ospf_area_interface - Configure an OSPF Interface within an rea
+  paloaltonetworks.panos.panos_logical_router_vrf_ospf_area:
+    provider: '{{ device }}'
+    logical_router: 'default'
+    vrf_name: "default"
+    area_name: "0.0.0.0"
+    name: "ethernet1/1"
+    template: '{{ template | default(omit) }}'
+  register: result
 """
 
 RETURN = """
@@ -131,23 +128,23 @@ def main():
         with_gathered_filter=True,
         with_classic_provider_spec=True,
         with_commit=True,
-        sdk_cls=("network", "VrfStaticRoute"),
+        sdk_cls=("network", "VrfOspfAreaInterface"),
         parents=(
             ("network", "LogicalRouter", "logical_router"),
             ("network", "Vrf", "vrf_name"),
+            ("network", "VrfOspfArea", "area_name"),
         ),
         sdk_params=dict(
-            name=dict(required=True),
-            destination=dict(required=True),
-            nexthop_type=dict(choices=["ip-address", "discard", "next-lr"]),
-            nexthop=dict(),
-            interface=dict(),
-            admin_dist=dict(),
-            metric=dict(type="int", default=10),
-            enable_path_monitor=dict(type="bool"),
-            failure_condition=dict(),
-            preemptive_hold_time=dict(type="int"),
-            bfd_profile=dict(),
+            name=dict(required=True, type="str"),
+            enable=dict(type="bool"),
+            mtu_ignore=dict(type="bool"),
+            passive=dict(type="bool"),
+            priority=dict(type="int"),
+            link_type=dict(type="str"),
+            metric=dict(type="int"),
+            authentication=dict(type="str"),
+            bfd_profile=dict(type="str"),
+            timing=dict(type="str"),
         ),
     )
 
