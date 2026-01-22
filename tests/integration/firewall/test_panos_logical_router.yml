@@ -1,0 +1,38 @@
+---
+# - import_tasks: 'reset.yml'
+
+- name: Set vars
+  set_fact:
+    LR_NAME: "Test-LR"
+    VRF_NAME: "default"
+    STATIC_ROUTE_NAME: "test-route-1"
+
+- name: test_panos_logical_router - Create
+  paloaltonetworks.panos.panos_logical_router:
+    provider: '{{ device }}'
+    name: '{{ LR_NAME }}'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+
+- name: test_panos_logical_router_vrf - Add interface
+  paloaltonetworks.panos.panos_logical_router_vrf:
+    provider: '{{ device }}'
+    logical_router: '{{ LR_NAME }}'
+    name: "{{ VRF_NAME }}"
+    interface:
+      - ethernet1/1
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_logical_router_vrf_static_route - Add Static Route
+  paloaltonetworks.panos.panos_logical_router_vrf_static_route:
+    provider: '{{ device }}'
+    logical_router: '{{ LR_NAME }}'
+    vrf_name: "{{ VRF_NAME }}"
+    name: "{{ STATIC_ROUTE_NAME }}"
+    destination: "1.1.1.1/32"
+    nexthop: "192.168.10.2"
+    nexthop_type: ip-address
+    template: '{{ template | default(omit) }}'
+  register: result
