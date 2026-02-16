@@ -23,9 +23,9 @@ DOCUMENTATION = """
 ---
 module: panos_nat_rule2
 short_description: Manage a NAT rule
-description: >
+description:
     - Manage a policy NAT rule.
-    - NOTE:  Even though this module supports I(state=merged), due to the
+    - NOTE Even though this module supports I(state=merged), due to the
       complexity of the XML schema for NAT rules, changing a NAT rule's types
       using I(state=merged) will likely result in an error.  Using I(state=merged)
       will work as normal for simple operations, such as adding additional IP addresses

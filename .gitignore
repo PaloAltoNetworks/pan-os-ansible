@@ -92,7 +92,7 @@ docs/_diagrams
 
 tests/output/
 
-docs/html/
+# docs/html/ # this is pushed to gh-pages branch - do not push on other branches
 docs/source/_build/
 docs/source/modules/
 

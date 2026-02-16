@@ -144,7 +144,7 @@ class Helper(ConnectionHelper):
         if vsys_dg is not None:
             module.deprecate(
                 'Param "vsys_dg" is deprecated, use "vsys"',
-                version="3.0.0",
+                version="4.0.0",
                 collection_name="paloaltonetworks.panos",
             )
             if vsys is None:

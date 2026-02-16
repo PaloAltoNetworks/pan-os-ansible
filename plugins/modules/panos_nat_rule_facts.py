@@ -29,7 +29,7 @@ author: "Garfield Lee Freeman (@shinmog)"
 version_added: '1.0.0'
 deprecated:
     alternative: Use M(paloaltonetworks.panos.panos_nat_rule2) with I(state=gathered).
-    removed_in: '3.0.0'
+    removed_in: '4.0.0'
     why: Updating module design to network resource modules.
 requirements:
     - pan-python
@@ -219,7 +219,7 @@ def main():
 
     module.deprecate(
         "Deprecated; use panos_nat_rule2 with state=gathered instead",
-        version="3.0.0",
+        version="4.0.0",
         collection_name="paloaltonetworks.panos",
     )
 

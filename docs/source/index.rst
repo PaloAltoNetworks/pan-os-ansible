@@ -2,7 +2,7 @@
 Palo Alto Networks Ansible Collection
 =====================================
 
-Version: 2.21.4
+Version: 3.2.0
 
 The Palo Alto Networks Ansible collection is a collection of modules that
 automate configuration and operational tasks on Palo Alto Networks Next
@@ -50,7 +50,6 @@ Then in your playbooks you can specify that you want to use the
    examples
    modules
    history
-   contributing
    authors
    license
 

@@ -40,6 +40,7 @@ author:
     - Robert Hagen (@stealthllama)
     - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
+    - Alp Eren Kose (@alperenkose)
 version_added: '1.0.0'
 requirements:
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
@@ -346,7 +347,7 @@ class Helper(ConnectionHelper):
         if module.params["devicegroup"] is not None:
             module.deprecate(
                 'Param "devicegroup" is deprecated; use "device_group"',
-                version="3.0.0",
+                version="4.0.0",
                 collection_name="paloaltonetworks.panos",
             )
             if module.params["device_group"] is not None:

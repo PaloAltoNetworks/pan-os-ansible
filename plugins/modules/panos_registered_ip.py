@@ -32,7 +32,6 @@ requirements:
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
 notes:
     - Check mode is supported.
-    - Panorama is not supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.state
@@ -117,7 +116,6 @@ def main():
         vsys=True,
         with_classic_provider_spec=True,
         with_state=True,
-        panorama_error="Panorama is not supported for this module.",
         argument_spec=dict(
             ips=dict(type="list", elements="str", required=True),
             tags=dict(type="list", elements="str", required=True),

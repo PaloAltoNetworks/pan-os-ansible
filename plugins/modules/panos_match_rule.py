@@ -250,7 +250,7 @@ def main():
     if module.params["rulebase"] is not None:
         module.deprecate(
             'Param "rulebase" is deprecated and may safely be removed from your playbook',
-            version="3.0.0",
+            version="4.0.0",
             collection_name="paloaltonetworks.panos",
         )
 
@@ -399,7 +399,7 @@ def main():
             x = rules[0]
             module.deprecate(
                 'The "stdout_lines" output is deprecated; use "rule" instead',
-                version="3.0.0",
+                version="4.0.0",
                 collection_name="paloaltonetworks.panos",
             )
             module.exit_json(

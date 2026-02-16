@@ -47,9 +47,13 @@ options:
         description:
             - A list of Firewall state areas that we should take a snapshot of. For the details on currently supported list please refer to
               L(package documentation, https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#state-snapshots).
+            - In most of the cases it is enough to specify a snapshot name to run it with default settings.
+              In this case the list element is of type B(str). If additional configuration is required the element is a single element B(dict),
+              where key is the state snapshot name and value contains the snapshot's configuration. For information which snapshot requires additional
+              configuration please refer to L(package documentation, https://pan.dev/panos/docs/panos-upgrade-assurance/configuration-details/#state-snapshots).
             - To capture the actual snapshot data use a register.
         type: list
-        elements: str
+        elements: raw
         default: ["all"]
 """
 
@@ -133,7 +137,7 @@ def main():
         with_classic_provider_spec=True,
         min_panos_upgrade_assurance_version=MIN_PUA_VER,
         argument_spec=dict(
-            state_areas=dict(type="list", default=["all"], elements="str")
+            state_areas=dict(type="list", default=["all"], elements="raw")
         ),
         panorama_error="This is a firewall only module",
     )
