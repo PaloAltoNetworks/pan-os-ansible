@@ -105,7 +105,7 @@ try:
 except ImportError:
     pass
 
-MIN_PUA_VER = (0, 3, 0)
+MIN_PUA_VER = (2, 0, 0)
 
 
 def main():
