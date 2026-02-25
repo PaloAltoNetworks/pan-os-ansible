@@ -129,7 +129,6 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-
 COLOR_NAMES = [
     "",
     "red",
