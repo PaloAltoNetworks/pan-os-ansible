@@ -144,7 +144,7 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
     get_connection,
 )
 
-MIN_PUA_VER = (0, 3, 0)
+MIN_PUA_VER = (2, 0, 0)
 
 try:
     from panos_upgrade_assurance.check_firewall import CheckFirewall
