@@ -39,6 +39,7 @@ extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.full_template_support
     - paloaltonetworks.panos.fragments.deprecated_commit
+    - paloaltonetworks.panos.fragments.vsys_import
 notes:
     - Checkmode is supported.
     - Panorama is supported.
@@ -71,6 +72,8 @@ def main():
     helper = get_connection(
         template=True,
         template_stack=True,
+        vsys_importable=True,
+        with_set_vsys_reference=True,
         with_network_resource_module_state=True,
         with_gathered_filter=True,
         with_classic_provider_spec=True,
