@@ -1,0 +1,3539 @@
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. meta::
+  :antsibull-docs: 2.24.0
+
+.. Anchors
+
+.. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Title
+
+paloaltonetworks.panos.panos_logical_router_vrf module -- Manage Logical Router VRFs
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.2.0).
+
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+
+    To install it, use: :code:`ansible\-galaxy collection install paloaltonetworks.panos`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`paloaltonetworks.panos.panos_logical_router_vrf`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in paloaltonetworks.panos 3.3.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage PANOS Logical Router VRFs.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pan\-python can be obtained from PyPI \ `https://pypi.python.org/pypi/pan\-python <https://pypi.python.org/pypi/pan-python>`__
+- pandevice can be obtained from PyPI \ `https://pypi.python.org/pypi/pandevice <https://pypi.python.org/pypi/pandevice>`__
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+  :class: longtable ansible-option-table
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ad_bgp_external"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ad_bgp_external:
+
+      .. rst-class:: ansible-option-title
+
+      **ad_bgp_external**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ad_bgp_external" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Administrative distance for this protocol
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ad_bgp_internal"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ad_bgp_internal:
+
+      .. rst-class:: ansible-option-title
+
+      **ad_bgp_internal**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ad_bgp_internal" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Administrative distance for this protocol
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ad_bgp_local"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ad_bgp_local:
+
+      .. rst-class:: ansible-option-title
+
+      **ad_bgp_local**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ad_bgp_local" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Administrative distance for this protocol
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ad_ospf_ext"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ad_ospf_ext:
+
+      .. rst-class:: ansible-option-title
+
+      **ad_ospf_ext**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ad_ospf_ext" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Administrative distance for this protocol
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ad_ospf_inter"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ad_ospf_inter:
+
+      .. rst-class:: ansible-option-title
+
+      **ad_ospf_inter**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ad_ospf_inter" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Administrative distance for this protocol
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ad_ospf_intra"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ad_ospf_intra:
+
+      .. rst-class:: ansible-option-title
+
+      **ad_ospf_intra**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ad_ospf_intra" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Administrative distance for this protocol
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ad_ospfv3_ext"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ad_ospfv3_ext:
+
+      .. rst-class:: ansible-option-title
+
+      **ad_ospfv3_ext**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ad_ospfv3_ext" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Administrative distance for this protocol
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ad_ospfv3_inter"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ad_ospfv3_inter:
+
+      .. rst-class:: ansible-option-title
+
+      **ad_ospfv3_inter**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ad_ospfv3_inter" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Administrative distance for this protocol
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ad_ospfv3_intra"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ad_ospfv3_intra:
+
+      .. rst-class:: ansible-option-title
+
+      **ad_ospfv3_intra**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ad_ospfv3_intra" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Administrative distance for this protocol
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ad_rip"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ad_rip:
+
+      .. rst-class:: ansible-option-title
+
+      **ad_rip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ad_rip" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Administrative distance for this protocol
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ad_static"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ad_static:
+
+      .. rst-class:: ansible-option-title
+
+      **ad_static**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ad_static" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Administrative distance for this protocol
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ad_static_ipv6"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ad_static_ipv6:
+
+      .. rst-class:: ansible-option-title
+
+      **ad_static_ipv6**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ad_static_ipv6" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Administrative distance for this protocol
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-api_key"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-api_key" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The API key to use instead of generating it using :emphasis:`username` / :emphasis:`password`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_always_advertise_network_route"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_always_advertise_network_route:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_always_advertise_network_route**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_always_advertise_network_route" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Always advertise network routes even if not present in RIB
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_default_local_preference"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_default_local_preference:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_default_local_preference**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_default_local_preference" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Global Default Local Preference
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_ecmp_multi_as"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_ecmp_multi_as:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_ecmp_multi_as**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_ecmp_multi_as" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Support multiple AS in ECMP
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_enable"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_enable:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_enable" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable BGP
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_enforce_first_as"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_enforce_first_as:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_enforce_first_as**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_enforce_first_as" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enforce First AS
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_fast_external_failover"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_fast_external_failover:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_fast_external_failover**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_fast_external_failover" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Immediately reset session if a link to a directly connected external peer goes down
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_global_bfd"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_global_bfd:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_global_bfd**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_global_bfd" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      BGP Global BFD Profile
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_graceful_local_restart_time"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_graceful_local_restart_time:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_graceful_local_restart_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_graceful_local_restart_time" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Local restart time to advertise to peer
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_graceful_max_peer_restart_time"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_graceful_max_peer_restart_time:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_graceful_max_peer_restart_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_graceful_max_peer_restart_time" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Maximum of peer restart time accepted
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_graceful_restart_enable"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_graceful_restart_enable:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_graceful_restart_enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_graceful_restart_enable" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Graceful\-restart options enabled
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_graceful_restart_stale_route_time"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_graceful_restart_stale_route_time:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_graceful_restart_stale_route_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_graceful_restart_stale_route_time" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Time to remove stale routes after peer restart
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_graceful_shutdown"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_graceful_shutdown:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_graceful_shutdown**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_graceful_shutdown" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Gracefully Shutdown BGP following RFC\-8326
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_install_route"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_install_route:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_install_route**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_install_route" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Populate BGP learned route to global route table
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_local_as"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_local_as:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_local_as**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_local_as" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Local AS number
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_med_always_compare_med"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_med_always_compare_med:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_med_always_compare_med**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_med_always_compare_med" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Always compare MEDs
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_med_deterministic_med_comparison"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_med_deterministic_med_comparison:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_med_deterministic_med_comparison**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_med_deterministic_med_comparison" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Deterministic MEDs comparison
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_redistribution_profile_ipv4_unicast"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_redistribution_profile_ipv4_unicast:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_redistribution_profile_ipv4_unicast**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_redistribution_profile_ipv4_unicast" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IPv4 Redistribution Profile
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_redistribution_profile_ipv6_unicast"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_redistribution_profile_ipv6_unicast:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_redistribution_profile_ipv6_unicast**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_redistribution_profile_ipv6_unicast" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IPv6 Redistribution Profile
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bgp_router_id"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-bgp_router_id:
+
+      .. rst-class:: ansible-option-title
+
+      **bgp_router_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bgp_router_id" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Router id of this BGP instance
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-commit"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-commit:
+
+      .. rst-class:: ansible-option-title
+
+      **commit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-commit" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Please use :ref:`paloaltonetworks.panos.panos\_commit\_firewall <ansible_collections.paloaltonetworks.panos.panos_commit_firewall_module>`\ , :ref:`paloaltonetworks.panos.panos\_commit\_panorama <ansible_collections.paloaltonetworks.panos.panos_commit_panorama_module>`\ , :ref:`paloaltonetworks.panos.panos\_commit\_push <ansible_collections.paloaltonetworks.panos.panos_commit_push_module>` instead.
+
+      .. raw:: html
+
+        <hr>
+
+      Commit changes after creating object. If :emphasis:`ip\_address` is a Panorama device, and :emphasis:`device\_group` or :emphasis:`template` are also set, perform a commit to Panorama and a commit\-all to the device group/template.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ecmp_algorithm"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ecmp_algorithm:
+
+      .. rst-class:: ansible-option-title
+
+      **ecmp_algorithm**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ecmp_algorithm" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Load balancing algorithm
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ecmp_algorithm_hash_seed"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ecmp_algorithm_hash_seed:
+
+      .. rst-class:: ansible-option-title
+
+      **ecmp_algorithm_hash_seed**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ecmp_algorithm_hash_seed" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      User\-specified hash seed
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ecmp_algorithm_src_only"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ecmp_algorithm_src_only:
+
+      .. rst-class:: ansible-option-title
+
+      **ecmp_algorithm_src_only**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ecmp_algorithm_src_only" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Only use source address for hash
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ecmp_algorithm_use_port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ecmp_algorithm_use_port:
+
+      .. rst-class:: ansible-option-title
+
+      **ecmp_algorithm_use_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ecmp_algorithm_use_port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Use source/destination port for hash
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ecmp_enable"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ecmp_enable:
+
+      .. rst-class:: ansible-option-title
+
+      **ecmp_enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ecmp_enable" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable Equal Cost Multipath
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ecmp_max_path"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ecmp_max_path:
+
+      .. rst-class:: ansible-option-title
+
+      **ecmp_max_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ecmp_max_path" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Maximum number of ECMP paths supported, change this configuration will result in a virtual router restart
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ecmp_strict_source_path"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ecmp_strict_source_path:
+
+      .. rst-class:: ansible-option-title
+
+      **ecmp_strict_source_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ecmp_strict_source_path" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Force VPN traffic to exit interface that the source\-ip belongs to
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ecmp_symmetric_return"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ecmp_symmetric_return:
+
+      .. rst-class:: ansible-option-title
+
+      **ecmp_symmetric_return**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ecmp_symmetric_return" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Allows return packets to egress out of the ingress interface of the flow
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-gathered_filter"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-gathered_filter:
+
+      .. rst-class:: ansible-option-title
+
+      **gathered_filter**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-gathered_filter" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When :emphasis:`state=gathered`.
+
+      An advanced filtering option to filter results returned from PAN\-OS.
+
+      Refer to the guide discussing :emphasis:`gathered\_filter` for more information.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-interface"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-interface:
+
+      .. rst-class:: ansible-option-title
+
+      **interface**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-interface" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of interface names
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ip_address"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ip_address" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The IP address or hostname of the PAN\-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-logical_router"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-logical_router:
+
+      .. rst-class:: ansible-option-title
+
+      **logical_router**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-logical_router" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name of the Logical Router
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name of VRF
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospf_enable"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospf_enable:
+
+      .. rst-class:: ansible-option-title
+
+      **ospf_enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospf_enable" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable OSPF
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospf_global_bfd"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospf_global_bfd:
+
+      .. rst-class:: ansible-option-title
+
+      **ospf_global_bfd**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospf_global_bfd" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      OSPF Global BFD Profile
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospf_global_if_timer"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospf_global_if_timer:
+
+      .. rst-class:: ansible-option-title
+
+      **ospf_global_if_timer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospf_global_if_timer" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Global protocol timer setting
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospf_graceful_restart_enable"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospf_graceful_restart_enable:
+
+      .. rst-class:: ansible-option-title
+
+      **ospf_graceful_restart_enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospf_graceful_restart_enable" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable OSPF graceful restart
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospf_graceful_restart_grace_period"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospf_graceful_restart_grace_period:
+
+      .. rst-class:: ansible-option-title
+
+      **ospf_graceful_restart_grace_period**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospf_graceful_restart_grace_period" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Graceful restart period
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospf_graceful_restart_helper_enable"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospf_graceful_restart_helper_enable:
+
+      .. rst-class:: ansible-option-title
+
+      **ospf_graceful_restart_helper_enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospf_graceful_restart_helper_enable" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Graceful restart helper enable
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospf_graceful_restart_max_neighbor_restart_time"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospf_graceful_restart_max_neighbor_restart_time:
+
+      .. rst-class:: ansible-option-title
+
+      **ospf_graceful_restart_max_neighbor_restart_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospf_graceful_restart_max_neighbor_restart_time" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Graceful restart neighbor restart time
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospf_graceful_restart_strict_lsa_checking"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospf_graceful_restart_strict_lsa_checking:
+
+      .. rst-class:: ansible-option-title
+
+      **ospf_graceful_restart_strict_lsa_checking**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospf_graceful_restart_strict_lsa_checking" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Graceful restart strict lsa checking
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospf_redistribution_profile"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospf_redistribution_profile:
+
+      .. rst-class:: ansible-option-title
+
+      **ospf_redistribution_profile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospf_redistribution_profile" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Redistribution profile setting
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospf_rfc1583"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospf_rfc1583:
+
+      .. rst-class:: ansible-option-title
+
+      **ospf_rfc1583**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospf_rfc1583" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      RFC 1583 compatibility
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospf_router_id"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospf_router_id:
+
+      .. rst-class:: ansible-option-title
+
+      **ospf_router_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospf_router_id" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Router ID in IP format (eg. 1.1.1.1)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospf_spf_timer"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospf_spf_timer:
+
+      .. rst-class:: ansible-option-title
+
+      **ospf_spf_timer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospf_spf_timer" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SPF timer setting
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospfv3_disable_transit_traffic"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospfv3_disable_transit_traffic:
+
+      .. rst-class:: ansible-option-title
+
+      **ospfv3_disable_transit_traffic**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospfv3_disable_transit_traffic" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Disable R\-Bit and v6\-Bit
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospfv3_enable"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospfv3_enable:
+
+      .. rst-class:: ansible-option-title
+
+      **ospfv3_enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospfv3_enable" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable OSPFv3
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospfv3_global_bfd"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospfv3_global_bfd:
+
+      .. rst-class:: ansible-option-title
+
+      **ospfv3_global_bfd**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospfv3_global_bfd" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      OSPFv3 Global BFD Profile
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospfv3_global_if_timer"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospfv3_global_if_timer:
+
+      .. rst-class:: ansible-option-title
+
+      **ospfv3_global_if_timer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospfv3_global_if_timer" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Global protocol timer setting
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospfv3_graceful_restart_enable"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospfv3_graceful_restart_enable:
+
+      .. rst-class:: ansible-option-title
+
+      **ospfv3_graceful_restart_enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospfv3_graceful_restart_enable" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable OSPFv3 graceful restart
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospfv3_graceful_restart_grace_period"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospfv3_graceful_restart_grace_period:
+
+      .. rst-class:: ansible-option-title
+
+      **ospfv3_graceful_restart_grace_period**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospfv3_graceful_restart_grace_period" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Graceful restart period
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospfv3_graceful_restart_helper_enable"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospfv3_graceful_restart_helper_enable:
+
+      .. rst-class:: ansible-option-title
+
+      **ospfv3_graceful_restart_helper_enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospfv3_graceful_restart_helper_enable" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Graceful restart helper enable
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospfv3_graceful_restart_max_neighbor_restart_time"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospfv3_graceful_restart_max_neighbor_restart_time:
+
+      .. rst-class:: ansible-option-title
+
+      **ospfv3_graceful_restart_max_neighbor_restart_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospfv3_graceful_restart_max_neighbor_restart_time" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Graceful restart neighbor restart time
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospfv3_graceful_restart_strict_lsa_checking"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospfv3_graceful_restart_strict_lsa_checking:
+
+      .. rst-class:: ansible-option-title
+
+      **ospfv3_graceful_restart_strict_lsa_checking**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospfv3_graceful_restart_strict_lsa_checking" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Graceful restart strict lsa checking
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospfv3_redistribution_profile"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospfv3_redistribution_profile:
+
+      .. rst-class:: ansible-option-title
+
+      **ospfv3_redistribution_profile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospfv3_redistribution_profile" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Redistribution profile setting
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospfv3_router_id"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospfv3_router_id:
+
+      .. rst-class:: ansible-option-title
+
+      **ospfv3_router_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospfv3_router_id" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Router ID in IP format (eg. 1.1.1.1)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ospfv3_spf_timer"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-ospfv3_spf_timer:
+
+      .. rst-class:: ansible-option-title
+
+      **ospfv3_spf_timer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ospfv3_spf_timer" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SPF timer setting
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-password"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The password to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-port"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The port number to connect to the PAN\-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 1.0.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dict object containing connection details.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/api_key"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-provider/api_key:
+
+      .. rst-class:: ansible-option-title
+
+      **api_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/api_key" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The API key to use instead of generating it using :emphasis:`username` / :emphasis:`password`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/ip_address"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-provider/ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/ip_address" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The IP address or hostname of the PAN\-OS device being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/password"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-provider/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/password" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The password to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/port"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-provider/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The port number to connect to the PAN\-OS device on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/serial_number"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-provider/serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/serial_number" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The serial number of a firewall to use for targeted commands. If :emphasis:`ip\_address` is not a Panorama PAN\-OS device, then this param is ignored.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provider/username"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-provider/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The username to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rib_filter_ipv4_bgp"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-rib_filter_ipv4_bgp:
+
+      .. rst-class:: ansible-option-title
+
+      **rib_filter_ipv4_bgp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rib_filter_ipv4_bgp" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IPv4 BGP route map
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rib_filter_ipv4_ospf"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-rib_filter_ipv4_ospf:
+
+      .. rst-class:: ansible-option-title
+
+      **rib_filter_ipv4_ospf**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rib_filter_ipv4_ospf" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IPv4 OSPF route map
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rib_filter_ipv4_static"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-rib_filter_ipv4_static:
+
+      .. rst-class:: ansible-option-title
+
+      **rib_filter_ipv4_static**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rib_filter_ipv4_static" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IPv4 static route map
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rib_filter_ipv6_bgp"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-rib_filter_ipv6_bgp:
+
+      .. rst-class:: ansible-option-title
+
+      **rib_filter_ipv6_bgp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rib_filter_ipv6_bgp" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IPv6 BGP route map
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rib_filter_ipv6_ospfv3"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-rib_filter_ipv6_ospfv3:
+
+      .. rst-class:: ansible-option-title
+
+      **rib_filter_ipv6_ospfv3**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rib_filter_ipv6_ospfv3" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IPv6 OSPFv3 route map
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rib_filter_ipv6_static"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-rib_filter_ipv6_static:
+
+      .. rst-class:: ansible-option-title
+
+      **rib_filter_ipv6_static**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rib_filter_ipv6_static" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IPv6 static route map
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The state.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+      - :ansible-option-choices-entry:`"replaced"`
+      - :ansible-option-choices-entry:`"merged"`
+      - :ansible-option-choices-entry:`"deleted"`
+      - :ansible-option-choices-entry:`"gathered"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-template"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-template:
+
+      .. rst-class:: ansible-option-title
+
+      **template**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-template" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      (Panorama only) The template this operation should target. Mutually exclusive with :emphasis:`template\_stack`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-template_stack"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-template_stack:
+
+      .. rst-class:: ansible-option-title
+
+      **template_stack**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-template_stack" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      (Panorama only) The template stack this operation should target. Mutually exclusive with :emphasis:`template`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-username"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_logical_router_vrf_module__parameter-username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :strong:`Deprecated`
+
+      Use :emphasis:`provider` to specify PAN\-OS connectivity instead.
+
+      .. raw:: html
+
+        <hr>
+
+      The username to use for authentication. This is ignored if :emphasis:`api\_key` is specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Checkmode is supported.
+   - Panorama is supported.
+   - PAN\-OS connectivity should be specified using :emphasis:`provider` or the classic PAN\-OS connectivity params (\ :emphasis:`ip\_address`\ , :emphasis:`username`\ , :emphasis:`password`\ , :emphasis:`api\_key`\ , and :emphasis:`port`\ ). If both are present, then the classic params are ignored.
+   - If the PAN\-OS to be configured is Panorama, either :emphasis:`template` or :emphasis:`template\_stack` must be specified.
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    - name: Add ethernet1/1 to VRF "default" on logical router "default"
+      paloaltonetworks.panos.panos_logical_router_vrf:
+        provider: '{{ provider }}'
+        logical_router: default
+        name: default
+        interfaces:
+          - ethernet1/1
+
+    - name: Enable BGP
+      paloaltonetworks.panos.panos_logical_router_vrf:
+        provider: '{{ device }}'
+        logical_router: default
+        name: default
+        bgp_enable: true
+        bgp_router_id: 10.10.10.10
+        bgp_local_as: 65500
+        template: '{{ template | default(omit) }}'
+      register: result
+
+
+
+.. Facts
+
+
+.. Return values
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Adam Baumeister (@abaumeister)
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. ansible-links::
+
+  - title: "Issue Tracker"
+    url: "https://github.com/PaloAltoNetworks/pan-os-ansible/issues"
+    external: true
+  - title: "Homepage"
+    url: "https://pan.dev/ansible/docs/panos"
+    external: true
+  - title: "Repository (Sources)"
+    url: "https://github.com/PaloAltoNetworks/pan-os-ansible"
+    external: true
+
+
+.. Parsing errors

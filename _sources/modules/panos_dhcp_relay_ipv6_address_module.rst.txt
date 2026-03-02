@@ -6,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.21.0
+  :antsibull-docs: 2.24.0
 
 .. Anchors
 
