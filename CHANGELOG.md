@@ -1,3 +1,11 @@
+## [3.3.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.2.0...v3.3.0) (2026-03-02)
+
+
+### Features
+
+* panos_logical_router, panos_logical_router_vrf and panos_logical_router_vrf_static_route support [#649](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/649) ([#650](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/650)) ([61b0c98](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/61b0c9854632e12eec475d88d3095c94d06c0648))
+* **deps:** update panos-upgrade-assurance to >=2.0.0 ([#651](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/651)) ([eff55ff](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/eff55ffbafefb09da4d8b82f4e1781ecc902ec60))
+
 ## [3.2.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.1.1...v3.2.0) (2025-10-03)
 
 
