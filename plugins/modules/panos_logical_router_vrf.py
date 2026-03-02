@@ -27,7 +27,7 @@ description:
     - Manage PANOS Logical Router VRFs.
 author:
     - Adam Baumeister (@abaumeister)
-version_added: '1.0.0'
+version_added: '3.3.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)

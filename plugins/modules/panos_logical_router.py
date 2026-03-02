@@ -27,9 +27,8 @@ description:
     - Manage PANOS Logical Routers. Note that for the use of logical routers on PAN-OS NGFW devices, you must enable
       "advanced routing" under device->setup->management->General Settings.
 author:
-    - Joshua Colson (@freakinhippie)
-    - Garfield Lee Freeman (@shinmog)
-version_added: '1.0.0'
+    - Adam Baumeister (@abaumeister)
+version_added: '3.3.0'
 requirements:
     - pan-python can be obtained from PyPI U(https://pypi.python.org/pypi/pan-python)
     - pandevice can be obtained from PyPI U(https://pypi.python.org/pypi/pandevice)
