@@ -1,5 +1,5 @@
 ---
-requires_ansible: '>=2.16.0'
+requires_ansible: '>=2.18.0'
 plugin_routing:
   modules:
     panos_admin:
