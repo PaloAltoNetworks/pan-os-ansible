@@ -21,7 +21,7 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 ---
-module: panos_nat_rule2
+module: panos_nat_rule
 short_description: Manage a NAT rule
 description:
     - Manage a policy NAT rule.
@@ -30,6 +30,8 @@ description:
       using I(state=merged) will likely result in an error.  Using I(state=merged)
       will work as normal for simple operations, such as adding additional IP addresses
       to any of the listings or changing simple variable types.
+    - NOTE This module was previously named 'panos_nat_rule2', but the old module has been 
+      deprecated in version 4.0.0.
 author:
     - Garfield Lee Freeman (@shinmog)
 version_added: '2.10.0'
@@ -235,7 +237,7 @@ options:
 
 EXAMPLES = """
 - name: add a nat rule
-  paloaltonetworks.panos.panos_nat_rule2:
+  paloaltonetworks.panos.panos_nat_rule:
     provider: '{{ provider }}'
     name: 'myRule'
     description: 'Made by Ansible'
