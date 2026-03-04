@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-#  Copyright 2017 Palo Alto Networks, Inc
+#  Copyright 2022 Palo Alto Networks, Inc
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -21,23 +21,18 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 ---
-module: panos_nat_rule
-short_description: Manage a policy NAT rule
+module: panos_nat_rule2
+short_description: Manage a NAT rule
 description:
-    - Manage a policy nat rule. Keep in mind that we can either end up configuring source NAT, destination NAT, or both.
-    - Instead of splitting it into two we will make a fair attempt to determine which one the user wants.
+    - Manage a policy NAT rule.
+    - NOTE Even though this module supports I(state=merged), due to the
+      complexity of the XML schema for NAT rules, changing a NAT rule's types
+      using I(state=merged) will likely result in an error.  Using I(state=merged)
+      will work as normal for simple operations, such as adding additional IP addresses
+      to any of the listings or changing simple variable types.
 author:
-    - Luigi Mori (@jtschichold)
-    - Ivan Bojer (@ivanbojer)
-    - Robert Hagen (@stealthllama)
-    - Michael Richardson (@mrichardson03)
     - Garfield Lee Freeman (@shinmog)
-    - Ken Celenza (@itdependsnetworks)
-version_added: '1.0.0'
-deprecated:
-    alternative: Use M(paloaltonetworks.panos.panos_nat_rule2) instead.
-    removed_in: '4.0.0'
-    why: The design of this module is not consistent with current design.
+version_added: '2.10.0'
 requirements:
     - pan-python >= 0.16
     - pan-os-python >= 1.7.3
@@ -46,58 +41,23 @@ notes:
     - Panorama is supported.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
+    - paloaltonetworks.panos.fragments.network_resource_module_state
+    - paloaltonetworks.panos.fragments.gathered_filter
     - paloaltonetworks.panos.fragments.device_group
     - paloaltonetworks.panos.fragments.vsys
     - paloaltonetworks.panos.fragments.rulebase
-    - paloaltonetworks.panos.fragments.deprecated_commit
     - paloaltonetworks.panos.fragments.uuid
     - paloaltonetworks.panos.fragments.target
     - paloaltonetworks.panos.fragments.movement
     - paloaltonetworks.panos.fragments.audit_comment
 options:
-    state:
+    name:
         description:
-            - The state of this object.
+            - Name of the rule.
         type: str
-        choices:
-            - present
-            - absent
-            - enable
-            - disable
-        default: "present"
-    operation:
-        description:
-            - B(Removed)
-            - Use I(state) instead.
-        type: str
-    devicegroup:
-        description:
-            - B(Deprecated)
-            - Use I(device_group) instead.
-            - HORIZONTALLINE
-            - The device group to place the NAT rule into.
-            - Panorama only; ignored for firewalls.
-        type: str
-    tag:
-        description:
-            - Administrative tags.
-        type: list
-        elements: str
-    tag_name:
-        description:
-            - B(Deprecated)
-            - Use I(tag) instead.
-            - HORIZONTALLINE
-            - Administrative tag.
-        type: str
-    rule_name:
-        description:
-            - name of the SNAT rule
-        type: str
-        required: true
     description:
         description:
-            - NAT rule description.
+            - The description.
         type: str
     nat_type:
         description:
@@ -107,130 +67,188 @@ options:
             - ipv4
             - nat64
             - nptv6
-        default: "ipv4"
-    source_zone:
+        default: ipv4
+    from_zones:
         description:
-            - list of source zones
+            - From zones.
         type: list
         elements: str
-    source_ip:
+    to_zones:
         description:
-            - list of source addresses
-        required: false
+            - To zones.
+            - Note that there should only be one element in this list.
         type: list
         elements: str
-        default: ["any"]
-    destination_zone:
-        description:
-            - destination zone
-        type: str
-    destination_ip:
-        description:
-            - list of destination addresses
-        required: false
-        type: list
-        elements: str
-        default: ["any"]
     to_interface:
         description:
-            - Original packet's destination interface.
+            - Egress interface from route lookup.
         type: str
-        default: 'any'
     service:
         description:
-            - service
+            - The service.
         type: str
-        default: "any"
-    snat_type:
+    source_addresses:
         description:
-            - type of source translation
+            - Source addresses.
+            - When referencing predefined EDLs, use config names of the EDLS not
+              their full names. The config names can be found with the CLI...
+              request system external-list show type predefined-ip name <tab>
+                panw-bulletproof-ip-list   panw-bulletproof-ip-list
+                panw-highrisk-ip-list      panw-highrisk-ip-list
+                panw-known-ip-list         panw-known-ip-list
+                panw-torexit-ip-list       panw-torexit-ip-list
+        type: list
+        elements: str
+    destination_addresses:
+        description:
+            - Destination addresses.
+            - When referencing predefined EDLs, use config names of the EDLS not
+              their full names. The config names can be found with the CLI...
+              request system external-list show type predefined-ip name <tab>
+                panw-bulletproof-ip-list   panw-bulletproof-ip-list
+                panw-highrisk-ip-list      panw-highrisk-ip-list
+                panw-known-ip-list         panw-known-ip-list
+                panw-torexit-ip-list       panw-torexit-ip-list
+        type: list
+        elements: str
+    source_translation_type:
+        description:
+            - Type of source address translation.
         type: str
         choices:
-            - static-ip
-            - dynamic-ip
-            - dynamic-ip-and-port
-    snat_address_type:
+            - 'dynamic-ip-and-port'
+            - 'dynamic-ip'
+            - 'static-ip'
+    source_translation_address_type:
         description:
-            - type of source translation.
+            - For I(source_translation_type=dynamic-ip-and-port) or or I(source_translation_type=dynamic-ip).
+            - Address type.
         type: str
         choices:
             - interface-address
             - translated-address
-        default: 'interface-address'
-    snat_static_address:
+    source_translation_interface:
         description:
-            - Source NAT translated address. Used with Static-IP translation.
+            - For I(source_translation_address_type=interface-address).
+            - Interface of the source address.
         type: str
-    snat_dynamic_address:
+    source_translation_ip_address:
         description:
-            - Source NAT translated address.
-            - Used when I(snat_type=dynamic-ip) or I(snat_type=dynamic-ip-and-port).
+            - For I(source_translation_address_type=interface-address).
+            - IP address of the source address translation.
+        type: str
+    source_translation_translated_addresses:
+        description:
+            - For I(source_translation_address_type=translated-address).
+            - Translated addresses of the source address translation.
         type: list
         elements: str
-    snat_interface:
+    source_translation_fallback_type:
         description:
-            - snat interface
+            - For I(source_translation_type=dynamic-ip).
+            - Type of fallback for dynamic IP source translation.
         type: str
-    snat_interface_address:
+        choices:
+            - translated-address
+            - interface-address
+    source_translation_fallback_translated_addresses:
         description:
-            - snat interface address
+            - For I(source_translation_fallback_type=translated-address).
+            - Addresses for translated address types of fallback source translation.
+        type: list
+        elements: str
+    source_translation_fallback_interface:
+        description:
+            - For I(source_translation_fallback_type=interface-address).
+            - The interface for the fallback source translation.
         type: str
-    snat_bidirectional:
+    source_translation_fallback_ip_type:
         description:
-            - bidirectional flag
+            - For I(source_translation_fallback_type=interface-address).
+            - The type of the IP address for the fallback source translation IP address.
+        choices:
+            - ip
+            - floating-ip
+        type: str
+    source_translation_fallback_ip_address:
+        description:
+            - For I(source_translation_fallback_type=interface-address).
+            - The IP address of the fallback source translation.
+        type: str
+    source_translation_static_translated_address:
+        description:
+            - For I(source_translation_type=static-ip).
+            - The IP address for the static source translation.
+        type: str
+    source_translation_static_bi_directional:
+        description:
+            - For I(source_translation_type=static-ip).
+            - Allow reverse translation from translated address to original address.
         type: bool
-    dnat_address:
+    destination_translated_address:
         description:
-            - Static dnat translated address
-            - Mutually exclusive with I(dnat_dynamic_address), I(dnat_dynamic_port), and I(dnat_dynamic_distribution).
+            - Static translated destination IP address.
         type: str
-    dnat_port:
+    destination_translated_port:
         description:
-            - Static dnat translated port
-            - Mutually exclusive with I(dnat_dynamic_address), I(dnat_dynamic_port), and I(dnat_dynamic_distribution).
+            - Static translated destination port number.
+        type: int
+    ha_binding:
+        description:
+            - Device binding configuration in HA Active-Active mode.
+        choices:
+            - primary
+            - both
+            - '0'
+            - '1'
+        type: str
+    disabled:
+        description:
+            - Rule is disabled or not.
+        type: bool
+    tags:
+        description:
+            - Administrative tags.
+        type: list
+        elements: str
+    destination_dynamic_translated_address:
+        description:
+            - For PAN-OS 8.1 and above.
+            - Dynamic destination translated address.
+        type: str
+    destination_dynamic_translated_port:
+        description:
+            - For PAN-OS 8.1 and above.
+            - Dynamic destination translated port.
+        type: int
+    destination_dynamic_translated_distribution:
+        description:
+            - For PAN-OS 8.1 and above.
+            - Dynamic destination translated distribution.
         type: str
     group_tag:
         description:
+            - For PAN-OS 9.0 and above.
             - The group tag.
-        type: str
-    dnat_dynamic_address:
-        description:
-            - Dynamic destination translated address.
-            - Mutually exclusive with I(dnat_address) and I(dnat_port).
-        type: str
-    dnat_dynamic_port:
-        description:
-            - Dynamic destination translated port.
-            - Mutually exclusive with I(dnat_address) and I(dnat_port).
-        type: int
-    dnat_dynamic_distribution:
-        description:
-            - Dynamic destination translated distribution.
-            - Mutually exclusive with I(dnat_address) and I(dnat_port).
         type: str
 """
 
 EXAMPLES = """
-# Create a source and destination nat rule
-- name: Create NAT SSH rule for 10.0.1.101
-  paloaltonetworks.panos.panos_nat_rule:
+- name: add a nat rule
+  paloaltonetworks.panos.panos_nat_rule2:
     provider: '{{ provider }}'
-    rule_name: "Web SSH"
-    source_zone: ["external"]
-    destination_zone: "external"
-    source_ip: ["any"]
-    destination_ip: ["10.0.0.100"]
-    service: "service-tcp-221"
-    snat_type: "dynamic-ip-and-port"
-    snat_interface: "ethernet1/2"
-    dnat_address: "10.0.1.101"
-    dnat_port: "22"
-
-- name: disable a specific security rule
-  paloaltonetworks.panos.panos_nat_rule:
-    provider: '{{ provider }}'
-    rule_name: 'Prod-Legacy 1'
-    state: 'disable'
+    name: 'myRule'
+    description: 'Made by Ansible'
+    nat_type: 'ipv4'
+    from_zones: ['Trust-L3']
+    to_zones: ['Untrusted-L3']
+    to_interface: 'ethernet1/1'
+    service: 'any'
+    source_addresses: ['any']
+    destination_addresses: ['any']
+    source_translation_type: 'dynamic-ip-and-port'
+    source_translation_address_type: 'interface-address'
+    source_translation_interface: 'ethernet1/1'
 """
 
 RETURN = """
@@ -239,149 +257,65 @@ RETURN = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
-    eltostr,
     get_connection,
 )
-
-try:
-    from panos.errors import PanDeviceError
-    from panos.policies import NatRule
-except ImportError:
-    try:
-        from pandevice.errors import PanDeviceError
-        from pandevice.policies import NatRule
-    except ImportError:
-        pass
-
-
-def create_nat_rule(**kwargs):
-    nat_rule = NatRule(
-        name=kwargs["rule_name"],
-        uuid=kwargs["uuid"],
-        description=kwargs["description"],
-        fromzone=kwargs["source_zone"],
-        source=kwargs["source_ip"],
-        tozone=kwargs["destination_zone"],
-        destination=kwargs["destination_ip"],
-        service=kwargs["service"],
-        to_interface=kwargs["to_interface"],
-        nat_type=kwargs["nat_type"],
-        group_tag=kwargs["group_tag"],
-    )
-
-    # Source translation: Static IP
-    if kwargs["snat_type"] in ["static-ip"] and kwargs["snat_static_address"]:
-        nat_rule.source_translation_type = kwargs["snat_type"]
-        nat_rule.source_translation_static_translated_address = kwargs[
-            "snat_static_address"
-        ]
-        # Bi-directional flag set?
-        if kwargs["snat_bidirectional"]:
-            nat_rule.source_translation_static_bi_directional = kwargs[
-                "snat_bidirectional"
-            ]
-
-    # Source translation: Dynamic IP and port
-    elif kwargs["snat_type"] in ["dynamic-ip-and-port"]:
-        nat_rule.source_translation_type = kwargs["snat_type"]
-        nat_rule.source_translation_address_type = kwargs["snat_address_type"]
-        # Interface address?
-        if kwargs["snat_interface"]:
-            nat_rule.source_translation_interface = kwargs["snat_interface"]
-            # Interface IP?
-            if kwargs["snat_interface_address"]:
-                nat_rule.source_translation_ip_address = kwargs[
-                    "snat_interface_address"
-                ]
-        else:
-            nat_rule.source_translation_translated_addresses = kwargs[
-                "snat_dynamic_address"
-            ]
-
-    # Source translation: Dynamic IP
-    elif kwargs["snat_type"] in ["dynamic-ip"]:
-        if kwargs["snat_dynamic_address"]:
-            nat_rule.source_translation_type = kwargs["snat_type"]
-            nat_rule.source_translation_translated_addresses = kwargs[
-                "snat_dynamic_address"
-            ]
-        else:
-            return False
-
-    # Destination translation
-    if kwargs["dnat_address"]:
-        nat_rule.destination_translated_address = kwargs["dnat_address"]
-        if kwargs["dnat_port"]:
-            nat_rule.destination_translated_port = kwargs["dnat_port"]
-
-    # Dynamic destination translation
-    if kwargs["dnat_dynamic_address"]:
-        nat_rule.destination_dynamic_translated_address = kwargs["dnat_dynamic_address"]
-    if kwargs["dnat_dynamic_port"]:
-        nat_rule.destination_dynamic_translated_port = kwargs["dnat_dynamic_port"]
-    if kwargs["dnat_dynamic_distribution"]:
-        nat_rule.destination_dynamic_translated_distribution = kwargs[
-            "dnat_dynamic_distribution"
-        ]
-
-    # Any tags?
-    if "tag_val" in kwargs:
-        nat_rule.tag = kwargs["tag_val"]
-
-    nat_rule.target = kwargs["target"]
-    nat_rule.negate_target = kwargs["negate_target"]
-
-    return nat_rule
 
 
 def main():
     helper = get_connection(
-        with_classic_provider_spec=True,
         vsys=True,
         device_group=True,
         rulebase=True,
+        with_network_resource_module_state=True,
+        with_gathered_filter=True,
+        with_classic_provider_spec=True,
         error_on_firewall_shared=True,
-        min_pandevice_version=(1, 5, 0),
+        min_pandevice_version=(1, 7, 3),
         with_uuid=True,
-        with_commit=True,
         with_target=True,
         with_movement=True,
         with_audit_comment=True,
-        argument_spec=dict(
-            rule_name=dict(required=True),
+        sdk_cls=("policies", "NatRule"),
+        sdk_params=dict(
+            name=dict(required=True),
             description=dict(),
             nat_type=dict(default="ipv4", choices=["ipv4", "nat64", "nptv6"]),
-            source_zone=dict(type="list", elements="str"),
-            source_ip=dict(type="list", elements="str", default=["any"]),
-            destination_zone=dict(type="str"),
-            destination_ip=dict(type="list", elements="str", default=["any"]),
-            to_interface=dict(default="any"),
-            service=dict(default="any"),
-            snat_type=dict(choices=["static-ip", "dynamic-ip-and-port", "dynamic-ip"]),
-            snat_address_type=dict(
-                choices=["interface-address", "translated-address"],
-                default="interface-address",
+            from_zones=dict(type="list", elements="str", sdk_param="fromzone"),
+            to_zones=dict(type="list", elements="str", sdk_param="tozone"),
+            to_interface=dict(),
+            service=dict(),
+            source_addresses=dict(type="list", elements="str", sdk_param="source"),
+            destination_addresses=dict(
+                type="list", elements="str", sdk_param="destination"
             ),
-            snat_static_address=dict(),
-            snat_dynamic_address=dict(type="list", elements="str"),
-            snat_interface=dict(),
-            snat_interface_address=dict(),
-            snat_bidirectional=dict(type="bool"),
-            dnat_address=dict(),
-            dnat_port=dict(),
-            dnat_dynamic_address=dict(),
-            dnat_dynamic_port=dict(type="int"),
-            dnat_dynamic_distribution=dict(),
-            tag=dict(type="list", elements="str"),
-            state=dict(
-                type="str",
-                default="present",
-                choices=["present", "absent", "enable", "disable"],
+            source_translation_type=dict(
+                choices=["dynamic-ip-and-port", "dynamic-ip", "static-ip"]
             ),
-            # TODO(gfreeman) - remove later.
-            tag_name=dict(),
-            devicegroup=dict(),
-            operation=dict(),
+            source_translation_address_type=dict(
+                choices=["interface-address", "translated-address"]
+            ),
+            source_translation_interface=dict(),
+            source_translation_ip_address=dict(),
+            source_translation_translated_addresses=dict(type="list", elements="str"),
+            source_translation_fallback_type=dict(
+                choices=["translated-address", "interface-address"]
+            ),
+            source_translation_fallback_translated_addresses=dict(
+                type="list", elements="str"
+            ),
+            source_translation_fallback_interface=dict(),
+            source_translation_fallback_ip_type=dict(choices=["ip", "floating-ip"]),
+            source_translation_fallback_ip_address=dict(),
+            source_translation_static_translated_address=dict(),
+            source_translation_static_bi_directional=dict(type="bool"),
+            destination_translated_address=dict(),
+            destination_translated_port=dict(type="int"),
+            ha_binding=dict(type="str", choices=["primary", "both", "0", "1"]),
+            disabled=dict(type="bool"),
+            tags=dict(type="list", elements="str", sdk_param="tag"),
+            destination_dynamic_translated_address=dict(),
+            destination_dynamic_translated_port=dict(type="int"),
+            destination_dynamic_translated_distribution=dict(),
             group_tag=dict(),
         ),
     )
@@ -392,150 +326,7 @@ def main():
         required_one_of=helper.required_one_of,
     )
 
-    module.deprecate(
-        "This module has been deprecated; use panos_nat_rule2 instead",
-        version="4.0.0",
-        collection_name="paloaltonetworks.panos",
-    )
-
-    # TODO(gfreeman) - remove later.
-    if module.params["operation"] is not None:
-        module.fail_json(msg='Param "operation" is removed; use "state"')
-    if module.params["devicegroup"] is not None:
-        module.deprecate(
-            'Param "devicegroup" is deprecated; use "device_group"',
-            version="4.0.0",
-            collection_name="paloaltonetworks.panos",
-        )
-        module.params["device_group"] = module.params["devicegroup"]
-    if module.params["tag_name"] is not None:
-        tag_val = module.params["tag_name"]
-        module.deprecate(
-            'Param "tag_name" is deprecated; use "tag"',
-            version="4.0.0",
-            collection_name="paloaltonetworks.panos",
-        )
-        if module.params["tag"]:
-            module.fail_json(msg='Both "tag" and "tag_name" specified, use only one')
-    else:
-        tag_val = module.params["tag"]
-
-    parent = helper.get_pandevice_parent(module)
-
-    # Get object params.
-    rule_name = module.params["rule_name"]
-    description = module.params["description"]
-    source_zone = module.params["source_zone"]
-    source_ip = module.params["source_ip"]
-    destination_zone = module.params["destination_zone"]
-    destination_ip = module.params["destination_ip"]
-    service = module.params["service"]
-    to_interface = module.params["to_interface"]
-    nat_type = module.params["nat_type"]
-    snat_type = module.params["snat_type"]
-    snat_address_type = module.params["snat_address_type"]
-    snat_static_address = module.params["snat_static_address"]
-    snat_dynamic_address = module.params["snat_dynamic_address"]
-    snat_interface = module.params["snat_interface"]
-    snat_interface_address = module.params["snat_interface_address"]
-    snat_bidirectional = module.params["snat_bidirectional"]
-    dnat_address = module.params["dnat_address"]
-    dnat_port = module.params["dnat_port"]
-    dnat_dynamic_address = module.params["dnat_dynamic_address"]
-    dnat_dynamic_port = module.params["dnat_dynamic_port"]
-    dnat_dynamic_distribution = module.params["dnat_dynamic_distribution"]
-
-    # Get other info.
-    state = module.params["state"]
-    location = module.params["location"]
-    existing_rule = module.params["existing_rule"]
-    target = module.params["target"]
-    negate_target = module.params["negate_target"]
-
-    # Sanity check the location / existing_rule params.
-    if location in ("before", "after") and not existing_rule:
-        module.fail_json(
-            msg="'existing_rule' must be specified if location is 'before' or 'after'."
-        )
-
-    # Create the desired rule.
-    new_rule = create_nat_rule(
-        rule_name=rule_name,
-        uuid=module.params["uuid"],
-        description=description,
-        tag_val=tag_val,
-        source_zone=source_zone,
-        destination_zone=destination_zone,
-        source_ip=source_ip,
-        destination_ip=destination_ip,
-        service=service,
-        to_interface=to_interface,
-        nat_type=nat_type,
-        snat_type=snat_type,
-        snat_address_type=snat_address_type,
-        snat_static_address=snat_static_address,
-        snat_dynamic_address=snat_dynamic_address,
-        snat_interface=snat_interface,
-        snat_interface_address=snat_interface_address,
-        snat_bidirectional=snat_bidirectional,
-        dnat_address=dnat_address,
-        dnat_port=dnat_port,
-        dnat_dynamic_address=dnat_dynamic_address,
-        dnat_dynamic_port=dnat_dynamic_port,
-        dnat_dynamic_distribution=dnat_dynamic_distribution,
-        target=target,
-        negate_target=negate_target,
-        group_tag=module.params["group_tag"],
-    )
-
-    if not new_rule:
-        module.fail_json(msg="Incorrect NAT rule params specified; quitting")
-
-    # Perform the desired operation.
-    resp = {}
-    if state in ("enable", "disable"):
-        # Get the current NAT rules.
-        try:
-            rules = NatRule.refreshall(parent)
-        except PanDeviceError as e:
-            module.fail_json(msg="Failed NAT refreshall: {0}".format(e))
-
-        resp = {"changed": False, "diff": None}
-        for rule in rules:
-            if rule.name == new_rule.name:
-                break
-        else:
-            module.fail_json(msg='Rule "{0}" not present'.format(new_rule.name))
-        if state == "enable" and rule.disabled:
-            resp["changed"] = True
-        elif state == "disable" and not rule.disabled:
-            resp["changed"] = True
-        if resp["changed"]:
-            resp["diff"] = dict(before=eltostr(rule))
-            rule.disabled = not rule.disabled
-            resp["diff"]["after"] = eltostr(rule)
-            if not module.check_mode:
-                try:
-                    rule.update("disabled")
-                except PanDeviceError as e:
-                    module.fail_json(msg="Failed enable: {0}".format(e))
-    else:
-        parent.add(new_rule)
-        resp = helper.apply_state(new_rule, module=module)
-        if state == "present":
-            resp["changed"] |= helper.apply_position(
-                new_rule, location, existing_rule, module
-            )
-
-    # Audit comment.
-    if resp["changed"] and module.params["audit_comment"] and not module.check_mode:
-        new_rule.opstate.audit_comment.update(module.params["audit_comment"])
-
-    if resp["changed"] and module.params["commit"]:
-        helper.commit(module)
-
-    resp["msg"] = "Done"
-    module.exit_json(**resp)
+    helper.process(module)
 
 
 if __name__ == "__main__":
