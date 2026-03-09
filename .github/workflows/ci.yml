@@ -88,12 +88,21 @@ jobs:
     strategy:
       matrix:
         include:
+          # Note; 2.16 and 2.17 is still needed for AAP support for customers using the rhel8 base image
           - ansible: "2.16"
             python_ver: "3.11"
           - ansible: "2.17"
             python_ver: "3.11"
           - ansible: "2.18"
             python_ver: "3.11"
+          - ansible: "2.18"
+            python_ver: "3.12"
+          - ansible: "2.19"
+            python_ver: "3.11"
+          - ansible: "2.19"
+            python_ver: "3.12"
+          - ansible: "2.20"
+            python_ver: "3.12"
     runs-on: ubuntu-latest
     defaults:
       run:
