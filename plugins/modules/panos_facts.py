@@ -226,7 +226,6 @@ ansible_net_routing_table:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.six import iteritems
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
 )
@@ -590,7 +589,7 @@ def main():
 
     ansible_facts = dict()
 
-    for key, value in iteritems(facts):
+    for key, value in facts.items():
         key = "ansible_net_%s" % key
         ansible_facts[key] = value
 

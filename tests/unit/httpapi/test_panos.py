@@ -6,8 +6,8 @@ from unittest import mock
 from unittest.mock import call, patch
 
 import pytest
+from io import BytesIO
 from ansible.module_utils.basic import to_text
-from ansible.module_utils.six import BytesIO
 from ansible.module_utils.six.moves import urllib
 from ansible_collections.mrichardson03.panos.plugins.httpapi.panos import (
     HttpApi,

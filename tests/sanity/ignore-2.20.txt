@@ -116,5 +116,3 @@ plugins/modules/panos_logical_router_vrf.py validate-modules:missing-gplv3-licen
 plugins/modules/panos_logical_router_vrf_ospf_area.py validate-modules:missing-gplv3-license
 plugins/modules/panos_logical_router_vrf_ospf_area_interface.py validate-modules:missing-gplv3-license
 plugins/modules/panos_logical_router_vrf_static_route.py validate-modules:missing-gplv3-license
-plugins/modules/panos_facts.py pylint:ansible-bad-import-from
-tests/unit/httpapi/test_panos.py pylint:ansible-bad-import-from
