@@ -141,6 +141,11 @@ except ImportError:
     except ImportError:
         pass
 
+# Base image versions that differ from the default X.Y.0 pattern.
+# Add entries here when a major.minor train uses a non-zero patch as its base image.
+BASE_IMAGE_OVERRIDES = {
+    (12, 1): "12.1.2",
+}
 
 def needs_download(device, version):
     device.software.info()
@@ -301,8 +306,13 @@ def main():
             if download and (
                 (current.major != target.major) or (current.minor != target.minor)
             ):
-                base = PanOSVersion("{0}.{1}.0".format(target.major, target.minor))
 
+                _base_str = BASE_IMAGE_OVERRIDES.get(
+                    (target.major, target.minor),
+                    "{0}.{1}.0".format(target.major, target.minor),
+                )
+                base = PanOSVersion(_base_str)
+                
                 if needs_download(device, base) and not module.check_mode:
                     device.software.download(base, sync_to_peer, sync=True)
                     changed = True
