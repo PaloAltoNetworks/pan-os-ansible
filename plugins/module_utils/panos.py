@@ -160,6 +160,7 @@ class ConnectionHelper(object):
         self.with_set_zone_reference = False
         self.with_set_virtual_router_reference = False
         self.with_set_vlan_interface_reference = False
+        self.with_set_logical_router_reference = False
 
         # The PAN-OS device.
         self.device = None
@@ -786,7 +787,16 @@ class ConnectionHelper(object):
                     )
                 except PanDeviceError as e:
                     module.fail_json(msg="Failed set_zone: {0}".format(e))
-            if self.with_set_virtual_router_reference:
+
+            if self.with_set_logical_router_reference and module.params.get("lr_name"):
+                try:
+                    result["changed"] |= obj.set_logical_router(
+                        module.params["lr_name"],
+                        **ref_spec,
+                    )
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_logical-router: {0}".format(e))
+            elif self.with_set_virtual_router_reference:
                 try:
                     result["changed"] |= obj.set_virtual_router(
                         module.params["vr_name"],
@@ -801,6 +811,11 @@ class ConnectionHelper(object):
                     result["changed"] |= obj.set_virtual_router(None, **ref_spec)
                 except PanDeviceError as e:
                     module.fail_json(msg="Failed set_virtual_router: {0}".format(e))
+            if self.with_set_logical_router_reference:
+                try:
+                    result["changed"] |= obj.set_logical_router(None, **ref_spec)
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_logical_router: {0}".format(e))
             if self.with_set_vlan_reference:
                 try:
                     result["changed"] |= obj.set_vlan(None, **ref_spec)
@@ -945,7 +960,19 @@ class ConnectionHelper(object):
                     )
                 except PanDeviceError as e:
                     module.fail_json(msg="Failed set_zone: {0}".format(e))
-            if self.with_set_virtual_router_reference and module.params["vr_name"]:
+
+            # If logical_router is provided, we set it and do not attempt to set it on the VR as well
+            if self.with_set_logical_router_reference and module.get("lr_name"):
+                try:
+                    result["changed"] |= obj.set_logical_router(
+                        module.params["lr_name"],
+                        **ref_spec,
+                    )
+                except PanDeviceError as e:
+                    module.fail_json(msg="Failed set_logical_router: {0}".format(e))
+            elif self.with_set_virtual_router_reference and module.params.get(
+                "vr_name"
+            ):
                 try:
                     result["changed"] |= obj.set_virtual_router(
                         module.params["vr_name"],
@@ -1464,6 +1491,7 @@ def get_connection(
     with_set_vlan_interface_reference=False,
     virtual_router_reference_default="default",
     default_zone_mode=None,
+    with_set_logical_router_reference=False,
 ):
     """Returns a helper object that handles pandevice object tree init.
 
@@ -1561,7 +1589,8 @@ def get_connection(
         virtual_router_reference_default(str): The default value for the virtual router
             reference.
         default_zone_mode(str): The default zone mode when with_set_zone_reference=True.
-
+        with_set_logical_router_reference(bool): Module should do `set_logical_router()`
+            in apply_state().
     Returns:
         ConnectionHelper
     """
@@ -1878,6 +1907,14 @@ def get_connection(
         if virtual_router_reference_default is not None:
             spec["vr_name"]["default"] = virtual_router_reference_default
         helper.with_set_virtual_router_reference = True
+
+    if with_set_logical_router_reference:
+        if "lr_name" in spec:
+            raise Exception("setref: spec already contains 'lr_name'")
+        spec["lr_name"] = {}
+        # Note; we do not set a default logical router. The user must provide lr_name when using ARE.
+        # In the future we can swap this logic so there is no default VR set
+        helper.with_set_logical_router_reference = True
 
     if with_set_vlan_interface_reference:
         if "vlan_name" in spec:
