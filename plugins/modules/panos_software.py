@@ -147,6 +147,7 @@ BASE_IMAGE_OVERRIDES = {
     (12, 1): "12.1.2",
 }
 
+
 def needs_download(device, version):
     device.software.info()
 
@@ -312,7 +313,7 @@ def main():
                     "{0}.{1}.0".format(target.major, target.minor),
                 )
                 base = PanOSVersion(_base_str)
-                
+
                 if needs_download(device, base) and not module.check_mode:
                     device.software.download(base, sync_to_peer, sync=True)
                     changed = True
