@@ -1062,6 +1062,8 @@ class ConnectionHelper(object):
             obj_index = listing.index(uid)
             rule = rules[obj_index]
         except ValueError:
+            if module.check_mode:
+                return True
             module.fail_json(msg="Object {0} isn't present for move".format(uid))
 
         if location == "top":
