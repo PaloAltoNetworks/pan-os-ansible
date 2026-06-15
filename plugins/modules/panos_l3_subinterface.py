@@ -117,6 +117,11 @@ options:
             - Virtual router to add this interface to.
         type: str
         default: 'default'
+    lr_name:
+        description:
+            - Logical router to add this interface to. Takes precedence over 'vr_name' and has no default.
+        type: str
+        version_added: 3.4.0
 """
 
 EXAMPLES = """
@@ -137,6 +142,18 @@ EXAMPLES = """
     tag: 7
     enable_dhcp: false
     ip: ["10.1.1.1/24"]
+    zone_name: "dmz"
+
+# Create ethernet1/3.9 as static in zone dmz in logical router (ARE) 'lr1'.
+# Logical router will be created if not exists
+- name: ethernet1/3.9 as static in zone dmz in logical router lr1
+  paloaltonetworks.panos.panos_l3_subinterface:
+    provider: '{{ provider }}'
+    name: "ethernet1/3.9"
+    tag: 9
+    enable_dhcp: false
+    ip: ["10.1.1.1/24"]
+    lr_name: 'lr1'
     zone_name: "dmz"
 """
 
@@ -223,6 +240,7 @@ def main():
         with_set_vsys_reference=True,
         with_set_zone_reference=True,
         with_set_virtual_router_reference=True,
+        with_set_logical_router_reference=True,
         default_zone_mode="layer3",
         sdk_cls=("network", "Layer3Subinterface"),
         sdk_params=dict(

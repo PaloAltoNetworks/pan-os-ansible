@@ -79,6 +79,11 @@ options:
         description:
             - Name of the virtual router; it must already exist.
         type: str
+    lr_name:
+        description:
+            - Logical router to add this interface to. Takes precedence over 'vr_name' and has no default.
+        type: str
+        version_added: 3.4.0
     vsys_dg:
         description:
             - B(Deprecated)
@@ -103,6 +108,15 @@ EXAMPLES = """
     if_name: "tunnel.1"
     ip: ["10.1.1.1/32"]
     comment: "tunnel interface"
+
+# Create tunnel.2 in logical router (ARE) 'lr1'.
+# Logical router will be created if not exists
+- name: create tunnel.2 in logical router lr1
+  paloaltonetworks.panos.panos_tunnel:
+    provider: '{{ provider }}'
+    if_name: "tunnel.2"
+    ip: ["10.1.1.2/32"]
+    lr_name: 'lr1'
 """
 
 RETURN = """
@@ -161,6 +175,7 @@ def main():
         with_set_vsys_reference=True,
         with_set_zone_reference=True,
         with_set_virtual_router_reference=True,
+        with_set_logical_router_reference=True,
         virtual_router_reference_default=None,
         default_zone_mode="layer3",
         sdk_cls=("network", "TunnelInterface"),

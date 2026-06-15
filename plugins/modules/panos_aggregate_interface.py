@@ -146,6 +146,11 @@ options:
             - The virtual router to associate with this interface.
         type: str
         default: default
+    lr_name:
+        description:
+            - Logical router to add this interface to. Takes precedence over 'vr_name' and has no default.
+        type: str
+        version_added: 3.4.0
 """
 
 EXAMPLES = """
@@ -156,6 +161,16 @@ EXAMPLES = """
     if_name: "ae1"
     ip: '[ "192.168.0.1" ]'
     zone_name: 'untrust'
+
+# Create ae2 interface in logical router (ARE) 'lr1'.
+# Logical router will be created if not exists
+- name: create ae2 interface in zone dmz in logical router lr1
+  paloaltonetworks.panos.panos_aggregate_interface:
+    provider: '{{ provider }}'
+    if_name: "ae2"
+    ip: '[ "10.1.1.1/24" ]'
+    lr_name: 'lr1'
+    zone_name: 'dmz'
 """
 
 RETURN = """
@@ -189,6 +204,7 @@ def main():
         with_set_vsys_reference=True,
         with_set_zone_reference=True,
         with_set_virtual_router_reference=True,
+        with_set_logical_router_reference=True,
         with_gathered_filter=True,
         min_pandevice_version=(1, 9, 0),
         sdk_cls=("network", "AggregateInterface"),

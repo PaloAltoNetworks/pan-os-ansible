@@ -110,6 +110,11 @@ options:
         description:
             - Name of the virtual router
         type: str
+    lr_name:
+        description:
+            - Logical router to add this interface to. Takes precedence over 'vr_name' and has no default.
+        type: str
+        version_added: 3.4.0
 """
 
 EXAMPLES = """
@@ -132,6 +137,17 @@ EXAMPLES = """
     vlan_name: "dmz"
     zone_name: "L3-untrust"
     vr_name: "default"
+
+# Create vlan.9 in logical router (ARE) 'lr1'.
+# Logical router will be created if not exists
+- name: Configure vlan.9 in logical router lr1
+  paloaltonetworks.panos.panos_vlan_interface:
+    provider: '{{ provider }}'
+    name: "vlan.9"
+    ip: ["10.1.1.9/24"]
+    vlan_name: "dmz"
+    zone_name: "L3-untrust"
+    lr_name: 'lr1'
 """
 
 RETURN = """
@@ -175,6 +191,7 @@ def main():
         with_set_zone_reference=True,
         with_set_vlan_interface_reference=True,
         with_set_virtual_router_reference=True,
+        with_set_logical_router_reference=True,
         virtual_router_reference_default=None,
         default_zone_mode="layer3",
         sdk_cls=("network", "VlanInterface"),

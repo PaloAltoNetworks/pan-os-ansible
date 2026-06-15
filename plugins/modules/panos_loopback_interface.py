@@ -94,6 +94,11 @@ options:
             - Name of the virtual router; it must already exist.
         type: str
         default: "default"
+    lr_name:
+        description:
+            - Logical router to add this interface to. Takes precedence over 'vr_name' and has no default.
+        type: str
+        version_added: 3.4.0
     vsys_dg:
         description:
             - B(Deprecated)
@@ -118,6 +123,15 @@ EXAMPLES = """
     if_name: "loopback.1"
     ip: ["10.1.1.1/32"]
     comment: "Loopback iterface"
+
+# Create loopback.2 in logical router (ARE) 'lr1'.
+# Logical router will be created if not exists
+- name: create loopback.2 in logical router lr1
+  paloaltonetworks.panos.panos_loopback_interface:
+    provider: '{{ provider }}'
+    if_name: "loopback.2"
+    ip: ["10.1.1.2/32"]
+    lr_name: 'lr1'
 """
 
 RETURN = """
@@ -176,6 +190,7 @@ def main():
         with_set_vsys_reference=True,
         with_set_zone_reference=True,
         with_set_virtual_router_reference=True,
+        with_set_logical_router_reference=True,
         default_zone_mode="layer3",
         sdk_cls=("network", "LoopbackInterface"),
         sdk_params=dict(

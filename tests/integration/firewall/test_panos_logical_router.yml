@@ -3,7 +3,7 @@
 
 - name: Set vars
   set_fact:
-    LR_NAME: "Test-LR"
+    LR_NAME: '{{ LR_NAME | default("Test-LR") }}'
     VRF_NAME: "default"
     STATIC_ROUTE_NAME: "test-route-1"
     OSPF_AREA_NAME: "0.0.0.0"
@@ -12,6 +12,16 @@
   paloaltonetworks.panos.panos_logical_router:
     provider: '{{ device }}'
     name: '{{ LR_NAME }}'
+    template: '{{ template | default(omit) }}'
+  register: result
+
+- name: test_panos_interface - Add an interface via the panos_interface module
+  paloaltonetworks.panos.panos_interface:
+    provider: '{{ device }}'
+    if_name: 'ethernet1/3'
+    mode: 'layer3'
+    zone_name: 'are'
+    lr_name: '{{ LR_NAME }}'
     template: '{{ template | default(omit) }}'
   register: result
 
