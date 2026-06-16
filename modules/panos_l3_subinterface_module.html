@@ -215,7 +215,7 @@
 <h1>paloaltonetworks.panos.panos_l3_subinterface module – Manage layer3 subinterface<a class="headerlink" href="#paloaltonetworks-panos-panos-l3-subinterface-module-manage-layer3-subinterface" title="Link to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/">paloaltonetworks.panos collection</a> (version 3.2.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/">paloaltonetworks.panos collection</a> (version 3.3.0).</p>
 <p>It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">paloaltonetworks.panos</span></code>.
@@ -367,41 +367,49 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-lr_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-lr-name"><strong>lr_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-lr_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<p><em class="ansible-option-versionadded">added in paloaltonetworks.panos 3.4.0</em></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Logical router to add this interface to. Takes precedence over ‘vr_name’ and has no default.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-management_profile"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-management-profile"><strong>management_profile</strong></p>
 <a class="ansibleOptionLink" href="#parameter-management_profile" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Interface management profile name.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-mtu"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-mtu"><strong>mtu</strong></p>
 <a class="ansibleOptionLink" href="#parameter-mtu" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>MTU for layer3 interface.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name of the interface to configure.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-netflow_profile"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-netflow-profile"><strong>netflow_profile</strong></p>
 <a class="ansibleOptionLink" href="#parameter-netflow_profile" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Netflow profile for layer3 interface.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-parent_interface"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-parent-interface"><strong>parent_interface</strong></p>
 <a class="ansibleOptionLink" href="#parameter-parent_interface" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Name of the parent interface</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-password"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-password"><strong>password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -410,7 +418,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <hr><p>The password to use for authentication. This is ignored if <em>api_key</em> is specified.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-port"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-port"><strong>port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -420,7 +428,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">443</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-provider"><strong>provider</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 <p><em class="ansible-option-versionadded">added in paloaltonetworks.panos 1.0.0</em></p>
@@ -428,28 +436,28 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <td><div class="ansible-option-cell"><p>A dict object containing connection details.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/api_key"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-provider-api-key"><strong>api_key</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/api_key" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The API key to use instead of generating it using <em>username</em> / <em>password</em>.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/ip_address"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-provider-ip-address"><strong>ip_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The IP address or hostname of the PAN-OS device being configured.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/password"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-provider-password"><strong>password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The password to use for authentication. This is ignored if <em>api_key</em> is specified.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/port"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-provider-port"><strong>port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -457,14 +465,14 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">443</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/serial_number"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-provider-serial-number"><strong>serial_number</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/serial_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The serial number of a firewall to use for targeted commands. If <em>ip_address</em> is not a Panorama PAN-OS device, then this param is ignored.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provider/username"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-provider-username"><strong>username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-provider/username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -472,7 +480,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;admin&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -488,21 +496,21 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-tag"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-tag"><strong>tag</strong></p>
 <a class="ansibleOptionLink" href="#parameter-tag" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Tag (vlan id) for the interface</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-template"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-template"><strong>template</strong></p>
 <a class="ansibleOptionLink" href="#parameter-template" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>(Panorama only) The template this operation should target. This param is required if the PAN-OS device is Panorama.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-username"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-username"><strong>username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -512,7 +520,7 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;admin&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-vr_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-vr-name"><strong>vr_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-vr_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -520,14 +528,14 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">&quot;default&quot;</span></code></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-vsys"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-vsys"><strong>vsys</strong></p>
 <a class="ansibleOptionLink" href="#parameter-vsys" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The vsys this object should be imported into. Objects that are imported include interfaces, virtual routers, virtual wires, and VLANs. Interfaces are typically imported into vsys1 if no vsys is specified.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-zone_name"></div><p class="ansible-option-title" id="ansible-collections-paloaltonetworks-panos-panos-l3-subinterface-module-parameter-zone-name"><strong>zone_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-zone_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -570,6 +578,18 @@ see <a class="reference internal" href="#ansible-collections-paloaltonetworks-pa
 <span class="w">    </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
 <span class="w">    </span><span class="nt">enable_dhcp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;10.1.1.1/24&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">zone_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dmz&quot;</span>
+
+<span class="c1"># Create ethernet1/3.9 as static in zone dmz in logical router (ARE) &#39;lr1&#39;.</span>
+<span class="c1"># Logical router will be created if not exists</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ethernet1/3.9 as static in zone dmz in logical router lr1</span>
+<span class="w">  </span><span class="nt">paloaltonetworks.panos.panos_l3_subinterface</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">provider</span> <span class="cp">}}</span><span class="s">&#39;</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ethernet1/3.9&quot;</span>
+<span class="w">    </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9</span>
+<span class="w">    </span><span class="nt">enable_dhcp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">ip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;10.1.1.1/24&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">lr_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;lr1&#39;</span>
 <span class="w">    </span><span class="nt">zone_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dmz&quot;</span>
 </pre></div>
 </div>

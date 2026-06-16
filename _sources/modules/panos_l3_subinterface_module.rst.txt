@@ -22,7 +22,7 @@ paloaltonetworks.panos.panos_l3_subinterface module -- Manage layer3 subinterfac
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.2.0).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -543,6 +543,43 @@ Parameters
         <div class="ansible-option-cell">
 
       (7.1+) TCP MSS adjustment for IPv6.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lr_name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_l3_subinterface_module__parameter-lr_name:
+
+      .. rst-class:: ansible-option-title
+
+      **lr_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lr_name" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 3.4.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Logical router to add this interface to. Takes precedence over 'vr\_name' and has no default.
 
 
       .. raw:: html
@@ -1416,6 +1453,18 @@ Examples
         tag: 7
         enable_dhcp: false
         ip: ["10.1.1.1/24"]
+        zone_name: "dmz"
+
+    # Create ethernet1/3.9 as static in zone dmz in logical router (ARE) 'lr1'.
+    # Logical router will be created if not exists
+    - name: ethernet1/3.9 as static in zone dmz in logical router lr1
+      paloaltonetworks.panos.panos_l3_subinterface:
+        provider: '{{ provider }}'
+        name: "ethernet1/3.9"
+        tag: 9
+        enable_dhcp: false
+        ip: ["10.1.1.1/24"]
+        lr_name: 'lr1'
         zone_name: "dmz"
 
 

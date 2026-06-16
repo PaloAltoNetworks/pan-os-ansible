@@ -22,7 +22,7 @@ paloaltonetworks.panos.panos_vlan_interface module -- Manage VLAN interfaces
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.2.0).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -543,6 +543,43 @@ Parameters
         <div class="ansible-option-cell">
 
       (7.1+) TCP MSS adjustment for IPv6.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lr_name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_vlan_interface_module__parameter-lr_name:
+
+      .. rst-class:: ansible-option-title
+
+      **lr_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lr_name" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 3.4.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Logical router to add this interface to. Takes precedence over 'vr\_name' and has no default.
 
 
       .. raw:: html
@@ -1384,6 +1421,17 @@ Examples
         vlan_name: "dmz"
         zone_name: "L3-untrust"
         vr_name: "default"
+
+    # Create vlan.9 in logical router (ARE) 'lr1'.
+    # Logical router will be created if not exists
+    - name: Configure vlan.9 in logical router lr1
+      paloaltonetworks.panos.panos_vlan_interface:
+        provider: '{{ provider }}'
+        name: "vlan.9"
+        ip: ["10.1.1.9/24"]
+        vlan_name: "dmz"
+        zone_name: "L3-untrust"
+        lr_name: 'lr1'
 
 
 

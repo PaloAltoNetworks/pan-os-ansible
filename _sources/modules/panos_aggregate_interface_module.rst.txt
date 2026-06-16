@@ -22,7 +22,7 @@ paloaltonetworks.panos.panos_aggregate_interface module -- Manage aggregate netw
 .. Collection note
 
 .. note::
-    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.2.0).
+    This module is part of the `paloaltonetworks.panos collection <https://galaxy.ansible.com/ui/repo/published/paloaltonetworks/panos/>`_ (version 3.3.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -922,6 +922,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lr_name"></div>
+
+      .. _ansible_collections.paloaltonetworks.panos.panos_aggregate_interface_module__parameter-lr_name:
+
+      .. rst-class:: ansible-option-title
+
+      **lr_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lr_name" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in paloaltonetworks.panos 3.4.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Logical router to add this interface to. Takes precedence over 'vr\_name' and has no default.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-management_profile"></div>
 
       .. _ansible_collections.paloaltonetworks.panos.panos_aggregate_interface_module__parameter-management_profile:
@@ -1715,6 +1752,16 @@ Examples
         if_name: "ae1"
         ip: '[ "192.168.0.1" ]'
         zone_name: 'untrust'
+
+    # Create ae2 interface in logical router (ARE) 'lr1'.
+    # Logical router will be created if not exists
+    - name: create ae2 interface in zone dmz in logical router lr1
+      paloaltonetworks.panos.panos_aggregate_interface:
+        provider: '{{ provider }}'
+        if_name: "ae2"
+        ip: '[ "10.1.1.1/24" ]'
+        lr_name: 'lr1'
+        zone_name: 'dmz'
 
 
 
