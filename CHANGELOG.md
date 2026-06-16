@@ -1,3 +1,16 @@
+## [3.4.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.3.0...v3.4.0) (2026-06-16)
+
+
+### Features
+
+* Logical router argument support in interface modules ([#668](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/668)) ([d166510](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/d1665107f6c3f187bcc7ad1990f8e2f063b6789f))
+
+
+### Bug Fixes
+
+* **panos_software:** use correct base image for 12.1.x train ([#665](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/665)) ([#671](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/671)) ([69fb448](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/69fb448c71fcda544f45fc35d39eb70ef44b06ec))
+* Update requirements and CI to meet Validated Collection standards ([#657](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/657)) ([0ea91f8](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/0ea91f8711eba4028a7548774bc52a2cbfc4ae07))
+
 ## [3.3.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.2.0...v3.3.0) (2026-03-02)
 
 
