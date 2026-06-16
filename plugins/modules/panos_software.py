@@ -308,11 +308,11 @@ def main():
                 (current.major != target.major) or (current.minor != target.minor)
             ):
 
-                _base_str = BASE_IMAGE_OVERRIDES.get(
+                base_str = BASE_IMAGE_OVERRIDES.get(
                     (target.major, target.minor),
                     "{0}.{1}.0".format(target.major, target.minor),
                 )
-                base = PanOSVersion(_base_str)
+                base = PanOSVersion(base_str)
 
                 if needs_download(device, base) and not module.check_mode:
                     device.software.download(base, sync_to_peer, sync=True)
