@@ -78,6 +78,7 @@ RETURN = """
 """
 
 from ansible.module_utils.basic import AnsibleModule
+from xml.sax.saxutils import escape
 
 try:
     import pan.xapi
@@ -89,7 +90,7 @@ except ImportError:
 
 def load_cfgfile(xapi, module, ip_address, file_):
     # load configuration file
-    cmd = "<load><config><from>%s</from></config></load>" % file_
+    cmd = "<load><config><from>%s</from></config></load>" % escape(file_)
 
     xapi.op(cmd=cmd)
 
