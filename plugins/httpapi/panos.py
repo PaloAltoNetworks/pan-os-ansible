@@ -584,11 +584,6 @@ class HttpApi(HttpApiBase):
             }
         )
 
-        display.vvvv("send_request(): headers = {0}".format(headers))
-        display.vvvv("send_request(): method = {0}".format(method))
-        display.vvvv("send_request(): path = {0}".format(path))
-        display.vvvv("send_request(): data = {0}".format(data))
-
         try:
             response, response_data = self.connection.send(
                 path, data, method=method, headers=headers
