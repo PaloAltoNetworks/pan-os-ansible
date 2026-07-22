@@ -16,7 +16,7 @@ package-mode = false
 # Best compatible way is to use >= and < version range contraints.
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
-pan-os-python = ">=1.13.0,<2.0"
+pan-os-python = ">=1.13.1,<2.0"
 xmltodict = ">=0.12.0"
 aiohttp = ">=3.8.4"
 dpath = ">=2.1.5"
