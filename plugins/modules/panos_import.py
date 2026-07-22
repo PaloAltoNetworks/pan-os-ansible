@@ -134,7 +134,7 @@ options:
     verify:
         description:
             - If true, validates SSL certificates when importing files.
-        type: str
+        type: bool
         required: false
         default: false
 """
