@@ -131,6 +131,12 @@ options:
             - URL of the file that will be imported to device.
         type: str
         required: false
+    verify:
+        description:
+            - If true, validates SSL certificates when importing files.
+        type: str
+        required: false
+        default: false
 """
 
 EXAMPLES = """
@@ -212,13 +218,17 @@ except ImportError:
     HAS_LIB = False
 
 
-def import_file(module, xapi, filename, params):
+def import_file(module, xapi, filename, params, verify=False):
     params.update({"type": "import", "key": xapi.api_key})
 
     url = "https://{0}:{1}/api".format(xapi.hostname, xapi.port)
     files = {"file": open(filename, "rb")}
 
-    r = requests.post(url, params=params, files=files, verify=False)
+    try:
+        r = requests.post(url, params=params, files=files, verify=verify)
+    except requests.exceptions.SSLError:
+        module.fail_json(msg="SSL Verification failed, and 'verify' set to true.")
+
     response = xml.etree.ElementTree.fromstring(r.content)
 
     if r.status_code != 200 or response.attrib["status"] == "error":
@@ -305,6 +315,7 @@ def main():
             profile_name=dict(type="str"),
             filename=dict(type="str", aliases=["file"]),
             url=dict(),
+            verify=dict(type="bool", default=False),
         ),
     )
     module = AnsibleModule(
@@ -362,9 +373,11 @@ def main():
     elif module.params["template"] is not None:
         params["target-tpl"] = module.params["template"]
 
+    verify = module.params.get("verify", False)
+
     try:
         if not module.check_mode:
-            import_file(module, xapi, filename, params)
+            import_file(module, xapi, filename, params, verify=verify)
         changed = True
 
     except Exception as e:
