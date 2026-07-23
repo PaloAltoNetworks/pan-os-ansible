@@ -1,3 +1,13 @@
+### [3.4.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.4.0...v3.4.1) (2026-07-23)
+
+
+### Bug Fixes
+
+* Add verify parameter for ssl certs in panos_import ([36a4f95](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/36a4f95241b1414f86c6ddb8c0ae3ded6a438fb1))
+* Bump pan-os-python required version ([7987e5c](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/7987e5cd9945570b30418e0537e01aa49774a18f))
+* Escape potential user input in load_cfgfile ([b2cbd04](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/b2cbd04f015b9ba8be8024f6cf22e5fd84dc4b69))
+* Remove overly verbose display in httpapi ([e5ad585](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/e5ad58578a45a3a0d4f24fa6835cf6db75d9b0e8))
+
 ## [3.4.0](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.3.0...v3.4.0) (2026-06-16)
 
 
