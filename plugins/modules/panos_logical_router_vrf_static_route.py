@@ -112,7 +112,7 @@ EXAMPLES = """
     destination: 1.1.1.1/32
     nexthop: 192.168.10.1
     nexthop_type: ip-address
-    
+
 - name: Create Logic Router Static Route with No NextHop
   paloaltonetworks.panos.panos_logical_router_vrf_static_route:
     provider: '{{ provider }}'
@@ -131,8 +131,9 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
-    StaticRouteHelper
+    StaticRouteHelper,
 )
+
 
 def main():
     helper = get_connection(

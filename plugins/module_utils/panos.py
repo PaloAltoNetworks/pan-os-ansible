@@ -2010,10 +2010,9 @@ def get_nested_key(d, key_list):
     return reduce(lambda val, key: val.get(key) if val else None, key_list, d)
 
 
-
 class StaticRouteHelper(ConnectionHelper):
-    """Helper class that handles next-hop types with static routes
-    """
+    """Helper class that handles next-hop types with static routes"""
+
     def spec_handling(self, spec, module):
         if module.params["state"] == "present" and spec["nexthop_type"] is None:
             # need this because we dont have the default assignment in sdk-params and
