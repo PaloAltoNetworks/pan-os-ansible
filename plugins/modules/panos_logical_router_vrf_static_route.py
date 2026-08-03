@@ -120,11 +120,12 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
+    StaticRouteHelper
 )
-
 
 def main():
     helper = get_connection(
+        helper_cls=StaticRouteHelper,
         template=True,
         template_stack=True,
         with_network_resource_module_state=True,
@@ -139,7 +140,7 @@ def main():
         sdk_params=dict(
             name=dict(required=True),
             destination=dict(required=True),
-            nexthop_type=dict(choices=["ip-address", "discard", "next-lr"]),
+            nexthop_type=dict(choices=["ip-address", "discard", "next-lr", "none"]),
             nexthop=dict(),
             interface=dict(),
             admin_dist=dict(),
