@@ -61,12 +61,13 @@ options:
         type: str
     nexthop_type:
         description:
-            - ip-address, discard, or next-vr
+            - ip-address, discard, next-lr or literal "none"
         type: str
         choices:
             - "ip-address"
             - "discard"
             - "next-lr"
+            - "none"
     nexthop:
         description:
             - Next hop IP address or Next VR Name
@@ -103,14 +104,24 @@ options:
 """
 
 EXAMPLES = """
-- name: Create Logical Router
+- name: Create Logical Router Static Route
   paloaltonetworks.panos.panos_logical_router_vrf_static_route:
     provider: '{{ provider }}'
-    name: lr-1
+    name: test_static
     commit: true
     destination: 1.1.1.1/32
     nexthop: 192.168.10.1
     nexthop_type: ip-address
+    
+- name: Create Logic Router Static Route with No NextHop
+  paloaltonetworks.panos.panos_logical_router_vrf_static_route:
+    provider: '{{ provider }}'
+    name: "test_static_no_nexthop"
+    logical_router: lr-1
+    vrf_name: default
+    destination: 100.100.100.100/32
+    nexthop_type: none
+    interface: tunnel.199
 """
 
 RETURN = """
