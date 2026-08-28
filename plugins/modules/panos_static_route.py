@@ -154,7 +154,9 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 )
 
 
-class Helper(ConnectionHelper):
+class StaticRouteHelper(ConnectionHelper):
+    """Helper class that handles next-hop types with static routes"""
+
     def spec_handling(self, spec, module):
         if module.params["state"] == "present" and spec["nexthop_type"] is None:
             # need this because we dont have the default assignment in sdk-params and
@@ -192,7 +194,7 @@ class Helper(ConnectionHelper):
 
 def main():
     helper = get_connection(
-        helper_cls=Helper,
+        helper_cls=StaticRouteHelper,
         template=True,
         template_stack=True,
         with_network_resource_module_state=True,

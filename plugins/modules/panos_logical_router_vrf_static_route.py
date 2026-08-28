@@ -61,12 +61,13 @@ options:
         type: str
     nexthop_type:
         description:
-            - ip-address, discard, or next-vr
+            - ip-address, discard, next-lr or literal "none"
         type: str
         choices:
             - "ip-address"
             - "discard"
             - "next-lr"
+            - "none"
     nexthop:
         description:
             - Next hop IP address or Next VR Name
@@ -103,14 +104,24 @@ options:
 """
 
 EXAMPLES = """
-- name: Create Logical Router
+- name: Create Logical Router Static Route
   paloaltonetworks.panos.panos_logical_router_vrf_static_route:
     provider: '{{ provider }}'
-    name: lr-1
+    name: test_static
     commit: true
     destination: 1.1.1.1/32
     nexthop: 192.168.10.1
     nexthop_type: ip-address
+
+- name: Create Logic Router Static Route with No NextHop
+  paloaltonetworks.panos.panos_logical_router_vrf_static_route:
+    provider: '{{ provider }}'
+    name: "test_static_no_nexthop"
+    logical_router: lr-1
+    vrf_name: default
+    destination: 100.100.100.100/32
+    nexthop_type: none
+    interface: tunnel.199
 """
 
 RETURN = """
@@ -120,11 +131,51 @@ RETURN = """
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos import (
     get_connection,
+    ConnectionHelper,
 )
+
+
+class StaticRouteHelper(ConnectionHelper):
+    """Helper class that handles next-hop types with static routes"""
+
+    def spec_handling(self, spec, module):
+        if module.params["state"] == "present" and spec["nexthop_type"] is None:
+            # need this because we dont have the default assignment in sdk-params and
+            # `None` value params are being removed in ParamPath.element method (called via VersionedPanObject.element)
+            spec["nexthop_type"] = "ip-address"
+
+        # default to ip-address when nexthop is set in merged state
+        # we dont know if object exists or not in merged state, and we dont set default values in module invocation
+        # in order to avoid unintended updates to non-provided params, but if nexthop is given, type must be ip-address
+        if (
+            module.params["state"] == "merged"
+            and spec["nexthop_type"] is None
+            and spec["nexthop"] is not None
+        ):
+            spec["nexthop_type"] = "ip-address"
+
+        # NOTE merged state have a lot of API issues for updating nexthop we will let the API return it..
+        # from None to IP address - "Failed update nexthop_type: Edit breaks config validity"
+        # from IP address to next-vr - "Failed update nexthop_type: Edit breaks config validity"
+
+        # applies for updating existing routes from IP/next-vr/discard to none
+        # however it works for new objects, we ignore this as this is the existing implementation
+        if module.params["state"] == "merged" and spec["nexthop_type"] == "none":
+            msg = [
+                "Nexthop cannot be set to None with state='merged'.",
+                "You will need to use either state='present' or state='replaced'.",
+            ]
+            module.fail_json(msg=" ".join(msg))
+
+    def object_handling(self, obj, module):
+        super().object_handling(obj, module)
+        if module.params.get("nexthop_type") == "none":
+            setattr(obj, "nexthop_type", None)
 
 
 def main():
     helper = get_connection(
+        helper_cls=StaticRouteHelper,
         template=True,
         template_stack=True,
         with_network_resource_module_state=True,
@@ -139,7 +190,7 @@ def main():
         sdk_params=dict(
             name=dict(required=True),
             destination=dict(required=True),
-            nexthop_type=dict(choices=["ip-address", "discard", "next-lr"]),
+            nexthop_type=dict(choices=["ip-address", "discard", "next-lr", "none"]),
             nexthop=dict(),
             interface=dict(),
             admin_dist=dict(),
