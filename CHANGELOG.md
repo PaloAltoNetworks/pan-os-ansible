@@ -1,3 +1,12 @@
+### [3.4.2](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.4.1...v3.4.2) (2026-08-31)
+
+
+### Bug Fixes
+
+* **ci:** pin conventional-changelog-conventionalcommits to v8 in rc check ([#679](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/679)) ([54bba66](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/54bba666fd476106069e5274e38f12a6d65f2dee))
+* **docs:** Galaxy parsing for deprecated commit docs ([#678](https://github.com/PaloAltoNetworks/pan-os-ansible/issues/678)) ([27cf857](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/27cf85776645d3919efc7c727f05394a9f24c7dc))
+* ARE Routes now support next hop "none" ([9b9b928](https://github.com/PaloAltoNetworks/pan-os-ansible/commit/9b9b928a55064a77098b2c4d79c3f890fa6b6199))
+
 ### [3.4.1](https://github.com/PaloAltoNetworks/pan-os-ansible/compare/v3.4.0...v3.4.1) (2026-07-23)
 
 
