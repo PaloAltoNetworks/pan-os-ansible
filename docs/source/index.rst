@@ -59,6 +59,7 @@ Collection Dependencies
 
 * pan-python
 * pan-os-python
+* panos-upgrade-assurance (certain modules only)
 * xmltodict (certain modules only)
 
 If you believe you have installed these dependencies but Ansible is not finding them, it is likely a
