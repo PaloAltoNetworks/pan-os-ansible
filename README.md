@@ -1,7 +1,7 @@
 PAN-OS Ansible Collection
 =========================
 
-![CI](https://github.com/PaloAltoNetworks/pan-os-ansible/workflows/CI/badge.svg?branch=develop)
+[![CI](https://github.com/PaloAltoNetworks/pan-os-ansible/actions/workflows/ci.yml/badge.svg)](https://github.com/PaloAltoNetworks/pan-os-ansible/actions/workflows/ci.yml)
 ![Version on Galaxy](https://img.shields.io/badge/dynamic/json?style=flat&label=Ansible+Galaxy+Latest+Version&prefix=v&url=https://galaxy.ansible.com/api/v3/plugin/ansible/content/published/collections/index/paloaltonetworks/panos/&query=highest_version.version)
 
 Ansible collection that automates the configuration and operational tasks on
