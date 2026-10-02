@@ -962,7 +962,7 @@ class ConnectionHelper(object):
                     module.fail_json(msg="Failed set_zone: {0}".format(e))
 
             # If logical_router is provided, we set it and do not attempt to set it on the VR as well
-            if self.with_set_logical_router_reference and module.get("lr_name"):
+            if self.with_set_logical_router_reference and module.params.get("lr_name"):
                 try:
                     result["changed"] |= obj.set_logical_router(
                         module.params["lr_name"],

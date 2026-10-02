@@ -27,6 +27,7 @@ from ansible_collections.paloaltonetworks.panos.plugins.module_utils.panos impor
 
 from panos.errors import PanDeviceError
 from panos.firewall import Firewall
+from panos.network import LoopbackInterface
 from panos.panorama import DeviceGroup, Panorama, Template, TemplateStack
 from panos.policies import PostRulebase, PreRulebase, Rulebase
 
@@ -442,3 +443,37 @@ def test_firewall_error(module_mock):
         parent = helper.get_pandevice_parent(module_mock)
 
     assert e.match("FIREWALL ERROR")
+
+
+# apply_state()
+
+
+# AnsibleModule has no get(), so the logical router name has to be read from
+# module.params when the state is merged.
+@pytest.mark.parametrize("lr_name", ["lr1", None])
+def test_apply_state_merged_logical_router(mocker, lr_name):
+    module = MagicMock(spec=AnsibleModule)
+    module.check_mode = False
+    module.params = {"state": "merged", "lr_name": lr_name}
+
+    set_logical_router_mock = mocker.patch(
+        "panos.network.LoopbackInterface.set_logical_router", return_value=True
+    )
+    mocker.patch("panos.network.LoopbackInterface.create")
+
+    helper = get_connection(
+        with_set_logical_router_reference=True,
+        argument_spec=dict(),
+    )
+
+    result = helper.apply_state(
+        LoopbackInterface("loopback.1"), listing=[], module=module
+    )
+
+    assert result["changed"]
+    if lr_name:
+        set_logical_router_mock.assert_called_once_with(
+            lr_name, refresh=True, update=True, return_type="bool"
+        )
+    else:
+        set_logical_router_mock.assert_not_called()
