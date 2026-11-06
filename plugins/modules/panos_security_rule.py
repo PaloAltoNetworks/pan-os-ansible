@@ -47,6 +47,9 @@ requirements:
 notes:
     - Checkmode is supported.
     - Panorama is supported.
+    - To remove members from a list, gather the rule, edit the returned values, and
+      pass them to I(state=replaced). I(state=merged) adds list members and does not
+      remove existing members. Include the other rule settings when replacing a rule.
 extends_documentation_fragment:
     - paloaltonetworks.panos.fragments.transitional_provider
     - paloaltonetworks.panos.fragments.network_resource_module_state
@@ -88,6 +91,11 @@ options:
               Defaults to I(["any"]).
         type: list
         elements: str
+    source_device:
+        description:
+            - List of source devices (PAN-OS 10.0+). Defaults to I(["any"]).
+        type: list
+        elements: str
     hip_profiles:
         description:
             - If you are using GlobalProtect with host information profile (HIP)
@@ -116,6 +124,11 @@ options:
                 panw-highrisk-ip-list      panw-highrisk-ip-list
                 panw-known-ip-list         panw-known-ip-list
                 panw-torexit-ip-list       panw-torexit-ip-list
+        type: list
+        elements: str
+    destination_device:
+        description:
+            - List of destination devices (PAN-OS 10.0+). Defaults to I(["any"]).
         type: list
         elements: str
     application:
@@ -328,6 +341,19 @@ EXAMPLES = """
     action: 'allow'
     location: 'before'
     existing_rule: 'Allow MySQL'
+
+- name: gather a rule before removing a source zone
+  paloaltonetworks.panos.panos_security_rule:
+    provider: '{{ provider }}'
+    rule_name: 'Allow HTTP'
+    state: gathered
+  register: security_rule
+
+- name: remove a source zone while retaining the other rule settings
+  paloaltonetworks.panos.panos_security_rule:
+    provider: '{{ provider }}'
+    state: replaced
+  args: "{{ security_rule.gathered | combine({'source_zone': ['private']}) }}"
 """
 
 RETURN = """
@@ -396,9 +422,13 @@ def main():
             source_zone=dict(type="list", elements="str", sdk_param="fromzone"),
             source_ip=dict(type="list", elements="str", sdk_param="source"),
             source_user=dict(type="list", elements="str"),
+            source_device=dict(type="list", elements="str", sdk_param="source_devices"),
             hip_profiles=dict(type="list", elements="str"),
             destination_zone=dict(type="list", elements="str", sdk_param="tozone"),
             destination_ip=dict(type="list", elements="str", sdk_param="destination"),
+            destination_device=dict(
+                type="list", elements="str", sdk_param="destination_devices"
+            ),
             application=dict(type="list", elements="str"),
             service=dict(type="list", elements="str"),
             category=dict(type="list", elements="str"),
@@ -445,8 +475,10 @@ def main():
             source_zone=["any"],
             source_ip=["any"],
             source_user=["any"],
+            source_device=["any"],
             destination_zone=["any"],
             destination_ip=["any"],
+            destination_device=["any"],
             application=["any"],
             service=["application-default"],
             category=["any"],
@@ -463,8 +495,10 @@ def main():
             source_zone=["any"],
             source_ip=["any"],
             source_user=["any", "pre-logon", "known-user", "unknown"],
+            source_device=["any"],
             destination_zone=["any", "multicast"],
             destination_ip=["any"],
+            destination_device=["any"],
             application=["any"],
             service=["application-default", "any"],
             category=["any"],
